@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c100",
+ "label": "52r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000101/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is part of Riemann's work on the 1858 Paris Academy prize question on heat conduction. The question asks when the temperature in a homogeneous body can be written as a function of the time t and two other independent variables alpha, beta. In those variables the heat law F=0 becomes u_t = Lambda u, with Lambda a linear second-order operator in alpha and beta. On the previous page Riemann looks for an auxiliary linear second-order constraint Delta u = 0 that is compatible with this flow. The compatibility condition is the operator identity Delta Lambda = Theta Delta for some operator Theta. He finds normal forms for one case, e.g. Delta = d_a d_b + m_b d_a + n_a d_b and Lambda = d_a^2 + d_b^2 + 2 m_a d_a + 2 n_b d_b.\n\nTop of page (end of case alpha):\n- Suppose Delta u = 0 and Lambda u = u_t.\n- Then d/dt(Delta u) = Delta(u_t) = Delta Lambda u = Theta Delta u = 0.\n- Hence Delta u = 0 persists for all t if it holds initially and u evolves by u_t = Lambda u.\n- Such a u then satisfies the heat law F = 0.\n- Rigorous form [mine]: put w = Delta u. Then w_t = Theta w with w(0) = 0, so w is identically 0 by uniqueness, or by the formal power series in t. Riemann's chain '0 = Theta Delta u = ...' presupposes Delta u = 0 at the instant considered.\n\nSection 5 (case beta): here Delta Lambda u = 0 (written 'Lambda Delta u') is NOT a consequence of Delta u = 0. To cover also the later cases m = 3 and m = 4, Riemann assumes more generally that, besides Delta u = 0, there is an arbitrary linear equation Theta u = 0. It does not contain u_t and is independent of Delta u = 0.\n\nCharacteristic normal form:\n- Take Delta = d_a d_b + e d_a + f d_b.\n- Using Delta u = 0, i.e. u_ab = -e u_a - f u_b, every mixed derivative d_a^i d_b^j u (i, j >= 1) reduces to lower-order terms.\n- So Theta can be freed of mixed derivatives. It becomes Theta u = sum_i A_i d_a^i u + sum_j B_j d_b^j u.\n\nTwo cases:\n(1) All beta-derivatives drop out. Then one has an ODE in alpha alone: sum_nu a_nu d^nu u/d alpha^nu = 0.\n(2) Otherwise one can always derive an ODE in t alone: sum_nu a_nu d^nu u/dt^nu = 0. Riemann's reason: d^k u/dt^k = Lambda^k u. Using Delta u = 0 and Theta u = 0, each Lambda^k u can be rewritten in terms of pure alpha- or pure beta-derivatives of order not exceeding that of Theta (continued on p. 8). These are finitely many. So among u, Lambda u, ..., Lambda^N u there is a linear relation with coefficients depending on alpha and beta. Eliminating gives (2).\n\nModern restatement [mine]: the system {Delta u = 0, Theta u = 0} has a finite-dimensional jet (solution) space at each point. The flow u_t = Lambda u acts there as a finite matrix, and Cayley-Hamilton gives the scalar ODE in t. On p. 8 this leads to solutions that are sums of terms f(t) e^{lambda t} (exponential-polynomials in t).",
+  "errors": [
+   "The persistence argument '0 = Theta Delta u = Delta Lambda u = d(Delta u)/dt' is circular as written: it uses Delta u = 0 to conclude d(Delta u)/dt = 0. The correct argument is w_t = Theta w with w(0) = 0, hence w = 0. This requires a uniqueness statement that is left implicit (fine for analytic data via power series in t).",
+   "Case (2) finiteness claim: reducing all higher pure alpha- and pure beta-derivatives needs Theta, after removing mixed terms, to contain at least one pure alpha-derivative and one pure beta-derivative with nonvanishing leading coefficients. Otherwise it degenerates to case (1) or its mirror. Degenerate loci where leading coefficients vanish are ignored. This is a generic-position assumption, not an error proper.",
+   "Notation 'quando Lambda Delta u = 0' at the start of section 5 should logically read Delta Lambda u = 0, i.e. Delta applied to Lambda u; it may be a reading or writing issue."
+  ],
+  "results": [
+   {
+    "what": "Invariance of a linear differential constraint Delta u = 0 under the evolution u_t = Lambda u when Delta Lambda = Theta Delta",
+    "modern_name": "Compatible differential constraint / invariant manifold (intertwining condition, conditional symmetry)",
+    "usually_credited_to": "Method of differential constraints: Yanenko (1964); invariant-subspace methods: Galaktionov, Svirshchevskii (1990s). The intertwining idea itself is implicit in 19th-century integrability theory (Lie, Darboux).",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Normal form Delta = d_a d_b + e d_a + f d_b used to eliminate mixed derivatives from any other linear operator Theta",
+    "modern_name": "Characteristic (hyperbolic) normal form of a second-order operator",
+    "usually_credited_to": "Laplace, Euler, Monge (18th century); Riemann's own 1860 hyperbolic PDE work",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "If a linear system {Delta u = 0, Theta u = 0} has a finite-dimensional jet space, then the evolution u_t = Lambda u preserving it forces a linear ODE in t, giving exponential-polynomial time dependence",
+    "modern_name": "Finite-rank (holonomic) system plus Cayley-Hamilton; finite-dimensional invariant subspace reduction of a linear evolution PDE",
+    "usually_credited_to": "Implicit in Frobenius/Lie-era finite-rank systems; as a reduction method for evolution equations: Galaktionov-Svirshchevskii",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The page belongs to Riemann's known engagement with the 1858 Paris heat-conduction prize question, so the context is not new. The specific technique is not standard 1860 material: a compatible auxiliary linear constraint for the heat flow (Delta Lambda = Theta Delta), then a finite-rank argument forcing an ODE in t. It anticipates later methods of differential constraints and invariant subspaces. The individual ingredients are elementary, and the unpublished drafts may already be partly discussed in Riemann scholarship, hence a modest score.",
+  "checkable": [
+   {
+    "sympy": "a,b,t,k,l=symbols('a b t k l'); u=exp(k**2*t+k*a)+exp(l**2*t+l*b); simplify(diff(u,a,b))==0 and simplify(diff(u,t)-(diff(u,a,2)+diff(u,b,2)))==0",
+    "asserts": "Example of case alpha: for Delta = d_a d_b and Lambda = d_a^2 + d_b^2, a solution of Delta u = 0 evolving by u_t = Lambda u keeps Delta u = 0."
+   },
+   {
+    "sympy": "a,b=symbols('a b'); w=Function('w')(a,b); D=lambda g: diff(g,a,b); L=lambda g: diff(g,a,2)+diff(g,b,2); simplify(D(L(w))-L(D(w)))==0",
+    "asserts": "Constant-coefficient instance of the compatibility condition Delta Lambda = Theta Delta with Theta = Lambda."
+   },
+   {
+    "sympy": "a,b=symbols('a b'); e=Function('e')(a,b); f=Function('f')(a,b); u=Function('u')(a,b); uab=-e*diff(u,a)-f*diff(u,b); expr=diff(uab,a)-diff(-e*diff(u,a)-f*diff(u,b),a); simplify(expr)==0",
+    "asserts": "Trivial consistency: on Delta u = 0 a mixed third derivative u_aab is expressed via u_aa, u_ab and lower terms. This illustrates the reduction of mixed derivatives (substitute u_ab again)."
+   },
+   {
+    "sympy": "t=symbols('t'); M=Matrix([[1,2],[0,3]]); p=M.charpoly(symbols('x')); simplify(M**2-4*M+3*eye(2))==zeros(2,2)",
+    "asserts": "Cayley-Hamilton principle behind the elimination: a linear flow on a finite-dimensional space yields a scalar linear ODE in t."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3 should read '0 = Theta Delta u = Delta Lambda u = Delta d_t u = d(Delta u)/dt'. The transcription's 'Theta Lambda u = Lambda d_t u' is inconsistent with the argument; the handwritten 'Lambda' looks like '1'.",
+   "'et praeter[?]' is probably 'et proinde'.",
+   "In section 5, 'quando Lambda Delta u = 0' (handwritten '1Delta u') is presumably meant as Delta Lambda u = 0.",
+   "Formulas (1) and (2) should read sum_nu a_nu d^nu u/d alpha^nu = 0 and sum_nu a_nu d^nu u/dt^nu = 0; the nu indices are broken in the machine transcription.",
+   "Last line: 'transformari possunt' (a struck 'ta' or 'tr' before 'possunt'), as transcribed."
+  ]
+ }
+}

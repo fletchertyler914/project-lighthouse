@@ -1,0 +1,57 @@
+{
+ "bundle": "R.Modulfunctionen",
+ "page": "c032",
+ "label": "16r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3223711:00000033/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page finishes a proof begun on the previous page (15v). It then adds a historical remark.\n\nSetting (from 15v): f(r) = sum_{m>=0} a_m r^m for 0<r<1, where the series s = sum a_m converges. Riemann fixes eps>0 and chooses n so that every tail block eps_{n+k} := a_{n+1}+...+a_{n+k} (k>=1) satisfies |eps_{n+k}| < eps. This is possible by the Cauchy criterion; the step is mine in modern terms, and he writes 'ex hyp.'.\n\nAbel (partial) summation gives\nf(r) = sum_{m<=n} a_m r^m + sum_{k>=1} eps_{n+k}(r^{n+k} - r^{n+k+1}).\nThe boundary term eps_{n+K} r^{n+K+1} tends to 0 because the eps's are bounded and r<1. That step is implicit in the manuscript.\n\nThe differences r^{n+k} - r^{n+k+1} are all positive. Hence the tail is bounded in absolute value by eps * sum_k (r^{n+k} - r^{n+k+1}) = eps r^{n+1} < eps.\n\nThe head P_n(r) = a_0 + a_1 r + ... + a_n r^n is a polynomial ('functio algebraica'). It therefore tends to S_n = a_0 + ... + a_n as r -> 1.\n\nThis page states the conclusion: the difference between f(r) and the value of the series a_0 + a_1 + ... falls below any given quantity as r -> 1. In modern terms, lim_{r->1^-} f(r) = s.\n\nFilled step (mine): |f(r) - s| <= |P_n(r) - S_n| + eps r^{n+1} + |s - S_n|. Here |s - S_n| = lim_k |eps_{n+k}| <= eps, so the total is < 3 eps for r close enough to 1.\n\nRiemann then writes, roughly: 'From this theorem, which Cl. Dirichlet (14 Sept 1852) reminded me, when the preceding had already been written, is to be attributed to Abel, ... it is easily deduced.' The theorem is meant to justify passing to the limit q -> boundary in series for elliptic modular functions. The next page (16v) contains such limiting series, involving log tan^2(px/2) and log(4 cos^2(px/2)) summed over residues mod n, with x/2pi = m/n rational.\n\nThe left-margin words ('majoris', 'unitati', '...do v unitati') are bleed-through or fragments of the facing page, not part of this text.",
+  "errors": [
+   "On 15v the first expansion line reads 'a_0 + a_1 + a_2 r ...'; it should be a_0 + a_1 r + a_2 r^2 + ... (a slip).",
+   "The proof as written omits the term |s - S_n| (the remainder of the convergent series) in the final estimate. It is trivially <= eps by the same hypothesis, so the gap is harmless.",
+   "The vanishing of the boundary term in the Abel summation is not stated, but it is immediate for r<1."
+  ],
+  "results": [
+   {
+    "what": "If sum a_n converges to s, then sum a_n r^n -> s as r -> 1^- (proved via Abel summation with uniformly small tail blocks).",
+    "modern_name": "Abel's limit theorem (Abel's theorem on power series)",
+    "usually_credited_to": "N. H. Abel, 1826 (Crelle J. 1, paper on the binomial series)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical note: Dirichlet, on 14 Sept 1852, told Riemann the theorem is Abel's. This dates the Modulfunctionen fragment to 1852.",
+    "modern_name": "Dating evidence for Riemann's 'Fragmente über die Grenzfälle der elliptischen Modulfunctionen'",
+    "usually_credited_to": "Known from Dedekind's edition of Riemann's Werke, which dates the fragments to 1852 and reports the Dirichlet/Abel remark",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a standard proof of Abel's limit theorem, explicitly acknowledged by Riemann himself as Abel's. The Dirichlet remark and the 1852 dating are, to my knowledge, reflected in the published Werke edition of the fragment. Only the manuscript details (crossings-out, exact phrasing) are new.",
+  "checkable": [
+   {
+    "sympy": "N=6; r,a=symbols('r'),symbols('a0:12'); e=lambda k: sum(a[N+1:N+1+k]); simplify(sum(a[m]*r**m for m in range(12)) - (sum(a[m]*r**m for m in range(N+1)) + sum(e(k)*(r**(N+k)-r**(N+k+1)) for k in range(1,5)) + e(5)*r**(N+5)))==0",
+    "asserts": "Finite Abel-summation identity used on 15v, with boundary term e_{N+5} r^{N+5} (here 11 = N+5)."
+   },
+   {
+    "sympy": "limit(log(1+r), r, 1, '-') == log(2)",
+    "asserts": "Example: sum (-1)^(n+1) r^n/n -> log 2, the sum of the alternating harmonic series."
+   },
+   {
+    "sympy": "limit(atan(r), r, 1, '-') == pi/4",
+    "asserts": "Example: sum (-1)^n r^(2n+1)/(2n+1) -> pi/4 (Leibniz series)."
+   },
+   {
+    "sympy": "simplify(summation(r**(n+k)-r**(n+k+1),(k,1,oo)) - r**(n+1))",
+    "asserts": "The telescoping bound sum_k (r^{n+k} - r^{n+k+1}) = r^{n+1} for 0<r<1 (sympy may need conds)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'differentiam functionis fit a valore seriei' should read 'differentiam functionis f(r) a valore seriei'; 'fit' is f(r).",
+   "Line 2: the superscript 'a_0 + a_1 ......' is inserted above 'quantitatem quamvis' and belongs after 'seriei', i.e. 'a valore seriei a_0 + a_1 + ...'.",
+   "'a Cl.{+is+} Dirichlet' is better read as 'a Cl.° Dirichlet' (ablative, with the agent of 'monuit'). The superscript is a correction of the abbreviation ending.",
+   "Marginal words on the left ('majoris' struck, 'unitati', '...do v unitati') are bleed-through or edge fragments of the facing page, not part of this folio's text."
+  ]
+ }
+}

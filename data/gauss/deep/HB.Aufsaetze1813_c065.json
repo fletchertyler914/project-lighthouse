@@ -1,0 +1,87 @@
+{
+ "bundle": "HB.Aufsaetze1813",
+ "page": "c065",
+ "label": "[58]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354043:00000066/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the 1824 extension of Gauss's Hannover triangulation westward toward Bremen. The stations are Falkenberg, Wilsede(1), Elmhorst(2), Hamburg, Litberg(3), Bullerberg(4), Brüttendorf(5), Zeven(6), Bottel(7), Steinberg(8), Bremen(9), Brelit and Garlste. The previous page derives refraction coefficients from the same 1824 measurements. The next page sets up the side (log-sine) condition equations for the numbered stations 1–9, with correlates a–f and normal equations. This page is the first stage of that adjustment. Its title reads: adjustment of the 1824 measurements 'without regard to the side ratios and to the triangles of 1821, 1822, 1823'.\n\nLayout. For each station the page lists the directions to its neighbours as oriented azimuths (in Gauss's projection/plane sense). There are five columns:\n(i) the observed oriented direction D_ij;\n(ii) a correction v_ij (in seconds);\n(iii) the adjusted direction D'_ij = D_ij + v_ij;\n(iv) a number t_ij in units of 0.001\";\n(v) for most stations, a parenthesised number after the station name, e.g. Wilsede (+0\".063), Hamburg (−0\".0215), Bottel (−0\".274). These are very probably the station orientation unknowns of the adjustment; their exact role is not recoverable from this page alone.\n\nWhat column (iv) means (my reconstruction, checked numerically on every line). It is the prescribed reciprocity discrepancy t_ij = (D'_ji − 180°) − D'_ij, with t_ji = −t_ij. Physically it is the sum of the two reduction terms (arc-to-chord / convergence type) linking forward and back directions on Gauss's projection.\n- Example: Falkenberg→Elmhorst 136°45'41.944\" against Elmhorst→Falkenberg 316°45'40.692\" gives (316°45'40.692 − 180°) − 136°45'41.944 = −1.252\". The table lists −1252 at Falkenberg and +1252 at Elmhorst.\n- The pairs Bottel–Steinberg (∓1348) and Brüttendorf–Zeven (∓1271) are written in parentheses, which perhaps marks them as specially treated or provisional lines.\n\nThe adjustment problem. Find corrections v_ij (orientation change plus direction residual) minimising Σv² (equal weights assumed) subject to D_ij + v_ij − D_ji − v_ji + 180° + t_ij = 0 for every line observed from both ends. This amounts to station adjustment plus the angle/triangle closure conditions only. The side (sine-ratio) conditions are deferred to the next page, and the earlier 1821–23 network is ignored. Falkenberg (and apparently Elmhorst) has no orientation unknown and serves as the azimuth datum.\n\nThe column-(iii) values satisfy all these reciprocity conditions exactly, as checked below.\n\nFinal note on the page. The direction Bremen→Garlste was entered 1\" too large and should be 165°11'49.407\" rather than 50.407\". Gauss then lists the resulting changes in the orientations, i.e. the linear influence of a 1\" change in that one observation on each station's orientation unknown:\n- Falkenberg 0, Elmhorst 0;\n- Wilsede −0.001, Hamburg −0.003, Litberg −0.006;\n- Bullerberg +0.005, Bottel +0.003, Brüttendorf +0.009, Steinberg +0.002;\n- Zeven −0.031, Bremen +0.037;\n- Brelit −0.191, Garlste −0.577.\nThis is a column of the inverse normal-equation (influence/sensitivity) matrix, used to correct the solution without recomputing it. The effect is largest on the stations of the pendant triangle Bremen–Brelit–Garlste, as one would expect.",
+  "errors": [
+   "No arithmetic errors found: all 49 sums D + v = D' check to 0.001\", and every reciprocal pair satisfies (D'_ji − 180°) − D'_ij = t_ij exactly with t_ji = −t_ij.",
+   "Gauss himself flags an input error: Bremen→Garlste was used as 165°11'50.407\" instead of 49.407\" (1\" too large). He propagates its effect on the orientation unknowns rather than redoing the adjustment.",
+   "The parenthetical station quantities (+0.063 etc.) do not equal the mean of the listed station corrections. For Wilsede the mean is −0.046, not +0.063. Their exact definition (orientation unknowns relative to some provisional orientation) cannot be verified from this page alone."
+  ],
+  "results": [
+   {
+    "what": "Least-squares adjustment of a triangulation network of oriented directions, with station orientation unknowns and reciprocal-direction (angle) conditions only; side conditions are postponed to a second stage.",
+    "modern_name": "Least-squares network adjustment by directions (combined station/orientation unknowns and condition equations), stepwise adjustment",
+    "usually_credited_to": "C. F. Gauss (Hannover triangulation 1821–25; Supplementum theoriae combinationis 1826/28)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reduction terms t_ij linking forward and back directions in Gauss's projection; reciprocal pairs differ by exactly ±t_ij.",
+    "modern_name": "Arc-to-chord (t−T) reduction / meridian convergence in Gauss conformal (Gauss–Krüger) coordinates",
+    "usually_credited_to": "C. F. Gauss (conformal projection for the Hannover survey; later Schreiber, Krüger)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Propagation of a 1\" correction of one observation (Bremen→Garlste) to all orientation unknowns via influence coefficients, without re-solving the system.",
+    "modern_name": "Sensitivity analysis / column of inverse normal matrix (influence of a single observation update)",
+    "usually_credited_to": "Gauss (practice of correcting adjusted solutions); generally standard in least squares",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine worked table from Gauss's well-documented Hannover triangulation, applying his own least-squares direction adjustment. The influence-coefficient correction is a nice practical detail but is in line with known Gauss geodetic practice.",
+  "checkable": [
+   {
+    "sympy": "(316*3600+45*60+Rational(40692,1000) - 180*3600) - (136*3600+45*60+Rational(41944,1000)) == Rational(-1252,1000)",
+    "asserts": "Falkenberg–Elmhorst reciprocity t = −1.252\""
+   },
+   {
+    "sympy": "(7*3600+51*60+Rational(10997,1000)+180*3600) - (187*3600+51*60+Rational(9744,1000)) == Rational(1253,1000)",
+    "asserts": "Falkenberg–Wilsede reciprocity +1.253\" (as listed at Falkenberg)"
+   },
+   {
+    "sympy": "(247*3600+11*60+Rational(26651,1000)-180*3600) - (67*3600+11*60+Rational(28447,1000)) == Rational(-1796,1000)",
+    "asserts": "Wilsede–Steinberg reciprocity −1.796\""
+   },
+   {
+    "sympy": "(190*3600+47*60+Rational(41191,1000)-180*3600) - (10*3600+47*60+Rational(42539,1000)) == Rational(-1348,1000)",
+    "asserts": "Bottel–Steinberg reciprocity −1.348\""
+   },
+   {
+    "sympy": "(17*3600+21*60+Rational(47852,1000)+180*3600) - (197*3600+21*60+Rational(49123,1000)) == Rational(-1271,1000)",
+    "asserts": "Brüttendorf–Zeven reciprocity −1.271\""
+   },
+   {
+    "sympy": "(345*3600+11*60+Rational(53773,1000)-180*3600) - (165*3600+11*60+Rational(54522,1000)) == Rational(-749,1000)",
+    "asserts": "Bremen–Garlste reciprocity −0.749\""
+   },
+   {
+    "sympy": "(229*3600+19*60+Rational(50298,1000)-180*3600) - (49*3600+19*60+Rational(49549,1000)) == Rational(749,1000)",
+    "asserts": "Brelit–Garlste reciprocity +0.749\""
+   },
+   {
+    "sympy": "(304*3600+13*60+Rational(50981,1000)-180*3600) - (124*3600+13*60+Rational(49293,1000)) == Rational(1688,1000)",
+    "asserts": "Zeven–Brelit reciprocity +1.688\""
+   },
+   {
+    "sympy": "Rational(45129,1000)+Rational(6711,1000) - Rational(51840,1000) == 0",
+    "asserts": "Bremen→Brelit correction arithmetic"
+   },
+   {
+    "sympy": "Rational(44735,1000)-Rational(3750,1000) - Rational(40985,1000) == 0",
+    "asserts": "Zeven→Steinberg correction arithmetic"
+   }
+  ],
+  "transcription_corrections": [
+   "Hamburg's parenthetical orientation is written −0\".0215 (machine '-0\"021.5').",
+   "Column (iv) values are in thousandths of an arcsecond (e.g. −1252 = −1.252\"); the machine transcription leaves units implicit.",
+   "Brelit and Garlste carry no station number in the manuscript, consistent with their absence from the side conditions on the next page."
+  ]
+ }
+}

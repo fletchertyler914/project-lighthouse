@@ -57,3 +57,29 @@ twelve years before Rankine, together with results usually dated to 1906–1937.
 
 With best regards,
 [name]
+
+
+---
+**Addendum (2026-11-09): a second sheet in the same bundle.** Cod. Ms. B. Riemann 26, fol. 228r (canvas 447 in the GDZ viewer, https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000447/full/1300,/0/default.jpg), pencil: an exact three-dimensional treatment of the flexural vibrations of a free elastic plate — the displacement ansatz, both traction-free conditions at z = ±c, and the resulting transcendental frequency equation (the antisymmetric "Rayleigh–Lamb equation", first published by Rayleigh in 1889). It uses Kirchhoff's constant θ (1850). The same questions apply: is the hand Riemann's, and can the leaf (fol. 212–233, undated loose calculations) be placed before 1866 — e.g. near his elasticity courses of 1856 and 1859/60?
+
+---
+## Short version to send (2026-11-09)
+
+**To:** hsd@sub.uni-goettingen.de (Schriftliche Auskunft für Handschriften und Seltene Drucke, SUB Göttingen)
+**Cc:** Wolfgang Gabcke, Göttingen (transcriber of Riemann's letters and of the 1859 manuscript; address printed in arXiv:1602.08264)
+**Subject:** Cod. Ms. B. Riemann 26, Bl. 70–71 und 228; Cod. Ms. B. Riemann 19, Bl. 3 — Hand und Datierung
+
+Sehr geehrte Damen und Herren,
+
+ich arbeite an einer systematischen Lektüre digitalisierter Nachlässe (u. a. des Riemann-Nachlasses in den GDZ-Digitalisaten) und bitte um eine Auskunft zu drei Blättern:
+
+1. Cod. Ms. B. Riemann 26, Bl. 70r–71v (GDZ-Canvas 141–144): Rechnungen zu Luftwellen mit Sprungbedingungen, die die Energieerhaltung einschließen.
+2. Cod. Ms. B. Riemann 19, Bl. 3v (Canvas 8): schräger Verdichtungsstoß an einem Keil, Skizze.
+3. Cod. Ms. B. Riemann 26, Bl. 228r (Canvas 447), Bleistift: exakte dreidimensionale Behandlung der Biegeschwingungen einer freien elastischen Platte.
+
+Meine Fragen: (a) Stammen die Blätter nach Ihrer Kenntnis von Riemanns Hand (nicht von Weber, Weierstraß oder einem Abschreiber)? (b) Gibt es Anhaltspunkte für die Datierung (Papier, Tinte, Nachbarblätter, Konvolut), insbesondere ob sie vor 1866 liegen? (c) Ist Bl. 3 der Handschrift 19 ein eigenständiges Blatt oder gehört es zu den Blättern 1–2?
+
+Hintergrund: Die Inhalte entsprechen Ergebnissen, die in der Literatur Rankine (1870), Hugoniot (1887), Prandtl/Meyer (1906/08) bzw. Rayleigh (1889) zugeschrieben werden. Eine Zuschreibung an Riemann möchte ich nicht ohne eine fachkundige Einschätzung der Hand und der Datierung vertreten. Die Transkriptionen, die Rechnungen und die Links zu den Scans sind öffentlich: https://github.com/professorsolderin/project-lighthouse (Ledger-Einträge L-019 und L-032).
+
+Mit freundlichen Grüßen
+[Name]

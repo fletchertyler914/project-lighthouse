@@ -69,7 +69,7 @@ failure modes, with the check that catches each). What usually kills a candidate
 
 ## 4. Review a candidate
 
-Not the finder. Redo steps 1–4 independently: read the scan, run or rewrite the verification, search the
+Independent of the finder's reading — another contributor, or an unanchored agent given only the facts (say which in the file). Redo steps 1–4: read the scan, run or rewrite the verification, search the
 literature yourself, and — ideally — run an unanchored check (give a fresh agent only the facts). Write the
 verdict in the candidate file with sources and a 0–10 rating:
 10 usable today / major unrecognised anticipation; 7 strong historical anticipation needing routine

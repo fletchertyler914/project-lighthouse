@@ -1,0 +1,69 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c273",
+ "label": "[264]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000274/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to Gauss's 'Geometria situs' notes on self-intersecting closed plane curves ('Tracte'). A curve with n double points ('Knoten') is recorded as a 'Gauss word': the sequence of crossing labels met along one traversal, each label occurring twice. The previous page treats n = 4. There Gauss gives 105 = 8!/(2^4·4!) words in canonical (first-occurrence) order. He states the parity criterion: number the places 0..2n−1, and in a realisable closed curve each pair of places belonging to one crossing must contain one even and one odd number. He shows the 24 = 4! parity words for n = 4 are all possible. He then remarks that for n ≥ 5 the criterion is no longer sufficient, citing abcadcedbe and abcabdecde as impossible.\n\nThis page is the promised complete lexicographic list for n = 5. It contains exactly the 120 = 5! words on aabbccddee that satisfy the parity condition, i.e. the bijections from the even places {0,2,4,6,8} to the odd places {1,3,5,7,9}. (The total number of canonical words is 10!/(2^5·5!) = 945.)\n\nLayout: each block begins with a full 10-letter word. The following lines give only the tail; the prefix is understood from the block head. The blocks are:\n- 1–6: aabb + 6 letters\n- 7–12: aabc + 6\n- 13–24: aabcd + 5\n- 25–30: abba + 6\n- 31–36: abbc + 6\n- 37–48: abbcd + 5\n- 49–54: abcab + 5\n- 55–66: abcad + 5\n- 67–72: abccb + 5\n- 73–84: abccd + 5\n- 85–96: abcdb + 5\n- 97–108: abcdd + 5\n- 109–120: abcde + 5\n\nThe block sizes are 6,6,12,6,6,12,6,12,6,12,12,12,12, summing to 120. Each size is forced by the parity constraint. For example, after the prefix abcad the free places 5–9 must take b on an even place, c and d on odd places, and e on one even and one odd place: 2·3! = 12.\n\nGauss stars seven words as impossible despite satisfying parity:\n- 53 abcabdecde\n- 57 abcadcedbe\n- 64 abcadebdec\n- 91 abcdbceade\n- 93 abcdbedaec\n- 112 abcdeadebc\n- 115 abcdecdabe\n\n(My check, in modern terms.) Join two crossings by an edge of the 'interlacement graph' when their occurrences alternate in the word.\n- For 57 this graph is the 5-cycle a–b–e–d–c–a.\n- For 53, 64 and 91 it is two triangles sharing one vertex (a 'bowtie').\n- In both cases every degree is even, so parity holds. But some non-interlaced pair has exactly one common interlaced neighbour, an odd number, so Gauss's/Dehn's second condition fails and the word is non-planar.\n\nRotations of the cyclic word map starred words to starred words: 57 rotated by one place, after relabelling, is 93; 53 rotated is 64. So the stars mark whole cyclic classes of non-realisable words.",
+  "errors": [
+   "No arithmetic or logical errors found. Block sizes and the lexicographic order are consistent with the parity constraint.",
+   "I verified four of the seven starred words (53, 57, 64, 91) are non-realisable, and 93 via rotation from 57. I did not exhaustively verify that no unstarred word is non-realisable (e.g. 112, 115 and the rest)."
+  ],
+  "results": [
+   {
+    "what": "Enumeration of all 120 Gauss words with 5 crossings satisfying the even/odd (interlacing parity) condition, in lexicographic canonical form",
+    "modern_name": "Gauss words / Gauss code; Gauss's parity condition for planar realisability of closed curves",
+    "usually_credited_to": "Gauss (Nachlass, Werke VIII 'Zur Geometria situs', ed. Stäckel 1900)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Identification (by stars) of the 7 parity-satisfying 5-crossing words that are not realisable by a plane closed curve, showing the parity condition is insufficient for n>=5",
+    "modern_name": "Insufficiency of Gauss's condition; Gauss code realisability problem (later solved by Nagy 1927, Dehn 1936, Rosenstiehl 1976, Read–Rosenstiehl)",
+    "usually_credited_to": "Gauss for the observation (Werke VIII); full characterisation to Dehn / Rosenstiehl",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's parity condition and his observation that it fails for 5 crossings (with the counterexample abcadcedbe) are already published in Werke VIII and well known. This full 120-word table with the starred impossible cases is a notable supporting detail, but not new attribution.",
+  "checkable": [
+   {
+    "sympy": "factorial(10)/(2**5*factorial(5)) == 945",
+    "asserts": "Total number of canonical double-occurrence words on 5 letters"
+   },
+   {
+    "sympy": "factorial(5) == 120",
+    "asserts": "Number of 5-letter Gauss words satisfying the even/odd place condition (bijections evens->odds), matching the 120 entries"
+   },
+   {
+    "sympy": "6+6+12+6+6+12+6+12+6+12+12+12+12 == 120",
+    "asserts": "Block sizes of the table sum to 120"
+   },
+   {
+    "sympy": "factorial(8)/(2**4*factorial(4)) == 105 and factorial(4) == 24",
+    "asserts": "Counts for 4 crossings quoted on the previous page"
+   },
+   {
+    "sympy": "w='abcadcedbe'; pos={c:[i for i,x in enumerate(w) if x==c] for c in set(w)}; inter=lambda p,q: (pos[p][0]<pos[q][0]<pos[p][1])!=(pos[p][0]<pos[q][1]<pos[p][1]); N=lambda p: {q for q in pos if q!=p and inter(p,q)}; len(N('a')&N('d'))==1",
+    "asserts": "In word 57 the non-interlaced pair a,d has exactly one common interlaced letter (odd), so the word is non-realisable despite parity"
+   },
+   {
+    "sympy": "w='abcabdecde'; pos={c:[i for i,x in enumerate(w) if x==c] for c in set(w)}; inter=lambda p,q: (pos[p][0]<pos[q][0]<pos[p][1])!=(pos[p][0]<pos[q][1]<pos[p][1]); N=lambda p: {q for q in pos if q!=p and inter(p,q)}; len(N('a')&N('d'))==1",
+    "asserts": "Word 53 likewise violates the second Gauss/Dehn condition"
+   },
+   {
+    "sympy": "all((w.index(c)+w.rindex(c))%2==1 for w in ['abcabdecde','abcadcedbe','abcadebdec','abcdbceade','abcdbedaec','abcdeadebc','abcdecdabe'] for c in 'abcde')",
+    "asserts": "All seven starred words satisfy the even/odd condition"
+   }
+  ],
+  "transcription_corrections": [
+   "Entries are written as block-head (full word) plus tails. E.g. 2 'ccdeed' means aabbccdeed; 8 'bdeed' means aabcc+bdeed; 68 'adeed' means abccb+adeed.",
+   "61: the image shows 'abcad.decbe' (prefix abcad, tail decbe), i.e. the full word is abcaddecbe; the transcription is correct but the dot marks the prefix split.",
+   "71, 72: heavily overwritten in the image, but the parity constraint forces deade and deeda (words abccbdeade, abccbdeeda); the uncertain marks can be removed.",
+   "73: abccdabdee is correct (prefix abccd + abdee).",
+   "65: 'eecbd' – the c is overwritten in the image, but eecbd is correct."
+  ]
+ }
+}

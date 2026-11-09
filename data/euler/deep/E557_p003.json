@@ -1,0 +1,60 @@
+{
+ "cote": "E557",
+ "title": "De quibusdam eximiis proprietatibus circa divisores potestatum occurrentibus",
+ "page": 3,
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem (§8): given f, g, a and N, find the least x with N | f·a^x + g, if such an x exists. Equivalently, f·a^x ≡ −g (mod N).\n\nMethod. Euler walks backwards in the exponent.\n- Step 1. By Lemma 1, −g may be replaced by any −g ∓ λN. Choose λ so that −g ∓ λN = a^α·r. Since 'dividend and residue may be divided by a common divisor' (Lemma 5), f·a^{x−α} ≡ r (mod N).\n- Step 2. Repeat: r ∓ λN = a^β·s gives f·a^{x−α−β} ≡ s; then s ∓ λN = a^γ·t, and so on.\n- Stop when the residue reached is f itself. Then f·a^{x−Σ} ≡ f, so a^{x−Σ} ≡ 1 and Euler takes x = α+β+γ+… .\n- If the running sum reaches N−1 without hitting f, the problem is declared impossible, because the powers of a are periodic mod N with period at most N−1.\n\nIn modern terms, each step multiplies the residue by a^{−α} mod N. The value of λ is forced modulo a: λ ≡ ∓g·N^{−1} (mod a). This is exact division by a modulo N, the same move as Hensel/Montgomery reduction (REDC, 1985) and the binary/2-adic inverse. The walk visits the residues −g·a^{−k} for k = 0, 1, 2, …, and the stretches where the representative stays divisible by a are skipped. So it is a sequential discrete-logarithm (order-finding) algorithm. Its worst case is O(order), but each stride removes several factors at once.\n\nAcceleration (end of §8). Suppose a small residue t has been reached, with f·a^{x−θ} ≡ t.\n- Squaring: f²·a^{2x−2θ} ≡ t². Dividing by the first relation (f·a^x ≡ −g) gives f·a^{x−2θ} ≡ t²/(−g), made integral by adding λN.\n- Cubing and dividing by the square of the first relation gives f·a^{x−3θ} ≡ t³/g².\n- More generally, any two relations may be multiplied and then divided by the first.\nThis is a doubling/tripling of the exponent step inside the discrete-log walk. It is used on the next page: 41 gives 2^{x−10} ≡ −1, hence x = 20. The method serves the 641 | 2^32+1 question and the general problem of the order of a mod N.",
+  "errors": [
+   "The minimality claim is not guaranteed as stated. When λ is chosen so that r∓λN carries a high power a^α, an intermediate residue a^{α−j}·s (0<j<α) may already be ≡ f (mod N); the algorithm then skips the true minimum and returns x + k·ord. Example, N=5, a=2, f=1, g=−1: 1−5=−4=2²(−1); −1−5=−6=2(−3); −3−5=−8=2³(−1). This gives a running sum of 6 and eventually x=8, although at the intermediate stage −4 ≡ 1 (mod 5), so x=4. A rule is needed for which sign or λ to take (e.g. keep |representative| < N, or test the intermediate quotients). The x obtained is always a valid exponent, i.e. congruent to the minimal one modulo the order.",
+   "Tacit hypothesis gcd(a,N)=1, needed both to make −g∓λN divisible by a and to cancel powers of a. The case gcd(f,N)>1 is also not discussed: the stopping test 'residue = f' must be read mod N.",
+   "Bound: 'before α+β+… exceeds N−1' is correct but crude; φ(N), or the order of a, is the true period. The text explicitly treats impossibility only for that reason."
+  ],
+  "ideas": [
+   {
+    "what": "Solving f·a^x ≡ −g (mod N) by repeatedly adding multiples of N to make the residue divisible by a and stripping powers of a (backward walk in the exponent)",
+    "modern_name": "sequential discrete logarithm / multiplicative-order computation via exact division by a mod N (Hensel–Montgomery-type reduction); for a=2, the 'add N, remove factors of 2' algorithm for ord_N(2)",
+    "usually_credited_to": "Montgomery (1985) for the reduction step; for order of 2 the folklore procedure, related to Hilton–Pedersen 'symbols' (1980s–90s) computing the (quasi-)order of 2 mod b — attribution unsure",
+    "in_author_published_texts": "yes",
+    "where_published": "E557 itself (Opuscula analytica I, 1783); not elsewhere to my knowledge (unsure)",
+    "routine": false
+   },
+   {
+    "what": "Combining relations: squaring/cubing a residue relation and dividing by powers of the initial relation to jump the exponent by θ, 2θ, 3θ",
+    "modern_name": "exponent doubling (baby-step acceleration) in discrete-log computation",
+    "usually_credited_to": "unsure (standard in 20th-century computational number theory)",
+    "in_author_published_texts": "unsure",
+    "where_published": "E557 §8",
+    "routine": false
+   },
+   {
+    "what": "Periodicity bound: residues of a^k recur within N−1 steps, so impossibility can be decided",
+    "modern_name": "Fermat–Euler theorem / pigeonhole on residues",
+    "usually_credited_to": "Euler (E262, E271)",
+    "in_author_published_texts": "yes",
+    "where_published": "E262, E271 and related number-theory papers",
+    "routine": true
+   }
+  ],
+  "missed": [
+   {
+    "type": "connection",
+    "claim": "Euler's step 'r ∓ λN = a^α·s, hence residue s for a^{x−α}' is exactly division by a^α modulo N via adding a suitable multiple of N. This is the core of Montgomery's REDC and of the 2-adic order-of-2 algorithms (e.g. Hilton–Pedersen 'symbols'). Euler used it as an algorithm for discrete logarithms and multiplicative orders in 1783. I know of no literature crediting E557 as an early instance.",
+    "quote": "Sit igitur −g ∓ λN = a^α.r, atque per lemma postremum quantitas f a^{x−α} per N diuisa residuum relinquet = r",
+    "why_it_might_matter_today": "It is a historical precursor of reduction techniques now standard in modular arithmetic and of order-finding algorithms; it gives Euler priority for an explicit discrete-log procedure."
+   },
+   {
+    "type": "unfinished",
+    "claim": "The minimality of x depends on choosing λ suitably; Euler gives no rule, and greedy maximal stripping can overshoot by a multiple of the order. The fix (bounding representatives, or checking intermediate quotients) and a complexity analysis of the stride lengths were never stated.",
+    "quote": "hincque deducitur conclusio x = α+β+γ+δ…+ζ",
+    "why_it_might_matter_today": "This is a small correctness and complexity question about an early algorithm. The average stride ~ a/(a−1) relates to known heuristics for 2-adic walks."
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The page contains a clean, general algorithm for discrete logs/orders mod N, built on exact division by a modulo N (a Montgomery/Hensel-type step), plus an exponent-doubling acceleration. Both are recognisable modern ideas rarely credited to Euler. However, E557 is published and known, and the method is elementary.",
+  "transcription_corrections": [
+   "Machine transcription of p.246 matches the image well. 'quantitas a^{x−α−β−γ−δ−ε}' in the image appears as 'quantitas a^{x−α−β−γ−δ−ε}' without the f; the factor f is implied, i.e. f a^{x−…}.",
+   "On p.247 the image reads 'formulae f³ a^{3x−3ϑ}'; the transcription matches. The quotient 't³/gg' is correct (division by the square of the first relation, whose residue is (−g)² = g²)."
+  ]
+ }
+}

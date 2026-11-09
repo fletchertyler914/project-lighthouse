@@ -62,7 +62,7 @@ restatement importing structure). Its checklist is mandatory in every candidate 
 9. **Plain language.** Separate evidence (quote, page, scan link) from interpretation and say which is which.
    "Not found" is a valid result. Never narrate beyond the evidence.
 10. **Labels say what was done, not what anyone believes.** `transcribed` → `read` → `self-checked` →
-    `reviewed` (not by the finder) → `expert` (named specialist). Votes only order the review queue.
+    `reviewed` (checks redone independently of the finder: another person or an unanchored agent, named in the file) → `expert` (named specialist). Votes only order the review queue.
 
 ## Recipes
 

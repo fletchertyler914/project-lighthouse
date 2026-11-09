@@ -1,0 +1,75 @@
+{
+ "bundle": "R.ElektrCyl",
+ "page": "c008",
+ "label": "3r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173043:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: these are lecture notes (\"in der vorigen Stunde\" is likely meant, not \"Rede\"). A physical problem treated in the previous lecture, presumably an electrostatics or current problem for a cylinder (bundle ElektrCyl), reduces to a planar boundary-value problem.\n\n(1) Problem statement (Dirichlet problem for the disk). For every point inside a given circle, find a function V(x,y) of the rectangular coordinates with V_xx + V_yy = 0, taking prescribed values on the boundary (the boundary condition is only partly legible).\n\n(2) Harmonic conjugate. If V is harmonic, the form V_x dy - V_y dx is exact. The integrability condition d/dx(V_x) = d/dy(-V_y) is exactly Laplace's equation. So it equals dU for a function U (locally, and globally on the simply connected disk), with U_y = V_x and U_x = -V_y. These are the Cauchy-Riemann equations for V + iU. Hence V + Ui = f(x + yi) = f(z) is an analytic function of z = x + iy.\n\n(3) Method. Express this function of z by an expansion with undetermined coefficients, and fix the coefficients so that the boundary condition holds. For example, use a power series in z, or alternatively a substitution z = 'l'(zeta). My reading of the symbol, uncertain: l(zeta) = log zeta, i.e. zeta = e^z. This fits the next page, where log z = log rho + i phi appears. \"The form of this expansion is to be determined: I.\"\n\n(4) Convergence of a two-sided (Laurent) series sum_{n=-inf}^{inf} a_n zeta^n. Put k = limsup |a_n|^{1/n} and l = limsup |a_{-n}|^{1/n}, written by Riemann as 'lim. max. mod'.\n- By the root test (Cauchy-Hadamard), the ascending part converges for |zeta| < 1/k.\n- The descending part sum a_{-n} zeta^{-n} converges for |zeta| > l.\n- Hence the series converges in the annulus l < |zeta| < 1/k.\n- The last line ('mod zeta < l, 1/k < mod zeta') lists the complementary regions where the series diverges.\n\nUnder zeta = e^z, the annulus corresponds to a strip in z, and the series becomes a Fourier-type expansion in Im z. The next page continues with log z, the conjugate function as a line integral, the maximum principle and Cauchy's integral formula / mean value.",
+  "errors": [
+   "Slip in the Laplace equation: the image shows ∂V/∂y² (the superscript 2 on ∂ is missing); ∂²V/∂y² is meant.",
+   "The last line 'mod ζ < l − 1/k < mod ζ' is not a valid inequality chain as written. It should be read as two separate divergence conditions: |ζ| < l or |ζ| > 1/k.",
+   "Unstated: the annulus l < |ζ| < 1/k is nonempty only if l·k < 1. Behaviour on the boundary circles is not addressed.",
+   "Unstated: global existence of U requires a simply connected domain (true for the disk). This is presumably intended."
+  ],
+  "results": [
+   {
+    "what": "Reduction of a 2D potential problem to the Dirichlet problem for the disk.",
+    "modern_name": "Dirichlet problem for the Laplace equation in a disk",
+    "usually_credited_to": "Green, Gauss, Dirichlet (1820s-1850s); Poisson for the disk formula",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Construction of the harmonic conjugate U via the exact differential dU = V_x dy - V_y dx, and the Cauchy-Riemann equations giving V + iU = f(x + iy).",
+    "modern_name": "Harmonic conjugate / Cauchy-Riemann equations",
+    "usually_credited_to": "d'Alembert, Euler, Cauchy; Riemann 1851 dissertation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Solving the boundary problem by expanding f in a series with undetermined coefficients fitted to the boundary condition, possibly via ζ = e^z.",
+    "modern_name": "Power/Laurent/Fourier series method for the Dirichlet problem",
+    "usually_credited_to": "Fourier, Poisson",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Annulus of convergence of a Laurent series from limsup of nth roots of coefficients.",
+    "modern_name": "Cauchy-Hadamard formula; Laurent series annulus of convergence",
+    "usually_credited_to": "Cauchy (1821), Hadamard (1892); Laurent (1843), Weierstrass (1841)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Standard lecture material. Riemann's 1850s-60s lectures on complex functions and potential theory are known to use the limsup ('lim. max.') root criterion and Laurent expansions in exactly this way. The page is a lecture outline, not new mathematics.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); f=(x+I*y)**3; V=re(expand(f)); U=im(expand(f)); simplify(diff(U,y)-diff(V,x))==0 and simplify(diff(U,x)+diff(V,y))==0",
+    "asserts": "For V + iU = f(x+iy), U_y = V_x and U_x = -V_y, matching the page's sign convention."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); V=Function('V')(x,y); simplify(diff(diff(V,x),x)-diff(-diff(V,y),y) - (diff(V,x,2)+diff(V,y,2)))==0",
+    "asserts": "Exactness condition of V_x dy - V_y dx is equivalent to Laplace's equation."
+   },
+   {
+    "sympy": "n=symbols('n',positive=True,integer=True); limit((Abs(2**n))**(1/n),n,oo)",
+    "asserts": "For a_n = 2^n, k = 2, so the ascending series converges for |ζ| < 1/2."
+   },
+   {
+    "sympy": "z=symbols('z'); series(1/((z-1)*(z-3)),z,oo,6)",
+    "asserts": "Example of a two-sided expansion valid in the annulus 1 < |z| < 3, where l = 1 and 1/k = 3 for the combined Laurent series."
+   }
+  ],
+  "transcription_corrections": [
+   "'in der vorigen Rede' is more likely 'in der vorigen Stunde' (lecture context); uncertain.",
+   "'mit unbestimmten Coefficienten aus [?] zu fallen' should probably read 'mit unbestimmten Coefficienten aufzustellen' (line break 'auf-/zustellen').",
+   "'z = 𝔆(ζ)' may be Riemann's 'z = l(ζ)', i.e. log ζ (ζ = e^z), consistent with log z on the next page; uncertain.",
+   "Laplace equation second term: the image shows ∂V/∂y² (slip for ∂²V/∂y²).",
+   "The final line should be read 'mod ζ < l , 1/k < mod ζ' (divergence regions), not a subtraction 'l − 1/k'.",
+   "Insertion above 'die Eigenschaft hat' is ∂²V/∂x² (struck/partial), not a fraction with empty denominator.",
+   "'eines gegebenen Systems und rechtwinklige Coordinaten' is probably 'einer gegebenen Function ... der rechtwinkligen Coordinaten x, y'; reading uncertain."
+  ]
+ }
+}

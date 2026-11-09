@@ -1,0 +1,60 @@
+{
+ "bundle": "Math.12",
+ "page": "c043",
+ "label": "20v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376631:00000044/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (the conventions are inferred from the formulas; the page does not state them). Two Gaussian integers are involved, a+bi and A+Bi, and a point with real coordinates (xi, eta). The four lines of each class are all consequences of\n  x + i y = (a+bi)(xi + i eta),  i.e. x = a xi - b eta,  y = b xi + a eta,\n  X + i Y = (A+Bi)(xi + i eta),  i.e. X = A xi - B eta, Y = B xi + A eta,\ntogether with eta = omega. The abbreviations come out as (my inference):\n  d = a^2 + b^2,\n  frak b = Ab - aB,\n  alpha = aA + bB,\n  D = A^2 + B^2 (from the previous page).\n\nWhat omega is. omega is evidently an infinitesimal displacement that moves the boundary of the region slightly off the lattice lines.\n- In II and III the bottom edge eta = 0 is replaced by eta = omega, with 0 < xi < 1/2.\n- In IV the right edge xi = 1/2 becomes xi = (1+omega)/2. The next page's 2B eta = A - 2X + A omega forces xi = 1/2 + omega/2.\n\nThe programme. Sections II, III, IV, ... walk around the boundary of the quarter-square 0 <= xi, eta <= 1/2. On each edge Gauss collects every boundary point (called varpi) where the boundary crosses a line of one of the two lattices. II uses the lines X or Y integer, i.e. the lattice of A+Bi. III (this page) uses the lines x or y integer, i.e. the lattice of a+bi. Each crossing gets a sign epsilon = +-1, namely the sign of the imaginary part of a quotient: M/(P-P°) in II, m/(p-p') in III. The two lattices are treated in exactly parallel ways. This is the shape of a crossing-count, Gauss-lemma-type argument that compares the two Gaussian integers, presumably for the biquadratic (quartic) residue character and its reciprocity.\n\nPage III: same edge as II (0 < xi < 1/2, eta = omega), crossings with the x- and y-lines.\n\nFirst class: x is an integer. Solve x = a xi - b omega for xi, then substitute:\n- a xi = x + b omega.\n- a y = b x + (a^2+b^2) omega = b x + d omega.\n- a X = A x + (Ab - aB) omega = A x + frak b omega.\n- a Y = B x + (aA + bB) omega = B x + alpha omega.\nSign rule. Take three conditions: (i) a > 0, (ii) x even, (iii) y even. Let N be the number that hold.\n- epsilon = -1 if all three or exactly one hold.\n- epsilon = +1 if none or two hold.\n- In short, epsilon = (-1)^N.\n\nSecond class: y is an integer. Solve y = b xi + a omega:\n- b xi = y - a omega.\n- b x = a y - d omega.\n- b X = A y - alpha omega.\n- b Y = B y + frak b omega.\nSign rule, with conditions b > 0, x even, y even:\n- epsilon = +1 if all three or exactly one hold.\n- epsilon = -1 if none hold. By analogy with the first class and the previous page, also if two hold.\n- In short, epsilon = -(-1)^N.\n\nThe parity rules themselves cannot be checked from this page alone, because m, p, p' are not defined here.",
+  "errors": [
+   "Second class sign rule: the page says epsilon = -1 only 'wenn keine gilt'. By the parity pattern of the first class and of page II, it should read 'keine oder zwei'. This looks like an incomplete statement rather than a different rule.",
+   "The letter written as fraktur B in 'aY = +B x + alpha omega' must equal the ordinary B (the imaginary part of A+Bi) for consistency with the second class (bY = By + frak b omega). It is probably just Gauss's capital B.",
+   "Context, not this page: on page II the line 'Ay = +bX - alpha omega' should be '+alpha omega' under the same conventions, since y = (bX + (aA+bB) omega)/A. The other relations on page II check out. This is either a slip or a transcription error."
+  ],
+  "results": [
+   {
+    "what": "Real-coordinate form of multiplication by Gaussian integers, x+iy=(a+bi)(xi+i eta), X+iY=(A+Bi)(xi+i eta), solved along the perturbed edge eta=omega for points where x or y is an integer.",
+    "modern_name": "Lattice-line crossings on the boundary of a fundamental region (Gauss-lemma / Eisenstein-type lattice counting in Z[i])",
+    "usually_credited_to": "Gauss (biquadratic residues, 1828/1832); lattice-point and elliptic-function proofs of quartic reciprocity by Eisenstein (1844-1850)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Parity rule for the crossing sign epsilon in terms of sign(a), parity of x and parity of y (epsilon = (-1)^N, resp. -(-1)^N).",
+    "modern_name": "Orientation/sign bookkeeping in a winding-number or Gauss-lemma count for the quartic character",
+    "usually_credited_to": "unsure",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a working page of systematic bookkeeping: linear relations plus sign rules for one edge of a boundary count. It fits Gauss's known extensive unpublished work on biquadratic residues and Gaussian integers. The symmetric treatment of the two lattices hints at a lattice-point approach to quartic reciprocity, which is interesting but not demonstrably beyond what is attributed to him.",
+  "checkable": [
+   {
+    "sympy": "a,b,A,B,xi,w=symbols('a b A B xi w'); x=a*xi-b*w; y=b*xi+a*w; simplify(a*xi-(x+b*w))",
+    "asserts": "First class: a*xi = x + b*omega"
+   },
+   {
+    "sympy": "simplify(a*y-(b*x+(a**2+b**2)*w))",
+    "asserts": "First class: a*y = b*x + d*omega with d = a^2+b^2"
+   },
+   {
+    "sympy": "X=A*xi-B*w; Y=B*xi+A*w; simplify(a*X-(A*x+(A*b-a*B)*w)), simplify(a*Y-(B*x+(a*A+b*B)*w))",
+    "asserts": "First class: a*X = A*x + frak_b*omega, a*Y = B*x + alpha*omega with frak_b=Ab-aB, alpha=aA+bB"
+   },
+   {
+    "sympy": "simplify(b*xi-(y-a*w)), simplify(b*x-(a*y-(a**2+b**2)*w)), simplify(b*X-(A*y-(a*A+b*B)*w)), simplify(b*Y-(B*y+(A*b-a*B)*w))",
+    "asserts": "Second class relations b*xi=y-a*omega, b*x=a*y-d*omega, b*X=A*y-alpha*omega, b*Y=B*y+frak_b*omega"
+   },
+   {
+    "sympy": "expand((a+I*b)*(xi+I*w)) - (x+I*y)",
+    "asserts": "x+iy = (a+bi)(xi+i*omega), the underlying Gaussian-integer multiplication"
+   }
+  ],
+  "transcription_corrections": [
+   "'aY = +𝔅x + αω': the letter is most likely an ordinary capital B (required for consistency), not fraktur.",
+   "'ε = +1, wenn b positiv, [x] und y gerade': the brackets around x appear as an insertion in the image, matching '[y]' in the first class.",
+   "'mit dem Zeichen [-des-] imaginären Theils': 'des' is struck through and apparently not replaced. The reading 'mit dem Zeichen des imaginären Theils' is intended."
+  ]
+ }
+}

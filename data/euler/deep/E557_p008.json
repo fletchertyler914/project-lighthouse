@@ -1,0 +1,55 @@
+{
+ "cote": "E557",
+ "title": "De quibusdam eximiis proprietatibus circa divisores potestatum occurrentibus",
+ "page": 8,
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page finishes Example 10 (N = 311), adds a remark on shortening the computation, works Example 11 (N = 233), and opens the Scholion (§24) with a table, for primes N up to 400, of the simplest binomial 2^x ± 1 divisible by N.\n\nThe method, stated in modern terms: N is odd and x is unknown. Euler supposes 2^x ≡ 1 (mod N) and keeps a running residue r_k with 2^{x - s_k} ≡ r_k (mod N). Each step adds or subtracts N, choosing the sign so that r ± N is divisible by at least 4. He writes r ± N = ±2^{e}·r' with r' odd, sets r_{k+1} = ±r', and adds e to the running sum s. When r_k = ±1 he concludes 2^{s} ≡ ±1. The minimal binomial is 2^{s} ∓ 1, and the order of 2 is s or 2s. In effect this is repeated exact division by 2 modulo N, i.e. it computes 2^{-s} mod N. Choosing ±N to raise the 2-adic valuation is the same device as in Montgomery-type reduction and in binary GCD methods.\n\nExample 10 (N = 311): the chain started on the previous page reaches +55 - 311 = -256 = -2^8 (sum 155), so 2^155 ≡ 1 and 2^155 - 1 is the minimal binomial. This is correct. Since 310 = 2·5·31, the order divides 155 because 2 is a quadratic residue mod 311 (311 ≡ 7 mod 8). Also 2^5 = 32 and 2^31 ≡ 36 (mod 311), neither equal to 1, so the order is exactly 155.\n\nShortcut remark: at step 25 the relation is 2^{x-75} ≡ 47. Squaring gives 2^{2x-150} ≡ 2209 ≡ 32 = 2^5 (mod 311). Using 2^x ≡ 1, this becomes 2^{x-155} ≡ 1. Likewise, from step 17, 2^{x-50} ≡ 7; cubing gives 343 ≡ 32, hence 2^{3x-155} ≡ 1 and again 2^{155} ≡ 1. So once an intermediate residue is small, a power of it that is ≡ ±2^j can end the computation early.\n\nExample 11 (N = 233): residues -29, 51, 71, 19, 63, 37, -49, 23, 1, with exponent sums 3, 5, 7, 11, 13, 16, 18, 21, 29. Hence 2^29 ≡ 1 (mod 233). This is correct: 2^29 - 1 = 233·1103·2089.\n\nScholion: Euler proposes a table of minimal binomials for all primes up to 400, grouped by N mod 8 (8n+1, 8n-1, 8n+3, 8n-3). This grouping prepares the empirical theorem on the next page: 2^p ≡ ±1 (mod 2p+1) with sign + exactly when 2p+1 ≡ ±1 (mod 8), i.e. the second supplement to quadratic reciprocity. The entries on this page check out: 17:2^4+1, 41:2^10+1, 73:2^9-1, 89:2^11-1, 97:2^24+1, 113:2^14+1, 137:2^34+1, 193:2^48+1, 233:2^29-1, 241:2^12+1, 257:2^8+1, 281:2^35+1, and 7:3, 23:11, 31:5, 47:23, 71:35, 79:39, 103:51, 127:7, 151:15, 167:83, 191:95, 199:99, 223:37 (all 2^k-1).",
+  "errors": [
+   "Sign slip in the first line: +23 - 311 = -288 = -2^5·9, but the print gives the result with a + sign and continues with +9. With consistent signs the next line would be -9 - 311 = -320 = -2^6·5.",
+   "This slip cancels an earlier one on the previous page, '+45+311 = -356' (should be +356, giving +89, whereas Euler continued with -89). Between the two slips Euler's residues are the exact negatives of the true ones. After the second slip the chain is again correct, so the final conclusion 2^155 ≡ 1 (mod 311) is right.",
+   "The header of the 8n-1 column reads '2^x + 1' (or so it is transcribed), but every entry in that column is of the form 2^x - 1, as the theorem on the next page requires. This is a header misprint or OCR error."
+  ],
+  "ideas": [
+   {
+    "what": "Algorithm for the least x with 2^x ≡ ±1 (mod N): repeatedly add or subtract N to maximise the power of 2, strip that power, and sum the exponents.",
+    "modern_name": "Computing the multiplicative order (or suborder) of 2 by iterated modular halving; the ±N choice is akin to Montgomery/REDC reduction and to Hilton–Pedersen 'coach'/quasi-order symbols",
+    "usually_credited_to": "As an order algorithm: folklore. The closely analogous 'coach theorem' is credited to P. Hilton and J. Pedersen (1980s, from paper-folding).",
+    "in_author_published_texts": "yes",
+    "where_published": "E557 (Opuscula analytica I, 1783), §§ preceding and including this page",
+    "routine": false
+   },
+   {
+    "what": "Shortcut: if an intermediate residue satisfies 2^{x-a} ≡ r with small r, raise to a power m so that r^m ≡ ±2^j (mod N), giving 2^{mx - ma - j} ≡ ±1 and an early stop.",
+    "modern_name": "Combining partial relations; precursor of meet-in-the-middle / index-type shortcuts in order computation",
+    "usually_credited_to": "unsure",
+    "in_author_published_texts": "yes",
+    "where_published": "E557 §§21–22",
+    "routine": true
+   },
+   {
+    "what": "Table of least binomials 2^x ± 1 divisible by each prime below 400, sorted by residue mod 8.",
+    "modern_name": "Table of orders / suborders of 2 (cf. Cunningham-type tables); empirical evidence for the second supplement to quadratic reciprocity",
+    "usually_credited_to": "Supplement law: Euler (conjecture), proofs by Lagrange and Gauss. Order tables: later Reuschle, Cunningham.",
+    "in_author_published_texts": "yes",
+    "where_published": "E557 §24–25; quadratic character of 2 also in earlier Euler papers (e.g. E164, E262, unsure of exact numbering)",
+    "routine": true
+   }
+  ],
+  "missed": [
+   {
+    "type": "connection",
+    "claim": "Euler's ±N halving chain, with residues kept odd and exponent sums accumulated until ±1 is reached, is essentially the same procedure as the Hilton–Pedersen 'coach'/quasi-order theorem. That theorem computes the least k with 2^k ≡ ±1 (mod b) via b = a_i + 2^{k_i} a_{i+1}. It also prefigures the halving step of Montgomery reduction. I am not aware that the Hilton–Pedersen literature cites E557 as a precursor (unsure).",
+    "quote": "-55+311=+256=2^8.1 . . . 155 ergo x=155, sicque minima formula, per 311 diuisibilis est 2^{155}-1",
+    "why_it_might_matter_today": "This is a historical priority note for an algorithm still taught in recreational and educational number theory, and for the paper-folding literature."
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The computations are routine verifications, and the mod-8 theorem is well known. The only mildly notable point is that Euler's order-finding chain is a clear precursor of the Hilton–Pedersen quasi-order algorithm, which may not be credited to him.",
+  "transcription_corrections": [
+   "Line 1: '-288 = +2^5.9' should mathematically read '-288 = -2^5.9'. The print appears to carry a sign error that compensates for an earlier one, so the residue +9 used next is in fact the true value.",
+   "Table header for the 8n-1 column should read 2^x - 1, not 2^x + 1.",
+   "'Exemplum II.' is Exemplum 11."
+  ]
+ }
+}

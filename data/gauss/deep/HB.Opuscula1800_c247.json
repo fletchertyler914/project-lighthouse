@@ -1,0 +1,50 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c247",
+ "label": "[242]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000248/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds one numerical table with no words or formulas. Column 1 is an argument x running from 9.60 to 9.94 in steps of 0.01. The form 9.xx is the usual 10-shifted tabular logarithm, so x is probably log a with a = 10^(x-10), roughly 0.398 to 0.871. This reading is my inference.\n\nColumn 2 gives integer values f(x), from 30119 at x = 9.60 to 177830 at x = 9.93. Most likely these are 5-decimal quantities scaled by 10^5. The row for 9.94 has no value.\n\nColumn 3 gives first differences, written between rows: Δ1(x) = f(x+0.01) - f(x), from 1497 to 11617. Column 4 gives second differences Δ2 = Δ1(x+0.01) - Δ1(x), from 79 to 1127. Horizontal rules every fifth line (after 9.65, 9.70, ..., 9.90) mark off blocks of five, the usual practice when building a table.\n\nThe point of the difference columns is to check and smooth independently computed values. Darker-ink overwrites show this was done:\n- 54487 has its last digit rewritten.\n- 2683 and 2839 are rewritten (the ink suggests earlier wrong digits).\n- 156 and 164 are rewritten.\n- 74244 has its last digit rewritten.\n- 3793 is corrected (from 3798?).\n- 4030, 221, 237 and 255 are retouched.\nGauss evidently found discrepancies in the differences and corrected the tabulated values.\n\nThe function is not named on the page. Its logarithmic growth rate d ln f/dx rises from about 4.85 near 9.60 to about 6.75 near 9.93. In terms of a, f/10^5 behaves roughly like a^2 times a slowly increasing factor (from about 1.90 at a = 0.398 to about 2.45 at a = 0.851). An empirical fit is f/10^5 ≈ 1.73·a^2·(1-a)^(-0.18). This is my own rough fit and does not identify the function.\n\nThe previous leaf is a bibliographic note (Fichte). The next leaf has a prescription and a separate log computation (\"Decrem Logar. 0.3010300 = log 2\", x = 0.0919983 / 0.9080017, y = 9.8581366). Any link to this table is speculative.",
+  "errors": [
+   "No arithmetic errors. Every first difference equals f(x+0.01) - f(x), and every second difference equals the difference of consecutive first differences, as written (all 33 Δ1 and 32 Δ2 checked).",
+   "Third differences, computed by me, are irregular at the start: 3, 8, 2, 9, 4, 6, 10, 6, 7, 10, 12, 8, 13, ... The alternating fourth differences (+5, -6, +7, -5) suggest unit-level rounding errors in f near 9.62-9.65. This is within the last-digit uncertainty of a 5-figure table, so it is noise rather than a real slip.",
+   "The table stops at 9.93; the row for 9.94 is left without a value."
+  ],
+  "results": [
+   {
+    "what": "Table of an unidentified rapidly increasing function of a logarithmic argument (x = 9.60…9.93, step 0.01), checked by first and second differences, with visible corrections",
+    "modern_name": "Construction and checking of a numerical table by finite differences",
+    "usually_credited_to": "Standard tabulation practice (Briggs, Mouton, later Prony and Babbage)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine computational work: a function table checked by differences. The function cannot be identified from the page, so its interest depends on a link to some research topic that is not evident here.",
+  "checkable": [
+   {
+    "sympy": "f=[30119,31616,33192,34850,36598,38438,40379,42425,44582,46860,49265,51804,54487,57326,60329,63509,66879,70451,74244,78274,82559,87123,91989,97184,102740,108694,115087,121966,129392,137434,146175,155723,166213,177830]; [f[i+1]-f[i] for i in range(len(f)-1)] == [1497,1576,1658,1748,1840,1941,2046,2157,2278,2405,2539,2683,2839,3003,3180,3370,3572,3793,4030,4285,4564,4866,5195,5556,5954,6393,6879,7426,8042,8741,9548,10490,11617]",
+    "asserts": "The third column is exactly the first differences of the tabulated values."
+   },
+   {
+    "sympy": "d=[1497,1576,1658,1748,1840,1941,2046,2157,2278,2405,2539,2683,2839,3003,3180,3370,3572,3793,4030,4285,4564,4866,5195,5556,5954,6393,6879,7426,8042,8741,9548,10490,11617]; [d[i+1]-d[i] for i in range(len(d)-1)] == [79,82,90,92,101,105,111,121,127,134,144,156,164,177,190,202,221,237,255,279,302,329,361,398,439,486,547,616,699,807,942,1127]",
+    "asserts": "The fourth column is exactly the second differences."
+   },
+   {
+    "sympy": "d2=[79,82,90,92,101,105,111,121,127,134,144,156,164,177,190,202,221,237,255,279,302,329,361,398,439,486,547,616,699,807,942,1127]; [d2[i+1]-d2[i] for i in range(len(d2)-1)]",
+    "asserts": "Third differences are small and somewhat irregular at the start (3, 8, 2, 9, ...), indicating rounding noise of about 1-2 units in the values."
+   },
+   {
+    "sympy": "[N(30119/(1e5*10**(2*(9.60-10)))), N(177830/(1e5*10**(2*(9.93-10))))]",
+    "asserts": "Taking a = 10^(x-10), f/(1e5*a^2) is about 1.900 at x = 9.60 and about 2.455 at x = 9.93. This is a heuristic look at the function's form, not an identification."
+   }
+  ],
+  "transcription_corrections": [
+   "The difference columns sit between rows in the manuscript: 1497 lies between 9.60 and 9.61, 79 between the first two differences, and so on. The transcription shifts them down one row.",
+   "Several entries are corrections in darker ink over earlier digits: 54487 (last digit), 2683, 2839, 156, 164, 74244 (last digit), 3793 (apparently corrected from 3798), 4030, 221, 237, 255. The final readings given in the transcription agree with the difference checks.",
+   "The page number at the top, read as '58', is underlined and could be '59'; it is uncertain from the image.",
+   "The value at 9.84 is 102740, as transcribed, and is consistent with the differences."
+  ]
+ }
+}

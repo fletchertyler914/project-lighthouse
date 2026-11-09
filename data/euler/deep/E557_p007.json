@@ -1,0 +1,62 @@
+{
+ "cote": "E557",
+ "title": "De quibusdam eximiis proprietatibus circa divisores potestatum occurrentibus",
+ "page": 7,
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: E557 gives a hand algorithm for the least x such that the odd number N divides 2^x - 1 or 2^x + 1. In modern terms x is the order of 2 mod N, or the least x with 2^x ≡ -1 mod N.\n\nThe algorithm. Start with residue r_0 = 1. Given an odd residue r, form r ± N, choosing the sign so that the result is divisible by at least 4; one of the two always is. Write r ± N = ±2^e · r', and add e to the running exponent sum s. By induction r_k ≡ 2^{-s_k} (mod N), and every |r_k| < N/2. Stop when r = ±1. If the residue is +1, then 2^s ≡ 1; if it is -1, then 2^s ≡ -1, and the least formula 2^x - 1 then has x = 2s.\n\nTop of this page (end of Example 9, N = 385 = 5·7·11). The last line of the previous page reached +1 at s = 60, so 385 | 2^60 - 1. Euler checks this against the factors: 5 | 2^2 + 1, 7 | 2^3 - 1, 11 | 2^5 + 1. The orders are 4, 3 and 10, with lcm 60. No smaller 2^x ± 1 works; for example 2^30 ≡ -1 mod 5 but 2^30 ≡ +1 mod 7.\n\n§21, the shortcut. After the third step, 2^{x-14} has residue 9, i.e. 2^{-14} ≡ 9 mod 385; indeed 9·16384 = 147456 = 383·385 + 1. Then:\n- squaring gives 81;\n- cubing gives 729 ≡ 344 ≡ -41;\n- the fourth power gives 9·(-41) = -369 ≡ 16 = 2^4.\nHence 2^{-60} ≡ 1. The idea: once some residue 2^{-s} ≡ r is known, raise r to a power k until it becomes ±2^j. This yields 2^{ks+j} ≡ ±1 without running the chain through.\n\nExample 10 (§22, N = 311). The chain runs through about 50 steps with exponent sums 3, 7, 10, ..., 121, continued on the next page to 155, where +1 appears. So 311 | 2^155 - 1, and 155 is the order. This agrees with 311 ≡ 7 mod 8: 2 is a quadratic residue, so the order divides 155 = 5·31, and it is easily checked not to be 5 or 31.\n\nPurpose: to build the table (§24) of the simplest 2^x ± 1 for all primes below 400, sorted by the classes 8n±1 and 8n±3. These are the quadratic-character classes of 2, which decide whether 2^{(p-1)/2} ≡ +1 or -1.",
+  "errors": [
+   "Example 10, step ending at exponent sum 105: printed '+45+311 = -356 = -2^2·89'. The correct value is +356 = +2^2·89. The signs of the next five residues (89, 25, 21, 83, 57, 23) are therefore all printed with the wrong sign. The correct sequence is +89, +25, +21, -83, -57, -23 (printed: -89, -25, -21, +83, +57, +23).",
+   "A compensating slip on the next page: '+23-311 = -288 = +2^5·9'. Correctly it is -23+311 = +288 = +2^5·9, after which the printed residue +9 is right again. The two sign errors cancel, the exponent sums are unaffected, and the final result x = 155 is correct.",
+   "§21 gap (not an error): the power shortcut proves only that 2^60 ≡ 1, i.e. it gives a multiple of the order. Euler does not say that minimality needs separate justification. Here minimality follows from the factor argument just given."
+  ],
+  "ideas": [
+   {
+    "what": "Iterating r -> (r ± N)/2^e with balanced residues |r| < N/2. The cumulative exponent s satisfies r ≡ 2^{-s}, and the procedure stops at ±1 to give the least x with 2^x ≡ ±1 mod N.",
+    "modern_name": "Computing the order / 'quasi-order' of 2 mod N by repeated multiplication by 2^{-1} (a right-shift reduction akin to binary/Montgomery reduction); Hilton–Pedersen symbol algorithm",
+    "usually_credited_to": "Hilton & Pedersen (1980s, 'quasi-order' and coach/complementary-factor theorems, from paper-folding of regular polygons); the order concept goes back to Euler and Gauss",
+    "in_author_published_texts": "yes",
+    "where_published": "E557 itself (Opuscula analytica I, 1783)",
+    "routine": false
+   },
+   {
+    "what": "Shortcut: from an intermediate residue 2^{-s} ≡ r, raise to the k-th power until ±2^j appears, giving 2^{ks+j} ≡ ±1.",
+    "modern_name": "Using powers of an intermediate residue to reach ±1 (a multiple of the order)",
+    "usually_credited_to": "folklore",
+    "in_author_published_texts": "yes",
+    "where_published": "E557 §§17, 19, 21, 22",
+    "routine": true
+   },
+   {
+    "what": "Order mod a composite as the lcm of the orders mod its prime factors, with the ± refinement.",
+    "modern_name": "Carmichael-style lcm of local orders",
+    "usually_credited_to": "Euler / Gauss (Disquisitiones)",
+    "in_author_published_texts": "yes",
+    "where_published": "E557; also Euler's earlier power-residue papers",
+    "routine": true
+   },
+   {
+    "what": "Distribution of the primes by 8n±1 and 8n±3, matching whether 2 is a quadratic residue (next page).",
+    "modern_name": "Second supplement to quadratic reciprocity",
+    "usually_credited_to": "Euler (conjectured), Lagrange/Gauss (proved)",
+    "in_author_published_texts": "yes",
+    "where_published": "E164 and others",
+    "routine": true
+   }
+  ],
+  "missed": [
+   {
+    "type": "connection",
+    "claim": "Euler's ± chain is essentially the 'symbol' algorithm of Hilton and Pedersen (quasi-order of 2 mod b, with 2^k ≡ (-1)^r). Their version is driven by subtracting residues from b; Euler chooses the sign to force divisibility by 4. Both keep residues below N/2, read the quasi-order off the sum of the 2-exponents, and decide between 2^x - 1 and 2^x + 1. I do not know whether the Hilton–Pedersen literature (paper folding, the 'coach theorem') cites E557. If it does not, Euler is an unrecognised precursor by two centuries.",
+    "quote": "ergo x=60, ita vt formula 2^{60}-1 diuisibilis sit per 385 ... at formula per has tres diuisibilis simplicior non datur quam 2^{60}-1",
+    "why_it_might_matter_today": "This is a historical-priority note for the folding/quasi-order literature. It also links the algorithm to Montgomery-style binary reduction."
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The page consists of worked examples of a method introduced earlier in E557, plus a routine shortcut. The only points of interest are a pair of compensating sign misprints and a plausible but unverified precursor link to the Hilton–Pedersen quasi-order algorithm.",
+  "transcription_corrections": [
+   "In the line '+45+311=-356=-2^{2}.89' the image does print the minus signs; this is a typesetting or arithmetic error in the original (the correct value is +356 = +2^2·89), not a transcription error.",
+   "The § number in the image is '§. 21.' and '§. 22.'; the exponent '2^{-60}' at the end of §21 is correct as transcribed (it comes from 2^{4x-60} divided by 2^{4x})."
+  ]
+ }
+}

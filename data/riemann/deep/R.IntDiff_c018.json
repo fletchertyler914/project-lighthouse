@@ -1,0 +1,61 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c018",
+ "label": "9r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000019/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This page belongs to Riemann's student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (dated 1847). It was published posthumously by Weber in the Gesammelte Werke (1876). The essay's starting point is a generalized Taylor expansion z(x+h) = Σ_ν K_ν ∂_x^ν z · h^ν, where ν runs over an arithmetic progression of real, not necessarily integer, exponents. The coefficients K_ν (functions of ν) are still free to be chosen.\n\nStep 1 (end of fol. 8v, carried onto this page). Since d/dh z(x+h) = d/dx z(x+h), compare the two term-wise differentiated series. Riemann concludes K_{ν+1}(ν+1) ∂_x^{ν+1} z = K_ν · d(∂_x^ν z)/dx, matching the coefficients of h^ν.\n\nStep 2 (normalization). He imposes K_{ν+1}(ν+1) = K_ν. This does not conflict with the 'Hauptbedingung' (agreement with ordinary Taylor series), because for integer ν one has K_n = 1/n!, which obeys this rule. The consequence is that, for fractional ν too, ∂_x^{ν+1} z = d(∂_x^ν z)/dx.\n\nStep 3 (induction on n, implicit). Iterating gives formula (4): ∂_x^{ν+n} z = d^n(∂_x^ν z)/dx^n for every positive integer n.\n\nStep 4. Use Gauss's Π(ν) = Γ(ν+1), so Π(ν+1) = (ν+1)Π(ν). Then Π(ν+1)K_{ν+1} = (ν+1)Π(ν) · K_ν/(ν+1) = Π(ν)K_ν. Hence the function c_ν := Π(ν)K_ν is periodic with period 1: it takes the same value at all ν differing by integers. Equivalently K_ν = c_ν/Π(ν), the form used on the next page (z(x+h) = Σ c_ν ∂^ν z h^ν/Πν).\n\nStep 5 (programme). The best choice of c_ν therefore cannot be fixed by looking at a single expansion. It must come from combining several requirements. On the next page this is the index law ∂^ν ∂^μ z = ∂^{ν+μ} z, obtained by expanding z(x+h+k) in two ways.",
+  "errors": [
+   "No algebraic error. The recursion and the periodicity of Π(ν)K_ν are correct.",
+   "Unjustified step (inherited from the previous page): it is inferred that, because the two series 'umfassen dieselben Reihen' (cover the same series), the coefficients must agree term by term, i.e. K_{ν+1}(ν+1)∂^{ν+1}z = K_ν d∂^νz/dx. Uniqueness of expansions in non-integer powers is not established, and Riemann himself later admits that such expansions need not be unique.",
+   "The condition K_{ν+1}(ν+1)=K_ν is a convention (normalization) rather than a consequence. Riemann says so honestly ('setzt man')."
+  ],
+  "results": [
+   {
+    "what": "Normalization K_{ν+1}(ν+1)=K_ν yields the semigroup-type law D^{ν+n} z = d^n/dx^n D^ν z for integer n",
+    "modern_name": "Composition of a fractional derivative with integer-order derivatives (Riemann–Liouville style index law, integer case)",
+    "usually_credited_to": "Liouville (1832) for the operational rule; Riemann's essay (1847, publ. 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Π(ν)K_ν is 1-periodic in ν, so K_ν = c_ν/Γ(ν+1) with c_ν periodic",
+    "modern_name": "Gamma-function normalization of the generalized Taylor series (Riemann's complementary function / periodic coefficient)",
+    "usually_credited_to": "Riemann (Gesammelte Werke 1876, 'Versuch einer allgemeinen Auffassung...')",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a page of Riemann's 1847 student essay on fractional calculus, published in his Werke in 1876 and well known as the origin of the Riemann–Liouville theory. The content is elementary use of Π(ν+1)=(ν+1)Π(ν).",
+  "checkable": [
+   {
+    "sympy": "simplify(gamma(nu+2)*(Kn/(nu+1)) - gamma(nu+1)*Kn)  # with Kn=Symbol('Kn')",
+    "asserts": "If K_{ν+1}=K_ν/(ν+1) then Π(ν+1)K_{ν+1} = Π(ν)K_ν, using Π(ν)=gamma(ν+1)"
+   },
+   {
+    "sympy": "nu=Symbol('nu'); simplify(gamma(nu+2)/gamma(nu+1) - (nu+1))",
+    "asserts": "Gauss recursion Π(ν+1)=(ν+1)Π(ν)"
+   },
+   {
+    "sympy": "a,nu,x=symbols('a nu x',positive=True); D=lambda s: gamma(a+1)/gamma(a+1-s)*x**(a-s); simplify(diff(D(nu),x)-D(nu+1))",
+    "asserts": "For the power function the fractional derivative satisfies D^{ν+1} x^a = d/dx D^ν x^a, the rule (4) with n=1"
+   },
+   {
+    "sympy": "n=3; simplify(diff(D(nu),x,n)-D(nu+n))",
+    "asserts": "Formula (4) for n=3 on x^a"
+   },
+   {
+    "sympy": "K=lambda s: 1/gamma(s+1); [simplify(K(m+1)*(m+1)-K(m)) for m in range(5)]",
+    "asserts": "Taylor coefficients 1/n! satisfy K_{n+1}(n+1)=K_n, so the normalization agrees with the Hauptbedingung"
+   }
+  ],
+  "transcription_corrections": [
+   "The symbol rendered 'kν [?]' (twice) should be read 'c_ν' ('die wir durch c_ν bezeichnen wollen'). This matches the c_ν used in the expansions on the next page.",
+   "The broken '\\nu' output (newline + 'u') is a transcription artefact; read ν throughout.",
+   "Original notation ^x∂^ν z (left superscript x) is struck in ink, and the 𝔇_x^ν variant is also struck. The final red replacement is ∂_x^ν z. The margin should read ∂_x^{ν+1}z = d∂_x^νz/dx and ∂_x^{ν+n}z = d^n∂_x^νz/dx^n, with the 𝔇 version struck.",
+   "'aus der Betrachtung eines einzelnen Entwicklungsfalles' — the struck word is replaced by 'einzelnen'. The reading 'Entwicklungsfalles' is plausible."
+  ]
+ }
+}

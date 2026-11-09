@@ -1,0 +1,79 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c475",
+ "label": "241v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000476/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a self-contained exercise. The previous page is a triangle computation and the next page is a series solution of a PDE in u and log ρ; neither is directly related. Here Riemann solves the linear oscillator equation y'' + e y = 0 (e > 0 a constant, ' = d/dt) by the logarithmic-derivative substitution. He writes the expected answer y = α cos(t√e + α') at the top as the target.\n\n(1) Substitution. Put y = e^x. Then y' = e^x x' and y'' = e^x (x'' + x'^2). So y'' + e y = 0 becomes x'' + (x')^2 + e = 0. This is a Riccati equation for z = x'. [The identification z = ∂x/∂t is mine; it is implicit on the page.]\n\n(2) Left column, separation. z' = -(z^2 + e), so dz/(z^2 + e) + dt = 0. Substitute z = √e tan φ. Then dz/(z^2 + e) = (√e/e)·d(tan φ)/(1 + tan^2 φ) = dφ/√e. Hence dt + (√e/e) d tan φ/(1 + tan^2 φ) = 0, i.e. dφ = -√e dt and φ = α' - t√e. Riemann instead writes z = √e tan(t√e + α') = √e tan φ, so his φ has the wrong sign (see errors).\n\n(3) Recovering x. x = ∫ z dt. Riemann writes √e ∫ tan(t√e + α) dφ = -log cos φ + k, using tan φ dφ = -d cos φ / cos φ. Then y = e^x should be C cos φ, which is the top-line answer y = α cos(t√e + α'). With the correct sign, z = -√e tan(t√e + α') and x = ∫ z dt = -∫ tan φ dφ = log cos φ + k. So y = e^k cos(t√e + α'), which agrees with the claimed answer.\n\n(4) Right column, the same integration done the other way. From dz/dt = -(z^2 + e) he gets dt/dz = -1/(z^2 + e). Then t = -∫ dz/(z^2 + e) = -(1/√e) ∫ d(z/√e)/((z/√e)^2 + 1) = -(1/√e)(arctan(z/√e) + c). Inverting gives z/√e = -tan(t√e + c), i.e. z = -√e tan(t√e + c), which is the correct Riccati solution. At the bottom he writes tan(α' + t√e) = z/√e; the minus sign is again dropped.\n\nPurpose: a routine check that the logarithmic-derivative (Riccati) reduction recovers the cosine solution of the harmonic-oscillator equation. It is probably scratch work for some oscillation or wave problem.",
+  "errors": [
+   "Sign slip: from z' = -(z^2 + e) and z = √e tan φ one gets dφ = -√e dt, so z = √e tan(α' - t√e) = -√e tan(t√e - α'). Riemann's z = √e tan(t√e + α') instead satisfies z' = +(z^2 + e).",
+   "Consequent sign inconsistency: integrating his z gives x = -log cos φ + k, so e^x ∝ 1/cos φ, not the cos φ he announced at the top. With the correct sign, x = +log cos φ + k and y ∝ cos φ.",
+   "Bottom-right line tan(α' + t√e) = z/√e: from t = -(1/√e)(arctan(z/√e) + c) one gets z/√e = -tan(t√e + c). The minus sign is dropped (or must be absorbed by α' → -α' together with t → -t).",
+   "Differential bookkeeping: '∂x = √e ∫ tan(...) dφ' mixes dt and dφ. Since dφ = ±√e dt, it should read either √e ∫ tan φ dt or ±∫ tan φ dφ; as written the factor √e is extra.",
+   "The final answer y = α cos(t√e + α') is nevertheless correct, since cos is even and the constants are arbitrary."
+  ],
+  "results": [
+   {
+    "what": "Reduction of y'' + e y = 0 to the Riccati equation x'' + x'^2 + e = 0 (z' + z^2 + e = 0 with z = x') via y = e^x",
+    "modern_name": "Logarithmic-derivative (Cole–Hopf-type) linearization of the Riccati equation",
+    "usually_credited_to": "Riccati (1724), Daniel Bernoulli, Euler (18th century)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Integration of z' = -(z^2 + e) by separation: t = -(1/√e) arctan(z/√e) + const, i.e. z = -√e tan(√e t + c)",
+    "modern_name": "Separable Riccati equation with constant coefficients",
+    "usually_credited_to": "Classical (Leibniz/Bernoulli era)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Recovering y = C cos(√e t + α') from ∫ tan φ dφ = -log cos φ",
+    "modern_name": "General solution of the harmonic oscillator equation",
+    "usually_credited_to": "Euler/d'Alembert (18th century)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Entirely standard textbook calculus (the Riccati substitution for the harmonic oscillator), with sign slips; nothing new.",
+  "checkable": [
+   {
+    "sympy": "t,e,a=symbols('t e a',positive=True); simplify(diff(cos(sqrt(e)*t+a),t,2)+e*cos(sqrt(e)*t+a))",
+    "asserts": "y = cos(√e t + α') solves y'' + e y = 0 (expect 0)"
+   },
+   {
+    "sympy": "x=Function('x')(t); simplify((diff(exp(x),t,2)-exp(x)*(diff(x,t,2)+diff(x,t)**2)))",
+    "asserts": "(e^x)'' = e^x (x'' + x'^2) (expect 0)"
+   },
+   {
+    "sympy": "X=log(cos(sqrt(e)*t+a)); simplify(diff(X,t,2)+diff(X,t)**2+e)",
+    "asserts": "x = log cos(√e t + α') solves x'' + x'^2 + e = 0 (expect 0)"
+   },
+   {
+    "sympy": "z=-sqrt(e)*tan(sqrt(e)*t+a); simplify(diff(z,t)+z**2+e)",
+    "asserts": "The correctly signed z = -√e tan(√e t + α') solves z' = -(z^2 + e) (expect 0)"
+   },
+   {
+    "sympy": "z=sqrt(e)*tan(sqrt(e)*t+a); simplify(diff(z,t)-(z**2+e))",
+    "asserts": "Riemann's z = +√e tan(√e t + α') instead solves z' = +(z^2 + e) (expect 0), confirming the sign slip"
+   },
+   {
+    "sympy": "Z=symbols('Z'); simplify(diff(atan(Z/sqrt(e))/sqrt(e),Z)-1/(Z**2+e))",
+    "asserts": "∫ dz/(z^2 + e) = (1/√e) arctan(z/√e) (expect 0)"
+   },
+   {
+    "sympy": "p=symbols('p'); simplify(diff(-log(cos(p)),p)-tan(p))",
+    "asserts": "∫ tan φ dφ = -log cos φ (expect 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 5: the connective in 'dz/(z^2+e) + dt = 0' is a heavily written '+' sign.",
+   "Right column, line 3: the struck-out symbol before 't' is a crossed-out '∂x'; the line reads t = -∫ dz/(z^2+e).",
+   "Right column, line 4: the numerator first had something like 'z^2 = e' written and struck out; the surviving numerator is ∂(z/√e).",
+   "Last left line: the integrand reads tg(t√e + α) (α without prime in the image), and the variable of integration as written is dφ.",
+   "Bottom: '= -d cos φ / cos φ = -log cos φ + k' is written beneath the integral as the justification of ∫ tan φ dφ; the final 'k' is partly overwritten."
+  ]
+ }
+}

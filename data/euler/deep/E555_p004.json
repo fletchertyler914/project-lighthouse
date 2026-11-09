@@ -1,0 +1,64 @@
+{
+ "cote": "E555",
+ "title": "De eximio usu methodi interpolationum in serierum doctrina",
+ "page": 4,
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: E555 builds an interpolating function through prescribed points. It uses the ansatz y = Ax + Bx(x²−a²) + Cx(x²−a²)(x²−b²) + … for data that is odd: y(0)=0, y(±a)=±p, y(±b)=±q, and so on. The previous pages give the coefficients by a divided-difference scheme in the squared nodes; this is Newton's form in the variable x², applied to y/x.\n\n§6 (Scholion 2) observes that interpolation is not unique. Let X be any odd series αx+βx³+γx⁵+… satisfying the conditions, and let Q = x·∏(x²−a²)/a², which vanishes at 0, ±a, ±b, …. Then y = X + Q, or y = X + f(Q) for any f with f(0)=0, also satisfies the conditions. Euler calls y = X + f(Q) the 'most general solution'.\n\n§7 (Problem 2) takes arcs a, b, c, … on the unit circle with p = sin a, q = sin b, …. Oddness of sine fits the ansatz. The interpolant sin x ≈ Ax + Bx(x²−a²) + … is exact at the nodes.\n- Let x→0 and use sin x/x → 1. This gives 1 = A − Ba² + Ca²b² − Da²b²c² + ….\n- Substituting the Lagrange-type closed forms of A, B, C, D (from §§2–4) and regrouping by p, q, r, … gives a sum of series, each multiplied by p/a, q/b, ….\n- Each series telescopes. For example 1 + a²/(b²−a²) = b²/(b²−a²), and adding the next term gives b²c²/((b²−a²)(c²−a²)), and so on.\n- The result, completed on p.164, is 1 = Σ_k (p_k/a_k)·∏_{j≠k} a_j²/(a_j²−a_k²).\n\nIn modern terms, sin x/x is a function of u = x². The formula is Lagrange interpolation in u through the points (a_k², sin a_k/a_k), evaluated at u = 0 (extrapolation to the origin).\n\nIf the arcs are known fractions of π, say a_k = π/n_k, then p_k/a_k = n_k sin(π/n_k)/π. The identity becomes π ≈ Σ_k n_k sin(π/n_k)·∏_{j≠k} n_k²/(n_k²−n_j²). That is, π is obtained by polynomial extrapolation (in 1/n²) of inscribed-polygon semiperimeters n·sin(π/n) to n = ∞, which is the Richardson/Romberg-type extrapolation of Archimedes' polygons. §8 on the next page states that accuracy improves with more and smaller arcs, i.e. extrapolation toward the limit. Euler does not carry out a numerical example on this page.",
+  "errors": [
+   "§6: the claim that y = X + f(Q), with f arbitrary and f(0)=0, is the 'solutio generalissima' is overstated. The full solution set of the interpolation conditions is y = X + Q·g(x) with g arbitrary. Functions of Q alone are a proper subclass. If oddness is to be kept, f must also be odd (Q is odd).",
+   "§7: convergence of the infinite version, i.e. infinitely many arcs (§8), is asserted without justification. For extrapolation to zero the nodes must accumulate at 0, as Euler's own remark 'quo minores arcus' implicitly requires.",
+   "Minor: the regrouping step on p.163 is correct. On p.164 the transcribed 'rbbcc' and 'sbbccdd' are OCR artifacts for bbcc/… and bbccdd/…."
+  ],
+  "ideas": [
+   {
+    "what": "Non-uniqueness of the interpolant: add any function vanishing at all nodes, such as f(Q) with Q the node polynomial",
+    "modern_name": "general solution of the interpolation problem = particular interpolant + (node polynomial)×arbitrary function",
+    "usually_credited_to": "folklore; implicit in Newton/Lagrange",
+    "in_author_published_texts": "unsure",
+    "where_published": "E555 (Opuscula analytica I, 1783)",
+    "routine": true
+   },
+   {
+    "what": "Interpolation of an odd function in the variable x² with nodes ±a, ±b, …, written in Newton divided-difference form and in Lagrange product form",
+    "modern_name": "even/odd Lagrange–Newton interpolation (interpolation in x²)",
+    "usually_credited_to": "Newton; Waring 1779; Lagrange 1795",
+    "in_author_published_texts": "yes",
+    "where_published": "E555 §§1–4, 10",
+    "routine": false
+   },
+   {
+    "what": "Evaluating the interpolant of sin x/x at x=0 to get 1 = Σ (p_k/a_k) ∏_{j≠k} a_j²/(a_j²−a_k²), hence π from sines of known fractions of π",
+    "modern_name": "polynomial (Richardson/Neville-type) extrapolation to the limit in h², here applied to polygon semiperimeters n·sin(π/n)",
+    "usually_credited_to": "Huygens (1654) in a special case; Richardson (1910, 1927); Romberg (1955)",
+    "in_author_published_texts": "yes",
+    "where_published": "E555 §§7–9",
+    "routine": false
+   },
+   {
+    "what": "Telescoping summation of the regrouped series into finite products",
+    "modern_name": "partial-fraction/telescoping identity for Lagrange basis values",
+    "usually_credited_to": "elementary",
+    "in_author_published_texts": "yes",
+    "where_published": "E555 §7",
+    "routine": true
+   }
+  ],
+  "missed": [
+   {
+    "type": "connection",
+    "claim": "Problem 2 is, in substance, the extrapolation-to-the-limit method (Richardson/Romberg, in the Neville–Aitken Lagrange form at 0, variable h²) applied to Archimedes' inscribed polygons. It yields π ≈ Σ n_k sin(π/n_k) ∏_{j≠k} n_k²/(n_k²−n_j²). Histories of extrapolation (Huygens, Saigey, Richardson, Romberg) usually do not cite Euler's E555 for this. Euler also explicitly states the principle that smaller arcs and more nodes give a better limit.",
+    "quote": "hinc proxime definire rationem inter diametrum et peripheriam … Statuamus nunc arcum x infinite paruum, et quia tum eius sinus, sin. x ipsi arcui x aequatur",
+    "why_it_might_matter_today": "It may place Euler (1783) in the prehistory of Richardson extrapolation, with the general Lagrange-weight formula for extrapolation in h². This sits between Huygens' special case and 20th-century Richardson/Romberg work. I am unsure whether historians of extrapolation already note E555."
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The interpolation content is known; Euler's Lagrange-form interpolation in E555 is recognized. The π computation is however a clear instance of polynomial extrapolation to zero in h². That attribution seems rarely made, but it is a reinterpretation rather than a hidden new theorem.",
+  "transcription_corrections": [
+   "Page heading is 162 (and facing page 163); the transcription is consistent with the image.",
+   "End of §7 statement: the '[?]' after 'peripheriam' is unnecessary; the image reads 'hinc proxime definire rationem inter diametrum et peripheriam.'",
+   "In §6 the definition reads Q = x·(xx−aa)/aa·(xx−bb)/bb·(xx−cc)/cc·(xx−dd)/dd etc., as transcribed.",
+   "Next page: 'prodit rbbcc/…' should read 'bbcc/((bb−aa)(cc−aa))', and 'sbbccdd' should read 'bbccdd/…' (OCR intrusion of letters)."
+  ]
+ }
+}

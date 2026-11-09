@@ -1,0 +1,57 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c252",
+ "label": "125r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000253/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (my reading, consistent with Riemann's 'Theorie der Abel'schen Functionen', 1857, §§ 6-7). The algebraic function s of z is defined by F(s,z)=0, of degree n in s, and is represented by the n-sheeted surface T over the z-plane. The symbols the transcriber read as 'ε' and 'F(ε)' are almost certainly s and F'(s) = dF/ds. The page is a pencil draft that counts branch points through the zeros of dF/ds.\n\n(1) Local structure at a branch point. Let xi be the number of times T winds around the point (s,z)=(s0,a), i.e. xi sheets hang together there. The local parameter is t=(z-a)^(1/xi), so z-a=t^xi and dz = xi t^(xi-1) dt.\n- Measured in t, dz (more precisely (z-a)^(1-1/xi) = t^(xi-1)) is infinitely small of order xi-1.\n- Equivalently, dz^(1/xi - 1) (i.e. dt/dz) is infinite of order xi-1.\n- Riemann's wording: 'dz^(1-1/xi) becomes infinitely small of the first order as often as simple branch points coincide at the point (s)'. So a xi-fold winding point counts as xi-1 coalesced simple branch points.\n- Hence the total number of actual branch points, counted with multiplicity, is w = Sum(xi-1). This is the w of the 1857 paper.\n\n(2) Behaviour of dF/ds. Differentiating F(s,z)=0 gives F_s ds + F_z dz = 0. At a branch point s stays finite while ds/dz becomes infinite, so F_s = 0 there. Riemann's claim: at the point, F'(s) becomes infinitely small of the first order exactly as often as simple branch points coalesce there, i.e. of order xi-1. This is the same order as dz^(1-1/xi). Therefore the product F'(s)·dz^(1/xi - 1) (≈ F_s·dt/dz) stays finite and nonzero at a genuine branch point.\n\n(3) The headline lines, read with this correction:\n- 'F'(s) dz^(1/xi-1) = the number of self-cancelling branch points' means: the order of vanishing of F_s·dt/dz at a point counts the 'sich aufhebende' (apparent) branch points. These sit at singular points of the curve (e.g. double points), where F_s vanishes although no sheets are joined.\n- 'Sum(xi-1) = the actually occurring branch points = w.'\n- Implicit goal (my completion, not written on the page): the zeros of F_s on T, or of the discriminant in z, number w + 2r (r = number of double points). Combined with the degree count of the discriminant, this yields Riemann's w = 2(n+p-1), i.e. p = w/2 - n + 1.\n\nThe page shows several crossed-out attempts to phrase the statement in (2). The final line ('F'(s) dz^(1/xi-1) ... endlich ...') appears to assert the finiteness of that product.",
+  "errors": [
+   "No mathematical error, but the wording is loose. Statements like 'dz^(1-1/xi) is infinitely small of first order as often as...' are only meaningful relative to the local uniformizer t=(z-a)^(1/xi) (or relative to dz^(1/xi)). This is implicit in Riemann's usage.",
+   "The exponent in the opening line is written as if it were dz^(xi-1). Consistency with the later lines requires dz^(1/xi-1) (or dz^(1-1/xi)). Either the transcription is wrong or this is a slip in the draft.",
+   "The claim that F_s vanishes to order exactly xi-1 at a branch point holds only when the point is a non-singular point of the plane curve F=0. At singular points F_s vanishes to higher order, and the excess is exactly the 'sich aufhebende Verzweigungspunkte' the page names. The draft does not make this distinction fully explicit in the surviving text."
+  ],
+  "results": [
+   {
+    "what": "A xi-fold winding point of T counts as xi-1 coalesced simple branch points; total branch number w = Sum(xi-1).",
+    "modern_name": "ramification index e_P; ramification divisor of degree Sum(e_P - 1)",
+    "usually_credited_to": "Riemann 1851/1857 (Puiseux 1850 for local cycles)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "dF/ds vanishes at a branch point to the same order as dz/dt (namely xi-1), so F_s * dt/dz is finite and nonzero there. Extra zeros of F_s come from 'self-cancelling' branch points at singularities.",
+    "modern_name": "different/ramification divisor via F_s; relation disc = ramification + 2*(double points), i.e. deg(disc) = w + 2r; dz/F_s regular",
+    "usually_credited_to": "Riemann, Theorie der Abel'schen Functionen (1857), §§ 6-9",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of the branch-point counting that appears in Riemann's published 1857 Abelian functions paper (w = Sum(xi-1), F_s vanishing at branch and double points, leading to w = 2(n+p-1)). It is well known as his; only the drafting details are new.",
+  "checkable": [
+   {
+    "sympy": "t,xi=symbols('t xi',positive=True); s=t; z=t**3; simplify(diff(s**3 - z, s).subs(s,t) / diff(z,t))",
+    "asserts": "For F = s^3 - z at the triple winding point (xi=3), F_s / (dz/dt) = 1, which is finite and nonzero. So F_s and dz vanish to the same order xi-1 = 2 in t."
+   },
+   {
+    "sympy": "s,z=symbols('s z'); expand(discriminant(s**3-3*s-z, s))",
+    "asserts": "Equals 108 - 27*z**2 (degree 2): two simple finite branch points; with the point at infinity (xi=3, contributing 2), w = 4 = 2(n+p-1) with n=3, p=0."
+   },
+   {
+    "sympy": "s,z=symbols('s z'); factor(discriminant(s**2 - z**2*(z+1), s))",
+    "asserts": "Gives 4*z**2*(z+1): the double zero at z=0 is a node (two 'self-cancelling' branch points, no actual branching), while z=-1 is a genuine branch point."
+   },
+   {
+    "sympy": "t=symbols('t'); z=t**2-1; s=t*(t**2-1); series(diff(s**2-z**2*(z+1), symbols('s')).subs({}) if False else 2*s, t, 0, 3)",
+    "asserts": "Near the node z=0 the branch through t=1 has F_s = 2s of order 1 in the local parameter on that branch, though no sheets join. These are the 'aufhebende' zeros of F_s."
+   }
+  ],
+  "transcription_corrections": [
+   "'(ε, z)' and 'F(ε)' are very likely '(s, z)' and 'F'(s)' (dF/ds), Riemann's standard notation for the algebraic curve F(s,z)=0.",
+   "'F(ε) dz^{ξ-1}' in the first and last lines should probably read F'(s) dz^{1/ξ - 1}, matching the explicit dz^{1/ξ-1} in lines 3-4.",
+   "The final line likely reads '... F'(s) dz^{1/ξ-1} ... endlich ...' (stays finite) rather than 'unendlich klein'.",
+   "'Bezeichnet ξ die Zahl, wie oft sich die Fläche T um den Punkt (s, z) windet' is the intended sentence; 'die Zahl' is the superscript insertion."
+  ]
+ }
+}

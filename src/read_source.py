@@ -37,6 +37,7 @@ HUNT = pathlib.Path(__file__).resolve().parent.parent
 BASE = pathlib.Path(__file__).resolve().parent.parent / "data" / "grothendieck-montpellier"
 DL = pathlib.Path("/tmp/hunt_dl/groth")
 UA = "hunt-research-bot (academic research; polite, cached)"
+MIN_WIDTH = 500  # smallest page-scan width accepted (older library scans are ~600 px wide)
 SITE = "https://grothendieck.umontpellier.fr"
 
 T_PROMPT = """This is page {page} of {n} of item {cote} of {context}, titled "{title}" (date: {date}).
@@ -135,7 +136,7 @@ def fetch(cote, pdf):
                     break
                 w.write(chunk)
         time.sleep(1.5)
-    subprocess.run([sys.executable, "-E", "-P", str(HUNT / "src/pdf_images.py"), str(f), str(img)], check=True)
+    subprocess.run([sys.executable, "-E", "-P", str(HUNT / "src/pdf_images.py"), str(f), str(img), "--min-width", str(MIN_WIDTH)], check=True)
     return img
 
 
@@ -241,6 +242,9 @@ def main():
         img = fetch(cote, meta["pdf"])
         n = len((img / "index.tsv").read_text().splitlines()) - 1
         print(f"== cote {cote} ({n} pages) {meta['title'][:70]}", flush=True)
+        if n <= 0:
+            print(f"== SKIP cote {cote}: no page images extracted (unsupported encoding or too small); see {img}", flush=True)
+            continue
         with ThreadPoolExecutor(max_workers=a.workers) as ex:
             if a.stage in ("both", "transcribe"):
                 for fu in as_completed([ex.submit(do_transcribe, client, meta, img, k, n, a.budget) for k in range(1, n + 1)]):

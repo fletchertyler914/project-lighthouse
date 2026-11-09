@@ -1,0 +1,53 @@
+{
+ "cote": "E557",
+ "title": "De quibusdam eximiis proprietatibus circa divisores potestatum occurrentibus",
+ "page": 5,
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: E557 gives a hand algorithm for the least x with a^x ≡ ±1 (mod N). Here a = 2, so x is the multiplicative order of 2 mod N, or the half-order when 2^x ≡ −1.\n\nThe algorithm. Start from an odd residue r_0 (here 1). At each step form r_k ± N, choosing the sign so that the sum is divisible by at least 4. Write r_k ± N = ±2^{e_k}·r_{k+1} with r_{k+1} odd and |r_{k+1}| < N. Then 2^{e_k}·r_{k+1} ≡ r_k (mod N), so r_{k+1} is the residue of 2^{−(e_0+…+e_k)}. Stop when r = ±1. The running sum of the exponents e_k is then the required x. This amounts to repeated division by 2 mod N (multiplying by the inverse of 2) after adding ±N to make the number even. It runs backwards through the powers of 2^{−1} and skips the even residues.\n\nOn this page:\n(i) N = 77. Ten steps give exponents 2,5,4,3,2,2,2,2,2,6, which sum to 30. So 2^30 − 1 is the simplest form divisible by 77. Euler then warns that 2^15 + 1 need not be divisible by 77, because 77 is composite. The factors of 2^30 − 1 = (2^15 − 1)(2^15 + 1) can share the prime factors: 11 | 2^5 + 1, which divides 2^15 + 1, while 7 = 2^3 − 1 divides 2^15 − 1.\n(ii) N = 89. Exponents 3,2,6 give x = 11. Since 11 is odd, no 2^x + 1 is divisible by 89.\n(iii) N = 105. Exponents 3,2,7 give x = 12. Yet 2^6 + 1 = 65 shares only the factor 5 with 105, while 2^6 − 1 = 63 is divisible by 3·7.\n(iv) N = 223. Ten steps give cumulative sums 5,8,10,14,18,22,24,26,29,37, so x = 37. The conclusion (next page) is that no 2^x + 1 is divisible by 223, since 37 is odd.\n\nPurpose: to tabulate, by hand, the exponent to which 2 belongs modulo N. This identifies which Mersenne-type numbers 2^x − 1 and which 2^x + 1 numbers (Fermat numbers among them, cf. 641 on the next page) are divisible by a given N.",
+  "errors": [
+   "No arithmetic errors on this page. Every step was recomputed: 77 → 30 (ord_77(2) = lcm(3,10) = 30); 89 → 11 (2^11 − 1 = 23·89); 105 → 12 = lcm(2,4,3); 223 → 37 (2^37 − 1 = 223·616318177).",
+   "Minor gap: Euler does not prove that the first appearance of ±1 gives the minimal exponent. He also does not show that the skipped intermediate (even) powers cannot be ≡ ±1. Both hold in the cases treated."
+  ],
+  "ideas": [
+   {
+    "what": "Computing the order of 2 mod N by repeatedly adding ±N to make the number divisible by a power of 2 and dividing out, while accumulating the exponents (iterating multiplication by 2^{-1} mod N)",
+    "modern_name": "Multiplicative order / haupt-exponent computation; related to right-shift (Hensel/Montgomery-type) modular reduction by powers of 2",
+    "usually_credited_to": "Order tables are associated with Jacobi (Canon arithmeticus, 1839), Reuschle, and Cunningham's haupt-exponent tables; the reduction technique with Montgomery (1985) and Hensel (2-adic division)",
+    "in_author_published_texts": "yes",
+    "where_published": "E557 itself (Opuscula analytica I, 1783); I am unsure whether it appears elsewhere in Euler",
+    "routine": false
+   },
+   {
+    "what": "For composite N, the divisibility of 2^{2m} − 1 does not imply that of 2^m ± 1, since different prime factors can divide different factors (7 | 2^15 − 1, 11 | 2^15 + 1)",
+    "modern_name": "Order mod a composite as the lcm of the orders mod its prime factors (CRT)",
+    "usually_credited_to": "Euler / Gauss (Disquisitiones, 1801)",
+    "in_author_published_texts": "yes",
+    "where_published": "Euler's papers on residues of powers, e.g. E262 and E449 (unsure of exact location)",
+    "routine": true
+   },
+   {
+    "what": "For prime N, an odd order of 2 implies that no 2^x + 1 is divisible by N",
+    "modern_name": "−1 ∈ ⟨2⟩ iff the order of 2 is even (for prime modulus)",
+    "usually_credited_to": "Euler",
+    "in_author_published_texts": "yes",
+    "where_published": "E134, E262 and related papers",
+    "routine": true
+   }
+  ],
+  "missed": [
+   {
+    "type": "connection",
+    "claim": "Euler's step 'r → (r ± N)/2^e, choosing the sign of N to maximise the power of 2' is exactly the core of right-to-left modular reduction by 2^{-1}. This is the operation behind Montgomery multiplication (and the binary/right-shift gcd ideas), including a signed choice of the multiple of N. Here it is used, by hand, to compute multiplicative orders. Histories of Montgomery reduction do not seem to cite this Euler precedent.",
+    "quote": "+1−77=−76=−2^2·19, −19−77=−96=−2^5·3 ... −13+77=+64=2^6·1. Vnde x=30",
+    "why_it_might_matter_today": "This is a historical precedent for a now-standard algorithmic primitive of computational number theory and cryptography. It is of interest to history of algorithms, though not mathematically new."
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The page consists of correct worked examples of an algorithm that is already published in E557 (and probably noted by Dickson). The only mildly notable point is its resemblance to modern 2-adic/Montgomery-style reduction, a connection apparently not made explicitly in the literature.",
+  "transcription_corrections": [
+   "Page 251: 'alterius speciei 2^n+1' should read '2^x+1' (the image shows 2^x + 1).",
+   "Page 250 header: the page number reads '250'; the Exemplum 5 section label is §. 14, matching the transcription."
+  ]
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c068",
+ "label": "34r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000069/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PROBLEM (inferred from this page and the next). There is a circular plate (disk) of radius a, centred at the origin, with its axis on the x-axis. From a viewpoint P the plate is projected centrally onto a sphere about P. This 'Bild' is the visual cone, and its size is presumably the solid angle Ω(P). The sought surface is the locus of points from which the image has a fixed size, namely the level surface through a chosen axial point p. In modern terms this is an equipotential of a uniform double layer on the disk, i.e. of the magnetic scalar potential of a circular current. That identification is my interpretation; the page never says 'solid angle'.\n\nThe page's aim is to give two comparison surfaces between which the sought surface must lie. The next page shows these are a circle and an ellipse.\n\nStep 1, symmetry. The configuration is invariant under rotation about the x-axis, so the level surface is a surface of revolution about the x-axis. It therefore suffices to study its meridian curve in any plane through the axis. Use coordinates (x, ρ) in that plane. The plate meets the plane in the diameter AB, with A = (0, a) and B = (0, −a).\n\nStep 2, the circle. Fix p = (d, 0) on the axis. Draw the circle through p, A and B. (My computation:) its centre is (c, 0) with c = (d² − a²)/(2d), and its radius is R = (d² + a²)/(2d).\n\nBy the inscribed-angle theorem (implicit), every point Q on the arc through p sees the diameter AB under the same angle γ. Here γ = ∠ApB = 2·arctan(a/d). So the in-plane opening of the visual cone is constant along the arc.\n\nRiemann claims the opening of the cone in the direction perpendicular to the meridian plane increases as Q moves away from p. Hence the image grows along the circle.\n\nConclusion, stated at the top of the next page: no point of the sought curve lies on the circle except p. The curve lies between this circle and the plate.\n\nStep 3 (next page, for context). Take the ellipse through p with foci A and B. Its semi-major axis is √(d² + a²) and its semi-minor axis is d. Riemann argues the following:\n- The largest extent of the image seen from a point p′ of the ellipse lies in the line perpendicular to the ellipse's plane, with foot a on the bisector of the angle between the focal radii.\n- This extent is measured by the ratio of the disk's ordinate at a to the length p′a.\n- That extent decreases away from p, so the image shrinks along the ellipse.\n\nTherefore the meridian curve is bracketed between the ellipse (outside) and the circle (inside).",
+  "errors": [
+   "The method is heuristic rather than a proof. 'Size of the image' is never defined, though solid angle is the natural reading. If the in-plane opening stays fixed and the perpendicular opening grows, a monotone size such as solid angle does increase, but the perpendicular growth is asserted, not proved. A limiting check (mine) supports the claim at the endpoints. At p the solid angle is 2π(1 − cos(γ/2)). Approaching the rim A along the circle, the disk looks locally like a half-plane. By the tangent-chord angle it subtends a dihedral angle γ, so Ω → 2γ, and 2γ ≥ 2π(1 − cos(γ/2)) for 0 < γ ≤ π.",
+   "The next page's ellipse argument ('the latter decreases far more slowly than the ordinate') is likewise only asserted. No slip in the geometry itself is detectable on this page."
+  ],
+  "results": [
+   {
+    "what": "Reduction of the constant-apparent-size surface of a disk to a meridian curve by rotational symmetry.",
+    "modern_name": "Axisymmetric reduction",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Bracketing the level curve of apparent size between a circle through the rim points (constant inscribed angle) and, on the next page, a confocal ellipse with foci at the rim points.",
+    "modern_name": "Comparison/barrier curves for level sets of the solid angle (double-layer or circular-current potential)",
+    "usually_credited_to": "The solid-angle potential of a current loop goes back to Ampère, Gauss and Weber; this specific bracketing is not known to be credited to anyone",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is elementary synthetic geometry, the inscribed-angle theorem used to bracket a level surface of the solid angle subtended by a disk. It is a natural exercise in the Göttingen milieu of Weber and Gauss on magnetism (1853). It contains nothing beyond routine qualitative reasoning.",
+  "checkable": [
+   {
+    "sympy": "a,d,c=symbols('a d c',positive=True); solve(Eq((d-c)**2, c**2+a**2), c)  # -> (d**2-a**2)/(2*d)",
+    "asserts": "Centre of the circle through p=(d,0), A=(0,a), B=(0,-a)."
+   },
+   {
+    "sympy": "simplify(sqrt(((d**2-a**2)/(2*d))**2+a**2) - (d**2+a**2)/(2*d))  # == 0",
+    "asserts": "Radius of that circle is (d^2+a^2)/(2d)."
+   },
+   {
+    "sympy": "t=symbols('t'); c=(d**2-a**2)/(2*d); R=(d**2+a**2)/(2*d); Q=Matrix([c+R*cos(t),R*sin(t)]); u=Matrix([0,a])-Q; v=Matrix([0,-a])-Q; simplify(diff(u.dot(v)/(u.norm()*v.norm()),t))  # == 0 on the arc",
+    "asserts": "Inscribed angle AQB is constant along the circle."
+   },
+   {
+    "sympy": "2*pi*(1-d/sqrt(d**2+a**2))",
+    "asserts": "Solid angle of the disk seen from axial point p; it is the reference level of the sought surface."
+   },
+   {
+    "sympy": "g=symbols('g',positive=True); simplify(2*pi*(1-cos(g/2)) - 2*pi*(1 - d/sqrt(d**2+a**2))).subs(g, 2*atan(a/d))  # == 0",
+    "asserts": "Axial solid angle expressed through the inscribed angle γ = 2·atan(a/d)."
+   },
+   {
+    "sympy": "simplify(sqrt(d**2+a**2)**2 - a**2 - d**2)  # semi-minor of ellipse with foci (0,±a) through (d,0) is d",
+    "asserts": "Ellipse through p with foci at the rim points has semi-major sqrt(d^2+a^2) and semi-minor d."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the image is not clearly 'anders'. The sense requires something like 'Es ist nicht schwer zwei Flächen anzugeben' ('it is not hard to specify two surfaces'); the reading should be checked.",
+   "The marginal 'durch diesen' replaces the struck 'nun', so the reading is: 'und denken uns durch diesen [Punkt und] durch die beiden Endpunkte ...'.",
+   "The struck word before 'Platte' ('Krone[?]') may be 'Kreis'; it is illegible either way.",
+   "In 'Denn ... der Durchmesser der Platte', the word 'Durchmesser' appears overwritten or corrected rather than simply struck. The intended reading is 'der Durchmesser der Platte welcher in die Ebene fällt'.",
+   "'Rotationsfläche' is written compressed at the line end ('Rotationsfl.')."
+  ]
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "cote": "E555",
+ "title": "De eximio usu methodi interpolationum in serierum doctrina",
+ "page": 12,
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: E555 uses infinite Lagrange interpolation. The function f(z) = sin(zΦ)/z is known at the nodes z = a, b, c, ... (the 'sines of the arcs'). Interpolating it at z = 0 gives f(0) = Φ, so the arc Φ is recovered from the values sin(aΦ), sin(bΦ), .... Formula (7) of the paper is this Lagrange formula, Φ = Σ_k [sin(z_kΦ)/z_k]·Π_{j≠k} z_j/(z_j − z_k).\n\nExample 3 (§25) takes an interleaved arithmetic progression of nodes: m, n, 1+m, 1+n, 2+m, 2+n, .... Euler says the general case gives nothing notable, then specialises to n = 1 − m. The nodes are then m, 1−m, 1+m, 2−m, 2+m, .... He writes\nΦ = 𝔄 sin mΦ/m − 𝔅 sin(1−m)Φ/(1−m) + ℭ sin(1+m)Φ/(1+m) − ...\nwith the coefficients given as infinite products. From the shape of these products he reads off the ratios 𝔅/𝔄 = m/(1−m), ℭ/𝔅 = (1−m)/(1+m), and so on. Hence every coefficient equals m𝔄 divided by its own node, and he obtains\nMΦ = Σ_{k∈Z} sin((k+m)Φ)/(k+m)², where M = 1/(m𝔄).\nHe identifies 𝔄 with a quotient of Beta integrals via an earlier 'reduction'. Differentiating in Φ gives\nM = Σ_{k∈Z} cos((k+m)Φ)/(k+m).\nSetting Φ = 0 gives M = 1/m − 1/(1−m) + 1/(1+m) − ... = π cot mπ, his old partial-fraction result. Equating this with the integral expression for M yields a Beta-integral identity. It is equivalent to\nB(m+1,m)·B(m,1−m) = π cot(mπ)·B(m,1−2m),\nwhich is true: it follows from Γ-reflection plus duplication. The next page reshapes it into B(m,m)·B(m,1−m) = 2π cot(mπ)·B(m,1−2m), which is Corollary 3.\n\nModern reading:\n- Σ_k e^{ikφ}/(k+m) = π e^{im(π−φ)}/sin(mπ) for 0<φ<2π. So Σ_k cos((k+m)φ)/(k+m) = π cot mπ for |φ|<2π, and Σ sin((k+m)φ)/(k+m)² = π cot(mπ)·φ for |φ| ≤ 2π.\n- For the even function sin(zΦ)/z, sampling at {k ± m} is a union of two shifted integer lattices (density 2). That is why the reconstruction works up to bandwidth 2π.\n- Compare the uniform-lattice cardinal (Whittaker–Shannon) series Φ = (sin πm/π)·Σ(−1)^k sin((k+m)Φ)/(k+m)². It is valid only for |Φ| ≤ π.",
+  "errors": [
+   "The cosine series is stated (here implicitly, and explicitly on p.180, 'angulum quemcunque') for arbitrary Φ. Σ cos((k+m)φ)/(k+m) = π cot mπ holds only for |φ| < 2π. For 2π < φ < 4π it equals π cos(3mπ)/sin(mπ), since the series is e^{imφ} times a 2π-periodic function. The same restriction (|φ| ≤ 2π) applies to the sine series MΦ = Σ sin((k+m)Φ)/(k+m)². Consequently the next page's specialisations φ = π/(2m) and φ = π/m are valid only for m > 1/4, respectively m ≥ 1/2.",
+   "As machine-transcribed, M = ∫x^m(1−x)^{m−1}·∫x^{m−1}(1−x)^{1−m}/∫x^{m−1}(1−x)^{−m} equals (1−m)B(m+1,m) = (1−m)Γ(m)²/(2Γ(2m)). This is not π cot mπ: at m = 1/2 it gives π/4, not 0. The version consistent with p.180 and Corollary 3 is M = ∫x^m(1−x)^{m−1}·∫x^{m−1}(1−x)^{−m}/∫x^{m−1}(1−x)^{−2m}, and this is correct. The discrepancy is most likely an OCR error, but it should be checked against the image.",
+   "Convergence of the infinite Lagrange products is not addressed. Taken in the natural order, Π_{j≠m} z_j/(z_j − m) = Π_k (k²−m²)/(k(k−2m)) diverges (factors ~ 1+2m/k). The value of 𝔄 therefore depends on how the factors are grouped. The final identity is nevertheless correct with M = π cot mπ.",
+   "The integral identity needs 0 < m < 1/2 for ∫x^{m−1}(1−x)^{−2m} to converge. This is not stated."
+  ],
+  "ideas": [
+   {
+    "what": "Recovering Φ from sin(zΦ) at infinitely many nodes by infinite Lagrange interpolation of sin(zΦ)/z at z = 0",
+    "modern_name": "infinite Lagrange interpolation / sampling series for a band-limited (entire, exponential type) function",
+    "usually_credited_to": "Cardinal series: E.T. Whittaker 1915, Kotelnikov 1933, Shannon 1949. Precursors: Cauchy, Borel",
+    "in_author_published_texts": "yes",
+    "where_published": "E555 itself (Opuscula Analytica I, 1783). Euler's interpolation theme also appears in E555's neighbours; no further specific reference known",
+    "routine": false
+   },
+   {
+    "what": "Interpolation at the two-lattice node set {k+m}∪{k−m}, giving a weight-1/z_k sampling formula valid for bandwidth up to 2π for even functions",
+    "modern_name": "periodic nonuniform (two-channel / recurrent) sampling",
+    "usually_credited_to": "J.L. Yen 1956; Papoulis 1977 (generalized sampling)",
+    "in_author_published_texts": "yes",
+    "where_published": "E555 §25 (this page)",
+    "routine": false
+   },
+   {
+    "what": "Σ_{k∈Z} cos((k+m)φ)/(k+m) = π cot mπ and Σ sin((k+m)φ)/(k+m)² = π φ cot mπ",
+    "modern_name": "Fourier series of e^{imφ} on an interval; Lerch/Hurwitz-type periodic zeta at s=1,2",
+    "usually_credited_to": "Euler (Fourier series of cos mx); later Lerch",
+    "in_author_published_texts": "unsure",
+    "where_published": "Closely related cos(mx) expansions occur in other Euler papers; exact reference unsure",
+    "routine": false
+   },
+   {
+    "what": "1/m − 1/(1−m) + 1/(1+m) − ... = π cot mπ",
+    "modern_name": "partial-fraction expansion of cotangent",
+    "usually_credited_to": "Euler",
+    "in_author_published_texts": "yes",
+    "where_published": "Introductio in analysin infinitorum (E101), Ch. X",
+    "routine": true
+   },
+   {
+    "what": "B(m+1,m)B(m,1−m) = π cot(mπ) B(m,1−2m), equivalently B(m,m)B(m,1−m) = 2π cot(mπ) B(m,1−2m)",
+    "modern_name": "consequence of Γ reflection and duplication (Legendre) formulas",
+    "usually_credited_to": "Euler (Beta-integral comparison theorems); Legendre (duplication)",
+    "in_author_published_texts": "yes",
+    "where_published": "E555 §25–29; Euler's 'Observationes circa integralia formularum ∫x^{p−1}dx(1−x^n)^{q/n−1}' series of papers (E321 etc.) give similar relations",
+    "routine": false
+   }
+  ],
+  "missed": [
+   {
+    "type": "connection",
+    "claim": "Euler's specialisation n = 1−m is effectively a periodic nonuniform sampling theorem. The even entire function sin(zΦ)/z is reconstructed from samples on the union of lattices {k+m} and {k−m}, with all weights proportional to 1/z_k. Applying the even-function symmetry, the reconstruction is valid on a band (|Φ|<2π) twice that of the single-lattice cardinal series. Histories of the sampling theorem do not, to my knowledge, cite E555's interleaved-node example as a precursor of recurrent/two-channel sampling.",
+    "quote": "Si arcus a, b, c, d, etc. constituant progressionem arithmeticam interruptam ... ex eorum finibus longitudinem arcus Φ definire",
+    "why_it_might_matter_today": "This is a historical precursor for nonuniform sampling theory. It also shows Euler noticing the identity's validity is independent of Φ, though without seeing the 2π band limit."
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The results themselves (π cot mπ partial fractions, Fourier-type series, the Beta identity) are Euler-known or routine consequences of Γ identities. The mildly notable aspect is the sampling-theoretic content of the interleaved-node interpolation, which is plausibly overlooked in sampling-theory histories.",
+  "transcription_corrections": [
+   "The M definition and final comparison as transcribed give a false identity. Read consistently with p.180/Cor. 3: M = ∫x^m dx(1−x)^{m−1}·∫x^{m−1}dx(1−x)^{−m} / ∫x^{m−1}dx(1−x)^{−2m}, and ∫x^m dx(1−x)^{m−1} = (π cos mπ/sin mπ)·∫x^{m−1}dx(1−x)^{−2m} / ∫x^{m−1}dx(1−x)^{−m}. Correspondingly 𝔄 = ∫x^{m−1}dx(1−x)^{−2m} / (m∫x^m dx(1−x)^{m−1}·∫x^{m−1}dx(1−x)^{−m}). Verify against the image.",
+   "On the next page (p.180–181) the exponent 'n' in x^n, x^{n−1} should be m (x^m, x^{m−1}). The substitution m = λ/n, x = y^n in Corollary 3 confirms the first factor is x^{m−1}dx. With free n the stated identity is false (n = 1 is a counterexample).",
+   "The coefficient formulas from solution (7) are illegible in the transcription. They are Lagrange-type products Π z_j/(z_j − z_k) over the remaining nodes."
+  ]
+ }
+}

@@ -1,0 +1,64 @@
+{
+ "cote": "E555",
+ "title": "De eximio usu methodi interpolationum in serierum doctrina",
+ "page": 15,
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem 3 (§30) asks for a curve y(x) that takes prescribed values p, q, r, s, … at the equally spaced abscissas x = nθ, (n+1)θ, (n+2)θ, …. This is interpolation on a one-sided infinite lattice.\n\nEuler sets x = θω. He applies his general infinite-product Lagrange formula of §10 with the nodes ±(n+k). The interpolant is therefore odd in ω: y/ω is a sum of terms even in ω, with value y_k at ω = n+k.\n\nIn modern form the cardinal function for node n+k is\nL_k(ω) = (ω/(n+k)) ∏_{j≠k} ((n+j)^2 − ω^2)/((n+j)^2 − (n+k)^2).\n\nThe coefficient 𝔄 of p is the infinite product\n∏_{k≥1} (n+k−ω)(n+k+ω)/(k(2n+k)).\nThis is of the type ∏ (a+k−1)(c+k−1)/((b+k−1)(d+k−1)) with a = n+1−ω, b = 1, c = n+1+ω, d = 2n+1 and a+c = b+d. Euler evaluates it via his product-to-integral formula of §17. In modern terms\n𝔄 = Γ(2n+1)/(Γ(n+1−ω)Γ(n+1+ω)).\n\nThe ratios 𝔅/𝔄 = 2(n+1)(n²−ω²)/((n+1)²−ω²), etc., follow by telescoping. They give 𝔅, ℭ, 𝔇, … as rational multiples of 𝔄. These are correct, e.g. ℭ = (n+2)(2n+1)(n²−ω²)/((n+2)²−ω²)·𝔄.\n\nThe final interpolation formula has the shape\nN(ω)·y = Σ_k (−1)^k [(2n)_k/k!] y_k/((n+k)²−ω²),\nwith (2n)_k = 2n(2n+1)…(2n+k−1). Here N(ω) is a Gamma-type normaliser that Euler writes as nΔ/(2(n+ω)ω). This is a Gamma-weighted cardinal (Whittaker-type) series, equivalently a Mittag-Leffler partial-fraction expansion of y/G, where G = 1/(Γ(n−ω)Γ(n+ω)).\n\nModern check of the normaliser. Correctly,\ny = [ω(n+ω)/(n·B(n−ω, n+ω+1))]·Σ_k (−1)^k [(2n)_k/k!] y_k/((n+k)²−ω²).\nSo the correct statement is 𝔄 = 1/((n−ω)B(n−ω, n+ω+1)), and Euler's Δ ought to be 2∫₀¹ z^{n−ω−1}(1−z)^{n+ω} dz.\n\nEuler instead obtains 𝔄 = 1/((n−ω)∫ z^{n−ω}(1−z)^{n−ω−1} dz) = 2/((n−ω)B(n−ω, n−ω)). The step from one-half to the symmetric Beta integral is itself correct, since B(a+1, a) = B(a, a)/2. However, the resulting expression depends only on n−ω. It agrees with the true value only at ω = 0.\n\nOn the next page he uses n = 1/2, θ = π, where the series becomes Σ 4/((2k+1)² − 4ω²) = (π/2ω) tan πω. From this he concludes Δ = (1+2ω)π/cos ωπ. That value is exactly 2B(1/2−ω, 3/2+ω), i.e. the correct normaliser. It is NOT B(1/2−ω, 1/2−ω): at ω = 1/4 the latter is Γ(1/4)²/√π ≈ 7.42, whereas 1.5π/cos(π/4) ≈ 6.66.\n\nThus the page's Δ-integral is wrong, and the following page's 'evaluation' of Δ is a false identity.",
+  "errors": [
+   "The integral representation of 𝔄 (hence of Δ) is wrong.\n- Printed: 𝔄 = 1/((n−ω)∫z^{n−ω}(1−z)^{n−ω−1}dz), i.e. Δ = B(n−ω, n−ω).\n- Correct: 𝔄 = Γ(2n+1)/(Γ(n+1−ω)Γ(n+1+ω)) = 1/((n−ω)B(n−ω, n+1+ω)), so Euler's Δ should be 2B(n−ω, n+ω+1) = 2∫z^{n−ω−1}(1−z)^{n+ω}dz.\n- The two agree only at ω = 0. Likely cause: a misapplication of the §17 product–integral formula, with the c = n+1+ω factor effectively replaced by one depending on n−ω.",
+   "Consequence on the next page: the claimed identity ∫z^{−ω−1/2}(1−z)^{−ω−1/2}dz = (1+2ω)π/cos ωπ is false (ω = 1/4: 7.42 vs 6.66). The right-hand side is the correct value of the corrected Δ, 2B(1/2−ω, 3/2+ω).",
+   "Euler's subsequent Scholion attributes possible failure to the non-uniqueness of the interpolating curve. For n = 1/2, θ = π, however, the cardinal series reproduces sin exactly. The real defect is the normalising integral."
+  ],
+  "ideas": [
+   {
+    "what": "Lagrange interpolation through infinitely many equally spaced nodes ±(n+k), with an infinite-product cardinal function and Gamma-normalised partial-fraction series y ∝ Σ(−1)^k binom(2n+k−1,k) y_k/((n+k)²−ω²)",
+    "modern_name": "Cardinal/Lagrange interpolation series on a lattice (Gamma-weighted Whittaker cardinal series; Mittag-Leffler expansion)",
+    "usually_credited_to": "Lagrange/Euler for finite cases; infinite cardinal series to E. T. Whittaker (1915), Nörlund for Gamma-weighted forms",
+    "in_author_published_texts": "yes",
+    "where_published": "E555 itself (Opuscula Analytica I, 1783), building on §10 of the same paper",
+    "routine": false
+   },
+   {
+    "what": "Evaluating infinite products ∏(a+k)(c+k)/((b+k)(d+k)) with a+c=b+d via ratios of Beta integrals",
+    "modern_name": "Gauss/Euler product formula for Γ(b)Γ(d)/(Γ(a)Γ(c))",
+    "usually_credited_to": "Euler (Wallis-type products, E122 and others); Gauss 1812 for the Gamma form",
+    "in_author_published_texts": "yes",
+    "where_published": "E555 §17; Euler's papers on Wallis-type products/Beta integrals",
+    "routine": true
+   },
+   {
+    "what": "Telescoping ratios 𝔅/𝔄, ℭ/𝔅, … expressing all cardinal coefficients via binomial coefficients (2n)_k/k!",
+    "modern_name": "Residues of 1/(Γ(n−ω)Γ(n+ω)) at lattice points",
+    "usually_credited_to": "standard",
+    "in_author_published_texts": "yes",
+    "where_published": "this paper",
+    "routine": true
+   }
+  ],
+  "missed": [
+   {
+    "type": "other",
+    "claim": "The normalising Beta integral on this page is wrong: it should be 2B(n−ω, n+ω+1), not B(n−ω, n−ω). The resulting 'theorem' on the next page, ∫z^{−ω−1/2}(1−z)^{−ω−1/2}dz = (1+2ω)π/cos ωπ, is false, though it becomes true with the corrected Δ. I do not know whether the Opera omnia editors flagged this.",
+    "quote": "𝔄 = 2/((n−ω)∫z^{n−ω−1}dz(1−z)^{n−ω−1}) … Δ = (1+2ω)π/cos.ωπ",
+    "why_it_might_matter_today": "This corrects the historical record of Euler's interpolation results. Euler's own diagnosis (non-uniqueness of the interpolating curve) misidentifies the source of the discrepancy."
+   },
+   {
+    "type": "connection",
+    "claim": "The formula is a Gamma-weighted cardinal series for odd functions on a shifted lattice. Euler's worry in the Scholion about whether the interpolant equals sin ωθ for non-lattice ω is precisely the uniqueness question later settled by growth conditions (Carlson's theorem, 1914; sampling theory). Euler's interest in interpolation uniqueness is known historically, so this is a mild connection.",
+    "quote": "Si fit x = nθ, (n+1)θ, … vt fiat y = p, q, r, …",
+    "why_it_might_matter_today": "This is an early explicit instance of a sampling/cardinal series with Beta-function normalisation, of minor historical interest."
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The interpolation construction is a known Euler theme. The genuinely notable item is a concrete computational error in the Beta-integral normaliser, which makes the next page's evaluation false. Whether the editors noted this is unknown to me.",
+  "transcription_corrections": [
+   "Parameters from §17: d should be 2n+1, not 1 (a+c=b+d requires d=2n+1).",
+   "𝔅/𝔄 should read (n−ω)(n+ω)/((n+1−ω)(n+1+ω))·(2+2n) = 2(n+1)(nn−ωω)/((n+1)²−ωω); this is consistent with the transcription.",
+   "ℭ should be 2(n+2)(2n+1)/(1·2)·(nn−ωω)/((n+2)²−ωω)·𝔄, with (n+2) not (n+1).",
+   "𝔇 should be 2(n+3)(2n+1)(2n+2)/(1·2·3)·(nn−ωω)/((n+3)²−ωω)·𝔄, with (n+3) and (2n+2).",
+   "𝔈 = 2(n+4)(2n+1)(2n+2)(2n+3)/(1·2·3·4)·…, consistent.",
+   "The second and third lines of the product expansion have garbled denominators; correct factors are ((n+j)²−ω²)/((j−k)(2n+j+k)) for node n+k."
+  ]
+ }
+}

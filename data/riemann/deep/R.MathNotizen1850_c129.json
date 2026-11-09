@@ -1,0 +1,69 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c129",
+ "label": "73r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000130/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The previous page (72v) derives a closed form for a function Omega given by integrals over r, q, t with the Poisson-type kernel (r^2-1)/(r^2-2cos(theta-psi) r+1). It ends in logarithmic terms. Write c = sqrt(1-x^2), phi = theta-psi, and s_eps = sqrt(1-(x/y) e^{eps*phi*i}) with eps = +-1. The q-integral gives int_1^c dq/(q^2-s^2) = (1/(2s)) Sum_{delta=+-1} delta*log((c-delta*s)/(1-delta*s)). So the 'delta' on both pages is a summation sign index, delta = +-1. The closed form also has the term (1/2)(1/sqrt(1-y^2)) log((1+c)/(1-c)). On this page (folio 73) Riemann differentiates these closed-form terms with respect to x and simplifies. This is evidently a check of the closed form, or a step toward a derivative of Omega. The physical setting is a potential or Poisson-integral problem; compare the next page, which treats integrals of the Laplacian against 1/r^2.\n\nLine 1 (algebraic combination, presumably derivative terms of the arctan/algebraic part; p plays the role of g on the previous page). Riemann writes:\n(sqrt(1-y^2)/p) * x/sqrt(1-x^2) + (1/x) * (x^2y^2-1)/(sqrt((1-y^2)(1-x^2)) p) = -sqrt(1-x^2)/(x p sqrt(1-y^2)).\n[My step:] put everything over x p sqrt(1-x^2) sqrt(1-y^2). The numerators are x^2(1-y^2) + (x^2y^2-1) = x^2-1 = -(1-x^2), which gives the right side.\n\nLine 2. d/dx of (1/sqrt(1-y^2)) Sum_eps Sum_delta delta (1/s) (1/2) log(c-delta*s), differentiating only through c (c' = -x/c). This gives\n(1/sqrt(1-y^2)) Sum_eps Sum_delta delta (1/s) (1/2) (-x)/((c-delta*s) c).\nThe 1-delta*s denominator does not involve c. The x-dependence of s itself is not differentiated here. That is legitimate if this is the boundary/upper-limit contribution or a partial derivative at fixed s; the remaining contribution would have to be handled separately.\n\nLine 3. Summing over delta [my step]:\nSum_delta delta/(c-delta*s) = 2s/(c^2-s^2), with c^2-s^2 = -x^2 + (x/y)e^{eps*phi*i}.\nThe 1/s cancels, leaving\n(1/sqrt(1-y^2)) Sum_eps (-x)/(-x^2+(x/y)e^{eps*phi*i}) * 1/sqrt(1-x^2).\nThis is exactly Riemann's line 3, with the stray 'lambda' being a cancelled '1-1'.\n[Not on page:] the eps-sum would give -(2y/c)(cos phi - xy)/(1-2xy cos phi + x^2y^2).\n\nLine 4. d/dx of (1/2)(1/sqrt(1-y^2)) log((1+c)/(1-c)).\n- The log(1+c) part gives -(1/2)(1/sqrt(1-y^2)) x/((1+c)c).\n- Together with the log(1-c) part the total is -(1/sqrt(1-y^2)) 1/(x sqrt(1-x^2)), since 1/(1+c)+1/(1-c) = 2/x^2.\nThe leading '+' signs are overwritten to '-'.\n\nLine 5 (unfinished). Riemann begins collecting terms with the common factor (1/x)(1/sqrt(1-y^2))(1/sqrt(1-y^2)) and the numerator (x^2y^2-1)/p. This is evidently to combine line 1's result -c/(x p sqrt(1-y^2)) with line 4's -1/(x c sqrt(1-y^2)) and the eps-sum. The page breaks off here.",
+  "errors": [
+   "No algebraic errors found in the completed steps; lines 1, 3 (after the delta-sum) and 4 check out.",
+   "Line 2 differentiates only the explicit sqrt(1-x^2) in the logarithm. The x-dependence of s = sqrt(1-(x/y)e^{eps(theta-psi)i}) is not differentiated. Either this is intentional (a boundary term or partial derivative), or that contribution is missing or handled elsewhere. It cannot be decided from this page.",
+   "The final line is incomplete and contains cancellations; no final result is reached on the page.",
+   "The identity of p is not stated on the page (probably g of the previous page); line 1 holds for any p."
+  ],
+  "results": [
+   {
+    "what": "Verification by differentiation of a closed-form evaluation (logs and arctan) of a Poisson-kernel-type integral; the delta-sum of logarithmic derivatives collapses to a rational expression in e^{+-i(theta-psi)}.",
+    "modern_name": "Differentiation check of an integral evaluation; partial fractions; elementary integrals int dq/(q^2-s^2)",
+    "usually_credited_to": "standard 18th-19th c. calculus",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Derivative of (1/2)log((1+sqrt(1-x^2))/(1-sqrt(1-x^2))) equals -1/(x sqrt(1-x^2)).",
+    "modern_name": "derivative of the inverse hyperbolic secant (arsech x)",
+    "usually_credited_to": "standard calculus",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine scratch work: differentiating and simplifying elementary closed forms to check an integral evaluation in a potential-theory computation. It contains no new method or result.",
+  "checkable": [
+   {
+    "sympy": "x,y,p=symbols('x y p',positive=True); simplify(sqrt(1-y**2)/p*x/sqrt(1-x**2) + (x**2*y**2-1)/(x*sqrt(1-y**2)*sqrt(1-x**2)*p) + sqrt(1-x**2)/(x*p*sqrt(1-y**2)))",
+    "asserts": "Line 1 identity: the expression equals 0 for 0<x,y<1."
+   },
+   {
+    "sympy": "c,s,x=symbols('c s x'); simplify(sum(d/s*Rational(1,2)*(-x)/((c-d*s)*c) for d in [1,-1]) - (-x)/(c*(c**2-s**2)))",
+    "asserts": "The delta-sum in line 2 reduces to line 3's form: the result is 0."
+   },
+   {
+    "sympy": "x,y,phi=symbols('x y phi',positive=True); c=sqrt(1-x**2); simplify(c**2-(1-x/y*exp(I*phi)) - (-x**2+x/y*exp(I*phi)))",
+    "asserts": "c^2 - s^2 = -x^2 + (x/y)e^{i phi}: the result is 0."
+   },
+   {
+    "sympy": "x=symbols('x',positive=True); simplify(diff(Rational(1,2)*log((1+sqrt(1-x**2))/(1-sqrt(1-x**2))),x) + 1/(x*sqrt(1-x**2)))",
+    "asserts": "Line 4: derivative of the log term is -1/(x sqrt(1-x^2)) (the result is 0; multiply by 1/sqrt(1-y^2))."
+   },
+   {
+    "sympy": "x=symbols('x',positive=True); c=sqrt(1-x**2); simplify(diff(Rational(1,2)*log(1+c),x) + Rational(1,2)*x/((1+c)*c))",
+    "asserts": "First half of line 4: d/dx (1/2)log(1+c) = -(1/2) x/((1+c)c); the result is 0."
+   },
+   {
+    "sympy": "x,y,phi=symbols('x y phi',positive=True); c=sqrt(1-x**2); simplify(sum(-x/(c*(-x**2+x/y*exp(e*I*phi))) for e in [1,-1]) + 2*y*(cos(phi)-x*y)/(c*(1-2*x*y*cos(phi)+x**2*y**2)))",
+    "asserts": "My completion of the eps-sum in line 3 (not on page) to a real Poisson-type expression; the result is 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'xη^2-1' should be 'x^2y^2-1'. Only with x^2y^2-1 does the stated equality hold.",
+   "'x/η' in lines 2-3 should read 'x/y', matching the previous page.",
+   "Line 3: the 'lambda[?]' is a stray or cancelled mark (likely '1-1'). The denominator is -x^2 + (x/y)e^{ε(θ-ψ)i}, which is c^2 - s^2.",
+   "Line 2: δ is a summation index (δ = ±1) under the Σ, together with ε.",
+   "Leading signs: the initial '+' on line 1 has an overwritten symbol. On line 4 the '+' signs are struck and replaced by '-'.",
+   "Last line: the leading symbol is probably an overwritten '+'. The numerator has a struck-out portion before (x^2y^2-1) over p, and the bracket is left unclosed.",
+   "The '73' in the right margin is the folio number, not part of the mathematics."
+  ]
+ }
+}

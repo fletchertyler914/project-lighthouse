@@ -1,0 +1,81 @@
+{
+ "bundle": "Math.25",
+ "page": "c127",
+ "label": "63r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000128/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PURPOSE. The page computes the length of an elliptic (meridian) arc. It uses an AGM-based transformation of the second-kind integral, and Gauss then evaluates it numerically for an Earth ellipsoid with flattening 1/302.78 (Walbeck's 1819 value), normalised so that the meridian quadrant is exactly 10,000,000 m.\n\n(1) Definition. W(T) = ∫_0^T sqrt(a^2 cos^2 t + b^2 sin^2 t) dt. The next page's example uses T = 38°33'46\" for latitude φ = 51°31'48\". This shows T is the complement of the reduced (parametric) latitude, measured from the pole: tan(90°−T) = (b/a) tan φ. The meridian point is (a sin T, b cos T), so ds = sqrt(a^2cos^2T + b^2sin^2T) dT, and W is the arc length from the pole.\n\n(2) AGM table. a' = (a+b)/2, b' = sqrt(ab), and so on, with common limit α = M(a,b). Auxiliary quantities are defined by a^2−b^2 = 16c^2 and a^(k)2 − b^(k)2 = 16 c^(k)2.\n- The stated relation c^2 = a'c' holds because a'^2 − b'^2 = ((a−b)/2)^2. This gives c' = (a−b)/8, and in general c^(k+1) = (a^(k) − b^(k))/8.\n- Then a'c' = (a+b)(a−b)/16 = c^2 (my verification). Likewise c'^2 = a''c''.\n- In modern notation (c_n = (a_{n−1} − b_{n−1})/2) this means c^(k) = c_k/4 for k ≥ 1.\n\n(3) Angle sequence. p^(k) = 4 sin T^(k) / a^(k), sin 2u^(k) = c^(k) p^(k), and p^(k+1) = p^(k) / cos^2 u^(k). Equivalently:\n- sin 2u = (4c/a) sin T;\n- sin T' = (a'/a) sin T / cos^2 u.\n\nThis is the inverse of Gauss's 1818 (Determinatio attractionis) transformation sin T = 2a sin T' / (a+b + (a−b) sin^2 T') = a s'/(a' + 4c' s'^2). My check: solving that quadratic for s' gives s' = a sin^2 u/(4c' sin T), which equals (a'/a) sin T/cos^2 u because a sin 2u = 4c sin T and c'a' = c^2. Under this map dT/Δ(a,b,T) = dT'/Δ(a',b',T'). The angles T^(k) converge to a limit Θ, and ∫_0^T dt/Δ = Θ/α.\n\n(4) Main formula.\nW = (Θ/α)(a'^2 − 32c''^2 − 64c'''^2 − 128c''''^2 − …) + 8c' cos T sin T' + 16c'' cos T' sin T'' + 32c''' cos T'' sin T''' + …\n\nIn modern form the bracket is a_1^2 − 2c_2^2 − 4c_3^2 − …, which equals a^2 − Σ_{n≥0} 2^{n−1} c_n^2 with c_0^2 = a^2 − b^2. So for T = π/2 (all T^(k) = π/2, Θ = π/2, boundary terms vanish) this is the classical AGM formula for the complete integral E.\n\nMy first-order check: put a = 1+e, b = 1−e. Then W ≈ T + (e/2) sin 2T. Gauss's formula gives Θ ≈ T' ≈ T − (e/2) sin 2T, plus 8c' cos T sin T' ≈ e sin 2T. The total is T + (e/2) sin 2T, which agrees.\n\nThe second line rewrites the boundary terms via p^(k). It should read 2a'c'p' cos T + 4a''c''p'' cos T' + … (= 2a' sin 2u' cos T + …). The factors c^(k) are missing on the page.\n\n(5) Numerics (units chosen 'salvo factore constante'): a = 302.78, b = 301.78, so a − b = 1.\n- log c = log sqrt(604.56/16) = 0.7886597.\n- c' = 1/8, log = 9.0969100−10.\n- c'' = c'^2/a'' ≈ 5.169e−5, log 5.7134110−10.\n- c''' = c''^2/a''' ≈ 8.84e−12, log 8.9464130−20.\n- a' = 302.28, b' ≈ 302.2796 (written 302.27944), α ≈ 302.2797.\n- Factor of Θ: log(a'^2/α) = 2.4804098; the c''^2 terms are negligible.\n- Quadrant = factor · π/2: log 2.6765297.\n- Scale so that quadrant = 10^7 m: constant factor log 4.3234703.\n- Hence a = 10^6.8045975 ≈ 6,376,73x m.\n- Boundary coefficients:\n  - 8c' × 10^4.3234703 = 21060.58 m;\n  - 16c'' × 10^4.3234703 = 17.418 m.\n\nResult: arc from pole = (Θ/90°) · 10,000,000 m + 21060.580 cos T sin T' + 17.418 cos T' sin T''.\n\nThe next page gives log g = log(4c/a) = 8.9095925 and log h = log(a'/a) = 9.9992822, with a worked example for Göttingen's latitude.",
+  "errors": [
+   "Second form of the boundary series: '2a'p' cos T + 4a''p'' cos T' + 8a'''p''' cos T''…' is missing the factors c', c'', c'''. Since p' = 4 sin T'/a', the term 2a'p' cos T = 8 sin T' cos T, not 8c' sin T' cos T. It should be 2a'c'p' cos T (= 2a' sin 2u' cos T), etc. This is a notational slip; the numerical coefficients at the bottom use the correct 8c', 16c''.",
+   "b' is written 302.27944 and log b' = 2.4804086. The true value is sqrt(302.78·301.78) = 302.279586, log ≈ 2.4804088. Gauss's own c'' = c'^2/a'' (log 5.7134110) implies a' − b' = 8c'' ≈ 0.000414, not 0.00056. The slip propagates to α (written 302.27972; true ≈ 302.27979). The effect on the 'Factor von Θ' (2.4804098) is at most 1 unit in the 7th decimal of the logarithm, so it is practically negligible.",
+   "Bracket mismatch '{ … )' in the first expression for W (cosmetic)."
+  ],
+  "results": [
+   {
+    "what": "Arc length of an ellipse (incomplete second-kind integral) as (Θ/M(a,b))·(a_1^2 − Σ 2^{n−1}c_n^2) plus a rapidly convergent sum of boundary terms 2^{k+2} c^(k) cos T^(k−1) sin T^(k), using Gauss's quadratic transformation sin T = 2a sin T'/(a+b+(a−b)sin^2 T')",
+    "modern_name": "AGM / Gauss–Landen transformation algorithm for incomplete elliptic integrals of the second kind (E(φ,k) via descending AGM)",
+    "usually_credited_to": "Landen (1775) and Legendre (Traité des fonctions elliptiques, 1825–28) for the Landen-type reduction; Gauss for AGM and the transformation (Determinatio attractionis, 1818); later systematised by e.g. King (1924)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Complete quadrant: (π/2)/M(a,b)·(a'^2 − 32c''^2 − 64c'''^2 …), equivalently (π/(2M))(a^2 − Σ 2^{n−1}c_n^2)",
+    "modern_name": "Gauss–Legendre AGM formula for the complete elliptic integral E (ellipse perimeter)",
+    "usually_credited_to": "Gauss (Nachlass, c. 1799 onward) and Legendre",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Numerical meridian-arc formula for the Walbeck ellipsoid (f = 1/302.78) normalised to a quadrant of 10^7 m: arc = (Θ/90°)·10^7 m + 21060.580 cos T sin T' + 17.418 cos T' sin T''; implied a ≈ 6,376,73x m",
+    "modern_name": "Meridian arc length (geodesy) via parametric latitude",
+    "usually_credited_to": "Standard geodetic practice (Walbeck 1819 parameters; Bessel and Gauss era series)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The AGM theory of the complete integral and the 1818 transformation are well known as Gauss's. Applying the transformation to the incomplete second-kind integral, with an explicit closed boundary-term series, is a neat and correct detail. Gauss's AGM notes (Werke III/X) contain related material, and the method is equivalent to the Landen/Legendre algorithm, so this is a modest unpublished detail rather than a priority surprise. The geodetic use (Walbeck ellipsoid, 10^7 m quadrant) is historically nice but routine.",
+  "checkable": [
+   {
+    "sympy": "a,b=symbols('a b',positive=True); a1=(a+b)/2; b1=sqrt(a*b); simplify(a1**2-b1**2-16*((a-b)/8)**2)",
+    "asserts": "a'^2 - b'^2 = 16 c'^2 with c' = (a-b)/8 (result 0)"
+   },
+   {
+    "sympy": "a,b=symbols('a b',positive=True); simplify((a**2-b**2)/16 - (a+b)/2*(a-b)/8)",
+    "asserts": "c^2 = a'c' (result 0)"
+   },
+   {
+    "sympy": "import mpmath as m; a,b=m.mpf(3),m.mpf(1); T=m.mpf('0.7'); W=m.quad(lambda t:m.sqrt(a**2*m.cos(t)**2+b**2*m.sin(t)**2),[0,T]); A=[a];B=[b];Ts=[T];C=[m.sqrt((a**2-b**2)/16)]\nfor k in range(8):\n  c=C[-1];u=m.asin(4*c*m.sin(Ts[-1])/A[-1])/2;an=(A[-1]+B[-1])/2;Ts.append(m.asin(an/A[-1]*m.sin(Ts[-1])/m.cos(u)**2));C.append((A[-1]-B[-1])/8);B.append(m.sqrt(A[-1]*B[-1]));A.append(an)\nal=A[-1];Th=Ts[-1];F=(A[1]**2-sum(2**(k+3)*C[k]**2 for k in range(2,8)))/al*Th+sum(2**(k+2)*C[k]*m.cos(Ts[k-1])*m.sin(Ts[k]) for k in range(1,8)); print(W-F)",
+    "asserts": "Gauss's formula W = (Θ/α)(a'^2-32c''^2-64c'''^2-…) + Σ 2^{k+2} c^(k) cos T^(k-1) sin T^(k) equals the integral (difference ≈ 0)"
+   },
+   {
+    "sympy": "N(log(sqrt((Rational(30278,100)**2-Rational(30178,100)**2)/16),10))",
+    "asserts": "log c = 0.7886597"
+   },
+   {
+    "sympy": "N(log(Rational(1,8)**2/Rational(30228,100),10))",
+    "asserts": "log c'' ≈ -4.286589 i.e. 5.7134110-10"
+   },
+   {
+    "sympy": "N(10**(7-2.6765297)*8*Rational(1,8)), N(10**(7-2.6765297)*16*(Rational(1,64)/Rational(30228,100)))",
+    "asserts": "boundary coefficients 21060.58 and 17.418 (metres)"
+   },
+   {
+    "sympy": "N(sqrt(Rational(30278,100)*Rational(30178,100)),12)",
+    "asserts": "b' = 302.279586…, not 302.27944 as written"
+   },
+   {
+    "sympy": "N(10**7*2/pi*Rational(30278,30228))",
+    "asserts": "implied semi-axis a ≈ 6,376,73x m for quadrant 10^7 m (cf. 10^6.8045975)"
+   }
+  ],
+  "transcription_corrections": [
+   "Header: '47d' is crossed out and replaced by '12'; folio number (63) circled.",
+   "In the first line for W, Gauss opens with '{' and closes with ')'; the first term a'a' is overwritten (corrected) in the MS.",
+   "b' = 302,27944: digits after 302,279 are overwritten in the MS; the arithmetically correct value is 302,27959.",
+   "α: written with an overwritten digit ('302,2?972'); reads 302,27972.",
+   "'Salvo factore const.' (written 'Salvofactore const.') is correct as a heading for the numerical block."
+  ]
+ }
+}

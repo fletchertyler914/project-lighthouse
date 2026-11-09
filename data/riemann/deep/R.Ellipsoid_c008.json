@@ -1,0 +1,63 @@
+{
+ "bundle": "R.Ellipsoid",
+ "page": "c008",
+ "label": "3r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205083:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This page is a German prose draft belonging to Riemann's 1861 memoir 'Ein Beitrag zu den Untersuchungen über die Bewegung eines flüssigen gleichartigen Ellipsoides' (Abh. Ges. Wiss. Göttingen 9). Setting: a homogeneous self-gravitating fluid ellipsoid with semi-axes a, b, c. In the frame of the principal axes the fluid velocity is linear in the coordinates. The body frame turns with angular velocity (p, q, r). The internal motion is described by a second triple (p1, q1, r1). The previous page works out existence inequalities among a, b, c for the case where the rotation axis lies in a principal plane, e.g. b > 2a + c, c < b - 2a, b > (1+sqrt3)a. Those are the conditions for Riemann's ellipsoids of types I-III.\n\n(1) Steadiness theorem (stated in words). If the shape stays the same, the state of motion also stays the same, provided the motion is referred at each instant to the principal axes, i.e. to the body the fluid forms. Restated later on the page: if the fluid always forms the same body, the relative motion of all its parts stays the same. In modern terms: a figure of equilibrium with constant axes forces p, q, r, p1, q1, r1 to be constant. These are steady (Riemann) ellipsoids.\n\n(2) Rotation axis in the plane of the b and c axes.\n- The case taken is the one where the rotation axis is perpendicular to one principal axis. The cosines (0, q/w, r/w) indicate this is the a-axis.\n- The direction cosines of the rotation axis are then (0, q/w, r/w), with w = sqrt(q^2+r^2).\n- The angular speed is w, so the period of rotation of the figure is 2*pi/sqrt(q^2+r^2).\n\n(3) Internal motion (my reconstruction, consistent with the next page's 'b q1, c r1, sqrt(q1^2+r1^2)').\n- Write x = D X with D = diag(a, b, c), so the ellipsoid becomes the unit sphere |X| = 1.\n- The internal motion is a rigid rotation of X with angular velocity W1 = (0, q1, r1), w1 = |W1|. In physical coordinates u = D Omega1 D^{-1} x, where Omega1 is the skew matrix of W1.\n- Consequences, as stated on the page:\n  (a) Every particle moves on an ellipse. In X these orbits are circles in the planes q1 Y + r1 Z = const, centred on the axis R*W1. Under D they become ellipses in the planes q1 y/b + r1 z/c = const.\n  (b) The axis meets the surface at the points ±(0, b q1/w1, c r1/w1). These are the 'Endpunkte der augenblicklichen Rotationsaxe' the page names.\n  (c) The tangent plane at that point has normal (0, q1/(b w1), r1/(c w1)). So the orbit planes are parallel to the tangent plane at the point where the axis pierces the ellipsoid, as Riemann says, and the orbit centres lie on that axis.\n  (d) Uniform circular motion maps under the constant linear map D to motion in which radius vectors from the centre sweep equal areas in equal times. All orbits share the period 2*pi/sqrt(q1^2+r1^2).\n\n(4) Closing clauses.\n- He says the absolute motion in space can then be pictured very precisely (compose the rotation of the figure with this internal circulation).\n- He excludes a 'singular case' with a numerical constant 8.64003...; the inequality is only partly legible.\n- A parenthesis exempts 'the singular case excluded above'.",
+  "errors": [
+   "No mathematical errors are detectable in what is legible.",
+   "The machine transcription garbles the formulas. The endpoints should read (0, b q1/w, c r1/w), not (0, a k1/w, c k1/w).",
+   "'g' in the period formula should be q or q1, giving 2*pi/sqrt(q1^2+r1^2).",
+   "The singular-case inequality (with 8.64003...) is too poorly legible to verify. Its exact content (possibly b = 2a or b = c together with a bound on a squared quantity) is uncertain."
+  ],
+  "results": [
+   {
+    "what": "If the ellipsoidal shape is permanent, the motion referred to the principal axes is permanent (all angular-velocity parameters constant).",
+    "modern_name": "Riemann's theorem on steady figures; the Riemann ellipsoids (Chandrasekhar's S-type and types I-III)",
+    "usually_credited_to": "Riemann 1861",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Internal motion when the rotation axis lies in a principal plane: particles move on similar ellipses in planes parallel to the tangent plane at the pole (0, b q1/w, c r1/w), centred on that axis, obeying the area law, all with period 2*pi/sqrt(q1^2+r1^2).",
+    "modern_name": "Kinematics of uniform-vorticity linear flows in ellipsoids (affine image of rigid rotation)",
+    "usually_credited_to": "Dirichlet/Dedekind/Riemann (1857-1861); later Chandrasekhar, 'Ellipsoidal Figures of Equilibrium' (1969)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of text that appears essentially as published in Riemann's 1861 ellipsoid memoir. The kinematic description and the steadiness theorem are known to be his.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,q1,r1,x,y,z=symbols('a b c q1 r1 x y z',positive=True); D=diag(a,b,c); W=Matrix([[0,-r1,q1],[r1,0,0],[-q1,0,0]]); X=Matrix([x,y,z]); u=D*W*D.inv()*X; simplify((X.T*D.inv()**2*u)[0])==0",
+    "asserts": "The internal linear flow is tangent to every similar ellipsoid, so the surface is preserved."
+   },
+   {
+    "sympy": "w=sqrt(q1**2+r1**2); P=Matrix([0,b*q1/w,c*r1/w]); simplify(D*W*D.inv()*P)==zeros(3,1)",
+    "asserts": "The point (0, b q1/w, c r1/w) lies on the fixed axis of the internal motion."
+   },
+   {
+    "sympy": "n_tangent=D.inv()**2*P; n_orbit=D.inv()*Matrix([0,q1,r1]); simplify(n_tangent.cross(n_orbit))==zeros(3,1)",
+    "asserts": "Orbit planes are parallel to the tangent plane at the pole of the axis."
+   },
+   {
+    "sympy": "simplify((D*W*D.inv()).eigenvals())",
+    "asserts": "The eigenvalues are 0 and ±I*sqrt(q1**2+r1**2), so the orbital period is 2*pi/sqrt(q1^2+r1^2)."
+   },
+   {
+    "sympy": "solve(Eq(2*a**2, b**2-2*a*b), b)",
+    "asserts": "Previous page: the boundary is b = (1+sqrt(3))a."
+   }
+  ],
+  "transcription_corrections": [
+   "'0, h/ω, 1/ω' should be '0, q/ω, r/ω' (direction cosines of the rotation axis).",
+   "'0, a k1/ω, c k1/ω' should be '0, b q1/ω, c r1/ω' (endpoints of the instantaneous axis); compare the next page's 'b q1, c r1'.",
+   "'√(g²+r1²)' should be '√(q1²+r1²)'.",
+   "'senkrecht zur Hauptaxe c' is more likely 'Hauptaxe a', given the cosines (0, ·, ·).",
+   "In the last lines, 'b ≥ a' and 't² > 2πg⁴·8,64003' are uncertain readings. Possibly 'b = 2a' or 'b = c' with an inequality on a squared quantity."
+  ]
+ }
+}

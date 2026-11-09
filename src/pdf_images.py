@@ -11,6 +11,7 @@ index.tsv (page, file, width, height, bytes). Small images (logos, cover-sheet g
 (-E -P rather than -I so that a user-site Pillow is importable; -P still keeps the script dir off sys.path.)
 """
 import argparse
+import base64
 import io
 import pathlib
 import re
@@ -112,6 +113,9 @@ def main():
         is_jpeg, is_ccitt = b"/DCTDecode" in d, b"/CCITTFaxDecode" in d
         if not (is_jpeg or is_ccitt):
             continue
+        # filter chain, e.g. [/ASCII85Decode /CCITTFaxDecode] or [/FlateDecode /DCTDecode]
+        fm = re.search(rb"/Filter\s*(\[[^\]]*\]|/\w+)", d)
+        filters = re.findall(rb"/(\w+)", fm.group(1)) if fm else []
         p = start + si + len(b"stream")
         if data[p:p + 2] == b"\r\n":
             p += 2
@@ -122,6 +126,26 @@ def main():
         except Exception:
             continue
         raw = data[p:p + ln]
+        try:
+            for flt in filters:
+                if flt == b"ASCII85Decode":
+                    txt = raw.strip()
+                    if txt.startswith(b"<~"):
+                        txt = txt[2:]
+                    txt = txt.split(b"~>")[0]
+                    raw = base64.a85decode(re.sub(rb"\s+", b"", txt), adobe=False, ignorechars=b"")
+                elif flt == b"ASCIIHexDecode":
+                    raw = bytes.fromhex(re.sub(rb"[^0-9A-Fa-f]", b"", raw.split(b">")[0]).decode())
+                elif flt == b"FlateDecode":
+                    import zlib
+                    raw = zlib.decompress(raw)
+                elif flt in (b"DCTDecode", b"CCITTFaxDecode"):
+                    break
+                else:
+                    raise ValueError(f"unsupported filter {flt!r}")
+        except Exception as e:  # noqa: BLE001
+            print(f"filter chain failed for object {n}: {e}", file=sys.stderr)
+            continue
         if is_jpeg:
             if not raw.startswith(b"\xff\xd8"):
                 continue
@@ -131,8 +155,12 @@ def main():
             w, h = num(d, b"Width", 0), num(d, b"Height", 0)
             if w < a.min_width and h < a.min_width:
                 continue
-            parms = re.search(rb"/DecodeParms\s*<<(.*?)>>", d, re.S)
-            pd = parms.group(1) if parms else b""
+            # DecodeParms may be a dict or an array parallel to the filter array; take the dict that has /K or /Columns
+            pd = b""
+            for cand in re.findall(rb"<<([^<>]*)>>", d):
+                if b"/K" in cand or b"/Columns" in cand:
+                    pd = cand
+
             k = num(pd, b"K", 0)
             black_is_1 = b"/BlackIs1 true" in pd
             byte_align = b"/EncodedByteAlign true" in pd
@@ -174,7 +202,17 @@ def main():
         cands = [images[int(k)] for k in re.findall(rb"/\w+\s+(\d+)\s+0\s+R", xo_b) if int(k) in images]
         if not cands:
             continue
-        jpg, w, h = max(cands, key=lambda t: t[1] * t[2])
+        if len(cands) > 1:
+            from PIL import Image
+            def ink(t):
+                im = Image.open(io.BytesIO(t[0])).convert("L")
+                im.thumbnail((400, 400))
+                hist = im.histogram()
+                frac = sum(hist[:128]) / max(1, sum(hist))
+                return frac if frac < 0.5 else 0.0
+            jpg, w, h = max(cands, key=lambda t: (ink(t), t[1] * t[2]))
+        else:
+            jpg, w, h = cands[0]
         if w < a.min_width and h < a.min_width:
             continue
         pno += 1

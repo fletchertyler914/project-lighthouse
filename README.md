@@ -57,7 +57,7 @@ Every contribution carries a label that says what was *done*, not what anyone be
 | `transcribed` | page JSON exists | anyone |
 | `read` | deep read exists | anyone |
 | `self-checked` | finder read the scan, ran the maths, searched the literature | the finder |
-| `reviewed` | a second contributor redid the checks and wrote a verdict | not the finder |
+| `reviewed` | the four checks were redone independently of the finder — by another contributor, or by an unanchored agent given only the facts — and a verdict with sources is written; the file says which | not the finder's own reading |
 | `expert` | a named specialist signed off on the scan | that specialist |
 
 Votes sort what gets reviewed first. They never set a label.

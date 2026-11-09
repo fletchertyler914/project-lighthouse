@@ -1,0 +1,61 @@
+{
+ "cote": "E557",
+ "title": "De quibusdam eximiis proprietatibus circa divisores potestatum occurrentibus",
+ "page": 4,
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from §8 on the previous page): to find the least x with f·a^x + g ≡ 0 (mod N), Euler starts from the residue −g. He repeatedly adds or subtracts N so that the result becomes divisible by a power of a. Writing r ∓ N = a^α·s, he passes from 'f·a^y leaves residue r' to 'f·a^{y−α} leaves residue s'. He stops when the residue equals f; x is then the sum of the exponents stripped off. In modern terms he walks backwards through the residues f·a^x·a^{−j} (mod N), dividing by a modulo N in blocks of a^α.\n\nThis page:\n(i) He finishes the remark on shortcuts. When a small residue t appears, its square or cube can be divided by the starting residue −g (or by g²) to jump ahead to the exponent x−2ϑ or x−3ϑ. These shortcuts work best when the residues are small and −g is ±1.\n\n(ii) §9 (Corollary) specialises to 2^x ∓ 1. It is enough to find the least x with 2^x ≡ 1 (mod N). He claims that if x is even then 2^{x/2} ≡ −1 'necessarily'. If x is odd, 2^y ≡ −1 is impossible.\n\n(iii) Examples, with a = 2, f = 1 and starting residue 1:\n- N=23: 1+23 = 2^3·3; 3−23 = −2^2·5; −5−23 = −2^2·7; −7+23 = 2^4. So x = 3+2+2+4 = 11, i.e. ord_23(2) = 11. Since 11 is odd, no 2^x+1 is divisible by 23.\n- N=41: 1−41 = −2^3·5; −5+41 = 2^2·9; 9−41 = −2^5. So 2^{x−10} ≡ −1. Squaring and dividing by the first form gives x = 20, so 2^10+1 and 2^20−1 are divisible by 41.\n- N=73: 1−73 = −2^3·9; −9+73 = 2^6. So x = 9 (2^9−1 = 7·73), and no 2^x+1 is divisible by 73.\n- N=77 is begun here and finished on the next page with x = 30.\n\nIn modern terms this is an algorithm for the multiplicative order of 2 modulo an odd N. It iterates the map r ↦ (r ± N)/2^{v} on odd representatives, choosing the sign so that 4 divides r ± N. This amounts to generating the periodic 2-adic expansion of a rational with denominator N. It also tracks a sign that detects whether −1 is a power of 2 mod N, i.e. the 'quasi-order'.\n\nCorrectness of minimality (my check): with the sign chosen so that α ≥ 2, every representative after the first step satisfies |r| < N/2. The skipped intermediate values (r ± N)/2^i, i < α, then have absolute value < N. Such a value can only be ≡ 1 if it equals 1−N, which forces r = 2−N; that is excluded because |2−N| ≥ N/2. So the exponent sum found is indeed the least one.",
+  "errors": [
+   "§9 states without hypothesis that if the least x with 2^x ≡ 1 (mod N) is even, then 2^{x/2} ≡ −1 'necessario'. This holds for prime N (more generally when the only square roots of 1 are ±1) but fails for composite N. Euler himself corrects this on the next page with N = 77 and N = 105. The converse statement on this page (odd order implies 2^y ≡ −1 is impossible) is valid for all N.",
+   "Euler states only loosely the rule needed to guarantee minimality: take the sign making r ± N divisible by at least 4. In his examples he always does this, so all the computed orders (11, 20, 9, and 30 for 77) are correct."
+  ],
+  "ideas": [
+   {
+    "what": "Computing ord_N(2) by repeatedly adding ±N to an odd residue and stripping powers of 2, summing the exponents",
+    "modern_name": "Order computation via iterated 2-adic division / inverse-of-2 walk; essentially the Hilton–Pedersen 'coach' (folding) algorithm and the 2-adic expansion of 1/N",
+    "usually_credited_to": "Hilton & Pedersen (coach theorem, 1980s), for the closely analogous symbol algorithm; the periodicity of 2-adic or binary expansions is folklore (Gauss era)",
+    "in_author_published_texts": "yes",
+    "where_published": "E557 itself (Opuscula analytica I, 1783), §8 ff.",
+    "routine": false
+   },
+   {
+    "what": "Sign bookkeeping detects 2^k ≡ −1 and yields order 2k when N is prime (quasi-order)",
+    "modern_name": "Quasi-order of 2 mod N; 2^k ≡ ±1",
+    "usually_credited_to": "Hilton & Pedersen (quasi-order theorem) in the folding context; for primes, classical (Fermat/Euler)",
+    "in_author_published_texts": "yes",
+    "where_published": "E557 §9–§15",
+    "routine": false
+   },
+   {
+    "what": "Odd order of 2 mod N excludes any 2^y ≡ −1; even order gives 2^{x/2} ≡ −1 for prime N",
+    "modern_name": "Cyclicity of (Z/pZ)^*; −1 is the unique element of order 2",
+    "usually_credited_to": "Euler / Lagrange / Gauss",
+    "in_author_published_texts": "yes",
+    "where_published": "Euler's earlier power-residue papers (e.g. E262, E449) – unsure of exact location",
+    "routine": true
+   },
+   {
+    "what": "Shortcut: square or cube a small residue and divide by the initial residue to jump ahead in the exponent",
+    "modern_name": "Exploiting the group law (baby-step style composition) in order computation",
+    "usually_credited_to": "general practice",
+    "in_author_published_texts": "yes",
+    "where_published": "E557 §8",
+    "routine": true
+   }
+  ],
+  "missed": [
+   {
+    "type": "connection",
+    "claim": "Euler's tables (r ∓ N = ±2^α·s, with the sum of α giving the order and the sign revealing 2^k ≡ −1) are essentially the 'symbol' and coach theorem of Hilton and Pedersen, two centuries earlier. Euler's version uses signed choices to force α ≥ 2. That keeps all representatives below N/2 and guarantees minimality, close to their condition a_i < b/2. I am unsure whether the folding/coach literature cites E557.",
+    "quote": "1 + 23 = 24 = 2^3 . 3 / 3 - 23 = -20 = -2^2 . 5 / -5 - 23 = -28 = -2^2 . 7 / -7 + 23 = +16 = +2^4 . 1. ... sicque concludimus x = 11",
+    "why_it_might_matter_today": "It gives historical priority for the coach/quasi-order algorithm. It also links that algorithm to the 2-adic (Montgomery-style) division by 2 used in modern modular arithmetic."
+   }
+  ],
+  "surprise": 4,
+  "surprise_reason": "The algorithm is published and visible, but its near-identity with the 1980s Hilton–Pedersen coach theorem and quasi-order seems not commonly credited to Euler. The rest is routine order computation.",
+  "transcription_corrections": [
+   "Ex. 2, second line: '-5. + 41' should read '-5 + 41 = +36 = +2^2 . 9' (stray dot).",
+   "§9: the image has 'Quoniam has operationes clare descripsimus' and 'tum potestas 2^{x/2}'. The transcription is correct apart from the fraction rendering, which is '2^{½x}' in print."
+  ]
+ }
+}
