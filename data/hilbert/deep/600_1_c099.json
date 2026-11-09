@@ -1,0 +1,65 @@
+{
+ "bundle": "600_1",
+ "page": "c099",
+ "label": "[90]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000100/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: on the previous page Hilbert sets out to prove that every finite group of linear substitutions can be transformed (conjugated) so that all its coefficients are rational functions of roots of unity, i.e. lie in a cyclotomic field. This page gives the preparatory idea: rigidify the coordinate system so that it is determined by the group itself, up to one common scalar.\n\nStep 1 (programme). Let G={A,B,...} be a finite group of substitutions of n variables. Hilbert wants to single out n linear forms L_1,...,L_n canonically from G, unique up to one proportionality constant common to all of them. In that coordinate system the matrix entries are invariants of G, so they can be expressed through intrinsic data such as eigenvalues and traces.\n\nStep 2 (first method). For each substitution S in G, compute the linear forms fixed up to a factor, i.e. eigenvectors of the transpose S^T acting on linear forms. Where an eigenvalue is repeated these come as pencils ('Büschel', 2-dimensional eigenspaces), bundles ('Bündel', 3-dimensional), and so on. Suppose A gives:\n- a pencil <l_1,l_2>;\n- single forms l_3,l_4,....\nSuppose B gives forms m_1,m_2,... plus pencils and bundles. Choose constants c_1,c_2,d_1 with c_1 l_1 + c_2 l_2 = d_1 m_1, i.e. intersect A's pencil with an eigenline of B. Hilbert then asserts that c_1 l_1 + c_2 l_2, c_3 l_3, ..., d_1 m_1 are determined up to a common factor.\n\nStep 3 (second method). Conjugate A to diagonal form diag(α_1,...,α_n). The α_i are roots of unity because A has finite order. Assume the α_i are pairwise distinct. Then the coordinate forms are the eigenforms of A, each determined up to its own scalar. The only remaining freedom is diagonal rescaling x_i -> t_i x_i.\n\nNext page. Use another substitution to normalise its first-row entries to 1, which fixes the t_i up to a common factor. Then use that every characteristic polynomial has root-of-unity roots, so the coefficient of λ^{n-1} (minus the trace) is a sum of roots of unity. These trace conditions then determine the remaining entries.\n\nMy completion of the intended argument (not on the page). With A diagonal with distinct eigenvalues, the idempotents E_ii = prod_{k≠i} (A-α_k)/(α_i-α_k) are polynomials in A with cyclotomic coefficients. For group elements B,C one has:\n- tr(E_ii B) = b_ii;\n- tr(E_11 B E_jj C) = b_1j c_j1;\n- tr(E_11 B E_jj C E_kk D) = b_1j c_jk d_k1.\nEach of these is a Q(ζ)-combination of traces of group elements, hence cyclotomic. After normalising b_1j = 1, every c_j1 and then every c_jk (provided the relevant b_k1 ≠ 0) is cyclotomic. This proves the claim under the hypotheses that some element has n distinct eigenvalues and that the needed entries are nonzero.",
+  "errors": [
+   "First method: c_1 l_1 + c_2 l_2 = d_1 m_1 fixes only the ratios among c_1, c_2, d_1. The scalars on the separate eigenforms l_3, l_4, ... (c_3, ...) are not constrained by it. So the claim that the whole system c_1l_1+c_2l_2, c_3l_3, ..., d_1m_1 is fixed up to one common factor is unjustified. One needs n+1 forms in general position (a projective frame) or further linear relations.",
+   "The first method also tacitly assumes that A's pencil actually meets an eigenline of B, i.e. that the intersection is nonzero and one-dimensional. This need not hold.",
+   "Second method: the hypothesis that some group element has n pairwise distinct eigenvalues is a genuine restriction. Many finite (even irreducible) linear groups contain no such element, so at best this proves a special case of the theorem announced on the previous page.",
+   "The normalisation a_{1j}=1 on the next page requires all a_{1j}≠0. This is not guaranteed for any single element, though irreducibility gives connectivity using several elements."
+  ],
+  "results": [
+   {
+    "what": "Programme to prove that every finite linear group is conjugate to one with entries in a cyclotomic field (rational functions of roots of unity).",
+    "modern_name": "Brauer's splitting field theorem (realisability over Q(ζ_m), m the exponent); conjectured by Schur",
+    "usually_credited_to": "Conjectured by I. Schur (c. 1906); proved by R. Brauer (1945/1947)",
+    "already_credited_to_author": "no",
+    "routine": false
+   },
+   {
+    "what": "Rigidifying coordinates by eigen-forms, eigen-pencils and eigen-bundles of the group's substitutions, fixed up to a common scalar.",
+    "modern_name": "Choosing a canonical (projective-frame) basis from simultaneous eigenspace data",
+    "usually_credited_to": "Classical projective geometry / invariant theory (19th c.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Diagonalise an element with distinct root-of-unity eigenvalues; the residual freedom is a diagonal torus, normalised by fixing one row of another element; remaining entries come from traces (coefficient of λ^{n-1}).",
+    "modern_name": "Recovering a representation from traces via matrix units / idempotents (Frobenius–Schur, Burnside style argument); special case of realisability over the character field adjoined with roots of unity",
+    "usually_credited_to": "Frobenius, Burnside, Schur (1896–1906)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 4,
+  "surprise_reason": "The page belongs to an unpublished attempt at the cyclotomic realisability of finite linear groups, a statement usually attributed to Schur (conjecture) and Brauer (1945). It is not generally known that Hilbert worked on it. However, this page gives only a heuristic or special-case argument: it assumes distinct eigenvalues and nonzero entries, and the first method has a gap. So it is a notable unpublished detail, not a proof of the major theorem.",
+  "checkable": [
+   {
+    "sympy": "a1,a2,a3=symbols('a1 a2 a3'); A=diag(a1,a2,a3); E1=(A-a2*eye(3))*(A-a3*eye(3))/((a1-a2)*(a1-a3)); simplify(E1-diag(1,0,0))==zeros(3)",
+    "asserts": "With distinct diagonal eigenvalues, the idempotent E_11 is a polynomial in A with coefficients rational in the eigenvalues."
+   },
+   {
+    "sympy": "B=Matrix(3,3,symbols('b11:14 b21:24 b31:34')); C=Matrix(3,3,symbols('c11:14 c21:24 c31:34')); E1=diag(1,0,0); E2=diag(0,1,0); expand((E1*B*E2*C).trace()-B[0,1]*C[1,0])==0",
+    "asserts": "tr(E_11 B E_22 C) = b_12 c_21, so after normalising b_12=1, c_21 is a trace combination."
+   },
+   {
+    "sympy": "B=Matrix(3,3,symbols('b11:14 b21:24 b31:34')); lam=symbols('lam'); expand(B.charpoly(lam).as_expr()).coeff(lam,2)+B.trace()==0",
+    "asserts": "The coefficient of λ^{n-1} in the characteristic polynomial is minus the trace (n=3)."
+   },
+   {
+    "sympy": "B=Matrix(3,3,symbols('b11:14 b21:24 b31:34')); t=symbols('t1:4'); T=diag(*t); expand((T.inv()*B*T)[0,1]-B[0,1]*t[1]/t[0])==0",
+    "asserts": "Diagonal rescaling multiplies b_1j by t_j/t_1, so first-row entries can be set to 1 when nonzero."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'nur die Diagonal-reihen': the manuscript actually spells it 'Diagnol=' (Hilbert's slip), not 'Diagonal'.",
+   "'von 0 verschiedene Elemente' is correct as read; the transcription's 'reihen von 0 verschiedene' should be read 'Diagonalreihe von 0 verschiedene Elemente'.",
+   "The struck-through item before 'Ein Büschel' and the deleted '&' inside the parenthesis are correctly marked as deletions.",
+   "The asterisk after 'n' in the last line ('n* Elemente') is an insertion mark in the manuscript, not part of the mathematics."
+  ]
+ }
+}

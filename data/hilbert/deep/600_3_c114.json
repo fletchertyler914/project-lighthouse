@@ -1,0 +1,71 @@
+{
+ "bundle": "600_3",
+ "page": "c114",
+ "label": "111",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000115/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio continues a list of what Hilbert calls 'wrong-headed' methodological prejudices. The list begins on the page transcribed as 'next' and runs onto this one, so the folio order is probably shuffled. The first line finishes Dedekind ('... im täglichen Leben benennen wollte'). It then names Méray, who never wanted to use a figure, and von Staudt, who never drew a figure in his Geometrie.\n\nThe page contains no computations. It is a methodological note whose mathematical content is as follows.\n\n(A) What makes mathematics interesting has two sources.\n(1) Overcoming the infinite: one decides a question, e.g. that there are infinitely many primes, even though checking it directly would take infinitely many processes. This continues the previous page's example: 1+2+...+n = n(n+1)/2 replaces n additions by 3 operations, a number independent of the data.\n(2) The discovery of unexpected relations.\n\n(B) Hilbert links (1) to the Archimedean axiom. Whether a theorem can be proved with or without Archimedes matters in principle. In modern terms: if a theorem schema (e.g. a theorem of the theory of proportions) can be proved without Archimedes, the proof uses the congruence axioms a fixed number N of times (he guesses N of about 12), independent of the particular configuration. [My gloss] If each application of an axiom carries an error delta, the worst-case total error is at most N*delta (here 12*delta), a uniform bound.\n\n(C) Contrast case: triangles with equal base and height being decomposable into congruent pieces (Zerlegungsgleichheit). Suppose this succeeds only by means of Archimedes. Then the number of applications of the congruence axioms depends on the triangles chosen. It grows without bound as one triangle is made ever more elongated, so the accumulated error can become arbitrarily large.\n\n[My reconstruction of why C holds] Take T1 = (0,0),(b,0),(0,h) and T2 = (0,0),(b,0),(s,h). Both have area b*h/2. Any dissection of T1 into n pieces that reassemble into T2 uses pieces of diameter at most diam(T1) = d1. The pieces must cover T2, whose diameter grows like s. So n >= diam(T2)/d1, which tends to infinity as s does.\n\nThe usual shear-and-cut proof (parallelogram to rectangle) uses about ceil(s/b) strips, i.e. it iterates a step until it exceeds a length. That is exactly an Archimedean step. In a non-Archimedean field s/b can be infinite, and the decomposition fails. This is Hilbert's own result in the Grundlagen der Geometrie (1899), Ch. IV, which is why he introduced Ergänzungsgleichheit (equal by complementation).",
+  "errors": [
+   "No mathematical errors. The figure '12 mal' is explicitly a guess ('vielleicht'), not a computed bound.",
+   "The error-propagation picture (an additive error delta per axiom application, worst case N*delta) is a heuristic. Linear accumulation assumes errors add and do not compound multiplicatively. It is not rigorous, but it is consistent as stated.",
+   "The claim that the number of pieces must grow without bound for elongated triangles is correct. It follows from a diameter argument: pieces have diameter at most diam(T1) and must cover T2. Hilbert states it without proof."
+  ],
+  "results": [
+   {
+    "what": "Theory of proportions (and segment arithmetic) provable without the Archimedean axiom",
+    "modern_name": "Hilbert's segment arithmetic via Pascal/Desargues; non-Archimedean foundations of proportion theory",
+    "usually_credited_to": "Hilbert, Grundlagen der Geometrie (1899), Ch. III",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Triangles with equal base and height are equidecomposable only with the Archimedean axiom; the number of pieces is unbounded as a triangle is elongated",
+    "modern_name": "Zerlegungsgleichheit vs Ergänzungsgleichheit; failure of equidecomposability in non-Archimedean planes",
+    "usually_credited_to": "Hilbert, Grundlagen (1899), Ch. IV (building on Bolyai–Gerwien and Wallace for the Archimedean case)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reading the dependence on the Archimedean axiom as non-uniform proof length: the number of axiom applications grows with the data, unlike Archimedes-free proofs with a fixed count, so per-step errors stay bounded only in the latter case",
+    "modern_name": "Uniform bounds / proof length depending on parameters; a precursor of proof-mining and uniformity ideas; error-tolerance reading of axioms",
+    "usually_credited_to": "Explicit uniformity and bound extraction is usually associated with later proof theory (Herbrand, Kreisel's unwinding program, Kohlenbach's proof mining)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Mathematics as reducing infinitely many processes to finitely many (e.g. infinitude of primes)",
+    "modern_name": "Hilbert's finitist philosophy / the 'infinite' in mathematics",
+    "usually_credited_to": "Hilbert (published later, e.g. 'Über das Unendliche', 1925)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The geometric results are Hilbert's own published Grundlagen material, and the philosophical remarks match known notebook quotations. The mildly notable element is the explicit quantitative reading of Archimedean dependence: a fixed versus data-dependent number of axiom applications, interpreted through error accumulation. This is an early, informal uniformity and proof-length idea that anticipates later proof-theoretic concerns. It remains a heuristic remark rather than a result.",
+  "checkable": [
+   {
+    "sympy": "n=symbols('n',integer=True,positive=True); k=symbols('k'); simplify(summation(k,(k,1,n)) - n*(n+1)/2) == 0",
+    "asserts": "Gauss sum formula from the preceding page: n additions are replaced by a fixed number of operations"
+   },
+   {
+    "sympy": "b,h,s=symbols('b h s',positive=True); simplify(Polygon(Point(0,0),Point(b,0),Point(0,h)).area.__abs__() - Polygon(Point(0,0),Point(b,0),Point(s,h)).area.__abs__()) == 0",
+    "asserts": "Triangles with equal base b and height h have equal area b*h/2, independent of the shift s"
+   },
+   {
+    "sympy": "b,h,s=symbols('b h s',positive=True); limit(sqrt(s**2+h**2)/sqrt(b**2+h**2), s, oo) == oo",
+    "asserts": "The ratio diam(T2)/diam(T1), a lower bound for the number of pieces in any dissection, grows without bound as T2 is elongated"
+   },
+   {
+    "sympy": "N,delta=symbols('N delta',positive=True); (N*delta).subs(N,12) == 12*delta",
+    "asserts": "With a fixed count of 12 axiom applications and additive error delta each, the worst-case total error is 12*delta"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'Lagrange[?]' should read 'Méray' (written 'Meray'), consistent with the Méray entry on the companion page.",
+   "'so heisst, dass man' — the manuscript reads 'so heisst' (implicit 'das'); the second occurrence reads 'so heisst das, dass'.",
+   "'sich dieser Fehler[?] im schlimmsten Falle' — the manuscript appears to read 'sich dieser Fall/Fehler im schlimmsten Falle ver-12-facht'; the word is uncertain.",
+   "The first line completes the Dedekind remark ('... im täglichen Leben benennen wollte'); the 'next page' text therefore probably precedes this folio."
+  ]
+ }
+}

@@ -1,0 +1,53 @@
+{
+ "bundle": "R.Aether",
+ "page": "c007",
+ "label": "4v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234777:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): Riemann models the light aether as an incompressible medium. Its velocity field (x',y',z') is split as x' = x1' + x2'. The first part x1' is divergence-free and curl-free. The second part x2' is divergence-free and satisfies the wave equation (c^2 Δ - ∂_t^2) x2' = 0. Hence the total field satisfies div v' = 0 and (c^2Δ - ∂_t^2)(curl v') = 0, where v' = (x',y',z'). He rewrites the last three equations as follows. Define X = (c^2Δ - ∂_t^2)x', Y = (c^2Δ - ∂_t^2)y', Z = (c^2Δ - ∂_t^2)z'. Then curl(X,Y,Z) = 0, i.e. X dx + Y dy + Z dz = dU is an exact differential. He then states the equivalent variational form: ∫(X δx' + Y δy' + Z δz') dx dy dz = 0 for all variations satisfying the linearized constraint δ(∂x'/∂x) + δ(∂y'/∂y) + δ(∂z'/∂z) = 0.\n\nThis page shows that this constrained condition reproduces the curl equations.\n\n(1) Lagrange-multiplier reasoning. Use the constraint to eliminate one of δx', δy', δz'. The coefficients of the other two must then vanish. Equivalently, there is a multiplier λ (implicitly a function of x,y,z, and t) such that adding ∫ λ (δ∂x'/∂x + δ∂y'/∂y + δ∂z'/∂z) dx dy dz to the integral makes all three coefficients of δx', δy', δz' vanish.\n\n(2) Integrate by parts. Since δ commutes with ∂: ∫ λ ∂(δx')/∂x dx dy dz = [boundary terms] - ∫ (∂λ/∂x) δx' dx dy dz, and likewise for y and z. So the augmented integral becomes '...' (boundary terms, written as dots) + ∫[(X - ∂λ/∂x)δx' + (Y - ∂λ/∂y)δy' + (Z - ∂λ/∂z)δz'] dx dy dz.\n\n(3) The δx', δy', δz' are now free in the interior, so X = ∂λ/∂x, Y = ∂λ/∂y, Z = ∂λ/∂z.\n\n(4) Hence dλ = X dx + Y dy + Z dz. (X,Y,Z) is a gradient, so its curl vanishes. These are exactly the three last conditions (c^2Δ - ∂_t^2) curl v' = 0, which are therefore satisfied.\n\nIn modern terms: a field annihilating all divergence-free variations is a gradient, and λ plays the role of a pressure. The next page continues by writing ∫(Xδx' + ...) dx dy dz dt as minus the variation of the action ∫ ½[c^2|∇v'|^2 - |∂_t v'|^2]. That is, the aether equations are the Euler–Lagrange equations of a quadratic Lagrangian under the incompressibility constraint.",
+  "errors": [
+   "Not an error on this page, but the previous page has a slip: 'dU = X dx + Y dx + Z dz' should read Y dy.",
+   "The finite-dimensional justification ('substitute one of the δ's via the constraint, then the other coefficients vanish') is heuristic for a differential constraint. The constraint relates derivatives of the δ's, so one cannot simply solve it algebraically. Rigorously, one needs that the orthogonal complement of the divergence-free fields consists of gradients (the Helmholtz/Weyl decomposition). The conclusion is correct.",
+   "Boundary terms from the integration by parts are suppressed ('...'). This is legitimate for variations vanishing at the boundary.",
+   "λ must be a function of position (and time), not a constant. This is implicit and correctly used, since ∂λ/∂x etc. appear."
+  ],
+  "results": [
+   {
+    "what": "Incompressibility constraint handled by a Lagrange multiplier function λ in a variational principle; integration by parts gives X,Y,Z = grad λ, so curl(X,Y,Z) = 0",
+    "modern_name": "Lagrange multiplier (pressure) for the divergence-free constraint; the orthogonal complement of solenoidal fields is gradients (Helmholtz–Hodge/Weyl)",
+    "usually_credited_to": "Lagrange (Mécanique analytique, 1788: pressure as multiplier for incompressible fluids); Helmholtz 1858/Weyl 1940 for the decomposition",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Equivalence of the equations (c^2Δ - ∂_t^2)v' = grad λ, div v' = 0 with div v' = 0 and (c^2Δ - ∂_t^2) curl v' = 0 (aether/light model)",
+    "modern_name": "Vector wave equation with pressure-like gradient term for an incompressible elastic medium (transverse waves)",
+    "usually_credited_to": "MacCullagh/Cauchy/Green aether theories (1830s–40s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is standard Lagrange-multiplier treatment of incompressibility, going back to Lagrange 1788. It is applied to a familiar aether model with transverse waves. It is competently done but routine for the period.",
+  "checkable": [
+   {
+    "sympy": "x,y,z=symbols('x y z'); lam,d=Function('lam')(x,y,z),Function('d')(x,y,z); simplify(diff(lam*d,x) - (lam*diff(d,x)+diff(lam,x)*d))",
+    "asserts": "Integration-by-parts identity λ ∂δ/∂x = ∂(λδ)/∂x - (∂λ/∂x)δ (result 0)."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); lam=Function('lam')(x,y,z); X,Y,Z=diff(lam,x),diff(lam,y),diff(lam,z); [simplify(diff(Y,z)-diff(Z,y)), simplify(diff(Z,x)-diff(X,z)), simplify(diff(X,y)-diff(Y,x))]",
+    "asserts": "If (X,Y,Z) = grad λ then its curl vanishes, i.e. the three 'last conditions' hold (all zero)."
+   },
+   {
+    "sympy": "x,y,z,t,c=symbols('x y z t c'); u=Function('u')(x,y,z,t); w=Function('w')(x,y,z,t); W=lambda f: c**2*(diff(f,x,2)+diff(f,y,2)+diff(f,z,2))-diff(f,t,2); simplify(W(diff(u,z)-diff(w,y)) - (diff(W(u),z)-diff(W(w),y)))",
+    "asserts": "The wave operator commutes with the curl components, so curl(□v') = □(curl v') (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The integration element after the large integrals reads 'dx dy dz' (written with d's resembling ∂) rather than '∂x ∂y ∂z'. This is immaterial.",
+   "Line 3: the inserted words above the line are 'muß die', replacing struck 'jedes'. The sentence reads '... so muß die Coeffizient jedes der beiden andern Null werden'. This is consistent with the transcription.",
+   "In the second integral, the last term '-∂λ/∂z δz'' shows a correction (overwritten δy'→δz'). The intended reading δz' is correct."
+  ]
+ }
+}

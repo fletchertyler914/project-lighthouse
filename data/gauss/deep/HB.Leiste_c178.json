@@ -1,0 +1,81 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c178",
+ "label": "38r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000179/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is headed 'Lemniscata', with columns 'Arc.' and 'Rad. v' (radius vector). It is the start of a table of the lemniscatic sine.\n\nSetup (modern notation, my reconstruction):\n- For the lemniscate r^2 = cos 2θ, the arc length from the node to the point with radius vector r is s = ∫_0^r dt/√(1−t^4).\n- The inverse function r = sl(s) is the lemniscatic sine.\n- The full quadrant arc is ϖ/2 = ∫_0^1 dt/√(1−t^4) = 1.3110287771…\n- Gauss divides this quadrant into 90 'lemniscatic degrees', exactly as with the circle. The argument 'Arc' = n therefore means s = n·ϖ/180, where ϖ/180 = 0.0145669864…\n- The second column gives sl(n·ϖ/180) to 7 decimals, with the leading decimal point omitted (0145670 = 0.0145670).\n\nHow the values can be obtained: for small s the Taylor series suffices,\nsl s = s − s^5/10 + s^9/120 − (4390848/13!)·s^13 + …\nExamples:\n- n = 10: s = 0.14566986, s^5/10 = 0.00000656, so sl = 0.1456633.\n- n = 15: s = 0.21850480, s^5/10 = 0.00004981, so sl = 0.2184550.\n\nThe single entry at Arc 30 is 4354205, i.e. sl(ϖ/6) = 0.4354205. This is presumably an algebraically computed anchor point (my inference). Since ϖ/6 = ϖ/2 − ϖ/3,\nsl(ϖ/6) = cl(ϖ/3) = √((1−sl²(ϖ/3))/(1+sl²(ϖ/3))), with sl²(ϖ/3) = √(2√3−3).\nThis gives √(0.31875/1.68125) = 0.4354205. The series to the s^13 term gives the same value.\n\nStructure of the argument grid:\n- step 1 for 0–10;\n- step 0.5 for 10–20;\n- step 0.2 for 20–36;\n- step 1/8 from 36 to 41 on this page (written 36^1 … 36^7, 37, 37^1 …, superscripts = eighths), continuing on the next page to about 45 7/8;\n- then tenths (45,0 … 45,9, 46,0 …).\nThe target is evidently at least 45 = ϖ/4, the half-quadrant. The rest of the quadrant would follow from sl(ϖ/2 − u) = cl u = √((1−sl²u)/(1+sl²u)) (my inference).\n\nOnly arcs 0–15.5 and 30 are filled in. The previous page holds a rougher 5–6-digit marginal draft of the same column.\n\nContext: the notebook is interleaved with a printed arithmetic text on interest. This fits Gauss's early lemniscate work (diary, January 1797 onward).",
+  "errors": [
+   "No numerical errors found. Every filled entry checked (1,7,9,10,11,12,13,13.5,14,14.5,15,15.5,30) agrees with sl(n·ϖ/180) to within one unit in the 7th decimal.",
+   "The entry for 12 has an overwritten last digit; the correct value is 1747875, consistent with a 5.",
+   "The entry for 15 shows a correction ('2184550', with '84' overwritten); the final value is correct."
+  ],
+  "results": [
+   {
+    "what": "Table of the radius vector of the lemniscate as a function of arc length, with the quadrant ϖ/2 divided into 90 parts: sl(n·ϖ/180) to 7 decimals for n = 0..15.5 and n = 30",
+    "modern_name": "Table of the lemniscatic sine sl(x) (lemniscatic elliptic function, modulus i / Gaussian lattice)",
+    "usually_credited_to": "Gauss (unpublished, from 1797), with Fagnano and Euler as precursors; published theory by Abel/Jacobi",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Anchor value sl(ϖ/6) = cl(ϖ/3) = 0.4354205, obtained algebraically from sl²(ϖ/3) = √(2√3−3)",
+    "modern_name": "Special value of the lemniscatic sine (division of the lemniscate into 3/6 parts)",
+    "usually_credited_to": "Gauss (diary 1797; Disquisitiones §335 remark), Abel 1827",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Power series sl s = s − s^5/10 + s^9/120 − … used for small arcs (implied by the values)",
+    "modern_name": "Maclaurin series of the lemniscatic sine",
+    "usually_credited_to": "Gauss (Nachlass), Euler-type series inversion",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's numerical work on the lemniscatic functions, including tables in degrees of ϖ/2, is well documented in his Nachlass (Werke III/X). This page is a correct, partially filled instance of such a table, of archival interest only.",
+  "checkable": [
+   {
+    "sympy": "N(2*Integral(1/sqrt(1-t**4),(t,0,1))/180, 10)",
+    "asserts": "One lemniscatic degree ϖ/180 ≈ 0.0145669864, matching the entry for Arc 1 (0.0145670)"
+   },
+   {
+    "sympy": "N(sqrt((1-sqrt(2*sqrt(3)-3))/(1+sqrt(2*sqrt(3)-3))), 10)",
+    "asserts": "sl(ϖ/6) = cl(ϖ/3) ≈ 0.4354205, the entry at Arc 30"
+   },
+   {
+    "sympy": "x=10*0.0145669864; N(x - x**5/10 + x**9/120, 10)",
+    "asserts": "sl(10°) ≈ 0.1456633"
+   },
+   {
+    "sympy": "x=15*0.0145669864; N(x - x**5/10 + x**9/120, 10)",
+    "asserts": "sl(15°) ≈ 0.2184550"
+   },
+   {
+    "sympy": "x=15.5*0.0145669864; N(x - x**5/10 + x**9/120, 10)",
+    "asserts": "sl(15.5°) ≈ 0.2257296"
+   },
+   {
+    "sympy": "x=12*0.0145669864; N(x - x**5/10, 10)",
+    "asserts": "sl(12°) ≈ 0.1747875 (resolves the overwritten digit as 5)"
+   },
+   {
+    "sympy": "x=30*0.0145669864; N(x - x**5/10 + x**9/120 - Rational(4390848,factorial(13))*x**13, 10)",
+    "asserts": "The series agrees with the algebraic value 0.4354205 at Arc 30"
+   },
+   {
+    "sympy": "series(nsolve? ) -> check: diff(x - x**5/10 + x**9/120, x)**2 - (1 - (x - x**5/10 + x**9/120)**4)",
+    "asserts": "The truncated series satisfies (sl')^2 = 1 − sl^4 through order x^8"
+   }
+  ],
+  "transcription_corrections": [
+   "Entry for 12: the last digit is overwritten; read 1747875.",
+   "Entry for 15: '2184550', with digits '84' written over a correction.",
+   "The fourth column uses superscripts for eighths (36^1 = 36 1/8, etc.). The entry transcribed '38^8 [?]' is 39 (= 38 8/8) written over 38^8.",
+   "First column: the row between 20,8 and 21,2 is '21' (written over).",
+   "The radius values carry a suppressed leading decimal point: 0145670 = 0.0145670."
+  ]
+ }
+}

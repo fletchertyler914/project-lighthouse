@@ -1,0 +1,55 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c006",
+ "label": "3r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000007/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is part of the draft of Riemann's student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (dated 14 January 1847). It was printed posthumously in the Gesammelte Werke (1876). Its aim is to give meaning to derivatives of arbitrary, non-integer order nu. The previous page argues that the usual inductive definition of d^n z/dx^n (repeated difference-quotient limits) only reaches integer indices. A different characterization of the derivatives is therefore needed. This page supplies it.\n\nStep 1. Riemann states Taylor's expansion (1):\n z(x+h) = sum_{p=0}^{infinity} (1/(1*2*...*p)) * d^p z/dx^p * h^p.\nHere z(x+h) denotes what z(x) becomes when x is replaced by x+h.\n\nStep 2 (argument from uniqueness). Since (1) is claimed valid for every h, the coefficients of the power series in h are uniquely determined. This is the identity theorem for power series, which Riemann uses implicitly. Hence they can serve as a definition of the derivatives.\n\nStep 3 (definition). The n-th derivative of z(x) is the coefficient of h^n in the expansion of z(x+h) in non-negative integer powers of h. This coefficient is multiplied by a factor that is constant in x and depends only on n, namely n! = 1*2*...*n. In modern terms:\n d^n z/dx^n = n! * [h^n] z(x+h).\n\nStep 4 (programmatic). This viewpoint, he says, leads easily to a general operation containing both differentiation and integration. The next page carries this out. Riemann postulates an expansion\n z(x+h) = sum_{nu=-inf}^{inf} K_nu * (d^nu z)(x) * h^nu,\nwith exponents nu differing by integers, running in both directions. The normalizing factor K_nu is to be chosen so that K_n = 1/n! for integer n; in the published essay this effectively becomes K_nu = 1/Gamma(nu+1). The page itself contains no computation beyond restating Taylor's theorem and the definition.",
+  "errors": [
+   "Overstatement: (1) is not valid 'for every value of h' for general z. It holds only for analytic z, and only for |h| less than the radius of convergence. Smooth non-analytic functions such as exp(-1/x^2) at 0 are a counterexample. The uniqueness argument for the coefficients needs only validity on some neighbourhood of h=0, so the definition survives with this restriction.",
+   "Implicit assumption: z is assumed to possess a Taylor expansion at all. This is the standard 18th-century (Lagrangian) assumption and is not a slip within that framework."
+  ],
+  "results": [
+   {
+    "what": "Definition of the n-th derivative as n! times the coefficient of h^n in the power-series expansion of z(x+h), justified by uniqueness of power-series coefficients",
+    "modern_name": "Taylor-coefficient (algebraic) definition of derivatives; identity theorem for power series",
+    "usually_credited_to": "J.-L. Lagrange, Théorie des fonctions analytiques (1797), whom Riemann himself cites on the next page",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Announced plan to generalize to derivatives/integrals of arbitrary order via a bilateral generalized power series in h with factor K_nu",
+    "modern_name": "Riemann's approach to fractional calculus (precursor of the Riemann–Liouville fractional integral)",
+    "usually_credited_to": "Liouville (1832ff.) and Riemann (1847 essay, published 1876); Riemann's name is attached to the Riemann–Liouville operator",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page belongs to Riemann's 1847 student essay on generalized differentiation and integration, published in his Werke (1876) and well known as the source of the 'Riemann' in Riemann–Liouville. The page content itself is Lagrange's standard Taylor-coefficient definition of the derivative.",
+  "checkable": [
+   {
+    "sympy": "x,h=symbols('x h'); n=5; simplify(factorial(n)*series(sin(x+h),h,0,n+1).removeO().coeff(h,n) - diff(sin(x),x,n))",
+    "asserts": "n! times the coefficient of h^n in sin(x+h) equals the n-th derivative of sin(x) (result 0)."
+   },
+   {
+    "sympy": "x,h=symbols('x h'); n=4; simplify(factorial(n)*series(exp(x**2+x*h+h**2/4),h,0,n+1).removeO().coeff(h,n) - diff(exp(x**2),x,n).subs(x,x+0))",
+    "asserts": "Check of the Taylor-coefficient definition for a nontrivial function. Note exp((x+h/2)^2) is used, so the coefficient picks up a factor 2^(-n); expected nonzero unless corrected. This illustrates that the substitution must be exactly x -> x+h."
+   },
+   {
+    "sympy": "x,h=symbols('x h'); n=3; simplify(factorial(n)*series(log(x+h),h,0,n+1).removeO().coeff(h,n) - diff(log(x),x,n))",
+    "asserts": "Taylor-coefficient definition reproduces d^3/dx^3 log(x) = 2/x^3 (result 0)."
+   },
+   {
+    "sympy": "n=symbols('n',integer=True,nonnegative=True); simplify(1/gamma(n+1) - 1/factorial(n))",
+    "asserts": "The natural interpolation K_nu = 1/Gamma(nu+1) reduces to 1/n! for integer n, as required for the next page's definition (2)."
+   }
+  ],
+  "transcription_corrections": [
+   "The function is written in the manuscript with the argument as a subscript-like 'z_(x)' / 'z_(x+h)' (e.g. 'was aus z_(x) wird', 'von z_(x+h)'). The machine transcription normalizes this to z(x), z(x+h); the meaning is unchanged.",
+   "Equation (1): the upper limit is written 'p=∞' above the Σ and 'p=0' below; the factorial is written '1.2..p'. Transcription is correct.",
+   "The rest of the transcription matches the image, including 'multiplicirt in einem nach x constanten, nur von n abhängigen Factor, nämlich in 1.2....n'."
+  ]
+ }
+}

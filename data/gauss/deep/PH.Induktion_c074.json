@@ -1,0 +1,104 @@
+{
+ "bundle": "PH.Induktion",
+ "page": "c074",
+ "label": "38r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382427:00000075/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a reduction sheet for observations made on a magnetic 'Termin' (term day). The readings are scale divisions of a magnetometer (declination or bifilar intensity), taken every five minutes. The previous folio in the bundle covers 23h35' to 0h20' of the same series. This page continues from 0h25' to 1h25'; there is no 0h35' block.\n\n(A) Quiet blocks: 0h25', 0h30', 0h40', 0h45', 0h50', 0h55', 1h0'.\n- Each block has 7 consecutive readings a1..a7, presumably at equal intervals (probably 20 s) centred on the nominal time.\n- The needle oscillates with a half-period of about two reading intervals. The 1h0' block shows this clearly: 771.1, 771.9, 772.0, 771.2, 771.3, 772.0, 772.1, i.e. two high and two low.\n- Middle column (my reconstruction, verified for every entry): b_i = (a_i + a_{i+2})/2 for i = 1..5. Readings half an oscillation apart are paired, which cancels the swing. Results are rounded to 0.1, and the rounding of exact .x5 cases is not uniform.\n  Example, 0h25': (771.9+771.3)/2 = 771.6, (771.2+772.0)/2 = 771.6, (771.3+772.0)/2 = 771.65 -> 771.7, (772.0+771.2)/2 = 771.6, (772.0+771.1)/2 = 771.55 -> 771.5.\n- Block value: m = (b1+...+b5)/5. Without rounding this equals (a1 + a2 + 2a3 + 2a4 + 2a5 + a6 + a7)/10, a symmetric smoothing filter.\n- All seven block values check: 771.60, 771.12, 771.84, 771.56, 771.84, 772.44, 771.60.\n\n(B) Disturbed blocks: 1h5', 1h17', 1h20', 1h25'.\n- The readings swing by several divisions; at 1h17' they run from 768.8 to 775.7. A storm, or perhaps an artificial disturbance given the bundle name 'Induktion'.\n- Here the middle column holds two-decimal values: 1h5': 773.09, 772.95, 772.52, 773.62, 772.29; 1h17': 772.7, 774.11, 773.74, 771.15, 770.57; 1h20': 774.01, 774.02, 773.11; 1h25': 773.59, 773.89, 774.18, 773.31.\n- In each block there are (number of readings − 2) such values, so each presumably comes from three consecutive readings. However, they are NOT (a_i + a_{i+2})/2. I also tested a fixed linear 3-point filter, the cos(ωh)-equilibrium formula and the damped-oscillation formula (ac−b²)/(a+c−2b); none fits. Their derivation cannot be reconstructed from this page, and they may use additional data or timings not written here.\n- The final means are formed by adding excesses over a round number:\n  - 1h5': excesses over 770 sum to 14.47 (written '1447'); 770 + 14.47/5 = 772.894.\n  - 1h17': sum 12.27 (written '1227'); 770 + 12.27/5 = 772.454.\n  - 1h20': (774.01 + 774.02 + 773.11)/3 = 773.713 -> 773.71.\n  - 1h25': the excesses over 773 are 0.59, 0.89, 1.18, 0.31, summing to 2.97. Gauss writes '397' and evidently takes 773 + 3.97/4 = 773.9925 -> '773,992'. The correct mean is 773.7425.\n\nPurpose: to produce a single oscillation-free reading for each 5-minute epoch, for plotting the Terminszeichnungen and for the 'Beobachtungszahlen' of the Resultate aus den Beobachtungen des magnetischen Vereins.",
+  "errors": [
+   "1h25': the sum of the four values' excesses over 773 is 0.59+0.89+1.18+0.31 = 2.97, but Gauss wrote 397. The resulting mean 773.992 should be 773.7425 (≈773.74). This assumes the column values are read correctly.",
+   "Minor inconsistency in rounding exact half-tenths in the middle columns. For example, at 0h30' 771.15 becomes 771.2 once and 771.1 once; at 1h0' 771.55 becomes 771.6 once and 771.5 once. The effect on the means is ≤0.02.",
+   "The two-decimal intermediate values in the disturbed blocks (1h5'-1h25') cannot be reproduced from the recorded readings by any simple formula tested. Their method is unverified rather than shown wrong."
+  ],
+  "results": [
+   {
+    "what": "Eliminating the needle's oscillation by averaging readings separated by half an oscillation period: b_i = (a_i + a_{i+2})/2.",
+    "modern_name": "Half-period averaging / simple moving-average filter for removing a periodic disturbance",
+    "usually_credited_to": "Standard practice in Gauss–Weber magnetometer observation (Gauss, 'Das in den Beobachtungs-Terminen anzuwendende Verfahren', Resultate 1836)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Combined 7-point weighted mean with weights (1,1,2,2,2,1,1)/10 giving the value for each 5-minute epoch.",
+    "modern_name": "Symmetric FIR smoothing filter (convolution of two moving averages)",
+    "usually_credited_to": "Gauss/Weber Magnetic Union observing procedure",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Averaging by summing excesses over a round base value.",
+    "modern_name": "Arithmetic mean with assumed origin",
+    "usually_credited_to": "Routine computational practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Purely routine data reduction of magnetic term-day readings, using the averaging scheme Gauss himself published for the Göttinger Magnetischer Verein. Nothing mathematically new.",
+  "checkable": [
+   {
+    "sympy": "Rational(7719+7713,20) == Rational(7716,10)",
+    "asserts": "0h25': (771.9+771.3)/2 = 771.6"
+   },
+   {
+    "sympy": "(Rational(7716)+7716+7717+7716+7715)/50 == Rational(77160,100)",
+    "asserts": "0h25': mean of middle column 771.6, 771.6, 771.7, 771.6, 771.5 is 771.60"
+   },
+   {
+    "sympy": "(Rational(7719)+7712+2*(7713+7720+7720)+7712+7711)/100 == Rational(77160,100)",
+    "asserts": "0h25': the (1,1,2,2,2,1,1)/10 weighted mean of the raw readings equals 771.60"
+   },
+   {
+    "sympy": "(Rational(7712)+7710+7711+7711+7712)/50 == Rational(77112,100)",
+    "asserts": "0h30' block mean 771.12"
+   },
+   {
+    "sympy": "(Rational(7718)+7719+7718+7719+7718)/50 == Rational(77184,100)",
+    "asserts": "0h40' block mean 771.84"
+   },
+   {
+    "sympy": "(Rational(7716)*4+7714)/50 == Rational(77156,100)",
+    "asserts": "0h45' block mean 771.56"
+   },
+   {
+    "sympy": "(Rational(7716)+7717+7719+7719+7721)/50 == Rational(77184,100)",
+    "asserts": "0h50' block mean 771.84"
+   },
+   {
+    "sympy": "(Rational(7724)+7725+7724+7724+7725)/50 == Rational(77244,100)",
+    "asserts": "0h55' block mean 772.44"
+   },
+   {
+    "sympy": "(Rational(7716)+7715+7716+7716+7717)/50 == Rational(77160,100)",
+    "asserts": "1h0' block mean 771.60"
+   },
+   {
+    "sympy": "(Rational(77309)+77295+77252+77362+77229)/500 == Rational(772894,1000)",
+    "asserts": "1h5' mean 772.894"
+   },
+   {
+    "sympy": "(Rational(77270)+77411+77374+77115+77057)/500 == Rational(772454,1000)",
+    "asserts": "1h17' mean 772.454"
+   },
+   {
+    "sympy": "N((Rational(77401)+77402+77311)/300, 8)",
+    "asserts": "1h20' mean ≈ 773.713 (Gauss: 773.71)"
+   },
+   {
+    "sympy": "(Rational(77359)+77389+77418+77331)/400 == Rational(7737425,10000)",
+    "asserts": "1h25': true mean is 773.7425, not Gauss's 773.992"
+   },
+   {
+    "sympy": "Rational(59+89+118+31,100) == Rational(297,100)",
+    "asserts": "1h25': sum of excesses over 773 is 2.97, not 3.97"
+   }
+  ],
+  "transcription_corrections": [
+   "The final values at 1h5' and 1h17' are written oddly ('77 2894', '772454'); they are 772,894 and 772,454 (confirmed by sum/5).",
+   "Underlined sums '1447', '1227', '397' are sums of excesses (14.47 and 12.27 over 770; for 1h25' the correct sum over 773 is 2.97, so '397' is Gauss's slip, not a transcription error).",
+   "1h17' first middle-column value '772,7' is to be read as 772.70 (needed for the sum 12.27).",
+   "At 1h0' the third reading is 772,0 (digit overwritten); the transcription is consistent with the image and with the check (771.9+771.2)/2 -> 771.5."
+  ]
+ }
+}

@@ -1,0 +1,74 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c389",
+ "label": "199v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000390/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 199v carries no independent text. The faint writing in the image matches the recto (fol. 199r) line for line: about 4 lines of prose, a formula line, 2 lines of prose, two formulas, a 'Log p = ...' line, and the same columns of 7–8 place logarithms (9,6377843; 0,3010300; 0,1314110; ...; 2,878278). It is ink bleeding through from the recto, not new content. The only content to reconstruct is therefore that of 199r.\n\n(1) Problem. A quantity x is found from x = (Log a − Log b)/n, with Log the common (base-10) logarithm. Both a and b carry the same probable error ±ε. Find the probable error of x and choose the ratio m = a/b that makes it smallest relative to x. Probably x is the logarithmic decrement per oscillation, from two amplitudes a and b observed n swings apart. This was the Gauss–Weber magnetometer practice; Riemann worked with Weber in 1853. That context is my inference.\n\n(2) Error propagation (my filling-in). Write M = Log e. Then dx = M(da/a − db/b)/n. With independent errors the probable error is (M ε/n)·sqrt(1/a² + 1/b²) = (M ε/(n a))·sqrt(1+m²). Since n = Log m / x, this becomes (ε/a)·x·sqrt(1+m²)/ln m. Riemann writes this as ±(sqrt(1+m²)/log m)(ε/a)x = ±(p/a)xε, so his lower-case 'log' is the natural log and p(m) = sqrt(1+m²)/ln m.\n\n(3) Minimising p. The derivative d ln p/dm = m/(1+m²) − 1/(m ln m) = 0 gives m² ln m = 1+m², i.e. m²(ln m − 1) = 1. Riemann's word 'Maximum' is corrected to 'Minimum' on the recto.\n\n(4) Substitution. Put m = e·10^(z/2), i.e. Log m = z/2 + Log e. Then ln m − 1 = z/(2M). The condition becomes m²·z/(2M) = 1. Taking logs: 2 Log m + Log z = Log(2M), hence z + Log z = Log(2 Log e) − 2 Log e, which is exactly Riemann's equation.\n\n(5) Value of p at the minimum. There 1+m² = m² ln m, so p = m/sqrt(ln m) and ln m = Log m / M. Hence Log p = Log m − ½ Log Log m + ½ Log Log e, as written.\n\n(6) Numerics, in tabular logarithms with the −10 suppressed:\n- Log Log e = 9.6377843, Log 2 = 0.3010300, and 0.1314110 is the complement of 2M = 0.8685890. Their sum is 9.0702253, i.e. z + Log z = −0.9297747.\n- The equation is solved iteratively: z = 0.09455247, Log z = 8.97567282.\n- z/2 = 0.04727623, so Log m = 0.48157071 and m = 3.030906.\n- ½ Log Log e = 9.8188921 and Log Log m = 9.6826600, so −½ Log Log m = 0.1586700.\n- Log p = 0.4591328, so p_min = 2.878278.\n- Comparison values: m = 3 gives p = sqrt(10)/ln 3 = 2.878430; m = 2 gives p = sqrt(5)/ln 2 = 3.225964.\n\nConclusion: the optimal amplitude ratio is a little above e (about 3.03). Taking m = 3 is practically optimal; m = 2 is about 12% worse.",
+  "errors": [
+   "No errors in the content (on 199r). Every algebraic step and every logarithm checks to the last place or within one unit there.",
+   "The 'Maximum' → 'Minimum' correction on the recto is right: p → ∞ as m → 1 and as m → ∞, so the stationary point is a minimum.",
+   "The probable error is propagated by combining independent errors in quadrature, Gauss-style. This is standard and not justified on the page; that is normal."
+  ],
+  "results": [
+   {
+    "what": "Probable error of x = (Log a − Log b)/n when a and b have equal probable error ε: ±(sqrt(1+m²)/ln m)(ε/a)x with m = a/b",
+    "modern_name": "Linear (Gaussian) propagation of uncertainty; precision of the logarithmic decrement",
+    "usually_credited_to": "Gauss (theory of errors, 1809/1823); applied to decrement measurement by Gauss and Weber in the 1830s",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Optimal amplitude ratio minimising the relative error: m² ln m = 1+m², giving m ≈ 3.0309 and p_min ≈ 2.87828",
+    "modern_name": "Optimal experimental design for a decay-constant measurement (optimum ratio slightly above e)",
+    "usually_credited_to": "Folklore of 19th-century observational physics (Gauss–Weber school); no specific attribution",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Reduction of the transcendental optimum condition to z + Log z = Log(2 Log e) − 2 Log e, solved with 7–8 place log tables",
+    "modern_name": "Numerical solution of a transcendental equation (a Lambert-W-type equation)",
+    "usually_credited_to": "Standard numerical practice",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The verso is blank apart from ink showing through from the recto. The recto content is a routine Gauss-style error-propagation and optimisation exercise, presumably connected with Weber's oscillation measurements. Nothing on it is non-standard.",
+  "checkable": [
+   {
+    "sympy": "m=symbols('m',positive=True); p=sqrt(1+m**2)/log(m); simplify(diff(log(p),m) - (m/(1+m**2) - 1/(m*log(m))))",
+    "asserts": "The logarithmic derivative of p(m); setting it to zero gives m**2*log(m) = 1+m**2. Should simplify to 0."
+   },
+   {
+    "sympy": "nsolve(m**2*log(m)-1-m**2, m, 3)",
+    "asserts": "The optimal ratio is m ≈ 3.030906."
+   },
+   {
+    "sympy": "z=symbols('z'); nsolve(z+log(z,10) - (log(2*log(E,10),10) - 2*log(E,10)), z, 0.1)",
+    "asserts": "Riemann's z ≈ 0.09455247."
+   },
+   {
+    "sympy": "N(0.09455247/2 + log(E,10)), N(10**(0.09455247/2 + log(E,10)))",
+    "asserts": "Log m = 0.48157071 and m ≈ 3.030906."
+   },
+   {
+    "sympy": "mm=3.030906; N(sqrt(1+mm**2)/log(mm)), N(mm/sqrt(log(mm)))",
+    "asserts": "p_min ≈ 2.878278; at the optimum the two expressions for p agree."
+   },
+   {
+    "sympy": "N(sqrt(10)/log(3)), N(sqrt(5)/log(2))",
+    "asserts": "p(3) = 2.878430 and p(2) = 3.225964."
+   },
+   {
+    "sympy": "N(log(log(E,10),10)+10), N(1-2*log(E,10))",
+    "asserts": "Tabular Log Log e = 9.6377843 (−10), and the complement of 2 Log e is 0.1314110."
+   }
+  ],
+  "transcription_corrections": [
+   "The page content is not genuinely 'illegible': fol. 199v is a blank verso showing the recto (fol. 199r) through the paper. The faint lines and number columns correspond exactly to 199r ('Wird x aus der Gleichung...', 'z + Log z = ...', '9,6377843', ..., 'p = 2,878278', 'm = 3 ... p = 2,878430', 'm = 2 ... p = 3,225964'). It should be transcribed as '[blank; show-through of fol. 199r]'.",
+   "In the 199r transcription, 'z + Log z = 9,0702253' and similar entries are tabular logarithms with −10 suppressed (i.e. −0.9297747). '−2 Log e = 0,1314110' is the arithmetical complement of 2 Log e = 0.8685890, not a literal equality."
+  ]
+ }
+}

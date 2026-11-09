@@ -1,0 +1,71 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c225",
+ "label": "113v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000226/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a short sketch: Dirichlet's principle adapted to the Neumann problem for Laplace's equation in a bounded region of space. Normal is p, surface element ds.\n\n(1) Problem. Find U with ΔU = U_xx + U_yy + U_zz = 0 inside the region and ∂U/∂p = ρ on the boundary. The right-hand side '= ' is left blank; it is clearly 0.\n\n(2) Compatibility condition. ∫ρ ds = 0 over the boundary. This is necessary, since ∫∂U/∂p ds = ∫ΔU dV = 0 by the divergence theorem.\n\n(3) Dirichlet integral. D(u) = ∭(u_x² + u_y² + u_z²) dx dy dz.\n\n(4) Boundary functional. A = ∫ u ρ ds. Because ∫ρ ds = 0, adding a constant to u does not change A.\n\n(5) Variational condition. The page writes ∂u/∂p = μρA. My filling of the implicit step: this is the Euler–Lagrange condition for making D stationary relative to A². One can minimize the homogeneous ratio D/A², or D − μA² with μ as Lagrange multiplier.\n- Green's formula gives δD = −2∫Δu δu dV + 2∫(∂u/∂p) δu ds, taking p as the outward normal.\n- Also δ(A²) = 2A∫ρ δu ds.\n- Stationarity for all δu therefore gives Δu = 0 inside and ∂u/∂p = μAρ on the boundary.\n- Multiplying by u and integrating gives D = ∫u ∂u/∂p ds = μA², so μ = D/A² > 0, the minimum value of the ratio.\n\n(6) Normalization. Put U = u/(μA). Then ΔU = 0 and ∂U/∂p = ρ, so the Neumann problem is solved, up to an additive constant.\n\nIn short: the minimizer of D(u)/(∫uρ ds)², rescaled, solves the Neumann problem. Existence of the minimizer is assumed in Dirichlet-principle style. This is the variational (energy) treatment of the second boundary-value problem.",
+  "errors": [
+   "The right-hand side of the Laplace equation is left blank; it should read = 0.",
+   "Existence of a minimizer (of D subject to the constraint, or of D/A²) is assumed without proof. This is the usual gap of the Dirichlet principle.",
+   "The sign depends on the normal convention. With an inward normal, D = −∫u ∂u/∂p ds, and μ would carry the opposite sign. Nothing on the page fixes the convention, so the formulas are correct only up to this sign.",
+   "The minimizer is determined only up to an additive constant and a positive scale. This is harmless here and is used implicitly in step (6).",
+   "The step from 'minimize' to ∂u/∂p = μρA (multiplier and Green's formula) is not written out; it is reconstructed here."
+  ],
+  "results": [
+   {
+    "what": "Compatibility condition ∫ρ ds = 0 for the Neumann problem ΔU = 0, ∂U/∂p = ρ",
+    "modern_name": "Solvability (compatibility) condition for the Neumann problem",
+    "usually_credited_to": "Classical potential theory (Gauss, Green; problem later named after C. Neumann, 1870s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Solving the Neumann problem by minimizing the Dirichlet integral relative to the boundary functional ∫uρ ds, then rescaling by the multiplier",
+    "modern_name": "Variational/Dirichlet-principle treatment of the Neumann problem (energy method; minimizing D(u) − 2∫uρ ds or D/A²)",
+    "usually_credited_to": "Dirichlet principle: Gauss 1840, Thomson 1847, Dirichlet (lectures), named and used by Riemann 1851/1857. Rigorous variational Neumann problem: Hilbert school, ca. 1900–1910.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Identity D(u) = ∫u ∂u/∂p ds for harmonic u, hence μ = D/A²",
+    "modern_name": "Green's first identity",
+    "usually_credited_to": "George Green (1828)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Riemann is well known for systematically using the Dirichlet principle (dissertation 1851, Abelian functions 1857). Applying it to the Neumann boundary condition with a multiplier is a natural, minor extension. As an unpublished scratch note it is a small but genuine detail, not a new result.",
+  "checkable": [
+   {
+    "sympy": "x,y,z=symbols('x y z'); u=x; simplify(diff(u,x,2)+diff(u,y,2)+diff(u,z,2))==0",
+    "asserts": "Test function u=x is harmonic."
+   },
+   {
+    "sympy": "r,th,ph=symbols('r theta phi',positive=True); rho=sin(th)*cos(ph); integrate(integrate(rho*sin(th),(th,0,pi)),(ph,0,2*pi))==0",
+    "asserts": "For u=x on the unit sphere, ρ=∂u/∂n=x satisfies the compatibility condition ∫ρ ds = 0."
+   },
+   {
+    "sympy": "D=integrate(integrate(integrate(1*r**2*sin(th),(r,0,1)),(th,0,pi)),(ph,0,2*pi)); A=integrate(integrate((sin(th)*cos(ph))**2*sin(th),(th,0,pi)),(ph,0,2*pi)); simplify(D-A)==0",
+    "asserts": "Green's identity for u=x on the unit ball: Dirichlet integral 4π/3 equals ∫u ∂u/∂n ds = 4π/3."
+   },
+   {
+    "sympy": "mu,A,rho=symbols('mu A rho',positive=True); simplify((mu*rho*A)/(mu*A)-rho)==0",
+    "asserts": "If ∂u/∂p = μρA, then U = u/(μA) has ∂U/∂p = ρ (linearity of the normal derivative)."
+   },
+   {
+    "sympy": "D,A,mu=symbols('D A mu',positive=True); solve(Eq(D,mu*A**2),mu)",
+    "asserts": "Multiplying ∂u/∂p = μAρ by u and integrating gives D = μA², so μ = D/A²."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the unknown is likely a different letter (Fraktur 𝔘 or capital U) from the u used later: ∂𝔘/∂p = ρ.",
+   "Line 2: the Laplacian of 𝔘 is set equal to an unwritten right side (intended 0).",
+   "Last line should read 𝔘 = u/(μA) (Fraktur/capital U on the left), not 'u = u/(μA)'.",
+   "'∂u/∂p = μρA' is consistent with the image and with the derivation; it is not an error.",
+   "The ∫ρ ds = 0 in the upper right is a side note (compatibility condition), not part of the left-hand sequence."
+  ]
+ }
+}

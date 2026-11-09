@@ -1,0 +1,53 @@
+{
+ "bundle": "Math.21",
+ "page": "c038",
+ "label": "20r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000039/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "OVERALL. The page carries the heading 'forma'. It has seven blocks, each multiplied by a linear factor (x-n), plus a short sketch. Its purpose is not stated. The previous page deals with cubic periods / cyclotomy, and the next page is a tailor's list, so neither explains it.\n\nTHE CYCLE. The letters a,b,c,...,i,k,...,v (no j) are 21 symbols arranged in a cycle: ...u, v, a, b, c, d, .... A two-letter symbol such as bc, cd or va denotes the pair of neighbours (an edge, or possibly a literal product).\n\nSPECIAL VERTICES. Seven vertices are marked with a superscript zero: c, e, i, l, p, s, u. They cut the 21-cycle into seven arcs:\n- c->e, factor (x-4)\n- e->i, factor (x-6)\n- i->l, factor (x-10)\n- l->p, factor (x-12)\n- p->s, factor (x-16)\n- s->u, factor (x-19)\n- u->(v,a,b)->c, factor (x-21)\n\nThe numbers 4, 6, 10, 12, 16, 19, 21 are cumulative arc positions. Their successive differences 2, 4, 2, 4, 3, 2, 4 are exactly the numbers of edges in the arcs (c-d-e = 2, e-f-g-h-i = 4, i-k-l = 2, l-m-n-o-p = 4, p-q-r-s = 3, s-t-u = 2, u-v-a-b-c = 4). These sum to 21 (my check).\n\nTHE GENERAL BLOCK. For an arc P -> X1 -> ... -> Xr -> Q, where O precedes P and S follows Q, the bracket is:\n- P'(P - OP) + P°(P X1 - OP)\n- + sum over interior vertices X (neighbours W, Y) of [X'(WX - X) + X''(XY - X)]\n- + Q°(Xr Q - QS) + Q''(Q - QS)\n\nTo this Gauss adds (Q - P)·i. The factor i is apparently a separate symbol, distinct from the vertex letter i.\n\nVARIABLES PER VERTEX. Each ordinary vertex carries two variables, X' and X''. A special vertex carries P' and P° in the arc it starts, and P° and P'' in the arc it ends. Thus P° occurs twice, with opposite signs of the same difference.\n\nTHE WHOLE EXPRESSION (my reading). Implicitly F(x) = sum over k of (x - n_k)[B_k + (Q_k - P_k) i]. Consequences:\n- (i) The i-terms telescope: sum of (Q_k - P_k) = 0. So the x-coefficient of the i-part vanishes, and the constant part is -sum n_k (Q_k - P_k).\n- (ii) The P° terms cancel in the x-coefficient. Their total contribution is (OP·... difference) times (length of the preceding arc). For example, e°: (x-4)(de-ef) + (x-6)(ef-de) = 2(de-ef).\n\nEvery block on the page follows the template exactly. The intended application is uncertain. Possible readings include a period/cycle of forms (suggested by 'forma'), a discrete integral along a closed 21-gon, or a combinatorial-topological chain computation.\n\nSKETCH. At the bottom is a triangle with vertices α, β, γ and a dotted line from γ to the side αβ (a height or cevian). It is unconnected to the formulas.",
+  "errors": [
+   "No algebraic slips detected: all seven blocks follow the same template consistently (neighbour pairs, primes/zeros on start/end vertices, and (Q-P)i terms all correct with respect to the cyclic order a..v).",
+   "The page gives no statement of the goal, so correctness of the scheme relative to its purpose cannot be assessed."
+  ],
+  "results": [
+   {
+    "what": "A systematic bookkeeping scheme over a 21-cycle of symbols a..v divided into 7 arcs by special vertices. Each arc contributes a bracket of vertex-minus-edge differences weighted by per-vertex variables, multiplied by (x - cumulative position), plus (end - start)·i.",
+    "modern_name": "Cyclic chain / telescoping sum over a closed polygon (combinatorial bookkeeping); purpose unidentified",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Triangle sketch α, β, γ with a dotted line from γ to αβ",
+    "modern_name": "Elementary triangle altitude/cevian sketch",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is a structured but unexplained combinatorial scheme on a 21-cycle. There is no identifiable theorem; it is internally consistent bookkeeping whose purpose (possibly cycles of forms or a discrete line sum) is unclear. Nothing here suggests an anticipated later result.",
+  "checkable": [
+   {
+    "sympy": "from sympy import symbols, expand; c,d,e,i,l,p,s,u,x=symbols('c d e i l p s u x'); expand((x-4)*(e-c)+(x-6)*(i-e)+(x-10)*(l-i)+(x-12)*(p-l)+(x-16)*(s-p)+(x-19)*(u-s)+(x-21)*(c-u)).coeff(x)==0",
+    "asserts": "The (Q-P)·i terms telescope, so their x-coefficient vanishes."
+   },
+   {
+    "sympy": "sum([6-4,10-6,12-10,16-12,19-16,21-19,(4+21)-21])==21",
+    "asserts": "The arc lengths 2,4,2,4,3,2,4 implied by the x-shifts sum to the cycle length 21 (number of letters a..v without j)."
+   },
+   {
+    "sympy": "from sympy import symbols, expand; x,e0,de,ef=symbols('x e0 de ef'); expand((x-4)*e0*(de-ef)+(x-6)*e0*(ef-de)-2*e0*(de-ef))==0",
+    "asserts": "The two occurrences of e° combine to 2·e°(de-ef), independent of x (same pattern for every special vertex)."
+   },
+   {
+    "sympy": "len('abcdefghiklmnopqrstuv')==21",
+    "asserts": "The alphabet used (no j, no w) has 21 symbols, consistent with closure at (x-21)."
+   }
+  ],
+  "transcription_corrections": [
+   "Transcription appears accurate. The first block's '+(e-c)i' is correct (the c is written heavily). In the third block, i°(ik-hi) is confirmed. The archival mark at top right reads a struck-out '44 h' followed by '21', with folio number (20) circled."
+  ]
+ }
+}

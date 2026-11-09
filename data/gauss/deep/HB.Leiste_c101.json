@@ -1,0 +1,94 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c101",
+ "label": "19v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000102/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two unrelated parts.\n\n(A) TOP: a table of square roots and a difference check.\nThe left column gives f(n)=sqrt(n) for n=1000,...,1008 to about 28-30 decimals. The value sqrt(1000)=10*sqrt(10)=31.62277660168379331998893544(43...) continues the root table of the previous page.\nThe right column gives the forward differences of f at n=1000, orders 1 to 7, as absolute values. The even orders are actually negative.\n- Delta1 = sqrt(1001)-sqrt(1000) = 0.01580743742895582311...\n- |Delta2| = 7.8938528770...e-6\n- Delta3 = 1.18142010...e-8\n- |Delta4| = 2.9439836...e-11\n- Delta5 = 1.0260342e-13\n- |Delta6| = 4.593e-16\n- Delta7 = 2.510e-18\nThese agree with Delta^r f(1000) ~ f^(r)(1000+r/2), with f^(r)(x) = (1/2)(-1/2)...(3/2-r) x^(1/2-r). For example, Delta2 ~ -(1/4)*1001^(-3/2) ~ -7.894e-6. The smooth decay of the differences serves to check the many-digit root table. The boxed '94' at n=1006 is a correction of the last digits.\n\n(B) BOTTOM: the perimeter of an ellipse via a quadratic (Landen/Gauss) transformation.\n\nDefinition of M. Let K(k) and E(k) be the complete elliptic integrals, with k'=sqrt(1-k^2). [Mine:] the coefficients identify\n  M(k) = (1 - E/K)/k^2.\nThe margin column 1, 1/4, 9/64, 25/256 is the series of 2K/pi. The column 1/2, 3/16, 15/128, 175/2048 is the series of (2/pi)(K-E)/k^2. Dividing the second by the first gives Gauss's series\n  M(x) = 1/2 + x^2/16 + x^4/32 + 41x^6/2048.\nThe remaining margin entries (1/16, 3/64, 75/2048; 1/16, 1/64, 9/1024; 57/1024; 59/2048; 1/128) look like partial products of this division.\n\nRecursion. Gauss states\n  M(v) = 1/2 + (1/2) v1 M(v1),  with v1 = (1-sqrt(1-v^2))/(1+sqrt(1-v^2)).\nThis is the descending Landen step. [Mine:] it follows from E = K(1 - sum_{n>=0} 2^(n-1) c_n^2) in the AGM with a0=1, b0=k', c0=k. One step gives a1=(1+k')/2 and c1=(1-k')/2, so\n  k^2 M(k) = k^2/2 + 2c1^2 M(k1),\nand (1-k')^2/k^2 = k1.\nInverted, the recursion reads M(2sqrt(x)/(1+x)) = 1/2 + (1/2) x M(x).\n\nCoefficients by comparison. Gauss uses the inverted form to find the coefficients.\n- First trial: M = 1/2 + alpha x^2. The left side is 1/2 + 4alpha x + ..., the right side is 1/2 + x/4, so alpha = 1/16.\n- Expansions used: (1/16)*4x/(1+x)^2 = x/4 - x^2/2 + 3x^3/4 - x^4. Next, (1/32)*(4x/(1+x)^2)^2 = x^2/2 - 2x^3 + 5x^4.\n- The right side is 1/2 + x/4 + 0x^2 + x^3/32 + 0 + x^5/64 (the stars mark zeros).\n- Comparing the x^3 terms: 3/4 - 2 + 64 gamma = 1/32, so gamma = 41/2048.\n\nNumerical check. 0.531 + 0.0078 + 0.0026 (+ a crossed tail) ~ 0.5432. This is M(1/sqrt2) = 1/2 + 1/32 + 1/128 + 41/16384 + ... The true value is 0.54306.\nThe line 1/2 + 1/16 + 1/32 + 41/2048 + ... is M(1). Its limit is 1, since K diverges as k->1.\n\nPerimeter. For an ellipse with axes a, b (apparently full axes, so a circle gives pi*a), take e^2=(a^2-b^2)/a^2.\n  P = pi*a*(2E(e)/pi) = pi (b^2/a) * (2K/pi) * (1 - e^2 M(e))/k'^2.\nGauss writes pi(bb/a)[K-factor](1 + ((aa-bb)/bb) M(...)). He then rewrites it as 1 + N(sqrt((aa-bb)/bb)) with N(v) = v^2 M(v).\n[Mine:] this is exact if N is taken at the imaginary modulus i*v, v = sqrt(a^2-b^2)/b. That uses E(k) = k' E(ik/k') and 1 - (iv)^2 M(iv) = 1 + v^2 M(iv).\nThe prefactor becomes pi*b^2/AGM(a,b) = pi(bb/a)/AGM(1,b/a). This is Gauss's 'Med. inter 1 et ...', the arithmetic-geometric mean.\nThe isolated expression (bb/a + (aa-bb)ss/a)/sqrt(aa - (aa-bb)ss/aa) appears to be an arc-length integrand in a parameter s. It is not developed further.\n\nRecursion for N. Gauss writes N(v) = vvM(v) = vv/2 + v*N(...). [Mine:] the correct recursion is\n  N(v) = v^2/2 + ((1+sqrt(1-v^2))^2/2) N(v1).",
+  "errors": [
+   "The coefficient in Nv = vvMv = 1/2 vv + v N(v1) is not right as written. From M(v)=1/2+v1 M(v1)/2 one gets N(v) = v^2/2 + (1+sqrt(1-v^2))^2/2 * N(v1), since v^2/v1=(1+v')^2. The line is partly struck and may be unfinished.",
+   "First perimeter line: '1 + (aa-bb)/bb * M(sqrt((aa-bb)/aa))' with the real modulus e is wrong; the correct factor is (1-e^2M(e))/(1-e^2) = 1+e^2(1-M(e))/(1-e^2). Gauss evidently noticed and rewrote it as 1+N(sqrt((aa-bb)/bb)). That form is correct when N is evaluated at the (imaginary) modulus sqrt(a^2-b^2)/b, i.e. with alternating-sign series.",
+   "Differences of even order are written without their (negative) sign. This is a convention, not an error.",
+   "The '18' tail in the numerical sum 0.531+78+26 is crossed out. The final 0.5432 is about 0.0001 above the true M(1/sqrt2)=0.54306, which is acceptable for a truncated estimate."
+  ],
+  "results": [
+   {
+    "what": "Square roots of 1000..1008 to about 30 decimals, checked by forward differences up to 7th order",
+    "modern_name": "table verification by finite differences",
+    "usually_credited_to": "standard practice (Briggs, Newton)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Series 1-E/K = k^2(1/2 + k^2/16 + k^4/32 + 41k^6/2048 + ...), obtained by dividing the series of K-E by that of K",
+    "modern_name": "power series of E/K (complete elliptic integrals)",
+    "usually_credited_to": "Euler/Legendre (series of K, E)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Functional equation M(k)=1/2+k1 M(k1)/2, k1=(1-k')/(1+k'), equivalent to E = K(1 - sum 2^(n-1) c_n^2)",
+    "modern_name": "Landen/Gauss quadratic transformation; AGM algorithm for E",
+    "usually_credited_to": "Landen (1775), Legendre (1811/1825), Gauss (Nachlass, c.1799)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Ellipse perimeter as pi*b^2/AGM(a,b) * (1 + v^2 M(iv)), v^2=(a^2-b^2)/b^2",
+    "modern_name": "AGM formula for ellipse circumference",
+    "usually_credited_to": "Gauss (Werke III, Nachlass), Legendre",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss's AGM/Landen treatment of the ellipse perimeter is well known from his Nachlass (c.1799). This page shows an explicit series-based derivation of the E/K recursion in his early school notebook (Leiste). That is a notable early-dating detail, but not a new result.",
+  "checkable": [
+   {
+    "sympy": "N(sqrt(1001),40); N(sqrt(1006),40); N(sqrt(1008),40)",
+    "asserts": "the tabulated roots, e.g. sqrt(1001)=31.63858403911274914310629158..."
+   },
+   {
+    "sympy": "N(sum((-1)**(7-j)*binomial(7,j)*sqrt(1000+j) for j in range(8)),30)",
+    "asserts": "7th difference ~ 2.510485e-18"
+   },
+   {
+    "sympy": "N(sqrt(1002)-2*sqrt(1001)+sqrt(1000),30)",
+    "asserts": "2nd difference ~ -7.893852877e-6"
+   },
+   {
+    "sympy": "series((1-elliptic_e(m)/elliptic_k(m))/m, m, 0, 4)",
+    "asserts": "= 1/2 + m/16 + m**2/32 + 41*m**3/2048 + O(m**4)"
+   },
+   {
+    "sympy": "series(2*(elliptic_k(m)-elliptic_e(m))/(pi*m), m, 0, 4)",
+    "asserts": "= 1/2 + 3*m/16 + 15*m**2/128 + 175*m**3/2048"
+   },
+   {
+    "sympy": "M=lambda k:(1-elliptic_e(k**2)/elliptic_k(k**2))/k**2; k=Rational(3,5); kp=sqrt(1-k**2); k1=(1-kp)/(1+kp); N(M(k)-(Rational(1,2)+k1*M(k1)/2))",
+    "asserts": "recursion M(k)=1/2+k1*M(k1)/2 holds (=0)"
+   },
+   {
+    "sympy": "N((1-elliptic_e(Rational(1,2))/elliptic_k(Rational(1,2)))*2)",
+    "asserts": "M(1/sqrt2) ~ 0.54306"
+   },
+   {
+    "sympy": "a=3;b=2; v2=Rational(a**2-b**2,b**2); P=pi*a*2*elliptic_e(1-Rational(b**2,a**2))/pi; Mi=(1-elliptic_e(-v2)/elliptic_k(-v2))/(-v2); N(P - pi*b**2/(agm:=None or 1)*0)",
+    "asserts": "placeholder; use the next item instead"
+   },
+   {
+    "sympy": "a=3;b=2; v2=Rational(5,4); P=2*a*elliptic_e(Rational(5,9)); Q=2*b*elliptic_e(-v2); N(P-Q)",
+    "asserts": "imaginary-modulus transformation: 2aE(e)=2bE(i v), v^2=(a^2-b^2)/b^2 (=0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Top-right header 'Die erste Differenz' etc. is correct. The even-order differences are absolute values.",
+   "In Nv=vvMv=1/2vv+v N(...) the argument is (1-sqrt(1-vv))/(1+sqrt(1-vv)), not sqrt of it. Part of the line is struck through.",
+   "'Med. inter 1 et bb/aa' is probably the arithmetic-geometric mean (Med. = medium arithmetico-geometricum), mathematically expected to involve b/a. The reading is uncertain.",
+   "'1/2 + 1/4 * 1/32 * 1/64': the asterisks mark zero coefficients (x^2, x^4) in the series of 1/2 + x M(x)/2.",
+   "The sqrt(1000) entry '...1998893544.4' is consistent with true digits ...19988935444327...",
+   "The first perimeter bracket is read as [k sqrt((aa-bb)/aa)]. It denotes the normalized complete integral 2K/pi (i.e. 1/AGM(1,b/a)) with modulus e."
+  ]
+ }
+}

@@ -1,0 +1,76 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c010",
+ "label": "5",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is Gauss's systematic Latin treatise on the arithmetic-geometric mean (AGM). Folio 4 sets up the descending iteration a^(n+1) = (a^n + b^n)/2, b^(n+1) = sqrt(a^n b^n), with the common limit M(a,b). It then introduces backward ('left') terms: 'a and 'b are the roots of x^2 - 2a x + b^2 = 0, so that a is their arithmetic mean and b their geometric mean.\n\nFolio 5:\n(1) The two two-sided infinite sequences are set out:\n ... ''a, 'a, a, a', a'', ... (I)\n ... ''b, 'b, b, b', b'', ... (II)\nHere ^(n+1)a = ^n a + sqrt(^n a^2 - ^n b^2) and ^(n+1)b = ^n a - sqrt(^n a^2 - ^n b^2).\n\n(2) Claims, assuming a > b > 0:\n - every term of (I) exceeds the corresponding term of (II);\n - (I) decreases to the right and increases to the left;\n - (II) increases to the right and decreases to the left;\n - to the right both tend to the same limit M(a,b);\n - to the left (I) grows without bound and (II) tends to 0, unless all terms are equal (a = b).\n\n(3) Proof that (I) is unbounded to the left.\n - 'a = a + sqrt(a^2-b^2) and 'b = a - sqrt(a^2-b^2).\n - Hence 'a^2 - 'b^2 = ('a+'b)('a-'b) = 2a * 2sqrt(a^2-b^2) = 4a sqrt(a^2-b^2). [factorisation implicit; mine]\n - Since a > sqrt(a^2-b^2) (because b > 0), this exceeds 4(a^2-b^2).\n - Iterating, ^n a^2 - ^n b^2 > 4^n (a^2-b^2), which is unbounded.\n - Since ^n a^2 > ^n a^2 - ^n b^2, ^n a is unbounded too. [last inference implicit; mine]\n\n(4) Proof that (II) tends to 0 on the left.\n - From 'a 'b = b^2 we get 'b/b = b/'a.\n - Since 'a > a, this gives b/'a < b/a; similarly ''b/'b = 'b/''a < 'b/'a.\n - In general ^(n+1)b / ^n b = ^n b / ^(n+1)a.\n - The numerator decreases and the denominator tends to infinity, so the ratio can be pushed below any bound. Hence ^n b -> 0.\n\n(5) THEOREM (said to follow immediately from the definition): M(^n a, ^n b) = M(a, b) = M(a^(n), b^(n)) for all corresponding terms. This is invariance of the AGM along the two-sided sequence.\n\n(6) Section 3 begins: to show how fast (I) and (II) converge to the right and how they grow or decay to the left, numerical examples follow on folio 6 (a=1, b=0.2 and a=1, b=0.6).\n - There the left terms ^n a roughly double at each step.\n - The ^n b decay super-exponentially, roughly squaring relative to scale.\n - This is the germ of the asymptotics ^n a ~ 2^n * const, i.e. the link between M and logarithms/elliptic integrals.",
+  "errors": [
+   "No mathematical errors on the page. The arguments are correct, given the tacit assumption a > b > 0.",
+   "The final step 'ratio below any bound, hence limit 0' is slightly informal but sound: ^n b is decreasing and ^(n+1)b/^n b = ^n b/^(n+1)a <= b/^(n+1)a -> 0.",
+   "Passing from unboundedness of ^n a^2 - ^n b^2 to unboundedness of ^n a uses ^n a^2 > ^n a^2 - ^n b^2. This is not stated but is trivial.",
+   "The handwriting shows a visible correction in the formula for 'b: an overwritten '+' changed to '-'. The correct form 'b = a - sqrt(aa-bb) is intended."
+  ],
+  "results": [
+   {
+    "what": "Backward (leftward) continuation of the AGM: 'a, 'b are the roots of x^2-2ax+b^2=0, giving two-sided infinite sequences",
+    "modern_name": "Inverse/descending Landen (Gauss) transformation; backward AGM iteration",
+    "usually_credited_to": "Gauss (Nachlass treatise on the AGM, c. 1800, printed in Werke III); related to Landen's transformation (1775) and Lagrange",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Leftward behaviour: ^n a -> infinity (with ^n a^2 - ^n b^2 > 4^n (a^2-b^2)) and ^n b -> 0",
+    "modern_name": "Divergence of the inverse AGM sequence; the basis of the asymptotics M(1,k) ~ pi/(2 ln(4/k))",
+    "usually_credited_to": "Gauss",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "M(^n a, ^n b) = M(a, b) for all n in Z",
+    "modern_name": "Invariance of the arithmetic-geometric mean under the AGM step",
+    "usually_credited_to": "Gauss (and Lagrange for the iteration)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of Gauss's known treatise 'De origine proprietatibusque generalibus numerorum mediorum arithmetico-geometricorum' (c. 1800), published in Werke vol. III. Its content (backward AGM, divergence/decay, invariance) is elementary and already attributed to him.",
+  "checkable": [
+   {
+    "sympy": "a,b=symbols('a b',positive=True); s=sqrt(a**2-b**2); simplify(((a+s)+(a-s))/2 - a)",
+    "asserts": "The arithmetic mean of 'a and 'b equals a (should be 0)"
+   },
+   {
+    "sympy": "a,b=symbols('a b',positive=True); s=sqrt(a**2-b**2); simplify(expand((a+s)*(a-s)) - b**2)",
+    "asserts": "'a*'b = b^2, so the geometric mean is b (should be 0)"
+   },
+   {
+    "sympy": "a,b=symbols('a b',positive=True); s=sqrt(a**2-b**2); simplify(expand((a+s)**2-(a-s)**2) - 4*a*s)",
+    "asserts": "'a^2 - 'b^2 = 4a sqrt(a^2-b^2) (should be 0)"
+   },
+   {
+    "sympy": "N(1+sqrt(Rational(24,25)),25), N(1-sqrt(Rational(24,25)),25)",
+    "asserts": "Example 1: 'a = 1.97979589711327123927..., 'b = 0.02020410288672876072..."
+   },
+   {
+    "sympy": "mpmath.agm(1,0.2)",
+    "asserts": "M(1,0.2) = 0.5208016381061..., matching folio 6"
+   },
+   {
+    "sympy": "mpmath.agm(1.9797958971132712, 0.0202041028867288) - mpmath.agm(1,0.2)",
+    "asserts": "Invariance theorem M('a,'b) = M(a,b) (should be ~0)"
+   },
+   {
+    "sympy": "mpmath.agm(1,0.6)",
+    "asserts": "M(1,0.6) = 0.787247100782..., matching folio 6 Example 2"
+   }
+  ],
+  "transcription_corrections": [
+   "The formula for 'b should read 'b = a - sqrt(aa-bb); the image shows an overwritten correction. The machine transcription's alternative '+' reading is wrong.",
+   "The inequality in the second ratio reads ''b/'b < 'b/'a, as the transcription has it.",
+   "The archive's red folio number '5' at the top right is distinct from Gauss's page number 5 at the top centre."
+  ]
+ }
+}

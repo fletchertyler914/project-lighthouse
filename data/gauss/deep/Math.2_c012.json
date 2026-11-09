@@ -1,0 +1,61 @@
+{
+ "bundle": "Math.2",
+ "page": "c012",
+ "label": "6r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376167:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has no derivations. It continues a long table, running across several sheets, of the quadratic residues of successive primes. For each prime p it lists the least positive residues r with (r/p) = +1.\n\nPrimes on this page: 359, 367, 373, 379 and 383. The table runs on from 353 on the previous page, and 383 continues on the next page, which begins '256.258...' and ends at 378.\n\nMarginal symbols:\n- Primes p ≡ 3 (mod 4) (359, 367, 379, 383) carry a bar '—' above the number and '+' after it. For these primes -1 is a non-residue. The full list of (p-1)/2 residues in 1..p-1 is written out: 359 ends at 352, 367 at 364, 379 at 377, and 383 runs to 378 on the next page.\n- The prime p ≡ 1 (mod 4) (373) carries '+' above and '∓' after. Here -1 is a residue, so residues are symmetric under r → p - r. Only residues ≤ (p-1)/2 = 186 are listed. The list ends at 184 and has exactly 93 = (p-1)/4 entries, which I counted.\n\nWhat is computed: for each prime p, the set {x^2 mod p : 1 ≤ x ≤ p-1}, sorted. For 373 it is restricted to the half-interval. Such tables served Gauss's work on quadratic residues (Disquisitiones Arithmeticae, sect. IV) and later number-theoretic computation, e.g. by checking prime residue characters against the reciprocity law.\n\nMy spot checks against the reciprocity law and the supplementary laws:\n- 359 ≡ 7 (mod 8) and ≡ 11 (mod 12): 2, 3, 5 and 11 are residues; 7 and 13 are not. All agree with the table.\n- 367: 2, 7, 13 and 30 are residues; 3, 5, 11 and 29 are not. All agree.\n- 373 ≡ 5 (mod 8): 2 and 5 are non-residues; 3 and 7 are residues; 53 and 54 are non-residues; 55 is a residue. All agree.\n- 379 ≡ 3 (mod 8): 2 and 3 are non-residues; 5 is a residue. All agree.\n- 383: 31, 46, 55, 56, 142, 143, 144, 146 and 171 are residues; 30, 44, 45, 145 and 170 are not. All agree.\n\nCorrections in the manuscript are consistent with the arithmetic:\n- 359: an inked-out stretch after 256. Using r ↔ 359 - r, the numbers 257–261 are all non-residues (102, 101, 100, 99 and 98 are residues). So the deleted entries were spurious.\n- 367: '29' corrected to '30' (written above). (29/367) = -1 and (30/367) = +1.\n- 373: a blot between 52 and 55. 53 and 54 are both non-residues, so it is a deletion.\n- 379: a blot between 372 and 376. 373, 374 and 375 are non-residues, since 6, 5 and 4 are residues and -1 is a non-residue. So it is a deletion.\n- 383: small digits 2, 3, 4 above 142, 143, 144 clarify overwritten last digits. All three are residues.",
+  "errors": [
+   "No arithmetic errors detected in spot checks; inked-out entries in the 359, 373 and 379 rows correspond to correctly removed non-residues, and the 29→30 correction in the 367 row is correct."
+  ],
+  "results": [
+   {
+    "what": "Table of least positive quadratic residues for primes 359, 367, 373, 379, 383 (half-table for p≡1 mod 4 using r↔p−r symmetry)",
+    "modern_name": "Table of quadratic residues / Legendre symbol table",
+    "usually_credited_to": "Such tables go back to Euler, Legendre and Gauss; Gauss mentions computing residue tables (Disquisitiones Arithmeticae, 1801, Art. 99 and the appended table)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Purely computational table of quadratic residues; Gauss is well known to have computed such tables in connection with the Disquisitiones and his tests of the reciprocity law.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; all(legendre_symbol(a,359)==1 for a in [2,3,5,11,262,352]) and all(legendre_symbol(a,359)==-1 for a in [7,13,257,258,259,260,261])",
+    "asserts": "Spot entries and exclusions of the 359 row, including the deleted stretch 257–261"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; legendre_symbol(30,367)==1 and legendre_symbol(29,367)==-1 and legendre_symbol(270,367)==1",
+    "asserts": "The correction 29→30 in the 367 row is right, and 270 belongs in it"
+   },
+   {
+    "sympy": "len([a for a in range(1,187) if pow(a,(373-1)//2,373)==1])==93 and [a for a in range(1,187) if pow(a,186,373)==1][-1]==184",
+    "asserts": "The half-table for 373 has 93 entries and ends at 184"
+   },
+   {
+    "sympy": "sorted(set(pow(x,2,373) for x in range(1,373)) & set(range(1,187)))[:30]==[1,3,4,7,9,10,12,13,16,17,21,22,25,27,28,29,30,31,36,37,38,39,40,41,46,48,49,51,52,55]",
+    "asserts": "The first 30 entries of the 373 row"
+   },
+   {
+    "sympy": "[a for a in range(370,379) if pow(a,189,379)==1]==[371,372,376,377]",
+    "asserts": "The end of the 379 row (373–375 correctly deleted)"
+   },
+   {
+    "sympy": "all(pow(a,191,383)==1 for a in [31,46,55,56,142,143,144,146,171]) and all(pow(a,191,383)==382 for a in [30,44,45,145,170])",
+    "asserts": "Bold or overwritten entries in the 383 row are residues; the skipped numbers are non-residues"
+   },
+   {
+    "sympy": "max(a for a in range(1,367) if pow(a,183,367)==1)==364 and max(a for a in range(1,359) if pow(a,179,359)==1)==352",
+    "asserts": "The 367 row correctly ends at 364 and the 359 row at 352"
+   }
+  ],
+  "transcription_corrections": [
+   "367 row: '30[?]' is the number 29 struck out with '30' written above it as the correction; read 28.30.31.",
+   "367 row end of line 5: the bold entry is 270 (correct residue).",
+   "373 row: '52.[?]55' is a struck-out (spurious) entry; read 52.55.",
+   "383 row: the superscript 2, 3, 4 over 142.143.144 are clarifications of overwritten final digits, not uncertainty; read 142.143.144.",
+   "359 row: the struck-out stretch after 256 contained no residues (257–261 are all non-residues)."
+  ]
+ }
+}

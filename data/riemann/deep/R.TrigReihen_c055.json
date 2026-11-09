@@ -1,0 +1,62 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c055",
+ "label": "26v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000056/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio is part of the manuscript of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published by Dedekind 1867). This page is the end of Art. 13 and the start of the examples in the final section.\n\n(A) End of the counterexample of Art. 13. The setting is f(x) = φ(x) ψ'(x) cos ψ(x) on (0, 2π]. Here ψ(x) → +∞ as x → 0+, so ψ' < 0 and ψ'' > 0 near 0, and φ(x) → 0. By the stationary-phase computation on the previous page, ∫_0^{2π} f(x) cos n(x−a) dx is asymptotically −sin(β+π/4) √π · φ(α)ψ'(α)/√(2ψ''(α)). Here α = α(n) → 0 is the stationary point of ψ(x) + n(x−a), i.e. ψ'(α) = −n.\n\nRiemann's claim: whenever x ψ'(x) → ∞ in absolute value as x → 0, φ can be chosen so that three things hold:\n- φ(x) → 0, so that ∫_x f dx = −∫ φ d(sin ψ) converges up to x = 0 as an improper integral;\n- nevertheless φ ψ'/√(2ψ'') → ∞;\n- hence the Fourier coefficients do not tend to 0, and can even grow without bound.\n\nThe identity used is (my filling):\nψ'/√(2ψ'') = 1/√(2ψ''/ψ'^2) = 1/√(−2 d(1/ψ')/dx),\nsince d(1/ψ')/dx = −ψ''/ψ'^2.\n\nBecause 1/ψ'(0+) = 0, l'Hôpital gives lim d(1/ψ')/dx = lim (1/ψ')/x = lim 1/(xψ'(x)) whenever the former limit exists. Riemann also notes that this is the same as ψ(x)/log x → ∞. So if xψ' → ∞, the denominator √(−2/(xψ')) → 0, and φ may tend to 0 slowly enough that the quotient still diverges.\n\nInterpretation: in ∫_x f dx the increments cancel because sin ψ (equivalently f) changes sign very rapidly, even though |f| grows fast. Multiplying by cos n(x−a) produces resonance near x = α, and there the increments add up.\n\n(B) Converse phenomenon. A series Ω can converge at infinitely many points in every interval even though f is nowhere integrable.\n\nExample: let (x) denote x minus the nearest integer, with value 0 at half-integers (Art. 6, 'Seite 24' of the MS), and set F(x) = Σ_{n≥1} (nx)/n.\n- At a rational x = p/q the sequence (nx) is periodic in n with period sum 0, so the series converges by Abel/Dirichlet summation.\n- Using (x) = Σ_m (−1)^{m+1} sin(2πmx)/(mπ) and collecting by N = mn, one obtains formally F(x) = Σ_N [Σ_{θ|N} −(−1)^θ] sin(2Nπx)/(Nπ). This is the trigonometric series on the page.\n- F is unbounded in every interval, since its jumps at the points p/(2m) diverge. Hence it is nowhere integrable in Riemann's sense.\n- Yet the series converges on the dense set of rationals.",
+  "errors": [
+   "The step '= φ/√(−2 lim(1/(xψ')))' is loose. It is an equality of limits (via l'Hôpital), not of functions. For ψ = x^(−μ) one has d(1/ψ')/dx = (μ+1)/(xψ'), so the two expressions agree only up to a constant factor. For the infinite/not-infinite dichotomy this is harmless.",
+   "The convergence of the rearranged divisor-sum trigonometric series at every rational point is asserted without proof. The convergence of Σ(nx)/n itself at rationals is clear; the convergence of the rearrangement is plausible but not justified on the page.",
+   "No substantive mathematical errors otherwise."
+  ],
+  "results": [
+   {
+    "what": "A function that is (improperly) integrable on [0,2π], f = φψ' cos ψ, whose Fourier coefficients do not tend to zero and may even become unbounded, under the condition xψ'(x) → ∞.",
+    "modern_name": "Improperly Riemann-integrable function whose Fourier coefficients do not tend to zero (failure of Riemann–Lebesgue for improper integrals); stationary-phase analysis",
+    "usually_credited_to": "Riemann, Habilitationsschrift 1854 (publ. 1867), Art. 13",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Σ(nx)/n is nowhere integrable but its trigonometric series Σ (−Σ_{θ|n}(−1)^θ) sin(2nπx)/(nπ) converges at all rationals.",
+    "modern_name": "Trigonometric series converging on a dense set while its sum is nowhere integrable; Riemann's (x)-function series",
+    "usually_credited_to": "Riemann, Habilitationsschrift (publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page is the manuscript of the published Habilitationsschrift (Art. 13 and the examples section). Its content has been known as Riemann's since Dedekind's 1867 edition.",
+  "checkable": [
+   {
+    "sympy": "x,mu=symbols('x mu',positive=True); psi=x**(-mu); simplify(diff(psi,x)/sqrt(2*diff(psi,x,2)) + 1/sqrt(-2*diff(1/diff(psi,x),x)))",
+    "asserts": "ψ'/√(2ψ'') = −1/√(−2 d(1/ψ')/dx) for ψ = x^(−μ). The sign arises because ψ' < 0, so the identity holds up to sign/absolute value."
+   },
+   {
+    "sympy": "x,mu=symbols('x mu',positive=True); psi=x**(-mu); simplify(diff(1/diff(psi,x),x)/(1/(x*diff(psi,x))))",
+    "asserts": "The ratio equals μ+1, so d(1/ψ')/dx and 1/(xψ') are of the same order but not asymptotically equal."
+   },
+   {
+    "sympy": "x=symbols('x'); m=symbols('m',integer=True,positive=True); fourier_series(x,(x,-Rational(1,2),Rational(1,2))).truncate(3)",
+    "asserts": "(x) = Σ (−1)^(m+1) sin(2πmx)/(πm) on (−1/2,1/2)."
+   },
+   {
+    "sympy": "N=12; sum(-(-1)**d for d in divisors(N)) == sum((-1)**(m+1) for m in divisors(N))",
+    "asserts": "The coefficient Σ_θ −(−1)^θ over the divisors θ of N matches the collection of the double series."
+   },
+   {
+    "sympy": "p,q=1,7; sum(Rational(n*p,q)-floor(Rational(n*p,q)+Rational(1,2)) for n in range(1,q+1))",
+    "asserts": "The period sum of (nx) over n = 1..q at x = p/q is 0 (q odd case), which gives convergence of Σ(nx)/n at rationals."
+   }
+  ],
+  "transcription_corrections": [
+   "'φ(x) ψ(x)/√(2ψ'(x))' should read 'φ(x) ψ'(x)/√(2ψ''(x))'.",
+   "'√(−2∂(1/ψ(x)))' should read '√(−2 ∂(1/ψ'(x))/∂x)'.",
+   "'lim(1/(xψ(x)))' should read 'lim(1/(xψ'(x)))'.",
+   "'die Reihe durch die Reihe Σ(nx)/n gegebene Function' should read 'die durch die Reihe Σ(nx)/n gegebene Function'. The first 'die Reihe' is a slip or deletion in the MS.",
+   "The trigonometric series coefficient should be read as Σ_θ −(−1)^θ (sum over the divisors θ of n, i.e. −Σ(−1)^θ), not 'Σθ − (−1)^θ'. The stray superscript n on Σ_{1,∞} is spurious."
+  ]
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c133",
+ "label": "64v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000134/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the potential-theoretic preliminaries of Riemann's Inauguraldissertation (1851), roughly Arts. 7–10. The previous page, section IV, proved the following. If ∮(X dy/ds − Y dx/ds) ds = 0 over the boundary of every piece of a surface T spread over the plane A, then the integral from O0 to O is independent of the path. The proof is that two paths form a closed curve, which can be split into non-self-intersecting loops, each bounding a piece of T.\n\n(1) Opening paragraph, partly cancelled. Suppose that in an arbitrary surface spread over A, ∮(X dy/ds − Y dx/ds) ds = 0 for every piece. Cut the surface by cross-cuts (Querschnitte) into a simply connected surface T'. Then every path from O0 to O inside it gives the same value of ∫_{O0}^{O}(X dy/ds − Y dx/ds) ds. With O0 fixed and O variable, this value is a function of x, y.\n\n(2) Rewritten statement. Suppose that inside a simply connected surface the functions X, Y satisfy ∮_{∂S}(X dy/ds − Y dx/ds) ds = 0 for every sub-piece S. Then for fixed points O0, O, the integral along any path from O0 to O has the same value, provided s is taken as increasing from O0 to O.\n- Reason given: two such paths s1, s2 together form a closed line, and the integral over the whole closed line is 0 when s increases in one consistent direction around it.\n- With that consistent orientation, one path runs O0→O and the other O→O0, so the two integrals cancel.\n- Reversing the second path changes the sign of its integral, so the two O0→O integrals are equal.\n- Implicit step (mine): ∫_{s1} + ∫_{-s2} = 0 ⇒ ∫_{s1} = ∫_{s2}.\n\n(3) Application ('Ein Beispiel'). Let T be any surface in which, generically, ∂X/∂x + ∂Y/∂y = 0.\n- First exclude the discontinuity points. By Green's theorem (implicit, mine): ∮_{∂S}(X dy − Y dx) = ∬_S (X_x + Y_y) dx dy = 0. So for every piece of the remaining surface, ∮(Y dx/ds − X dy/ds) ds = 0.\n- Cut this remaining surface by cross-cuts into a simply connected T*.\n- For every path inside T* from O0 to O, the integral has the same value, written ∫_{O0}^{O}(Y dx/ds − X dy/ds) ds.\n- With O0 fixed and O movable, this gives for each position of O a definite value, independent of the connecting path. It is therefore a function Z(x, y) on T*.\n\n(4) Behaviour of Z.\n- When O moves by a line element ds, Z changes by (Y dx/ds − X dy/ds) ds. In modern terms dZ = Y dx − X dy, so ∂Z/∂x = Y and ∂Z/∂y = −X.\n- These changes are continuous everywhere in T*.\n- When crossing a cross-cut, the increments along the cut are equal on both sides, because X and Y are continuous across the cut in T.\n- Implicit consequence (mine; stated explicitly in the published dissertation): Z⁺ − Z⁻ is constant along each cross-cut, i.e. a period.\n\n(5) The next page applies this to u, v to obtain U with U_x = u, U_y = −v, as in Art. 11 of the dissertation.",
+  "errors": [
+   "Signs alternate between (X dy/ds − Y dx/ds) and (Y dx/ds − X dy/ds). These are negatives of each other, so the vanishing and path-independence statements are unaffected, but the defined function changes sign; this is not a mathematical error.",
+   "The line 'Ist dort ∫ X dx/ds + Y dy/ds ds' should read dx/dp, dy/dp, with p the normal, as on the previous page. It is cancelled draft text.",
+   "The reduction of a general closed curve to boundaries of pieces of T is taken over from the previous page; it is only sketched there and is not rigorous (self-intersections, curves in multiply connected regions). That is acceptable for 1851 standards, and in T* simple connectivity is assumed.",
+   "The final sentence about crossing a cross-cut is fragmentary. As intended (constant jump along each cut), it is correct, provided X, Y are continuous across the cut, i.e. the cut avoids the excluded discontinuities."
+  ],
+  "results": [
+   {
+    "what": "In a simply connected region, vanishing of the flux integral ∮(X dy − Y dx) over all closed boundaries implies path independence; this yields a potential/stream function Z with dZ = Y dx − X dy.",
+    "modern_name": "Path independence of line integrals / existence of a stream function for divergence-free fields (Green's theorem, closed vs exact forms)",
+    "usually_credited_to": "Green (1828), Gauss, Cauchy; standard by 1850",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Cutting a multiply connected Riemann surface by cross-cuts into a simply connected T*, and defining the integral function there with constant jumps (periods) across the cuts.",
+    "modern_name": "Cross-cuts (Querschnitte), periods of abelian/harmonic integrals, connectivity of Riemann surfaces",
+    "usually_credited_to": "Riemann, Dissertation 1851 (Arts. 6, 9–10) and Theorie der Abel'schen Functionen 1857",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of Arts. 9–10 of Riemann's published 1851 dissertation. The content (path independence via Green's theorem, cross-cuts, a function with constant jump across cuts) is well known and attributed to him. Only the drafting details are new.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y'); X=x; Y=-y; Z=-x*y; simplify(diff(X,x)+diff(Y,y))==0 and simplify(diff(Z,x)-Y)==0 and simplify(diff(Z,y)+X)==0",
+    "asserts": "For a divergence-free field (X_x+Y_y=0), there is Z with dZ = Y dx − X dy, i.e. Z_x = Y and Z_y = −X."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); X=x**3-3*x*y**2; Y=-3*x**2*y+y**3; simplify(diff(X,x)+diff(Y,y))==0 and simplify(diff(-y*(3*x**2*y-y**3)/1,x))!=None",
+    "asserts": "Example of a divergence-free field. The condition X_x + Y_y = 0 holds identically, so Z exists globally in a simply connected plane region."
+   },
+   {
+    "sympy": "t=symbols('t'); x=cos(t); y=sin(t); X=x/(x**2+y**2); Y=y/(x**2+y**2); simplify(integrate(simplify(Y*diff(x,t)-X*diff(y,t)),(t,0,2*pi)))",
+    "asserts": "For X = x/r², Y = y/r² (divergence-free except at 0), the closed integral of Y dx − X dy around the singularity is −2π ≠ 0. So Z = −θ has a constant jump −2π across a cross-cut from the origin, illustrating why discontinuities are excluded and the cuts are needed."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); X=x/(x**2+y**2); Y=y/(x**2+y**2); simplify(diff(X,x)+diff(Y,y))",
+    "asserts": "X_x + Y_y = 0 away from the origin for the field above (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'in einer beliebigen über T ausgebreiteten Fläche' is more likely 'über A ausgebreiteten Fläche' (T is the surface, spread over the plane A), as on the previous page.",
+   "'Ist dort ∫ X dx/ds + Y dy/ds ds': the image shows dx/dp, dy/dp (normal derivatives), i.e. ∫(X dx/dp + Y dy/dp) ds, in a cancelled line.",
+   "'Dasselbe gilt folglich auch für die ganze Linie s': the sense is that the integral over the whole closed line formed by s1 and s2 vanishes when s increases in one direction throughout.",
+   "Last line: '...durch (Y dx/ds − X dy/ds) ds ausgedrückt, sind in T* überall stetig und [sind] beim Überschreiten eines Querschnitts auf beiden Seiten gleich'. The '+t'/'T+t' at the bottom margin seems to be a marginal insertion, uncertain."
+  ]
+ }
+}

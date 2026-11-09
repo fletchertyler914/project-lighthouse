@@ -1,0 +1,66 @@
+{
+ "bundle": "PH.Grundformel",
+ "page": "c001",
+ "label": "1v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382435:00000002/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: bundle 'PH.Grundformel', dated around 18 Feb 1836 by the adjacent page. Gauss was working on the theory of magnetism and galvanic currents together with Weber. This page states a theorem and sets up the proof; the computation itself runs onto the next page.\n\n(A) Statement. Let rho be a mass (or magnetic-fluid) distribution inside a closed region T with boundary dT. Let sigma be the surface layer on dT that is equivalent to rho for the exterior space: its potential equals that of rho at every point outside T. Gauss proved the existence of such a layer in print in 1840 (Allgemeine Lehrsätze); Green had it in 1828. Now add -sigma to rho. The complex rho - sigma carries positive and negative masses, and its potential V = int dm/r is zero everywhere outside T. So it attracts no exterior point at all.\n\n(B) Claims.\n1) 'Easy': under the reaction of exterior masses the body is in equilibrium. The implicit argument is mine: Newtonian forces are central and obey action = reaction. The body exerts zero force on every exterior mass. Hence the total force and the total moment of the exterior masses on the body are also zero.\n2) 'Easy': if the masses are magnetic fluids, the body exerts no force on a rheophor (current-carrying conductor). Reason: the magnetic field outside T is -grad V = 0, so the Biot–Savart/Laplace force on every current element vanishes.\n3) 'Harder': despite the reaction of the rheophor, the body stays in equilibrium. The force between a magnetic pole and a current element is not central; it is perpendicular to the element and to the joining line. So action-reaction for moments is not automatic, and an explicit computation is required.\n\n(C) Setup for 3):\n- dm is a mass element of the body at (x,y,z); the sign int runs over all dm.\n- ds is an element of a closed galvanic current with endpoints (a,b,c) and (a+da, b+db, c+dc), so a, b, c are functions of s. The intensity is 1, and S denotes summation over ds.\n- X, Y, Z are the components of the total accelerating force on dm ('beschleunigenden' written over a struck 'bewegenden').\n- The known rigid-body equilibrium conditions (completed on the next page) are int X dm = int Y dm = int Z dm = 0 and int (zY - yZ) dm = int (xZ - zX) dm = int (yX - xY) dm = 0.\n\n(D) Continuation on the next page, for orientation. Put r^2 = (x-a)^2 + (y-b)^2 + (z-c)^2. The Biot–Savart law gives:\n- X = S[(y-b)dc - (z-c)db]/r^3\n- Y = S[(z-c)da - (x-a)dc]/r^3\n- Z = S[(x-a)db - (y-b)da]/r^3\n\nForces: exchanging S and int gives int X dm = S dc int (y-b)/r^3 dm - S db int (z-c)/r^3 dm. Each inner integral is a component of the attraction of the complex at the exterior point (a,b,c), hence 0.\n\nMoments: yX - xY = [(x-a)x + (y-b)y + (z-c)z] dc - (z-c)(x da + y db + z dc). This is then split using (x-a)x = (x-a)^2 + a(x-a) and similar.\n\nThe aim, implicit and mine: reduce everything to exact differentials along the closed circuit, using (x-a)da + (y-b)db + (z-c)dc = r^2 d_s(1/r). Then substitute xi = int (x-a)/r^3 dm etc. and V = int dm/r. These vanish at exterior points, which kills every term.",
+  "errors": [
+   "No errors on this page itself; it is statement and setup only.",
+   "The claimed ease of 1) rests on the action-reaction principle for central forces; this is not stated but is correct.",
+   "On the next page, the first moment line as transcribed reads '-((z-c)x da - (z-c) y db)'. The correct expression is -(z-c)(x da + y db). The following line has the correct form, so this is a slip in writing or transcribing.",
+   "On the next page, X, Y, Z are first written with x, y, z in place of x-a, y-b, z-c and then corrected by superscripts. The Y and Z lines keep the abbreviated form; these are only notational."
+  ],
+  "results": [
+   {
+    "what": "Adding to the interior masses the negative of their exterior-equivalent surface layer yields a complex with zero potential and zero attraction everywhere outside",
+    "modern_name": "Equivalent surface layer (Green/Gauss balayage); a source distribution with vanishing exterior field",
+    "usually_credited_to": "G. Green 1828; C.F. Gauss, Allgemeine Lehrsätze 1840; also Chasles",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Rigid-body equilibrium conditions: vanishing total force and total moment",
+    "modern_name": "Six equilibrium conditions of statics",
+    "usually_credited_to": "Classical (Euler, Lagrange)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "A magnetic distribution with zero exterior field feels zero net force and zero net torque from a closed current, although pole–element forces are non-central",
+    "modern_name": "Action–reaction (force and torque) between a closed current and a magnet; reciprocity of the Biot–Savart interaction / mutual energy",
+    "usually_credited_to": "Ampère, Biot–Savart, Laplace (1820s); later Neumann and Helmholtz via potential (mutual-energy) arguments",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's mastery of the equivalent-layer theorem by the 1830s and his electromagnetic work with Weber are well known. A careful explicit check of the torque balance between a closed current and a magnetic distribution is a notable unpublished detail, but it is not a new major theorem.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,a,b,c,da,db,dc=symbols('x y z a b c da db dc'); v=Matrix([x-a,y-b,z-c]); simplify(Matrix([da,db,dc]).cross(v) + Matrix([(y-b)*dc-(z-c)*db,(z-c)*da-(x-a)*dc,(x-a)*db-(y-b)*da]))",
+    "asserts": "Gauss's X,Y,Z numerators equal -(ds x (P-A)), i.e. the Biot–Savart pole–element force up to a sign convention; the result is the zero vector"
+   },
+   {
+    "sympy": "X=(y-b)*dc-(z-c)*db; Y=(z-c)*da-(x-a)*dc; expand(y*X - x*Y - (((x-a)*x+(y-b)*y+(z-c)*z)*dc - (z-c)*(x*da+y*db+z*dc)))",
+    "asserts": "Next-page rewriting of the moment integrand yX-xY; the result is 0"
+   },
+   {
+    "sympy": "r=sqrt((x-a)**2+(y-b)**2+(z-c)**2); simplify(diff(1/r,a) - (x-a)/r**3)",
+    "asserts": "(x-a)/r^3 = d(1/r)/da, so (x-a)da+(y-b)db+(z-c)dc over r^3 is the exact differential of 1/r along the circuit; the result is 0"
+   },
+   {
+    "sympy": "expand((x-a)*x - ((x-a)**2 + a*(x-a)))",
+    "asserts": "The splitting used in the next-page expansion; the result is 0"
+   }
+  ],
+  "transcription_corrections": [
+   "'Elemen[?]' should read 'Element'.",
+   "'{+beschleunigenden[?]+}' is confirmed: 'beschleunigenden' is written above the struck 'bewegenden'.",
+   "In the end-point coordinates the image's 'c+di' is a cursive 'c+dc'; the transcription 'c+dc' is right.",
+   "'[-als-] Träger': a struck word precedes 'Träger'. The rest, 'von positiven und negative Massen', has 'positiven' partly overwritten.",
+   "The marginal mark at left near line 5 ('m'-like squiggle) is not transcribed; probably an insertion mark."
+  ]
+ }
+}

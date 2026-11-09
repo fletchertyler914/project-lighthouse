@@ -1,0 +1,67 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c169",
+ "label": "[164]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000170/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a numerical table headed 'Coordinaten der Sonne in Beziehung auf den Aequator. Epoche 1810', meaning coordinates of the Sun referred to the equator, equinox of 1810. It has rows n = 0..79, and the next page continues from 80 to at least 158. Each row gives three numbers X, Y, Z. In row 0, Y and Z carry a minus sign that holds for the whole column until it changes on the next page. The numbers are geocentric rectangular equatorial coordinates of the Sun in units of 1e-4 AU:\n- X = R cos(lambda),\n- Y = R sin(lambda) cos(eps),\n- Z = R sin(lambda) sin(eps),\nwhere R is the Sun-Earth distance, lambda the Sun's true longitude and eps the obliquity. The table itself contains no derivation. What follows is my reconstruction of its construction, from internal checks.\n\n(a) Obliquity. Z/Y is constant to about 1e-6:\n- row 0: 3859.467/8891.278 = 0.434074;\n- row 40: 2688.644/6193.983 = 0.434073;\n- row 79: 510.962/1177.131 = 0.434074.\nSo tan(eps) = 0.43407, giving eps ≈ 23°27'51\". This is the mean obliquity for about 1810. The solar latitude is neglected.\n\n(b) Row 0 is perigee. sqrt(X^2+Y^2+Z^2) at row 0 is 9832.10, i.e. R = 0.983210 = 1 - e with e ≈ 0.01679, the solar eccentricity around 1800-1810. The longitude at row 0 follows from tan(lambda) = (Y/X)/cos(eps) and is about 279.66°. That is the longitude of the solar perigee for 1810.\n\n(c) The argument is not days. The angular step per row is about 0.93° of longitude near perigee and about 0.905° near the equinox. This is roughly 0.913 times the true daily motion, so the step is 0.9° of mean anomaly, i.e. one centesimal degree (grad). Two checks support this:\n- Y crosses 0 (the vernal equinox) at row n ≈ 87.17 on the next page. 87.17 grad = 78.45°, which is the mean anomaly expected at the equinox: true anomaly 80.34° minus an equation of centre of about 1.9°.\n- Row 100 (M = 90°): Kepler gives E = 90.962°, R = 1 - e cos(E) = 1.000282. The tabulated radius is sqrt(9799.221^2 + 1841.856^2 + 799.500^2)/1e4 = 1.000281. The tabulated longitude is about 11.58°, i.e. 279.66° plus a true anomaly of about 91.92°, as Kepler requires.\n\nSo row n is: mean anomaly M = n grad, solve Kepler's equation E - e sin(E) = M, then R = 1 - e cos(E), v = true anomaly, lambda = Pi + v with Pi ≈ 279.66°, and finally (X, Y, Z) as above, scaled by 1e4. Presumably the table covers 400 rows, one full anomalistic year.\n\nPurpose: such tables give the Sun's coordinates X, Y, Z needed to turn heliocentric planetary coordinates into geocentric ones (x+X, y+Y, z+Z). That is the procedure of Theoria Motus (1809), and Gauss needed it in 1810 for ephemerides and orbit work on Ceres, Pallas, Juno and Vesta.\n\nDifferencing: first, second and third differences of all columns run smoothly. Examples: X second differences -0.469, -0.510, -0.550, ...; Y differences at rows 21-24 give second differences 2.021, 2.001, 1.981. Overwritten entries are confirmed by this smoothness: rows 2, 4, 16, 24, 32, 44, 52, 63, 68, 72, 74, 76.\n\nThe previous page (quadratic-residue lattice-point sums, Gauss's lemma, reciprocity via continued division) is unrelated to this page.",
+  "errors": [
+   "No computational errors detected. Spot-checks of constant Z/Y ratio, radius at rows 0, 1 and 100, and smooth higher differences all agree to about 1e-6 relative. Row 35's Y (6700.863) implied by Z/tan(eps) is 6700.855, a negligible discrepancy at the level of the rounding of tan(eps)."
+  ],
+  "results": [
+   {
+    "what": "Table of the Sun's geocentric rectangular equatorial coordinates (X, Y, Z) for equinox 1810, argued by the Sun's mean anomaly in centesimal degrees (grads) from perigee, unit 1e-4 AU, computed by Kepler's equation with e ≈ 0.01679 and eps ≈ 23°27'51\"",
+    "modern_name": "Solar rectangular (equatorial) coordinates table / solar ephemeris in X, Y, Z",
+    "usually_credited_to": "Standard practice; Gauss popularised using solar X, Y, Z in orbit computation (Theoria Motus 1809). Later such tables were printed in the Berliner Jahrbuch and Nautical Almanac.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of centesimal (grad) steps of mean anomaly as the table argument",
+    "modern_name": "Tabulation by mean anomaly in grads (400 steps per anomalistic year)",
+    "usually_credited_to": "Decimal angle division of the French metric reform (1790s); Delambre and others used grads in tables",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Purely a computational auxiliary table of a standard type that Gauss is known to have used. The only mildly notable detail is that it is argued by mean anomaly in grads rather than by date.",
+  "checkable": [
+   {
+    "sympy": "Abs(3859.467/8891.278 - 2688.644/6193.983) < 1e-5 and Abs(3859.467/8891.278 - 510.962/1177.131) < 1e-5",
+    "asserts": "Z/Y is constant across the table (Sun's latitude neglected)."
+   },
+   {
+    "sympy": "deg(atan(3859.467/8891.278))",
+    "asserts": "Obliquity ≈ 23.464 degrees (23°27'51\"), mean obliquity circa 1810."
+   },
+   {
+    "sympy": "sqrt(1649.178**2+8891.278**2+3859.467**2)/10000",
+    "asserts": "R at row 0 ≈ 0.983210 = 1 - e with e ≈ 0.01679, so row 0 is perigee."
+   },
+   {
+    "sympy": "e=0.016792; E=nsolve(E-e*sin(E)-pi/2,E,1.6); (1-e*cos(E), sqrt(9799.221**2+1841.856**2+799.5**2)/10000)",
+    "asserts": "Row 100 (mean anomaly 100 grad = 90°) radius matches the Kepler solution ≈ 1.00028."
+   },
+   {
+    "sympy": "eps=atan(0.434074); e=0.016792; Pi=rad(279.656); M=rad(0.9*n); E=nsolve(E-e*sin(E)-M,E,M); v=2*atan(sqrt((1+e)/(1-e))*tan(E/2)); R=1-e*cos(E); [1e4*R*cos(Pi+v), 1e4*R*sin(Pi+v)*cos(eps), 1e4*R*sin(Pi+v)*sin(eps)]",
+    "asserts": "With n = row index, this reproduces the tabulated X, Y, Z to about ±0.1 units of 1e-4 AU (e.g. n=40 gives about 7192.2, -6194.0, -2688.6)."
+   },
+   {
+    "sympy": "87 + 24.275/(24.275+120.238)",
+    "asserts": "Equinox (Y = 0) at row ≈ 87.17, i.e. mean anomaly 78.45°, consistent with the true anomaly 80.34° at the equinox."
+   }
+  ],
+  "transcription_corrections": [
+   "The '–[?]' marks in row 0 before the Y and Z columns are minus signs (written as thick dashes) applying to the whole Y and Z columns.",
+   "Row 35, Y column: '6700.863' (last digit partly obscured) is consistent with Z/tan(eps).",
+   "Row 74, X column: overwritten digits read 9719.908, confirmed by differences.",
+   "Row 76, Y and Z: 1605.579 and 696.939 (overwritten), confirmed by differences.",
+   "Row 68, Z: 1184.035 (overwritten '4.0'), confirmed.",
+   "Row 72, Y: 2171.029; row 72, Z: 942.386 (overwritten), confirmed.",
+   "Row 17, Z: '3536.528' is followed by a dot or check mark, not a digit.",
+   "Header 'Litt. U.' (faint pencil) matches the neighbouring pages; the row index is the mean anomaly in grads, not days."
+  ]
+ }
+}

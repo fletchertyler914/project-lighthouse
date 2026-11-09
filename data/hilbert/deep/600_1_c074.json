@@ -1,0 +1,68 @@
+{
+ "bundle": "600_1",
+ "page": "c074",
+ "label": "65",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000075/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PART 1 (number theory).\n\nClaim. Let f(x) in Z[x] be monic of degree n. Then one can always substitute for x an algebraic integer beta such that f(beta) is a unit (epsilon f(beta) has norm +-1). The interlinear insertion probably restricts beta to have degree n.\n\nHilbert's construction.\n- Let alpha be a root of f. Consider the order Z[alpha] = Z + Z*alpha + ... + Z*alpha^(n-1).\n- Choose a unit e = a + b*alpha + ... + l*alpha^(n-1) of this order, with a, ..., l rational integers.\n- Write e(x) = a + b*x + ... + l*x^(n-1). Let beta be a root of g(x) = f(x) + e(x) = 0.\n- g is again monic of degree n with integer coefficients, so beta is an algebraic integer.\n- Q(beta) is 'the field sought'.\n\nImplicit step: why f(beta) is a unit (my filling, not on the page).\n- From g(beta) = 0 we get f(beta) = -e(beta). So it suffices that e(beta) is a unit.\n- deg e < n and g is congruent to f mod e, with both g and f monic of degree n. Hence Res(g, e) = Res(f, e).\n- Since f is monic, Res(f, e) = product of e(alpha_i) over the roots of f, which is +-N(e(alpha)) = +-1.\n- Likewise Res(g, e) = product of e(beta_j) over the roots beta_j of g.\n- So the product of the algebraic integers e(beta_j) is +-1. Each factor is therefore a unit; in particular e(beta) is a unit, and so is f(beta) = -e(beta).\n\nWhat the construction gives. Every unit of Z[alpha] yields an n-th degree integer beta, with f(beta) the unit -e(beta) in Z[beta]. The trivial unit e = -1 gives g = f - 1, i.e. f(beta) = 1.\n\nExamples.\n- f = x^2 - 2, e = 1 + sqrt2. Then g = x^2 + x - 1, beta is the golden-ratio conjugate, and f(beta) = -(1 + beta), a unit.\n- f = x^3 - 2, e = alpha - 1 (norm 1). Then g = x^3 + x - 3, f(beta) = 1 - beta, and N(1 - beta) = g(1) = -1.\n\nPART 2 (not mathematics).\nHilbert writes a polemic against the Clebsch–Gordan school of symbolic invariant theory: its 'wild formalism' and 'dreary x-eries' endanger mathematics, 'the most sublime science'. It is discredited in the eyes of all thinking people and sinks to thoughtless play. The footnote says this play, unlike magic squares, neither serves the state nor entertains society, and contributes nothing to the development of the human mind. 'What would Gauss say.' An external aid like symbolism achieves nothing: 'one must bring in ideas. Out of nothing comes nothing.'",
+  "errors": [
+   "The statement as worded is trivially true: take beta to be any root of f(x) - 1 (or f(x) + 1), so f(beta) = +-1. The construction only becomes non-trivial if one wants a non-trivial unit, or beta of degree n generating a specific field.",
+   "The key step, that e(beta) is a unit because e(alpha) is, is not justified on the page. It needs the resultant identity Res(f+e, e) = Res(f, e) = +-N(e(alpha)), or an equivalent argument.",
+   "Calling the result 'the field sought' presupposes that g = f + e is irreducible, which is not guaranteed. If g is reducible, Q(beta) has degree < n (the unit property still holds).",
+   "Minor: no reason is given for the existence of non-trivial units in Z[alpha] (Dirichlet's unit theorem, except in imaginary quadratic or rational cases). With only e = +-1 the construction degenerates to f -+ 1."
+  ],
+  "results": [
+   {
+    "what": "For monic f in Z[x] and a unit e(alpha) of Z[alpha] (f(alpha)=0, deg e<n), any root beta of f(x)+e(x) is an algebraic integer with f(beta) = -e(beta) a unit; this yields fields in which f takes unit values",
+    "modern_name": "Construction of unit values of polynomials via resultants / norm invariance Res(f+e,e)=Res(f,e); related to 'exceptional units' and unit equations",
+    "usually_credited_to": "Elementary folklore of algebraic number theory (Dedekind/Kronecker era); no specific attribution",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Polemic against the symbolic method of the Clebsch–Gordan school in invariant theory; demand for 'ideas' over formalism",
+    "modern_name": "Hilbert's conceptual (existential) approach versus symbolic computational invariant theory",
+    "usually_credited_to": "Hilbert's well-known stance (finiteness theorem 1888/1890; Gordan's 'Das ist nicht Mathematik, das ist Theologie')",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The number-theoretic note is a small, essentially elementary observation (indeed trivially satisfiable). Hilbert's hostility to the Clebsch–Gordan formalism is well documented. The unusually sharp private wording ('wüster Formalismus', 'gedankenlose Spielerei', the magic-squares footnote) is a nice biographical detail, but not a new attitude.",
+  "checkable": [
+   {
+    "sympy": "resultant(x**2 + x - 1, x + 1, x)",
+    "asserts": "Equals -1: for f=x^2-2 and unit e=1+sqrt(2), the root beta of g=f+e has N(e(beta)) = +-1."
+   },
+   {
+    "sympy": "simplify(((-1+sqrt(5))/2)**2 - 2 + (1 + (-1+sqrt(5))/2))",
+    "asserts": "Equals 0: with beta=(-1+sqrt5)/2, f(beta) = -e(beta) = -(1+beta)."
+   },
+   {
+    "sympy": "resultant(x**3 - 2, x - 1, x)",
+    "asserts": "Equals +-1: alpha - 1 is a unit in Z[2**(1/3)]."
+   },
+   {
+    "sympy": "resultant(x**3 + x - 3, x - 1, x)",
+    "asserts": "Equals +-1: for g = (x^3-2) + (x-1), e(beta) = beta - 1 is a unit, so f(beta) = 1 - beta is a unit."
+   },
+   {
+    "sympy": "expand(resultant(x**3 + x - 3, x - 1, x) - resultant(x**3 - 2, x - 1, x))",
+    "asserts": "Equals 0: illustrates Res(f+e, e) = Res(f, e) for monic f with deg e < deg f."
+   },
+   {
+    "sympy": "factor_list(x**3 + x - 3)",
+    "asserts": "The polynomial is irreducible over Q, so beta has degree 3 and Q(beta) is a cubic field."
+   }
+  ],
+  "transcription_corrections": [
+   "The interlinear insertion above 'Zahl' is likely '$n^{\\text{ten}}$ Grades' rather than 'jedesmal' (beta should be of degree n); reading uncertain.",
+   "'Clebsch[?]-Gordansche' is confirmed as Clebsch-Gordansche (the C written like a U/L ligature).",
+   "'wüsten Formalismus' should read 'wüsten Formalismus' with 'ihrem' implied; the image has 'mit ihren wüsten Formalismus'.",
+   "'ixereien' (from 'x-ereien') is a mocking coinage for symbolic letter-calculations; the reading appears correct.",
+   "In the footnote, 'Zauberquadrate' appears written as 'Zaubergquadrate' (slip); the meaning is magic squares.",
+   "In the footnote, the line 'zur Unterhaltung der Gesellschaft beiträgt' is written 'beitreigt', a corrected slip."
+  ]
+ }
+}

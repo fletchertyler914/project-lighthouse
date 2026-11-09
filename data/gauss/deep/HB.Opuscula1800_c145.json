@@ -1,0 +1,91 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c145",
+ "label": "[140]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000146/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Page 140 is the August page of a day-by-day table (July = p.139, September = p.141). Each month runs one row past its end: row 32 of July equals row 1 of August, and the last row here ('22', read as 32) equals September 1. There are no derivations on the page, only tabulated values. Working back from the numbers, the ten columns are the quantities used to reduce mean star places to apparent places by Bessel's method: the day numbers A, B, C, D and the independent quantities h, H, i. The solar longitude is written ⊙ or λ below.\n\nCol 0: day of month.\n\nCol 1: tau, the fraction of the (fictitious) year. It grows by 0.0027 or 0.0028 per row; from July 1 (0.5003) to 'Sept 31' (0.7515) the step is 0.2512/92 = 0.0027304 = 1/366.24. The rows are therefore probably sidereal days (e.g. sidereal 0h), not mean days. The origin fits the year beginning at solar mean longitude 280°. At tau = 0.7296 the mean longitude is 280° + 262.7° = 182.7°, while the true longitude is 180.8°. The difference of -1.9° is the equation of centre for M ≈ 263°. (Inference mine.)\n\nCol 4: true longitude of the Sun, ⊙, in deg.min.sec. It rises about 57'18\"/day in early August and about 58' in September, passing 180° on Sept 22/23.\n\nCol 2: A = tau - 0.0200 sin 2⊙. Example: Aug 15, 0.6231 + 0.0192 = 0.6423. This is the solar part of Bessel's nutation number A, i.e. Δψ_sol/ψ' with Δψ_sol ≈ -1.00\" sin 2⊙ and ψ' ≈ 50.2\". The lunar (Ω) terms are evidently added separately.\n\nCol 3: B = -0.43\" cos 2⊙, the solar part of B, i.e. nutation in obliquity 0.43\" cos 2⊙. Examples: Aug 1 +0.08; Sep 22 -0.43.\n\nCol 7: D = -k sin ⊙ with k ≈ 20.61\". Example: July 1, 20.29/sin 100°05' = 20.61.\n\nCol 6: C = -k cos ε cos ⊙, with k cos ε = 18.91 (its maximum at the equinox) and ε ≈ 23°28'.\n\nCol 5: i = C tan ε. Example: 12.05 × 0.434 = 5.23; equivalently -k sin ε cos ⊙, maximum 8.21.\n\nCol 8: H = atan2(C, D), in deg.min, with h sin H = C and h cos H = D. Example: Aug 1, atan2(12.05, -15.88) = 142.81° = 142°48'.\n\nCol 9: log10 h, with h = sqrt(C^2 + D^2). Example: Aug 1, h = 19.93, log = 1.2996.\n\nPurpose: the aberration in RA is Δα cos δ = C cos α + D sin α = h sin(H + α). The aberration in declination is Δδ = h cos(H + α) sin δ + i cos δ. The nutation part works in the same way through A and B. So the page is an ephemeris of Bessel day numbers and star-independent constants for reducing star positions.",
+  "errors": [
+   "No real errors found. Spot checks of H, log h, i, A, B, C, D (Aug 1, 5, 15, Sep 22, Sep 31) agree to within last-digit rounding.",
+   "Aug 31: H computed from the tabulated C, D gives about 113°19'; the table has 113°20', a 1' rounding difference.",
+   "The final row label reads '22' but must mean 32 (= September 1); the row is identical to Sept row 1."
+  ],
+  "results": [
+   {
+    "what": "Daily aberration day numbers C = -k cos ε cos⊙ and D = -k sin⊙ with k ≈ 20.6\"",
+    "modern_name": "Besselian day numbers C, D (annual aberration)",
+    "usually_credited_to": "F. W. Bessel (Fundamenta Astronomiae 1818; Tabulae Regiomontanae 1830)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Independent star-reduction quantities h, H (via h sin H = C, h cos H = D, tabulated as log h) and i = C tan ε",
+    "modern_name": "Besselian independent day numbers h, H, i",
+    "usually_credited_to": "F. W. Bessel (Tabulae Regiomontanae 1830)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Fraction of year tau and the solar nutation parts A_sol = tau - 0.0200 sin 2⊙, B_sol = -0.43 cos 2⊙",
+    "modern_name": "Besselian day numbers A, B (solar nutation terms), Besselian fictitious year",
+    "usually_credited_to": "F. W. Bessel",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine computed ephemeris of Bessel-type reduction quantities. Its only distinctive features are the constants used (aberration ≈ 20.6\", solar nutation ≈ 1.00\"/0.43\") and the apparent sidereal-day spacing. It contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "atan2(12.05, -15.88)*180/pi",
+    "asserts": "≈142.81 deg, i.e. H = 142°48' for Aug 1"
+   },
+   {
+    "sympy": "log(sqrt(12.05**2 + 15.88**2), 10)",
+    "asserts": "≈1.2996 = log h for Aug 1"
+   },
+   {
+    "sympy": "12.05*tan(rad(23.4667))",
+    "asserts": "≈5.23 = i = C tan(eps) for Aug 1"
+   },
+   {
+    "sympy": "-20.61*sin(rad(129 + 36/60 + 19/3600))",
+    "asserts": "≈-15.88 = D for Aug 1 (k≈20.61)"
+   },
+   {
+    "sympy": "-20.61*cos(rad(23.4667))*cos(rad(129 + 36/60 + 19/3600))",
+    "asserts": "≈12.05 = C for Aug 1"
+   },
+   {
+    "sympy": "0.5849 - 0.0200*sin(2*rad(129 + 36/60 + 19/3600))",
+    "asserts": "≈0.6045 = column 2 (A) for Aug 1"
+   },
+   {
+    "sympy": "-0.43*cos(2*rad(129 + 36/60 + 19/3600))",
+    "asserts": "≈+0.08 = column 3 (B) for Aug 1"
+   },
+   {
+    "sympy": "0.6231 - 0.0200*sin(2*rad(143 + 0/60 + 15/3600))",
+    "asserts": "≈0.6423 = column 2 for Aug 15"
+   },
+   {
+    "sympy": "atan2(15.10, -12.40)*180/pi",
+    "asserts": "≈129.40 deg = 129°24' (H, Aug 15)"
+   },
+   {
+    "sympy": "log(sqrt(15.10**2 + 12.40**2), 10)",
+    "asserts": "≈1.2909 (log h, Aug 15)"
+   },
+   {
+    "sympy": "(0.7515 - 0.5003)/92",
+    "asserts": "≈0.0027304 ≈ 1/366.24: tau step per row equals one sidereal day in years"
+   }
+  ],
+  "transcription_corrections": [
+   "Last row label '22' should be 32 (equals September 1).",
+   "Column 8 entries such as '139.2', '138.5', '137.8' are deg.min (139°2', 138°5', 137°8'), not decimals; likewise column 4 is deg.min.sec.",
+   "Aug 25 last column is overwritten in the image (looks like 1.2851 corrected); value 1.2851 is consistent with neighbours."
+  ]
+ }
+}

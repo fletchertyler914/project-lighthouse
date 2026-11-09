@@ -1,0 +1,57 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c174",
+ "label": "165",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000175/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a measuring protocol with its geometry. A theodolite-type horizontal circle carries a crystal, which is used like a reflecting goniometer. There are two telescopes: the main one on the alidade and a fixed auxiliary telescope (Hülfsfernrohr). Gauss lists the circle readings ('Ablesung') at which certain lines point at the distant object:\n\n(1) Reading 0: the optical axis of the main telescope points at the object.\n(2) Reading 90°: the normal of the first crystal face points at the object.\n(3) Reading 90°+θ: the normal of the second face points at the object. So θ is the angle between the face normals, i.e. the supplement of the interfacial angle.\n(4) Reading 360°−k: the line from the theodolite centre to the (eccentrically mounted) crystal points at the object. So k measures the angular position of the crystal on the alidade.\n(5) Reading x: the reflection of the object in the first face is sent into the auxiliary telescope.\n(6) Reading x+θ: the same happens for the second face.\n(7) Reading 2x: the main telescope and the auxiliary telescope are parallel.\n\n**Why (7) follows from (2) and (5) (my reconstruction).** Write body-fixed directions as β+r at reading r, so the optical axis is at angle r and the normal of face 1 is at r−90.\n- At reading x the normal is at n = x−90°.\n- Light from the object travels in direction 180°. A plane mirror with normal n turns travel direction v into 2(n+90°)−v. So the reflected light travels at 2n = 2x−180°.\n- The auxiliary telescope looks back along this ray, so its axis points at 2x.\n- At reading 2x the main telescope axis also points at 2x, so the two are parallel. The same argument for face 2 at reading x+θ gives the same auxiliary direction. This is the basic principle of the reflecting goniometer: rotating a mirror by α turns the reflected ray by 2α.\n\n**The no-parallax condition.** Because the crystal sits off the axis, its position changes between the two readings. Gauss's condition is that the auxiliary telescope show no parallax:\nx = k + θ/2 ± 90° (for x positive), hence 2x = 2k + θ + 180°.\n\nMy reconstruction (inferred): at reading r the crystal lies in direction r+k from the centre. At readings x and x+θ its mean position is x+k+θ/2. The natural requirement is that this mean position lie on the line through the centre along the auxiliary axis, i.e. in direction 2x mod 180°. That gives x ≡ k + θ/2 (mod 180°). This has the same structure as Gauss's formula. Whether his offset is ±90° or 0 depends on his unstated convention for k, or on which component of the eccentricity he wants to vanish. Doubling either form gives 2x ≡ 2k+θ+180° (mod 360°), as he writes.\n\nThe previous page's right margin contains a draft of this same table, with 'h' in place of 'k'.",
+  "errors": [
+   "No outright error. The step from the readings to 'x = k + θ/2 ± 90°' is stated without derivation. Under the most natural reconstruction (crystal positions at the two reflection readings symmetric about the auxiliary telescope's line through the centre) one gets x ≡ k+θ/2 (mod 180°) with no extra 90°. The ±90° must therefore come from an unstated convention or criterion: e.g. k defined by a perpendicular line, or requiring the crystal's displacement to lie along rather than across some line. This cannot be settled from the page alone.",
+   "The passage from x to 2x is consistent: 2(k+θ/2±90°) = 2k+θ±180° ≡ 2k+θ+180° (mod 360°)."
+  ],
+  "results": [
+   {
+    "what": "Reading scheme for measuring a crystal's interfacial angle by reflection on a theodolite circle. A face normal toward the object at reading 90 implies the auxiliary telescope is parallel to the main telescope at reading 2x (rotating a mirror by α turns the reflected ray by 2α).",
+    "modern_name": "Reflecting goniometer principle / law of reflection (angle doubling)",
+    "usually_credited_to": "W. H. Wollaston (reflecting goniometer, 1809); reflection law classical",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Condition on the alidade reading x for the eccentric crystal to give no parallax in the auxiliary telescope: x = k + θ/2 ± 90°, 2x = 2k + θ + 180°",
+    "modern_name": "Eccentricity (centering) correction in goniometry",
+    "usually_credited_to": "Standard instrument practice (no specific attribution)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine piece of instrument geometry. It is a protocol for measuring crystal angles with a theodolite and auxiliary telescope, with an eccentricity/parallax condition. It is mildly interesting as evidence of Gauss's practical crystallographic measurement interests, but it contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "x,n=symbols('x n'); simplify((2*(x-90+90) - 180) + 180 - 2*x)",
+    "asserts": "With face normal at x-90 (degrees), the reflected ray's reverse direction 2(n+90)-180+180 equals 2x, i.e. the auxiliary telescope is parallel to the main axis at reading 2x (result 0)."
+   },
+   {
+    "sympy": "k,th=symbols('k theta'); simplify(Mod(2*(k+th/2-90) - (2*k+th+180), 360))",
+    "asserts": "The minus sign branch x=k+θ/2-90 doubles to 2k+θ+180 modulo 360 (expression reduces to 0 mod 360, i.e. -360)."
+   },
+   {
+    "sympy": "k,th=symbols('k theta'); simplify(2*(k+th/2+90) - (2*k+th+180))",
+    "asserts": "The plus sign branch x=k+θ/2+90 doubles exactly to 2k+θ+180."
+   },
+   {
+    "sympy": "x,k,th=symbols('x k theta'); solve(Eq(((x+k)+(x+th+k))/2, 2*x), x)",
+    "asserts": "Symmetry condition (mean crystal position at readings x and x+θ along auxiliary axis direction 2x) gives x = k + θ/2 (mod 180 in angles); compare with Gauss's k+θ/2±90."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 reads 'gegen d. Object gerichtet' (abbreviated 'gegen das'); fine as transcribed.",
+   "The struck item before '360° − k' is a crossed-out '0' (or similar mark), consistent with the transcription's [-0-].",
+   "'zweiten' in line 3 is an interlinear insertion above the dashes, as given.",
+   "The brace after 'Reflexion von der ersten fläche' and '— — zweiten —' joins both lines to 'gegen das Hülfsfernrohr'.",
+   "'(für x positiv)' is correct; the image shows 'k + ½θ ± 90°'."
+  ]
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "bundle": "600_1",
+ "page": "c049",
+ "label": "[40]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000050/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page contains no computation. It is a notebook page in three parts: the end of a methodological remark on definitions, a two-item research programme, and an aphorism.\n\n(a) End of the discussion of 'Rechnungsgesetz' (rule of computation), continued from the previous page. There Hilbert defined a Rechnungsgesetz as a system of operations, reducible to addition and subtraction of integers. A finite arbitrary table of numbers is also allowed. The rule must produce a_n from n by finitely many operations. He now argues that this definition suffices 'because whenever any thing is presented to me, I can decide from this definition whether the presented thing is a Rechnungsgesetz or not.' This decidability of membership is 'in my opinion the truly correct criterion of a definition.' Consequently, a definition with negative criteria is not defective. This is an early statement of a decidability criterion for admissible definitions, in the context of defining irrational numbers via computable sequences.\n\n(b) Programme: 'extend the principle of continued chains of identities.' Most plausibly this is Hilbert's syzygy principle: relations among the generators, then relations among those relations, and so on. That chain is the content of the Hilbert syzygy theorem, Math. Ann. 36, 1890. Two extensions are proposed.\n\n1) To permutation groups, the group of the n! permutations of n things. 'How many substitutions composed give the identity? What corresponds to the identities?' In modern terms: describe the relations w(s_1,...,s_k) = 1 among generating substitutions, i.e. a presentation of the group. Then ask what plays the role of the identities (syzygies), i.e. relations among relations. This is my interpretation.\n\n2) To ideal theory in number fields ('ideal numbers (moduli)'). The aim is to study the primes dividing the discriminant, i.e. ramified primes and index divisors. One should write down the identities holding between moduli that are not further decomposable yet not prime (my interpretation: irreducible/primary but non-prime ideals or modules). The hope is to obtain all of Kummer's theory of ideal numbers, especially unique factorization into ideal primes, by the ordinary means of the theory of polynomials mod p. This is the Kummer–Dedekind approach: factor the defining polynomial mod p. That approach works directly only when p does not divide the index [O_K : Z[theta]]. The difficult case, primes dividing the discriminant, is precisely what Hilbert wants to handle with syzygy-type identities.\n\n(c) Aphorism: 'Many mathematicians resemble miners who dig the shaft ever deeper although the way to them is already ruined...' It continues on the next page: no fresh air or new life can reach the workplace, they achieve nothing for science as a whole and wither miserably.",
+  "errors": [
+   "No mathematical errors, since there is no derivation.",
+   "The programme is heuristic. The 'identities' among non-prime irreducible moduli are not specified, so the claim that Kummer's whole theory would follow from mod-p polynomial methods is a hope, not an argument.",
+   "Historically, the index-divisor problem was ultimately solved by other means: Dedekind's ideal theory, Kronecker's forms, and Hensel's p-adic methods."
+  ],
+  "results": [
+   {
+    "what": "Decidability of membership as the criterion of a correct definition (applied to 'Rechnungsgesetz', i.e. finitely computable rule, defining irrationals)",
+    "modern_name": "Decidable/effective definitions; precursor of computable sequences and real numbers and of Hilbert's finitist demands",
+    "usually_credited_to": "Kronecker (finitism); later Hilbert, Brouwer, Turing (1936) for computable reals",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Proposal to extend syzygy chains ('fortgesetzte Identitätenreihen') to permutation groups: relations among substitutions and relations among those",
+    "modern_name": "Group presentations, identities among relations, free resolutions / group (co)homology",
+    "usually_credited_to": "Dyck (1882, presentations); Reidemeister and Peiffer (1949, identities among relations); Hopf and Eilenberg–MacLane (1940s, group homology)",
+    "already_credited_to_author": "no",
+    "routine": false
+   },
+   {
+    "what": "Proposal to treat ramified primes / discriminant divisors through identities among non-prime irreducible moduli, reducing Kummer's ideal theory to polynomial arithmetic mod p",
+    "modern_name": "Kummer–Dedekind factorization theorem and the index-divisor problem; primary decomposition and syzygies of modules over orders",
+    "usually_credited_to": "Kummer (1840s), Dedekind (1878), Hensel (1890s); Lasker and Noether for primary decomposition",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Miner metaphor about overspecialized mathematicians",
+    "modern_name": "Methodological aphorism",
+    "usually_credited_to": "Hilbert (unpublished note)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The page holds programmatic ideas, not results. Applying the syzygy-chain idea to permutation groups prefigures 'relations among relations' in group theory, decades before Reidemeister, Peiffer and group homology. The decidability criterion for definitions anticipates later foundational themes. Both are suggestive but vague, and consistent with Hilbert's known invariant-theory work around 1888-1890 and his later number theory. So the page is notable but not a major priority claim.",
+  "checkable": [
+   {
+    "sympy": "from sympy import symbols, factor; x=symbols('x'); factor(x**2+3, modulus=2)",
+    "asserts": "x^2+3 ≡ (x+1)^2 mod 2. Yet 2 is inert in Q(sqrt(-3)), so naive mod-p factorization fails for p dividing the index — the difficulty Hilbert wants to address."
+   },
+   {
+    "sympy": "from sympy import symbols, discriminant, factorint; x=symbols('x'); factorint(discriminant(x**3-x**2-2*x-8, x))",
+    "asserts": "Dedekind's cubic has polynomial discriminant -2012 = -2^2*503, while the field discriminant is -503. Thus 2 divides the index (a common index divisor) and needs methods beyond factoring mod p."
+   },
+   {
+    "sympy": "from sympy.combinatorics import Permutation, PermutationGroup; s=Permutation([1,0,2]); t=Permutation([0,2,1]); G=PermutationGroup([s,t]); (G.order()==6, (s**2).is_Identity, (t**2).is_Identity, ((s*t)**3).is_Identity)",
+    "asserts": "The n!=6 permutations of 3 things are generated by s, t with relations s^2 = t^2 = (st)^3 = 1, an example of 'substitutions composed giving the identity'."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3: 'ein Zeichnungsgesetz' should read 'ein Rechnungsgesetz' (consistent with the previous page).",
+   "Line 5: 'Danach ist[?] eine Definition' — the reading 'Danach ist eine Definition mit negativen Merkmalen nicht fehlerhaft' is plausible; the words after 'Danach' are cramped.",
+   "'Identitätenreihen[?]': the reading 'fortgesetzten Identitätenreihen ausdehnen' fits the image.",
+   "'gebildet durch die n! Permutationen': the image may read 'durch den', a minor point.",
+   "Last line: 'welche immer tiefer den Schacht graben' is confirmed; 'der Weg zu [-Ihn-] ihnen schon ver-' continues as 'verzerrüttet/verschüttet' on the next page."
+  ]
+ }
+}

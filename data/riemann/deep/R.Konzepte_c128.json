@@ -1,0 +1,58 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c128",
+ "label": "62r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000129/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a working draft of Art. 11–12 of Riemann's 1851 Inaugural Dissertation, 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse'. The wording matches the printed text closely. The previous page, an estimate showing that (1/μ)∫dx/(x²(1−x)²) stays bounded as μ grows, belongs to a different calculation.\n\n(A) Principle: a function w = u + iv of z cannot be constant along a line without being constant everywhere.\n1. Suppose w = a + bi along a curve L of positive length. Then u − a = 0 and v − b = 0 along L.\n2. The function U = u − a satisfies Laplace's equation ∂²U/∂x² + ∂²U/∂y² = 0, because u is the real part of a function of z.\n3. Let p be the normal and s the arc length along L. The Cauchy–Riemann equations in these rotated coordinates give ∂u/∂p = ±∂v/∂s, the sign depending on orientation.\n4. Since v ≡ b along L, ∂v/∂s = 0 there. Hence ∂(u − a)/∂p = 0 on L. [Steps 3–4 are left implicit; the transcription's '∂…/∂s' must be ∂(v − b)/∂s.]\n5. So U is harmonic, and both U and its normal derivative vanish on L. By Theorem I of Art. 11 ('II, I' in the draft), this is impossible unless U ≡ 0 on the connected domain. This is uniqueness for the Cauchy problem of the Laplace equation.\n6. Hence u ≡ a, and by the same argument (or by Cauchy–Riemann) v ≡ b. So w is constant.\n\n(B) Comment on the hypothesis about the surface T. The assumption made for the surface T is postponed: 'wird sich später (Art. 15) rechtfertigen'.\n\n(C) Why discontinuities are restricted to isolated lines and points. Otherwise the function could not appear in an integral extended over the surface T. The counterexample is a function discontinuous at every point of a region: it takes the value 1 when x and y are incommensurable and the value 2 otherwise (a Dirichlet-type function).\n\n(D) Convention. To simplify what follows, a function of z is not to have discontinuities that can be removed by changing its value at single points ('hebbare Unstetigkeit'). Points of removable discontinuity are thus excluded by definition.\n\nThe upside-down text at the bottom of the page is unrelated and illegible.",
+  "errors": [
+   "No mathematical error. The steps 'v constant on L ⇒ ∂v/∂s = 0 ⇒ ∂u/∂p = 0' via the Cauchy–Riemann equations in normal/tangential form are left implicit. The sign in ∂u/∂p = ±∂v/∂s depends on orientation, which is irrelevant here because the quantity is zero.",
+   "The argument implicitly requires L to have positive length (not a single point) and the domain to be connected. Both are standard and implied by 'Linie' and the setting of the dissertation.",
+   "The draft is internally redundant: the sentence about the surface T and Art. 15 appears twice, the first version superseded."
+  ],
+  "results": [
+   {
+    "what": "A holomorphic function constant along a curve is constant everywhere. Proof: u − a is harmonic with vanishing Cauchy data (value and normal derivative) on the curve, so it vanishes identically.",
+    "modern_name": "Identity theorem for holomorphic functions, via uniqueness of the Cauchy problem for the Laplace equation",
+    "usually_credited_to": "Identity theorem: Cauchy/Weierstrass tradition. This harmonic-function proof is Riemann's own, in the 1851 Dissertation, Art. 11–12.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Restriction of discontinuities to isolated lines and points, with the Dirichlet-type counterexample (value 1 for incommensurable x, y, value 2 otherwise). Exclusion of removable discontinuities by convention.",
+    "modern_name": "Removable singularities / normalization of functions defined up to point values; the Dirichlet function as an everywhere-discontinuous example",
+    "usually_credited_to": "Dirichlet (1829) for the example; Riemann (1851 Dissertation, Art. 12) for this convention",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of passages that appear almost verbatim in Riemann's published 1851 dissertation (Art. 11–12): the constancy-along-a-line principle, the Dirichlet-type counterexample, and the removable-discontinuity convention. It is only of philological interest.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); w=(x+I*y)**3; u=re(expand(w)); v=im(expand(w)); simplify(diff(u,x,2)+diff(u,y,2))==0",
+    "asserts": "The real part of a holomorphic function is harmonic (example z**3)."
+   },
+   {
+    "sympy": "x,y,t=symbols('x y t',real=True); w=expand((x+I*y)**3); u=re(w); v=im(w); c,s=cos(t),sin(t); simplify((diff(u,x)*(-s)+diff(u,y)*c) - (-(diff(v,x)*c+diff(v,y)*s)))==0",
+    "asserts": "Cauchy–Riemann in rotated frame: the derivative of u in normal direction n=(-sin t, cos t) equals minus the derivative of v in tangential direction (cos t, sin t), i.e. ∂u/∂p = ±∂v/∂s."
+   },
+   {
+    "sympy": "x=symbols('x'); simplify(diff(-1/x+1/(1-x)+2*log(x)-2*log(1-x),x) - 1/(x**2*(1-x)**2))==0",
+    "asserts": "The antiderivative on the previous page is correct: ∫dx/(x²(1−x)²) = −1/x + 1/(1−x) + 2 log x − 2 log(1−x)."
+   },
+   {
+    "sympy": "x=symbols('x'); simplify(apart(1/(x**2*(1-x)**2),x) - (1/x**2+2/x+1/(x-1)**2-2/(x-1)))==0",
+    "asserts": "Partial fraction decomposition underlying the previous page's integral (and the marginal expression 1/x² + 1/(1−x)² + 2/x + 2/(1−x))."
+   }
+  ],
+  "transcription_corrections": [
+   "The expression transcribed as '∂(u−a)/∂p = ∂…/∂s' should read ∂(u−a)/∂p = ∂(v−b)/∂s (or with a minus sign). The point is that the right side vanishes because v = b along the line.",
+   "'den Satz II, I' / 'nach II, I unmöglich' refers to Theorem I of Art. 11 of the dissertation (vanishing Cauchy data forces a harmonic function to vanish).",
+   "The heading '§. 19.' is uncertain in the image (it may be a page number such as '8-19'). Content-wise this corresponds to Art. 11–12 of the printed dissertation.",
+   "In the Dirichlet-type example the intended reading is a function with value 1 for incommensurable values of x and y and value 2 for commensurable ones, i.e. discontinuous at every point of a region.",
+   "The final sentence should read: 'Zur Vereinfachung des Folgenden setzen wir jedoch im Voraus fest, daß bei einer Function von z eine durch Abänderung ihres Werthes in einzelnen Punkten hebbare Unstetigkeit nicht vorkommen solle.'"
+  ]
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c009",
+ "label": "4",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page). Two sequences are formed from positive reals a, b: a^{(n+1)} = (a^{(n)} + b^{(n)})/2 and b^{(n+1)} = sqrt(a^{(n)} b^{(n)}), always taking positive roots. Observation I: if a = b, every term equals a. Observation II: if a ≠ b, then (a'-b')(a'+b') = a'^2 - ab = (a-b)^2/4 > 0. Hence b' < a', and likewise b^{(n)} < a^{(n)} for all n ≥ 1.\n\nThis page.\n\n(II, end) Every lower term is smaller than the corresponding upper term. The construction is symmetric in a and b, so we may also assume b < a for the initial pair. [This justification of 'without loss of generality' is mine.]\n\n(III) Monotonicity. With b < a:\n- a' = (a+b)/2 < a.\n- b' = sqrt(ab) > sqrt(b·b) = b. [Both inequalities are mine to make explicit; Gauss states them.]\n- Inductively, a^{(n)} decreases and b^{(n)} increases.\n- Since b^{(n)} < a^{(n)}, both sequences are bounded: b ≤ b^{(n)} < a^{(n)} ≤ a.\n- Both are therefore convergent. Gauss names the limits a^∞ and b^∞.\n\n(IV) Equality of the limits.\n- From (a'-b')(a'+b') = (a-b)^2/4 we get (a'-b')/(a-b) = (a-b)/(4(a'+b')).\n- Next, 4(a'+b') = 2(a+b) + 4b'.\n- Since 0 < a-b < a+b < 2(a+b) + 4b' - (a+b), the ratio is < 1/2. Equivalently, a-b < (a+b) + 2b' gives the ratio < 1/2. [This verification of the bound is mine.]\n- So a'-b' < (a-b)/2, and in the same way a''-b'' < (a'-b')/2, and so on.\n- Hence 0 < a^{(n)} - b^{(n)} < (a-b)/2^n, which tends to 0.\n- Therefore a^∞ = b^∞. The common limit lies strictly below every a^{(n)} and strictly above every b^{(n)}.\n- Gauss names this limit the 'numerus medius arithmetico-geometricus' of a and b, written M(a,b).\n\n(2) Backward continuation.\n- The quadratic x^2 - 2ax + b^2 = 0 has roots a ± sqrt(a^2 - b^2). These are real and positive when a ≥ b.\n- Their arithmetic mean is a (sum of roots = 2a).\n- Their geometric mean is b (product of roots = b^2).\n- So setting 'a = a + sqrt(a^2-b^2) (the larger root) and 'b = a - sqrt(a^2-b^2) (the smaller), we have a = ('a + 'b)/2 and b = sqrt('a 'b).\n- Thus ('a, 'b) is a predecessor pair of (a, b) under the AGM step.\n- Iterating with the equations x^2 - 2'a x + 'b'b = 0, x^2 - 2''a x + ''b''b = 0, ... defines ''a, ''b, '''a, '''b, ^{IV}a, ^{IV}b, ...\n- This yields bi-infinite sequences. The next page uses them to show that the backward a-sequence diverges, the backward b-sequence tends to 0, and M is invariant along the whole bi-infinite sequence.",
+  "errors": [
+   "No mathematical errors. The bound a'-b' < (a-b)/2 is correct but far from sharp: the convergence is actually quadratic, a'-b' = (a-b)^2/(4(a'+b')). Gauss defers the speed of convergence to art. 3.",
+   "Minor grammatical slip in the manuscript: 'medium arithmeticam' for 'medium arithmeticum'.",
+   "The reduction to b<a is stated without comment ('supponemus'). It is harmless because the iteration is symmetric in a and b."
+  ],
+  "results": [
+   {
+    "what": "Monotonicity of the AGM sequences, contraction a_{n+1}-b_{n+1} < (a_n-b_n)/2, existence and equality of the common limit M(a,b)",
+    "modern_name": "Arithmetic-geometric mean (convergence proof)",
+    "usually_credited_to": "Gauss (discovered c. 1791-1799; this treatise 'De origine proprietatibusque generalibus numerorum mediorum arithmetico-geometricorum' c. 1800, printed in Werke III); Lagrange had earlier used the iteration (1784-85)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Backward extension of the AGM iteration via the roots a ± sqrt(a^2-b^2) of x^2-2ax+b^2=0",
+    "modern_name": "Inverse AGM step (descending/ascending Landen-type transformation)",
+    "usually_credited_to": "Gauss (same Nachlass treatise, Werke III); related to Landen's transformation (1775)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the opening of Gauss's well-known treatise on the arithmetic-geometric mean, published in his Werke vol. III from the Nachlass. The material (convergence of the AGM and its backward continuation) is elementary and firmly attributed to Gauss.",
+  "checkable": [
+   {
+    "sympy": "simplify(((a+b)/2 - sqrt(a*b))*((a+b)/2 + sqrt(a*b)) - (a-b)**2/4)  # with a,b positive",
+    "asserts": "(a'-b')(a'+b') = (a-b)^2/4"
+   },
+   {
+    "sympy": "simplify(4*((a+b)/2 + sqrt(a*b)) - (2*(a+b) + 4*sqrt(a*b)))",
+    "asserts": "4(a'+b') = 2(a+b)+4b', giving the second equality in IV"
+   },
+   {
+    "sympy": "simplify(((a+b)/2 - sqrt(a*b))/(a-b) - (a-b)/(4*((a+b)/2+sqrt(a*b))))  # a,b positive, a!=b",
+    "asserts": "(a'-b')/(a-b) = (a-b)/(4(a'+b'))"
+   },
+   {
+    "sympy": "solve(Rational(1,2) - (a-b)/(2*(a+b)+4*sqrt(a*b)) <= 0, a)  # for 0<b<a expect no solution",
+    "asserts": "the ratio is < 1/2, so a'-b' < (a-b)/2"
+   },
+   {
+    "sympy": "simplify(((a+sqrt(a**2-b**2)) + (a-sqrt(a**2-b**2)))/2 - a)",
+    "asserts": "the arithmetic mean of the roots of x^2-2ax+b^2 is a"
+   },
+   {
+    "sympy": "expand((a+sqrt(a**2-b**2))*(a-sqrt(a**2-b**2)) - b**2)",
+    "asserts": "the product of the roots is b^2, so their geometric mean is b"
+   },
+   {
+    "sympy": "mpmath.agm(sqrt(2),1)  # ≈ 1.19814023473559",
+    "asserts": "numerical example of M(a,b): equal limits of both sequences"
+   }
+  ],
+  "transcription_corrections": [
+   "'medium arithmeticum' in the transcription is written 'medium arithmeticam' in the manuscript (Gauss's slip).",
+   "In the table the equations read x x - 2'a x + 'b'b = 0 etc., with the primes as left superscripts (prefix accents). The machine transcription renders these adequately."
+  ]
+ }
+}

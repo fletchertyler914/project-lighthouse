@@ -1,0 +1,76 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c108",
+ "label": "41",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000109/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a printed textbook page in Fraktur type, not a Gauss autograph. It is most likely from the arithmetic/algebra textbook of Christian Leiste, given the bundle name 'HB.Leiste'. The only handwriting is the correction of a section reference.\n\n(a) End of §106: table of logarithms to base a = 16.\n- Repeated square roots on the previous page give a^(1/2)=4, a^(1/4)=2, a^(1/8)=√2≈1.4142, a^(1/16)≈1.1892 (the book prints 1.1934) and a^(1/32)≈1.0905.\n- Taking products of these powers gives a^(k/32) for various k, with l = log_16.\n- Rounded ('nicht in völliger Schärfe'), the book tabulates the pairs (number; log):\n  (1; 0), (1.1; 1/32), (1.2; 2/32), (1.3; 3/32), (1.4; 4/32), (1.5; 5/32), (1.67; 6/32), (2; 8/32), (3.1; 9/32), (4.1; 16/32), (6.16; 17/32), (8; 24/32).\n- Every upper entry is (a^(1/n))^k, with n = 32 and k the logarithm in units of 1/32.\n- The larger n is, the finer the grid a^(k/n). One can then find products of these powers lying arbitrarily close to integers.\n- This is described as Briggs's method of computing the common (base 10) tables. Historically, Briggs did use successive square roots of 10.\n\n(b) §107: the logarithm near 1.\n- l(1) = 0. Write 1 + v = a^ω with ω infinitely small.\n- Then v is proportional to ω for small v: set v = Kω, i.e. a^ω ≈ 1 + Kω.\n- With ω = 1/32 the book takes K = 3.2. This gives 1 + 3.2·k/32 = 1.1, 1.2, 1.3, 1.4, 1.5 for k = 1..5, matching the table's first five entries 'ziemlich genau'.\n- In modern terms: a^ω = e^(ω ln a) = 1 + ω ln a + O(ω²), so the limiting K is ln a.\n- On the next page the book develops l(1+x) = (1/K)(x − x²/2 + x³/3 − …) and the series for l((1+x)/(1−x)). There K is identified as ln a, the reciprocal of the modulus of the logarithmic system.",
+  "errors": [
+   "16^(9/32) = 2^(9/8) ≈ 2.181, not 3.1. On the previous page the book computes 1.54·√2 but writes 3.08, which is 1.54·2; the correct product is ≈ 2.18.",
+   "This error propagates: 3.08·2 = 6.16 is labelled a^(17/32), but 16^(17/32) = 2^(17/8) ≈ 4.36. Moreover, a^(9/32)·a^(1/4) = a^(17/32) is correct only for the true value 2.18.",
+   "The entry 4.1 for log 16/32 should be exactly 4, since 16^(1/2) = 4. This is a printing or rounding slip.",
+   "Rounded entries: 1.5 vs the true 1.542 (5/32) and 1.67 vs the true 1.682 (6/32). These are acceptable given 'nicht in völliger Schärfe'.",
+   "In the text 'der Reihe 1,1; 1,2; 1; 3' should read '1,1; 1,2; 1,3'.",
+   "The cross-reference §.104 is corrected by hand to §.106, which is correct.",
+   "K = 3.2 is only a crude secant-type fit for ω = 1/32. The infinitesimal value is ln 16 ≈ 2.773, and the agreement for the first five terms is only rough (1.5 vs 1.542). The book acknowledges this."
+  ],
+  "results": [
+   {
+    "what": "Construction of a logarithm table to base 16 by repeated square roots and products of powers a^(k/32)",
+    "modern_name": "Computation of logarithms by successive square roots (Briggs's method)",
+    "usually_credited_to": "Henry Briggs (Arithmetica Logarithmica, 1624)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "For small ω, a^ω ≈ 1 + Kω, so logarithm differences are proportional to number differences near 1",
+    "modern_name": "Linearization a^ω = 1 + ω ln a + O(ω²); K = ln a, reciprocal of the modulus",
+    "usually_credited_to": "Napier/Briggs (concept); Euler, Introductio 1748 (this presentation)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed 18th-century textbook page (likely Leiste's Arithmetik) giving a standard Euler-style introduction to logarithms. It contains no Gauss content beyond possibly a handwritten section-number correction.",
+  "checkable": [
+   {
+    "sympy": "N(16**Rational(1,32))",
+    "asserts": "≈1.0905 (book: 1.1 / 1.09)"
+   },
+   {
+    "sympy": "N(16**Rational(9,32))",
+    "asserts": "≈2.181, showing the book's 3.1 (3.08) is wrong"
+   },
+   {
+    "sympy": "N(1.54*sqrt(2))",
+    "asserts": "≈2.178, not 3.08"
+   },
+   {
+    "sympy": "N(16**Rational(17,32))",
+    "asserts": "≈4.362, showing the book's 6.16 is wrong"
+   },
+   {
+    "sympy": "16**Rational(16,32) - 4",
+    "asserts": "=0, so the entry should be 4, not 4.1"
+   },
+   {
+    "sympy": "[N(16**Rational(k,32)) for k in range(1,7)]",
+    "asserts": "≈[1.0905,1.1892,1.2968,1.4142,1.5422,1.6818], compared with the table 1.1,1.2,1.3,1.4,1.5,1.67"
+   },
+   {
+    "sympy": "limit((16**w-1)/w, w, 0) - log(16)",
+    "asserts": "=0, so the infinitesimal K equals ln 16 ≈ 2.7726 rather than 3.2"
+   },
+   {
+    "sympy": "[1+Rational(32,10)*k/32 for k in range(1,6)]",
+    "asserts": "=[11/10,6/5,13/10,7/5,3/2], the book's linear approximation values with K=3.2"
+   }
+  ],
+  "transcription_corrections": [
+   "The section reference is printed '104' with a handwritten '6' over the 4, i.e. corrected to '§. 106'. The transcription renders this correctly.",
+   "The page is printed Fraktur from a textbook, not Gauss's handwriting.",
+   "The printed '1,1; 1,2; 1; 3' is a typesetting error in the original for '1,1; 1,2; 1,3'. It is faithfully transcribed."
+  ]
+ }
+}

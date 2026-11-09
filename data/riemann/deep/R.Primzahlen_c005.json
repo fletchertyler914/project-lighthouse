@@ -1,0 +1,100 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c005",
+ "label": "3v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. Riemann writes xi(t) = Pi(s/2)(s-1) pi^{-s/2} zeta(s) with s = 1/2 + t i (next page). The alpha_nu are the positive roots of xi(t)=0. He introduces a smooth counting function lambda with lambda(alpha_n) = n. The page has two parts.\n\nPART A. Asymptotic expansion of the zero-counting function from the product for xi, using Euler-Maclaurin summation over the zeros.\n\n(A1) Replace t by -i t, so s = 1/2 + t with t real and large. Then log xi(-it) - log xi(0) = Sum_nu log(1 + t^2/alpha_nu^2). This gives\nSum log(1+t^2/alpha^2) = log Pi(t/2+1/4) + log(t-1/2) - (t/2+1/4) log pi + log zeta(1/2+t) - log xi(0).\n\n(A2) The zeta term decays exponentially. By Stirling [my fill-in: (z+1/2) log z - z + (1/2) log 2pi with z = t/2+1/4] this becomes\n(t/2+7/4) log(t/2pi) - t/2 + 2 log pi + (3/2) log 2 - log xi(0) + a_1/t + a_2/t^2 + ...\n\n(A3) Euler-Maclaurin, with nu treated as a continuous variable through x = alpha, d nu = lambda'(x) dx, and d/d nu = (1/lambda') d/dx:\n-Sum_{nu>=n} f(alpha_nu) = [ F(x) - f/2 + (1/12) f'/lambda' - (1/720)(1/lambda') d/dx((1/lambda') d/dx(f'/lambda')) + ... ] at x = alpha_n,\nwhere F' = f lambda'.\n\n(A4) Apply this with f = log(1+t^2/x^2), splitting off the first n-1 zeros:\nSum = Sum_{nu=1}^{n-1} log(1+t^2/alpha_nu^2) + Int_{alpha_n}^oo log(1+t^2/x^2) lambda'(x) dx + (1/2) log(1+t^2/alpha_n^2) - (1/12) f'(alpha_n)/lambda'(alpha_n) + ...\nFor large t, log(1+t^2/alpha^2) = 2 log t - 2 log alpha + alpha^2/t^2 - ... Hence the log t part of the discrete terms is (2n-1) log t - 2 Sum_1^{n-1} log alpha_nu - log alpha_n + Int_{alpha}^oo ...\n\n(A5) Main term of lambda': (1/2pi) log(x/2pi). Substitute x = t y:\nInt_0^oo log(1+t^2/x^2)(1/2pi) log(x/2pi) dx = (t/2pi) Int_0^oo log(1+1/y^2)(log y + log(t/2pi)) dy.\nThe two needed integrals come from a Beta integral.\n- Substituting z = 1/(1+y): Int_0^oo (1+y)^mu y^nu dy = Int_0^1 (1-z)^nu z^{-2-mu-nu} dz = Pi(nu) Pi(-2-mu-nu)/Pi(-1-mu).\n- This equals 2 Int (1+y^2)^mu y^{2nu+1} dy = 2 Int (1+1/y^2)^mu y^{2mu+2nu+1} dy.\n- With nu = beta - mu - 1/2: 2 Int (1+1/y^2)^mu y^{2beta} dy = Pi(-3/2-beta) Pi(beta-mu-1/2)/Pi(-1-mu).\n- Differentiate in mu at mu = 0. Since 1/Pi(-1) = 0 and Psi(-1-mu)/Pi(-1-mu) -> -1, this gives 2 Int log(1+1/y^2) y^{2beta} dy = -Pi(-3/2-beta) Pi(beta-1/2).\n- At beta = 0 this is -Pi(-3/2)Pi(-1/2) = 2pi.\n- Differentiating once more in beta: -Pi(-3/2)Pi(-1/2)(Psi(-1/2) - Psi(-3/2)) = -4pi.\n- Result: Int_0^oo log(1+1/y^2) dy = -Int_0^oo log y log(1+1/y^2) dy = pi.\nSo the main integral equals (t/2) log(t/2pi) - t/2, exactly reproducing the leading terms of (A2).\n\n(A6) Correction terms x^{-2m} in lambda'. Integrate by parts:\nInt_alpha^oo log(1+t^2/x^2) x^{-2m} dx = alpha^{1-2m} log(1+t^2/alpha^2)/(2m-1) - (2t^2/(2m-1)) Int_alpha^oo dx/(x^{2m}(t^2+x^2)).\nExpand 1/(1+x^2/t^2) geometrically up to the remainder. The only part not expandable in powers of alpha is\n-(2/(2m-1)) (-1)^m t^{1-2m} Int_{alpha/t}^oo dy/(1+y^2), which tends to -(pi/(2m-1)) (-1)^m / t^{2m-1}.\nMatching with a_{2m-1}/t^{2m-1} gives\nlambda'(x) = (1/2pi) log(x/2pi) - Sum ((2m-1)/pi)(-1)^m a_{2m-1}/x^{2m}.\n\n(A7) Match the coefficient of log t (7/4 from A2) against the Euler-Maclaurin side:\n7/4 = (2n-1) - 2(lambda(alpha_n) - C) = 2C - 1, so C = 11/8. Hence\nlambda(x) = (x/2pi) log(x/2pi) - x/2pi + 11/8 + Sum (-1)^m a_{2m-1}/(pi x^{2m-1}).\n\nInterpretation (mine). Since lambda(alpha_n) = n means the smooth count at the nth zero is n - 1/2, lambda = N_smooth + 1/2. This gives N_smooth(T) = T/2pi log(T/2pi) - T/2pi + 7/8 + ..., i.e. lambda = theta(T)/pi + 3/2. From Stirling, a_1 = -1/48, so the next term is +1/(48 pi T). This is exactly the smooth part of the Riemann-von Mangoldt formula, derived heuristically (S(T) is ignored).\n\nPART B. Saddle-point treatment of the theta/Mellin integral Int_0^oo e^{-n^2 pi x} x^{s/2-1} dx with s = 1/2 + t i.\n\n(B1) The exponent is -n^2 pi x + (ti/2 - 3/4) log x. The saddle point is at x = ti/(2 n^2 pi).\n\n(B2) Put n + beta = sqrt(t/2pi), so that ti/2 = pi i (n+beta)^2 and the saddle point is near x = i. Set x = i + y with y = z sqrt(2pi/t) i, i.e. x = i(1 + z sqrt(2pi/t)). Then log(i+y) = pi i/2 + log(1 - y i).\n\n(B3) First version, in y:\n- Exponent: -n^2 pi i - n^2 pi y - (pi^2/2)(n+beta)^2 + pi y (n+beta)^2 + ...\n- The linear terms combine to e^{pi y (2 n beta + beta^2)}.\n\n(B4) In z, with n^2 = t/2pi - 2beta sqrt(t/2pi) + beta^2 and log(1+w) = w - w^2/2 + w^3/3:\n- The large linear terms cancel.\n- The integrand becomes e^{-n^2 pi i} (1 + z sqrt(2pi/t))^{-3/4} exp(2 pi i beta z - pi i z^2/2 - pi i z beta^2 sqrt(2pi/t) + pi i z^3/3 sqrt(2pi/t) + ...).\n- That is a Gaussian (Fresnel) kernel in z with corrections in powers of sqrt(2pi/t).\nThis is the germ of the Riemann-Siegel asymptotic expansion around N = floor(sqrt(t/2pi)).",
+  "errors": [
+   "No substantive errors found in the main computations: the Stirling constant terms, the 7/4, the Beta-integral manipulations, the Euler-Maclaurin coefficients (1/2, 1/12, 1/720), the integration by parts, the constant 11/8 and the cubic saddle-point expansion all check.",
+   "Side note '-Psi(-mu) = 1/mu - Psi(1-mu)' does not match the functional equation Psi(x) = 1/x + Psi(x-1); the correct relation is Psi(-1-mu) = Psi(-mu) + 1/mu. Either a slip or a misreading; it does not affect the result, since the needed limit Psi(-1-mu)/Pi(-1-mu) -> -1 is used correctly.",
+   "Part A is heuristic: Euler-Maclaurin over zeros presupposes a smooth interpolating lambda with lambda(alpha_n) = n exactly. This ignores the fluctuating term S(T), so it determines only the smooth part of the counting function.",
+   "In (A4) the second integral is written with lower limit alpha rather than alpha_n and with f'(alpha) unspecified; these are notational."
+  ],
+  "results": [
+   {
+    "what": "Asymptotic expansion of log xi on the real s-axis: Sum log(1+t^2/alpha^2) = (t/2+7/4)log(t/2pi) - t/2 + 2log pi + (3/2)log 2 - log xi(0) + O(1/t)",
+    "modern_name": "Stirling asymptotics of the completed zeta function / Hadamard product",
+    "usually_credited_to": "Riemann 1859 (product), Hadamard 1893 (proof); routine Stirling",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Euler-Maclaurin summation over zeros indexed by a smooth counting function lambda(alpha_n) = n",
+    "modern_name": "Euler-Maclaurin summation with variable spacing (heuristic)",
+    "usually_credited_to": "Euler/Maclaurin; application here nonstandard",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Int_0^oo log(1+1/y^2) dy = pi and Int_0^oo log y log(1+1/y^2) dy = -pi, via differentiation of a Beta integral",
+    "modern_name": "Beta-function / Feynman differentiation under integral sign",
+    "usually_credited_to": "Euler (Beta integrals), classical",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Smooth counting function lambda(x) = x/2pi log(x/2pi) - x/2pi + 11/8 + Sum (-1)^m a_{2m-1}/(pi x^{2m-1}), equivalently N_smooth(T) = T/2pi log(T/2pi) - T/2pi + 7/8 + 1/(48 pi T) + ... = theta(T)/pi + 1",
+    "modern_name": "Riemann-von Mangoldt formula, smooth part with constant 7/8 (theta(T)/pi + 1)",
+    "usually_credited_to": "Riemann 1859 (leading terms, stated); von Mangoldt 1895/1905 (proof, with 7/8 term); Backlund 1914-18 (explicit)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Saddle-point expansion of Int e^{-n^2 pi x} x^{s/2-1} dx near x = i with n + beta = sqrt(t/2pi), producing exp(2 pi i beta z - pi i z^2/2 + O(t^{-1/2}))",
+    "modern_name": "Saddle-point (stationary phase) step underlying the Riemann-Siegel formula",
+    "usually_credited_to": "Riemann, published by Siegel 1932",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 4,
+  "surprise_reason": "The Riemann-Siegel saddle-point work is known to be Riemann's through Siegel (1932). The less familiar item is Part A, a heuristic Euler-Maclaurin derivation of the smooth zero-counting function. It includes the constant 11/8 (equivalently 7/8 in N(T)) and the inverse-power corrections, i.e. theta(T)/pi + 1, which are usually attributed to von Mangoldt and Backlund. Riemann's 1859 paper only states the leading terms. Because the derivation is heuristic and parts of the Nachlass have been surveyed (Siegel, Edwards), I am unsure whether it has been noted; it is a notable but not major unpublished detail.",
+  "checkable": [
+   {
+    "sympy": "integrate(log(1+1/y**2),(y,0,oo))",
+    "asserts": "equals pi"
+   },
+   {
+    "sympy": "Integral(log(y)*log(1+1/y**2),(y,0,oo)).evalf() + pi.evalf()",
+    "asserts": "approximately 0, i.e. the integral equals -pi"
+   },
+   {
+    "sympy": "t=symbols('t',positive=True); limit(loggamma(t/2+Rational(5,4))+log(t-Rational(1,2))-(t/2+Rational(1,4))*log(pi)-((t/2+Rational(7,4))*log(t/(2*pi))-t/2+2*log(pi)+Rational(3,2)*log(2)),t,oo)",
+    "asserts": "equals 0 (Riemann's Stirling constants 7/4, 2 log pi, 3/2 log 2)"
+   },
+   {
+    "sympy": "t=symbols('t',positive=True); series((loggamma(t/2+Rational(5,4))+log(t-Rational(1,2))-(t/2+Rational(1,4))*log(pi)-((t/2+Rational(7,4))*log(t/(2*pi))-t/2+2*log(pi)+Rational(3,2)*log(2))).subs(t,1/u),u,0,2)",
+    "asserts": "coefficient of u (=1/t) is a_1 = -1/48, giving the 1/(48 pi x) term in lambda"
+   },
+   {
+    "sympy": "t,x=symbols('t x',positive=True); simplify(integrate(log(1+t**2/x**2)*log(x/(2*pi))/(2*pi),(x,0,oo)) - (t/2*log(t/(2*pi))-t/2))",
+    "asserts": "equals 0: main integral gives (t/2)log(t/2pi) - t/2"
+   },
+   {
+    "sympy": "mu,nu=Rational(-3,1),Rational(1,2); Integral((1+y)**mu*y**nu,(y,0,oo)).evalf() - (gamma(nu+1)*gamma(-mu-nu-1)/gamma(-mu)).evalf()",
+    "asserts": "approximately 0: Beta integral formula Pi(nu)Pi(-2-mu-nu)/Pi(-1-mu)"
+   },
+   {
+    "sympy": "T=100; (T/(2*pi)*log(T/(2*pi))-T/(2*pi)+Rational(7,8)+1/(48*pi*T)).evalf()",
+    "asserts": "approx 28.97, consistent with N(100)=29 (Riemann's 11/8 minus the 1/2 offset)"
+   },
+   {
+    "sympy": "t,z,beta=symbols('t z beta',positive=True); w=z*sqrt(2*pi/t); n=sqrt(t/(2*pi))-beta; simplify(expand(-n**2*pi*I*w + t*I/2*(w-w**2/2+w**3/3)) - (2*pi*I*beta*z - pi*I*z**2/2 - pi*I*z*beta**2*sqrt(2*pi/t) + pi*I*z**3/3*sqrt(2*pi/t)))",
+    "asserts": "equals 0: the saddle-point exponent on the last lines"
+   },
+   {
+    "sympy": "y,n,beta=symbols('y n beta'); expand(-n**2*pi*y + pi*y*(n+beta)**2 - pi*y*(2*n*beta+beta**2))",
+    "asserts": "equals 0: e^{pi y(2 n beta + beta^2)} combination"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3: the right side should read -Sum_{nu=n}^oo f(alpha_nu), and the bracket is evaluated at x = alpha_n.",
+   "In the Euler-Maclaurin line for Sum log(1+t^2/alpha^2), the integral's lower limit is alpha_n.",
+   "Side note '-Psi(-mu) = 1/mu - Psi(1-mu)' is uncertain; the image may read differently, and as transcribed it is not a correct identity.",
+   "Last line: the beta^2 term carries a minus sign: -pi i z beta^2 sqrt(2pi/t). This is consistent with the expansion of -n^2 pi i z sqrt(2pi/t).",
+   "The '-log xi(0)' at the end of line 2 is consistent with the derivation and with the next page's computation of ln xi(0) = -0.69896..."
+  ]
+ }
+}

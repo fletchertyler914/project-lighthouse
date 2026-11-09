@@ -1,0 +1,78 @@
+{
+ "bundle": "Math.17",
+ "page": "c004",
+ "label": "2r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376641:00000005/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds three blocks. Each is the complete repeating period of the decimal expansion of 1/p, for the primes p = 947, 941 and 937. The prime is written in the left margin, with line numbers 5 and 10 as counting aids. Gauss omits the two leading zeros of each period: 1/947 = 0.00105596..., 1/941 = 0.00106269..., 1/937 = 0.00106723.... He writes the digits in groups of ten, seven groups to a line, and ends each block by writing the start of the next period ('...7001055966...', '...87141339001062699256...', '...127001067...'). That repetition shows the period has closed.\n\nWhat is being computed is the period P_p = (10^e - 1)/p, written as an e-digit string with leading zeros, where e = ord_p(10).\n\n(a) p = 947: 6 lines x 70 digits + 5 groups + the digit '7' gives 471 digits. Adding the two suppressed leading zeros gives 473 = 946/2 = 11*43. So 10 has index 2 modulo 947. This agrees with (10/947) = (2/947)(5/947) = (-1)(-1) = +1, since 947 = 3 mod 8 and 947 = 2 mod 5.\n\n(b) p = 941: 13 x 70 + 20 + 8 digits ('87141339'), plus 2 leading zeros, gives 940 = p - 1. So 10 is a primitive root modulo 941. This agrees with (10/941) = (-1)(+1) = -1.\n\n(c) p = 937: by my count of the transcription, 13 x 70 + 20 + 3 ('127'), plus 2 zeros, gives 935. That is impossible, since the period must divide 936. Because (10/937) = (+1)(-1) = -1, the true period is an even divisor of 936 not dividing 468, almost certainly 936 itself. So one digit has been lost in the transcription. The likeliest place is line 10, group 4 ('1889007..0'), where Gauss overwrote digits and added a superscript '47'.\n\nMy own consistency check on the closing digits: the period ends in the residue -p^{-1} mod 10^k. 947^{-1} = 283 mod 1000 gives an ending of 717, and the page has '...4371 7' (matches). 941^{-1} = 661 gives an ending of 339, and the page has '...87141339' (matches). 937^{-1} = 6873 mod 10^4 gives an ending of 3127, and the page has '...2113 127' (matches).\n\nPurpose: these sheets belong to Gauss's large table converting fractions 1/p into periodic decimals. In the Disquisitiones Arithmeticae (arts. 312-318) he explains how such tables, combined with indices to base 10, let one write down any fraction a/p. The previous and next pages continue the series downward: 971, 967, 953 before, then 929, 919, 911, 907, 887 after. Short blocks such as 907 on the next page reflect short periods.",
+  "errors": [
+   "p=937: the transcribed digits give a period of 935 digits, which cannot divide 936. A digit has likely been lost in the corrected group '1889007[47]0' (line 10, group 4); the manuscript there has an overwrite and an interlinear '47'. Gauss's own figures are probably correct.",
+   "No errors found for 947 or 941: the period lengths (473, 940) and the closing digits are consistent."
+  ],
+  "results": [
+   {
+    "what": "Full decimal periods of 1/947 (length 473), 1/941 (length 940), 1/937 (length 936 expected)",
+    "modern_name": "Decimal period / multiplicative order of 10 mod p; tables of reciprocals of primes",
+    "usually_credited_to": "Gauss (Disquisitiones Arithmeticae 1801, arts. 312-318; Werke II table of decimal fractions); also J. H. Lambert, Robertson, Henry Goodwyn, Burckhardt",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Implicit determination of whether 10 is a primitive root mod 941 (yes) and has index 2 mod 947",
+    "modern_name": "Order of 10 modulo p; Artin primitive-root data",
+    "usually_credited_to": "Gauss / Jacobi (Canon Arithmeticus 1839)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine computational table of decimal periods, of exactly the kind Gauss is well known to have compiled and partly published (Werke II).",
+  "checkable": [
+   {
+    "sympy": "n_order(10, 947) == 473",
+    "asserts": "The period of 1/947 has 473 digits, matching the page's 471 written digits plus 2 suppressed leading zeros"
+   },
+   {
+    "sympy": "n_order(10, 941) == 940",
+    "asserts": "10 is a primitive root mod 941; the period of 1/941 has 940 digits"
+   },
+   {
+    "sympy": "n_order(10, 937) == 936",
+    "asserts": "The period of 1/937 has 936 digits, implying a digit is missing in the transcription"
+   },
+   {
+    "sympy": "str((10**473 - 1)//947).zfill(473)[:22] == '0010559662090813093980'",
+    "asserts": "Opening digits of the 947 period"
+   },
+   {
+    "sympy": "str((10**940 - 1)//941).zfill(940)[:22] == '0010626992561105207226'",
+    "asserts": "Opening digits of the 941 period"
+   },
+   {
+    "sympy": "str((10**936 - 1)//937).zfill(936)[:22] == '0010672358591248665955'",
+    "asserts": "Opening digits of the 937 period"
+   },
+   {
+    "sympy": "str((10**473 - 1)//947)[-11:] == '88384371700'[:0] or str((10**473 - 1)//947)[-8:] == '84371700'[:0] or str((10**473-1)//947).endswith('29883843717')",
+    "asserts": "The 947 period ends ...2988384371 7"
+   },
+   {
+    "sympy": "str((10**940 - 1)//941).endswith('871413390')[:0] or str((10**940-1)//941).endswith('87141339')",
+    "asserts": "The 941 period ends ...8714133900 minus the trailing 00 that starts the next period"
+   },
+   {
+    "sympy": "str((10**936 - 1)//937).endswith('39914621131 27'.replace(' ','')[1:])",
+    "asserts": "The 937 period ends ...3991462113127"
+   },
+   {
+    "sympy": "str((10**936 - 1)//937).zfill(936)[2:]",
+    "asserts": "Compare with the page group by group to locate the missing digit near group '1889007..0'"
+   }
+  ],
+  "transcription_corrections": [
+   "937 block, line 10, group 4: '1889007{+47+}470[?]' is uncertain. The group must supply one more digit than the transcription gives to make a 936-digit period; read it against the computed expansion of 1/937.",
+   "Header: 'Math 17' and a crossed-out '4471 2' at the top right; '(2)' is the circled folio number."
+  ]
+ }
+}

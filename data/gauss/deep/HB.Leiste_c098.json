@@ -1,0 +1,54 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c098",
+ "label": "35",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000099/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is printed, not a Gauss manuscript. It is set in Fraktur type, with the printer's signature 'C 2' and the catchword '√3582' at the foot. It is almost certainly page 35 of Christian Leiste's arithmetic textbook (the bundle name 'HB.Leiste' points that way), bound into or kept with Gauss's papers. On this page I see no handwriting by Gauss; the handwritten table of square roots belongs to the next page. The content is §97, the standard schoolbook digit-by-digit method for extracting a square root.\n\nThe method:\n(1) Split the number into two-digit classes starting from the decimal point. Take a as the largest root whose square does not exceed the leading class, read from the table of squares in §96, and write a in the quotient.\n(2) Subtract a^2. Divide the remainder by 2a to estimate the next digit b. Choose b so that R - (2a+b)b >= 0 and the new remainder is less than 2(a+b)+1. This rests on (a+b)^2 = a^2 + (2a+b)b and on (n+1)^2 - n^2 = 2n+1 (§95). If nothing remains, the root is exact; each pair of trailing zeros in the square adds one zero to the root.\n(3) Otherwise bring down the next class, or two zeros. Set alpha = a+b, estimate c = R/(2alpha), and subtract (2alpha+c)c.\n(4) Repeat as often as needed.\n(5) For decimals, pair the decimal digits (append a 0 if their number is odd) and place the decimal point correctly in the root.\n\nWorked example, sqrt(590.49) with classes 5|90|49:\n- a = 20, a^2 = 400; remainder 590 - 400 = 190.\n- 2a = 40, so b = 4; (2a+b)b = 44*4 = 176; remainder 14.\n- Bring down 49: the remainder is 14.49, written 1449 in units of 0.01.\n- alpha = 24, 2alpha = 48, c = 0.3; (2alpha+c)c = 48.3*0.3 = 14.49, written 1449.\n- Remainder 0, so the root is 24.3.\n\nThe example continues on the next page with sqrt(3582) = 59.84.",
+  "errors": [
+   "Minor imprecision in step (2): the remainder bound is stated as 'less than 2a+1'. Strictly, the remainder after choosing b must be less than 2(a+b)+1, i.e. 2*root+1. The next page applies it correctly as 2*598+1 = 1197, i.e. 11969 in its scaling, compared against 11744. Otherwise the arithmetic of the example is correct."
+  ],
+  "results": [
+   {
+    "what": "Digit-by-digit square root extraction using (a+b)^2 = a^2 + (2a+b)b, with decimal pairing and the remainder bound 2n+1",
+    "modern_name": "Long-division (digit-by-digit) square root algorithm",
+    "usually_credited_to": "Ancient and medieval: Indian mathematicians (Aryabhata, c. 499) and the Chinese 'Nine Chapters'; standard in European schoolbooks from the 16th century",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed elementary textbook page (Leiste's arithmetic) explaining the standard schoolbook square-root algorithm. It is neither original nor by Gauss.",
+  "checkable": [
+   {
+    "sympy": "Eq(Rational(243,10)**2, Rational(59049,100))",
+    "asserts": "24.3^2 = 590.49, so the example's root is exact"
+   },
+   {
+    "sympy": "Eq(590 - 20**2, 190)",
+    "asserts": "first remainder is 190"
+   },
+   {
+    "sympy": "Eq((2*20+4)*4, 176)",
+    "asserts": "(2a+b)b = 176"
+   },
+   {
+    "sympy": "Eq((2*24+Rational(3,10))*Rational(3,10), Rational(1449,100))",
+    "asserts": "(2alpha+c)c = 14.49"
+   },
+   {
+    "sympy": "Eq(expand((a+b)**2 - a**2), expand((2*a+b)*b))",
+    "asserts": "the identity underlying the method"
+   },
+   {
+    "sympy": "Eq(Rational(5984,100)**2 + Rational(11744,10000), 3582)",
+    "asserts": "the next-page example: 59.84^2 + remainder 1.1744 = 3582"
+   }
+  ],
+  "transcription_corrections": [
+   "The page is printed (Fraktur), not handwritten. 'C 2' at the bottom is the printer's signature mark and '√3582' is the catchword anticipating the next page; neither is part of the computation.",
+   "In the scheme, '5|90.|49' marks the decimal point after the class 90; the right-hand column reads 20 = a, 4 = b, 24 = α, 0,3 = c, 24,3."
+  ]
+ }
+}

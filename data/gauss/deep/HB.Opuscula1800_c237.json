@@ -1,0 +1,73 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c237",
+ "label": "[232]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000238/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Subject: the graduation (division) errors of the Repsold circle. This is the Göttingen meridian circle; the page probably dates from c.1819–1825.\n\n(1) Convention. The zero point is the graduation that is at the bottom when the telescope points to the zenith. Degrees increase towards the right side, so microscope readings are always additive. The engraved numbers agree with this count only in the first quadrant. In quadrants II and III they give the difference from 180°, and in quadrant IV the complement to 360°.\n\n(2) Definitions. psi(x) is the correction to be added to graduation x to get the true angle. Define f(x) = psi(x) - (1/4)[psi(x)+psi(x+90)+psi(x+180)+psi(x+270)]. Then psi(x) - f(x) is the quadrant mean. It is invariant under x -> x+90, i.e. 'a function of 4x'. It contains only the Fourier harmonics of psi of order divisible by 4. This method cannot determine it, and Gauss assumes it is probably imperceptible.\n\n(3) Observation scheme. The lower microscope is set successively on x, x+90, x+180, x+270. A left microscope (about -90° from the lower one) and a right microscope (about +90°) are read.\n- Left readings: x+a-90, x+b, x+90+c, x+180+d.\n- Right readings: x+A+90, x+180+B, x+270+C, x+D (=x+360+D).\n\n(4) Model (filled in by me). Write f_k = f(x+90k) with sum f_k = 0. Let the true offsets of the left and right microscopes be -90+lambda and 90+rho. Then, to first order:\n- a = f0-f3+lambda, b = f1-f0+lambda, c = f2-f1+lambda, d = f3-f2+lambda.\n- A = f0-f1+rho, B = f1-f2+rho, C = f2-f3+rho, D = f3-f0+rho.\nThe quadrant means and the unknown microscope offsets lambda, rho cancel out.\n\n(5) Gauss's result.\n- f(x) = (1/8)(d+a-2b+A+B-2D).\n- f(x+90) = (1/8)(a+b-2c+B+C-2A).\n- f(x+180) = (1/8)(b+c-2d+C+D-2B).\n- f(x+270) = (1/8)(c+d-2a+D+A-2C).\nEach formula is the cyclic shift of the previous one.\n\nDerivation (mine):\n- Left side: d+a-2b = 3f0-2f1-f2 = 4f0+(f3-f1).\n- Right side: A+B-2D = 3f0-f2-2f3 = 4f0+(f1-f3).\n- Summing gives 8f0 exactly; lambda and rho drop out.\nSo the formula averages a left-microscope estimate and a right-microscope estimate whose biases (f3-f1) cancel.\n\n(6) Use. The right margin lists x = 15°, 45°, ..., 345° twice. Three base positions (15, 45, 75) generate all twelve points. The next page applies the formulas to readings of 20 April. It then fits the twelve f-values with the first harmonic -0.75'' cos x + 0.36'' sin x and gives a mean reading error of 0.828''.",
+  "errors": [
+   "No algebraic error: all four formulas are exact identities under the reading model, given sum f_k = 0.",
+   "Gauss calls the result the 'wahrscheinlichste Werth' (most probable value). If all 8 readings have independent equal errors, the strict least-squares estimate is f0 = (3w0-3w1-w2+w3)/16, with w0=a-D, w1=b-A, w2=c-B, w3=d-C. Its variance factor is 10/64, against 12/64 for Gauss's symmetric combination. His formula is therefore unbiased and simple but not strictly the minimum-variance estimate under that model. A different error model (e.g. setting errors of the lower microscope shared by both readings) might change this; the page does not say which model he assumed.",
+   "The page does not state the linearisation (first-order treatment of psi at the read positions) or the cancellation of lambda and rho; both are implicit."
+  ],
+  "results": [
+   {
+    "what": "Determining the quadrant-reduced division errors f(x) of a circle from readings of three microscopes 90° apart, with unknown microscope offsets eliminated and the 90°-periodic part declared undeterminable",
+    "modern_name": "Calibration of circle graduation errors by microscope-combination / closure (circle-closure) method; Fourier-component separation of division errors",
+    "usually_credited_to": "Bessel (division errors of Königsberg circles, 1819–20s); later Hansen and others",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Explicit combination 8f(x) = d+a-2b+A+B-2D and its cyclic shifts",
+    "modern_name": "Linear unbiased estimator from closure differences",
+    "usually_credited_to": "standard practice of the period",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Observation that psi - f is a function of 4x (only harmonics of order 4k survive) and is presumed negligible",
+    "modern_name": "Harmonic analysis of graduation errors: a 4-microscope symmetric arrangement cancels or misses harmonics of order 4k",
+    "usually_credited_to": "Bessel, and later Bruns and others",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is practical astronomical instrument calibration of the kind Bessel and Gauss both did around 1820, and Gauss's work with the Repsold meridian circle is documented. The explicit harmonic viewpoint (psi - f depends on 4x, first-harmonic fit on the next page) is neat but contemporary with Bessel. It is a notable unpublished working detail, not a new result.",
+  "checkable": [
+   {
+    "sympy": "f0,f1,f2,l,r=symbols('f0 f1 f2 l r'); f3=-f0-f1-f2; a=f0-f3+l; b=f1-f0+l; c=f2-f1+l; d=f3-f2+l; A=f0-f1+r; B=f1-f2+r; C=f2-f3+r; D=f3-f0+r; simplify((d+a-2*b+A+B-2*D)/8 - f0)",
+    "asserts": "Gauss's formula for f(x) is exact (result 0)"
+   },
+   {
+    "sympy": "simplify((a+b-2*c+B+C-2*A)/8 - f1)",
+    "asserts": "formula for f(x+90) is exact (0), same definitions"
+   },
+   {
+    "sympy": "simplify((b+c-2*d+C+D-2*B)/8 - f2)",
+    "asserts": "formula for f(x+180) is exact (0)"
+   },
+   {
+    "sympy": "simplify((c+d-2*a+D+A-2*C)/8 - f3)",
+    "asserts": "formula for f(x+270) is exact (0)"
+   },
+   {
+    "sympy": "simplify((d+a-2*b) - (4*f0 + f3 - f1))",
+    "asserts": "left-microscope part alone gives 4f0 + (f3-f1), with lambda cancelled (0)"
+   },
+   {
+    "sympy": "Rational(1+1+4+1+1+4,64) - Rational(2*(9+9+1+1),256)",
+    "asserts": "Gauss's estimator has variance factor 12/64 vs 10/64 for full least squares (positive difference 1/32)"
+   }
+  ],
+  "transcription_corrections": [
+   "Left-microscope column should read: x+a-90, x+b (struck digits), x+90+c, x+180+d. The transcription's '[?]' entries hide the 90 and 180.",
+   "'um den wahren Winkel[-Drehungs-]größe' should read 'um die wahre Winkelgröße': 'Drehungs' is struck and 'Winkel' interlined, and the article is 'die'.",
+   "'Quadrants' in line 10 is 'Quadranten'.",
+   "Last formula: the prefactor is 1/8, as in the others; it is written somewhat like 1/3 in the image.",
+   "Margin: the first column of x values is headed 'x', and the second list starts under an x with a horizontal rule. The '319' in the first list is 315."
+  ]
+ }
+}

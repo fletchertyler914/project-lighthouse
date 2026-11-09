@@ -1,0 +1,115 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c206",
+ "label": "203",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000207/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT (from f.202). Gauss is evaluating his refraction integral for an atmosphere in which pressure and density follow e = E(1-s/g) and c = C(1-s/g)^lambda, with s = 1-R/r. This means temperature decreases linearly with height. The refraction is R'' = -∫ mu dx/(2(1-mu x)) · sinJ / sqrt(b - sin^2 J). Here b = (1-mu x)/(1-s)^2 and s = g[1-(1-x)^(1/lambda)], so x = 1-c/C.\n\n[Mine] He substitutes x = y^2 (dx = 2y dy). This removes the 1/sqrt(x) singularity at the lower limit, which matters near the horizon. The integrand becomes mu y dy/(1-mu y^2) · sinJ/sqrt(b - sin^2J).\n\n[Mine] Put 1/b = 1-BB. Then sin^2J/b = sin^2J(1-BB), so b - sin^2J = b cos^2J(1+BB tan^2J). Each quadrature term is therefore\n A tanJ / sqrt(1+BB tan^2J), with\n a = rho''·k mu y/(1-mu y^2),\n A = a sqrt(1-BB),\n BB = (2s - s^2 - mu y^2)/(1-mu y^2),\n s = g[1-(1-y^2)^(1/lambda)].\nThis is exactly the scheme of f.202.\n\nThe quadrature is 7-point Gauss-Legendre on [0,1] ('meine Quadraturcoefficienten' k):\n- y = 0.0254460, 0.1292344, 0.2970774, 0.5, 0.7029226, 0.8707656, 0.9745540.\n- log y = 8.4056202, 9.1113781, 9.4728696, 9.6989700, 9.8469075, 9.9399013, 9.9888059.\n- k = 0.0647425, 0.1398527, 0.1909150, 0.2089796 (symmetric).\n- log k = 8.8111894, 9.1456708, 9.2808401, 9.3201039.\n\nConstants:\n- log mu = 6.74708, so mu = 5.585e-4 (about 2(n-1)).\n- log lambda = 0.72853, so lambda = 5.352.\n- log g = 7.90811, so g = 0.0080915. With g = (lambda+1)l/R this gives l/R ≈ 0.001274. T reaches zero at h = gR ≈ 51 km, i.e. a lapse rate of about 5.3 K/km.\n- The additive constant should be log(mu·206265'') = 6.74708 + 5.31443 = 2.06151. Gauss first used 2.08151, later corrected (see below).\n\nComputation for each node y (all in 7-place logs):\n(i) log(k y mu rho) = log y + log k + 2.08151.\n(ii) log(1-mu y^2).\n(iii) log a = (i) - (ii).\n(iv) log(1-y^2). Then log|log(1-y^2)| - log lambda gives |log (1-y^2)^(1/lambda)|. Antilog gives (1-y^2)^(1/lambda), hence w = 1-(1-y^2)^(1/lambda) and s = g w.\n(v) Natural numbers: 2gw - g^2w^2 - mu y^2, then divide by (1-mu y^2) to get BB.\n(vi) log B = ½ log BB; log sqrt(1-BB); log A = log a + log sqrt(1-BB).\n\nNode by node:\n- y2 = 0.1292344 (top left). (i) = 0.33856. yy = 0.0167015, mu yy = 9.3291e-6. log(1-yy) = 9.9926853 and |log| gives 7.86420; minus 0.72853 gives exponent 0.0013667, so (1-yy)^(1/lambda) = 0.9968580. Then log w = 7.4972, log s = 5.4053, giving BB and log B = 7.80917. As a check he uses f.202's series BB ≈ 0.002465624 yy(1+yy/2): 7.39193 + 8.22276 + 0.00361 = 5.61830 (direct value ≈ 5.6183).\n- y3 = 0.2970774. (i) = 0.83522; log(1-mu yy) = 9.9999786; mu yy = 4.929694e-5. The first pass used a wrong log(1-yy) (crossed 9.0698537, giving s = 3.9877e-4 and BB log 6.8739726). Redone: log(1-yy) = 9.9598734 → 8.6034324 → 0.007497257 → 0.9828855 → log w = 8.2333642 → log s = 6.1414742. Then 2s = 0.0002770156, s^2 = 1.92e-8, minus mu yy, gives 0.0002276995, so log BB ≈ 6.35738 after division by (1-mu yy). log a = 0.8352414; log sqrt(1-BB) = 9.9999505. Final log A = 0.81519 (after -0.02), log B = 8.17819.\n- y4 = 0.5. (i) = 1.1009839; mu yy = 1.396433e-4. log 0.75 = 9.8750613 → 9.0966969 → 0.02334355 → 0.9476686 → 8.7187623 → s: log 6.6268723. 2s = 8.470369e-4, s^2 = 1.794e-7, numerator 7.072142e-4. log BB = 6.8496116, log B = 8.42481. log sqrt(1-BB) = 9.9998463. log a written 1.1006446; final log A = 1.08049.\n- y5 = 0.7029226. (i) = 1.2092576; mu yy = 2.759911e-4.\n  * Middle column (first, erroneous): he took log(1-yy) = 9.7040646 itself as the log of |log(1-yy)| (→ 0.0945224 → 0.8044102 → s log 7.1994562). This gives BB log 7.4606153, and log sqrt(1-BB) = 9.9993721 follows from it.\n  * Starred right column (correct): log|log(1-yy)| = 9.4711969 → 0.05529259 → 0.8804555 → log w 9.0775297 → log s 6.9856397. Then 2s = 0.001934950, minus mu yy, minus s^2 = 9.36e-7, gives 0.0016580230. log BB = 7.2197104, log B = 8.60986. log a = 1.2093775, log sqrt(1-BB) = 9.9996397, log A = 1.18902.\n- y6 = 0.8707656. (i) = 1.1670821; yy = 0.7582328; mu yy = 4.235284e-4. Chain: 9.3833975 → 9.7900053 → 0.1152061 → 0.7669974 → log s 7.2754708. 2s = 0.0037713840, s^2 = 3.5558e-6, numerator 0.0033442998. log BB = 7.5244892, log B = 8.76224. log a = 1.1672661, log sqrt(1-BB) = 9.9992726, log A = 1.14654.\n- y7 = 0.9745540. (i) = 0.8815053; mu yy = 5.305078e-4. Chain: 8.7010892 → 0.1135793 → 0.2426786 → 0.5719017 → log s 7.3396535. 2s = 0.0069292060, s^2 = 1.20035e-5, numerator 0.0063866947. log BB = 7.8055065, log B = 8.90275. log a = 0.8617357 (already reduced by 0.02), log sqrt(1-BB) = 9.9986087, log A = 0.86034.\n- y1 comes from f.202: log A = 9.27832 (f.202: 9.29832, minus 0.02), log B = 7.10166.\n\nCorrection 2.08151 → 2.06151. In the summary tables every log A is lowered by exactly 0.02, i.e. the a's are divided by 1.0471. '2.08151' is overwritten to '2.06151' at nodes 6 and 7. An earlier table (0.1988, 2.1805, ..., 14.6737 and 157.275, ...) shows the uncorrected values, which are larger by the factor 1.0471.\n\nSUMMARY TABLE (log tan 89° = 1.75808).\n- A in arcseconds: 0.1898, 2.0824, 6.5342, 12.0361, 15.4532, 14.0132, 7.2500. Sum ΣA = 57.5589\". This is the refraction constant: R ≈ 57.56\" tanJ for small J.\n- Horizontal refraction (J = 90°, each term → A/B): 150.197, 323.138, 433.510, 452.567, 379.455, 242.272, 90.696. Sum 2071.835\" = 34'31.83\".\n- J = 89°: log(A tan89) = 1.03640, 2.07664, 2.57327, 2.83857, 2.94710, 2.90462, 2.61842. The values -½log(1+BB tan^2 89°) are 9.99887, 9.97225, 9.87902, 9.73933, 9.59544, 9.46076, 9.32906. Terms: 10.846, 111.915, 283.327, 378.355, 348.769, 231.942, 88.610. Sum 1453.764\" = 24'13.76\".\n- A small preliminary column (8.85861, 9.53951, 9.81529) is a superseded partial computation.",
+  "errors": [
+   "Additive constant: log(mu·206265) = 6.74708 + 5.31443 = 2.06151, but the a's were first computed with 2.08151 (factor 1.0471 too large). Gauss caught this: the 6 is overwritten at nodes 6 and 7, and all final log A are reduced by 0.02.",
+   "Node y = 0.29708, first pass: wrong log(1-yy) (crossed 9.0698537) gave s = 3.9877e-4 and log BB = 6.8739726. Discarded and redone correctly (log BB ≈ 6.3574).",
+   "Node y = 0.70292, first pass (middle column): log(1-yy) = 9.7040646 was used as if it were log|log(1-yy)|, giving s = 0.0015830 and log BB = 7.4606153. Superseded by the starred column (log BB = 7.2197104).",
+   "Node y = 0.5: log a should be 1.1009839 + 0.0000607 = 1.1010446 (the same pattern as all other nodes), but 1.1006446 is written. A slip of 0.0004 in the log; Gauss's final A4 = 12.0361 should be about 12.047. Consequences (if the reading is right): ΣA ≈ 57.570 instead of 57.559; horizontal term 452.97 instead of 452.567 (sum ≈ 2072.24\" = 34'32.2\"); 89° term ≈ 378.70 instead of 378.355 (sum ≈ 1454.1\").",
+   "Node y = 0.29708: the written log(2.276995e-4) appears as 6.3563621, but the correct value is 6.3573621. The subsequent log sqrt(1-BB) = 9.9999505 and the final log B = 8.17819 used in the A/B column (433.510) correspond to the correct value, so at most a copying slip.",
+   "Node y = 0.97455: log sqrt(1-BB) written 9.9986087; recomputation gives ≈ 9.9986078 (negligible, 1e-6).",
+   "The preliminary uncorrected column (157.275, 338.369, 413.942, 433.893, 378.338, 253.688) has entries 3–5 inconsistent with the final B's. They come from superseded B values; not used."
+  ],
+  "results": [
+   {
+    "what": "Numerical evaluation of the astronomical refraction integral by 7-point Gauss–Legendre quadrature on [0,1], after the substitution x = y^2 that removes the endpoint square-root singularity",
+    "modern_name": "Gauss–Legendre quadrature with singularity-removing substitution",
+    "usually_credited_to": "Gauss (Methodus nova integralium valores per approximationem inveniendi, 1814/1816)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Refraction model with polytropic atmosphere: pressure ∝ (1-s/g), density ∝ (1-s/g)^lambda, i.e. temperature linearly decreasing with height (lambda ≈ 5.35, implied lapse ≈ 5.3 K/km)",
+    "modern_name": "polytropic (constant-lapse-rate) atmosphere refraction theory",
+    "usually_credited_to": "Ivory (1823/1838); related forms by Laplace and Bessel; Gauss's own treatment largely unpublished",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Recasting of each quadrature term as A tanJ/sqrt(1+B^2 tan^2 J), with B^2 = (2s-s^2-mu y^2)/(1-mu y^2), so a single table of (A,B) serves all zenith distances",
+    "modern_name": "tabulated quadrature form of refraction R(J) = Σ A_i tanJ / sqrt(1+B_i^2 tan^2 J)",
+    "usually_credited_to": "unsure (comparable to Bessel/Ivory-type series forms)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Numerical results: refraction constant ΣA = 57.56\", horizontal refraction 34'31.8\", refraction at 89° = 24'13.8\"",
+    "modern_name": "refraction constant / horizontal refraction",
+    "usually_credited_to": "standard tables of Bradley, Bessel (Fundamenta 1818, Tabulae Regiomontanae 1830)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss quadrature is his own, and his interest in refraction is known. Still, a fully worked application of his 7-point formula to the refraction integral of a constant-lapse-rate atmosphere is a notable unpublished detail. This includes the singularity-removing substitution, a horizontal refraction of 34'31\", and a lapse rate of about 5 K/km, predating Ivory's 1823 polytropic theory. It is not a new theorem, so the score stays modest.",
+  "checkable": [
+   {
+    "sympy": "[N(log((1+r)/2,10)+10,8) for r in sorted([s for s in Poly(legendre(7,x)).nroots(n=20) ])]",
+    "asserts": "The logs of the 7-point Gauss–Legendre nodes on [0,1] are 8.4056202, 9.1113781, 9.4728696, 9.6989700, 9.8469075, 9.9399013, 9.9888059."
+   },
+   {
+    "sympy": "N(log(0.0647424831,10)+10,8), N(log(0.1398526957,10)+10,8), N(log(0.1909150253,10)+10,8), N(log(Rational(256,1225),10)+10,8)",
+    "asserts": "The weights k have logs 8.8111894, 9.1456708, 9.2808401, 9.3201039 (Gauss 7-point weights divided by 2; the central weight is 256/1225)."
+   },
+   {
+    "sympy": "N(6.74708 - 10 + log(206264.806,10), 6)",
+    "asserts": "The correct additive constant log(mu·rho'') is 2.06151, not 2.08151."
+   },
+   {
+    "sympy": "N(log(1/(1-0.75**(1/10**0.72853)),10))",
+    "asserts": "Used only as a cross-check of the y = 0.5 chain: (0.75)^(1/lambda) ≈ 0.94767, so w = 0.052331."
+   },
+   {
+    "sympy": "g=10**(7.90811-10); mu=10**(6.74708-10); lam=10**0.72853; y=Rational(1,2); s=g*(1-(1-y**2)**(1/lam)); N(log((2*s-s**2-mu*y**2)/(1-mu*y**2),10)+10,7)",
+    "asserts": "log BB at y = 0.5 is 6.84961 (Gauss: 6.8496116)."
+   },
+   {
+    "sympy": "g=10**(7.90811-10); mu=10**(6.74708-10); lam=10**0.72853; y=0.7029225757; s=g*(1-(1-y**2)**(1/lam)); N(log((2*s-s**2-mu*y**2)/(1-mu*y**2),10)+10,7)",
+    "asserts": "log BB at y = 0.70292 is 7.21971 (Gauss starred column: 7.2197104)."
+   },
+   {
+    "sympy": "g=10**(7.90811-10); mu=10**(6.74708-10); lam=10**0.72853; y=0.9745539562; s=g*(1-(1-y**2)**(1/lam)); N(log((2*s-s**2-mu*y**2)/(1-mu*y**2),10)+10,7)",
+    "asserts": "log BB at y = 0.97455 is 7.80551 (Gauss: 7.8055065)."
+   },
+   {
+    "sympy": "N(1.1009839 - (log(1-10**(6.74708-10)*0.25,10)))",
+    "asserts": "log a at y = 0.5 is 1.1010446, whereas Gauss wrote 1.1006446 (a slip of 0.0004)."
+   },
+   {
+    "sympy": "N(sum(10**v for v in [9.27832-10,0.31856,0.81519,1.08049,1.18902,1.14654,0.86034]),6)",
+    "asserts": "ΣA = 57.5589 arcseconds (refraction constant)."
+   },
+   {
+    "sympy": "N(sum(10**(a-b+10) for a,b in [(9.27832-10,7.10166),(0.31856,7.80917),(0.81519,8.17819),(1.08049,8.42481),(1.18902,8.60986),(1.14654,8.76224),(0.86034,8.90275)]),7)",
+    "asserts": "Horizontal refraction Σ A/B = 2071.8 arcseconds = 34'31.8\" (using log B3 = 8.17819)."
+   },
+   {
+    "sympy": "t=10**1.75808; N(sum(10**a*t/sqrt(1+(10**(b-10)*t)**2) for a,b in [(9.27832-10,7.10166),(0.31856,7.80917),(0.81519,8.17819),(1.08049,8.42481),(1.18902,8.60986),(1.14654,8.76224),(0.86034,8.90275)]),7)",
+    "asserts": "Refraction at zenith distance 89° = 1453.76 arcseconds = 24'13.8\"."
+   },
+   {
+    "sympy": "N(log(tan(pi*89/180),10),6)",
+    "asserts": "log tan 89° = 1.75808."
+   },
+   {
+    "sympy": "series(2*g*(1-(1-x)**(1/lam)) - mu*x, x, 0, 2).subs({g:10**(7.90811-10),mu:10**(6.74708-10),lam:10**0.72853})",
+    "asserts": "The leading coefficient of BB in yy is 2g/lambda - mu ≈ 0.0024656 (f.202 series check; 7.39193 = log of that coefficient)."
+   }
+  ],
+  "transcription_corrections": [
+   "Top-left: 'yy = 0.01670527' should read yy = 0.0167015.. (log 8.22276); 'B 7.809[?]' is B = 7.80917.",
+   "Column for y = 0.29708: 'a 0.832414' is 0.8352414 (= 0.83522 + 0.0000214).",
+   "Column for y = 0.29708: the crossed '0.00069 75415' is probably 0.00079 75415 (twice the wrong s = 3.98770e-4).",
+   "Column for y = 0.29708: '6.3563621' should mathematically be 6.3573621; the subsequent work uses the correct value.",
+   "Summary table, log A column: second entry should be 0.31856 (not 0.33856), i.e. after the -0.02 correction.",
+   "Summary table, log B column: third entry is 8.17819 (consistent with A/B = 433.510), not 8.27619.",
+   "Nodes y = 0.87077 and 0.97455: '2.06151' is a corrected (overwritten) 2.08151. The arithmetic there was done with 2.08151 (1.1670821, 0.8815053), and the later log a '0.8617357' was overwritten from 0.8817357.",
+   "Middle 'star' column for y = 0.70292: the 9.9993721 value goes with the erroneous BB; the final 9.9996397 goes with the starred (correct) column."
+  ]
+ }
+}

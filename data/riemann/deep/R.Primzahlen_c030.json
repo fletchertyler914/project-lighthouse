@@ -1,0 +1,63 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c030",
+ "label": "16r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000031/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is not a working draft. It is a clean fair copy, probably in another hand, of the opening of Riemann's published paper 'Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse' (Monatsberichte der Berliner Akademie, Nov. 1859). It carries an archival heading and the Roman numeral 'VII' (with an earlier crossed-out numeral), which fits the numbering of a Werke-type edition. The previous page in the bundle is unrelated chemistry.\n\nContent, in modern notation:\n\n(0) Dedication. Riemann thanks the Academy for electing him a corresponding member. He offers a study of the frequency of primes, a subject Gauss and Dirichlet had pursued.\n\n(1) Euler product. Euler's identity is prod_p 1/(1-p^{-s}) = sum_{n>=1} n^{-s}. Riemann names the common value zeta(s) for complex s. Both sides converge only for Re s > 1, and he announces a representation valid everywhere.\n\n(2) Mellin/Gamma step. Riemann writes Pi(s-1) = Gamma(s). Substituting x -> nx in Euler's integral gives int_0^oo e^{-nx} x^{s-1} dx = Gamma(s)/n^s for Re s > 0. Summing over n gives Gamma(s) zeta(s) = int_0^oo x^{s-1}/(e^x-1) dx for Re s > 1. Implicit step (mine): expand 1/(e^x-1) = sum_{n>=1} e^{-nx} and interchange sum and integral, which is justified by monotone convergence.\n\n(3) Loop integral. Consider J(s) = int (-x)^{s-1}/(e^x-1) dx along a path from +oo to +oo that goes positively around a region containing 0 but no other pole (2 pi i k, k != 0). Here (-x)^{s-1} = exp((s-1) log(-x)), with log(-x) real for negative x. The claim is J = (e^{-pi i s} - e^{pi i s}) * int_0^oo x^{s-1}/(e^x-1) dx.\n\nImplicit steps (mine), for Re s > 1:\n- The path runs in along the upper edge of the positive axis, around 0 counterclockwise, and out along the lower edge.\n- On the upper edge arg(-x) = -pi, so (-x)^{s-1} = x^{s-1} e^{-pi i (s-1)}. On the lower edge arg(-x) = +pi, so (-x)^{s-1} = x^{s-1} e^{pi i (s-1)}.\n- The small circle contributes O(eps^{Re s - 1}) -> 0.\n- Hence J = (e^{pi i(s-1)} - e^{-pi i(s-1)}) I = (e^{-pi i s} - e^{pi i s}) I, where I is the real integral.\n\nThe sentence continues onto the next page, where e^{-pi i s} - e^{pi i s} = -2i sin(pi s) gives 2 sin(pi s) Gamma(s) zeta(s) = i J(s). The right side is entire in s, which yields the analytic continuation of zeta.",
+  "errors": [
+   "No mathematical errors. With the stated branch of log(-x) and a positively oriented loop, the factor (e^{-pi s i} - e^{pi s i}) is correct.",
+   "The page does not state that Re s > 1 is needed to drop the small-circle contribution and to justify exchanging sum and integral. This omission is also in the printed original."
+  ],
+  "results": [
+   {
+    "what": "Euler product prod_p (1-p^{-s})^{-1} = sum n^{-s}",
+    "modern_name": "Euler product for the zeta function",
+    "usually_credited_to": "Euler (1737)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Gamma(s) zeta(s) = int_0^oo x^{s-1}/(e^x-1) dx",
+    "modern_name": "Mellin-transform (Bose-type) integral representation of zeta",
+    "usually_credited_to": "Known before Riemann (Abel, Chebyshev, others); used by Riemann 1859",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Loop (Hankel-type) contour integral of (-x)^{s-1}/(e^x-1) equals -2i sin(pi s) times the real integral; this gives meromorphic continuation of zeta",
+    "modern_name": "Riemann's contour-integral representation / analytic continuation of zeta",
+    "usually_credited_to": "Riemann (1859)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a fair copy of the first page of Riemann's famous published 1859 paper. Its content is completely standard and universally credited to him.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(exp(-n*x)*x**(s-1),(x,0,oo),conds='none') - gamma(s)/n**s)  # n>0, re(s)>0",
+    "asserts": "Euler's Gamma integral scaled by n"
+   },
+   {
+    "sympy": "N(Integral(x**(Rational(5,2)-1)/(exp(x)-1),(x,0,oo))) - N(gamma(Rational(5,2))*zeta(Rational(5,2)))",
+    "asserts": "Gamma(s)zeta(s) = int_0^oo x^{s-1}/(e^x-1) dx at s=5/2 (should be ~0)"
+   },
+   {
+    "sympy": "simplify(exp(I*pi*(s-1)) - exp(-I*pi*(s-1)) - (exp(-pi*s*I) - exp(pi*s*I)))",
+    "asserts": "The branch factors from the two edges combine to e^{-pi i s} - e^{pi i s} (should be 0)"
+   },
+   {
+    "sympy": "simplify((exp(-pi*s*I)-exp(pi*s*I)) + 2*I*sin(pi*s))",
+    "asserts": "e^{-pi i s} - e^{pi i s} = -2i sin(pi s), giving 2 sin(pi s) Gamma(s) zeta(s) = i*J on the next page"
+   }
+  ],
+  "transcription_corrections": [
+   "The archival heading (pencil 'Riemann 3'), the Roman numeral 'VII' with an earlier crossed-out numeral, the page number '1' and the margin folio number '16' are omitted from the transcription.",
+   "The logarithm is written 'lg(-x)' (abbreviated) in the image, not 'log(-x)'.",
+   "The integration limit reads like '±∞ bis +∞' or '+∞ bis +∞' with a corrected first symbol; the intended meaning is a loop from +∞ back to +∞.",
+   "The footnote marker after 'November.' appears as '**' in the image."
+  ]
+ }
+}

@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c141",
+ "label": "58",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000142/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a printed German arithmetic textbook, Leiste's, p. 58, in an interleaved or annotated copy. It carries a few handwritten corrections and margin jottings; the printed text is not Gauss's.\n\n§136 (compounding linked proportions). Suppose a:b = c:d and m:n = d:e. Then am:bn = c:e. The printed text says 'c:d'; a hand has corrected the last letter to 'e'.\n- Proof: from the first proportion, d = bc/a.\n- From the second, e = nd/m = nbc/(ma).\n- Hence e/c = bn/(am), i.e. am:bn = c:e.\n\nGeneralisation to a chain. Suppose a:b = c:d, m:n = d:e, p:q = e:f and r:s = f:h. Then ampr:bnqs = c:h. The shorter proof is a telescoping product: bnqs/(ampr) = (d/c)(e/d)(f/e)(h/f) = defh/(cdef) = h/c.\n\n§137 names this the Kettenregel (regula multiplex). The key condition is that the last term of each ratio becomes the first term of the next. The text then describes the 'modern' method, the Reesische Regel or Kettensatz, for which the printed text credits Graumann and Reese; that attribution is struck out by hand and replaced by an illegible name.\n- Start on the left with the unknown x.\n- Write equivalences so that each new line begins with the unit that ended the previous line.\n- Stop when the right-hand side is again of the same kind as x.\n- Multiply all left-hand sides and set the product equal to the product of all right-hand sides. Fractions are first cleared.\n\nExample 1: what does a Leipzig ell cost in Reichsthaler (Conventionsgeld)?\n- Data: 1 Brabant ell costs 3 Dutch gulden. 5 1/4 fl = 2 rthl 20 ggr.\n- Implicit step (mine): 1 rthl = 24 ggr, so 2 rthl 20 ggr = 17/6 rthl. Then 21/4 fl = 17/6 rthl; multiplying by 12 gives 63 fl = 34 rthl.\n- Chain: x rthl = 1 Leipzig ell; 6 Leipzig ells = 5 Brabant ells (§128); 1 Brabant ell = 3 fl; 63 fl = 34 rthl.\n- Products: 6·63·x = 5·3·34, so x = 510/378 = 5·17/63 = 85/63 rthl, about 1 rthl 8 3/8 ggr.\n\nMargin, probably in another hand (possibly Gauss's), continued on the next page.\n- Top: '-9724' (the next page reads '-9721') and a column of number pairs: 0.1, 5.2, 25.2, 82.23, ..31, 5.29 20, 77 98, 101 51, 65 43, 13 4, 10 65 17, 87 11, 74. This looks like a number-theoretic computation (e.g. a reduction or period sequence attached to a negative determinant), but its exact purpose cannot be determined from this page.\n- Lower: fragments φ', φ'', φ(n+x), φ'=, φ''=, φ'''=±.../n, φ^IV=±.../n. The next page develops these fully, with φ = Σ(-x)^k/(k!)^2 and ψ = Σ(-1)^(k+1) x^k/(k!(k-1)!), i.e. φ = J0(2√x) and ψ = √x·J1(2√x). The relations used there are ψ' = φ and xφ' = -ψ, followed by asymptotic expansions in 1/n.",
+  "errors": [
+   "The printed conclusion of §136, 'am:bn = c:d', is a misprint; it must be c:e. The handwritten correction is right.",
+   "The arithmetic of the example is correct: 21/4 fl = 17/6 rthl gives 63 fl = 34 rthl, and x = 85/63 rthl.",
+   "The margin number column is too fragmentary to check."
+  ],
+  "results": [
+   {
+    "what": "Compounding a chain of proportions in which each ratio starts with the previous one's last term: ampr:bnqs = c:h",
+    "modern_name": "Chain rule (Kettensatz / Kettenregel), multiplication of ratios, telescoping product",
+    "usually_credited_to": "Commercial-arithmetic tradition; the 'Reesische Regel' is after Kaspar Franz von Rees (1737), popularised by Graumann",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Currency/length conversion: price of a Leipzig ell = 85/63 rthl",
+    "modern_name": "Unit conversion by chained conversion factors",
+    "usually_credited_to": "standard textbook exercise",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Margin fragments on φ, φ', φ'' and φ(n+x), continued on the next page as Bessel-type series",
+    "modern_name": "Series for J0(2√x) and √x·J1(2√x); asymptotic expansion",
+    "usually_credited_to": "Euler and Bessel (1824) for the functions",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is a printed elementary textbook on the chain rule of commercial arithmetic. Only the small handwritten correction and marginal scraps are possibly Gauss's, and their substance (Bessel-type series) is developed on the next page, not here.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,m,n=symbols('a b c m n',positive=True); d=b*c/a; e=n*d/m; simplify(e/c - (b*n)/(a*m))",
+    "asserts": "§136: from a:b = c:d and m:n = d:e it follows that am:bn = c:e (the expression returns 0)."
+   },
+   {
+    "sympy": "Rational(21,4)*12 == 63 and Rational(17,6)*12 == 34",
+    "asserts": "5 1/4 fl = 2 rthl 20 ggr (= 17/6 rthl) scales to 63 fl = 34 rthl."
+   },
+   {
+    "sympy": "Rational(5*3*34, 6*63) == Rational(5*17,63) == Rational(85,63)",
+    "asserts": "The solution x = 5·3·34/(6·63) = 5·17/63 = 85/63 rthl is correct."
+   },
+   {
+    "sympy": "x=symbols('x'); phi=sum((-x)**k/factorial(k)**2 for k in range(8)); psi=sum((-1)**(k+1)*x**k/(factorial(k)*factorial(k-1)) for k in range(1,9)); expand(diff(psi,x)-phi).as_poly(x).degree()>=7",
+    "asserts": "The next-page relation ψ' = φ holds up to truncation order."
+   }
+  ],
+  "transcription_corrections": [
+   "In the §136 conclusion, the printed 'c:d' is struck and corrected by hand to 'c:e'.",
+   "The handwritten replacement for the struck 'Graumanns und Reeses' is uncertain. 'Jhonier de Clairemonde' is a doubtful reading; it may be a different name or an owner's annotation.",
+   "Margin pair '87 11' reads as '37 11' on the next page, and '77 98' as '77 38'; the readings are uncertain.",
+   "Margin heading '-9724' corresponds to '-9721' on the next page; one of the two is likely misread."
+  ]
+ }
+}

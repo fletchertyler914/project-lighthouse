@@ -1,0 +1,59 @@
+{
+ "bundle": "600_1",
+ "page": "c109",
+ "label": "[100]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000110/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): the theorem is that a 'Substitution' A, meaning an integral n x n matrix, which is congruent to the identity mod a prime p and has finite order N, is itself the identity. Hilbert writes A = 1 + p^r B with r >= 1, where B is an integral matrix not all of whose entries are divisible by p. Since 1 and B commute, the binomial theorem gives A^N = 1 + N p^r B + C(N,2) p^{2r} B^2 + ... + p^{Nr} B^N, and this is supposed to equal 1.\n\nCase 1, p does not divide N (finished at the top of this page). The second term N p^r B is divisible by exactly p^r, because some entry of B is a unit mod p and N is a unit mod p. Every later term C(N,k) p^{kr} B^k with k >= 2 is divisible by p^{2r}, a strictly higher power. So the sum of the non-identity terms is not 0 mod p^{r+1}, and A^N = 1 is impossible.\n\nCase 2, N = p ('aus dem nämlichen Grunde'). Now A^p - 1 = p^{r+1} B + sum_{k=2}^{p-1} C(p,k) p^{kr} B^k + p^{pr} B^p.\n- The first term is divisible by exactly p^{r+1}.\n- For 2 <= k <= p-1, p divides C(p,k), so those terms are divisible by p^{kr+1}, which is at least p^{2r+1} and hence at least p^{r+2}.\n- The last term is divisible by p^{pr}, and pr >= r+2 exactly when (p-1)r >= 2.\nSo for p odd, or for r >= 2, A^p = 1 is impossible.\n\nGeneral N. Hilbert argues by descent (my reading of his sketch):\n- From A^N = 1 with p | N, put A' = A^{N/p}. Then A' ≡ 1 mod p and A'^p = 1, so A' = 1 by Case 2. That is, A^{N/p} = 1.\n- Repeating gives A^{N/p^2} = 1, and so on, until the exponent N/p^s is prime to p.\n- Case 1 then gives A = 1.\nHilbert's sentence 'bis schliesslich A selber sich als die identische Substitution ergiebt' tacitly includes this final use of Case 1. A struck-out clause read 'falls etwa N durch die 2te Potenz von p theilbar wäre'.\n\nSecond part: a new topic, apparently from lecture notes on Riemann-surface theory in higher dimensions. Functions u, v, w, ... are continuous everywhere in space except on the two cut surfaces, where they are best left undefined. In the cut space they are single-valued and continuous. The space must be simply connected for single-valuedness and continuity to be compatible. The next page continues: simple connectivity is characterised as 'every continuous function is single-valued'. It then sets up the n-dimensional analogue of Riemann's multi-sheeted surfaces, with a branch locus of dimension n-2 and cuts of dimension n-1 bounded by the branch locus. This page contains no computation in that part, only definitions and heuristics.",
+  "errors": [
+   "The claim that A^N = 1 is impossible for N = p 'for the same reason' fails for p = 2, r = 1. Then A^2 - 1 = 4B + 4B^2 = 4B(1+B), and the leading term no longer dominates. The counterexample A = -I is ≡ I mod 2 and has order 2. The argument is valid for odd p, or for p = 2 with A ≡ I mod 4 (r >= 2). Minkowski's correct statement uses modulus m >= 3. Unless the restriction to odd p appeared earlier, this is an unjustified step.",
+   "The descent sketch ('u.s.f.') ends with an exponent prime to p, where Case 1 rather than Case 2 is needed. This is implicit but not stated. It is a minor gap, not an error.",
+   "Second section: the claim that simple connectivity is needed and sufficient for single-valued continuous continuation, and the definition 'every continuous function is single-valued', are heuristic. They are acceptable for multivalued functions arising by continuation, but are informal."
+  ],
+  "results": [
+   {
+    "what": "An integral matrix of finite order congruent to the identity mod an (odd) prime p equals the identity. Proved via the binomial expansion of (1 + p^r B)^N and descent on the p-part of N.",
+    "modern_name": "Minkowski's lemma: the congruence subgroup Gamma(m), m >= 3, of GL_n(Z) is torsion-free",
+    "usually_credited_to": "H. Minkowski, 1887 (J. reine angew. Math. 101); also related to Serre's lemma",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "n-dimensional analogue of Riemann surfaces: branch locus of dimension n-2, cuts of dimension n-1 bounded by it, single-valuedness in the cut, simply connected space.",
+    "modern_name": "Branched coverings and cut-and-paste construction in higher dimensions",
+    "usually_credited_to": "Riemann (n=2); higher-dimensional branched coverings by Poincaré, Heegaard and others c. 1890-1900",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The matrix lemma is Minkowski's well-known 1887 result, proved by the standard binomial argument. Minkowski was Hilbert's close friend, so Hilbert recording it is entirely expected. The topological remarks are informal lecture-style material.",
+  "checkable": [
+   {
+    "sympy": "A=-eye(2); (A**2 - eye(2)).is_zero_matrix and all(((A-eye(2))[i,j]) % 2 == 0 for i in range(2) for j in range(2))",
+    "asserts": "Counterexample for p=2: A = -I is ≡ I mod 2 and A^2 = I but A ≠ I, so Case 2 fails for p=2, r=1."
+   },
+   {
+    "sympy": "all(binomial(p,k) % p == 0 for p in [3,5,7,11] for k in range(1,p))",
+    "asserts": "p divides C(p,k) for 0<k<p, used in the N=p case."
+   },
+   {
+    "sympy": "B=Matrix([[1,2],[0,3]]); p=3; r=1; N=4; M=((eye(2)+p**r*B)**N - eye(2)); all(e % p**r == 0 for e in M) and not all(e % p**(r+1) == 0 for e in M)",
+    "asserts": "For p∤N, (1+p^r B)^N - 1 is divisible by exactly p^r (example check)."
+   },
+   {
+    "sympy": "B=Matrix([[1,0],[0,0]]); p=3; r=1; M=((eye(2)+p**r*B)**p - eye(2)); all(e % p**(r+1) == 0 for e in M) and not all(e % p**(r+2) == 0 for e in M)",
+    "asserts": "For N=p (p odd), (1+p^r B)^p - 1 is divisible by exactly p^{r+1}."
+   }
+  ],
+  "transcription_corrections": [
+   "'A^{\\frac{N}{r}}' should read 'A^{\\frac{N}{p}}' (the exponent is N/p, matching N/p^2 on the next line). The handwritten p resembles r.",
+   "'A^{\\frac{N}{r^2}}' should be 'A^{\\frac{N}{p^2}}'.",
+   "'nicht {+definirt+} annimmt' should read 'nicht definirt' with 'annimmt' (or 'annimmt' with 'definirt' as an interlinear insertion); the intended sense is 'where one best leaves them undefined'.",
+   "'Ausserdem sie' likely should be 'Ausserdem sind sie' (missing verb in the manuscript).",
+   "'jen[-...-]es Kreises' should read 'jenes Kreises', with an overwritten letter.",
+   "'Substution' on line 10 matches the manuscript's 'Subsdution/Substution' slip for 'Substitution'."
+  ]
+ }
+}

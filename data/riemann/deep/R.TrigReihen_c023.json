@@ -1,0 +1,51 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c023",
+ "label": "10v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000024/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the historical first section of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published by Dedekind 1867). The page refutes Poisson's claim that the Fourier sine series is already in Lagrange's 1759 vibrating-string memoir (Misc. Taur. III, p. 261).\n\nNo derivation is carried out on the page. Riemann only describes what Lagrange's formula actually is. The modern reading below, and the identities in it, are mine; they are implicit in Riemann's description.\n\n(1) The problem Lagrange solved. Choose coefficients a_1,...,a_n so that the finite sine sum\n S(x) = sum_{m=1}^n a_m sin(m pi x)\ntakes prescribed values Y_k at the equally spaced nodes x_k = k/(n+1), k = 1..n. Lagrange writes the generic node as X.\n\n(2) The solution (my reconstruction). It rests on discrete orthogonality:\n sum_{k=1}^n sin(m k pi/(n+1)) sin(l k pi/(n+1)) = (n+1)/2 * delta_{ml}, for 1 <= m, l <= n.\nIt follows that\n a_m = (2/(n+1)) sum_{k=1}^n Y_k sin(m k pi/(n+1)).\nWrite DeltaX = 1/(n+1). Then a_m = 2 sum_X Y sin(m pi X) DeltaX, which is exactly Lagrange's '2∫ Y sin mXπ dX'. Lagrange's ∫ dX is therefore a finite sum Σ ΔX; this is Riemann's point.\n\n(3) The limit. Let n → ∞, so that ΔX → 0. Then a_m → 2 ∫_0^1 Y(X) sin(m pi X) dX, the Fourier sine coefficient. Riemann concedes this limit would have given Fourier's result.\n\n(4) The historical argument. Lagrange never took this step. He believed:\n- arbitrary functions could not be expressed by a formula;\n- trigonometric series represent only analytically given periodic functions.\nRiemann attributes this view to the Euler–d'Alembert controversy. That controversy committed Lagrange to a fixed method: solve the problem for finitely many masses, then pass to the limit. The sentence continues on the next page.",
+  "errors": [
+   "No mathematical errors. The page gives Lagrange's interpolation problem correctly: nodes k/(n+1), k = 1..n, with n unknown coefficients for n conditions.",
+   "Historical judgments (Poisson's motive, Lagrange's beliefs) are interpretive, not mathematical. They agree with the later standard historiography (e.g., Burkhardt)."
+  ],
+  "results": [
+   {
+    "what": "Lagrange's finite sine interpolation: the coefficients of a degree-n sine polynomial through n equally spaced nodes, read as a discrete (Riemann-sum) analogue of the Fourier sine coefficients.",
+    "modern_name": "Discrete sine transform (DST-I) and its inversion, i.e., trigonometric interpolation",
+    "usually_credited_to": "Lagrange (1759, Misc. Taur.); also Euler and Clairaut for trigonometric interpolation",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical critique: Lagrange's ∫dX is really ΣΔX, so Poisson's attribution of the Fourier series to Lagrange is unfounded.",
+    "modern_name": "History of Fourier series (Lagrange–Fourier priority question)",
+    "usually_credited_to": "Riemann, Habilitationsschrift 1854 (published 1867); this passage is in the published text",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft or fair copy of the published historical introduction to Riemann's Habilitationsschrift on trigonometric series. The content is known and already attributed to him. The only mathematics is Lagrange's standard discrete sine interpolation.",
+  "checkable": [
+   {
+    "sympy": "n=6; all(simplify(Sum(sin(m*k*pi/(n+1))*sin(l*k*pi/(n+1)),(k,1,n)).doit() - (Rational(n+1,2) if m==l else 0))==0 for m in range(1,n+1) for l in range(1,n+1))",
+    "asserts": "Discrete orthogonality of sin(m k pi/(n+1)) on the nodes k = 1..n, with norm (n+1)/2."
+   },
+   {
+    "sympy": "n=4; Y=symbols('Y1:5'); a=[Rational(2,n+1)*sum(Y[k-1]*sin(m*k*pi/(n+1)) for k in range(1,n+1)) for m in range(1,n+1)]; [simplify(sum(a[m-1]*sin(m*j*pi/(n+1)) for m in range(1,n+1)) - Y[j-1]) for j in range(1,n+1)]",
+    "asserts": "Lagrange's coefficient formula a_m = 2/(n+1) Σ Y_k sin(mkπ/(n+1)) reproduces the prescribed values at x = k/(n+1); expected output is a list of zeros."
+   },
+   {
+    "sympy": "X=symbols('X'); m=3; limit(Sum(2*X*sin(m*pi*X)/(symbols('N')+1),(X,0,1)) ,symbols('N'),oo) if False else integrate(2*X*sin(3*pi*X),(X,0,1))",
+    "asserts": "Example of the limiting continuous Fourier sine coefficient 2∫_0^1 Y sin(mπX) dX for Y = X, m = 3; expected value 2/(3π). (The 'if False' guard deliberately skips the symbolic-limit expression and evaluates only the integral.)"
+   }
+  ],
+  "transcription_corrections": [
+   "The first word is 'Verwechselung', not 'Vernachlässigung': '...so dass bei flüchtiger Ansicht eine Verwechselung leicht möglich ist'. This matches the published text.",
+   "The faint left-hand-column text is bleed-through from the facing page.",
+   "Marginal footnote markers ('1) Me…', '2)', etc.) are only partly legible; they probably refer to Misc. Taur. and to Euler/d'Alembert."
+  ]
+ }
+}

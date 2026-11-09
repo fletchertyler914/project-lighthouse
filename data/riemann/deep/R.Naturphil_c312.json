@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c312",
+ "label": "158r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000313/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a set of lecture-style notes on the stress equations of motion of an elastic continuum. It sets up the Cauchy–Lamé theory of stress. Throughout, ξ, η, ζ denote displacements; the next page has dξ/dx, dξ/dy, dξ/dz.\n\n(1) Surface forces. A surface element dσ at the point (x, y, z) carries a force (X dσ, Y dσ, Z dσ). Here X, Y, Z are the force components per unit area, i.e. the traction.\n\n(2) Volume element. The small parallelepiped dx dy dz is drawn. On it act:\n- the body force ρX0, ρY0, ρZ0 per unit volume;\n- the d'Alembert inertial force −ρ ∂²ξ/∂t², −ρ ∂²η/∂t², −ρ ∂²ζ/∂t²;\n- the surface forces on its six faces.\n\nOn the face x = const with outward normal −x, the force is −dy dz (X1, Y1, Z1). Here (X1, Y1, Z1) is the traction on the face whose outward normal is +x. Similarly (X2, Y2, Z2) acts on y-faces and (X3, Y3, Z3) on z-faces.\n\n(3) Symmetry. Take moments about the x-axis for the forces on the dz dx and dx dy faces. The torques are of order dx dy dz. Body and inertial forces give only higher-order torques. Hence Y3 = Z2, and likewise Z1 = X3 and X2 = Y1.\n\n(4) Lamé's notation. The array (X1 Y1 Z1; X2 Y2 Z2; X3 Y3 Z3) is written as the symmetric matrix (N1 T3 T2; T3 N2 T1; T2 T1 N3). The page shows the first two rows; the third is implicit (mine).\n\n(5) Equations of motion. Sum the x-forces on the parallelepiped and divide by dx dy dz:\n∂N1/∂x + ∂T3/∂y + ∂T2/∂z + ρX0 (− ρ ∂²ξ/∂t²) = 0.\nThe page shows the left side only; the equality with the inertia term is mine, from the listed d'Alembert terms. The equations for y and z follow analogously (mine).\n\n(6) Cauchy's tetrahedron. Take a tetrahedron with three faces in the coordinate planes and an oblique face dσ with normal (cos α, cos β, cos γ). The coordinate faces have areas cos α dσ, cos β dσ, cos γ dσ. Force balance, with volume terms of higher order, gives\nX = cos α N1 + cos β T3 + cos γ T2,\nand analogously Y and Z (implicit). This is the traction formula t = σn.\n\n(7) Remaining items. A coordinate frame x, y, z is drawn. The symbols ε, ε′ are probably small quantities or strain parameters for the following computation. 'S.' is an isolated fragment.",
+  "errors": [
+   "No mathematical error is visible. The equation of motion is written only as its left-hand side ∂N1/∂x + ∂T3/∂y + ∂T2/∂z + ρX0; the '= ρ ∂²ξ/∂t²' (or '+ inertia = 0') is implicit.",
+   "The factor ρ appears visibly only on the middle acceleration term. It is presumably intended on all three; this is a notational slip."
+  ],
+  "results": [
+   {
+    "what": "Traction on a surface element and the moment-balance symmetry of stress (Y3 = Z2)",
+    "modern_name": "Symmetry of the Cauchy stress tensor (balance of angular momentum)",
+    "usually_credited_to": "Cauchy (1822–1827)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "∂N1/∂x + ∂T3/∂y + ∂T2/∂z + ρX0 = ρ ∂²ξ/∂t², obtained from force balance on the parallelepiped",
+    "modern_name": "Cauchy's equations of motion, div σ + ρb = ρü",
+    "usually_credited_to": "Cauchy (1827); Navier, Poisson",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "X = cos α N1 + cos β T3 + cos γ T2, from the tetrahedron argument",
+    "modern_name": "Cauchy's stress (tetrahedron) theorem, t = σn",
+    "usually_credited_to": "Cauchy (1823/1827)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Notation N1, N2, N3, T1, T2, T3 for the normal and tangential stresses",
+    "modern_name": "Lamé's stress notation",
+    "usually_credited_to": "Lamé, Leçons sur la théorie mathématique de l'élasticité (1852)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the standard textbook derivation of Cauchy stress theory in Lamé's notation. It is lecture material, consistent with Riemann's known lectures on mathematical physics and elasticity, and contains nothing non-standard.",
+  "checkable": [
+   {
+    "sympy": "N1,N2,N3,T1,T2,T3,ca,cb,cg=symbols('N1 N2 N3 T1 T2 T3 ca cb cg'); S=Matrix([[N1,T3,T2],[T3,N2,T1],[T2,T1,N3]]); simplify((S*Matrix([ca,cb,cg]))[0]-(ca*N1+cb*T3+cg*T2))",
+    "asserts": "Cauchy's formula X = cos α N1 + cos β T3 + cos γ T2 is the first component of σn with Lamé's symmetric stress matrix (result 0)."
+   },
+   {
+    "sympy": "a,b,c=symbols('a b c',positive=True); P=[Matrix([a,0,0]),Matrix([0,b,0]),Matrix([0,0,c])]; n=(P[1]-P[0]).cross(P[2]-P[0])/2; simplify(n[0]-b*c/2)",
+    "asserts": "In the tetrahedron, (area dσ)·cos α equals the area of the coordinate face in the yz-plane, (b·c)/2 (result 0)."
+   },
+   {
+    "sympy": "x,y,z,dx,dy,dz=symbols('x y z dx dy dz'); N1,T3,T2=[Function(f)(x,y,z) for f in ('N1','T3','T2')]; F=(N1.subs(x,x+dx)-N1)*dy*dz+(T3.subs(y,y+dy)-T3)*dx*dz+(T2.subs(z,z+dz)-T2)*dx*dy; limit(limit(limit(F/(dx*dy*dz),dx,0),dy,0),dz,0)",
+    "asserts": "The net x-surface-force per unit volume on the parallelepiped is ∂N1/∂x + ∂T3/∂y + ∂T2/∂z."
+   }
+  ],
+  "transcription_corrections": [
+   "The acceleration terms are of the displacements: −∂²ξ/∂t², −ρ ∂²η/∂t², −∂²ζ/∂t². They are not d²x/dt² etc., which is consistent with dξ/dx on the next page.",
+   "The label next to the parallelepiped is probably X_x or X_1 (the force on the x-face); it is uncertain.",
+   "'dz dy' is the face-area label introduced before the symmetry relation Y3 = Z2. The symmetry comes from moments of the forces on the y- and z-faces."
+  ]
+ }
+}

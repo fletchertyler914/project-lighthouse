@@ -1,0 +1,55 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c090",
+ "label": "59r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000091/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Riemann's 1860 paper on plane air waves of finite amplitude. The earlier pages reduced the gas-dynamics problem to the linear hyperbolic equation (1) L[w] = w_pq - w_p + w_q = 0 in characteristic variables (p,q). The Cauchy data are w, w_p and w_q on a non-characteristic initial curve s. This page is the manuscript of the core of what is now called Riemann's method.\n\nStep 1 (multiplier / adjoint). Take an arbitrary v(p,q) and form the integral of v*L[w] over a region G (previous page). Integrate by parts so that the area integral contains only w, not its derivatives. My own explicit form of the identity is:\nv*L[w] - w*M[v] = d/dq[ v*(w_p + w) ] - d/dp[ w*(v_q + v) ],\nwhere M[v] = v_pq + v_p - v_q is the formal (Lagrange) adjoint of L.\n\nStep 2 (Green's theorem). Let dp, dq be the increments of p and q along the boundary, traversed in Riemann's stated sense. With L[w] = 0 this gives\n∬_G w*(v_pq + v_p - v_q) dp dq + ∮ [ v*(w_p + w) dp + w*(v_q + v) dq ] = 0.\n\nStep 3 (adjoint equation). If v solves the adjoint equation (2) v_pq + v_p - v_q = 0, the boundary integral (3) ∮ v*(w + w_p) dp + w*(v + v_q) dq vanishes on its own.\n\nStep 4 (choice of region). Take G bounded by the curve s and the two characteristics p = p' and q = q' through an arbitrary point (p',q'). Impose on v conditions that reduce the non-s part of the boundary integral to w(p',q'). Riemann remarks that these conditions depend only on the coefficients of (1) and can be found by treating a simple case 'by Fourier's method'. They are (4):\n- on p = p': v_q + v = 0;\n- on q = q': v_p - v = 0;\n- at (p',q'): v = 1.\n\nWhy (4) works (my check, completed on the next page):\n- On p = p' we have dp = 0, so the integrand is w*(v_q + v) dq = 0.\n- On q = q' we have dq = 0, and the integrand is v*w_p + v*w = v*w_p + v_p*w = d(vw).\n- That segment therefore contributes the endpoint difference (vw)_(q',s) - w(p',q'), using v(p',q') = 1.\n- Hence w(p',q') = (vw)_(q',s) + ∫_s [v(w + w_p) dp + w(v + v_q) dq]. The right side involves only Cauchy data and v.\n\nThe next page finds v explicitly: v = e^{(p-p')-(q-q')} * Σ (-1)^n (p-p')^n (q-q')^n / (n!)^2. This is e^{P-Q} J_0(2*sqrt(PQ)), the Riemann function. The substitution v = e^{P-Q} r reduces (2) to r_PQ + r = 0, and reduces (4) to r_Q = 0 on P = 0, r_P = 0 on Q = 0, r(0,0) = 1.",
+  "errors": [
+   "Orientation/sign: if 'direction relates to the inward normal as the p-axis to the q-axis' is read as (direction, inward normal) positively oriented, i.e. counterclockwise in the (p,q)-plane, then Green's theorem gives ∬ w M[v] - ∮ (...) = 0. The '+' in Riemann's formula corresponds to clockwise traversal. This is harmless: the formula is only used with M[v] = 0, where ∮ = 0 for either orientation. Under the other reading of the wording there is no discrepancy at all.",
+   "Otherwise the integration by parts, the adjoint equation (2), and the characteristic conditions (4) are all correct. The appeal to 'Fourier's method' for finding (4) is heuristic and left unexplained, but the conditions themselves are verified directly on the next page."
+  ],
+  "results": [
+   {
+    "what": "Formal adjoint M[v] = v_pq + v_p - v_q of L[w] = w_pq - w_p + w_q, together with the Green/Lagrange identity converting ∬ v L[w] into ∬ w M[v] plus a boundary integral",
+    "modern_name": "Lagrange adjoint operator / Green's formula for second-order operators",
+    "usually_credited_to": "Lagrange (adjoint) and Green; used in this form in Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Solving the Cauchy problem for a linear hyperbolic equation in characteristic coordinates by integrating over the characteristic triangle, with an auxiliary v satisfying the adjoint equation and the characteristic conditions v_q + v = 0 on p = p', v_p - v = 0 on q = q', v(p',q') = 1",
+    "modern_name": "Riemann's method of integration; Riemann (Riemann–Green) function",
+    "usually_credited_to": "Bernhard Riemann, 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite' (1860)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is the draft of §9 of Riemann's published 1860 Luftwellen paper, where Riemann's method and the Riemann function first appear; the material is famous and correctly attributed to him. The only interest is manuscript-level detail, such as the corrections and the margin insertion of formula (3).",
+  "checkable": [
+   {
+    "sympy": "p,q=symbols('p q'); v=Function('v')(p,q); w=Function('w')(p,q); simplify(v*(diff(w,p,q)-diff(w,p)+diff(w,q)) - w*(diff(v,p,q)+diff(v,p)-diff(v,q)) - (diff(v*(diff(w,p)+w),q) - diff(w*(diff(v,q)+v),p)))",
+    "asserts": "Equals 0: the integration-by-parts identity v L[w] - w M[v] = d_q[v(w_p+w)] - d_p[w(v_q+v)] underlying the page's formula."
+   },
+   {
+    "sympy": "P,Q=symbols('P Q'); v=exp(P-Q)*besselj(0,2*sqrt(P*Q)); simplify(diff(v,P,Q)+diff(v,P)-diff(v,Q))",
+    "asserts": "Equals 0: the Riemann function v = e^{P-Q} J0(2 sqrt(PQ)) solves the adjoint equation (2)."
+   },
+   {
+    "sympy": "P,Q=symbols('P Q'); v=exp(P-Q)*Sum((-1)**n*P**n*Q**n/factorial(n)**2,(n,0,oo)); [simplify((diff(v,Q)+v).subs(P,0).doit()), simplify((diff(v,P)-v).subs(Q,0).doit()), v.subs({P:0,Q:0}).doit()]",
+    "asserts": "Gives [0, 0, 1]: conditions (4) hold, namely v_q + v = 0 on p = p', v_p - v = 0 on q = q', v = 1 at (p',q')."
+   },
+   {
+    "sympy": "P,Q=symbols('P Q'); r=Function('r')(P,Q); v=exp(P-Q)*r; simplify((diff(v,P,Q)+diff(v,P)-diff(v,Q))/exp(P-Q) - (diff(r,P,Q)+r))",
+    "asserts": "Equals 0: the substitution v = e^{P-Q} r reduces (2) to r_PQ + r = 0, as on the next page."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 4: the phrase 'die Änderungen von p und q' is a marginal insertion (right column) belonging before 'durch dp und dq bezeichnet'. The transcription handles this correctly.",
+   "Formula (2): the sign before ∂v/∂q is visibly overwritten in the image (a corrected sign). The final reading '+∂v/∂p - ∂v/∂q' is consistent with the adjoint.",
+   "Formula (3) in the right margin reads '∫ v(w + ∂w/∂p)dp + w(v + ∂v/∂q)dq für sich gleich Null'. It replaces the struck-out 'für sich gleich Null' in the main text; the transcription is correct."
+  ]
+ }
+}

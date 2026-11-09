@@ -1,0 +1,64 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c032",
+ "label": "15r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000033/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is fol. 21 of the fair copy of Riemann's Habilitationsschrift 'Ueber die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published by Dedekind 1867). It contains the end of §4 and the beginning of §5, which is the Riemann integral and its integrability criterion.\n\n(a) End of §4. The previous page defined the integral of f over [a,b]. Take a partition a < x_1 < ... < x_{n-1} < b with lengths delta_i. Take eps_i in (0,1) and form the sum S = sum_i delta_i f(x_{i-1} + eps_i delta_i). The integral exists if S tends to a fixed limit A as all delta_i -> 0, however the delta and eps are chosen. The previous page also accepted the universally adopted improper-integral extension at a singular point c. This page closes the discussion by rejecting Cauchy's other conventions (implicitly the principal value and similar devices) for cases where 'dem Grundbegriffe nach' no integral exists. They may be useful for special classes of investigations, but they are not generally adopted and are 'arbitrary'.\n\n(b) §5, the question of the range of validity: when is f integrable? Riemann restricts to the integral 'in the narrow sense', i.e. S converges as mesh -> 0. Write D_i = sup_{[x_{i-1},x_i]} f - inf_{[x_{i-1},x_i]} f, the oscillation on the i-th interval.\n\nClaim: sum_i delta_i D_i -> 0 as the mesh -> 0.\nImplicit step (mine): because the eps_i are free, S can be made arbitrarily close to the upper Darboux sum U = sum delta_i sup f and to the lower sum L = sum delta_i inf f. Convergence of S for every choice of eps therefore forces U - L = sum delta_i D_i -> 0. This tacitly uses boundedness of f, which Riemann states explicitly on the next page.\n\nDefinition: Delta(d) = sup { sum delta_i D_i : all delta_i < d }. Delta is monotone, decreasing as d decreases, and Delta(d) -> 0 as d -> 0.\n\nNext step: let sigma > 0 and let s be the total length of the partition intervals with D_i > sigma. Their contribution to sum delta_i D_i is at least sigma*s.\n\nThe next page concludes:\n- s <= Delta/sigma, so s -> 0 for each fixed sigma. This gives the necessary condition.\n- Conversely, sum delta_i D_i <= s*(total oscillation) + sigma*(b-a), which gives sufficiency.\n\nThis is Riemann's integrability criterion: f is bounded, and for every sigma the total length of partition intervals with oscillation > sigma tends to 0 with the mesh. It is equivalent to the Darboux criterion and to Lebesgue's 'continuous a.e.' criterion.",
+  "errors": [
+   "No mathematical error on this page.",
+   "Minor imprecision: D_i is defined as the difference of the 'greatest and least value' of f on the interval. These need not be attained; sup and inf are meant.",
+   "Unstated step: the passage from 'S converges for all choices of eps' to 'sum delta_i D_i -> 0'. It is correct for bounded f by approximating sup and inf with suitable eps_i. Boundedness is only made explicit on the next page.",
+   "'Delta nimmt mit d immer ab' should read non-increasing; strict decrease is not guaranteed. This is harmless."
+  ],
+  "results": [
+   {
+    "what": "Rejection of Cauchy's further extensions of the definite integral (e.g. principal value) as arbitrary, keeping only the standard improper integral",
+    "modern_name": "Cauchy principal value vs. improper Riemann integral",
+    "usually_credited_to": "Cauchy (principal value, 1820s); Riemann's remark is in the published Habilitationsschrift (1854/1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Integrability implies that the oscillation sum sum delta_i D_i tends to 0 with the mesh; the function Delta(d) is introduced",
+    "modern_name": "Darboux/Riemann criterion: U(P)-L(P) -> 0",
+    "usually_credited_to": "Riemann 1854 (published 1867); Darboux 1875 in upper/lower sum form",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Start of the proof that the total length of intervals with oscillation > sigma tends to 0 (sigma*s <= sum delta_i D_i)",
+    "modern_name": "Riemann's integrability criterion (precursor of Lebesgue's criterion: continuity almost everywhere)",
+    "usually_credited_to": "Riemann, Habilitationsschrift §5 (1854)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page is the manuscript of the famous §4–5 of Riemann's published Habilitationsschrift, which introduces the Riemann integral and his integrability criterion. The text matches the published version; it is entirely well known as Riemann's.",
+  "checkable": [
+   {
+    "sympy": "n=symbols('n',positive=True,integer=True); i=symbols('i',integer=True); simplify(summation((1/n)*((i/n)**2-((i-1)/n)**2),(i,1,n)))",
+    "asserts": "For f=x**2 on [0,1] with a uniform partition, the oscillation sum sum delta_i D_i equals 1/n, so it tends to 0 (f is integrable)."
+   },
+   {
+    "sympy": "limit(1/n, n, oo) == 0",
+    "asserts": "The oscillation sum in the previous example vanishes as the mesh tends to 0."
+   },
+   {
+    "sympy": "sig,s,Delta=symbols('sigma s Delta',positive=True); Implies(And(sig*s<=Delta), s<=Delta/sig)",
+    "asserts": "From sigma*s <= sum delta_i D_i <= Delta follows s <= Delta/sigma (completed on the next page)."
+   },
+   {
+    "sympy": "n=symbols('n',positive=True,integer=True); i=symbols('i',integer=True); summation((1/n)*1,(i,1,n))",
+    "asserts": "For the Dirichlet function on [0,1], every D_i = 1, so the oscillation sum equals 1 for every partition and never tends to 0 (not Riemann integrable)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'wo es den Grundbegriffe nach' should read 'wo es dem Grundbegriffe nach' (dative; matches the published text).",
+   "The marginal '15' at right is the folio/bundle number, not part of the text; '21.' at the top is the page number of the fair copy.",
+   "'die Summe S, wenn sämmtliche δ unendlich klein werden, convergirt' and the remaining text are correctly transcribed; the spelling uses ß and 'indeß' as in the hand."
+  ]
+ }
+}

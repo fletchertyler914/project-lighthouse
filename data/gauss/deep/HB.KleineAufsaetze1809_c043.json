@@ -1,0 +1,56 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c043",
+ "label": "34",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000044/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table with no derivations. It is one section of a table of addition (\"Gaussian\") logarithms.\n\n**Columns (left to right, repeated in two halves):**\n- A, the argument.\n- B(A), its value.\n- ΔB, first differences of B in units of 10^-5, written between rows.\n- C = A + B.\n- ΔC, first differences of C in units of 10^-5, written between rows.\n\n**Definition (my reconstruction, verified numerically below).** Put x = 10^A, so A = log10 x. Then:\n- B = log10(1 + 1/x) = log10(1 + 10^(-A));\n- C = A + B = log10(1 + x).\n\n**Purpose.** Given log a and log b with a > b, set A = log a − log b. Then:\n- log(a + b) = log a + B(A), or equivalently log b + C(A);\n- for differences, log(a − b) is found by reading the table inversely through C.\n\nThis removes the need to pass from logarithms to numbers and back when a sum or difference is needed. That situation is constant in astronomical reductions and in orbit computation.\n\n**Coverage.**\n- This page runs from A = 2.00 to 2.80 in steps of 0.01, five decimals.\n- Left half: 2.00 to 2.40. Right half: 2.40 to 2.80.\n- The previous page uses step 0.001 up to A = 2.000.\n- The next page continues with step 0.01 to 3.40, then step 0.1 to 5.0, where B rounds to 0.\n- The step widens as B flattens, so that linear interpolation stays adequate everywhere.\n\n**Difference columns.** Since ΔA = 0.01 = 1000 units of 10^-5, each tabulated difference satisfies ΔC = 1000 − |ΔB|. Examples: 990 next to 10, 996 next to 4, 999 next to 1.\n\n**Spot checks (mine).**\n- A = 2.00: x = 100, log10(1.01) = 0.0043214, giving 0.00432.\n- A = 2.05: 0.0038535, giving 0.00385.\n- A = 2.14: 0.0031349, giving 0.00313.\n- A = 2.40: 0.0017256, giving 0.00173.\n- A = 2.53: 0.0012798, giving 0.00128.\n- A = 2.64: 0.00099378, giving 0.00099.\n- A = 2.76: 0.00075405, giving 0.00075.\n- A = 2.77: 0.00073692, giving 0.00074.\n- A = 2.80: 0.00068775, giving 0.00069.\n\nAll agree with the manuscript to five decimals.\n\n**Context.** The layout matches the structure of Gauss's published table of 1812 (Monatliche Correspondenz, reprinted in Werke III). That table also uses step 0.001 to A = 2, then 0.01 to 3.4, then 0.1 to 5. This page is very probably the working manuscript or fair copy of that table.",
+  "errors": [
+   "No numerical errors found in any spot-checked value. Every tabulated first difference is consistent with adjacent entries, and every ΔC equals 1000 − ΔB.",
+   "There are visible overwritings, apparently self-corrections, at 2.06 (the final digit 7 of 0.00377 is overwritten) and at 2.14 (0.00313, with a corrected digit). The final values in both places are correct."
+  ],
+  "results": [
+   {
+    "what": "Table of B(A) = log10(1 + 10^(-A)) and C(A) = A + B = log10(1 + 10^A), with first differences, for A = 2.00 to 2.80 at step 0.01, five decimals. Used to obtain log(a ± b) from log a and log b.",
+    "modern_name": "Addition and subtraction logarithms (Gaussian logarithms; Zech-type logarithms)",
+    "usually_credited_to": "The idea is due to Z. Leonelli (1802/03). The practical five-place table is Gauss's, published 1812 in Zach's Monatliche Correspondenz; hence the name 'Gaussian logarithms'.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript of Gauss's own well-known 1812 table of addition logarithms, with the same step structure as the published version. It holds no new mathematics; its interest is only archival, as a draft showing the computing process and corrections.",
+  "checkable": [
+   {
+    "sympy": "[round(float(log(1+10**(-Rational(k,100)),10)),5) for k in range(200,281)]",
+    "asserts": "Reproduces the B column on this page, e.g. 0.00432 at 2.00, 0.00173 at 2.40 and 0.00069 at 2.80."
+   },
+   {
+    "sympy": "round(float(log(1+10**(-Rational(200,100)),10)),5) == 0.00432",
+    "asserts": "B(2.00) = log10(1.01) rounds to 0.00432."
+   },
+   {
+    "sympy": "round(float(log(1+10**(-Rational(253,100)),10)),5) == 0.00128",
+    "asserts": "B(2.53) = 0.00128."
+   },
+   {
+    "sympy": "round(float(log(1+10**(-Rational(276,100)),10)),5) == 0.00075 and round(float(log(1+10**(-Rational(277,100)),10)),5) == 0.00074",
+    "asserts": "The irregular difference of 1 between A = 2.76 and 2.77 is genuine rounding behaviour."
+   },
+   {
+    "sympy": "simplify(A + log(1+10**(-A),10) - log(1+10**A,10))",
+    "asserts": "The identity A + B(A) = log10(1 + 10^A), i.e. the third column is log10(1 + x). Should simplify to 0."
+   },
+   {
+    "sympy": "round(float(Rational(240,100)+log(1+10**(-Rational(240,100)),10)),5) == 2.40173",
+    "asserts": "C(2.40) = 2.40173."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription agrees with the image for all values. Small additions follow.",
+   "At 2.06 the last digit of 0.00377 is visibly overwritten, and at 2.14 the entry 0,00313 shows a corrected digit (the image reads roughly '0,00?13'). The resolved values 0.00377 and 0.00313 are correct.",
+   "The column headers are blank in the manuscript. The transcription's implied labels (A | B | ΔB | A+B | Δ(A+B)) are editorial."
+  ]
+ }
+}

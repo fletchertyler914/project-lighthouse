@@ -1,0 +1,73 @@
+{
+ "bundle": "Math.25",
+ "page": "c048",
+ "label": "24r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000049/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is one high-precision long division, carried out to about 34 significant digits. It computes 20/D' = 18.714555153915 (equivalently 2/D' = 1.8714555153915, the number written at the top of the division). Here D = 1.0686868732 8324847952 8673311937 3506. Part way through, D is replaced by D' = D + δ, with δ = 0.000000030333347532.\n\n(a) Multiplication table. The nine lines k = 1..9 give the decimal parts of k·D, i.e. k·0.06868687328324847952867331193735 06. The integer part of k·D is k itself, since D = 1 + 0.0686...\n\n(b) Division of 20 by D. Remainders below are scaled as on the page.\n- Quotient digits 18: 18·D = 19.2363637190 9847263151 6119614872 3108. 20 − 18D = 0.7636362809 0152736848 3880385127 6892.\n- Next digit 7: ×10, subtract 7D = 7.4808081129 8273935670 0713183561 4542. Remainder 0.1555546960 3253432813 8090667715 438.\n- Next two digits 14 at once: ×100, subtract 14D = 14.9616162259 6547871 3401426367 1229. Remainder 5938533 7728795410 0407640404 4209.\n- Next: subtract 5.4D = 5.770909 1157295417 8945483588 4462 (quotient digits 5,4). Remainder 167624 6571499992 1462156815 9747. This exceeds D at that scale, so the true digit was 5, not 4.\n- Gauss repairs this by subtracting 1.5D·10^-1 = 160303 0309924872 7192930099 6791. That adds 1 and 5 one place further on, so the net digits are 5,5,5. Remainder 7321 6261575119 4269226716 2956.\n- Quotient so far: Q1 = 18.714555.\n\n(c) Change of divisor. The next page shows Gauss replaced D by D' = 1.0686869036 1659601152 8673311937 3506, i.e. D' = D + δ with δ = 3.0333347532·10^-8.\n- On the next page he forms 30333347532 × 1871455 = 56767494905499060, i.e. 18.71455·δ.\n- He subtracts 5676 7494905499 06 from the current remainder (the struck-out line on this page). This uses 20 − Q·D' = (20 − Q·D) − Q·δ.\n- Corrected remainder: 1644 8766669620 3669226716 2956.\n\n(d) Division continued with D'.\n- Subtract 1.5D' = 1603 0303554248 9401729300 9968. Remainder 41 8463115371 4267497415 2988.\n- Subtract 3D' = 32 0606071084 9788034586 0199. Remainder 9 7857044286 4479462829 2789.\n- Subtract 9D' = 9 6181821325 4936410375 8060. Remainder 1675222960 9543052453 4729.\n- Subtract 1.5D' = 1603030355 4248940172 9301. Remainder 72192605 5294112280 5428.\n\nResult: quotient digits 18.714 | 55 | 5 | 15 | 3 | 9 | 15, giving 20/D' = 18.714555153915..., written on the page as 1,8714555153 915. The next page then multiplies by 1871455.\n\nThe purpose of D is not stated. The previous page holds perturbation-type formulas (r sinφ − ρ sinδ over h^3, factors 3r/ρ cos(φ−δ)), so this is probably auxiliary numerics for an astronomical computation. That link is my conjecture.\n\nThe margins and bottom of the page are word doodles: names, Hugens, Heilbron, Seeberg, casanova, and so on. They have no mathematical content, apart from the small sum 160303 + 4168 = 164481.",
+  "errors": [
+   "The trial digit 4 (subtracting 5.4D) was too small and left a remainder larger than the divisor. Gauss compensated by subtracting 0.15D, so the net quotient digits 555 are correct. This is a self-corrected slip.",
+   "In the divisor-change correction, Gauss subtracted 18.71455·δ rather than the full partial quotient 18.714555·δ. His remainder is therefore too large by 0.000005·δ ≈ 1.5e-13. This is below the last quotient digit he records (10^-12), and the true remainder stays positive, so all printed digits 18.714555153915 are correct. Only further continuation would be affected, by about 1.4e-13.",
+   "Margin sum 160303 + 4168 is written 164481; the correct sum is 164471. Either a slip, or a misreading of 4178 or of the total."
+  ],
+  "results": [
+   {
+    "what": "High-precision long division of 20 by a 34-digit divisor, using a precomputed table of multiples of the divisor and two-digit trial quotients.",
+    "modern_name": "Long division with multiplication table (schoolbook division)",
+    "usually_credited_to": "standard arithmetic practice (since antiquity / early modern computers)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Changing the divisor mid-division from D to D+δ, correcting the running remainder by subtracting (partial quotient)·δ, then continuing.",
+    "modern_name": "remainder correction under perturbation of the divisor (incremental/continued division)",
+    "usually_credited_to": "routine computational practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Purely numerical work: a careful hand division with a trick for changing the divisor midway. Gauss's prodigious hand computation is well known, and nothing theoretical appears on the page.",
+  "checkable": [
+   {
+    "sympy": "D = Rational('1.0686868732832484795286733119373506'); 18*D == Rational('19.2363637190984726315161196148723108')",
+    "asserts": "18·D as written on the page"
+   },
+   {
+    "sympy": "D = Rational('1.0686868732832484795286733119373506'); 20 - 18*D == Rational('0.7636362809015273684838803851276892')",
+    "asserts": "first remainder"
+   },
+   {
+    "sympy": "D = Rational('1.0686868732832484795286733119373506'); 9*D - 9 == Rational('0.6181818595492363157580598074361554')",
+    "asserts": "last line of the table of multiples"
+   },
+   {
+    "sympy": "D = Rational('1.0686868732832484795286733119373506'); Rational(54,10)*D",
+    "asserts": "equals 5.7709091157295417894548358844616932 (row 5770909 1157295417 8945483588 4462)"
+   },
+   {
+    "sympy": "30333347532*1871455 == 56767494905499060",
+    "asserts": "the correction product 18.71455·δ (scaled), computed on the next page"
+   },
+   {
+    "sympy": "D = Rational('1.0686868732832484795286733119373506'); Dp = D + Rational('0.000000030333347532'); Dp == Rational('1.0686869036165960115286733119373506')",
+    "asserts": "new divisor D' (first line of next page)"
+   },
+   {
+    "sympy": "Dp = Rational('1.0686869036165960115286733119373506'); 0 < 20/Dp - Rational('18.714555153915') < Rational(1,10**12)",
+    "asserts": "the final quotient 18.714555153915 is correct to all written digits"
+   },
+   {
+    "sympy": "Dp = Rational('1.0686869036165960115286733119373506'); Rational(3,2)*Dp",
+    "asserts": "equals 1.6030303554248940172930099679060259 (rows 1603 0303554248 9401729300 9968 and 1603030355 4248940172 9301)"
+   }
+  ],
+  "transcription_corrections": [
+   "The second-to-last subtrahend row should end '9301', not '9361'. It is 1.5·D' = …4248940172 9300 99…, and it is needed for the remainder group 14729 − 9301 = 5428.",
+   "The struck-out row '5676 7494905499 06' is not an error. It is the subtracted correction 18.71455·δ (scaled), computed on the next page.",
+   "'1,8714555153 915' is the final quotient 2/D' written at the top of the division, not a dividend.",
+   "Margin '8,78' may be '8,7^8'; the reading of the margin numbers (73105, 3105, 4168) is uncertain."
+  ]
+ }
+}

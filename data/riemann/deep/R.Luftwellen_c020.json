@@ -1,0 +1,68 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c020",
+ "label": "26r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000021/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page drafts Riemann's 1860 memoir 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite', for the isothermal (Boyle) law p = a^2 rho. The struck 'p=a^2 rho' near the top is the pressure law. The symbol p used later is a new variable, a Riemann invariant.\n\n(1) Equations of 1-D isentropic/isothermal gas flow, with the pressure gradient written as -a^2 d(log rho)/dx:\n  u_t + u u_x = -a^2 (log rho)_x  (Euler)\n  (log rho)_t + u (log rho)_x = -u_x  (continuity)\nInitial data at t=0: rho = rho_0, u = u_0.\n\n(2) Riemann invariants. Multiply Euler by 1/a and add to or subtract from continuity (the struck '±1/a').\n  Define 4p = log rho + u/a and 4q = log rho - u/a.\n  Then log rho = 2(p+q) and u = 2a(p-q).\n  The result is p_t + u p_x = -a p_x and q_t + u q_x = +a q_x.\n  So p is constant along dx/dt = u+a, and q is constant along dx/dt = u-a.\n  Initial data: p = phi(x), q = psi(x), with 4p_0 = log rho_0 + u_0/a and 4q_0 = log rho_0 - u_0/a.\n  The margin note Delta=1 normalises the rest density to 1.\n\n(3) Hence:\n  dp = p_x (dx - (u+a) dt)\n  dq = q_x (dx - (u-a) dt)\n\n(4) Localized disturbance. phi = 0 for x > c and psi = 0 for x < b; the figure shows a hump on [b,c].\n  In the rest state p = q = 0.\n  Where q = 0 we have u = a log rho; where p = 0 we have u = -a log rho. These are the margin notes, i.e. the simple-wave relations.\n  The second figure suggests the disturbance splitting into two simple waves running in opposite directions.\n\n(5) Hodograph step: 'p und q als unabhängige Variable'.\n  Since du = 2a(dp - dq), we have dx - (u±a) dt = d(x - (u±a)t) + 2at(dp - dq).\n  This gives the two lines on the page.\n  Write X = x - (u+a)t and Y = x - (u-a)t as functions of (p,q).\n  The first relation gives dX = dp/p_x - 2at dp + 2at dq, so dX/dq = 2at.\n  The second gives dY/dp = -2at.\n  Thus X dp - Y dq is exact; call it dw. Then:\n  - w_p = X and w_q = -Y.\n  - w_pq = 2at.\n  - w_p + w_q = X - Y = -2at.\n\n(6) Result: the linear constant-coefficient hyperbolic equation w_pq + w_p + w_q = 0 for the isothermal case.\n\n(7) Bottom right (start of a further idea): the initial data p = phi(x), q = psi(x) define a curve F(p,q) = 0 in the (p,q)-plane. The figure shows this curve, along which w would be prescribed: a Cauchy problem for the linear equation. The page breaks off at 'w ='.\n\nThe next page redoes the computation with the Jacobian R and the correct sign.",
+  "errors": [
+   "The line '±2at = w_pq = w_p + w_q' has the wrong sign: w_p + w_q = X - Y = -2at. The final equation w_pq + w_p + w_q = 0 is nevertheless correct, and the next page writes 2at = w_pq = -w_p - w_q.",
+   "Minor: the derivation of p_t + u p_x = -a p_x silently uses the isothermal law (sound speed a constant). This is consistent with the stated pressure law, so it is not an error."
+  ],
+  "results": [
+   {
+    "what": "Riemann invariants log rho ± u/a for isothermal gas dynamics, with their characteristic transport equations",
+    "modern_name": "Riemann invariants / method of characteristics for 2x2 hyperbolic systems",
+    "usually_credited_to": "Riemann 1860 (Earnshaw 1858-60 and Poisson/Stokes for related simple waves)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Localized initial disturbance splitting into two simple waves with u = ±a log rho",
+    "modern_name": "simple (Riemann) waves",
+    "usually_credited_to": "Riemann 1860 (also Earnshaw, Poisson)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Hodograph transformation taking p,q as independent variables; exact differential dw = (x-(u+a)t)dp - (x-(u-a)t)dq; linear equation w_pq + w_p + w_q = 0",
+    "modern_name": "hodograph transformation / Riemann's linearization (leading to Riemann's method with the Riemann function)",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of material published in Riemann's 1860 Luftwellen memoir, which treats the Boyle-law case with a constant-coefficient linear equation. Nothing here goes beyond the published paper; it is of documentary interest only (it shows the hodograph step being found, with a sign slip).",
+  "checkable": [
+   {
+    "sympy": "a,t,x=symbols('a t x',positive=True); L=Function('L')(x,t); u=Function('u')(x,t); eu=Eq(diff(u,t)+u*diff(u,x), -a**2*diff(L,x)); ec=Eq(diff(L,t)+u*diff(L,x), -diff(u,x)); r=L+u/a; simplify((diff(r,t)+(u+a)*diff(r,x)).subs({diff(u,t):solve(eu,diff(u,t))[0], diff(L,t):solve(ec,diff(L,t))[0]}))",
+    "asserts": "r = log rho + u/a satisfies r_t + (u+a) r_x = 0 (should simplify to 0)"
+   },
+   {
+    "sympy": "s=L-u/a; simplify((diff(s,t)+(u-a)*diff(s,x)).subs({diff(u,t):solve(eu,diff(u,t))[0], diff(L,t):solve(ec,diff(L,t))[0]}))",
+    "asserts": "s = log rho - u/a satisfies s_t + (u-a) s_x = 0 (should be 0)"
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); L=2*(p+q); u=2*a*(p-q); simplify(L+u/a-4*p), simplify(L-u/a-4*q)",
+    "asserts": "Inverting 4p = log rho + u/a, 4q = log rho - u/a gives u = 2a(p-q) and log rho = 2(p+q) (both should be 0)"
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); T=Function('T')(p,q); X=Function('X')(p,q); u=2*a*(p-q); rel={diff(X,q):(u+a)*diff(T,q), diff(X,p):(u-a)*diff(T,p)}; A=X-(u+a)*T; B=X-(u-a)*T; simplify(diff(A,q).subs(rel)-2*a*T), simplify(diff(B,p).subs(rel)+2*a*T)",
+    "asserts": "With x_q = (u+a)t_q and x_p = (u-a)t_p, d(x-(u+a)t)/dq = 2at and d(x-(u-a)t)/dp = -2at (both should be 0)"
+   },
+   {
+    "sympy": "w_p=A; w_q=-B; simplify((diff(w_p,q)+w_p+w_q).subs(rel))",
+    "asserts": "w_pq + w_p + w_q = 0, with w_pq = d(w_p)/dq and w_p + w_q = -2at (should be 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The struck item at top is 'p = a^2 rho' (pressure law), struck through, not a definition of the invariant p.",
+   "'±2at' is probably '2at' with a stray or struck mark; it should read 2at = w_pq = -(w_p + w_q).",
+   "'[-u+la-]' is a struck 'u + la' (likely an aborted 'u + a log rho'), not part of the formula.",
+   "'Delta = 1' most likely normalizes the rest density, rho = 1 in the undisturbed state.",
+   "The derivative in the line '[-...-] = d(x-(u+a)t)/dq' should be read as d(x-(u+a)t)/dq = +2at; the deleted symbol before it is a struck 'dw/' or similar."
+  ]
+ }
+}

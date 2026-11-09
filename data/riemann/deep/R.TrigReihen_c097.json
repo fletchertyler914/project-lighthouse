@@ -1,0 +1,64 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c097",
+ "label": "47v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000098/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a working draft of the historical section (§1, 'Geschichte der Frage') of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1854, published 1867). The page continues the vibrating-string history from the previous page, where Riemann obtained y = f(αt+x) − f(αt−x) and f(z) = f(2l+z) for a string fixed at x=0 and x=l.\n\n(a) Euler's construction of f from the initial data. Initial data are y(x,0)=φ(x) and ∂y/∂t(x,0)=h(x) for 0<x<l. Riemann writes\n f(x) + f(−x) = φ(x),\n f(x) − f(−x) = ∫h(x)dx.\nThese determine f on (−l,l). The relation f(x)=f(2l+x) then gives f for every x.\n\nThe correct derivation from y = f(αt+x) − f(αt−x) is my own filling-in:\n- y(x,0) = f(x) − f(−x) = φ(x).\n- y_t(x,0) = α[f'(x) − f'(−x)] = h(x).\n- Integrating the second line gives f(x) + f(−x) = (1/α)∫h dx.\n- So the roles of + and − are interchanged on the page, and the factor 1/α is dropped (absorbable into the normalisation of t).\nThe published text has the correct version.\n\n(b) d'Alembert's objection. d'Alembert at once protested against Euler's generalisation. His reason was that the method necessarily presupposes that y can be expressed analytically in t and x. The marginal note gives the reference and quotation: Mém. Berlin, p. 358, 'Mais je crois devoir avertir ici, de crainte que quelques lecteurs ne prennent mal le sens de ses paroles...'.\n\n(c) Taylor and Daniel Bernoulli. Taylor saw that y = sin(2nπx/l)·cos(2nπαt/l), n an integer, satisfies y_tt = α² y_xx and vanishes at x=0 and x=l. He used this to explain overtones (a string also sounds the fundamental of a string 1/2, 1/3, 1/4 as long) and took it as essentially general, with n fixed by the pitch. Bernoulli's superposition idea came from the observation that a string sounds several tones at once:\n y = Σ α_n sin(2nπx/l) cos(2nπαt/l + β_n).\nBernoulli held this to be the most general solution. To support it, he studied a massless string loaded at finitely many points. He showed that its motion decomposes into as many simple vibrations as there are points, each isochronous for all points (normal modes of a finite-degree-of-freedom system).\n\n(d) Euler's reply (1753). Euler maintained against d'Alembert that f may be completely arbitrary on (−l,l). He remarked that Bernoulli's solution is correct only when f can be represented by the series\n a_1 sin(2πx/l) + a_2 sin(2·2πx/l) + … + b_0 + b_1 cos(2πx/l) + b_2 cos(2·2πx/l) + …,\na series Euler had himself earlier set up as a particular solution.\n\nThe page is purely historical exposition with elementary formulas; there is no new mathematics.",
+  "errors": [
+   "Sign/role swap: with y = f(αt+x) − f(αt−x) (previous page), y(x,0) = f(x) − f(−x) = φ(x), and from y_t one gets f(x) + f(−x) = (1/α)∫h dx. The page writes f(x)+f(−x)=φ and f(x)−f(−x)=∫h dx, and omits 1/α.",
+   "The PDE convention is inconsistent between pages. The previous page has y_xx = α² y_tt; this page has y_tt = α² y_xx. Taylor's solution with cos(2nπαt/l) fits the latter.",
+   "Taylor's/Bernoulli's modes are written sin(2nπx/l). With fixed ends at 0 and l and period 2l (f(x)=f(2l+x)), the full set of modes is sin(nπx/l). Writing 2nπ keeps only the even harmonics. The published version uses nπx/l.",
+   "The Euler series written with cos/sin(k·2πx/l) has period l, not the 2l required by f(x)=f(2l+x). This is the same slip.",
+   "The text says 'analytisch in t und s'; this should be t und x."
+  ],
+  "results": [
+   {
+    "what": "Euler's determination of the d'Alembert function f on (−l,l) from initial position and velocity, extended by 2l-periodicity",
+    "modern_name": "d'Alembert solution of the wave equation with odd periodic extension of initial data",
+    "usually_credited_to": "Euler (1748), building on d'Alembert (1747)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Historical account of Taylor's normal modes, D. Bernoulli's superposition (1753), the loaded-string normal modes, and Euler's objection",
+    "modern_name": "Vibrating string controversy; Fourier sine series / normal-mode expansion",
+    "usually_credited_to": "Taylor (1713), D. Bernoulli (1753), Euler (1753); historical account by Riemann (Habilitationsschrift 1854, publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of the well-known historical introduction to Riemann's published Habilitationsschrift on trigonometric series. Its content and references appear essentially verbatim in the published text. The only differences are small slips that the published version corrects.",
+  "checkable": [
+   {
+    "sympy": "x,t,l,a=symbols('x t l a',positive=True); n=symbols('n',integer=True,positive=True); y=sin(2*n*pi*x/l)*cos(2*n*pi*a*t/l); simplify(diff(y,t,2)-a**2*diff(y,x,2))==0",
+    "asserts": "Taylor's mode satisfies y_tt = α² y_xx (the convention on this page)"
+   },
+   {
+    "sympy": "simplify(sin(2*n*pi*l/l))==0",
+    "asserts": "The mode vanishes at x=l for integer n"
+   },
+   {
+    "sympy": "f=Function('f'); y=f(a*t+x)-f(a*t-x); simplify(y.subs(t,0)-(f(x)-f(-x)))==0",
+    "asserts": "With y=f(αt+x)−f(αt−x), the initial shape is f(x)−f(−x) (not f(x)+f(−x) as written)"
+   },
+   {
+    "sympy": "f=Function('f'); y=f(a*t+x)-f(a*t-x); simplify(diff(y,t).subs(t,0) - a*(diff(f(x),x)+diff(f(-x),x)))==0",
+    "asserts": "The initial velocity equals α·d/dx[f(x)+f(−x)], so f(x)+f(−x) = (1/α)∫h dx"
+   },
+   {
+    "sympy": "simplify(sin(n*pi*x/l).subs(x,x+2*l)-sin(n*pi*x/l))==0",
+    "asserts": "The modes sin(nπx/l) have period 2l, consistent with f(x)=f(2l+x), whereas sin(2nπx/l) has period l"
+   }
+  ],
+  "transcription_corrections": [
+   "Margin reference 'Mém. 1850. pag. 358' should read 1750 (Mém. Acad. Berlin 1750, p. 358, d'Alembert), as cited in the published Habilitationsschrift. The faint word above it likely belongs to that citation.",
+   "'ob sich ... in t und s analytisch ausdrücken lasse' should read 't und x'.",
+   "'Schwingungen eines masselosen [...]': the missing word is presumably 'Fadens' (published: 'eines masselosen biegsamen gespannten Fadens').",
+   "'Diese Arbeiten Bernoulli's ... Aufsehen Eulers': the reading is uncertain. The sense is that Bernoulli's papers (1753) provoked a reply ('Aufsatz') by Euler printed in the Berlin Academy's memoirs.",
+   "The marginal French quotation should read 'le sens de mes paroles' (d'Alembert speaking of his own words). Riemann adds the interlinear gloss '(der paroles de Euler)'."
+  ]
+ }
+}

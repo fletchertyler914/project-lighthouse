@@ -1,0 +1,59 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c019",
+ "label": "10v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000020/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This page belongs to Riemann's study of minimal surfaces bounded by straight lines, the material later edited by Hattendorff as 'Ueber die Flaeche vom kleinsten Inhalt bei gegebener Begrenzung' (published 1867, Werke XXVI). The notation follows the preceding pages. eta is the stereographic coordinate of the unit normal (the Gauss map). X (written here as x) is the holomorphic function whose real part is a Cartesian coordinate. u is defined by du^2 = i (dX/dlog eta) (dlog eta)^2. In modern Weierstrass data (f dz, g = eta) one has dX3 = f g dz and dlog g = g'/g dz. Hence du^2 = i f g' dz^2, which is i times the Hopf differential, the holomorphic quadratic differential of the second fundamental form.\n\n(1) Behaviour of u along a straight boundary segment. Rotate coordinates so that the x-axis is parallel to the segment.\n- Along a straight line contained in a minimal surface, the surface normal is perpendicular to the line, i.e. to the x-axis. So the normal lies on the great circle orthogonal to the x-axis pole. In stereographic projection this gives |eta| = 1, i.e. Re log eta = 0. Thus dlog eta is purely imaginary along the boundary.\n- [mine] dX = dx + i dx*, where x* is the harmonic conjugate. Its change along the boundary is (dx/dn) ds, with n the conormal. The conormal is tangent to the surface and perpendicular to the line, hence perpendicular to the x-axis, so dx* = 0. Therefore dX is real along the segment.\n- Hence i dX/dlog eta is real on the boundary. Then du = sqrt(i dX/dlog eta) dlog eta. Since du^2 = (real)*(imaginary)^2 is real, du is either real or purely imaginary.\n- u is unchanged by a change (rotation) of the coordinate system; this is the invariance of the Hopf differential. So the conclusion holds simultaneously for every boundary segment, whenever the boundary consists of straight lines.\n- So in the u-plane every boundary segment maps to a horizontal or vertical straight piece.\n\n(2) 'Bestimmung der Flaeche' (determination of the surface).\n- To determine the surface it suffices to express one of u, eta, X, Y, Z through another. It is more advantageous to express each of them as a function of a suitably chosen independent variable t.\n- t is chosen so that the image of the surface in the t-plane simply covers the upper half-plane Im t > 0. This is the Riemann mapping theorem for the simply connected surface.\n- Concretely, t is a function of u (equivalently of eta, X, Y, Z) on the surface with Im t = 0 on the boundary and Im t > 0 inside. It has a simple pole at an arbitrary boundary point u = b: t = C/(u-b) + f.c. (f.c. = finite and continuous).\n- arg C is fixed by two requirements: Im t must vanish on the boundary (near b the boundary in the u-plane is a straight piece, real or imaginary direction), and Im t must be positive inside.\n- Hence only |C| and a real additive constant remain arbitrary. This is the 'known theorem': conformal self-maps of the upper half-plane fixing infinity are t -> a t + c with a > 0 and c real.\n- The next page uses this to write (du/dt)^2 as a function real on the real axis, extended by Schwarz reflection. It is a rational function with prescribed behaviour at branch points a, corners b and ends c, giving du = const * sqrt(Pi(t-a)/Pi(t-b)) dt / Pi(t-c).",
+  "errors": [
+   "No mathematical error on this page.",
+   "The phrase 'unendlich von der ersten Ordnung' in u at u=b tacitly assumes b is a generic boundary point where u is a local uniformizer, not a corner or branch point. Riemann says 'beliebig', so this is acceptable.",
+   "The step 'dX is real along the line' is not stated explicitly; it relies on the conjugate harmonic of x being constant along a straight boundary line. That is true but left implicit.",
+   "Existence of t is asserted via 'In der That ist es immer moeglich', i.e. the Riemann mapping theorem / Dirichlet principle, without proof here."
+  ],
+  "results": [
+   {
+    "what": "Along straight boundary lines of a minimal surface, du^2 = i dX dlog eta is real, so the boundary pieces become horizontal/vertical straight pieces in the u-plane. This holds for all segments at once, by rotation invariance of u.",
+    "modern_name": "Hopf differential (invariant quadratic differential of a minimal surface) being real/imaginary along asymptotic straight lines",
+    "usually_credited_to": "Riemann (posthumous memoir 1867) and Weierstrass; the quadratic-differential viewpoint later Hopf (1951)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Uniformize the surface by t mapping it onto the upper half-plane, with a simple pole at a boundary point. The only remaining freedom is t -> a t + c with a > 0, c real.",
+    "modern_name": "Riemann mapping theorem with normalization; automorphisms of the upper half-plane",
+    "usually_credited_to": "Riemann (1851 dissertation)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is draft material for Riemann's known posthumous memoir on minimal surfaces with polygonal boundary (Hattendorff 1867), which contains exactly this u-function argument and the half-plane uniformization. It is well documented as his.",
+  "checkable": [
+   {
+    "sympy": "z=symbols('z'); f=Function('f')(z); g=Function('g')(z); dX3=f*g; dlogg=diff(g,z)/g; simplify(dX3/dlogg*dlogg**2 - f*diff(g,z))",
+    "asserts": "(dX3/dlog g)(dlog g)^2 = f g' dz^2, so du^2 = i*f*g'*dz^2 (Hopf differential up to a factor). Expected result: 0."
+   },
+   {
+    "sympy": "z,a,b,A,B=symbols('z a b A B'); f=Function('f')(z); g=Function('g')(z); g2=(a*g-B)/(b*g+A); f2=f*(b*g+A)**2; simplify(f2*diff(g2,z) - f*diff(g,z)*(a*A+b*B))",
+    "asserts": "Under a rotation (SU(2) Moebius action on g with a*A+b*B=1), f*g' is invariant, i.e. u is unchanged by change of coordinate system. Expected result: 0."
+   },
+   {
+    "sympy": "s,b,C=symbols('s b C', real=True); simplify(im(C/((b+s)-b)))",
+    "asserts": "With a real constant, t=C/(u-b) is real on a real boundary piece through b. Expected result: 0."
+   },
+   {
+    "sympy": "t,a,c=symbols('t a c'); simplify(im(a*t+c).subs({a:2,c:3}).subs(t,symbols('x',real=True)))",
+    "asserts": "The residual freedom t -> a t + c with a>0, c real preserves the real axis. Expected result: 0."
+   }
+  ],
+  "transcription_corrections": [
+   "The variables listed as 'u, eta, x, y, z' are probably u, eta, X, Y, Z (the complex functions of the previous page). Likewise 'i dx/dlog eta' is probably the complex X.",
+   "'(oder eta, x, y, z, welche Gestalten [?] sagt)' is more likely '(oder eta, X, Y, Z, was dasselbe sagt)'.",
+   "'fnc.' should read 'f.c.', Riemann's usual abbreviation.",
+   "The opening probably reads 'Legt man nun die x Axe dieser Geraden parallel' (place the x-axis parallel to the boundary line).",
+   "The cancelled heading word is probably 'Unabhaengige Variable'. The insertion reads roughly 'mittelst dieser Formeln'."
+  ]
+ }
+}

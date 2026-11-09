@@ -1,0 +1,48 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c327",
+ "label": "165v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000328/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: on the previous page the writer argues, from experiment and from the impossibility of a perpetuum mobile, that the work integral ∫Σ(X dx + Y dy + Z dz) over a closed path vanishes. It is therefore path-independent and defines a function of the coordinates, the potential P, with dP = Σ(X dx + Y dy + Z dz). The page then states ½Σmv² − P = const.\n\nThis page restates that result as the 'general law of motion' found under the hypothesis that the virtual moment of all forces is a complete (exact) differential dP. Reading: 'Unter der Voraussetzung, daß das virtuelle Moment sämmtlicher Kräfte ein vollständiges Differential dP ist, haben wir folgendes allgemeine Bewegungsgesetz gefunden'. The formula is written as ½ Σ m[(d dx/dt)² + (d dy/dt)² + (d dz/dt)²] − P_{t+dt} = Const.\n\nModern reconstruction (the implicit derivation is mine):\n(i) Equations of motion: m d²x/dt² = X, m d²y/dt² = Y, m d²z/dt² = Z, with X = ∂P/∂x, etc.\n(ii) Take as virtual displacement the actual displacement dx = (dx/dt)dt, and sum over the masses. This gives Σ m (dx/dt · d(dx/dt) + dy/dt · d(dy/dt) + dz/dt · d(dz/dt)) = Σ(X dx + Y dy + Z dz) = dP.\n(iii) The left side equals d[½ Σ m ((dx/dt)² + (dy/dt)² + (dz/dt)²)].\n(iv) Integrating: ½ Σ m v² − P = Const. This is conservation of mechanical energy (vis viva plus 'Spannkraft', i.e. potential energy).\n\nThe written form appears to be a step-wise statement: the quantity evaluated at time t+dt equals the quantity at t. The stray 'd' and the subscript t+dt are most plausibly remnants of the increment notation in step (ii). The intended content is ½Σm v² − P = const. The next page restates exactly this as ½Σmv² − U = Const, with U = P. It then applies the law to Weber's velocity-dependent electrodynamic potential and passes to the principle of least action.\n\nPurpose: this is a lecture-style exposition in Riemann's Naturphilosophie notes linking mechanics to Helmholtz's conservation of 'Kraft' (energy).",
+  "errors": [
+   "As literally written, the kinetic term contains (d dx/dt)², the square of the increment of the velocity. That is a second-order infinitesimal, not the kinetic energy. The correct term is (dx/dt)², or, read step-wise, (dx/dt + d dx/dt)² at time t+dt. It is a notational slip or abbreviation.",
+   "The subscript t+dt on P is inconsistent unless the whole left side is meant to be evaluated at t+dt and compared with its value at t. As a statement of a constant of motion it should simply be P (at the current time).",
+   "Logically the step 'closed-loop work zero ⇒ virtual moment is an exact differential' was given on the previous page. Here it is only assumed, which is legitimate."
+  ],
+  "results": [
+   {
+    "what": "If the virtual work of all forces is an exact differential dP, then ½Σm(ẋ²+ẏ²+ż²) − P is constant along the motion.",
+    "modern_name": "Conservation of mechanical energy (vis viva theorem / energy integral for conservative systems)",
+    "usually_credited_to": "Leibniz and Joh. Bernoulli (vis viva), Lagrange (Mécanique analytique, 1788); general energy conservation: Helmholtz 1847, Mayer, Joule",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a standard textbook statement of the energy integral, presented in lecture-note form. It explicitly follows Helmholtz and the English 'actual/potential energy' terminology. Nothing here is original or unexpected.",
+  "checkable": [
+   {
+    "sympy": "t,m=symbols('t m'); x=Function('x'); P=Function('P'); E=m*diff(x(t),t)**2/2-P(x(t)); simplify(diff(E,t).subs(Derivative(x(t),(t,2)), diff(P(x(t)),x(t))/m))",
+    "asserts": "Returns 0: with m x'' = dP/dx, the quantity ½ m x'² − P(x) is conserved (energy law, one degree of freedom)."
+   },
+   {
+    "sympy": "t,m,k=symbols('t m k',positive=True); x=cos(sqrt(k/m)*t); simplify(m*diff(x,t)**2/2 - (-k*x**2/2))",
+    "asserts": "Returns k/2, a constant: for the potential P = −k x²/2 (force −kx), ½ m v² − P is constant along the actual motion."
+   },
+   {
+    "sympy": "t,dt=symbols('t dt'); v=diff(t**2,t); simplify(((v.subs(t,t+dt)-v)**2))",
+    "asserts": "Returns 4*dt**2: the literal term (d dx/dt)² is O(dt²) and is not the kinetic energy, confirming that the written form is a slip."
+   },
+   {
+    "sympy": "a,b=symbols('a b'); f=Function('f'); s=symbols('s'); simplify(integrate(f(s),(s,a,b))+integrate(f(s),(s,b,a)))",
+    "asserts": "Returns 0. This is the reversal argument of the previous page (∫_a^b + ∫_b^a = 0) used to derive path independence of the work."
+   }
+  ],
+  "transcription_corrections": [
+   "The phrase '... ein vollständiges Differential {+dP+} [?] haben wir' most likely reads '... ein vollständiges Differential dP ist, haben wir' (the inserted dP sits over the word ending, and the [?] is probably 'ist').",
+   "The leading factor is ½ (it could be misread as ¼). The bracket structure is ½ Σ(m((d dx/dt)² + (d dy/dt)² + (d dz/dt)²)) − P_{t+dt} = Const.; the transcription matches the image apart from the stray 'd's, which are genuinely in the manuscript."
+  ]
+ }
+}

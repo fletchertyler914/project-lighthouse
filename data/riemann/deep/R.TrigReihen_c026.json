@@ -1,0 +1,75 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c026",
+ "label": "12r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000027/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is §3 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published by Dedekind 1867). The historical section is reviewing Dirichlet's 1829 Crelle paper. The previous page split series into two classes. First class: Σ|u_k| < ∞ (absolute convergence). Second class: Σu_k converges but Σ|u_k| = ∞ (conditional convergence). It also argued that for a second-class series, with positive terms a_1, a_2, ... and negative terms -b_1, -b_2, ..., both Σa_i and Σb_j must diverge.\n\n(1) Rearrangement argument, completing the previous page. Claim: a second-class series can be rearranged to converge to any prescribed real C. Construction:\n- Take positive terms a_1, a_2, ... in order until the partial sum first exceeds C.\n- Then take negative terms -b_1, -b_2, ... until the partial sum first drops below C.\n- Alternate in this way indefinitely.\n\nEach phase terminates because Σa = Σb = ∞ (my explicit addition; Riemann has it from the previous page). Every term is eventually used.\n\nError bound, as Riemann states it: the deviation of any partial sum from C is at most the value of the term preceding the last change of sign. Modern form of the estimate (my wording): if a crossing of C occurs at a term t, the overshoot is ≤ |t|. Until the next crossing, the partial sums move monotonically back toward C. So the deviation is bounded by the magnitude of the term that produced the most recent crossing.\n\nSince a_i → 0 and b_j → 0 (because u_k → 0), these bounds tend to 0, so the rearranged series converges to C.\n\n(2) Commentary on the two classes:\n- Only first-class series obey the laws of finite sums: commutativity and associativity, i.e. they are 'Inbegriff ihrer Glieder'.\n- Eighteenth-century mathematicians overlooked this, chiefly because power series Σc_k z^k belong to the first class except at isolated values of the variable. Modern reading: absolute convergence inside the disc of convergence, with exceptions only on the boundary.\n\n(3) Fourier series need not be absolutely convergent. Hence their convergence cannot be inferred from the rate at which the terms decrease. This is what Cauchy (1826) tried, and Dirichlet (Crelle IV, p. 158, quoted in the footnote) criticized it.\n\n(4) What must instead be shown: the partial sum\n S_n(x) = (1/2π)∫_{-π}^{π} f(α) dα + Σ_{k=1}^{n} [ (1/π)∫_{-π}^{π} f(α) cos kα dα · cos kx + (1/π)∫_{-π}^{π} f(α) sin kα dα · sin kx ]\ntends to f(x). The sine part is written as a separate line above the cosine part.\n\nThe sentence continues on the next page: '...or, what is the same, the integral (1/2π)∫ f(α) sin((2n+1)(x-α)/2)/sin((x-α)/2) dα'. The implicit step (mine) is cos kα cos kx + sin kα sin kx = cos k(x-α), followed by the Dirichlet kernel identity:\n 1/2 + Σ_{k=1}^{n} cos kθ = sin((2n+1)θ/2) / (2 sin(θ/2)).",
+  "errors": [
+   "No mathematical errors. The bound 'deviation never exceeds the term preceding the last sign change' is slightly informal. The precise statement: after a crossing, the deviation is at most the magnitude of the term that caused the most recent crossing. The argument is correct.",
+   "The construction tacitly needs Σa = Σb = ∞ so that each phase terminates. This was established on the previous page, so it is not a gap.",
+   "Riemann does not say the construction uses every term; it does, because each phase takes at least one new term."
+  ],
+  "results": [
+   {
+    "what": "Any conditionally convergent real series can be rearranged to converge to an arbitrary prescribed value C, via the alternating overshoot construction with error bounded by the last crossing term",
+    "modern_name": "Riemann rearrangement theorem (Riemann series theorem)",
+    "usually_credited_to": "Bernhard Riemann (Habilitationsschrift 1854, publ. 1867); Dirichlet 1837 had earlier shown that rearrangements can change the sum",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Absolutely convergent series obey the laws of finite sums; power series are absolutely convergent except at isolated values",
+    "modern_name": "Unconditional convergence of absolutely convergent series; absolute convergence of power series inside the radius of convergence",
+    "usually_credited_to": "Dirichlet 1837 / Cauchy (Cauchy–Hadamard, Abel)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Convergence of a Fourier series cannot be deduced from the order of magnitude of its terms (critique of Cauchy 1826); one must show the partial sums tend to f(x)",
+    "modern_name": "Dirichlet's critique of Cauchy; partial sums of Fourier series",
+    "usually_credited_to": "Dirichlet 1829",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Fourier partial sum equals the Dirichlet-kernel integral (completed on the next page)",
+    "modern_name": "Dirichlet kernel representation of S_n f",
+    "usually_credited_to": "Dirichlet 1829",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the draft of §3 of Riemann's published Habilitationsschrift (printed 1867). The rearrangement theorem on this page is already universally named after Riemann. The rest is his historical account of Dirichlet's work.",
+  "checkable": [
+   {
+    "sympy": "simplify((Rational(1,2) + Sum(cos(k*t),(k,1,5)).doit()) - sin(Rational(11,2)*t)/(2*sin(t/2)))  # == 0",
+    "asserts": "Dirichlet kernel identity for n=5: 1/2 + Σ cos kθ = sin((2n+1)θ/2)/(2 sin(θ/2))"
+   },
+   {
+    "sympy": "simplify(expand_trig(cos(k*a)*cos(k*x)+sin(k*a)*sin(k*x) - cos(k*(x-a))))  # == 0",
+    "asserts": "The sine and cosine coefficient terms combine into cos k(x-α)"
+   },
+   {
+    "sympy": "Sum((-1)**(k+1)/k,(k,1,oo)).doit()  # == log(2)",
+    "asserts": "The alternating harmonic series (second class) has sum log 2 in natural order"
+   },
+   {
+    "sympy": "Sum(1/(4*k-3)+1/(4*k-1)-1/(2*k),(k,1,oo)).doit()  # == 3*log(2)/2",
+    "asserts": "Rearranging (two positive terms, then one negative) changes the sum to (3/2) log 2, illustrating the rearrangement theorem"
+   },
+   {
+    "sympy": "Sum(1/k,(k,1,oo)).is_convergent()  # == False",
+    "asserts": "The series of absolute values diverges, so the alternating harmonic series is of the second class"
+   }
+  ],
+  "transcription_corrections": [
+   "The footnote reads 'Quoi qu'il en soit de cette première objection' (written 'Quoiqu'il'), not 'Quoique il'.",
+   "'Zeichen-[-wechsel-]wechsel': the line-end 'Zeichen-' is followed by a struck-out word at the start of the next line, then 'wechsel'. The intended reading is 'Zeichenwechsel'.",
+   "The '12' in the right margin is a foliation number, not part of the text.",
+   "The sine-coefficient line is written above the cosine line, apparently as an insertion; the intended reading is a single partial sum including both the cosine and sine terms."
+  ]
+ }
+}

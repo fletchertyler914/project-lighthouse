@@ -1,0 +1,76 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c233",
+ "label": "104",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000234/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is printed, not Gauss's own writing. It is p.104 of a German elementary algebra textbook (signature G4 on p.103) bound into the HB.Leiste bundle. It continues §198, \"approximating irrational roots of an equation\". The handwriting at the right edge is the cut-off margin of the facing interleaved leaf (next page). That leaf holds Gauss's notes on ∫dx/(1-x^4)^{1/4} and a table of values: x = 0, 0.1, …, 1.0 with y up to 1.1107207, and the number 0.177612.\n\nPrinted derivation:\n\n(1) Locate the root. Take p(x) = x^3 - 15x^2 + 78x - 146 and call its value A. Then:\n- p(0) = -146, p(1) = -82, p(2) = -42, p(3) = -20, p(4) = -10, p(5) = -6, p(6) = -2.\n- p(7) = +8.\n\nThe sign change means a root lies in (6, 7). The text appeals to its §37, i.e. intermediate-value reasoning.\n\n(2) Shift. Put x = 6 + f. The term-by-term expansion is:\n- x^3 = 216 + 108f + 18f^2 + f^3\n- -15x^2 = -540 - 180f - 15f^2\n- 78x = 468 + 78f\n- -146 = -146\n\nSumming gives 0 = -2 + 6f + 3f^2 + f^3. This is the Taylor expansion p(6+f) = p(6) + p'(6)f + (p''(6)/2)f^2 + f^3, with p(6) = -2, p'(6) = 6, p''(6)/2 = 3.\n\n(3) Linearize. Drop 3f^2 + f^3, so -2 + 6f = 0 and f = 1/3 ≈ 0.33. The author warns that one may not keep more digits than this, because of the neglected terms.\n\n(4) Second step. Put x = 6.33 + f. Then 0 = p(6.33) + p'(6.33)f = 0.342637 + 8.3067f, so f = -0.041 and x = 6.33 - 0.041 = 6.289. The author notes the last digit may still be wrong and needs another substitution. Once three decimals are secured, the next three come more reliably. This anticipates quadratic convergence.\n\n(5) Remarks. Equations like this are rare in practice, which is why the book treats Cardano's rule only briefly and omits 'Bombelli's' reduction of the quartic to a cubic. The method is kept because it also serves for extracting square and cube roots. Vega's logarithmic tables, pp. 387–388, give formulas for this.\n\n(6) Heading of §199: 'Give a general formula to find the root of a pure equation x^n = a by approximation.' This leads to Newton/Heron-type iterations for n-th roots.\n\nIn modern terms, the procedure is the Newton–Raphson iteration x_{k+1} = x_k - p(x_k)/p'(x_k), presented in Newton's original substitution form.",
+  "errors": [
+   "No arithmetic errors. All values p(0)..p(7), the shifted polynomial -2+6f+3f^2+f^3, p(6.33)=0.342637 and p'(6.33)=8.3067 are correct.",
+   "The approximation x=6.289 is correct only to two decimals; the true root is x≈6.28791. The author himself warns the last digit may be false, so this is not a mistake.",
+   "Terminology: the neglected terms 3f^2+f^3 are called 'Brüche' (fractions); they are really higher-order terms, small because f<1.",
+   "Historical attribution: the reduction of the quartic to a cubic is due to Ferrari (published by Cardano, 1545). Bombelli (L'Algebra, 1572) only expounded it, so calling it 'Bombelli's method' is loose."
+  ],
+  "results": [
+   {
+    "what": "Bracketing a real root of a cubic by sign change of the polynomial at integer arguments",
+    "modern_name": "Intermediate value theorem / bisection-type root bracketing",
+    "usually_credited_to": "Classical (Stevin, Viète era); made rigorous by Bolzano (1817)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Substituting x = a + f, expanding, dropping f^2 and f^3, solving the linear equation, and repeating",
+    "modern_name": "Newton–Raphson method (Newton's 1669 substitution form)",
+    "usually_credited_to": "Newton (De analysi, 1669; published 1711), Raphson (1690), Simpson (1740)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Observation that once ~3 decimals are correct, the next step yields about 3 more",
+    "modern_name": "Quadratic convergence of Newton's method (informal)",
+    "usually_credited_to": "Informally known 18th c.; formal analysis by Fourier (1818), Cauchy",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed page of an ordinary algebra textbook working an example of Newton's method. It is not Gauss's work at all. The only Gaussian material is the cut-off margin of the facing manuscript leaf (lemniscatic-type integral table), which belongs to the next folio.",
+  "checkable": [
+   {
+    "sympy": "[ (lambda x: x**3-15*x**2+78*x-146)(k) for k in range(8) ] == [-146,-82,-42,-20,-10,-6,-2,8]",
+    "asserts": "Values of A at x=0..7; sign change between 6 and 7"
+   },
+   {
+    "sympy": "expand((6+f)**3-15*(6+f)**2+78*(6+f)-146) == f**3+3*f**2+6*f-2",
+    "asserts": "Shifted polynomial after x=6+f"
+   },
+   {
+    "sympy": "Rational(633,100)**3-15*Rational(633,100)**2+78*Rational(633,100)-146 == Rational(342637,1000000)",
+    "asserts": "p(6.33) = 0.342637"
+   },
+   {
+    "sympy": "3*Rational(633,100)**2-30*Rational(633,100)+78 == Rational(83067,10000)",
+    "asserts": "p'(6.33) = 8.3067 (linear coefficient after x=6.33+f)"
+   },
+   {
+    "sympy": "N(-Rational(342637,1000000)/Rational(83067,10000), 6)",
+    "asserts": "Correction f ≈ -0.0412, so x ≈ 6.289"
+   },
+   {
+    "sympy": "nsolve(x**3-15*x**2+78*x-146, x, 6.3)",
+    "asserts": "True root ≈ 6.28791, so 6.289 is good to two decimals as the author cautions"
+   },
+   {
+    "sympy": "N(integrate((1-t**4)**Rational(-1,4),(t,0,1)) - pi/(2*sqrt(2)))",
+    "asserts": "Context (margin bleed from next folio): Gauss's table value 1.1107207 = pi/(2*sqrt(2)) for x=1"
+   }
+  ],
+  "transcription_corrections": [
+   "The handwritten marginal fragments ('Un…', '∫d/√(1-…', column of x=0,0.1,…,1.0 with values, '1,1761[?]') are not part of this page. They are the cut-off edge of the facing interleaved Gauss leaf, transcribed in full as the next page ('Untersuchungen über das Integral…', value 0,177612).",
+   "Line 'x^3 = 216 + 108f + 18f^2 +/f^3': the printed '+' is broken in the image but reads '+ f^3'; the transcription is correct.",
+   "'Bombelli Methode' appears in print as 'Bombelli Methode' (bold Fraktur B), i.e. the name Bombelli; correct as transcribed."
+  ]
+ }
+}

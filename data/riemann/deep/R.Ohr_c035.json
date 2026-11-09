@@ -1,0 +1,53 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c035",
+ "label": "18v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000036/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to Riemann's unfinished 'Mechanik des Ohres' (published posthumously by Henle, 1867), in a passage on how temperature affects the middle-ear (tympanic) apparatus. On the previous page Riemann uses a 'law' that follows from Newton's law of cooling, provided the thermal conductivity and specific heat are constant over the relevant temperature range. The law lets one infer temperature changes from the gap between the temperature of the tympanic cavity (Paukenhöhle) and that of the brain. He argues that a noticeable gap exists, because the cavity communicates with outside air through the external auditory canal and the Eustachian tube.\n\nModern form of the law (my reconstruction). Let T_b be the brain (core) temperature and T_e the external air temperature. Put u = T_b - T. In the stationary state:\n- Inside the tissue, u satisfies the steady heat equation div(k grad u) = 0, with k constant.\n- Blood sinuses, large arteries and veins act as sources held at about T_b, so u = 0 there.\n- At surfaces exposed to air, Newton's law gives -k du/dn = h (u - u_e), where u_e = T_b - T_e.\nThis problem is linear and homogeneous except for the single datum u_e. Hence u(x) = u_e * phi(x), where phi is fixed by geometry and material constants. So every point's distance from brain temperature changes in the same ratio as T_b - T_e. The next page states this explicitly: 'in demselben Verhältniß (auf das Doppelte)'.\n\nThis page applies the law qualitatively:\n(1) The petrous bone (Pyramide) contains the carotid canal (Can. caroticus), so its temperature is very nearly brain temperature, i.e. phi is about 0 there. A noticeable gap must still exist between the cavity and its walls. Riemann therefore concludes that the mucous lining of the cavity is a very poor conductor and radiator of heat. In modern terms, there is a large thermal resistance at the wall, so a jump in temperature across the lining can persist.\n(2) The other bones around the cavity are not as warm as the brain or the pyramid. They still contain strong heat sources (sinuses, large arteries and veins) and are shielded from radiating into the cavity by mucosa and periosteum. So their temperature is noticeably higher than the cavity's.\n(3) A queried marginal note gives a numerical illustration: '(etwa v. 10° unter Hirntemp. auf 20°)'. That is, a gap of about 10° below brain temperature would become about 20°.\n(4) The page then begins the consequence, finished on the next page. If the external temperature falls, the gap T_b - T grows everywhere in the same proportion (for example doubles). Since phi is small in the bony walls but appreciable in the cavity, the cavity and the ossicles cool noticeably while the walls barely cool. The ossicles therefore contract relative to the walls.\n\nIllustration (mine): with T_b = 37 and T_e = 17, a fall of T_e to -3 doubles u_e from 20 to 40. A point at 10° below brain temperature then moves to 20° below.",
+  "errors": [
+   "No mathematical error. The proportionality law is exact only under the stated linearity assumptions. Constant k and specific heat, a linear (Newton) boundary condition, and heat sources entering as boundaries held at brain temperature (or as linear perfusion terms) are all needed. Metabolic sources independent of T, or blood temperatures that themselves change, would add an inhomogeneous term. Then the gap would not scale exactly. Riemann only claims the conditions are 'nahe erfüllt' (nearly satisfied).",
+   "The illustrative figure of 10° below brain temperature for the tympanic cavity is physiologically far too large. The middle ear stays close to core temperature, within a few degrees. The '?' beside the line suggests Riemann or an editor doubted it.",
+   "The inference that the cavity lining is a poor conductor and radiator rests on the unmeasured premise that a noticeable cavity-wall temperature gap exists. Riemann himself admits this gap cannot be determined."
+  ],
+  "results": [
+   {
+    "what": "In a steady state with constant conductivity and Newtonian surface cooling, the deviation from core temperature scales everywhere in proportion to (core - ambient), by linearity and homogeneity of the boundary value problem.",
+    "modern_name": "Linearity/superposition of the steady heat equation with Robin boundary conditions (dimensionless temperature profile)",
+    "usually_credited_to": "Fourier (Théorie analytique de la chaleur, 1822); Newton for the cooling law",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Qualitative thermal argument that the ossicles cool and contract relative to the walls of the tympanic cavity when ambient temperature falls.",
+    "modern_name": "Differential thermal contraction / middle-ear thermal modelling",
+    "usually_credited_to": "Riemann, Mechanik des Ohres (posthumous, 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a qualitative application of Fourier's linear steady-state heat conduction to physiology. It is part of the known posthumously published 'Mechanik des Ohres'. No new mathematics appears.",
+  "checkable": [
+   {
+    "sympy": "x,L,k,h,ue=symbols('x L k h u_e',positive=True); u=ue*h*x/(k+h*L); simplify(diff(u,x,2))==0 and u.subs(x,0)==0 and simplify(-k*diff(u,x).subs(x,L)-h*(u.subs(x,L)-ue))!=None",
+    "asserts": "1-D slab model: u=T_b-T is linear, zero at the brain side (x=0), satisfies the Robin (Newton) condition at x=L, and is proportional to u_e."
+   },
+   {
+    "sympy": "x,L,k,h,ue=symbols('x L k h u_e',positive=True); u=lambda U: U*h*x/(k+h*L); simplify(u(2*ue)/u(ue))==2",
+    "asserts": "Doubling the core-ambient gap doubles the local gap from core temperature everywhere ('auf das Doppelte')."
+   },
+   {
+    "sympy": "Tb=37; (Tb-(-3))/(Tb-17)==2",
+    "asserts": "Example: with brain at 37°, a drop in ambient from 17° to -3° doubles the gap, consistent with the 10°->20° illustration."
+   }
+  ],
+  "transcription_corrections": [
+   "The deleted word before 'Can. caroti-' looks like 'A. caroti-' (Arteria carotis), not 'Acarti-'. The correction replaces artery by canal: 'den Canalis caroticus enthält'.",
+   "The deleted marginal note reads '? N. acusti[cus]' and below it 'Sch.' (perhaps Schnecke), both struck through.",
+   "There is a marginal '//' beside 'gegen die Ausstrahlung in die Paukenhöhle geschützt', and a '?' before the parenthetical '(etwa v. 10° unter Hirntemp. auf 20°)'. The parenthetical is a later insertion in the same hand.",
+   "'Wir dürfen daher annehmen, daß ihre Temperatur ...': the word 'daß' is inserted above the line, as transcribed."
+  ]
+ }
+}

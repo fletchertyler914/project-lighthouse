@@ -1,0 +1,63 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c262",
+ "label": "253",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000263/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem: find the condition on the plane ax+by+cz=d and the central quadric Ax^2+By^2+Cz^2=D (principal axes along the coordinate axes) for their intersection to be a circle.\n\nModern reconstruction (my steps, not on the page): the section is a circle exactly when the quadratic form Q=diag(A,B,C), restricted to the 2-plane n^perp with n=(a,b,c), is a multiple of the Euclidean metric. This condition depends only on the direction (a:b:c); d and D play no role apart from degenerate cases. The eigenvalues mu of the restricted form satisfy\n a^2(B-mu)(C-mu) + b^2(C-mu)(A-mu) + c^2(A-mu)(B-mu) = 0.\nTheir equality is expressed by the vanishing of the discriminant\n Delta = (a^2(B+C)+b^2(C+A)+c^2(A+B))^2 - 4(a^2+b^2+c^2)(a^2BC+b^2CA+c^2AB).\nFor real data Delta is a sum of squares.\n\nGauss states the condition as a sum of three squares:\n G = a^2b^2(b^2(A-C)+a^2(B-C))^2 + b^2c^2(c^2(B-A)+b^2(C-A))^2 + c^2a^2(a^2(C-B)+c^2(A-B))^2 = 0.\nThe three terms are cyclic images of one another under a->b->c, A->B->C. Because G is a sum of real squares, he concludes that each of the three parts must vanish separately.\n\nHe then remarks that, expanded, G has 30 terms: 18 positive and 12 negative. This checks out as follows.\n- Each inner square has 10 monomials, 6 positive and 4 negative. For the first part, P = Ab^2+Ba^2-C(a^2+b^2), so P^2 = A^2b^4 + B^2a^4 + C^2a^4 + 2C^2a^2b^2 + C^2b^4 + 2ABa^2b^2 - 2ACa^2b^2 - 2ACb^4 - 2BCa^4 - 2BCa^2b^2.\n- The monomials of the three parts are pairwise distinct, so nothing cancels. Part 1 contains no c, part 2 no a, part 3 no b, and each part contains both of its two letters.\n- This gives 3 x 10 = 30 terms, 3 x 6 = 18 positive and 3 x 4 = 12 negative.\n\nConsistency with the exact condition (my check): for c=0 the plane contains the z-axis. The in-plane eigenvalues are C and (Ab^2+Ba^2)/(a^2+b^2). The section is a circle iff b^2(A-C)+a^2(B-C)=0, and indeed G|_{c=0} = a^2b^2 Delta|_{c=0}.\n\nWhy the circular sections contain the mean axis (my check): the three linear equations in u=a^2, v=b^2, w=c^2 obtained from 'each part = 0' (with a,b,c all nonzero) have determinant zero. Their solution is u:v:w = (A-B)(A-C) : (B-A)(B-C) : (C-A)(C-B). For distinct real A,B,C the middle-valued coefficient makes one ratio negative, so no real plane with all of a,b,c nonzero works. Hence one coefficient vanishes, the one belonging to the mean axis. For example, with b=0 one gets a^2(C-B)+c^2(A-B)=0, i.e. a^2/c^2=(A-B)/(B-C), which is real when B lies between A and C. This is the classical result.",
+  "errors": [
+   "No algebraic slip in the formula or the term count. The equation G=0 has spurious solutions, however. When two of a,b,c vanish (planes parallel to a coordinate plane), G vanishes identically, yet the section is a circle only if the two relevant coefficients are equal. So G=0 is necessary but not quite sufficient; the factors a^2b^2 etc. introduce extraneous zeros.",
+   "G is not a constant or symmetric multiple of the true discriminant Delta. At a=b=c=1, G = 6X and Delta = 4X with X = A^2+B^2+C^2-AB-BC-CA, whereas at c=0, G = a^2b^2*Delta. Gauss's form is a convenient sum-of-squares criterion, not the discriminant itself. The page gives no derivation."
+  ],
+  "results": [
+   {
+    "what": "Condition for a plane section of a central quadric Ax^2+By^2+Cz^2=D by ax+by+cz=d to be a circle, written as a sum of three squares that must vanish separately",
+    "modern_name": "Circular sections of a quadric (cyclic planes; umbilical directions)",
+    "usually_credited_to": "Classical: circular sections of the ellipsoid studied by Monge, Hachette, Dupin and others around 1800 (and earlier for cones)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Count of the expanded polynomial: 30 terms, 18 positive and 12 negative",
+    "modern_name": "Polynomial expansion / term count",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Circular sections of quadrics were standard analytic geometry by Gauss's time. The sum-of-squares packaging and the term count are a neat personal note, but not a new result.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,A,B,C=symbols('a b c A B C'); G=a**2*b**2*(b**2*(A-C)+a**2*(B-C))**2+b**2*c**2*(c**2*(B-A)+b**2*(C-A))**2+c**2*a**2*(a**2*(C-B)+c**2*(A-B))**2; len(Add.make_args(expand(G)))==30",
+    "asserts": "Expanded condition has exactly 30 terms"
+   },
+   {
+    "sympy": "sum(1 for t in Add.make_args(expand(G)) if t.as_coeff_Mul()[0]>0)==18",
+    "asserts": "18 of the terms are positive (hence 12 negative)"
+   },
+   {
+    "sympy": "Delta=(a**2*(B+C)+b**2*(C+A)+c**2*(A+B))**2-4*(a**2+b**2+c**2)*(a**2*B*C+b**2*C*A+c**2*A*B); expand(G.subs(c,0)-a**2*b**2*Delta.subs(c,0))==0",
+    "asserts": "For c=0 Gauss's expression equals a^2 b^2 times the eigenvalue discriminant of the restricted form"
+   },
+   {
+    "sympy": "expand(Delta.subs(c,0)-(b**2*(A-C)+a**2*(B-C))**2)==0",
+    "asserts": "For planes containing the z-axis, the circle condition is b^2(A-C)+a^2(B-C)=0"
+   },
+   {
+    "sympy": "Matrix([[B-C,A-C,0],[0,C-A,B-A],[C-B,0,A-B]]).det().expand()==0",
+    "asserts": "The three linear conditions in a^2,b^2,c^2 are dependent (rank 2)"
+   },
+   {
+    "sympy": "u=(A-B)*(A-C); v=(B-A)*(B-C); w=(C-A)*(C-B); [expand(v*(A-C)+u*(B-C)), expand(w*(B-A)+v*(C-A)), expand(u*(C-B)+w*(A-B))]==[0,0,0]",
+    "asserts": "The nonzero solution of the three conditions is a^2:b^2:c^2=(A-B)(A-C):(B-A)(B-C):(C-A)(C-B), not all nonnegative for distinct real A,B,C"
+   }
+  ],
+  "transcription_corrections": [
+   "The struck-out word before 'ein Kreis' is illegible; '[-...-]' is appropriate.",
+   "The left-margin text ('v. dass', 'proportional den Zahlen ξη, 1, (9.74588)') is the edge of the facing previous page (folio 252), not part of this page. 'der Zahl[?]' should read 'den Zahlen', as on the previous page.",
+   "The main transcription matches the image: rows 2 and 3 are the cyclic images of row 1 (bbcc(cc(B-A)+bb(C-A))^2 and ccaa(aa(C-B)+cc(A-B))^2)."
+  ]
+ }
+}

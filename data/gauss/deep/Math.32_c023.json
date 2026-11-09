@@ -1,0 +1,41 @@
+{
+ "bundle": "Math.32",
+ "page": "c023",
+ "label": "12v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382184:00000024/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page (Math.32, fol. 12r) sets out the idea of a 'Resultantencalcul' as a counterpart to Möbius's barycentric calculus. It then defines collinearity (Collineation) of two systems: between any 5 points (lines) of one system and the 5 corresponding ones of the other, the same linear equation holds. On this page Gauss proposes a simpler metric characterization of a collineation.\n\nSetting. Let A, B, ... be straight lines and P, Q, ... points of the first plane system. Under the collineation they correspond to the lines a, b, ... and the points p, q, ... of the second system. Write PA for the perpendicular distance of point P from line A. Gauss asserts that in general\n\n  (PA·QB·pb·qa) / (pa·qb·PB·QA) = 1,\n\nthat is, PA·QB/(PB·QA) = pa·qb/(pb·qa). The cross-ratio-like quantity formed from two points and two lines is unchanged by the collineation. The manuscript's third numerator factor looks like 'qb' corrected towards 'pb'. Only 'pb' makes the statement correct and nontrivial; see the corrections.\n\nProof (mine; not on the page). Use homogeneous coordinates: point x = (x1, x2, x3) and line u = (u1, u2, u3), with incidence u·x = 0.\n- The signed distance of x from u is (u·x) / (x3·sqrt(u1²+u2²)).\n- In the ratio PA·QB/(PB·QA), the point factors 1/x3 and the line factors 1/sqrt(u1²+u2²) each occur once in the numerator and once in the denominator, so they cancel.\n- This leaves (u_A·x_P)(u_B·x_Q) / ((u_B·x_P)(u_A·x_Q)).\n- A collineation acts by x → Mx and u → M^(-T)u. Hence every bilinear pairing u·x is preserved, and so is the ratio.\n\nGeometric reading (mine). Let A' = PQ∩A and B' = PQ∩B. By similar triangles, PA/QA = PA'/QA' (signed). The expression therefore equals (PA'/QA')/(PB'/QB') = (P, Q; A', B'). It is the ordinary cross-ratio of four collinear points, which is projectively invariant. Gauss's formulation avoids constructing intersection points and is symmetric in the roles of points and lines.",
+  "errors": [
+   "As transcribed, the numerator contains 'qb' while the denominator also contains 'qb'. Those factors would cancel, leaving PA·QB·qa/(pa·PB·QA) = 1, which is false in general. The correct invariant needs 'pb' in the numerator: PA·QB·pb·qa = pa·qb·PB·QA. The image shows the letter altered, apparently to p. This is a slip or overwriting, not a mathematical error by Gauss.",
+   "Distances must be taken as signed (or the identity read in absolute value). The relation is meaningless when a point lies on one of the lines (zero factors). Gauss's 'allgemein' covers this.",
+   "Unstated but needed: corresponding elements must keep their incidence correspondence under one and the same collineation. This is implicit."
+  ],
+  "results": [
+   {
+    "what": "For any two points P, Q and two lines A, B, the ratio PA·QB/(PB·QA) of perpendicular distances is invariant under a plane collineation. This is offered as the characteristic property (definition) of collineation.",
+    "modern_name": "Projective invariance of the cross-ratio (point–line form; equivalently the cross-ratio of P, Q with the traces of A, B on PQ); invariance of the bilinear pairing u·x under x→Mx, u→M^{-T}u",
+    "usually_credited_to": "Cross-ratio: Pappus (anharmonic ratio), Möbius (Der barycentrische Calcul, 1827, Doppelschnittverhältniss), Chasles (1837). Collineation as a concept: Möbius 1827.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The statement is a correct but disguised form of the cross-ratio invariance, well within what Möbius (1827), whom Gauss was evidently reading, had established. The point-line distance formulation as a definition of collineation is a neat unpublished touch. It is not a result credited to anyone later, and Gauss's interest in Möbius's barycentric calculus is documented.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *\nm=Matrix(3,3,symbols('m0:9')); xP=Matrix(symbols('p1 p2 p3')); xQ=Matrix(symbols('q1 q2 q3')); uA=Matrix(symbols('a1 a2 a3')); uB=Matrix(symbols('b1 b2 b3'))\nd=lambda x,u:(u.dot(x))/(x[2]*sqrt(u[0]**2+u[1]**2))\nR=lambda P,Q,A,B: d(P,A)*d(Q,B)/(d(P,B)*d(Q,A))\nMi=m.inv().T\nsimplify(R(m*xP,m*xQ,Mi*uA,Mi*uB)-R(xP,xQ,uA,uB))==0",
+    "asserts": "PA·QB/(PB·QA) = pa·qb/(pb·qa) under the collineation x→Mx, u→M^{-T}u, i.e. Gauss's identity with pb in the numerator."
+   },
+   {
+    "sympy": "from sympy import *\nx1,y1,x2,y2,a,b,c=symbols('x1 y1 x2 y2 a b c'); t=symbols('t')\nL=lambda X,Y:a*X+b*Y+c\ns=solve(L(x1+t*(x2-x1),y1+t*(y2-y1)),t)[0]\nsimplify(L(x1,y1)/L(x2,y2) - (0-s)/(1-s))==0",
+    "asserts": "PA/QA equals the signed division ratio PA'/QA', where A' = PQ∩A. Hence Gauss's expression is the cross-ratio (P,Q;A',B')."
+   }
+  ],
+  "transcription_corrections": [
+   "Numerator third factor: read 'pb' (the letter appears overwritten q→p), giving PA·QB·pb·qa / (pa·qb·PB·QA) = 1. The transcribed 'qb' would cancel with the denominator's qb and make the formula false.",
+   "'ausgedrukt werden' is in the manuscript as 'ausgedrukt werden' (Gauss's spelling); fine. 'Es seien' is written 'Es seien' with 'gerade' inserted above 'Linien' — correctly rendered.",
+   "'des einen Systems': the struck-out word before 'einen' is illegible, and 'einen' is a plausible reading of the remaining word."
+  ]
+ }
+}

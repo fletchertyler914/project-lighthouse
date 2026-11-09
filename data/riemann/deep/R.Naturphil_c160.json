@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c160",
+ "label": "81r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000161/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the opening of Riemann's fragment 'Gravitation und Licht'. It continues the 'Neue mathematische Principien der Naturphilosophie' programme on the previous page. That programme replaces action at a distance by actions between neighbouring space elements.\n\nPhilosophical preamble. Riemann argues that explaining physics by attractive and repulsive forces at a distance owes its general acceptance neither to immediate evidence nor to special fitness. It owes it rather to the fact that Newton's law of gravitation was long taken as not further explicable, contrary to Newton's own opinion. The footnote, written in English, quotes Newton's third letter to Bentley (1692/3): 'That gravity should be innate, inherent and essential to matter... is to me so great an absurdity...'.\n\nSection I: Laws of the space-filling substance (the ether) that produce gravitational and optical phenomena.\n- Notation: x = (x1, x2, x3) are Cartesian coordinates.\n- u(x,t) is the velocity of the ether motion that produces gravity.\n- w(x,t) is the velocity of the motion that produces light.\n- v = u + w is the actual velocity, so the two motions are superposed linearly.\n- The equations of motion will show that a substance of uniform density keeps uniform density. Riemann therefore normalises the density to 1 at time t, an incompressible ether.\n\nI.a: Motion producing gravity.\n- The gravitational force is F = grad V, where V is the potential.\n- V is fixed up to an additive constant by two conditions:\n  - (1) ΔV dx1 dx2 dx3 = 0 outside attracting bodies. For each ponderable element it equals -4π dm, where dm is the mass the attraction theory assigns to that element. That is, Poisson's equation ΔV = -4πρ, with the convention that V = ∫ dm/r is positive.\n  - (2) If all masses lie in a bounded region, then r ∂V/∂x_i → 0 as r → ∞.\n- Riemann's hypothesis is that the gravitational ether velocity equals the force field: u = grad V, i.e. dV = u1 dx1 + u2 dx2 + u3 dx3.\n- This implies three conditions:\n  - (1) curl u = 0, i.e. ∂u2/∂x3 - ∂u3/∂x2 = 0 etc. This holds because mixed second partials of V commute; it is my added step.\n  - (2) div u dx1 dx2 dx3 = -4π dm. So ponderable matter acts as a sink of the ether flow, with sink strength 4π times the mass, while the ether elsewhere is incompressible.\n  - (3) r u_i → 0 as r → ∞.\n- The next page proves the converse. By (1), u has a potential U (implicitly on a simply connected region). Then (2), (3) and the uniqueness theorem for the Poisson/Neumann problem give U = V + const.",
+  "errors": [
+   "No mathematical errors. Minor implicit points: (i) curl u = 0 implies u = grad U only on simply connected regions; this is tacit and handled on the next page. (ii) The shorthand ∂V/∂x = u stands for the three component equations. (iii) The sign of condition (2) means div u < 0 at matter, i.e. sinks. This is consistent with the convention V = Σ m/r and attractive force grad V.",
+   "Physically, a constant-density ether with sinks at matter requires the ether to be absorbed or annihilated there. Riemann's later text interprets this, but it is an unstated hypothesis on this page."
+  ],
+  "results": [
+   {
+    "what": "Gravitational potential characterised by Poisson's equation ΔV = -4πρ (zero outside masses) plus decay at infinity, determining V up to a constant",
+    "modern_name": "Poisson equation / exterior Dirichlet-Neumann uniqueness for the Newtonian potential",
+    "usually_credited_to": "Laplace (1782), Poisson (1813), Gauss (1839/40), Green (1828)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Equivalence of u = grad V with the conditions curl u = 0, div u = -4πρ, r u → 0 at infinity",
+    "modern_name": "Helmholtz-type characterisation of an irrotational field by its divergence and decay",
+    "usually_credited_to": "Stokes / Helmholtz (1858)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Hypothesis that the gravitational field is the velocity field of an incompressible ether flowing into ponderable matter (matter as sinks), superposed on the optical ether motion w",
+    "modern_name": "Ether-sink (fluid-flow) model of gravitation",
+    "usually_credited_to": "Riemann (posthumous fragment 'Gravitation und Licht', Werke 1876); related ideas in Euler, later Bjerknes, Challis",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This text is the known fragment 'Gravitation und Licht', published in Riemann's Gesammelte Werke (Dedekind/Weber). It includes the Newton-Bentley quotation and the ether-sink hypothesis for gravity. The mathematics is standard potential theory.",
+  "checkable": [
+   {
+    "sympy": "x1,x2,x3=symbols('x1 x2 x3',real=True); r=sqrt(x1**2+x2**2+x3**2); V=1/r; simplify(diff(V,x1,2)+diff(V,x2,2)+diff(V,x3,2))",
+    "asserts": "The potential of a point mass is harmonic away from the mass (result 0)."
+   },
+   {
+    "sympy": "u=[diff(V,x) for x in (x1,x2,x3)]; [simplify(diff(u[1],x3)-diff(u[2],x2)), simplify(diff(u[2],x1)-diff(u[0],x3)), simplify(diff(u[0],x2)-diff(u[1],x1))]",
+    "asserts": "Condition (1): u = grad V is curl-free (all components 0)."
+   },
+   {
+    "sympy": "R,th,ph=symbols('R theta phi',positive=True); integrate(integrate(-1/R**2*R**2*sin(th),(th,0,pi)),(ph,0,2*pi))",
+    "asserts": "The flux of grad(1/r) through a sphere is -4π, so div u = -4π dm for a unit point mass (condition 2)."
+   },
+   {
+    "sympy": "limit(r*diff(V,x1).subs({x2:0,x3:0}),x1,oo)",
+    "asserts": "Condition (3): r·u_i → 0 at infinity for a bounded mass distribution (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 likely reads 'Diese Erklärungsweise' (or '-versuche') with a struck word. The noun-verb agreement 'verdankt' suggests a singular subject such as 'Erklärungsweise'.",
+   "The marginal note beside the footnote reads 'Note unter dem Text', not 'Notiz[?] unter dem Text[?]'.",
+   "In condition 1.), 'absolute Grösse der Anziehungskraft[?]' plausibly refers to the mass ('Masse') ascribed by the attraction theory, since it is denoted dm. Check the image.",
+   "'(abgesehen von einer hinzuzufügenden Constanten)' appears correct.",
+   "'8A' is an archival folio stamp, not part of the text."
+  ]
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c042",
+ "label": "21r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000043/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is from Riemann's student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (dated January 1847, printed posthumously in the Werke, 1876). The previous page argued that a series of 'form (2)' has a definite value even when it does not converge. Here Riemann gives an example: he expands x^mu in a two-sided series of non-integer powers of (x-b).\n\n(1) Ansatz. Put z = sum_{alpha} c_alpha (x-b)^alpha. The index alpha runs over alpha_0 + Z, infinite in both directions, with alpha_0 not necessarily an integer.\n\n(2) Differential equation. If z = x^mu, then z' = mu x^{mu-1}, so mu z - x z' = 0.\n\n(3) Coefficient condition. My step: write x = (x-b) + b. Then x z' = sum[alpha c_alpha + b(alpha+1) c_{alpha+1}](x-b)^alpha. Hence mu z - x z' = sum[(mu-alpha) c_alpha - b(alpha+1) c_{alpha+1}](x-b)^alpha. This vanishes if (mu-alpha) c_alpha = b(alpha+1) c_{alpha+1} for every alpha.\n\n(4) Identification argument. Every solution of mu z - x z' = 0 has the form K x^mu. So a series obeying the recurrence must equal K x^mu for some K, and the task is to find K. My remark: the recurrence is solved by c_alpha = C · b^{mu-alpha} / (Gamma(alpha+1) Gamma(mu-alpha+1)), a generalized binomial coefficient.\n\n(5) Splitting the series. Cut it at index alpha: p = ... + c_{alpha-1}(x-b)^{alpha-1} + c_alpha (x-b)^alpha (the lower tail) and p' = c_{alpha+1}(x-b)^{alpha+1} + ... (the upper tail). Then p + p' = K x^mu. By telescoping (my verification):\n- mu p - x p_x = (mu-alpha) c_alpha (x-b)^alpha =: X;\n- mu p' - x p'_x = -b(alpha+1) c_{alpha+1} (x-b)^alpha = -X, using the recurrence.\n\n(6) Integrating. Since d/dx(p x^{-mu}) = -x^{-mu-1}(mu p - x p_x), we get:\n- p x^{-mu} = -∫ X x^{-mu-1} dx + K1;\n- p' x^{-mu} = ∫ X x^{-mu-1} dx + K2.\nThe right-hand sides are the tails multiplied termwise by x^{-mu}.\n\n(7) Substitution x = b/y, dx = -b y^{-2} dy, assuming b > 0 and 0 < y < 1 so that (b/y - b)^alpha = b^alpha y^{-alpha}(1-y)^alpha. This gives:\n- p x^{-mu} = (mu-alpha) c_alpha b^{alpha-mu} ∫ y^{mu-alpha-1}(1-y)^alpha dy + K1 = c_alpha b^{alpha-mu}(1-y)^alpha y^{mu-alpha} + c_{alpha-1} b^{alpha-1-mu}(1-y)^{alpha-1} y^{mu-alpha+1} + ...;\n- p' x^{-mu} = -(mu-alpha) c_alpha b^{alpha-mu} ∫ (same) dy + K2 = c_{alpha+1} b^{alpha+1-mu}(1-y)^{alpha+1} y^{mu-alpha-1} + ....\n\nPurpose (completed on the next page): for mu > alpha > -1, take the integrals from 0 to y and from y to 1 respectively. The constants then drop out. Adding gives K = c_alpha (mu-alpha) b^{alpha-mu} B(mu-alpha, alpha+1) = c_alpha b^{alpha-mu} Gamma(alpha+1) Gamma(mu-alpha+1)/Gamma(mu+1). This is exactly the generalized binomial expansion x^mu = sum_alpha Gamma(mu+1)/(Gamma(alpha+1) Gamma(mu-alpha+1)) b^{mu-alpha}(x-b)^alpha. The incomplete beta integrals are the tool that assigns values to the possibly divergent tails.",
+  "errors": [
+   "No algebraic errors found; every displayed identity checks.",
+   "The step 'every solution of mu z - x z' = 0 is K x^mu, so the series equals one of them' assumes the formal series defines a differentiable function on which termwise differentiation is valid. A two-sided series in (x-b)^alpha generally does not converge (one tail or the other diverges), so this is justified only within Riemann's stated philosophy of assigning values to divergent series.",
+   "The substitution (b/y - b)^alpha = b^alpha y^{-alpha} (1-y)^alpha silently fixes branches; it requires b > 0 and 0 < y < 1, or a choice of branch.",
+   "Minor: the right-hand series for p x^{-mu} is written with alpha-terms first, descending, which matches p as defined; this is fine but the ellipses hide the bilateral infinitude."
+  ],
+  "results": [
+   {
+    "what": "Two-sided expansion of x^mu in powers (x-b)^alpha, alpha in alpha_0 + Z, via the ODE mu z = x z' and the recurrence (mu-alpha) c_alpha = b(alpha+1) c_{alpha+1}",
+    "modern_name": "Generalized (bilateral, non-integer-index) binomial series; related to the Riemann–Liouville / Grünwald–Letnikov treatment of fractional derivatives of powers",
+    "usually_credited_to": "Binomial series: Newton, Euler, Abel (rigor 1826). Bilateral fractional-index binomial expansions: associated with Riemann's 1847 essay (published 1876) and later fractional calculus (e.g. Osler 1970s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Summing the divergent tails of the series by writing each tail as an incomplete beta integral after the substitution x = b/y",
+    "modern_name": "Incomplete beta function representation of binomial tails; Euler beta integral B(mu-alpha, alpha+1)",
+    "usually_credited_to": "Euler (beta integral); this application is in Riemann's published essay",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of Riemann's 1847 student essay on generalized integration and differentiation, which was published in his Gesammelte Werke (1876). The expansion and the beta-integral argument are known as his. The mathematics itself is a routine ODE/recurrence plus beta-integral manipulation, embedded in a non-rigorous philosophy of divergent series.",
+  "checkable": [
+   {
+    "sympy": "mu,a,b,x=symbols('mu alpha b x',positive=True); c=lambda k: b**(mu-k)/(gamma(k+1)*gamma(mu-k+1)); simplify(gammasimp((mu-a)*c(a)-b*(a+1)*c(a+1)))",
+    "asserts": "c_alpha = b^(mu-alpha)/(Gamma(alpha+1)Gamma(mu-alpha+1)) satisfies (mu-alpha)c_alpha - b(alpha+1)c_{alpha+1} = 0 (should simplify to 0)"
+   },
+   {
+    "sympy": "mu,a,b,x=symbols('mu alpha b x',positive=True); simplify(expand(mu*(x-b)**a - x*diff((x-b)**a,x) - ((mu-a)*(x-b)**a - b*a*(x-b)**(a-1))))",
+    "asserts": "Termwise identity mu t - x t' = (mu-alpha)(x-b)^alpha - b alpha (x-b)^(alpha-1) for t=(x-b)^alpha, which underlies the coefficient condition (equals 0)"
+   },
+   {
+    "sympy": "mu,b,x=symbols('mu b x',positive=True); p=Function('p'); simplify(diff(p(x)*x**(-mu),x) + x**(-mu-1)*(mu*p(x)-x*diff(p(x),x)))",
+    "asserts": "d/dx(p x^-mu) = -x^(-mu-1)(mu p - x p'), giving p x^-mu = -∫X x^(-mu-1)dx + K1 (equals 0)"
+   },
+   {
+    "sympy": "mu,a,b,y=symbols('mu alpha b y',positive=True); x=b/y; simplify(((x-b)**a*x**(-mu-1)*diff(x,y)).subs(y,Rational(1,3)) - (-(b**(a-mu))*y**(mu-a-1)*(1-y)**a).subs(y,Rational(1,3)))",
+    "asserts": "Under x=b/y, (x-b)^alpha x^(-mu-1) dx = -b^(alpha-mu) y^(mu-alpha-1)(1-y)^alpha dy (checked at y=1/3; equals 0)"
+   },
+   {
+    "sympy": "mu,a,b,y=symbols('mu alpha b y',positive=True); simplify(((b/y-b)**a*(b/y)**(-mu)).subs(y,Rational(1,4)) - (b**(a-mu)*(1-y)**a*y**(mu-a)).subs(y,Rational(1,4)))",
+    "asserts": "c_alpha (x-b)^alpha x^-mu = c_alpha b^(alpha-mu)(1-y)^alpha y^(mu-alpha) under x=b/y (equals 0)"
+   },
+   {
+    "sympy": "mu,a=symbols('mu alpha',positive=True); simplify(gammasimp((mu-a)*beta(mu-a,a+1) - gamma(a+1)*gamma(mu-a+1)/gamma(mu+1)))",
+    "asserts": "(mu-alpha)·B(mu-alpha, alpha+1) = Gamma(alpha+1)Gamma(mu-alpha+1)/Gamma(mu+1), the constant obtained on the next page (equals 0)"
+   },
+   {
+    "sympy": "y=symbols('y'); mu,a=Rational(5,2),Rational(1,2); simplify(diff(-(1-y)**a*y**(mu-a) - (1-y)**(a-1)*y**(mu-a+1)*(mu-a+1)/(a)*0, y))",
+    "asserts": "Placeholder sanity check of the pattern; a better test is to verify numerically that sum_k Gamma(mu+1)/(Gamma(alpha0+k+1)Gamma(mu-alpha0-k+1)) b^(mu-alpha0-k)(x-b)^(alpha0+k) reproduces x^mu when alpha0 is an integer (ordinary binomial series)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 of the equation block: the struck-out words after '=0;' read '[-das Gesetz-]' (deleted), followed by 'es'; the transcription has this correctly.",
+   "In the handwriting the exponent written like 'b^μ' / 'x^{-b}' is x^{-μ} (Riemann's μ resembles a b). This page's transcription correctly renders x^{-μ}; the next page's 'φx^{-b} und φ'x^{-b}' should read 'p x^{-μ} und p' x^{-μ}'.",
+   "In the first substituted line the trailing series should be followed by an ellipsis '+ ......', which is visible in the image after y^{μ-α+1}."
+  ]
+ }
+}

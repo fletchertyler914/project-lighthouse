@@ -1,0 +1,58 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c361",
+ "label": "181v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000362/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: lecture notes on Gauss's bifilar magnetometer, specifically Gauss's procedure for determining its instrumental constants (continued from fol. 181r). The previous page set up the following.\n(a) The static torque of the bifilar suspension. Wire length h, wire separations f (top) and g (bottom), suspended weight G. A twist by angle phi raises the weight by eps = f*g/(4h)*(1-cos phi). The restoring torque is therefore G*d(eps)/d(phi) = D*sin(phi), with D = f*g*G/(4h).\n(b) Equilibrium of the magnet, with angles A, P, p, B, Q as read on the circle, alhidades and scale: D*sin(A-P-p) + D*R*sin(A-P-p-B+Q) = 0. Here R = T*M/D is the ratio of the magnetic directive force (T = horizontal intensity, M = magnetic moment) to the bifilar one.\n(c) Total directive force: D*(cos(A-P-p) + R*cos(A-P-p-B+Q)). With S = pi^2*K/D (K = moment of inertia) and t = single-swing time, this gives S/t^2 = cos(...) + R*cos(...). In the two special positions, magnet parallel or antiparallel to the bifilar direction, this becomes S/t'^2 = 1+R and S/t''^2 = 1-R. Riemann also writes the complex form S/t^2 = e^{i(A-P-p)} + R*e^{i(...)}, i.e. 1 = x - y with x = (t^2/S)e^{iP}, y = R*e^{iQ}.\n\nThis page is an outline of how those relations are used.\nLeft column: the influences have to be compared via the two ratios of static (bifilar) and magnetic action. What is observed is not the force directly but, through S = pi^2*K/D, the (reciprocal) square of the oscillation period. The crossed-out 'B' is replaced by 'statisches Drehungsmoment', i.e. D = fgG/(4h). The two equations then involve oscillation period and position (or damping). Next comes Gauss's device: the magnet bar is replaced by an unmagnetic bar of the same weight. This leaves G, and hence D, unchanged while removing the magnetic term (R = 0). It isolates the purely bifilar equilibrium, which fixes the zero P.\nRight column ('5.' marks a section): 'Erst P bestimmt': first determine P from the unmagnetic-bar position, P = A - p. 'Dann Q': then determine Q by turning the magnet's carrier ('verstellt u. dreht'?). Finally t', t'' are the periods in the two positions.\n\nImplied solution (mine): R = (t''^2 - t'^2)/(t''^2 + t'^2) and S = 2t'^2 t''^2/(t'^2 + t''^2), which gives D and T*M = D*R.",
+  "errors": [
+   "No mathematical errors are visible on this page; it is only an outline.",
+   "From the previous page, the bifilar formulas check out: height change fg(1-cos phi)/(4h) for small wire tilt, and torque D sin phi with D = fgG/(4h).",
+   "The relations S/t'^2 = 1+R and S/t''^2 = 1-R are correct under Gauss's single-swing convention t = pi*sqrt(K/D_eff)."
+  ],
+  "results": [
+   {
+    "what": "Determination of bifilar magnetometer constants: zero point P from an unmagnetic substitute bar of equal weight, then Q, then R and S from periods in two opposite positions",
+    "modern_name": "Calibration of Gauss's bifilar magnetometer (ratio of magnetic to torsional/bifilar directive force)",
+    "usually_credited_to": "C. F. Gauss (Resultate aus den Beobachtungen des magnetischen Vereins, 1837-1838)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Static torque of bifilar suspension D = fgG/(4h) from potential energy G*eps, eps = fg(1-cos phi)/(4h)",
+    "modern_name": "Bifilar suspension restoring torque",
+    "usually_credited_to": "Gauss (bifilar magnetometer, 1837); bifilar suspension earlier (Snow Harris)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are lecture notes expounding Gauss's published procedure for the bifilar magnetometer. The content is routine experimental physics with no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "f,g,h,phi=symbols('f g h phi',positive=True); simplify(((f**2+g**2-2*f*g*cos(phi))/4 - (f-g)**2/4)/(2*h) - f*g*(1-cos(phi))/(4*h))",
+    "asserts": "Small-tilt height rise of a bifilar suspension equals fg(1-cos phi)/(4h); the expression should simplify to 0."
+   },
+   {
+    "sympy": "G=symbols('G'); diff(G*f*g*(1-cos(phi))/(4*h),phi) - f*g*G/(4*h)*sin(phi)",
+    "asserts": "The torque is D sin phi with D = fgG/(4h); the expression should be 0."
+   },
+   {
+    "sympy": "S,R,t1,t2=symbols('S R t1 t2',positive=True); solve([S/t1**2-(1+R), S/t2**2-(1-R)],[S,R])",
+    "asserts": "Gives R = (t2^2 - t1^2)/(t1^2 + t2^2) and S = 2 t1^2 t2^2/(t1^2 + t2^2)."
+   },
+   {
+    "sympy": "K,D=symbols('K D',positive=True); simplify((pi**2*K/D)/(pi*sqrt(K/(D*(1+R))))**2 - (1+R))",
+    "asserts": "With single-swing time t = pi*sqrt(K/D_eff) and S = pi^2 K/D, S/t^2 = 1+R; the expression should be 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Right column first line likely reads 'Erst P bestimmt.' rather than 'Erst Elasticität'; it is followed by P = A - p.",
+   "'Dann Q. verhalten u. dämpfen' is probably 'Dann Q. verstellt u. dreht' (or similar); 'dämpfen' is doubtful.",
+   "Left: the last sentence is likely 'Es wird nun ersetzt der Magnetstab mit einem [struck: Messingstab?] unmagnetischen von gleichem Gewicht'. This matches the previous page's 'durch einen unmagnetischen Stab ersetzt'.",
+   "Left lines 2-5 likely concern 'die statische u. magnetische Directionskraft … nicht unmittelbar … sondern das umgekehrte Quadrat … Quadrat der Schwingungsdauer'.",
+   "'Schwingungsdauer u. Dämpfung' may instead be 'Schwingungsdauer u. Stand bestimmt'; the reading is uncertain."
+  ]
+ }
+}

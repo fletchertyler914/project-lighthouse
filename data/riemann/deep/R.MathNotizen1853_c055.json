@@ -1,0 +1,64 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c055",
+ "label": "27v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000056/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context from the previous page: a point p lies at distance x from a plane carrying an agent (mass or electricity) of surface density rho. Use polar coordinates about the foot P0 of the perpendicular from p. A plane point at polar angle theta has radius x*tan(phi), where phi is the angle between the line to p and the x-axis (the normal).\n\n- Area element: dA = x tan(phi) dtheta * x d(tan phi) = x^2 tan(phi) sec^2(phi) dphi dtheta.\n- Distance: |Pp| = x sec(phi).\n- Inverse-square force of the element on p: rho dA/(x^2 sec^2 phi) = rho tan(phi) sec^2(phi) dphi dtheta / sec^2(phi) = rho tan(phi) dphi dtheta.\n- Normal (x-)component: multiply by cos(phi), giving rho sin(phi) dphi dtheta. This is rho times the element of solid angle, i.e. the central projection of dA onto the unit sphere about p.\n\nThis page (reading order: previous page 'Hat nun rho einen constanten Werth,' then right column 'und fuehrt man die Integration fuer die bestimmt', then the left-column fragment 'begrenzte Figur aus', then 'so sieht man leicht ...'):\n\n(1) For constant rho, integrate over a definitely bounded plane figure S. Then F_x(p) = rho * Omega_S(p), where Omega_S(p) is the solid angle S subtends at p. Hence F_x takes the same value whenever the figure projects onto the unit sphere about p with equal area.\n\n(2) Consequently, if one knows the locus of points from which S covers an equally large piece of the celestial sphere (Himmelskugel), one knows the surfaces on which the normal force component is constant. In modern terms, the level sets of F_x are the level sets of Omega.\n\n(3) Riemann says that in the present special case (circular plate) this theorem can be used twice.\n\nFirst use: take the agent uniformly spread on a disc of radius R. The level surfaces of Omega are then the level surfaces of a harmonic function, namely F_x = -dV_unif/dx. In modern terms, Omega is also the potential of a uniform double layer (magnetic shell) on the disc. These surfaces are therefore the 'Niveauflaechen fuer das erste System'.\n\nEach such surface (for 0 < Omega < 2pi on one side) is bounded by the rim and crosses the axis once. On the axis the value is known in closed form [my addition]: Omega = 2pi(1 - x/sqrt(x^2+R^2)). Hence the potential is known in all of space once the family of surfaces is known. This settles 'the first part of our problem'. The second use is not stated here; the next page treats the conducting disc with density R/sqrt(R^2-r^2).\n\n(4) Riemann then states the auxiliary geometric problem: find the locus of points from which a circle always appears equally large (constant solid angle). He remarks that it has surely been treated somewhere, but that he knows no solution, and announces an attempt of his own. No solution appears on this page. [My note: the solid angle of a circle is in general expressible only through complete elliptic integrals, so these surfaces are not elementary.]",
+  "errors": [
+   "No mathematical errors on this page. The argument is qualitative and correct: F_x = rho*Omega for a uniform plane lamina, so iso-F_x surfaces equal iso-solid-angle surfaces.",
+   "Implicit but valid step: knowing the potential on the axis determines it everywhere. This needs every level surface to meet the axis, which holds for the circle (each surface Omega = c, 0 < c < 2pi, spans the rim and crosses the axis once). Riemann does not state this.",
+   "Signs are suppressed ('wenn man vom Zeichen absieht' on the previous page). Omega jumps by 4pi across the disc; this is not discussed."
+  ],
+  "results": [
+   {
+    "what": "The normal component of the attraction of a uniform plane lamina at a point equals the density times the solid angle the lamina subtends there (via sin(phi) dphi dtheta as the projection onto the unit sphere).",
+    "modern_name": "Solid-angle formula for the normal field of a uniform plane sheet / potential of a uniform double layer (magnetic shell)",
+    "usually_credited_to": "Gauss (Allgemeine Lehrsaetze 1839-40; earlier attraction work), Ampere/Green for the magnetic-shell solid-angle potential",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The level surfaces of the normal force (equivalently of the double-layer potential) of a uniform disc are the loci of constant apparent size (solid angle) of the circle. Together with the known axial values, this gives the potential everywhere.",
+    "modern_name": "Equipotentials of a circular magnetic shell / circular current loop as constant-solid-angle surfaces",
+    "usually_credited_to": "Ampere, Gauss, Weber; elliptic-integral form of the solid angle of a circle (19th-century classical, e.g. Maxwell's Treatise 1873 for the current-loop field)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Posing the locus problem of points from which a circle subtends constant solid angle, with an announced attempt at a solution.",
+    "modern_name": "Solid angle subtended by a circular disc (complete elliptic integrals)",
+    "usually_credited_to": "classical; elliptic-integral expressions (Legendre-type third-kind integrals) are 19th-century folklore",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Standard potential theory (Gauss-era solid-angle argument) applied to the charged-disc problem. Interesting as evidence of an early Riemann exercise on disc electrostatics, but nothing non-standard is derived on this page.",
+  "checkable": [
+   {
+    "sympy": "simplify((x*tan(phi))*x*diff(tan(phi),phi) / (x/cos(phi))**2 * cos(phi) - sin(phi))",
+    "asserts": "Area element over squared distance times cos(phi) equals sin(phi): the normal force element is rho*sin(phi)*dphi*dtheta (result 0)."
+   },
+   {
+    "sympy": "simplify(integrate(integrate(sin(phi),(phi,0,atan(R/x))),(theta,0,2*pi)) - 2*pi*(1 - x/sqrt(x**2+R**2)))",
+    "asserts": "Solid angle of a disc of radius R on its axis at distance x>0 is 2*pi*(1 - x/sqrt(x^2+R^2)) (result 0, assuming x,R>0)."
+   },
+   {
+    "sympy": "simplify(-diff(2*pi*(sqrt(x**2+R**2)-x),x) - 2*pi*(1 - x/sqrt(x**2+R**2)))",
+    "asserts": "On the axis, the normal force of the uniform disc (rho=1), minus the x-derivative of its axial potential 2*pi*(sqrt(x^2+R^2)-x), equals the solid angle (result 0)."
+   },
+   {
+    "sympy": "simplify(diff(atan2(y,x),x,2)+diff(atan2(y,x),y,2))",
+    "asserts": "Sanity check of harmonicity of an angle function (2D analogue of the solid angle as a harmonic double-layer potential) (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Reading order: the left-column fragment 'begrenzte Figur aus ——' belongs between 'fuer die bestimmt' and 'so sieht man leicht'. The sentence reads: '... und fuehrt man die Integration fuer die bestimmt begrenzte Figur aus, so sieht man leicht, dass die in die x Axe fallende Componente der Kraft immer denselben Werth erhaelt, so oft sich diese Figur gleich gross auf die Kugel projicirt.'",
+   "Corrected phrase: 'die betreffende Figur einem dort befindlichen Auge ein gleich grosses Stueck der Himmelskugel verdeckt'. The insertion 'dort befindlichen' goes before 'Auge'. 'einem' appears struck in the transcription but grammatically belongs in the final reading; the deleted word is 'das' after 'Auge'.",
+   "'auf einer Kreisflaeche' is written over an earlier ending ('einem' corrected to 'einer').",
+   "'Werth erhaelt' carries an overwritten/struck fragment; the reading 'erhaelt' is correct."
+  ]
+ }
+}

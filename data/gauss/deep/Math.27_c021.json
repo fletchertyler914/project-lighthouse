@@ -1,0 +1,66 @@
+{
+ "bundle": "Math.27",
+ "page": "c021",
+ "label": "11v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381841:00000022/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page continues the table begun on the previous page, whose heading reads 'Media Arithmetico-Geometrica inter unitatem et sinus singulorum semigraduum' ('arithmetic-geometric means between unity and the sines of the individual half-degrees').\n\nThe argument n (91 to 180) counts half-degrees, so the angle is theta = n/2 degrees, running from 45.5 to 90 degrees. Each row gives two values.\n\n(i) The arithmetic-geometric mean M(1, sin theta), to 7 decimals. It is computed by iterating a_{k+1} = (a_k + b_k)/2 and b_{k+1} = sqrt(a_k b_k), starting from a_0 = 1 and b_0 = sin theta.\n\n(ii) Its Briggsian logarithm with the conventional characteristic +10, i.e. log10 M + 10.\n\nThe table ends at n = 180: sin 90 deg = 1, so M = 1 and the log is 10.0000000.\n\nPurpose (my interpretation, consistent with the next page on AGM, theta series and the formula lambda = pi*mu/log(1/x)). Gauss's 1799 theorem gives K(k) = pi / (2 M(1, k')), where K is the complete elliptic integral of the first kind. Setting k' = sin theta means the table yields K for modulus k = cos theta: K(cos theta) = pi / (2 M(1, sin theta)). The logarithm column makes it directly usable with log arithmetic, e.g. x = exp(-pi mu/lambda) on the following page. The previous page's entry 90, M(1, 1/sqrt2) = 0.8472131, is Gauss's lemniscatic constant, since M(1, sqrt2) = 1.1981402.\n\nSpot checks (mine):\n- n = 120: sin 60 = 0.8660254. Then a1 = 0.9330127, b1 = 0.9306049; a2 = 0.9318088, b2 = 0.9318080. So M = 0.9318084, as tabulated. log10 = -0.0306734, giving 9.9693266, as tabulated.\n- n = 91: log10(0.8505727) + 10 = 9.9297114. Correct.\n- n = 135: M(1, 0.9238795) = 0.9615631. Correct.\n- n = 172: sin 86 = 0.99756405. Then a1 = 0.99878203, b1 = 0.99878128, so M = 0.9987817. Correct; the marginal '(17)' clarifies the overwritten last digits.\n- n = 175: M = 0.9995241 and log = 9.99979325. The marginal '.501' appears to be extra digits of the log (9.9997932|501), consistent with my value.\n- n = 179: M = 0.9999810 and log = 9.9999917. Correct.\n\nThe differences decrease smoothly toward n = 180, as expected for a function with zero derivative at theta = 90 deg. Several overwritten final digits (103, 104, 108, 110, 118, 125, 135, 156, 160, 168-172, 178) are evidently corrections made after checking by differences. The '#' at 125 is a check mark.",
+  "errors": [
+   "No errors found in spot checks (n = 91, 94, 120, 135, 172, 174, 175, 179, 180); entries agree with modern computation to within one unit in the 7th decimal.",
+   "n = 174: the true value is 0.99931465 (a borderline rounding case); the tabulated 0.9993147 is acceptable."
+  ],
+  "results": [
+   {
+    "what": "Table of the arithmetic-geometric mean M(1, sin theta) and log10 M + 10 for theta = 45.5 to 90 degrees in half-degree steps (second half of the table)",
+    "modern_name": "AGM tabulation, equivalent to a table of complete elliptic integrals of the first kind K(k) = pi/(2 M(1, k')) with k' = sin theta",
+    "usually_credited_to": "AGM and its link to elliptic integrals: Gauss (1799; published 1818 'Determinatio attractionis'); Lagrange and Legendre for the related Landen-type transformation. Tables of K: Legendre (Traité des fonctions elliptiques, 1825-28)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The AGM and its relation to elliptic integrals are famously Gauss's. A numerical AGM table between 1 and sin theta is routine computational material consistent with his known Nachlass on the AGM (Werke III). It is an interesting artefact of his computing practice, but not a new result.",
+  "checkable": [
+   {
+    "sympy": "mpmath.agm(1, mpmath.sin(mpmath.radians(60)))  # ~ 0.9318084",
+    "asserts": "Entry 120: M(1, sin 60 deg) = 0.9318084"
+   },
+   {
+    "sympy": "mpmath.log10(mpmath.agm(1, mpmath.sin(mpmath.radians(60)))) + 10  # ~ 9.9693266",
+    "asserts": "Entry 120 log column"
+   },
+   {
+    "sympy": "mpmath.agm(1, mpmath.sin(mpmath.radians(45.5)))  # ~ 0.8505727",
+    "asserts": "Entry 91"
+   },
+   {
+    "sympy": "mpmath.agm(1, mpmath.sin(mpmath.radians(67.5)))  # ~ 0.9615631",
+    "asserts": "Entry 135"
+   },
+   {
+    "sympy": "mpmath.agm(1, mpmath.sin(mpmath.radians(86)))  # ~ 0.9987817",
+    "asserts": "Entry 172 (overwritten digits)"
+   },
+   {
+    "sympy": "mpmath.log10(mpmath.agm(1, mpmath.sin(mpmath.radians(87.5)))) + 10  # ~ 9.99979325",
+    "asserts": "Entry 175 log, including the marginal extra digits .501"
+   },
+   {
+    "sympy": "[ (n, round(float(mpmath.agm(1, mpmath.sin(mpmath.radians(n/2.0)))), 7)) for n in range(91, 181) ]",
+    "asserts": "The whole second column of the page"
+   },
+   {
+    "sympy": "mpmath.ellipk(mpmath.cos(mpmath.radians(60))**2) - mpmath.pi/(2*mpmath.agm(1, mpmath.sin(mpmath.radians(60))))  # ~ 0",
+    "asserts": "Interpretation: K(k = cos theta) = pi/(2 M(1, sin theta)) (mpmath ellipk takes the parameter m = k^2)"
+   }
+  ],
+  "transcription_corrections": [
+   "Entry 94: the log digits are written ambiguously (a 3 resembling a 7); the correct and intended value is 9,9347138, as transcribed.",
+   "Entry 125: the '.174' after 9,9743545 is probably supplementary digits of the logarithm, not a separate entry; '#' is a check mark.",
+   "Entry 175: '.501' after 9,9997932 is probably extra digits (log = 9.99979325...).",
+   "Entry 172: 0,9987817 is confirmed by computation; '(17)' restates the overwritten final digits.",
+   "Header: the red '82' is a later archival foliation number."
+  ]
+ }
+}

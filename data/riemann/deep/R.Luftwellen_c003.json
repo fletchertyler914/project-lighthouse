@@ -1,0 +1,80 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c003",
+ "label": "1v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000004/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: these are lecture-style notes, probably notes on practical astronomy, on the corrections of a meridian (transit) instrument. They continue the previous page. Notation: delta = declination, p = 90deg - delta = polar distance, phi = latitude, c = collimation error, i = inclination of the axis, a = azimuth error.\n\nThe previous page set out three forms of the transit-time correction:\n- Tobias Mayer: tau = c/cos(delta) + i*cos(phi-delta)/cos(delta) + a*sin(phi-delta)/cos(delta).\n- Hansen/Bessel: tau = m + n*tan(delta) + c*sec(delta). Expanding Mayer's form gives m = i*cos(phi) + a*sin(phi) and n = i*sin(phi) - a*cos(phi). The sign of the a-terms depends on the azimuth convention.\n- Gauss: tau = m + C*cot(p/2) + I*tan(p/2). This uses sec(delta) = 1/sin p = (cot(p/2)+tan(p/2))/2 and tan(delta) = cot p = (cot(p/2)-tan(p/2))/2. Hence C = (c+n)/2, I = (c-n)/2 and C+I = c. The previous page writes C=(c-n)/2, which is an assignment or sign slip.\n\n(1) Collimation (C) from Polaris at successive upper and lower culminations.\n- At lower culmination the star crosses the meridian beyond the pole. In the formulas this is delta -> 180deg - delta, i.e. p -> -p, so sec(delta) and tan(delta) change sign. Equivalently cot(p/2) -> -cot(p/2) and tan(p/2) -> -tan(p/2).\n- Upper-transit correction: m + C*cot(p/2) + I*tan(p/2). Lower-transit correction: m - C*cot(p/2) - I*tan(p/2).\n- So, after allowing for the clock rate and the star's change of apparent place, the interval between the two transits differs from 12 sidereal hours by 2*C*cot(p/2) + 2*I*tan(p/2) = 2(c sec delta + n tan delta).\n- For Polaris p is about 1.5deg. Then cot(p/2) is about 76 and tan(p/2) about 0.013, so the deviation is essentially 2*C*cot(p/2). This is what the page records (written as 2C cotg p/2; the I-term is dropped as negligible).\n\n(2) The parenthesis expresses C through the setting-up (Aufstellung) errors m, n. It also inverts m, n back to the inclination: i = m*cos(phi) + n*sin(phi) with the convention above. The manuscript has 'm cos phi - n sin phi = i', which corresponds to the opposite sign convention for n/a.\n\n(3) Alternative: observe upper and lower culmination of Polaris in both positions of the instrument (before and after reversal).\n- Reversal changes c -> -c and leaves n unchanged. So C=(c+n)/2 -> (n-c)/2 = -I and I -> -C. This is the manuscript's 'C geht in -I über' (my reading).\n- Position 1 gives D1 = 2C*cot(p/2) + 2I*tan(p/2). Position 2 gives D2 = -2I*cot(p/2) - 2C*tan(p/2).\n- Solving these two linear equations gives C and I separately, hence c = C+I and n = C-I. This last step is mine, implicit in the text.\n\n(4) Practical remark: when determining the setting-up errors one must check that the pivots are truly cylindrical. This is done by levelling (striding level) in different positions/inclinations of the telescope, i.e. the inequality-of-pivots test.",
+  "errors": [
+   "Previous page: C=(c-n)/2 should be C=(c+n)/2 (with I=(c-n)/2) if C is the coefficient of cot(p/2) and the convention C+I=c is used. Possibly only a labeling slip.",
+   "The deviation from 12h is strictly 2C cot(p/2) + 2I tan(p/2). Writing only 2C cot(p/2) neglects the I-term, which is justified for Polaris (factor about 1/5800) but is an approximation.",
+   "The relation 'm cos phi - n sin phi = i' holds only with a particular sign convention for azimuth/n. With n = i sin phi - a cos phi the correct inversion is i = m cos phi + n sin phi. This is a sign-convention issue, not a substantive error."
+  ],
+  "results": [
+   {
+    "what": "Interval between upper and lower culmination of a circumpolar star differs from 12h by 2(c sec delta + n tan delta) = 2C cot(p/2) + 2I tan(p/2); for Polaris this gives the collimation-type constant C",
+    "modern_name": "Determination of instrumental constants of a transit circle from upper/lower culminations of a close circumpolar star",
+    "usually_credited_to": "Standard 19th-c. practical astronomy (Bessel, Gauss, Hansen; textbook in Brünnow, Chauvenet)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Gauss form m + C cot(p/2) + I tan(p/2) of the transit correction and the behaviour C -> -I under reversal of the instrument",
+    "modern_name": "Gauss's half-polar-distance form of the transit-instrument reduction formula",
+    "usually_credited_to": "C. F. Gauss (lectures/Göttingen practice), alongside Bessel/Hansen forms",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Checking pivot cylindricity by levelling in different telescope positions",
+    "modern_name": "Pivot inequality/irregularity test with the striding level",
+    "usually_credited_to": "Standard observatory practice (Bessel and others)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are routine lecture notes on meridian-instrument corrections, probably notes on Gauss-school practical astronomy. Nothing goes beyond standard 19th-century textbook material.",
+  "checkable": [
+   {
+    "sympy": "simplify(1/sin(p) - (cot(p/2)+tan(p/2))/2) == 0",
+    "asserts": "sec(delta)=1/sin p equals (cot(p/2)+tan(p/2))/2"
+   },
+   {
+    "sympy": "simplify(cot(p) - (cot(p/2)-tan(p/2))/2) == 0",
+    "asserts": "tan(delta)=cot p equals (cot(p/2)-tan(p/2))/2"
+   },
+   {
+    "sympy": "simplify(c/sin(p) + n*cot(p) - ((c+n)/2*cot(p/2) + (c-n)/2*tan(p/2))) == 0",
+    "asserts": "Gauss form with C=(c+n)/2, I=(c-n)/2"
+   },
+   {
+    "sympy": "simplify(i*cos(phi-d)/cos(d) + a*sin(phi-d)/cos(d) - ((i*cos(phi)+a*sin(phi)) + (i*sin(phi)-a*cos(phi))*tan(d))) == 0",
+    "asserts": "Mayer form equals Hansen/Bessel m + n tan(delta) with m=i cos phi + a sin phi, n=i sin phi - a cos phi"
+   },
+   {
+    "sympy": "simplify((i*cos(phi)+a*sin(phi))*cos(phi) + (i*sin(phi)-a*cos(phi))*sin(phi) - i) == 0",
+    "asserts": "Inversion i = m cos phi + n sin phi"
+   },
+   {
+    "sympy": "simplify((m + C*cot(p/2) + I*tan(p/2)) - (m + C*cot(-p/2) + I*tan(-p/2)) - (2*C*cot(p/2)+2*I*tan(p/2))) == 0",
+    "asserts": "Upper minus lower culmination correction (p -> -p) gives deviation 2C cot(p/2)+2I tan(p/2)"
+   },
+   {
+    "sympy": "simplify(((-c)+n)/2 + (c-n)/2) == 0",
+    "asserts": "Under reversal c->-c, C=(c+n)/2 becomes -I"
+   },
+   {
+    "sympy": "N(cot(rad(Rational(3,4)))/tan(rad(Rational(3,4))))",
+    "asserts": "For p about 1.5deg, cot(p/2)/tan(p/2) is about 5800, justifying neglect of the I-term"
+   }
+  ],
+  "transcription_corrections": [
+   "'= 2 C [-cot g-] tg[?] p/2': cotg is the correct and intended function (deviation is about 2C cot(p/2)); the cancellation reading is doubtful.",
+   "'m cos^2[?] phi - n sin phi = c[?]' likely reads 'm cos phi - n sin phi = i' (the inclination expressed through m, n).",
+   "'Können[?] 3 Sterne[?] auf ... bestimmt werden' likely reads 'C und I können auch bestimmt werden'.",
+   "'also geht C in -C über' likely reads 'also geht C in -I über', which is mathematically correct since c->-c maps (c+n)/2 to -(c-n)/2."
+  ]
+ }
+}

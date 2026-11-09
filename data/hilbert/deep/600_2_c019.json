@@ -1,0 +1,62 @@
+{
+ "bundle": "600_2",
+ "page": "c019",
+ "label": "[14]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000020/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has three separate notebook entries.\n\n(1) End of the calculus-of-variations entry begun on the previous page. Earlier Hilbert proves an auxiliary lemma. If f is uniformly approximated by rational functions R_n, and F(f)=0 forces the value 0 at x=0, then the R_n can be modified so that each is divisible by x^2. Hence f is divisible by x^2.\nHere he states the programme. Let y(x) minimize J[y] = ∫_a^b F(x, y, y') dx. The classical theory tacitly assumes y has higher derivatives y'', y''', .... To close this 'Lücke' (gap):\n- approximate y uniformly by rational functions (Weierstrass-type approximation);\n- the first variation gives ∫ (F_y η + F_{y'} η') dx = 0 for all admissible η;\n- integrate by parts to get ∫ (F_y − d/dx F_{y'}) η dx = 0 (my modern restatement of the step);\n- show the approximants make a certain differential expression (the Euler–Lagrange expression) vanish in the limit;\n- a generalization of the divisibility lemma would then transfer smoothness and differentiability to the limit function.\nNo computation is carried out. It is a research plan for a regularity theorem: an extremal of a regular problem has continuous higher derivatives.\n\n(2) Philosophical remark. Every mathematical theorem can be put positively as an existence statement of the form: to every system of numbers with property P one can assign (zuordnen) a system of numbers with property Q. The first system is the given or constant; the second is the sought, variable, arbitrary. The properties are themselves expressed by such assignments, 'and so the whole building rises'. In modern terms, every theorem is a ∀∃ statement (a Skolem-function or correspondence form), with properties defined recursively by the same kind of statement.\n\n(3) Research suggestion on Fermat's Last Theorem. To prove x^λ + y^λ = z^λ has no nontrivial solutions, study the function field defined by y^λ + x^λ + 1 = 0 (the affine Fermat curve, dehomogenized with z = −1, up to sign). The study should be number-theoretic in Kronecker's sense: build up its prime ideals, etc. (continued on the next page). He suggests first treating the case y^2 + 1 = 0. This is a call for the arithmetic of the algebraic function field of the Fermat curve, in the spirit of Kronecker and Dedekind–Weber. No derivation is given.",
+  "errors": [
+   "No computational errors; the page contains plans and remarks, not derivations.",
+   "The function field is written as 'y^λ + x^λ + 1' with '= 0' implicit. With z = −1 this corresponds to x^λ + y^λ = z^λ for odd λ.",
+   "The regularity programme is only sketched. The uniform-approximation plus integration-by-parts route does not by itself give higher derivatives without additional hypotheses, e.g. regularity F_{y'y'} ≠ 0. That condition is not stated here."
+  ],
+  "results": [
+   {
+    "what": "Programme to prove that a minimizing function of ∫F(x,y,y')dx has higher derivatives, via rational approximation and integration by parts (Euler–Lagrange expression vanishing)",
+    "modern_name": "Regularity of extremals (du Bois-Reymond lemma / Hilbert's differentiability theorem); precursor of Hilbert's 19th problem",
+    "usually_credited_to": "du Bois-Reymond (1879); Hilbert (differentiability theorem, c.1899–1900, cf. Bolza); 19th problem solved by Bernstein 1904, De Giorgi/Nash 1957",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Every theorem can be phrased as an existence/assignment statement (given system ↦ sought system), with properties defined by further assignments",
+    "modern_name": "∀∃ normal form / Skolem-function view of theorems; foundational structuralism",
+    "usually_credited_to": "Skolem (1920) for Skolem functions; Hilbert's later proof theory",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Attack Fermat's Last Theorem by studying the function field of x^λ + y^λ + 1 = 0 arithmetically (prime ideals, à la Kronecker)",
+    "modern_name": "Arithmetic of the Fermat curve / function-field methods",
+    "usually_credited_to": "Kronecker, Dedekind–Weber (1882) for arithmetic of function fields; Fermat-curve arithmetic geometry 20th century",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "These are early research notes (late 1880s notebook): plans, not results. The regularity programme matches Hilbert's known later work and the 19th/20th problems. The Fermat-curve function-field idea is an interesting but undeveloped suggestion in the Kronecker spirit. The existence-statement remark is a known flavour of Hilbert's thinking. Notable as documentation of early interests, not as new mathematics.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; x,e=symbols('x e'); y=Function('y'); eta=Function('eta'); F=lambda X,Y,Yp: Yp**2/2+Y**4; I=F(x,y(x)+e*eta(x),diff(y(x)+e*eta(x),x)); simplify(diff(I,e).subs(e,0)-(diff(y(x),x)*diff(eta(x),x)+4*y(x)**3*eta(x)))",
+    "asserts": "Example first variation of ∫(y'^2/2+y^4)dx is y'η'+4y^3η (equals 0), the integrand before partial integration"
+   },
+   {
+    "sympy": "from sympy.calculus.euler import euler_equations; from sympy import *; x=symbols('x'); y=Function('y'); euler_equations(diff(y(x),x)**2/2+y(x)**4, y(x), x)",
+    "asserts": "Euler-Lagrange expression F_y - d/dx F_{y'} = 4y^3 - y'' for the example Lagrangian (the 'Differentialausdruck' that vanishes)"
+   },
+   {
+    "sympy": "from sympy import *; X,Y,Z=symbols('X Y Z'); n=5; F=X**n+Y**n+Z**n; solve([diff(F,X),diff(F,Y),diff(F,Z)],[X,Y,Z],dict=True)",
+    "asserts": "Gradient of the projective Fermat curve vanishes only at (0,0,0), so the curve is smooth"
+   },
+   {
+    "sympy": "from sympy import *; n=symbols('n'); expand((n-1)*(n-2)/2).subs(n,3)",
+    "asserts": "Genus of the smooth plane Fermat curve of degree λ is (λ-1)(λ-2)/2; equals 1 for λ=3, 0 for λ=2"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 4: the image appears to read 'positio' but is clearly 'positiv' (v resembling o); the machine reading 'positiv' is correct.",
+   "'y^λ+x^λ+1': in the image the exponents look like λ (possibly '2' was intended in the first instance, but λ fits the Fermat context); '=0' is implicit."
+  ]
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c070",
+ "label": "35r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000071/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page studies the oblique circular cone K with apex at a field point p and base a circular plate (disc), and the 'image' (apparent size) of the plate seen from points of the plane. In particular it uses the line bisecting the angle between the two extreme 'radii vectores' in the plane of symmetry. On this page the author starts a method for finding approximately the part of a potential function V due to the 'second system' (a uniformly covered disc).\n\n(1) Method statement. The force is F = -grad V. If the direction of F is known at every point, the level surfaces V = const are known: they are the surfaces orthogonal to the field lines. If V is also known along one line crossing all level surfaces, each level surface inherits its value from the point where it meets that line. So V is determined everywhere. Hence 'our main attention is directed at the direction of the force.' [Implicit, mine: this presupposes that F is a gradient field, so that the orthogonal surfaces exist. That holds for a Newtonian or Coulomb field.]\n\n(2) Set-up. Take a circular disc with uniform surface density sigma of the 'acting agent' and seek the direction of its total force at the point p. Use spherical coordinates centred at p. The polar axis is the axis of the oblique cone K. phi is the polar angle from that axis and theta is the azimuth ('as above', referring to an earlier page).\n\n(3) Decomposition into sectors. The disc is cut by the half-planes theta = const, theta + d theta through the axis. These sectors all subtend the same opening d theta about the axis as seen from p. The planes through the axis meet the disc plane in chords through the point Q where the axis meets the disc, so the sectors are wedges with vertex Q.\n\n(4) Pairing. Take two opposite sectors, theta and theta + pi, whose angles at Q are vertical angles ('Scheitelwinkel'). Subdivide each into elements by steps d phi.\n\nThe argument continues on the next page:\n- Both sectors contain equally many elements.\n- Elements at equal phi have equal solid angle sin(phi) d phi d theta, so they give equal components normal to the disc.\n- The resultant of such a pair points from p to the midpoint of the segment joining the two elements.\n- Hence every pair-resultant, and so the resultant of the double sector, lies between the axis and the line from p to the midpoint of the double sector.\n\nJustification (mine) of the facts used. Let h be the distance from p to the disc plane. An element dA at A, at distance r with angle alpha to the normal, exerts force sigma dA/r^2 along A - p. Its normal component is sigma dA cos(alpha)/r^2 = sigma dOmega, i.e. sigma times the solid angle.\n- Elements at the same phi on the two sides have the same dOmega = sin(phi) d phi d theta, so their normal components are equal.\n- Writing the force as (sigma dOmega/h)(A - p), the pair sum is proportional to (A - p) + (B - p) = 2(M - p), with M the midpoint of AB. So the resultant points at the midpoint.\n- 'Equally many elements' requires the axis to be a principal axis of the (generally elliptic) cone K. Its trace on the unit sphere about p is centrally symmetric (rho(theta) = rho(theta + pi)), so both sectors run over the same phi-range. The bisector of the extreme generators in the symmetry plane, used on the previous page, is exactly such a principal axis.",
+  "errors": [
+   "No outright error on this page.",
+   "The level-surface claim tacitly assumes the force field is a gradient field (true here). It also needs V known on a curve that meets every level surface; a single 'Linie' suffices only if it is transversal to all of them.",
+   "'Axe des schiefen Kegels' must be read as the internal principal axis of the cone (bisector of the extreme generators), not the line from p to the disc centre. With the latter reading, the next page's claim that opposite sectors split into equally many phi-elements would fail, since the two generators in a plane through the median make unequal angles with it.",
+   "'Same opening' of the d theta sectors is true only in the sense of equal azimuthal increment about the axis. Their solid angles differ."
+  ],
+  "results": [
+   {
+    "what": "Field-line directions plus values of V on one transversal line determine V everywhere (level surfaces as orthogonal surfaces of the force lines)",
+    "modern_name": "Level surfaces of a potential orthogonal to field lines",
+    "usually_credited_to": "Standard potential theory (Gauss, Green, Chasles, 1830s-40s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Normal component of attraction of a uniform plane element equals sigma times its solid angle; pairing of equal-solid-angle elements gives a resultant toward the chord midpoint",
+    "modern_name": "Solid-angle formula for the normal field of a uniform plane sheet (double layer / solid angle relation)",
+    "usually_credited_to": "Gauss (1813, 1839), classical",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Decomposition of the disc into opposite sectors about the principal axis of the oblique cone, to bound the direction of the disc's force",
+    "modern_name": "Elementary geometric bounding of the field direction of a uniformly charged disc",
+    "usually_credited_to": "No specific attribution; elementary",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Elementary, qualitative geometric potential theory, apparently tied to some physical model with a 'second system'. The methods are classical; the page is interesting only as a documentary detail. The handwriting may not even be Riemann's own.",
+  "checkable": [
+   {
+    "sympy": "h,r,a=symbols('h r a',positive=True); simplify((1/r**2)*(h/r) - h/r**3)",
+    "asserts": "Normal component of force from a unit-density element dA at distance r equals dA*cos(alpha)/r^2 = dA*h/r^3, i.e. the solid angle element."
+   },
+   {
+    "sympy": "px,py,h,ax,ay,bx,by,s=symbols('px py h ax ay bx by s',real=True); A=Matrix([ax,ay,0]); B=Matrix([bx,by,0]); P=Matrix([px,py,h]); FA=(A-P)/((A-P).norm()**3); FB=(B-P)/((B-P).norm()**3); wA=(A-P).norm()**2/h; wB=(B-P).norm()**2/h; simplify((wA*FA*s/(A-P).norm()**-1*0) )",
+    "asserts": "Placeholder for setup: forces from elements with equal solid angle, scaled so that normal components are equal. See next item for the actual check."
+   },
+   {
+    "sympy": "px,py,h,ax,ay,bx,by=symbols('px py h ax ay bx by',real=True); A=Matrix([ax,ay,0]); B=Matrix([bx,by,0]); P=Matrix([px,py,h]); FA=(A-P)/h; FB=(B-P)/h; M=(A+B)/2; simplify((FA+FB).cross(M-P))",
+    "asserts": "If two forces along P->A and P->B have equal normal components (each = (X-P)*c/h), their resultant is parallel to the line from P to the midpoint M; the cross product is the zero vector."
+   },
+   {
+    "sympy": "a,b,t=symbols('a b t',positive=True); rho=lambda th: 1/sqrt(cos(th)**2/a**2+sin(th)**2/b**2); simplify(rho(t)-rho(t+pi))",
+    "asserts": "For an elliptic cone x^2/a^2+y^2/b^2=z^2 about its principal axis, the angular radius in azimuth t equals that at t+pi, so opposite sectors have the same phi-range ('equally many elements')."
+   }
+  ],
+  "transcription_corrections": [
+   "'und {+e+} sucht [-sollen-]' should read 'und suche' (an 'e' is added to make the first person 'suche', consistent with 'Ich nehme').",
+   "'Sektoren' in 'zwei solcher Sektoren' is produced by an inserted 'en' above 'Sektor'. The inserted clause 'die einander gerade gegenüberstehen d. h. ... solche deren Winkel Scheitelwinkel sind' is a left-margin addition keyed to that word.",
+   "'näherungsweise' is a marginal insertion belonging after 'Potentialfunction'. The struck words at the start are 'die zweiten Theil' (possibly 'den zweiten Theil der').",
+   "'so [-?-] scheinen' probably reads 'so erscheinen' (struck initial letter, then 'scheinen')."
+  ]
+ }
+}

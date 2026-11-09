@@ -1,0 +1,39 @@
+{
+ "bundle": "Math.20",
+ "page": "c095",
+ "label": "47v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000096/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is almost blank. Only very faint pencil (or ink show-through) marks appear in the right half, and I cannot read them reliably. Their layout matches the solution on the facing page, 47r:\n(a) three short lines at the top that look like a 3x3 linear system;\n(b) a rule, then three lines of fractions ending in '= ...', which fit the definitions of alpha, beta, gamma;\n(c) further fraction lines, which fit N and M;\n(d) a lower block of three lines of fractions, which fit the formulas for x, y, z.\nSo this is either show-through of 47r or a faint pencil draft of the same computation. It is not new material. The next page (in Schering's hand, a numerical root-continuation table for a degree-7 polynomial) is unrelated.\n\nReconstruction of the computation that the marks appear to repeat (the 47r result). The problem is a symmetric linear system:\n- a x + c' y + b' z = a m\n- c' x + b y + a' z = b n\n- b' x + a' y + c z = c p\n\nThe definitions are:\n- alpha = b'c'/(a a'), beta = c'a'/(b b'), gamma = a'b'/(c c')\n- N = 1 + alpha/(1-alpha) + beta/(1-beta) + gamma/(1-gamma)\n- M = m/(a'(1-alpha)) + n/(b'(1-beta)) + p/(c'(1-gamma))\n\nDerivation (the implicit steps are my filling-in):\n1. Introduce the auxiliary quantity t = x/a' + y/b' + z/c'.\n2. Since a·alpha = b'c'/a', the first equation can be rewritten as a(1-alpha) x + b'c'(x/a' + y/b' + z/c') = a m. That is, a(1-alpha) x + b'c' t = a m, so x = m/(1-alpha) - (b'c'/(a(1-alpha))) t = m/(1-alpha) - a' (alpha/(1-alpha)) t.\n3. The other two equations give, in the same way, y = n/(1-beta) - b'(beta/(1-beta)) t and z = p/(1-gamma) - c'(gamma/(1-gamma)) t.\n4. Substitute these into the definition of t: t = M - t·(alpha/(1-alpha) + beta/(1-beta) + gamma/(1-gamma)). Hence t·N = M, so t = M/N.\n5. This gives exactly Gauss's formulas for x, y, z.\n\nThis is a closed-form solution of a symmetric 3x3 system. It works by a rank-one-plus-diagonal decomposition: the off-diagonal part acts through the single linear form t. It is the kind of elimination Gauss used for normal equations, e.g. in geodetic adjustment.",
+  "errors": [
+   "No error is detectable on this page because the marks are illegible.",
+   "The 47r formulas these marks appear to mirror check out as correct (see reconstruction).",
+   "The method implicitly needs alpha, beta, gamma ≠ 1, N ≠ 0, and a, b, c, a', b', c' ≠ 0; Gauss does not state these conditions."
+  ],
+  "results": [
+   {
+    "what": "Closed-form solution of the symmetric 3x3 system [[a,c',b'],[c',b,a'],[b',a',c]]·(x,y,z) = (a m, b n, c p). It uses the auxiliary linear form t = x/a' + y/b' + z/c', with t = M/N.",
+    "modern_name": "Solution of a diagonal-plus-rank-one linear system (Sherman–Morrison-type reduction); elimination for symmetric normal equations",
+    "usually_credited_to": "Routine elimination; the general rank-one update formula is Sherman–Morrison (1949–50), though special cases are much older",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is essentially blank, holding only illegible faint marks that appear to repeat or show through the 47r computation. That computation is a neat but elementary closed-form elimination for a symmetric 3x3 system, entirely routine for Gauss.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,ap,bp,cp,m,n,p=symbols('a b c ap bp cp m n p'); al=bp*cp/(a*ap); be=cp*ap/(b*bp); ga=ap*bp/(c*cp); N=1+al/(1-al)+be/(1-be)+ga/(1-ga); M=m/(ap*(1-al))+n/(bp*(1-be))+p/(cp*(1-ga)); x=m/(1-al)-ap*al/(1-al)*M/N; y=n/(1-be)-bp*be/(1-be)*M/N; z=p/(1-ga)-cp*ga/(1-ga)*M/N; [simplify(a*x+cp*y+bp*z-a*m), simplify(cp*x+b*y+ap*z-b*n), simplify(bp*x+ap*y+c*z-c*p)]",
+    "asserts": "Gauss's formulas (from 47r, apparently repeated faintly here) solve the system exactly; all three residuals simplify to 0."
+   },
+   {
+    "sympy": "simplify((x/ap+y/bp+z/cp) - M/N)",
+    "asserts": "The auxiliary quantity t = x/a' + y/b' + z/c' equals M/N (same symbols as above)."
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription correctly marks everything as illegible. The faint right-half marks follow the layout of the 47r solution (three-line system, rule, alpha/beta/gamma definitions with '=', N and M, then the x, y, z formulas). They are best described as show-through or a faint draft of folio 47r, not independent content."
+  ]
+ }
+}

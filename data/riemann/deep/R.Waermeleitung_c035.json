@@ -1,0 +1,77 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c035",
+ "label": "19v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000036/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. The page belongs to spring 1854. The previous page contains a letter to Riemann's father reporting that Gauss chose the 'Hypothesen' topic for the Habilitation lecture. It also has a draft to a 'Hochgeschätzter Herr Professor' mentioning his 'Rückstand' (residual charge). That draft is probably to R. Kohlrausch; this is a conjecture.\n\nUPRIGHT PART (end of that letter draft). Riemann expects to stay until Whitsun (Pfingsten) with his father, Pastor Riemann in Quickborn near Dannenberg. He thanks the professor for his goodwill during his recent visit and closes 'Ew. Wohlgeboren'. There is no mathematics in this part.\n\nUPSIDE-DOWN PART (heat conduction). The first lines are fragmentary differential expressions in x1', x2', s1' and y1, x1, ending in 'dy1/dx1 = x2/x1, dx2' = 0'. Their purpose cannot be reconstructed.\n\nMain content, in modern notation. Riemann writes the heat equation as alpha*chi_t = beta^2*chi_xx, so the diffusivity is kappa = beta^2/alpha. Put u = beta^2/(alpha a^2) and s = u t (dimensionless time).\n- The setting is a plate of thickness 2a with faces held at 0, or equivalently thickness a with one face insulated, initially at uniform value chi_0.\n- chi_t is the mean temperature (equivalently the heat content) at time t. This is the reading consistent with the coefficients 8/pi^2 and 1/(2n+1)^2.\n\n(A) Fourier series, used for large t:\nchi_t = chi_0*(8/pi^2)*[ e^{-(pi^2/4)s} + (1/9)e^{-9(pi^2/4)s} + (1/25)e^{-25(pi^2/4)s} + ... ].\nThis is (8/pi^2)*Sum_k (2k+1)^{-2} exp(-(2k+1)^2 pi^2 s/4).\n\n(B) Short-time (image / theta-transformed) form:\nchi_t = chi_0*( 1 - (2/sqrt(pi))*sqrt(s)*[1 - 4psi(lambda) + 4psi(2lambda) - 4psi(3lambda) + ...] ), with lambda = 1/sqrt(s) = sqrt(alpha a^2/(beta^2 t)).\nRiemann's definition 'wo psi x = ...' is only partly legible. Comparison with the standard result forces the following, which is my identification:\npsi(lambda) = Int_lambda^oo Int_mu^oo e^{-s^2} ds dmu = (sqrt(pi)/2)*ierfc(lambda) = e^{-lambda^2}/2 - (sqrt(pi)/2)*lambda*erfc(lambda).\nThis matches the textbook short-time result mean = 1 - (2sqrt(kappa t)/a)[pi^{-1/2} + 2 Sum_{n>=1} (-1)^n ierfc(n a/sqrt(kappa t))].\n(A) and (B) are the two sides of Jacobi's theta transformation (Poisson summation).\n\nNumerical remarks.\n- Riemann notes that for moderately large t the exponential series (A) is more convenient, beyond a certain value of beta^2 t/(alpha a^2).\n- For small t he uses (B). There the bracket 1 - 4psi(lambda) + 4psi(2lambda) - ... converges extremely fast.\n- He evaluates psi(lambda) by the asymptotic series psi(lambda) ~ (1/2)e^{-lambda^2}[ 1/(2lambda^2) - 1.3/(2lambda^2)^2 + 1.3.5/(2lambda^2)^3 - ... ]. The transcription inverts these fractions.\n- Partly legible remarks follow: a case with value 0.1 (probably beta^2 t/(alpha a^2) = 0.1, i.e. lambda = sqrt(10)); estimates of psi(2.)~10^{-9} and psi(3.)~10^{-16}; and the bracket being good to 16 decimals.\n- My check at s = 0.1: psi(lambda) ≈ 1e-6, so only the leading term matters. Both forms give chi_t/chi_0 ≈ 0.6432.\n\nUse for observations (parameter fitting).\n- At the start of observations one may use chi_t = c - 2q sqrt(t), with c = chi_0 and q = chi_0 sqrt(u/pi). One can also form y = bracket (≈ 1) and fit c and q from the observations.\n- Linearized (differential) correction formulas, for least squares or iterative fitting of chi_0 and u:\n  (A') dchi_t = dchi_0*(8/pi^2)Sum (2k+1)^{-2}e^{-(2k+1)^2 pi^2 ut/4} - 2 chi_0 t du Sum e^{-(2k+1)^2 pi^2 ut/4}. The sign of the second term is not legible. The 1/(2k+1)^2 factors cancel on differentiation, and Riemann's second sum indeed has no coefficients.\n  (B') dchi_t = dchi_0*(1 - (2/sqrt(pi)) sqrt(ut) y) - chi_0 (1/sqrt(pi)) sqrt(t/u) y du. Here y is treated as constant, which is justified since its u-dependence is exponentially small.\n\nPurpose. The page is a computational recipe for determining the conductivity constant beta^2/(alpha a^2) and the initial value chi_0 from a measured time series of chi_t. It switches between the two dual representations according to the size of t.",
+  "errors": [
+   "In (B') the coefficient of d(beta^2/(alpha a^2)) should be chi_0*(1/sqrt(pi))*sqrt(t/u)*y = chi_0*(1/sqrt(pi))*t*sqrt(alpha a^2/(beta^2 t))*y. If the manuscript really has only sqrt(alpha a^2/(beta^2 t)) without the factor t, as the transcription suggests, a factor t is missing. The image is ambiguous.",
+   "(B') neglects the dependence of y on u through psi(n/sqrt(ut)). This is legitimate in the small-t regime, where those terms are exponentially small, but it is unstated.",
+   "The numerical estimates psi(2.)=1e-9 and psi(3.)=1e-16 as transcribed do not correspond to a single obvious value of lambda. With lambda = sqrt(10), psi(lambda)≈1e-6 and psi(2lambda)≈1e-20. These are probably misreadings, or bounds for a different argument; they cannot be confirmed."
+  ],
+  "results": [
+   {
+    "what": "Mean temperature of a slab with zero boundary values, initial uniform chi_0, as the Fourier series (8/pi^2) Sum (2k+1)^{-2} exp(-(2k+1)^2 pi^2 kappa t/(4a^2))",
+    "modern_name": "Fourier series solution of the heat equation in a slab (mean temperature)",
+    "usually_credited_to": "Fourier (1807/1822)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Short-time representation 1 - (2/sqrt(pi)) sqrt(kappa t)/a [1 + 2 sqrt(pi) Sum (-1)^n ierfc(n a/sqrt(kappa t))], with psi as a doubly iterated Gaussian integral",
+    "modern_name": "Method of images / erfc short-time expansion; equivalent to Jacobi theta transformation (Poisson summation)",
+    "usually_credited_to": "Poisson/Jacobi (theta transformation, 1820s); explicit ierfc form standard in Carslaw-Jaeger (1940s); image solutions Kelvin era",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Asymptotic expansion psi(l) ~ (1/2)e^{-l^2}[1/(2l^2) - 1.3/(2l^2)^2 + 1.3.5/(2l^2)^3 - ...]",
+    "modern_name": "Asymptotic expansion of the iterated complementary error function ierfc",
+    "usually_credited_to": "Laplace (asymptotic series of erfc), standard by mid-19th century",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Choosing between the two dual series according to the size of t, plus linearized differential formulas for fitting chi_0 and the diffusivity from observations",
+    "modern_name": "Practical numerical use of theta-function duality; Gauss-Newton style parameter estimation",
+    "usually_credited_to": "Common practice (Gauss's least squares; Kelvin and others for conduction data)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The content is a competent, careful numerical treatment of slab cooling: Fourier series against the theta-transformed short-time series, with an asymptotic evaluation of ierfc and error-propagation formulas. All of it was available by 1854 (Fourier, Poisson, Jacobi, Laplace, Gauss). It is a nice unpublished detail tied to 1854, probably connected with Kohlrausch's experimental work, but it is not a new result.",
+  "checkable": [
+   {
+    "sympy": "s=Rational(1,10); f1=(8/pi**2)*Sum(exp(-(2*k+1)**2*pi**2*s/4)/(2*k+1)**2,(k,0,50)); psi=lambda l: exp(-l**2)/2-sqrt(pi)/2*l*erfc(l); f2=1-2/sqrt(pi)*sqrt(s)*(1+4*Sum((-1)**n*psi(n/sqrt(s)),(n,1,20)).doit()); N(f1.doit()-f2,20)",
+    "asserts": "The long-time Fourier series and the short-time series agree (difference ~0) at s = beta^2 t/(alpha a^2) = 0.1"
+   },
+   {
+    "sympy": "l,m,x=symbols('l m x',positive=True); simplify(integrate(integrate(exp(-x**2),(x,m,oo)),(m,l,oo)) - (exp(-l**2)/2 - sqrt(pi)/2*l*erfc(l)))",
+    "asserts": "psi(l) = double integral of exp(-x^2) equals exp(-l^2)/2 - (sqrt(pi)/2) l erfc(l) (result 0)"
+   },
+   {
+    "sympy": "l=symbols('l',positive=True); series((exp(-l**2)/2 - sqrt(pi)/2*l*erfc(l))*2*exp(l**2), l, oo, 8)",
+    "asserts": "Asymptotic expansion 1/(2l^2) - 3/(2l^2)^2 + 15/(2l^2)^3 - ... of 2 e^{l^2} psi(l)"
+   },
+   {
+    "sympy": "u,t,k=symbols('u t k',positive=True); simplify(diff((8/pi**2)*exp(-(2*k+1)**2*pi**2*u*t/4)/(2*k+1)**2,u) + 2*t*exp(-(2*k+1)**2*pi**2*u*t/4))",
+    "asserts": "d/du of each Fourier term equals -2 t exp(-(2k+1)^2 pi^2 u t/4) (result 0), matching the coefficient-free sum in dchi_t"
+   },
+   {
+    "sympy": "u,t,y,c0=symbols('u t y c0',positive=True); simplify(diff(c0*(1-2/sqrt(pi)*sqrt(u*t)*y),u) + c0/sqrt(pi)*sqrt(t/u)*y)",
+    "asserts": "Correct coefficient of du in the short-time differential formula is -c0*(1/sqrt(pi))*sqrt(t/u)*y (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The series for psi lambda should read (1/2)e^{-lambda lambda}( 1/(2 lambda lambda) - 1.3/(2 lambda lambda)^2 + 1.3.5/(2 lambda lambda)^3 - ... ), i.e. an asymptotic series in inverse powers. It is not '(2/pi)e^{-lambda lambda}(2 lambda lambda/1 - (2 lambda lambda)^2/(1.3) + ...)'.",
+   "The arguments of psi in the short-time bracket are lambda, 2 lambda, 3 lambda with lambda = sqrt(alpha a a/(beta beta t)); 'psi 2 sqrt(...)' means psi(2 sqrt(...)).",
+   "The second (moderate-t) display duplicates the first. In the image the first displayed series has terms up to 25 with exponent 25 pi pi/4, and the differential formula's second part reads chi_0 d(beta beta/alpha a a) 2t (e^{-pi pi/4 ...} + e^{-9 pi pi/4 ...} + ...), with no 1/9 or 1/25 coefficients.",
+   "'wo psi x = ...' should be 'wo psi lambda = ...'. The definition appears to be an iterated integral of e^{-lambda lambda}.",
+   "The value 0.1 refers most plausibly to beta beta t/(alpha a a) = 0.1, not to lambda = 0.1.",
+   "In the short-time differential formula a factor t may be present before the square root (coefficient chi_0 (1/sqrt(pi)) t sqrt(alpha a a/(beta beta t)) y)."
+  ]
+ }
+}

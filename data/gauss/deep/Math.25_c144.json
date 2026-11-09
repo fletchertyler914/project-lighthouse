@@ -1,0 +1,56 @@
+{
+ "bundle": "Math.25",
+ "page": "c144",
+ "label": "71v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000145/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Title: 'Ableitung der Fundamentalgleichung' (derivation of the fundamental equation). The fundamental equation is the addition theorem for the general elliptic function x = f(z) obtained by inverting a quartic integral with only even powers.\n\nSetup. Let x = f(z) and y = f(z+m) = f(w), where z = ∫ dx/√(A+Bx²+Cx⁴). Since dw = dz, both satisfy\n dz = dx/√(A+Bx²+Cx⁴) = dy/√(A+By²+Cy⁴).\nThe common independent variable is called t, so z = t + const and w = t + m + const. Primes denote d/dt.\n\n(1) First-order equations: x'² = A+Bx²+Cx⁴ and y'² = A+By²+Cy⁴.\n\n(2) Second-order equations. Differentiating gives 2x'x'' = (2Bx+4Cx³)x'. Dividing by 2x' (my step) gives x'' = Bx+2Cx³; likewise y'' = By+2Cy³.\n\n(3) Combination of the first-order equations: x²y'² − y²x'² = A(x²−y²) − Cx²y²(x²−y²) = (A − Cx²y²)(x²−y²).\n\n(4) Combination of the second-order equations: y x'' − x y'' = 2Cxy(x²−y²).\n\n(5) Dividing (4) by yx'−xy'. Implicit step (mine): x²y'²−y²x'² = (xy'−yx')(xy'+yx'). Hence yx'−xy' = −(A−Cx²y²)(x²−y²)/(yx'+xy'). Therefore\n (yx''−xy'')/(yx'−xy') = −2Cxy(yx'+xy')/(A−Cx²y²).\n\n(6) Recognising both sides as logarithmic derivatives (implicit, mine):\n- The left side is d/dt log(yx'−xy'), since d/dt(yx'−xy') = yx''−xy''.\n- The right side is d/dt log(A−Cx²y²), since d/dt(A−Cx²y²) = −2Cxy(xy'+yx').\nIntegrating gives log(yx'−xy') = log(A−Cx²y²) + Const. Equivalently, (yx'−xy')/(A−Cx²y²) is constant along the motion.\n\n(7) Evaluating the constant. Take the point where x = 0, i.e. z = 0, with f(0) = 0 implicitly. There y = M = f(m), x' = √A (sign convention), and y' = √(A+BM²+CM⁴). The constant is (M√A − 0)/A = M/√A = f(m)/√A.\n\n(8) Result. Write fz' for y, so m = z'−z. Then\n f(z'−z) = √A·[ f(z')√(A+Bf(z)²+Cf(z)⁴) − f(z)√(A+Bf(z')²+Cf(z')⁴) ] / (A − C f(z)² f(z')²).\nThis is the subtraction (equivalently addition) theorem for the elliptic function. With A = 1, B = −(1+k²), C = k² it is the Jacobi formula\n sn(u−v) = (sn u cn v dn v − sn v cn u dn u)/(1 − k² sn²u sn²v).\nThe page serves the surrounding work (theta series p, q, r on the previous page; transformation of elliptic integrals on the next page) by providing the basic algebraic addition law.",
+  "errors": [
+   "No mathematical errors. Every step checks: x''=Bx+2Cx³; x²y'²−y²x'²=(A−Cx²y²)(x²−y²); yx''−xy''=2Cxy(x²−y²); the quotient formula; and the integration to (yx'−xy')/(A−Cx²y²)=const.",
+   "Minor implicit assumptions: f(0)=0, the sign choice x'(0)=+√A, and the branch of the square roots. The variable t is used without being defined; it stands for z (equivalently w−m).",
+   "Notational slip only: y' is written ∂y/dt."
+  ],
+  "results": [
+   {
+    "what": "Addition/subtraction theorem for the inverse function of ∫dx/√(A+Bx²+Cx⁴): f(z'−z) = √A[f z'·√(A+Bfz²+Cfz⁴) − fz·√(A+Bfz'²+Cfz'⁴)]/(A − C fz² fz'²)",
+    "modern_name": "Addition theorem for elliptic functions (Jacobi sn addition formula; Euler's addition theorem for elliptic integrals)",
+    "usually_credited_to": "Euler (1750s, addition theorem for elliptic integrals); in sn form Abel/Jacobi (1827–29)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Derivation via the invariant (yx'−xy')/(A−Cx²y²): differentiate the first-order ODEs and identify both sides of the quotient as logarithmic derivatives",
+    "modern_name": "Euler's differential-equation proof of the addition theorem (as reproduced e.g. in Whittaker–Watson §22.2)",
+    "usually_credited_to": "Euler",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's possession of the addition theorems for lemniscatic and general elliptic functions (from about 1797–1800) is well documented. The proof method is the classical Euler-type invariant argument. This is a clean but routine derivation.",
+  "checkable": [
+   {
+    "sympy": "x,y,A,B,C=symbols('x y A B C'); simplify(x**2*(A+B*y**2+C*y**4)-y**2*(A+B*x**2+C*x**4)-(A-C*x**2*y**2)*(x**2-y**2))==0",
+    "asserts": "x²y'²−y²x'² = (A−Cx²y²)(x²−y²)"
+   },
+   {
+    "sympy": "simplify(y*(B*x+2*C*x**3)-x*(B*y+2*C*y**3)-2*C*x*y*(x**2-y**2))==0",
+    "asserts": "yx''−xy'' = 2Cxy(x²−y²)"
+   },
+   {
+    "sympy": "t=symbols('t'); X=Function('X')(t); Y=Function('Y')(t); simplify(diff(A-C*X**2*Y**2,t)+2*C*X*Y*(Y*diff(X,t)+X*diff(Y,t)))==0",
+    "asserts": "d/dt(A−Cx²y²) = −2Cxy(yx'+xy'), so the right side is a logarithmic derivative"
+   },
+   {
+    "sympy": "from mpmath import ellipfun, sqrt; k=0.6; m=k**2; u,v=0.7,0.3; s=lambda a: ellipfun('sn',a,m=m); c=lambda a: ellipfun('cn',a,m=m); d=lambda a: ellipfun('dn',a,m=m); abs(s(u-v)-(s(u)*c(v)*d(v)-s(v)*c(u)*d(u))/(1-m*s(u)**2*s(v)**2))<1e-12",
+    "asserts": "Gauss's final formula with A=1, B=−(1+k²), C=k² (f=sn, z'=u, z=v) is the sn subtraction formula"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: the manuscript shows 'x = fz' (z apparently written over another letter), not 'f\\z'. The transcription's 'x = fz' is correct.",
+   "The 'M' in y = M and in y' = √(A+BMM+CM⁴) is written over earlier letters; the reading M is correct.",
+   "The final line is correctly read: numerator √A{fz'√(A+Bfz²+Cfz⁴) − fz√(A+Bfz'²+Cfz'⁴)}, denominator A − C fz² fz'² (the C is overwritten)."
+  ]
+ }
+}

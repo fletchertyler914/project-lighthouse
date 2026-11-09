@@ -1,0 +1,71 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c185",
+ "label": "90v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000186/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This page is a draft of Riemann's Inaugural Dissertation (Göttingen 1851), corresponding to Art. 8, consequences III–IV, of the printed text. Here the theorem is numbered V. The standing hypothesis is that X(x,y) and Y(x,y) are continuous on a surface T spread over the plane A, with dX/dx + dY/dy = 0 almost everywhere. The previous result (Gauss–Green: the integral of (dX/dx + dY/dy) over a region equals minus the boundary integral of the normal flux) gives that the boundary integral of (Y dx/ds - X dy/ds) ds over the complete boundary of any part of T vanishes.\n\n(a) Path independence in a simply connected surface.\n- Take two paths s1 and s2 from O0 to O inside a simply connected surface. Traverse s1 forward and s2 backward; this gives a closed curve s3.\n- The page opens mid-sentence (the first lines are struck through). Either s3 does not cut itself, or it can be split into closed loops, each without self-intersection. The method: run along s3 from any point; whenever you return to an earlier point, cut off the loop just traversed and treat the rest as continuing the earlier part.\n- Each simple closed loop splits the surface into a simply connected piece and a doubly connected piece. The loop is therefore the entire boundary of one of these pieces (the simply connected one).\n- So the integral of (Y dx/ds - X dy/ds) ds around each loop is 0 by hypothesis. Hence the integral around s3, with s increasing in one direction throughout, is also 0.\n- Therefore the integrals along s1 and s2 cancel when one runs O0 to O and the other O to O0. Reversing the second, they are equal.\n\n(b) Construction of the potential Z.\n- For a general T with div(X,Y) = 0: first excise the discontinuity points if necessary. Then cut the remainder by cross-cuts (Querschnitte) into a simply connected surface T*.\n- By (a), every path in T* from O0 to O gives the same value. Write it as Z(O) = ∫_{O0}^{O} (Y dx/ds - X dy/ds) ds.\n- With O0 fixed, Z is a single-valued function of (x,y) on T*. Moving O along a line element ds changes Z by (Y dx/ds - X dy/ds) ds, i.e. dZ = Y dx - X dy.\n- Z is continuous everywhere in T*. Its change under a displacement along a cross-cut is the same on both banks, because X and Y are continuous across the cut in T.\n- Consequently (my filling) the jump Z+ - Z- has zero derivative along the cut. It is constant along each cut from one junction point (Zweigpunkt) of the cut system to the next.\n\n(c) Theorem V.\n- Z is continuous in T*.\n- Z jumps across each cross-cut of T by a constant (constant along the cut between junction points).\n- Its partial derivatives are dZ/dx = Y and dZ/dy = -X.\n- Integrability check (mine): d/dy(Y) = d/dx(-X) is exactly dX/dx + dY/dy = 0.\n\n(d) Margin note ('to be added at the end').\n- The jumps across the cross-cuts depend on as many mutually independent constants as there are cross-cuts.\n- Reason: traverse the cut system backwards, later cuts first. The jump is then determined everywhere once its value at the start of each cut is given, and those starting values are independent.\n- This passage appears nearly verbatim in the printed Dissertation (end of Art. 8 / IV).",
+  "errors": [
+   "No mathematical errors. The sign convention (Y dx/ds - X dy/ds, giving dZ/dx = Y and dZ/dy = -X) is the negative of the printed Dissertation's (X dy/ds - Y dx/ds, giving dZ/dx = -Y and dZ/dy = X). Both are internally consistent.",
+   "Implicit, unproved assumptions by modern standards: the Jordan curve theorem; that s3 has only finitely many self-intersections, so that the loop-excision terminates; and that each loop's integral vanishes regardless of its orientation relative to the boundary of the piece it bounds. The last is harmless because each such integral is 0.",
+   "Constancy of the jump along a cut is only implied ('zu beiden Seiten gleich'): equality of the increments on both banks gives d(Z+ - Z-)/ds = 0. The step is correct but not written out.",
+   "The excision of discontinuity points is only gestured at. Excised points create extra boundary components, which must be linked into the cross-cut system, or else neglected via the earlier Remark III (rho·X, rho·Y → 0)."
+  ],
+  "results": [
+   {
+    "what": "Integral of a divergence-free field's flux over any closed curve in a simply connected domain vanishes; hence path independence (proof by splitting a self-intersecting closed path into simple loops)",
+    "modern_name": "Closed 1-form exact on simply connected domain / Green's theorem consequence (Cauchy-type integral theorem)",
+    "usually_credited_to": "Gauss/Green/Cauchy; Riemann's Dissertation (1851) for the formulation on Riemann surfaces",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Potential Z (stream function / harmonic conjugate) on the cut surface T*, continuous, with constant jumps across cross-cuts, dZ/dx = Y, dZ/dy = -X",
+    "modern_name": "Multivalued primitive of a closed differential; periods across cuts (Riemann's Lehrsatz IV)",
+    "usually_credited_to": "Riemann, Inauguraldissertation 1851, Art. 8",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Number of independent periods equals the number of cross-cuts",
+    "modern_name": "Periods of closed differentials; dimension of first homology / de Rham cohomology equals connectivity number minus 1",
+    "usually_credited_to": "Riemann 1851/1857",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of Art. 8 (Lehrsatz IV, here numbered V) of Riemann's published 1851 Dissertation. The margin addition about the number of independent periods appears almost verbatim in print. The only differences are the sign convention and the numbering, which are minor drafting details.",
+  "checkable": [
+   {
+    "sympy": "X,Y=symbols('X Y',cls=Function); x,y=symbols('x y'); simplify(diff(Y(x,y),y) - diff(-X(x,y),x) - (diff(X(x,y),x)+diff(Y(x,y),y)))",
+    "asserts": "The integrability condition for dZ = Y dx - X dy is exactly dX/dx + dY/dy = 0 (expression simplifies to 0)."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); X=x/(x**2+y**2); Y=y/(x**2+y**2); simplify(diff(X,x)+diff(Y,y))",
+    "asserts": "Example field with zero divergence away from the origin (result 0)."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); Z=-atan(y/x); X=x/(x**2+y**2); Y=y/(x**2+y**2); (simplify(diff(Z,x)-Y), simplify(diff(Z,y)+X))",
+    "asserts": "For this example Z = -arg(z) satisfies dZ/dx = Y and dZ/dy = -X (both 0). Z jumps by -2*pi across a cut from the origin, illustrating the constant jump."
+   },
+   {
+    "sympy": "t=symbols('t'); x=cos(t); y=sin(t); integrate(((y/(x**2+y**2))*diff(x,t) - (x/(x**2+y**2))*diff(y,t)), (t,0,2*pi))",
+    "asserts": "The period around the excised singular point equals -2*pi, the constant jump across the cut."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); u,v=symbols('u v',cls=Function); X=u(x,y)*diff(v(x,y),x)-v(x,y)*diff(u(x,y),x); Y=u(x,y)*diff(v(x,y),y)-v(x,y)*diff(u(x,y),y); simplify(diff(X,x)+diff(Y,y) - (u(x,y)*(diff(v(x,y),x,2)+diff(v(x,y),y,2)) - v(x,y)*(diff(u(x,y),x,2)+diff(u(x,y),y,2))))",
+    "asserts": "Identity from the previous page (draft §10) that feeds this theorem: div(u grad v - v grad u) = u Δv - v Δu."
+   }
+  ],
+  "transcription_corrections": [
+   "The first struck-through line likely begins 'entweder selbst die Eigenschaft...' (the image shows 'entweder').",
+   "'es bildet daher nothwendig von ihnen diese Stücke die ganze Begrenzung' should probably read 'es bildet daher nothwendig [sie] von einem dieser Stücke die ganze Begrenzung'.",
+   "'all stetig' is probably 'allenthalben stetig' or 'überall stetig' (cf. the printed 'in T' überall stetig').",
+   "'[-wofür-] für {+den+} Abkürzung' is probably a correction to 'wofür der Abkürzung [halber]' or 'zur Abkürzung'; uncertain.",
+   "In V, the insertion 'desselben von einem Zweigpunkte zum andern' replaces the struck 'selben Querschnitts', matching the printed text 'längs desselben von einem Zweigpunkte zum andern constante ... Grösse'.",
+   "The marginal heading reads 'Am Schlusse hinzuzufügen' (correct as given)."
+  ]
+ }
+}

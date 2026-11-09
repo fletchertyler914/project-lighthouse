@@ -1,0 +1,62 @@
+{
+ "bundle": "R.Ellipsoid",
+ "page": "c096",
+ "label": "44r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205083:00000097/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Art. 4–5 of Riemann's 'Ein Beitrag zu den Untersuchungen über die Bewegung eines flüssigen gleichartigen Ellipsoides' (Abh. Ges. Wiss. Göttingen 9, 1861). Once the reduced system (α) has been integrated, the quantities g,h,k,p,q,r are known functions of t. The remaining task is to recover the orthogonal matrices (α,β,…,γ'') that give the ellipsoid's orientation. Their columns (θ,θ',θ'') satisfy a linear system (β) of rotation type.\n\nThe form of (β), inferred by me from the page: dθ/dt = rθ' − qθ'' plus cyclic analogues. The vector (g,h,k) satisfies the same system; in particular dg/dt = rh − qk. Two integrals follow: θ²+θ'²+θ''² = const and gθ+hθ'+kθ'' = const. Also g²+h²+k² = ϖ² is constant.\n\nStep 1 (my reconstruction of the preceding lines). Look for a particular complex solution on the isotropic cone with both integral constants zero:\n- θ²+θ'²+θ''² = 0,\n- (3): hθ' + kθ'' = −gθ.\n\nStep 2. Use the identity (hθ'+kθ'')² + (kθ'−hθ'')² = (h²+k²)(θ'²+θ''²). Substituting θ'²+θ''² = −θ² ('multiplied by h²+k², added') gives\n−(θ'k − θ''h)² = (g²+h²+k²)θ² = ϖ²θ².\nHence (4): θ'k − θ''h = ϖ i θ, with a choice of sign.\n\nStep 3. Solve the linear pair (3),(4) for θ' and θ'':\n- (5) θ' = (−gh + kϖi) θ/(h²+k²),\n- (6) θ'' = (−gk − hϖi) θ/(h²+k²). The blotted sign is '−'.\n\nStep 4. Substitute into the first equation of (β):\n(1/θ) dθ/dt = [g(kq − hr) + ϖi(rk + hq)]/(h²+k²) = −g g_t/(h²+k²) + ϖi (rk+hq)/(h²+k²).\nSince h²+k² = ϖ² − g², we have −g g_t/(h²+k²) = ½ d/dt log(h²+k²). Therefore\n(7) log θ = ½ log(h²+k²) + ϖ i ∫ (hq+rk)/(h²+k²) dt + const.\nThis costs one quadrature.\n\nStep 5. Replacing i by −i gives a second complex particular solution (the complex conjugate). Together with the real solution (g,h,k), that makes three particular solutions. From these one builds the direction cosines α,…,γ''.\n\nStep 6. Analogously, system (γ) has the integrals (VI) θ₁²+θ₁'²+θ₁''² = const and (VII) θ₁g₁+θ₁'h₁+θ₁''k₁ = const. From these one obtains α₁,…,γ₁'' with one further quadrature. The particle positions then follow from the formulas of Art. 1.\n\nArt. 5: order counting.\n- Dirichlet's system (A) for l,m,…,n'' has order 16. It has 7 known first integrals: energy, 3 angular-momentum-type and 3 circulation-type. These reduce it to order 9.\n- Riemann's system (α) has order 10, with 3 known first integrals, leaving order 7.\n- The reduction therefore gains 2 orders, at the cost of 2 final quadratures.",
+  "errors": [
+   "No mathematical error found. Equations (5)–(7) are consistent with dθ/dt = rθ' − qθ'', dg/dt = rh − qk and ϖ² = g²+h²+k².",
+   "Implicit (not stated on this page): ϖ² = g²+h²+k², and the choice of the zero-level isotropic solution (θ²+θ'²+θ''² = 0, gθ+hθ'+kθ''= 0). Both are presumably set up on the preceding folio.",
+   "In the displayed derivative, the manuscript writes the term as −g ∂g/∂t over (h²+k²); this matches g(kq−hr) only under dg/dt = rh − qk. That holds for the analogous system, so the step is fine.",
+   "The 'three particular solutions' are the two complex conjugate isotropic ones plus the real solution (g,h,k). This is implicit, not stated."
+  ],
+  "results": [
+   {
+    "what": "Integration of the linear orientation (Poisson-type) system with known angular velocity, via a complex isotropic particular solution and one quadrature",
+    "modern_name": "Isotropic-vector / complex-null-solution method for reconstructing a rotation from angular velocity (related to the Darboux–Riccati/spinor reduction)",
+    "usually_credited_to": "Riemann 1861 in this context; the general isotropic-vector technique is often associated with Darboux (1880s)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Order count: Dirichlet's system of order 16 with 7 integrals vs Riemann's reduced system of order 10 with 3 integrals; a gain of 2 orders",
+    "modern_name": "Reduction of Dirichlet–Dedekind–Riemann ellipsoid equations (symmetry reduction)",
+    "usually_credited_to": "Riemann 1861",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The text is essentially a draft of Art. 4–5 of Riemann's published 1861 ellipsoid memoir. The content is known and already attributed to him.",
+  "checkable": [
+   {
+    "sympy": "g,h,k,w,th=symbols('g h k w theta'); w2=g**2+h**2+k**2; t1=(-g*h+k*w*I)/(h**2+k**2)*th; t2=(-g*k-h*w*I)/(h**2+k**2)*th; simplify((h*t1+k*t2+g*th))",
+    "asserts": "(5),(6) satisfy (3): hθ'+kθ''+gθ = 0 (result 0)"
+   },
+   {
+    "sympy": "simplify(k*t1-h*t2 - w*I*th)",
+    "asserts": "(5),(6) satisfy (4): θ'k−θ''h = ϖiθ (result 0)"
+   },
+   {
+    "sympy": "simplify((th**2+t1**2+t2**2).subs(w,sqrt(g**2+h**2+k**2)))",
+    "asserts": "The particular solution is isotropic, θ²+θ'²+θ''² = 0, when ϖ² = g²+h²+k²"
+   },
+   {
+    "sympy": "q,r=symbols('q r'); simplify(r*t1/th - q*t2/th - ( g*(k*q-h*r) + w*I*(r*k+h*q) )/(h**2+k**2))",
+    "asserts": "(rθ'−qθ'')/θ equals the right-hand side before integration, with −g g_t = g(kq−hr)"
+   },
+   {
+    "sympy": "t=symbols('t'); G=Function('G')(t); W=symbols('W'); simplify(diff(log(W**2-G**2),t)/2 - (-G*diff(G,t)/(W**2-G**2)))",
+    "asserts": "−g g'/(h²+k²) = ½ d/dt log(h²+k²) when h²+k² = ϖ²−g² (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "In (6) the blotted operator between −gk and hϖi is a minus sign: θ'' = (−gk − hϖi)θ/(h²+k²).",
+   "In the integral of (7), Riemann overwrote the differential; it reads ∂t.",
+   "The first word 'addirt' is struck out, and the line continues 'multiplicirt mit h²+k², addirt'.",
+   "'aus den oben Art. 1, 1 und 4' likely refers to formulas (1) and (4) of Art. 1."
+  ]
+ }
+}

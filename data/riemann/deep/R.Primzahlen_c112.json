@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c112",
+ "label": "57r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000113/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page computes the Mellin transform of the theta-type series 2K/π − 1, giving π^{-s}Π(s−1)(1−2^{-s})ζ(s)L(s,χ₋₄). The next page studies saddle points of e^{nx}x^{s−1}/(e^x−1). This page evaluates the basic 'Mordell-type' integral that underlies Riemann's integral representation of ζ(s), the one Siegel later extracted from the Nachlass.\n\n(1) Object. The first line is ∫ e^{x²/(4πi)+βx}/(1−e^x) dx. The exponent may first have been written x²/(2πi), and the denominator is overwritten.\n\n(2) Termwise idea. Expanding 1/(1−e^x)=Σ_{n≥0} e^{nx} gives terms e^{x²/(4πi)+(β+n)x}. Riemann completes the square:\nx²/(4πi)+(β+n)x = (1/(4πi))(x+2πi(β+n))² − πi(β+n)².\nRiemann writes only '−πi nn'. Each term would then be a Fresnel/Gaussian integral times e^{−πi(β+n)²}. This approach is abandoned in favour of a contour shift.\n\n(3) Definition. Q = Q(β) = ∫_{−∞}^{∞} e^{x²/(4πi)+βx}/(e^x−1) dx. For convergence, the path must be a line of slope −1, i.e. direction e^{−iπ/4} (for example x = c·i + r e^{−iπ/4} with 0<c<2π), so that it avoids the poles 2πik. This specification is mine.\n\n(4) Substitution x = y+2πi. Then x²/(4πi) = y²/(4πi) + y + πi and βx = βy + 2πiβ, while e^x = e^y. Hence the integral over the shifted line equals e^{πi+2βπi} ∫ e^{y²/(4πi)+y+βy}/(e^y−1) dy. This matches the manuscript.\n\n(5) Completion (implicit; mine). Write e^y/(e^y−1) = 1 + 1/(e^y−1). Then Q(β+1) = Q(β) + G(β), where\nG(β) = ∫ e^{x²/(4πi)+βx} dx = 2π e^{−πi/4} e^{−πiβ²}.\nThe strip between L and L+2πi contains exactly one pole, x=2πi. Its residue is e^{(2πi)²/(4πi)+2πiβ} = −e^{2πiβ}. Therefore\nQ − (−e^{2πiβ})(Q+G) = 2πi(−e^{2πiβ}).\nMultiplying by e^{−2πiβ} gives\nQ(e^{−2βπi}+1) = −2πi − 2π e^{−πi/4} e^{−πiβ²},\nwhich is the expression the page breaks off at. So\nQ(β) = −2π(i + e^{−πi/4}e^{−πiβ²})/(1+e^{−2πiβ}).\nSanity check: at β=1/2 both numerator and denominator vanish, so the singularity is removable.\n\nThis closed evaluation is equivalent, after the scaling x→2πix, to Riemann's formula ∫_{0↙1} e^{−πix²+2πiux}/(e^{πix}−e^{−πix}) dx = (e^{πiu²}−… )/(…), as reported by Siegel. Riemann uses that formula to obtain the Riemann–Siegel integral representation of ζ(s).",
+  "errors": [
+   "Completing the square: the constant should be −πi(β+n)², not −πi n². This is a slip, or a shorthand with β suppressed.",
+   "No contour or path is specified. On the real axis the integral does not converge (oscillatory Gaussian times e^{βx}), and it would pass through the pole x=0. A line in direction e^{−iπ/4} avoiding the poles is required. This is implicit, not an error of substance.",
+   "The derivation stops at the left side Q(e^{−2βπi}+1); the right side (−2πi minus the Gaussian term) is not written on this page.",
+   "Minor inconsistency: the first line has denominator 1−e^x and possibly x²/(2πi), while Q uses e^x−1 and x²/(4πi)."
+  ],
+  "results": [
+   {
+    "what": "Closed-form evaluation of ∫ e^{x²/(4πi)+βx}/(e^x−1) dx by shifting the contour by 2πi, using the residue at 2πi and a Gaussian (Fresnel) integral, giving a linear equation for Q",
+    "modern_name": "Evaluation of the Mordell integral at the special parameter (Riemann's lemma for the Riemann–Siegel integral formula)",
+    "usually_credited_to": "Riemann (Nachlass), published by C. L. Siegel 1932; general Mordell integrals by Mordell 1933",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Completing the square in x²/(4πi)+(β+n)x after the geometric expansion of 1/(1−e^x)",
+    "modern_name": "Gaussian/Fresnel integral by completing the square",
+    "usually_credited_to": "standard (Euler, Laplace, Gauss)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the known Nachlass computation underlying the Riemann–Siegel integral formula. Siegel (1932) explicitly published and credited Riemann's evaluation of this integral, so the page is a working draft of an already-attributed result.",
+  "checkable": [
+   {
+    "sympy": "simplify(expand(x**2/(4*pi*I)+(b+n)*x - ((x+2*pi*I*(b+n))**2/(4*pi*I) - pi*I*(b+n)**2)))",
+    "asserts": "Correct completed square (equals 0); the constant is −πi(β+n)², not −πi n²"
+   },
+   {
+    "sympy": "simplify(expand((y+2*pi*I)**2/(4*pi*I) + b*(y+2*pi*I) - (y**2/(4*pi*I) + y + b*y + pi*I + 2*pi*I*b)))",
+    "asserts": "Substitution x=y+2πi gives exponent y²/(4πi)+y+βy+πi+2βπi (equals 0)"
+   },
+   {
+    "sympy": "simplify(exp((2*pi*I)**2/(4*pi*I) + 2*pi*I*b) + exp(2*pi*I*b))",
+    "asserts": "Residue of the integrand at x=2πi is −e^{2πiβ} (equals 0)"
+   },
+   {
+    "sympy": "import mpmath as m; b=m.mpf('0.3'); f=lambda r: (lambda x: m.exp(x**2/(4*m.pi*1j)+b*x))(m.pi*1j+r*m.exp(-1j*m.pi/4))*m.exp(-1j*m.pi/4); m.quad(f,[-m.inf,m.inf]) - 2*m.pi*m.exp(-1j*m.pi/4)*m.exp(-1j*m.pi*b**2)",
+    "asserts": "Gaussian G(β)=2π e^{−πi/4} e^{−πiβ²} along the slope −1 line (≈0)"
+   },
+   {
+    "sympy": "import mpmath as m; b=m.mpf('0.3'); g=lambda r: (lambda x: m.exp(x**2/(4*m.pi*1j)+b*x)/(m.exp(x)-1))(m.pi*1j+r*m.exp(-1j*m.pi/4))*m.exp(-1j*m.pi/4); m.quad(g,[-m.inf,0,m.inf]) - (-2*m.pi*(1j+m.exp(-1j*m.pi/4)*m.exp(-1j*m.pi*b**2))/(1+m.exp(-2j*m.pi*b)))",
+    "asserts": "Completed result Q(β)(e^{−2πiβ}+1) = −2πi − 2π e^{−πi/4}e^{−πiβ²}, path crossing the imaginary axis at πi (≈0)"
+   },
+   {
+    "sympy": "simplify(I + exp(-I*pi/4)*exp(-I*pi*Rational(1,4)))",
+    "asserts": "The numerator vanishes at β=1/2 where 1+e^{−2πiβ}=0, so the singularity is removable (equals 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the exponent appears to read x x/(2πi) (possibly corrected), and the denominator is overwritten, roughly '1 − e^x' over an earlier attempt; the transcription normalises this to 4πi.",
+   "Line 3: the image reads (1/(4πi))(x+(β+n)2πi)² − πi nn, with the constant indeed written as nn; the transcription is faithful, but mathematically it should be (β+n)².",
+   "Q has limits −∞ to ∞ written explicitly in the image.",
+   "The last line reads Q(e^{−2βπi}+1) with a dot-like mark under the exponent; nothing follows on the right side."
+  ]
+ }
+}

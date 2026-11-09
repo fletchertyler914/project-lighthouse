@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c092",
+ "label": "60r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000093/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This page is §3 of Riemann's 1860 memoir 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite' (Abh. Ges. Wiss. Göttingen 8). The setting is one-dimensional isothermal gas flow with pressure proportional to density, so the sound speed a is constant. The unknowns are the velocity u(x,t) and the density ρ(x,t). In §1 he introduced the Riemann invariants\n  (2) 4a p = u + a log ρ,\n  (3) 4a q = u − a log ρ,\nwhence u = 2a(p+q) and log ρ = 2(p−q). This step is mine but certain: add and subtract (2) and (3).\n\nIn §1 he showed that in terms of the invariants the equations take the form\n  dp = (∂p/∂x)(dx − (u+a)dt),  dq = (∂q/∂x)(dx − (u−a)dt).\nHe then inverted the roles of the variables, taking x and t as functions of (p,q) (a hodograph transformation). Along q = const the relation dx = (u+a)dt holds, so x_q = (u+a) t_q. Likewise x_p = (u−a) t_p.\n\nExactness of (1) (my fill-in). The form\n  (1) (x − (u+a)t) dp + (x − (u−a)t) dq = dw\nis exact:\n  ∂/∂q [x − (u+a)t] = x_q − (u+a)t_q − t·u_q = −2a t,\n  ∂/∂p [x − (u−a)t] = x_p − (u−a)t_p − t·u_p = −2a t.\nSo w(p,q) exists, with w_p = x − (u+a)t and w_q = x − (u−a)t. It follows that t = (w_q − w_p)/(2a) and w_pq = −2a t = w_p − w_q. This is the linear equation of §2: w_pq − w_p + w_q = 0.\n\nRiemann's method (§2, previous page). The equation for w was solved by Riemann's method. The Riemann function is v = e^{p−p'−(q−q')} Σ (−1)^n (p−p')^n (q−q')^n/(n!)^2, i.e. e^{(p−p')−(q−q')} J0(2√((p−p')(q−q'))).\n\nThis page. The first paragraph says: once w(p,q) is known, u and ρ are obtained as functions of x and t from (1)–(3).\n\nThe page then interprets §1(4) kinematically:\n- p is constant along dx/dt = u + a, so a given value of u + a log ρ moves toward larger x with speed a + u.\n- q is constant along dx/dt = u − a, so a value of u − a log ρ moves toward smaller x with speed a − u.\n- If p and q are pictured at each instant as ordinates of curves over x, every point of each curve moves parallel to the x-axis, generally at different speeds.\n- Since u = 2a(p+q), the speed of a given p-value depends on the q-value it currently meets, and vice versa.\n\nThe page ends by posing the question that the computation answers: when (and where) does a given value p' of p meet a given value q' of q? On the next page the answer is x − (u+a)t = w_p and x − (u−a)t = w_q, evaluated at (p',q').",
+  "errors": [
+   "No mathematical errors on this page. Signs and speeds are consistent: q-values move with velocity u − a, i.e. leftward with speed a − u, when |u| < a.",
+   "Minor point (not an error): the sentence beginning 'Die Rechnung beantwortet' has a correction between 'wo' and 'wann'. 'Wann' (the time) is the intended word, though the next page determines both x and t."
+  ],
+  "results": [
+   {
+    "what": "Riemann invariants for isothermal 1D gas: 4ap = u + a log ρ, 4aq = u − a log ρ, giving u = 2a(p+q).",
+    "modern_name": "Riemann invariants",
+    "usually_credited_to": "Riemann 1860 (Earnshaw 1860 independently for simple waves)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Interchange of dependent and independent variables: the exact differential (x−(u+a)t)dp + (x−(u−a)t)dq = dw, leading to a linear PDE for w(p,q).",
+    "modern_name": "Hodograph transformation (Legendre-type potential) for 1D gas dynamics",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "p is constant along dx/dt = u+a and q along dx/dt = u−a; values propagate with state-dependent speeds (the precursor of wave steepening/shocks).",
+    "modern_name": "Characteristics of hyperbolic systems; nonlinear wave propagation",
+    "usually_credited_to": "Riemann 1860 (with Poisson, Stokes, Earnshaw for related simple-wave ideas)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page is the manuscript of §3 of Riemann's published 1860 memoir on air waves of finite amplitude. Riemann invariants, the hodograph method and the characteristic interpretation are famously his and in print.",
+  "checkable": [
+   {
+    "sympy": "a,u,rho=symbols('a u rho',positive=True); p=(u+a*log(rho))/(4*a); q=(u-a*log(rho))/(4*a); simplify(2*a*(p+q)-u)==0 and simplify(2*(p-q)-log(rho))==0",
+    "asserts": "From (2),(3): u = 2a(p+q) and log ρ = 2(p−q)."
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); w=Function('w')(p,q); t=(diff(w,q)-diff(w,p))/(2*a); u=2*a*(p+q); x=diff(w,p)+(u+a)*t; simplify(diff(x,q)-(u+a)*diff(t,q)).subs(diff(w,p,q), diff(w,p)-diff(w,q))",
+    "asserts": "Given w with w_pq = w_p − w_q, x and t defined from w_p, w_q satisfy x_q = (u+a) t_q (q-derivative along constant p), up to simplification to 0."
+   },
+   {
+    "sympy": "p,q=symbols('p q'); r=Function('r')(p,q); v=exp(p-q)*r; simplify((diff(v,p,q)+diff(v,p)-diff(v,q))*exp(q-p) - (diff(r,p,q)+r))",
+    "asserts": "The adjoint of w_pq − w_p + w_q with v = e^{p−q} r reduces to r_pq + r (should be 0)."
+   },
+   {
+    "sympy": "p,q=symbols('p q',positive=True); r=besselj(0,2*sqrt(p*q)); simplify(diff(r,p,q)+r)",
+    "asserts": "r = Σ(−1)^n p^n q^n/(n!)^2 = J0(2√(pq)) satisfies r_pq + r = 0 (should be 0)."
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); x=Function('x')(p,q); t=Function('t')(p,q); u=2*a*(p+q); simplify(diff(x-(u+a)*t,q)-diff(x-(u-a)*t,p)).subs({diff(x,q):(u+a)*diff(t,q), diff(x,p):(u-a)*diff(t,p)})",
+    "asserts": "Exactness of form (1): both cross-derivatives equal −2a t, so the difference is 0."
+   }
+  ],
+  "transcription_corrections": [
+   "In the last sentence the image shows a struck/overwritten word before 'wann'. The reading '[-wann-] wo [?] wann' is uncertain; the intended text is 'die Frage, wann ein bestimmter Werth p' von p ...'.",
+   "In 'dp = ∂p/∂x (dx − (u+a)dt)' the image shows an overwritten 'a' before 'dt' ('u+a̶dt'); the meaning (u+a)dt is clear."
+  ]
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c087",
+ "label": "30",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000088/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a printed page from an elementary German arithmetic textbook (p. 30). Gauss's hand appears only in two small corrections and in the right-margin numbers. The margin figures continue onto the next page ('Rechnung bei 60°').\n\nPrinted text, top (end of §83, decimal conversion of fractions). A fraction p/q has a terminating decimal exactly when the reduced denominator divides a power of ten. Otherwise the decimal is only an approximation, with an error that can be made arbitrarily small. Example: 2/3 - 0.666666 = (2/3)*10^-6. The print gives the remaining error as a small fraction over 1000000.\n\n§84, division with decimals.\n(1) Pad dividend and divisor with zeros to the same number of decimal places. Both can then be treated as integers, since a/b = (a*10^k)/(b*10^k).\n(2) For more digits, multiply the dividend by 10^m, i.e. append m zeros. Divide as integers, then point off m digits in the quotient: a/b = 10^-m * (a*10^m)/b.\n\nWorked long division, 19000 / 563 (i.e. 1.9/563):\n- 1900 - 3*563 = 1900 - 1689 = 211\n- 2110 - 1689 = 421\n- 4210 - 7*563 = 4210 - 3941 = 269\n- 2690 - 4*563 = 2690 - 2252 = 438\nSo the quotient is 0.003374... with remainder 438.\n\nSide examples:\n- 194.235/563 = 194235/563000 = 0.345, because 563*345 = 194235.\n- 194235/5.63 = 19423500/563 = 34500.\n- 1942.35/0.563 = 1942350/563 = 3450.\n- 1.9/563 = 19/5630 = 0.003374...\n\n§85: to divide named (dimensioned) quantities of the same kind, reduce everything to the smallest unit first. §86: division with letters (algebraic division).\n\nHandwritten corrections:\n- The misprinted numerator '149235' is corrected to '194235' (a '94' is written above it).\n- In §86 the cross-reference '§.14' is changed to '§.15'.\n\nRight-margin numbers. Most are cropped. The legible block matches the next page and is a common-logarithm computation of log10(M*pi/18), where M = log10(e) = 0.4342945 (the label reads '1/18 pi · 0,434'). In 10-shifted characteristics:\n- log10 M = 9.6377843 - 10\n- log10 pi = 0.4971499\n- sum = 0.1349342 (i.e. 10.1349342 - 10)\n- log10 18 = 1.2552725\n- difference = 8.8796617 - 10\n\nSo M*pi/18 ≈ 0.07580. This is the Briggsian equivalent of a 10° arc, i.e. log10(e^(pi/18)); the value 0.0757987 appears on the next page. The upper margin figures (0.87401..., 850..., 8532, 8654..., 865523...) are fragments of the series/difference computation shown in full on the next page, for 60°. They are too cropped to reconstruct here.",
+  "errors": [
+   "The printed remainder 2/3 - 0.666666 should be (2/3)/1000000, about 6.67e-7. If the small numerator is read as '4' (4/1000000), the print is wrong. It may instead be a poorly printed 2/3, or the text may mean 4 more digits in some sense; the reading is uncertain.",
+   "Misprint 149235 for 194235 in the first side example; corrected by hand on the page.",
+   "Cross-reference §.14 corrected by hand to §.15 in §86.",
+   "The appeal to '§.81' for the error vanishing seems to point to §82 (the 1/∞ principle); §81 concerns the gcd of several numbers. Likely a wrong cross-reference in the print.",
+   "All arithmetic checks: 19000 = 563*33 + 421 and 1900000 = 563*3374 + 438; 563*345 = 194235; 34500 and 3450 are exact."
+  ],
+  "results": [
+   {
+    "what": "Division of decimal numbers by scaling to integers and pointing off digits",
+    "modern_name": "Decimal long division / scaling by powers of ten",
+    "usually_credited_to": "Standard since Stevin (1585) and later textbook tradition",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "A fraction has a terminating decimal iff its denominator divides a power of 10",
+    "modern_name": "Terminating decimal criterion",
+    "usually_credited_to": "Classical; folklore",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Marginal log computation: log10(M*pi/18) = 8.8796617-10 with M = log10 e",
+    "modern_name": "Converting radian arc to Briggsian logarithm (modulus M); logarithmic table computation",
+    "usually_credited_to": "Routine computational practice (Briggs, Napier tradition)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The printed content is elementary textbook arithmetic. Gauss's additions are a misprint correction, a cross-reference fix, and routine logarithmic scratch computations (log of M*pi/18) belonging to a numerical calculation on the next page.",
+  "checkable": [
+   {
+    "sympy": "563*345 == 194235",
+    "asserts": "194.235/563 = 0.345 exactly"
+   },
+   {
+    "sympy": "Rational(19423500,563) == 34500",
+    "asserts": "194235/5.63 = 34500"
+   },
+   {
+    "sympy": "Rational(1942350,563) == 3450",
+    "asserts": "1942.35/0.563 = 3450"
+   },
+   {
+    "sympy": "divmod(1900000, 563) == (3374, 438)",
+    "asserts": "long division 1.9/563 = 0.003374... with remainder 438"
+   },
+   {
+    "sympy": "Rational(2,3) - Rational(666666,10**6) == Rational(2,3)/10**6",
+    "asserts": "the error of 0.666666 for 2/3 is (2/3)*10^-6"
+   },
+   {
+    "sympy": "N(log(log(E,10),10)+10, 10)",
+    "asserts": "≈ 9.6377843 (log10 of M)"
+   },
+   {
+    "sympy": "N(log(pi,10), 10)",
+    "asserts": "≈ 0.4971499"
+   },
+   {
+    "sympy": "N(log(18,10), 10)",
+    "asserts": "≈ 1.2552725"
+   },
+   {
+    "sympy": "N(log(log(E,10)*pi/18,10)+10, 10)",
+    "asserts": "≈ 8.8796617"
+   },
+   {
+    "sympy": "N(log(E,10)*pi/18, 8)",
+    "asserts": "≈ 0.0757987"
+   }
+  ],
+  "transcription_corrections": [
+   "Margin '1/18 π. 0,43[?]' should read '1/18 π · 0,434' (pi/18 times the modulus 0.4342945), consistent with the next page.",
+   "Margin '9,63778[?]' should read 9.6377843; '0,447145[?]' should read 0.4971499; '0,134934[?]' should read 0.1349342; '1,25527[?]' should read 1.2552725; '8,87966[?]' should read 8.8796617.",
+   "The printed small fraction after 'nur noch' is uncertain ('4/1000000' or possibly a smudged 2/3 over 1000000); the mathematically correct value is (2/3)/1000000.",
+   "Long-division block is correctly transcribed: 1689, 2110, 1689, 4210, 3941, 2690, 2252, 438.",
+   "Margin '840896' corresponds to the next page's '840896' (likely the end of the log-sum block 9448096)."
+  ]
+ }
+}

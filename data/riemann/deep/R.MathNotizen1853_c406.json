@@ -1,0 +1,54 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c406",
+ "label": "208r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000407/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds one formula, ∫(X dx + Y dy) = Z, and two figures. The upper figure is an annular region: an outer closed curve, an inner closed curve, and small arc and arrow marks on both, apparently showing orientation or a direction of traversal. The lower figure is a single closed curve bounding a disc, with a small mark near its centre. No derivation is written out. The reading below is my interpretation, inferred from the figures and from Riemann's known work (Dissertation 1851, §§7–10; Theorie der Abel'schen Functionen 1857, preliminaries). Z is defined as the line integral of the differential X dx + Y dy from a fixed point to (x, y). Suppose the integrability condition ∂X/∂y = ∂Y/∂x holds in a region T. Then Green's theorem applies to any subregion: the boundary integral of X dx + Y dy, taken in the positive sense, equals ∬(∂Y/∂x − ∂X/∂y) dx dy = 0. For the disc (simply connected), every closed path bounds a region inside T, so Z is a single-valued function of the endpoint. For the annulus (doubly connected), apply the theorem to the ring between the curves, traversed with the outer curve positive and the inner curve negative (presumably what the arrows indicate). This gives: integral over the outer curve = integral over the inner curve. Hence the integral around any curve encircling the hole has the same value, a 'period' or cyclic modulus. Z is then defined only up to integer multiples of that constant, unless a cross-cut (Querschnitt) is drawn to make the region simply connected. This is the elementary core of Riemann's notion of connectivity and of the moduli of periodicity of integrals. The next page (a variational computation δ∫(U+T+V)dt with a quadratic kinetic energy Σ a_{ιι'} x'_ι x'_{ι'}) is on a different topic, so the context does not further constrain this reading.",
+  "errors": [
+   "No computational steps appear on the page, so there are no errors to report. The intended statement (independence of path in simply connected regions, periods in the annulus) is correct provided ∂X/∂y = ∂Y/∂x."
+  ],
+  "results": [
+   {
+    "what": "Z = ∫(X dx + Y dy) is a single-valued function of the endpoint on a simply connected region (disc) when ∂X/∂y = ∂Y/∂x.",
+    "modern_name": "Path independence of line integrals of closed (exact) 1-forms; Green's theorem in the plane",
+    "usually_credited_to": "Green (1828), Cauchy (1825 integral theorem), Gauss/Ostrogradsky",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "On an annulus the integral of a closed form around the outer and inner boundary curves agrees (boundary orientation shown by arrows), giving a period / cyclic modulus and a multivalued Z.",
+    "modern_name": "Periods of closed differentials, first de Rham cohomology/homology of a doubly connected domain; Riemann's connectivity (Zusammenhang) and cross-cuts",
+    "usually_credited_to": "Riemann (Dissertation 1851; Abelian functions 1857), with antecedents in Cauchy (periodicity moduli)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are sketch-level illustrations of material Riemann published himself in 1851 and 1857: path independence, multiply connected regions, and periods of integrals. The page holds nothing beyond that.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y'); X=-y/(x**2+y**2); Y=x/(x**2+y**2); simplify(diff(Y,x)-diff(X,y))",
+    "asserts": "This example differential satisfies the integrability condition (result 0) on the punctured plane."
+   },
+   {
+    "sympy": "t,r=symbols('t r',positive=True); X=-y/(x**2+y**2); Y=x/(x**2+y**2); simplify(integrate((X*diff(r*cos(t),t)+Y*diff(r*sin(t),t)).subs({x:r*cos(t),y:r*sin(t)}),(t,0,2*pi)))",
+    "asserts": "The integral around any circle encircling the hole is 2*pi, independent of r. Outer and inner boundary integrals of the annulus agree: a nonzero period."
+   },
+   {
+    "sympy": "t=symbols('t'); X=2*x*y; Y=x**2; integrate((X*diff(cos(t),t)+Y*diff(sin(t),t)).subs({x:cos(t),y:sin(t)}),(t,0,2*pi))",
+    "asserts": "For an exact differential (d(x**2*y)) the integral around a closed curve in the disc is 0, so Z is single-valued."
+   },
+   {
+    "sympy": "r,t=symbols('r t',positive=True); P=-y**3; Q=x**3; lhs=integrate((diff(Q,x)-diff(P,y)).subs({x:r*cos(t),y:r*sin(t)})*r,(r,1,2),(t,0,2*pi)); outer=integrate((P*diff(2*cos(t),t)+Q*diff(2*sin(t),t)).subs({x:2*cos(t),y:2*sin(t)}),(t,0,2*pi)); inner=integrate((P*diff(cos(t),t)+Q*diff(sin(t),t)).subs({x:cos(t),y:sin(t)}),(t,0,2*pi)); simplify(lhs-(outer-inner))",
+    "asserts": "Green's theorem on the annulus 1<r<2 with the inner boundary traversed negatively (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The formula ∫(X dx + Y dy) = Z is essentially correct. The X and Y are written in a cursive or Fraktur-like hand, but they are the coefficient functions X, Y.",
+   "The upper figure shows extra short arcs with arrowheads near the top of the inner curve and repeated strokes on the outer curve's lower part, indicating traversal direction. The lower disc figure has a small 'c'-shaped mark near its centre, possibly a point or orientation mark.",
+   "'208' is the archival folio number at the right margin, not part of Riemann's content."
+  ]
+ }
+}

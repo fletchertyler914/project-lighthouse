@@ -1,0 +1,65 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c110",
+ "label": "55r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000111/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The sheet is written sideways, in Italian, in pencil and is very fragmentary. That fits Riemann's Italian stay (1862-66), though the hand cannot be confirmed from the image alone. It has two halves.\n\n(A) Upper half: heading 'Potenziale magnetico' (magnetic potential). Below it is the Laplacian of the potential phi, d2phi/dx2 + d2phi/dy2 + d2phi/dz2 =, left unfinished. The right-hand side is presumably 0 outside magnetized matter and -4*pi*rho_magnetic inside (my completion). A word that may be 'Strisciano' or 'Strisciamo' stands beside it. The large sketch looks like an apparatus: a vertical rod with a crossbar, a jointed frame and curved lines. It could be a magnetometer or suspended-needle arrangement, but this is not identifiable with confidence.\n\n(B) Lower half: a scratch computation about harmonic functions.\n(i) Lines with d/dt, dx/dt and an equation of the form du/dx + ... = u_1 point towards a velocity or flow interpretation. The legible end words read roughly 'campo ... velocità' or 'lungo ... della velocità', so u is probably a velocity potential (my interpretation).\n(ii) Delta u = d2u/dx2 + d2u/dy2 + d2u/dz2 = 0.\n(iii) A substitution u_1 = 1/u (or u_1 some function of u). The next line is d/dx(u_1 du_1/dx) + (analogous y, z terms) = 0, i.e. div(u_1 grad u_1) = (1/2) Delta(u_1^2) = 0. This tests whether a function of a harmonic function satisfies a Laplace-type equation. The general identity (mine) is Delta f(u) = f'(u) Delta u + f''(u)|grad u|^2. So f(u) is harmonic for every harmonic u only when f is linear.\n(iv) A table 'x y z / k_1 k_2 k_3' and the substitution xi_1 = x/rho_1, xi_2 = y/rho_2, xi_3 = z/rho_3, followed by d2u_1/dx2 + d2u_1/dy2 + d2u_1/dz2 = 0. This is the standard reduction of the anisotropic equation k_1 u_xx + k_2 u_yy + k_3 u_zz = 0 (conduction or magnetic induction in a crystal or anisotropic medium with principal coefficients k_i) to Laplace's equation. Taking rho_i = sqrt(k_i) (my completion), the equation becomes u_xi1xi1 + u_xi2xi2 + u_xi3xi3 = 0.\n(v) 'u = f(x)' at the end: probably trying a one-dimensional or separated solution.\n\nNothing is carried to a conclusion.",
+  "errors": [
+   "The Laplace equation for phi is left without a right-hand side, so the line is incomplete rather than wrong.",
+   "If u_1 = 1/u was meant to be harmonic whenever u is, that is false: Delta(1/u) = -Delta u/u^2 + 2|grad u|^2/u^3, which is nonzero for nonconstant harmonic u. The page does not draw this conclusion explicitly.",
+   "The relation between rho_i and k_i is not written; it must be rho_i = sqrt(k_i) (up to a common factor) for the reduction to Laplace's equation to work."
+  ],
+  "results": [
+   {
+    "what": "Laplace equation for the magnetic potential outside sources",
+    "modern_name": "Laplace equation / magnetic scalar potential",
+    "usually_credited_to": "Laplace, Poisson (1824 magnetism), Gauss",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reduction of k_1 u_xx + k_2 u_yy + k_3 u_zz = 0 to Laplace's equation by rescaling the coordinates along the principal axes",
+    "modern_name": "affine (anisotropic) change of variables for conduction in crystals",
+    "usually_credited_to": "Duhamel (1828-32), Lamé, Stokes (1851), W. Thomson",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Testing whether a function of a harmonic function (u_1 = 1/u, u_1^2) satisfies a Laplace-type equation",
+    "modern_name": "chain rule for the Laplacian: Delta f(u) = f'(u) Delta u + f''(u)|grad u|^2",
+    "usually_credited_to": "classical (19th-century potential theory)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are routine potential-theory scratch notes: a Laplace equation, an anisotropic rescaling and a function-of-harmonic test. They have mild biographical interest because they are in Italian, consistent with Riemann's Pisa period and his physics interests, but contain no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,k1,k2,k3=symbols('x y z k1 k2 k3',positive=True); U=Function('U'); u=U(x/sqrt(k1),y/sqrt(k2),z/sqrt(k3)); simplify(k1*diff(u,x,2)+k2*diff(u,y,2)+k3*diff(u,z,2) - (Subs(diff(U(*symbols('a b c')),symbols('a'),2)+diff(U(*symbols('a b c')),symbols('b'),2)+diff(U(*symbols('a b c')),symbols('c'),2),symbols('a b c'),(x/sqrt(k1),y/sqrt(k2),z/sqrt(k3))).doit()))",
+    "asserts": "With xi_i = x_i/sqrt(k_i), the operator sum k_i d2/dx_i2 becomes the ordinary Laplacian in xi (result should be 0)."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); u=x**2-y**2+z; L=lambda f: diff(f,x,2)+diff(f,y,2)+diff(f,z,2); (L(u), simplify(L(1/u)))",
+    "asserts": "u is harmonic but 1/u is not (second entry is nonzero)."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); w=Function('w')(x,y,z); simplify(diff(w*diff(w,x),x)+diff(w*diff(w,y),y)+diff(w*diff(w,z),z) - Rational(1,2)*(diff(w**2,x,2)+diff(w**2,y,2)+diff(w**2,z,2)))",
+    "asserts": "div(w grad w) = (1/2) Delta(w^2) (result 0)."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); f=Function('f'); u=Function('u')(x,y,z); L=lambda g: diff(g,x,2)+diff(g,y,2)+diff(g,z,2); simplify(L(f(u)) - (f(u).diff(u)*L(u) + f(u).diff(u,2)*(diff(u,x)**2+diff(u,y)**2+diff(u,z)**2)))",
+    "asserts": "Chain rule for the Laplacian of a composite function (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is written sideways (rotated 90 degrees); the right-margin text near the bottom reads roughly 'campo ... della velocità' rather than 'lungo ...'.",
+   "'Strisciano' is uncertain; it may be 'Strisciamo' or a proper name.",
+   "The table is 'x y z' over 'k_1 k_2 k_3' with xi_i = x_i/rho_i; the line 'du/dx = H x' is doubtful and probably reads du/dx = ... with an unclear right side.",
+   "The second and third terms of 'd/dx(u_1 du_1/dx) + du_1^2/dx2 + du_1^2/dz2' are most likely the analogous y and z terms (d/dy(u_1 du_1/dy), etc.), not literally d2(u_1^2)/dx2.",
+   "The opening line 'domega/dt + x-dot + y-dot' is largely illegible; it is probably derivative notation for a velocity field."
+  ]
+ }
+}

@@ -1,0 +1,60 @@
+{
+ "bundle": "D.Intervalle",
+ "page": "c006",
+ "label": "-",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234947:00000007/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The previous page defines an 'Intervall' as a set of real numbers. An interval is understood as a convex set: whenever it contains two numbers, it contains every number between them. That page also defines 'Stück' (subset), 'benachbart' (adjacent intervals) and the complements A', A''. It also introduces C = AB for adjacent intervals.\n\nTHEOREM (Addition der Intervalle). Let A and B be intervals. Then the set C = A + B = {a + b : a in A, b in B} is again an interval.\n\nPROOF.\n1. Statement of what must be shown. Take two elements c1 = a1 + b1 and c2 = a2 + b2 of C, with a_i in A and b_i in B. Take any c with c1 < c < c2. We must write c = a + b, where a lies between a1 and a2 and b lies between b1 and b2. Convexity of A and B then gives a in A and b in B, so c is in C.\n2. Reduction. From c2 > c1 we get (a2 - a1) + (b2 - b1) > 0. So at least one of the differences is positive; Dedekind says 'let a2 - a1 be positive'.\n3. Abandoned parametrisation. In the right column he writes 'between' as a = a1 + eps(a2 - a1) with 0 <= eps <= 1, and restates a1 + b1 < c < a2 + b2. This line could lead straight to a one-line proof, which he does not carry out [my completion]. Put eps = (c - c1)/(c2 - c1), which lies in (0,1). Set a = a1 + eps(a2 - a1) and b = b1 + eps(b2 - b1). Then a + b = c1 + eps(c2 - c1) = c.\n4. Argument actually carried out. He begins 'if both differences are positive'. Define p1 = c - (a1 + b1) > 0 and p2 = (a2 + b2) - c > 0. Then c = a1 + b1 + p1 = a2 + b2 - p2. There are four cases.\n   (i) If a1 + p1 <= a2, then c = (a1 + p1) + b1, with a = a1 + p1 in (a1, a2].\n   (ii) If b1 + p1 <= b2, then c = a1 + (b1 + p1), with b in (b1, b2].\n   (iii) If a2 - p2 >= a1, then c = (a2 - p2) + b2, with a in [a1, a2).\n   (iv) If b2 - p2 >= b1, then c = a2 + (b2 - p2), with b in [b1, b2).\n5. Contradiction if no case applies. Then p1 > a2 - a1, p1 > b2 - b1, p2 > a2 - a1 and p2 > b2 - b1. Hence p1 + p2 > (a2 + b2) - (a1 + b1). This contradicts the identity p1 + p2 = (a2 + b2) - (a1 + b1), which follows from the definitions of p1 and p2 ('gegen die Voraussetzung').\n   - The deleted factors 2 show the first version: he added all four inequalities to get 2p1 + 2p2 > 2(a2 + b2) - 2(a1 + b1).\n   - He then corrected this, noting that the first and fourth inequalities alone suffice (equivalently the second and third).\n\nRemark [mine]. The four-case argument never uses the sign of a2 - a1 or b2 - b1. If a2 < a1, case (i) is simply impossible and its negation holds trivially. So the preliminary case split ('es sei a2 - a1 positiv', 'sind beide positiv') is unnecessary: the argument already proves the general case.\n\nPurpose. This is part of an elementary theory of intervals of real numbers (cuts, adjacent intervals, products AB) that the bundle develops. It belongs to Dedekind's foundational work on the continuum.",
+  "errors": [
+   "No mathematical error in the final argument.",
+   "The opening case distinctions ('es sei a2-a1 positiv', 'Sind beide Differenzen ... positiv') are left unfinished and are in fact superfluous: the four-case argument works for arbitrary signs.",
+   "The 'contradiction' step needs only two of the four inequalities. The struck-out factors 2 show Dedekind first added all four and then simplified; the final written inequality p1+p2 > (a2+b2)-(a1+b1) is correct.",
+   "The parametrisation a = a1 + eps(a2-a1) is written down but not used; it would give a shorter proof.",
+   "'zwischen' must be read as inclusive (closed between) for the cases with equality, e.g. a1+p1 = a2. This is implicit but harmless."
+  ],
+  "results": [
+   {
+    "what": "The elementwise sum A+B of two intervals (convex subsets) of the reals is an interval.",
+    "modern_name": "Minkowski sum of convex sets / sum of intervals; the basis of interval arithmetic [a1,a2]+[b1,b2]=[a1+b1,a2+b2]",
+    "usually_credited_to": "Folklore; Minkowski (c. 1900) for sums of convex sets; interval arithmetic: Young 1931, Sunaga 1958, Moore 1966",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Elementary proof by a four-case analysis with excess quantities p1, p2 and contradiction via p1+p2 = c2-c1.",
+    "modern_name": "Elementary order argument (an alternative to convex-combination parametrisation)",
+    "usually_credited_to": "folklore",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The result is elementary: sums of intervals are intervals. Its interest is only as a glimpse of Dedekind building an axiomatic-style 'algebra of intervals' alongside cuts, an unpublished workshop detail, not a new result.",
+  "checkable": [
+   {
+    "sympy": "simplify((a1+b1+p1) - (a2+b2-p2)).subs(p2, (a2+b2)-(a1+b1)-p1)",
+    "asserts": "The definitions c = a1+b1+p1 = a2+b2-p2 are consistent exactly when p1+p2 = (a2+b2)-(a1+b1). The expression simplifies to 0."
+   },
+   {
+    "sympy": "simplify((a1+eps*(a2-a1)) + (b1+eps*(b2-b1)) - ((a1+b1)+eps*((a2+b2)-(a1+b1))))",
+    "asserts": "The convex-combination proof works: a+b equals c1+eps*(c2-c1). Simplifies to 0."
+   },
+   {
+    "sympy": "simplify(((a2-a1)+(b2-b1)) - ((a2+b2)-(a1+b1)))",
+    "asserts": "Adding p1>a2-a1 and p2>b2-b1 gives exactly p1+p2 > (a2+b2)-(a1+b1). Simplifies to 0."
+   },
+   {
+    "sympy": "simplify(2*(a2-a1)+2*(b2-b1) - 2*((a2+b2)-(a1+b1)))",
+    "asserts": "The struck-out version, adding all four inequalities, gives 2p1+2p2 > 2(a2+b2)-2(a1+b1), also correct. Simplifies to 0."
+   }
+  ],
+  "transcription_corrections": [
+   "In the last inequality the right side originally read 2(a2+b2) - (a1+b1) with the 2 struck out; read the final version as p1 + p2 > (a2+b2) - (a1+b1).",
+   "'so nehme[?]' after 'Sind beide Differenzen ... positiv' is uncertain in the image (possibly 'so setze'). Sense: 'put/write c = a1+b1+p1 = a2+b2-p2'.",
+   "In the line 'ist b1 + p1 <= b2' the b1 is written over a corrected letter; the reading b1 is right by the logic of the argument.",
+   "The deleted material after 'c2 = a2 + b2' is illegible; nothing mathematically relevant appears lost.",
+   "'Summen' is struck out and replaced by 'c =', giving 'so bilden die c = a+b ein Intervall C = A + B'."
+  ]
+ }
+}

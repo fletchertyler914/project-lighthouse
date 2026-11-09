@@ -1,0 +1,62 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c305",
+ "label": "294",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000306/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page sets up an error estimate for the Pfaff-transformed hypergeometric series. Put A = F(theta, n+theta; n+1; t^2). Pfaff's transformation gives A = (1-t^2)^(-theta) F(theta, 1-theta; n+1; -t^2/(1-t^2)). Let B_mu be the sum of the first mu terms of the transformed series, and let b_(mu+1) be the next term. Gauss asserts that A - B_mu has the same sign as b_(mu+1). His argument uses a 'Hülfssatz', which he says is a special case of a more general lemma. This page states that lemma.\n\nLemma (as written): let a, b, c, d, ... (a_0, a_1, a_2, ...) be positive and increasing. Then every partial sum\nS_n = sum_{j=0}^{n} (-1)^j C(k,j) a_j = a - k b + k(k-1)/2 c - k(k-1)(k-2)/6 d + ...\nhas the same sign as its last included term (-1)^n C(k,n) a_n, wherever one stops. 'Man wendet dies an, indem man von hinten anfängt': the lemma is applied with the summation order reversed. Gauss adds that the statement stays true if, from some index on, the a_j have alternating signs.\n\nHow it serves the application (my reconstruction). Expand each b_m = c_m (-t^2)^m (1-t^2)^(-theta-m) in powers of x = t^2, where c_m = (theta)_m (1-theta)_m / ((n+1)_m m!). For theta+m > 0 one has (-1)^(N-m) C(-theta-m, N-m) = C(theta+N-1, N-m) > 0. This is the remark on the previous page that (1-tt)^(-theta-mu) has terms of one sign. So the coefficient of x^N in A - B_mu is\nsum_{m=mu+1}^{N} (-1)^m c_m C(theta+N-1, N-m).\nSubstitute j = N-m (this is the 'von hinten' step). The coefficient becomes (-1)^N sum_{j=0}^{J} (-1)^j C(K,j) a_j, with K = theta+N-1, J = N-mu-1 < K, and a_j = c_{N-j}. The a_j increase in j because the c_m decrease in m. The lemma would then give every coefficient the sign (-1)^(mu+1), the sign of b_(mu+1).\n\nSpecial case: with all a_j = 1 one has sum_{j<=n} (-1)^j C(k,j) = (-1)^n C(k-1,n). This has the sign of the last term exactly when k > n or k < 0. That case is presumably the 'Hülfssatz' meant on the previous page.",
+  "errors": [
+   "The general lemma as stated, with positivity and monotonicity only, is false when the truncation index n is below k, which is exactly the regime of the application. Counterexample: k = 5/2, n = 2, a = 1/100, b = 1, c = 101/100 gives S_2 = -0.596 < 0, while the last term +1.875c is positive.",
+   "Second counterexample: k = 4, n = 3, a = 0, b = 1/100, c = 1, d = 101/100 gives S_3 = +1.92, while the last term -4d is negative.",
+   "For k < 0 the lemma is trivially true, since all terms are positive. In the application it can hold only because of the special structure of the hypergeometric coefficients, not monotonicity alone. An extra hypothesis is needed (e.g. on higher differences or on the ratios a_(j+1)/a_j).",
+   "Notational slip: the fourth term is written '+ k(k-1)(k-2)/(1.2.3)'. It should carry a minus sign and the factor d (sign then '+ u.s.w.'). The manuscript writes '+' and omits d.",
+   "The closing claim about alternating signs 'from some place on' is stated without proof and is not precise."
+  ],
+  "results": [
+   {
+    "what": "Sign of the truncation remainder of the Pfaff-transformed hypergeometric series F(theta,1-theta;n+1;-x/(1-x)) equals the sign of the first omitted term (context from the previous page; this page gives the lemma used).",
+    "modern_name": "Enveloping (alternating-type) remainder estimate for hypergeometric series / Pfaff transformation",
+    "usually_credited_to": "Pfaff (1797) for the transformation; remainder enveloping results are scattered in 19th–20th c. literature (e.g. Stieltjes-type bounds)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Partial sums of sum (-1)^j C(k,j) a_j, with a_j positive and increasing, carry the sign of the last term.",
+    "modern_name": "Binomial-weighted alternating sum sign lemma (Abel-summation type); true for constant a_j via sum_{j<=n}(-1)^j C(k,j) = (-1)^n C(k-1,n)",
+    "usually_credited_to": "The identity is classical (18th c., Euler/Vandermonde-type); the general lemma as stated is not a standard result (and is false in general)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is an auxiliary lemma for a hypergeometric error estimate, in Gauss's well-known area of hypergeometric series. The statement is elementary and, as written, actually false in general, so it is not a hidden major result.",
+  "checkable": [
+   {
+    "sympy": "k,n=symbols('k n'); simplify(Sum((-1)**j*binomial(k,j),(j,0,3)).doit() - (-1)**3*binomial(k-1,3))",
+    "asserts": "Identity behind the special case a_j = 1: sum_{j<=n}(-1)^j C(k,j) = (-1)^n C(k-1,n), checked for n = 3 (result 0)."
+   },
+   {
+    "sympy": "k=Rational(5,2); a,b,c=Rational(1,100),1,Rational(101,100); a - k*b + k*(k-1)/2*c",
+    "asserts": "Counterexample to the general lemma: equals -477/800 < 0, although the last term is positive."
+   },
+   {
+    "sympy": "k=4; a,b,c,d=0,Rational(1,100),1,Rational(101,100); a-k*b+binomial(k,2)*c-binomial(k,3)*d",
+    "asserts": "Second counterexample: equals 48/25 > 0, although the last term is negative."
+   },
+   {
+    "sympy": "th,n,x=symbols('theta n x'); series(hyper([th,n+th],[n+1],x) - (1-x)**(-th)*hyper([th,1-th],[n+1],-x/(1-x)), x, 0, 5).subs({th:Rational(1,3),n:2})",
+    "asserts": "Pfaff transformation underlying A = (1-tt)^(-theta) F(theta,1-theta,n+1,-tt/(1-tt)); the series should vanish."
+   },
+   {
+    "sympy": "th,N,m=symbols('theta N m'); (-1)**(N-m)*binomial(-th-m,N-m) - binomial(th+N-1,N-m)",
+    "asserts": "Coefficient identity used in the reconstruction, making (1-x)^(-theta-m) have positive coefficients; it simplifies to 0 for integer N >= m."
+   }
+  ],
+  "transcription_corrections": [
+   "The fourth term lacks the factor d: the manuscript has '+ k.k-1.k-2./1.2.3 - u.s.w.' with no d. The intended reading is '- k(k-1)(k-2)/(1.2.3) d + u.s.w.'; the sign '+' before it appears in the manuscript as written, i.e. a slip by Gauss.",
+   "Pink folio number '294' at top left.",
+   "'alternirende Zeichen' confirmed; 'diess' could also be read 'dieß'."
+  ]
+ }
+}

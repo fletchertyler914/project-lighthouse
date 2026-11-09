@@ -1,0 +1,82 @@
+{
+ "bundle": "PH.Induktion",
+ "page": "c004",
+ "label": "3r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382427:00000005/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is an observation log, not a derivation. It comes from the Gauss–Weber induction experiments of 1834–35 on the wire line linking Gauss's Sternwarte (observatory) and Weber's Magnetisches Observatorium (M.O.). Header, translated: 'Dec. 16, 1834, morning. Closed in 3 [the circuit / commutator position 3]. Induction produced by the bar swinging in the Sternwarte. Position of the bar in the M.O. 650.63 at 11h51'10\".' So a magnet bar was set swinging at the Sternwarte, presumably inside a multiplier coil. The current it induced ran through the line to the M.O. There the magnetometer needle was read on its scale.\n\nStructure of the table, in three columns of entries:\n- Time stamps are given every 30 s, with three readings per 30 s, so one scale reading x_n every 10 s.\n- The run starts at 11h41'30\" (x_1 = 650.5) and ends at 11h58'40\" (x_105 = 661.9).\n- Column 1 holds the raw scale readings x_n.\n- Column 2, written on the line of x_n, holds the mean of the two neighbouring readings: y_n = (x_{n-1} + x_{n+1})/2.\n- Example: y_2 = (650.5 + 650.9)/2 = 650.7, and y_3 = (650.8 + 652.4)/2 = 651.6.\n- I verified this rule for essentially every entry on the page.\n\nPurpose of the averaging (my interpretation):\n- y_n combines readings 20 s apart.\n- A sinusoidal component of period T is multiplied by cos(2π·10/T). This vanishes for T = 40 s.\n- The residuals x_n − y_n indeed show a sign pattern + + − − with a period of 4 readings (≈40 s). Examples: +2.6, +4.85, +0.8, −6.75, −3.35, +2.95, +3.55, −2.95, −1.25, +4.95, …\n- So the neighbour-mean filters out a ≈40 s oscillation and leaves a slower, regular oscillation of the needle.\n- The smoothed series y_n has maxima near 655–656 at roughly 43'30\", 44'50\", 46'20\", 47'40\", 49'00\", 50'30\", 51'50\", 53'10\", 54'40\", 56'10\", 57'20\". That is a period of about 83 s (8.3 readings).\n- Its minima lie near 645.5–646. So it oscillates about ≈650.6, consistent with the stated rest position 650.63.\n- The slow oscillation is the induced effect of the distant swinging bar, as transmitted through the line.\n- The page itself contains no further reduction: no amplitudes, logarithmic decrements, or phase computation.\n\nContinuity: the next page continues the p.m. series (from 1h4'30\") and records the rest position after the line was disconnected, 647.50 at 1h9'0\". It then gives Dec. 17 data taken in the Physikalisches Cabinet with 7-second spacing.",
+  "errors": [
+   "57'10\": the entry y = 652.8 is inconsistent with the neighbours as transcribed (646.9 and 653.7 give 650.3). The reading at 57'20\" is almost certainly 658.7, not 653.7. With 658.7 one gets (646.9+658.7)/2 = 652.8, and the 57'30\" mean (658.7+651.5)/2 = 655.1, both matching the page. So the error is in the transcription (8 read as 3), not Gauss's arithmetic.",
+   "56'20\": the written mean is 650.8, while the exact value is (659.8+641.8)/2 = 650.85. This is a trivial rounding/truncation.",
+   "No other arithmetic slips found. All other neighbour-means agree exactly with the raw readings."
+  ],
+  "results": [
+   {
+    "what": "Smoothing of the scale readings of an oscillating magnetometer needle by averaging the readings taken 20 s apart (neighbours of a 10-s series). This suppresses a ≈40 s oscillation component and exposes the slower induced oscillation (period ≈83 s) caused by the swinging bar at the distant Sternwarte.",
+    "modern_name": "Two-point (lag-2) moving average / simple comb filter applied to a sampled oscillation; reduction of magnetometer readings",
+    "usually_credited_to": "Gauss and Weber, Göttingen magnetic observatory practice (1832–1837), e.g. 'Intensitas' and the 'Resultate aus den Beobachtungen des magnetischen Vereins'",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Experimental record of electromagnetic induction transmitted over the Sternwarte–Magnetic Observatory line: a swinging magnet bar induces a current that drives an oscillation of the remote magnetometer needle about the rest position 650.63",
+    "modern_name": "Induction / telegraph-line experiments with the Gauss–Weber magnetometer (precursor of Weber's induction-inductor work)",
+    "usually_credited_to": "Gauss and Weber, 1833–1835",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a raw observation log with a routine neighbour-mean reduction, typical of Gauss–Weber observatory practice. The Göttingen induction/telegraph experiments of 1833–35 are well known. Only the specific date and dataset have archival interest.",
+  "checkable": [
+   {
+    "sympy": "Rational(6505,10)/2 + Rational(6509,10)/2 - Rational(6507,10)",
+    "asserts": "y at 41'40\" = (650.5+650.9)/2 = 650.7 (result 0)"
+   },
+   {
+    "sympy": "Rational(6508,10)/2 + Rational(6524,10)/2 - Rational(6516,10)",
+    "asserts": "y at 41'50\" = (650.8+652.4)/2 = 651.6 (result 0)"
+   },
+   {
+    "sympy": "Rational(6590,10)/2 + Rational(6394,10)/2 - Rational(64920,100)",
+    "asserts": "y at 42'30\" = (659.0+639.4)/2 = 649.2 (result 0)"
+   },
+   {
+    "sympy": "Rational(6496,10)/2 + Rational(6537,10)/2 - Rational(65165,100)",
+    "asserts": "y at 44'30\" = (649.6+653.7)/2 = 651.65 (result 0)"
+   },
+   {
+    "sympy": "Rational(6583,10)/2 + Rational(6500,10)/2 - Rational(65415,100)",
+    "asserts": "y at 52'0\" = (658.3+650.0)/2 = 654.15 (result 0)"
+   },
+   {
+    "sympy": "Rational(6469,10)/2 + Rational(6587,10)/2 - Rational(6528,10)",
+    "asserts": "With the corrected reading 658.7 at 57'20\", y at 57'10\" = 652.8 (result 0)"
+   },
+   {
+    "sympy": "Rational(6587,10)/2 + Rational(6515,10)/2 - Rational(6551,10)",
+    "asserts": "With the corrected reading 658.7, y at 57'30\" = 655.1 (result 0)"
+   },
+   {
+    "sympy": "Rational(6469,10)/2 + Rational(6537,10)/2 - Rational(6528,10)",
+    "asserts": "With the transcribed 653.7 the mean would be off by -2.5 (nonzero, showing the transcription is wrong)"
+   },
+   {
+    "sympy": "cos(2*pi*10/40)",
+    "asserts": "Gain of the lag-±10 s two-point average on a 40 s period component is 0 (complete suppression)"
+   },
+   {
+    "sympy": "N(cos(2*pi*10/83))",
+    "asserts": "Gain on the ≈83 s induced oscillation is ≈0.73, so it survives the smoothing"
+   }
+  ],
+  "transcription_corrections": [
+   "57'20\" raw reading: 658.7 (not 653.7). This is required by both adjacent neighbour-means 652.8 and 655.1.",
+   "57'30\" second-column entry: 655.1 (written over an earlier figure). The transcription's 655.1 is correct.",
+   "44'30\" second-column entry: 651.65 (overwritten digit). This is confirmed by (649.6+653.7)/2.",
+   "52'0\" second-column entry: 654.15 (overwritten digit). This is confirmed by (658.3+650.0)/2.",
+   "Folio mark at top right: likely '50 4/3' with the 50 struck through, plus the circled 3. The 'Phys. 4' at top left is an archival shelf label in a later hand."
+  ]
+ }
+}

@@ -1,0 +1,71 @@
+{
+ "bundle": "Math.1",
+ "page": "c009",
+ "label": "[5v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has no text or computation, only a grid. Sheet number '(10)' is circled at top left; the red crayon '10' in the middle is a later archival number. Columns are the primes q = 227, 229, ..., 359 (24 consecutive primes), repeated at the foot. Rows are the primes p = 191, 193, ..., 433 (42 consecutive primes), ruled into blocks of seven. A small circle marks some cells (p, q). Circles in neighbouring cells of the same row or column are joined by short strokes, so the marks form visible chains and squares. Some strokes run off the right edge and continue onto the next sheet (11), whose columns are 367, ..., 503. The previous sheet (headed with columns 97, ..., 223, same rows) is the left-hand piece of the same large table.\n\nDecoding (my reconstruction, from spot checks against the image): a circle at row p, column q means that q is a quadratic residue mod p, i.e. the Legendre symbol (q/p) = +1. Cells with (q/p) = -1 are left blank.\n\nChecks with p, q ≡ 1 (mod 4), where (p/q) = (q/p) and the pattern is symmetric:\n- (233/229) = (4/229) = +1: marked.\n- (229/233) = +1: marked (the 2x2 square at 229/233).\n- (241/229) = (12/229) = (3/229) = (229/3) = +1: marked.\n- (239/229) = (10/229) = (2/229)(5/229) = (-1)(1) = -1: blank.\n- (251/229) = (22/229) = -1: blank.\n- (257/229) = (28/229) = (7/229) = (5/7) = -1: blank.\n- (263/229) = (34/229) = -1: blank.\n- (271/229) = (42/229) = (2)(3)(7) = (-1)(1)(-1) = +1: marked.\n\nChecks with p, q ≡ 3 (mod 4), which fix the orientation:\n- (239/227) = (12/227) = (3/227) = -(227/3) = +1: row 227, column 239 is marked. Conversely (227/239) = -1: row 239, column 227 is blank.\n- (227/251) = -(251/227) = -(24/227) = -((2/227)(3/227)) = -(-1) = +1: row 251, column 227 is marked. Row 227, column 251 is blank.\n\nChecks for rows below 227:\n- (227/191) = (36/191) = +1: marked.\n- (229/191) = (38/191) = (2/191)(19/191) = (1)(-1) = -1: blank.\n- (239/191) = (48/191) = (3/191) = +1: marked.\n- (227/433) = (433/227) = (206/227) = -1: blank, consistent with the image.\n\nThe diagonal cells (227,227), (229,229), (233,233), (239,239), ... carry circles, by a convention that marks q = p (0 is treated as a residue, or the axis is marked).\n\nWhat the table serves: it is a large table of quadratic residue characters of primes against primes. In the overlapping square block (rows and columns 227 to 359) the circle pattern is symmetric about the diagonal. The exceptions are cells where both primes are ≡ 3 (mod 4); there exactly one of (p,q) and (q,p) is marked. This is quadratic reciprocity made visible. Gauss tabulated such characters in the 1795–96 period when he found the reciprocity law by induction (cf. Disquisitiones Arithmeticae art. 99 and the residue table appended to the DA). The connecting strokes are a visual aid for reading the pattern; they do not represent a computation.",
+  "errors": [
+   "Not every one of the roughly 1000 cells was audited. All spot checks (about 15 cells, including both orientations of 3-mod-4 pairs and rows below 227) agree with (q/p) = +1, so no errors were found.",
+   "The connecting strokes are not perfectly uniform: a few adjacent marked cells appear unjoined. This is a drafting inconsistency, not a mathematical error."
+  ],
+  "results": [
+   {
+    "what": "Table of Legendre symbols (q/p) for primes p in [191,433] and q in [227,359]; circle iff q is a quadratic residue mod p, diagonal marked.",
+    "modern_name": "Table of quadratic residue characters (Legendre symbol table)",
+    "usually_credited_to": "Such tables go back to Euler, Legendre and Gauss (Gauss's DA, 1801, includes a residue table for primes < 100); later large tables by Jacobi (Canon arithmeticus, 1839) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Visual display of quadratic reciprocity: symmetry of the marked pattern except where both primes are ≡ 3 mod 4",
+    "modern_name": "Quadratic reciprocity (empirical/tabular evidence)",
+    "usually_credited_to": "Conjectured by Euler and Legendre; first proved by Gauss (1796, published 1801)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "A large hand-computed quadratic residue table is exactly what Gauss is known to have made in the period when he discovered reciprocity inductively. Its existence and extent (primes up to about 500 here) is a minor archival detail, not new mathematics.",
+  "checkable": [
+   {
+    "sympy": "legendre_symbol(233, 229) == 1 and legendre_symbol(229, 233) == 1",
+    "asserts": "Cells (229,233) and (233,229) are marked (symmetric 1 mod 4 pair)."
+   },
+   {
+    "sympy": "legendre_symbol(241, 229) == 1 and legendre_symbol(271, 229) == 1",
+    "asserts": "Row 229 is marked at columns 241 and 271."
+   },
+   {
+    "sympy": "[legendre_symbol(q, 229) for q in (227, 239, 251, 257, 263)] == [-1, -1, -1, -1, -1]",
+    "asserts": "Row 229 is blank at columns 227, 239, 251, 257, 263."
+   },
+   {
+    "sympy": "legendre_symbol(239, 227) == 1 and legendre_symbol(227, 239) == -1",
+    "asserts": "Orientation: row 227, column 239 is marked; row 239, column 227 is blank (both primes 3 mod 4)."
+   },
+   {
+    "sympy": "legendre_symbol(227, 251) == 1 and legendre_symbol(251, 227) == -1",
+    "asserts": "Row 251, column 227 is marked; row 227, column 251 is blank."
+   },
+   {
+    "sympy": "legendre_symbol(227, 191) == 1 and legendre_symbol(229, 191) == -1 and legendre_symbol(239, 191) == 1",
+    "asserts": "Row 191 is marked at 227, blank at 229, marked at 239."
+   },
+   {
+    "sympy": "legendre_symbol(227, 433) == -1",
+    "asserts": "Row 433, column 227 is blank."
+   },
+   {
+    "sympy": "all(legendre_symbol(p, q) == legendre_symbol(q, p) * (-1)**(((p-1)//2)*((q-1)//2)) for p in primerange(227, 360) for q in primerange(227, 360) if p != q)",
+    "asserts": "Quadratic reciprocity explains the near-symmetry of the square block 227..359."
+   }
+  ],
+  "transcription_corrections": [
+   "The '(10)' at top left is a circled sheet number of Gauss's table series (cf. (5)/9 on the previous sheet and (11) on the next); the red '10' is a separate archival marking.",
+   "The body is not just 'grid cells marked with small circles'. Each circle at (row p, column q) denotes that q is a quadratic residue of p, i.e. Legendre symbol (q/p) = +1, and diagonal cells p = q are also circled.",
+   "Several connecting strokes at the right edge (e.g. rows 263, 281, 311, 359) run off the sheet, continuing the pattern onto sheet (11)."
+  ]
+ }
+}

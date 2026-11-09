@@ -1,0 +1,75 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c173",
+ "label": "74",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000174/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Nature of the page: this is not a Gauss manuscript. It is a printed Fraktur page, p. 74, of an arithmetic textbook. The bundle name 'HB.Leiste' points to Gauss's own copy (Handbibliothek) of Christian Leiste's 'Die Arithmetik und Algebra' (Wolfenbüttel, 1790), a schoolbook used in Braunschweig. The page itself has no handwriting. The handwritten table at the right edge (column 'P', '0,0000...', rows 0-14) is the interleaved leaf that follows, transcribed as the next page.\n\n(A) End of the Sessa chessboard example (continued from §159).\n- Number of grains: 2^64 - 1 ≈ 1.8447e19.\n- Assumptions: 3150 grains per 8 Rhenish cubic inches, i.e. 393.75 grains per cubic inch. One Rhenish cubic foot (12^3 = 1728 cubic inches, my assumption of a 12-inch foot) is taken as one Braunschweig Himpten.\n- Grains per Himpten: 393.75*1728 = 680400.\n- Total: 1.8447e19 / 680400 ≈ 2.711e13 Himpten. In the German long scale, Billion = 10^12, so this is 'über 27 Billionen Himpten'.\n- Comparison with harvests: Europe is about 150000 square miles; 1/3 of it is grain land, i.e. 50000 square miles.\n- At 18288 Morgen per square mile this is 9.144e8 Morgen. At 24 Himpten per Morgen it is 2.19456e10 Himpten, i.e. 'noch keine 22000 Millionen'.\n- Seventeen times that is 3.73e11 (18 times would be 3.95e11). Either is less than 5e11, 'keine halbe Billion'.\n\n(B) §160: sum of a decreasing geometric series with ratio q = b/c < 1 and first term a.\n- S = a + a q + ... + a q^(n-1).\n- Multiplying by q: q S = a q + ... + a q^n.\n- Subtracting gives a = (1 - q) S, so S = a/(1-q) = a c/(c-b).\n- Rigorously the subtraction gives a - a q^n = (1-q) S. The text silently drops a q^n, so the result is the sum of the infinite series (n → ∞, q^n → 0).\n\n(C) §161: the alternating series S = a - a q + a q^2 - ... .\n- Then q S = a q - a q^2 + ... .\n- Adding gives a = (1+q) S, i.e. S = a/(1+q) = a c/(b+c).\n\n(D) Anmerkung.\n- Both series already appear in §89, as the expansions of 1/(1-x) and 1/(1+x) by division, with x = b/c, multiplied by a.\n- For small b/c a few terms approximate S well; otherwise they do not.\n- Every finite expression of an infinite series is to be seen as an approximation to S.",
+  "errors": [
+   "§160: subtracting q·S from S for a finite n-term series gives a - a(b/c)^n = (1 - b/c)S, not a = (1 - b/c)S. The term a b^n/c^n is dropped without comment. The stated result S = ac/(c-b) holds only for the infinite series (or in the limit n→∞), which the heading 'fallende Reihe' implies but the derivation does not say.",
+   "§161 is stated formally for infinite series without any convergence remark beyond the later Anmerkung; it is correct for 0 ≤ b/c < 1.",
+   "The chessboard example says 'über 27 Billionen' (≈2.71e13), which is correct with 1 cubic foot = 1728 cubic inches. All other numerical claims check out."
+  ],
+  "results": [
+   {
+    "what": "Wheat-on-chessboard (Sessa legend) estimate converted to Himpten and compared with European/world grain yield",
+    "modern_name": "Wheat and chessboard problem",
+    "usually_credited_to": "Traditional legend (Ibn Khallikan, 13th c.; folklore)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "S = a/(1 - b/c) = ac/(c-b) for an infinite decreasing geometric series",
+    "modern_name": "Sum of geometric series",
+    "usually_credited_to": "Antiquity (Euclid IX.35 for finite; Archimedes for infinite case); standard textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "S = a/(1 + b/c) for an alternating geometric series",
+    "modern_name": "Sum of alternating geometric series",
+    "usually_credited_to": "Standard (17th–18th c. textbook material)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed page of an 18th-century schoolbook (Leiste's Arithmetik) owned by Gauss, with no annotations on this page. The content is elementary geometric series and a folklore arithmetic example.",
+  "checkable": [
+   {
+    "sympy": "N((2**64-1)/(393.75*1728)/10**12)",
+    "asserts": "Chessboard grains ≈ 27.11 German 'Billionen' (10^12) Himpten, i.e. over 27 Billionen"
+   },
+   {
+    "sympy": "150000*Rational(1,3)*18288*24 < 22000*10**6",
+    "asserts": "European yield 21,945,600,000 Himpten is below 22000 million"
+   },
+   {
+    "sympy": "17*150000*Rational(1,3)*18288*24 < 5*10**11",
+    "asserts": "17 times the European yield is still below half a Billion (5e11)"
+   },
+   {
+    "sympy": "simplify(summation(a*q**k,(k,0,n-1)) - a*(1-q**n)/(1-q))",
+    "asserts": "Finite geometric sum is a(1-q^n)/(1-q) (0), showing the omitted term a q^n"
+   },
+   {
+    "sympy": "summation(a*Rational(1,3)**k,(k,0,oo)) - a/(1-Rational(1,3))",
+    "asserts": "Infinite decreasing geometric series sums to a/(1-q) (gives 0)"
+   },
+   {
+    "sympy": "summation(a*(-Rational(1,3))**k,(k,0,oo)) - a/(1+Rational(1,3))",
+    "asserts": "Alternating geometric series sums to a/(1+q) (gives 0)"
+   },
+   {
+    "sympy": "simplify(a*c/(c-b) - a/(1-b/c))",
+    "asserts": "ac/(c-b) equals a/(1-b/c) (gives 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The page is printed Fraktur text, not Gauss's handwriting. The marginal fragment at the right edge ('P', '0,0000…', row numbers 0–14) belongs to the following handwritten interleaved leaf, not to this page.",
+   "§160 second line: the printed form is 'a b/c + a b²/c² + a b³/c³ … a bⁿ/cⁿ = b/c S'; the transcription is essentially correct.",
+   "Otherwise the transcription agrees with the image."
+  ]
+ }
+}

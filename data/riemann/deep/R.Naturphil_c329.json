@@ -1,0 +1,70 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c329",
+ "label": "166v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000330/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page continues the derivation of the principle of least action from the previous folio, where Riemann had set ½Σmv² = U + h, dt = √(Σm ds²/(2U+2h)) and W = Σ∫ m v ds = ∫√(2U+2h) √(Σm(dx²+dy²+dz²)), and had begun computing δW. These look like lecture notes on mechanics (Naturphilosophie).\n\n(1) Energy integral. T := ½Σ m v² = ½Σ m (dx²+dy²+dz²)/dt², and T = U + h, with U the force function and h a constant.\n\n(2) Jacobi's form of least action. The top left line (partly struck through, apparently headed 'W') is δ ∫ √(Σ m(dx²+dy²+dz²)) · √(2(U+h)) = 0. In modern terms this is δ∫ √(2(U+h)) ds_M = 0, where ds_M² = Σ m(dx²+dy²+dz²) is the mass-weighted metric. The variation is taken over paths with fixed endpoints and fixed energy h, and time does not appear in it. Using (1), √(2(U+h)) · √(Σm ds²) = Σ m v² dt. So the integrand equals Σ m v ds = 2T dt, which is why Riemann writes ∫Σ m v dt (i.e. ∫Σ m v ds): W is Maupertuis' action.\n\n(3) Constraints by multipliers. Next comes a λ and the expression δW + ∫λ u dx + ∫μ v dx. My reading: Riemann wants to adjoin constraint (condition) equations u = 0, v = 0 to the variation with undetermined multipliers λ, μ (Lagrange's method), as an alternative to eliminating coordinates.\n\n(4) Constraints by generalized coordinates. On the right side the note reads, roughly, 'dependent on the 3n coordinates'. The kinetic-energy relation is rewritten as Σ m ds² = 2(U+h) dt², with 'dx²+dy²+dz²' struck out and replaced by 'ds²'. With k constraint equations only 3n−k coordinates are independent; these are called q₁, q₂, …, q_m with m = 3n−k. Every Cartesian coordinate is expressed through them: dx = (∂x/∂q₁)dq₁ + … The page breaks off here.\n\n(5) Intended continuation (my completion, certain in outline): Σ m(dx²+dy²+dz²) = Σ_{i,j} a_ij dq_i dq_j, with a_ij = Σ m(∂x/∂q_i ∂x/∂q_j + ∂y/∂q_i ∂y/∂q_j + ∂z/∂q_i ∂z/∂q_j). The principle then becomes δ∫ √(2(U+h)) √(Σ a_ij dq_i dq_j) = 0. In modern language, trajectories are geodesics of the Jacobi metric 2(U+h)·a_ij dq_i dq_j on the configuration manifold.",
+  "errors": [
+   "The multiplier terms are written '∫λ u dx + ∫μ v dx'. The standard form adjoins λ·δu (or λ times the differentiated constraint) to δW, not λ·u·dx. This is either Riemann's shorthand or a slip; the fragment is too short to decide.",
+   "The fragment is incomplete: the expansion dx = Σ ∂x/∂q_i dq_i is only started. No incorrect step is otherwise visible.",
+   "Consistency check: T = U + h together with the definition of W gives √(2(U+h))·√(Σm ds²) = 2T dt = Σ m v ds. This is consistent with the previous page."
+  ],
+  "results": [
+   {
+    "what": "Energy integral ½Σmv² = U + h",
+    "modern_name": "conservation of energy (vis viva integral)",
+    "usually_credited_to": "Leibniz/Johann Bernoulli; Lagrange (Mécanique analytique 1788)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "δ∫√(2(U+h))·√(Σm(dx²+dy²+dz²)) = 0, a time-free variational principle at fixed energy",
+    "modern_name": "Jacobi's form of the principle of least action (Jacobi metric / geodesic formulation)",
+    "usually_credited_to": "Jacobi (Vorlesungen über Dynamik 1842–43); Maupertuis/Euler/Lagrange for least action",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Adjoining constraint equations with undetermined multipliers λ, μ",
+    "modern_name": "Lagrange multipliers for holonomic constraints",
+    "usually_credited_to": "Lagrange (1788)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Reduction to 3n−k independent coordinates q_i with dx = Σ ∂x/∂q_i dq_i, giving the quadratic form Σ a_ij dq_i dq_j",
+    "modern_name": "generalized coordinates; kinetic-energy metric on configuration space",
+    "usually_credited_to": "Lagrange (1788); Jacobi; the geometric (Riemannian) reading is due to Lipschitz/Darboux in the 1870s–80s",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is standard lecture material on Jacobi's least-action principle, Lagrange multipliers and generalized coordinates, all well established by the 1840s. The only mildly interesting feature is that Riemann writes the kinetic energy as a quadratic form in arbitrary coordinates, which links naturally to his 1854 metric ideas. However, it is not carried further on this page.",
+  "checkable": [
+   {
+    "sympy": "m,U,h,ds,dt=symbols('m U h ds dt',positive=True); simplify((sqrt(2*(U+h))*sqrt(m*ds**2)).subs(dt, sqrt(m*ds**2/(2*(U+h)))) - m*(ds/dt)**2*dt).subs(dt, sqrt(m*ds**2/(2*(U+h))))",
+    "asserts": "With dt = √(m ds²/(2(U+h))), the Jacobi integrand √(2(U+h))√(m ds²) equals m v² dt = m v ds (expected 0)."
+   },
+   {
+    "sympy": "r,th,dr,dth=symbols('r theta dr dtheta'); x=r*cos(th); y=r*sin(th); dx=diff(x,r)*dr+diff(x,th)*dth; dy=diff(y,r)*dr+diff(y,th)*dth; simplify(expand(dx**2+dy**2)-(dr**2+r**2*dth**2))",
+    "asserts": "The expansion dx = Σ ∂x/∂q_i dq_i turns Σ dx² into a quadratic form in the dq_i, illustrated with polar coordinates (expected 0)."
+   },
+   {
+    "sympy": "t=symbols('t'); m,h=symbols('m h',positive=True); x=Function('x')(t); y=Function('y')(t); U=Function('U'); T=m*(diff(x,t)**2+diff(y,t)**2)/2; L=T+U(x,y); euler_equations(L,[x,y],t)",
+    "asserts": "Newton's equations m x'' = ∂U/∂x, m y'' = ∂U/∂y (to which the Jacobi principle is equivalent at fixed energy h) follow from Hamilton's principle with force function U."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3 (top left) begins with a 'W' followed by a struck-out symbol; it reads roughly 'W ≝ δ∫(√(Σ m(dx²+dy²+dz²)))·√(2(U+h)) = 0'. In the original, '√2' was partly overwritten inside the first root.",
+   "In '½Σm(dx²+dy²+dz²)' a 'dt²' is written beneath as the denominator.",
+   "In 'δW + ∫λu dx + ∫μv dx' the first symbol is overwritten or struck through.",
+   "Right column, first line: probably 'Abhängig von den 3n Coordinaten' (possibly 'abhängend'); the leading word is uncertain.",
+   "In 'Σm(ds²) = dt² 2(U+h)' the expression 'dx²+dy²+dz²' is struck out and 'ds²' is written above it.",
+   "'3n−k' has the k partly struck or overwritten, and q_m denotes the last of the 3n−k independent coordinates.",
+   "In 'dx = ∂x/∂q dq₁ +' the subscript of ∂q is overwritten (1 is intended)."
+  ]
+ }
+}

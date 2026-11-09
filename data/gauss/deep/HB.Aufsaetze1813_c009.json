@@ -1,0 +1,65 @@
+{
+ "bundle": "HB.Aufsaetze1813",
+ "page": "c009",
+ "label": "[2]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354043:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page proves Taylor's theorem in three steps ('Momente'). Throughout, f'x, f''x, ... first stand only for coefficient functions. Steps marked [mine] are my additions.\n\n(1) Erstes Moment: what the coefficients must be. Assume f(x+a) = sum_{k>=0} a^k/k! * f_k(x) for all small a. Since f(x+a) depends only on x+a, d/dx f(x+a) = d/da f(x+a). Differentiating the series termwise in x gives sum a^k/k! * f_k'(x). Differentiating in a gives sum a^k/k! * f_{k+1}(x). Subtracting:\n0 = [dfx/dx - f_1 x] + a[d f_1 x/dx - f_2 x] + (a^2/2)[d f_2 x/dx - f_3 x] + ...\nThis holds for all a, so every bracket vanishes [mine: by uniqueness of power-series coefficients]. Hence f_1 = f', f_2 = (f_1)', and so on: the coefficients must be the successive derivatives.\n\n(2) Zweites Moment: the converse, summing the series. Take S(x,a) = sum a^k/k! * f^{(k)}(x) with f^{(k)} the true derivatives, and put x = y - a. Then S = sum a^k/k! * f^{(k)}(y-a). Differentiating in a, the terms cancel in pairs:\n- k a^{k-1}/k! * f^{(k)}(y-a) comes from the power of a;\n- -a^k/k! * f^{(k+1)}(y-a) comes from the argument.\n[mine: the n-th partial sum has derivative exactly -a^n/n! * f^{(n+1)}(y-a).] So dS/da = 0, and S is a function F(y) alone. At a = 0, S = f(y). Hence F = f identically, and the series sums to f(y) = f(x+a).\n\n(3) Drittes Moment: the remainder after finitely many terms. Define Q by f(x+a) = sum_{k=0}^n a^k/k! * f^{(k)}(x) + Q. Put x = y - a, so f(y) = sum_{k=0}^n a^k/k! * f^{(k)}(y-a) + Q(y,a). Differentiate in a with y fixed. The left side gives 0, and the sum telescopes to -a^n/n! * f^{(n+1)}(y-a). Hence\ndQ/da = a^n/n! * f^{(n+1)}(y-a).\nTaking Q(y,0) = 0:\nQ = (1/n!) * Integral_0^a alpha^n f^{(n+1)}(y-alpha) d alpha, with y = x+a.\nThis is the integral form of the Taylor remainder: substituting s = a - alpha gives the usual Integral_0^a (a-s)^n/n! f^{(n+1)}(x+s) ds.\nFinally substitute t = alpha^{n+1}, so alpha^n d alpha = dt/(n+1). This gives\nQ = 1/(n+1)! * Integral_{t=0}^{a^{n+1}} f^{(n+1)}(x+a-t^{1/(n+1)}) dt,\nwith x and a held constant. This is the page's last formula.\n\nContext: the previous page is a Fourier-series convergence proof via a Poisson-kernel-type limit. The next page is a numerical computation of Integral e^t/t dt. This page reads like a short didactic essay on foundations of analysis.",
+  "errors": [
+   "Zweites Moment has an unjustified step. The claim that the a-derivative of the infinite series is 0 assumes convergence and termwise differentiability. More precisely, the n-th partial sum has derivative -a^n/n! * f^{(n+1)}(y-a), which tends to 0 only if the remainder condition holds. So the argument tacitly assumes what the Drittes Moment's remainder would have to show; f = exp(-1/x^2) around 0 is a counterexample to the unrestricted claim.",
+   "Erstes Moment uses termwise differentiation and uniqueness of power-series coefficients without comment (standard for the period).",
+   "Drittes Moment uses the letter a both as the upper limit and as the integration variable in (1/n!)∫a^n f^{(n+1)}(y-a)da. The text clarifies this by holding y constant and fixing the lower limit at a=0, so it is notationally loose but correct.",
+   "In the t-form, t^{1/(n+1)} is ambiguous for negative a when n+1 is even; implicitly a>0. A real odd root works when n+1 is odd.",
+   "No substantive computational errors: the telescoping, dQ/da and the substitution t = alpha^{n+1} are all correct."
+  ],
+  "results": [
+   {
+    "what": "Coefficients of a Taylor expansion of f(x+a) must be successive derivatives, using d/dx f(x+a) = d/da f(x+a)",
+    "modern_name": "Uniqueness of Taylor coefficients / derivation of Taylor series coefficients",
+    "usually_credited_to": "Lagrange, Théorie des fonctions analytiques (1797), building on Taylor (1715)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Summation of the Taylor series by substituting x=y-a and showing the a-derivative vanishes (telescoping)",
+    "modern_name": "Telescoping-derivative proof of Taylor's theorem",
+    "usually_credited_to": "Lagrange (1797), who used essentially this device (x -> x - xz, differentiate in z)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Remainder Q = (1/n!)∫_0^a α^n f^{(n+1)}(x+a-α)dα, equivalently (1/(n+1)!)∫_0^{a^{n+1}} f^{(n+1)}(x+a-t^{1/(n+1)})dt",
+    "modern_name": "Integral form of the Taylor remainder",
+    "usually_credited_to": "Lagrange (1797) in an equivalent derivation; integral form standardly attributed to Cauchy (1823), with antecedents in Johann Bernoulli/Laplace",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a clean textbook-style derivation of Taylor's theorem with integral remainder, using Lagrange's own 1797 device. It was well known by 1813. The t-substitution form is a minor cosmetic variant. Nothing here would surprise a historian, except as evidence of Gauss's interest in rigorous foundations (consistent with his Fourier-series page).",
+  "checkable": [
+   {
+    "sympy": "a,x,s=symbols('a x s',positive=True); n=3; f=exp; simplify(f(x+a)-sum(a**k/factorial(k)*f(x) for k in range(n+1)) - integrate(s**n/factorial(n)*f(x+a-s),(s,0,a)))",
+    "asserts": "Integral remainder formula for f=exp, n=3 (should be 0)"
+   },
+   {
+    "sympy": "a,x,s,t=symbols('a x s t',positive=True); n=2; simplify(integrate(s**n/factorial(n)*cos(x+a-s),(s,0,a)) - integrate(cos(x+a-t**Rational(1,n+1))/factorial(n+1),(t,0,a**(n+1))))",
+    "asserts": "Equivalence of the alpha-integral and the t=alpha^(n+1) form of the remainder (n=2, f'''=cos type); should be 0"
+   },
+   {
+    "sympy": "a,y=symbols('a y'); f=Function('f'); n=4; simplify(diff(sum(a**k/factorial(k)*diff(f(y-a),y,k) for k in range(n+1)),a) + a**n/factorial(n)*diff(f(y-a),y,n+1))",
+    "asserts": "Telescoping: the a-derivative of the n-th partial sum equals -a^n/n! f^{(n+1)}(y-a); should be 0"
+   },
+   {
+    "sympy": "a,x,s=symbols('a x s',positive=True); n=5; f=lambda z: z**7; expand(f(x+a)-sum(a**k/factorial(k)*diff(f(x),x,k) for k in range(n+1)) - integrate(s**n/factorial(n)*diff(f(x),x,n+1).subs(x,x+a-s),(s,0,a)))",
+    "asserts": "Remainder formula for a polynomial f=x^7, n=5; should be 0"
+   }
+  ],
+  "transcription_corrections": [
+   "Page heading 'Fr.' at top left is likely a library/hand annotation, not part of the text.",
+   "Erstes Moment: the list of functions in the image may read 'fx, f'a, f''x, f'''x' (a slip for f'x); the transcription normalizes it to f'x.",
+   "In the final remainder the integrand is written f^{(n+1)}[x+a-t^{1/(n+1)}] with the (n+1) superscript above f; the lower limit is t=0 (written like a small 'o')."
+  ]
+ }
+}

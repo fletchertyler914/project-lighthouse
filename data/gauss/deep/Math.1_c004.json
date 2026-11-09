@@ -1,0 +1,63 @@
+{
+ "bundle": "Math.1",
+ "page": "c004",
+ "label": "3r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000005/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Nothing on the page is derived; it is a computed lookup table. Columns are the 24 primes p from 509 to 659: 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659. These continue the previous sheet (367–503) and lead into the next (661–827). Rows are the odd primes q from 3 to 181, grouped in blocks of seven. Two heavier vertical rules split the columns into groups of six.\n\nMeaning of a circle (my reading, verified by spot checks): a circle at (q, p) means p is a quadratic residue mod q, i.e. the Legendre symbol (p/q) = +1.\n- Row 3: circles under exactly the p ≡ 1 (mod 3), namely 523, 541, 547, 571, 577, 601, 607, 613, 619, 631, 643. There are none under 509, 521, 557, 563, 569, 587, 593, 599, 617, 641, 647, 653, 659.\n- Row 5: circles under the p ≡ ±1 (mod 5), e.g. 509, 521, 541, 569, 571, 599, 601, 619, 631, 641, 659.\n- Further checks agree: (509/11)=1, (509/17)=1, (509/13)=−1, (509/19)=−1, (509/157)=−1, (509/167)=(509/173)=(509/179)=(509/181)=+1, and (541/7)=(547/7)=(557/7)=1.\n\nEquivalent form (reciprocity): (p/q)=1 is the same as (q*/p)=1, where q* = (−1)^((q−1)/2)·q. So row q answers whether −3, 5, −7, −11, 13, 17, −19, −23, 29, … is a quadratic residue mod the prime p. This is exactly the format of Table II of the Disquisitiones Arithmeticae (1801), which there runs over prime moduli up to 997 but only up to residues 97. Here the rows go up to 181, so the manuscript is a working or extended version of that table. Such tables serve, for example, the exclusion methods for factoring and primality testing in DA arts. 329–334, and the study of residue distribution.\n\nMeaning of the line segments (my reading): they join circles in rook-adjacent cells, i.e. neighbouring columns in the same row or neighbouring rows in the same column. Circles with no marked neighbour stand alone, e.g. (17, 509), (13, 547), (3, 643). The result is a connected-cluster picture of the residue pattern. It was probably a visual aid for reading or checking, not a mathematical operation.\n\nMarks that are not Gauss's: the red crayon '5' is an archival folio number, and the top annotations ('Math. 1', '40/3') are archival.",
+  "errors": [
+   "No computational errors found in about 60 spot-checked cells; all agreed with (p/q)=1.",
+   "The isolated dark dot in row 89, lying between columns 587 and 593, must belong to 587: (587/89)=(53/89)=+1, whereas (593/89)=(59/89)=−1."
+  ],
+  "results": [
+   {
+    "what": "Table of the quadratic character of primes p from 509 to 659 with respect to primes q from 3 to 181: a mark wherever (p/q)=1, equivalently ((−1)^((q−1)/2) q / p)=1.",
+    "modern_name": "Table of quadratic residues / Legendre-symbol table (cf. Disquisitiones Arithmeticae, Table II)",
+    "usually_credited_to": "Gauss (Disquisitiones Arithmeticae 1801, Table II); earlier residue tables by Euler and Legendre",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Graphical convention joining rook-adjacent marked cells by line segments, making clusters of residues visible.",
+    "modern_name": "Visual adjacency/cluster display of a 0-1 table",
+    "usually_credited_to": "No specific attribution (presentational device)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Residue tables of exactly this kind are Gauss's published Table II of the Disquisitiones, and his Nachlass is known to contain extended table work. The only mildly notable features are the extension of the rows to q = 181 and the adjacency-line display. Neither is mathematically new.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [p for p in [509,521,523,541,547,557,563,569,571,577,587,593,599,601,607,613,617,619,631,641,643,647,653,659] if legendre_symbol(p,3)==1] == [523,541,547,571,577,601,607,613,619,631,643]",
+    "asserts": "Row 3 marks exactly the columns with p ≡ 1 mod 3."
+   },
+   {
+    "sympy": "[p for p in [509,521,523,541,547,557,563,569,571,577,587,593,599,601,607,613,617,619,631,641,643,647,653,659] if legendre_symbol(p,5)==1] == [509,521,541,569,571,599,601,619,631,641,659]",
+    "asserts": "Row 5 marks exactly the columns with p ≡ ±1 mod 5."
+   },
+   {
+    "sympy": "[legendre_symbol(509,q) for q in [11,13,17,19,157,167,173,179,181]] == [1,-1,1,-1,-1,1,1,1,1]",
+    "asserts": "Column 509 is marked at rows 11, 17, 167, 173, 179, 181 and unmarked at rows 13, 19, 157."
+   },
+   {
+    "sympy": "[legendre_symbol(p,7) for p in [541,547,557]] == [1,1,1]",
+    "asserts": "Row 7 has the chain of marks 541–547–557."
+   },
+   {
+    "sympy": "(legendre_symbol(587,89), legendre_symbol(593,89)) == (1,-1)",
+    "asserts": "The dot in row 89 belongs under column 587, not 593."
+   },
+   {
+    "sympy": "all(legendre_symbol(p,q) == legendre_symbol((-1)**((q-1)//2)*q % p, p) for p in [509,523,547,659] for q in [3,5,7,11,13,179,181])",
+    "asserts": "The table can be read equivalently as the quadratic character of q* = ±q modulo p (quadratic reciprocity)."
+   }
+  ],
+  "transcription_corrections": [
+   "The body is not just an undifferentiated grid: circles mark exactly the cells where (p/q)=+1, and segments join circles in rook-adjacent cells.",
+   "The circled page number at top right reads '3' but may be '5'; that would fit the sequence (4), [this page], (6) and the red archival '5'.",
+   "'Math. 1' and '40/3' at the top are archival pencil annotations, not Gauss's hand."
+  ]
+ }
+}

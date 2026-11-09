@@ -1,0 +1,83 @@
+{
+ "bundle": "Math.2",
+ "page": "c018",
+ "label": "9r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376167:00000019/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds two lists of quadratic residues, written in the same format as the neighbouring pages (491, 499, 503 before; 983, 977 after). Each block has a prime p in the margin and a '+' sign (meaning 'residues'), followed by an increasing list of integers a with Legendre symbol (a/p) = +1.\n\n(1) p = 997. Since 997 ≡ 1 (mod 4), (-1/997) = +1, so a and p−a have the same character. Gauss therefore lists only 1 ≤ a ≤ (p−1)/2 = 498. The list runs 1, 3, 4, 9, 10, 12, 13, 14, 16, 19, … and ends at 496. It should contain exactly 249 numbers. This matches the convention on the next page, where p = 977 ≡ 1 (mod 4) is listed only up to 488.\n\n(2) p = 991. Since 991 ≡ 3 (mod 4), (-1/991) = −1 and the list is not symmetric. Gauss therefore lists the residues over the whole range 1 ≤ a ≤ 990, which should be 495 numbers. The list runs 1, 2, 4, 5, 8, 9, 10, 13, … and ends at 988. The previous-page tables for 491, 499 and 503 follow the same convention: those primes are all ≡ 3 (mod 4) and are listed beyond (p−1)/2.\n\nThere is no derivation on the page. The lists are presumably built from squares mod p, or from the multiplicativity of the character applied to primes. My spot checks with quadratic reciprocity agree with the entries:\n- For 997 (≡ 5 mod 8): 2 is absent, 3 present, 5, 7, 11, 17 absent; 13, 19, 23 present; 29 absent; 30, 31 present.\n- For 991 (≡ 7 mod 8): 2 and 5 present; 3, 7, 11 absent; 13 present.\n\nSeveral entries are corrections:\n- Superscript insertions over a blot: 258, 259, 264, 268 in the 997 list and 416 in the 991 list. All of these are genuine residues, as reciprocity confirms.\n- Blots in the 991 list after 36, 180, 512 and 699 cover no residues: 37 and 181–186, and 513–516 and 700–704, are all non-residues. So these blots are deletions of erroneous entries.\n- The blot after 316 in the 991 list must contain 317, because (317/991) = (991/317) = (40/317) = (2/317)^3 (5/317) = (−1)(−1) = +1.\n\nPurpose: these are working auxiliary tables of quadratic residues for primes near 500 and 1000. Gauss used such tables for questions on residue distribution, class numbers and quadratic forms, and for factorisation by the exclusion method (Disquisitiones Arithmeticae, art. 319 ff.).",
+  "errors": [
+   "No arithmetic errors found in the spot checks. The corrections Gauss made are themselves correct: the inserted 258, 259, 264, 268 (p = 997) and 416 (p = 991) are residues. The blotted deletions at 991 after 36, 180, 512 and 699 remove entries in ranges containing no residues."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic residues mod 997, listed for 1..498 (half range, since 997 ≡ 1 mod 4)",
+    "modern_name": "Table of quadratic residues / Legendre symbol table",
+    "usually_credited_to": "Routine; residue tables go back to Euler, Legendre and Gauss (Disquisitiones Arithmeticae 1801, residue tables)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Table of quadratic residues mod 991, listed for the full range 1..990 (since 991 ≡ 3 mod 4, so the residues are not symmetric)",
+    "modern_name": "Table of quadratic residues",
+    "usually_credited_to": "Routine; Gauss's extensive manuscript residue tables are known",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Convention of listing only up to (p−1)/2 when p ≡ 1 (mod 4), using (−1/p) = +1",
+    "modern_name": "First supplement to quadratic reciprocity / symmetry of residues",
+    "usually_credited_to": "Euler, Fermat; Gauss",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are purely computational residue tables of a kind Gauss is well known to have compiled. They contain no new method or result.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [a for a in range(1,499) if legendre_symbol(a,997)==1][:12] == [1,3,4,9,10,12,13,14,16,19,22,23]",
+    "asserts": "The 997 list begins correctly"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; len([a for a in range(1,499) if legendre_symbol(a,997)==1]) == 249",
+    "asserts": "The half-range list for 997 should contain 249 entries"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [a for a in range(1,499) if legendre_symbol(a,997)==1][-1] == 496",
+    "asserts": "The 997 list ends at 496"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [a for a in range(270,280) if legendre_symbol(a,997)==1] == [270,276]",
+    "asserts": "Between 270 and 279 the only residues mod 997 are 270 and 276, so the unclear entry '271[?]' is 276"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; all(legendre_symbol(a,997)==1 for a in [258,259,264,268])",
+    "asserts": "The superscript insertions in the 997 list are residues"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; legendre_symbol(317,991)==1 and legendre_symbol(416,991)==1",
+    "asserts": "317 (under the blot after 316) and the inserted 416 are residues mod 991"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [a for a in range(1,991) if legendre_symbol(a,991)==1][:16] == [1,2,4,5,8,9,10,13,16,18,19,20,25,26,29,31]",
+    "asserts": "The 991 list begins correctly (note: 21 is not a residue)"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [a for a in range(1,991) if legendre_symbol(a,991)==1][-1] == 988 and len([a for a in range(1,991) if legendre_symbol(a,991)==1]) == 495",
+    "asserts": "The 991 list ends at 988 and has 495 entries"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [a for a in list(range(181,187))+list(range(513,517))+list(range(700,705))+[37] if legendre_symbol(a,991)==1] == []",
+    "asserts": "The blotted gaps in the 991 list contain no residues, so those blots are deletions"
+   }
+  ],
+  "transcription_corrections": [
+   "997 list: '270.271[?].279' should read '270.276.279', since 276 is the only residue mod 997 between 271 and 278.",
+   "991 list: the blot between 316 and 320 is most likely '317', a residue mod 991, written over or emphasised; it should not be treated as a deletion.",
+   "991 list, first line: the transcription's '20.21' is doubtful. (21/991) = −1, so 21 should not appear; the entry after 20 is probably a misreading.",
+   "The blots in the 991 list after 36, 180, 512 and 699 are deletions of erroneous entries; no residues are missing there.",
+   "The top-right archival mark '40[?]' is unrelated to the content. The circled '(9)' is the folio number."
+  ]
+ }
+}

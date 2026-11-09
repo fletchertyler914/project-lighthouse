@@ -1,0 +1,66 @@
+{
+ "bundle": "Math.21",
+ "page": "c116",
+ "label": "56r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000117/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting. Let p be a prime with p ≡ 1 (mod 4), and write p = a^2 + b^2 (1) with a, b > 0 and a odd, so b is even. The goal is to prove the biquadratic character of 2 modulo p.\n\nStep (2): a^((p-1)/2) ≡ 1 (mod p).\n- In modern terms this is (a|p) = 1.\n- The justification is implicit in the text and supplied here. By (Jacobi) reciprocity with p ≡ 1 (mod 4), (a|p) = (p|a).\n- Since p ≡ b^2 (mod a), (p|a) = (b^2|a) = 1. The page says only that this follows 'easily from the theory of quadratic residues'.\n\nStep (3): (a+b)^((p-1)/2) ≡ (-1)^(((a+b)^2-1)/8) = (-1)^((p-1+2ab)/8) (mod p).\n- Rewrite (1) as (a+b)^2 + (a-b)^2 = 2p.\n- Implicit steps, mine: a+b is odd and positive, and reciprocity gives (a+b|p) = (p|a+b).\n- Since 2p ≡ (a-b)^2 (mod a+b), we get (2|a+b)(p|a+b) = 1, hence (p|a+b) = (2|a+b) = (-1)^(((a+b)^2-1)/8).\n- Because (a+b)^2 = p + 2ab, the exponent equals (p-1+2ab)/8. It is an integer since (a+b)^2 ≡ 1 (mod 8).\n\nStep (4): From (1), (a+b)^2 ≡ 2ab (mod p). Raising to the power (p-1)/4 gives (a+b)^((p-1)/2) ≡ 2^((p-1)/4) a^((p-1)/4) b^((p-1)/4).\n\nStep (5): Comparing with (3): 2^((p-1)/4) (ab)^((p-1)/4) ≡ (-1)^m, where m = (p-1+2ab)/8.\n\nStep (6): Raise -a^2 ≡ b^2 to the power m. Since 2m = (p-1)/4 + ab/2 (an integer, b being even), this gives (-1)^m a^((p-1)/4 + ab/2) ≡ b^((p-1)/4 + ab/2).\n\nStep (7): Substitute (5) for (-1)^m and cancel b^((p-1)/4), which is allowed since p does not divide b. Result: 2^((p-1)/4) a^((p-1)/2) a^(ab/2) ≡ b^(ab/2).\n\nStep (8): Using (2): 2^((p-1)/4) a^(ab/2) ≡ b^(ab/2) (mod p). Equivalently, 2^((p-1)/4) ≡ f^(ab/2), where f ≡ b/a satisfies f^2 ≡ -1.\n\nThe author remarks that this is the theorem proved in Gauss's Theoria residuorum biquadraticorum, Commentatio prima, and in exactly the form given at the start of the Commentatio secunda. Consequently, 2 is a biquadratic residue of p iff ab/2 ≡ 0 (mod 4), i.e. iff 8 | b. The page thus gives a short, purely quadratic-reciprocity proof of the biquadratic character of 2.",
+  "errors": [
+   "No mathematical errors found. Every congruence checks.",
+   "Steps (2) and (3) are asserted as 'easy' consequences of quadratic-residue theory. They need reciprocity for the composite odd moduli a and a+b, i.e. the Jacobi symbol or prime-by-prime reciprocity. That justification is left implicit.",
+   "The cancellation of b^((p-1)/4) in step (7) is tacit; it is valid because p does not divide b.",
+   "The integrality of (p-1+2ab)/8 and of ab/2 is tacit; both are valid since a+b is odd and b is even.",
+   "The final '(mod p)' is omitted on the intermediate line 2^((p-1)/4) a^((p-1)/2) a^(ab/2) ≡ b^(ab/2)."
+  ],
+  "results": [
+   {
+    "what": "For p = a^2 + b^2 with a odd: a is a quadratic residue mod p, and (a+b|p) = (2|a+b) = (-1)^((p-1+2ab)/8).",
+    "modern_name": "Quadratic reciprocity (Jacobi symbol) applied to the sum-of-two-squares representation",
+    "usually_credited_to": "Standard; this lemma is the core of Dirichlet's 1828 elementary proof",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "2^((p-1)/4) ≡ (b/a)^(ab/2) (mod p); hence 2 is a quartic residue mod p iff 8 | b.",
+    "modern_name": "Biquadratic (quartic) character of 2 / supplementary law of biquadratic reciprocity",
+    "usually_credited_to": "Gauss (Theoria residuorum biquadraticorum I, 1828, conjectured earlier). This elementary proof via quadratic reciprocity is credited to Dirichlet (Crelle J. 3, 1828).",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The theorem is Gauss's own published result. The short proof via quadratic reciprocity is essentially Dirichlet's well-known 1828 proof, and the page cites Gauss's Commentationes in the third person, so it may be a copy of or response to Dirichlet. Finding it among Gauss's papers is a minor archival detail, not a new attribution.",
+  "checkable": [
+   {
+    "sympy": "all((pow(2,(p-1)//4,p)*pow(a,a*b//2,p) - pow(b,a*b//2,p)) % p == 0 for p in [q for q in primerange(5,3000) if q%4==1] for a in range(1,isqrt(p)+1,2) for b in [isqrt(p-a*a)] if b*b==p-a*a and b>0)",
+    "asserts": "The final congruence 2^((p-1)/4) a^(ab/2) ≡ b^(ab/2) (mod p) holds for all primes p ≡ 1 mod 4 below 3000 (needs from sympy import primerange; from math import isqrt)."
+   },
+   {
+    "sympy": "all(pow(a,(p-1)//2,p)==1 for p in [q for q in primerange(5,3000) if q%4==1] for a in range(1,isqrt(p)+1,2) if isqrt(p-a*a)**2==p-a*a and p-a*a>0)",
+    "asserts": "Congruence (2): a^((p-1)/2) ≡ 1 (mod p) for the odd part a."
+   },
+   {
+    "sympy": "all((pow(a+b,(p-1)//2,p) - (-1)**(((a+b)**2-1)//8)) % p == 0 for p in [q for q in primerange(5,3000) if q%4==1] for a in range(1,isqrt(p)+1,2) for b in [isqrt(p-a*a)] if b*b==p-a*a and b>0)",
+    "asserts": "Congruence (3): (a+b)^((p-1)/2) ≡ (-1)^(((a+b)^2-1)/8) (mod p)."
+   },
+   {
+    "sympy": "expand((a+b)**2 + (a-b)**2 - 2*(a**2+b**2)) == 0",
+    "asserts": "The identity (a+b)^2 + (a-b)^2 = 2p."
+   },
+   {
+    "sympy": "simplify(((a+b)**2-1)/8 - ((a**2+b**2)-1+2*a*b)/8) == 0",
+    "asserts": "The equality of exponents ((a+b)^2-1)/8 = (p-1+2ab)/8."
+   },
+   {
+    "sympy": "all((pow(2,(p-1)//4,p)==1) == (b%8==0) for p in [q for q in primerange(5,3000) if q%4==1] for a in range(1,isqrt(p)+1,2) for b in [isqrt(p-a*a)] if b*b==p-a*a and b>0)",
+    "asserts": "The corollary: 2 is a biquadratic residue mod p iff 8 | b."
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription is essentially accurate. Line 1 reads 'Es sei p eine Primzahl der Form 4n+1, u. man setze'. Before (2) it reads 'wo a, b positiv u. a ungerade. Aus der Theorie der Quadratreste folgt leicht'.",
+   "Header: the circled current folio number is '55'. The struck-out old shelf number reads '157 d/56' (cf. previous page '157d/53', which the machine read as '757d/53').",
+   "Near the end, 'welche demselben im Anfange der comment. secunda gegeben ist' is correct. A struck-through letter or word after 'welche' in the manuscript has been silently omitted."
+  ]
+ }
+}

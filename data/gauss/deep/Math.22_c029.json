@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.22",
+ "page": "c029",
+ "label": "15v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000030/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the draft is titled 'Neuer Beweis des La Grangischen Lehrsatzes'. Its aim is a rigorous proof of the Lagrange inversion series. If x = t + u*X(x), then any function phi(x) can be expanded in powers of u.\n\nSection I (main argument).\n(a) When u = 0 we have x = t. Expand phi(x), viewed as a function of u with t fixed, by Taylor's theorem:\nphi(x) = phi(t) + u*(d phi/du)_0 + u^2/2!*(d^2 phi/du^2)_0 + u^3/3!*(d^3 phi/du^3)_0 + ...\nThe bracketed derivatives are partial derivatives with t held constant, evaluated at u = 0.\n(b) Gauss asserts that, for all u (not only u = 0), the following hold, and promises to prove them in Section II:\n- d phi/du = X * d phi/dt\n- d^2 phi/du^2 = d/dt( X^2 * d phi/dt )\n- d^3 phi/du^3 = d^2/dt^2( X^3 * d phi/dt )\n- in general, d^n phi/du^n = d^(n-1)/dt^(n-1)( X^n * d phi/dt ).\n(c) Now set u = 0. Then x = t identically in t, so x_t = 1 and d phi(x)/dt = phi'(x). Because the identity x = t holds for every t when u = 0, differentiating in t and setting u = 0 commute. Hence each expression d^(n-1)/dt^(n-1)( X^n * d phi/dt ) becomes d^(n-1)/dx^(n-1)( X(x)^n * phi'(x) ), with x = t afterwards. Gauss says 'man wird leicht einsehen'; the commutation justification is my addition.\n(d) Result, stated as 'die Formel des Herrn de la Grange':\nphi(x) = phi(t) + u*X(t)*phi'(t) + u^2/2! * d/dt[ X(t)^2 * phi'(t) ] + u^3/3! * d^2/dt^2[ X(t)^3 * phi'(t) ] + ...\n\nSection II (begun here, continued on the next page).\nThe announced proof of the 'Verwandlungen' (transformations) differentiates x = t + uX with respect to t and to u. This gives:\n- x_t = 1 + u*X'(x)*x_t\n- x_u = X + u*X'(x)*x_u\nEliminating X' gives x_u = X * x_t. By the chain rule this yields (1): phi_u = X * phi_t. Taking phi = X gives (2): X_u = X * X_t.\nDifferentiating (1) and using (2) and equality of mixed partials gives (4): phi_uu = 2*X*X_t*phi_t + X^2*phi_tt = d/dt( X^2 * phi_t ). The induction for higher orders follows on the next page.\nThe structure is: Taylor in u, a PDE relation transferring u-derivatives to t-derivatives, then evaluation at u = 0. This is exactly Laplace's 1777 proof.\n\nFootnote ***) gives literature references with blanks left for volume and page:\n- Lexell, Novi Commentarii Acad. Petropolitanae\n- Condorcet, Histoire de l'Académie de Paris\n- Cousin, Astronomie physique\n- Pfaff, in Hindenburg's Archiv der reinen und angewandten Mathematik, vol. 1 (1795)\nThis dates the draft to c. 1795-1799.",
+  "errors": [
+   "No mathematical error on this page. The general n-th order identity is stated with '&c' and its proof is deferred to Section II, where it is done by induction.",
+   "The passage from t-derivatives at general u to x-derivatives at u=0 is only asserted ('man wird leicht einsehen'). It is valid because x = t identically when u = 0, so t-differentiation commutes with setting u = 0, but this is not spelled out.",
+   "Convergence of the series is not addressed. This is standard for the period and is a formal argument.",
+   "Next page (not this page) has a slip: d phi/du = (d phi/dx)(dx/dt) should read (d phi/dx)(dx/du)."
+  ],
+  "results": [
+   {
+    "what": "Expansion of phi(x), where x = t + uX(x), as phi(t) + sum u^n/n! d^(n-1)/dt^(n-1)[X(t)^n phi'(t)]",
+    "modern_name": "Lagrange inversion theorem / Lagrange series (Lagrange-Bürmann formula)",
+    "usually_credited_to": "Lagrange (1768/1770, Mém. Acad. Berlin); generalized by Bürmann (1796)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Proof via Taylor expansion in u combined with the identity x_u = X x_t, giving d^n phi/du^n = d^(n-1)/dt^(n-1)(X^n d phi/dt)",
+    "modern_name": "Laplace's proof of the Lagrange series (PDE/characteristic method)",
+    "usually_credited_to": "Laplace (1777, Mém. Acad. Paris)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Young Gauss reproduces a known proof of the Lagrange inversion theorem in a draft intended for publication. The method is essentially Laplace's 1777 argument, which the previous page itself acknowledges ('Die Hauptidee ist eigentlich wie in dem L...ischen', likely Laplacischen). It is of biographical interest for Gauss's early reading (Pfaff, Hindenburg's combinatorial school), but mathematically routine.",
+  "checkable": [
+   {
+    "sympy": "t,u=symbols('t u'); x=(1-sqrt(1-4*u*t))/(2*u); simplify(series(x,u,0,4).removeO() - (t + u*t**2 + u**2/2*diff(t**4,t) + u**3/6*diff(t**6,t,2)))==0",
+    "asserts": "Lagrange series with phi(x)=x, X=x^2 reproduces the series of the root of x = t + u x^2"
+   },
+   {
+    "sympy": "t,u=symbols('t u'); x=(1-sqrt(1-4*u*t))/(2*u); simplify(series(x**2,u,0,4).removeO() - (t**2 + u*t**2*2*t + u**2/2*diff(t**4*2*t,t) + u**3/6*diff(t**6*2*t,t,2)))==0",
+    "asserts": "Lagrange series with phi(x)=x^2, X=x^2"
+   },
+   {
+    "sympy": "t,u=symbols('t u'); x=(1-sqrt(1-4*u*t))/(2*u); simplify(diff(x,u) - x**2*diff(x,t))==0",
+    "asserts": "Key identity x_u = X x_t for X=x^2 (Section II)"
+   },
+   {
+    "sympy": "t,u=symbols('t u'); x=(1-sqrt(1-4*u*t))/(2*u); f=sin(x); simplify(diff(f,u,2) - diff(x**4*diff(f,t),t))==0",
+    "asserts": "Second-order identity d^2 phi/du^2 = d/dt(X^2 d phi/dt) for phi=sin, X=x^2"
+   },
+   {
+    "sympy": "t,u=symbols('t u'); x=(1-sqrt(1-4*u*t))/(2*u); f=exp(x); simplify(diff(f,u,3) - diff(x**6*diff(f,t),t,2))==0",
+    "asserts": "Third-order identity d^3 phi/du^3 = d^2/dt^2(X^3 d phi/dt) for phi=exp, X=x^2"
+   }
+  ],
+  "transcription_corrections": [
+   "Footnote line 4: 'Archiv d. r. u. a. M.' = Hindenburg's 'Archiv der reinen und angewandten Mathematik', vol. 1 (1795).",
+   "In the third-derivative formula and in the final series, Gauss writes the derivatives without enclosing parentheses (d^2X^3 dphix/dt / dt^2); the transcription is consistent with the image.",
+   "Previous page: 'Lauschischen[?]' is very probably 'Laplacischen' (Laplace's 1777 proof, which this argument follows).",
+   "Line 4: the inserted word above the deletion reads 'ist' ('Allein ist allgemein'); the struck text reads roughly 'man kann beweisen daß'."
+  ]
+ }
+}

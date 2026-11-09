@@ -1,0 +1,61 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c055",
+ "label": "28v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000056/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page sets up xi(t) = Pi(s/2)(s-1) pi^(-s/2) zeta(s), with s = 1/2 + t i. This page derives the second integral representation of xi(t) printed in Riemann's 1859 paper: xi(t) = 4 * Int_1^oo d[x^(3/2) psi'(x)]/dx * x^(-1/4) cos(t/2 log x) dx. Here psi(x) = Sum_{n>=1} exp(-n^2 pi x).\n\n(1) Top lines (largely illegible). This is the standard Mellin-theta step: Pi(s/2-1) pi^(-s/2) zeta(s) = Int_0^oo psi(x) x^(s/2-1) dx. Using the theta relation it equals 1/(s(s-1)) + Int_1^oo psi(x)(x^(s/2-1) + x^(-(1+s)/2)) dx. The page writes the constant as -1/s + 1/(s-1), which equals 1/(s(s-1)).\n\n(2) Two integrations by parts over (0, oo):\nInt psi(x) x^(s/2-1) dx = -(2/s) Int psi'(x) x^(s/2) dx = (4/(s(s-1))) Int d[x^(3/2) psi'(x)]/dx * x^((s-1)/2) dx.\n- [My filling] Boundary terms vanish for Re s > 1. Near 0, psi(x) ~ (x^(-1/2) - 1)/2, so x^(3/2) psi'(x) -> -1/4. At infinity, psi decays exponentially.\n- [My filling] Hence xi(t) = (s(s-1)/2) Pi(s/2-1) pi^(-s/2) zeta(s) = 2 Int_0^oo G(x) x^((s-1)/2) dx, where G = d(x^(3/2) psi')/dx.\n\n(3) Theta transformation and its derivative:\n- 2psi(x) + 1 = x^(-1/2)(2psi(1/x) + 1).\n- Differentiating: 2psi'(x) = -(1/2) x^(-3/2)(2psi(1/x) + 1) - 2 x^(-5/2) psi'(1/x).\n- Multiplying by x^(3/2): 2x^(3/2) psi'(x) = -(1/2)(2psi(1/x) + 1) - 2 x^(-1) psi'(1/x).\n\n(4) Change to logarithmic variable: psi(x) = chi(log x) = chi(y). Then:\n- x^(3/2) psi'(x) = e^(y/2) chi'(y).\n- G(x) dx = d(e^(y/2) chi') = e^(y/2)(chi'' + chi'/2) dy.\n- Hence G(x) x^((s-1)/2) dx = e^(y/4)(chi''(y) + chi'(y)/2) e^(i t y/2) dy.\n\n(5) The theta relation becomes e^(y/4)(2chi(y) + 1) = e^(-y/4)(2chi(-y) + 1). So Phi(y) := e^(y/4)(2chi(y) + 1) is an even function.\n\n(6) Final line: Phi'' - Phi/16 = 2 e^(y/4)(chi'' + chi'/2) [identity verified by me]. Hence the integrand is even in y, and:\n- xi(t) = Int_{-oo}^{oo} (Phi'' - Phi/16) e^(ity/2) dy\n- = 2 Int_0^oo (Phi'' - Phi/16) cos(ty/2) dy\n- = 4 Int_1^oo G(x) x^(-1/4) cos(t/2 log x) dx.\n\nThis exhibits xi(t) as an even, real (for real t) function of t, i.e. the functional equation in the form used in the 1859 paper.",
+  "errors": [
+   "No genuine mathematical errors are visible. The line printed in the transcription as e^(-y/4) d(e^(y/4) chi')/dy = e^(y/4)(chi'' + chi'/2) is not consistent as transcribed. The correct relation is e^(-y/2) d(e^(y/2) chi')/dy = chi'' + chi'/2, or equivalently d/dx(x^(3/2) psi') = e^(-y/2)(chi'' + chi'/2). This is likely a misreading or a compressed note.",
+   "The boundary terms in the integration by parts are dropped without comment. This is justified for Re s > 1, as in the published paper."
+  ],
+  "results": [
+   {
+    "what": "Integration by parts of the Mellin transform of the theta series, giving xi(t) = 4 Int_1^oo d(x^(3/2) psi'(x))/dx x^(-1/4) cos(t/2 log x) dx",
+    "modern_name": "Integral representation of Riemann's xi function via the Jacobi theta function",
+    "usually_credited_to": "Riemann (1859, Ueber die Anzahl der Primzahlen...)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Evenness of Phi(y) = e^(y/4)(2chi(y) + 1) from the theta transformation, and Phi'' - Phi/16 = 2e^(y/4)(chi'' + chi'/2), showing xi(t) is even and real",
+    "modern_name": "Functional equation of zeta via theta modularity (second Riemann proof); Polya-style Fourier-cosine kernel Phi(u) for xi",
+    "usually_credited_to": "Riemann 1859 (theta proof); kernel later studied by Polya, de Bruijn",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is Riemann's own working for a formula printed in his 1859 paper (the cos-integral representation of xi via d(x^(3/2) psi')/dx). The explicit log-variable formulation with the even function e^(y/4)(2chi+1) is a minor unpublished detail. It anticipates the Fourier-kernel form later used by Polya and de Bruijn, but is implicit in the published result.",
+  "checkable": [
+   {
+    "sympy": "y=symbols('y'); chi=Function('chi'); Phi=exp(y/4)*(2*chi(y)+1); simplify(diff(Phi,y,2)-Phi/16 - 2*exp(y/4)*(diff(chi(y),y,2)+diff(chi(y),y)/2))",
+    "asserts": "Phi'' - Phi/16 = 2 e^(y/4)(chi'' + chi'/2); result should be 0"
+   },
+   {
+    "sympy": "x=symbols('x',positive=True); psi=lambda x: nsum(lambda n: exp(-n**2*pi*x),[1,inf]); (2*psi(0.3)+1) - 0.3**(-0.5)*(2*psi(1/0.3)+1)",
+    "asserts": "Theta transformation 2psi(x)+1 = x^(-1/2)(2psi(1/x)+1) (mpmath numerics, ~0)"
+   },
+   {
+    "sympy": "s=Rational(1,2); gamma(s/2+1)*(s-1)*pi**(-s/2)*zeta(s)",
+    "asserts": "xi(0) = Pi(1/4)(-1/2)pi^(-1/4)zeta(1/2) ~ 0.4971; should equal 4*Int_1^oo G(x) x^(-1/4) dx with G = d(x^(3/2) psi'(x))/dx (compare numerically with mpmath quad)"
+   },
+   {
+    "sympy": "s=symbols('s'); simplify(-1/s+1/(s-1) - 1/(s*(s-1)))",
+    "asserts": "-1/s + 1/(s-1) = 1/(s(s-1)); result should be 0"
+   },
+   {
+    "sympy": "x,s=symbols('x s',positive=True); f=Function('f'); simplify(diff(x**Rational(3,2)*diff(f(x),x)*x**((s-1)/2)*2/(s-1),x) - (diff(x**Rational(3,2)*diff(f(x),x),x)*x**((s-1)/2)*2/(s-1) + diff(f(x),x)*x**(s/2)))",
+    "asserts": "Integration-by-parts identity behind Int psi' x^(s/2) dx = -(2/(s-1)) Int d(x^(3/2) psi')/dx x^((s-1)/2) dx (up to boundary terms); result should be 0"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'e^(1/4 y)(2chi(y)+1) = e^(-1/4 y) 2chi(y)+1' should read e^(y/4)(2chi(y)+1) = e^(-y/4)(2chi(-y)+1). The argument -y is essential: this is the evenness of Phi.",
+   "Line '2x^(3/2) psi' x = -1/2(2psi(1/x)+1) + 2...' is the differentiated theta relation. Its last term should be -2x^(-1) psi'(1/x).",
+   "Line '2psi' x = ... x^(-1/2)...(1/x+1) + 2x^...(dpsi/dx)' is the derivative of 2psi(x)+1 = x^(-1/2)(2psi(1/x)+1). It should read 2psi'(x) = -(1/2)x^(-3/2)(2psi(1/x)+1) - 2x^(-5/2)psi'(1/x).",
+   "Top line: the integral is probably Int_0^oo psi(x) x^(s/2-1) dx = 1/(s(s-1)) + Int_1^oo psi(x)(x^(s/2-1) + x^(-(1+s)/2)) dx. The second top line's -1/s + 1/(s-1) is that constant term.",
+   "The 'chi''-line' prefactor is likely e^(-y/2) d(e^(y/2) chi'(y))/dy = chi''(y) + chi'(y)/2 rather than the e^(+-y/4) factors as transcribed."
+  ]
+ }
+}

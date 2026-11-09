@@ -1,0 +1,58 @@
+{
+ "bundle": "D.RationaleZahlen",
+ "page": "c020",
+ "label": "10v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234961:00000021/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting. Let x_1..x_n be independent variables. X^0 is the Q-vector space of homogeneous linear forms in x_1..x_n with rational coefficients, i.e. Q^n. X^# is the subset of forms with integer coefficients, i.e. Z^n.\n\nHypothesis. Let m >= n and y_1..y_m in X^0. The n x n minors of their m x n coefficient matrix are not all zero, i.e. the matrix has rank n. Then each x_nu is a Q-linear combination of the y_mu, so the Q-span of the y's (called Y) is all of X^0. Let Y^# = Z y_1 + ... + Z y_m. This is the module [y_1,...,y_m] of the previous page.\n\nGoal (the theorem of the previous page). Y^# has a basis of n elements. This page carries out the inductive step that eliminates x_1.\n\nStep 1 (eq. 1). Write a_mu = dy_mu/dx_1, the rational coefficient of x_1 in y_mu. Let d generate the Z-module Z a_1 + ... + Z a_m; d is the 'groesster gemeinsamer Theiler' of the rationals a_mu. d is nonzero because the rank is n.\n- By Bezout (done on the previous page) there are integers a'_mu with sum a'_mu a_mu = d.\n- Put z_1 = sum a'_mu y_mu. Then z_1 is in Y^# and dz_1/dx_1 = d.\n- Dedekind writes this as dz_1/dx_1 = [a_1,...,a_m] = sum_mu [a_mu], identifying the number d with the module it generates.\n\nStep 2 (eq. 2). Define y'_mu by y_mu d - z_1 a_mu = y'_mu d, i.e. y'_mu = y_mu - c_mu z_1 with c_mu = a_mu/d.\n- c_mu is an integer because d divides a_mu in the module sense. Hence y'_mu is in Y^#.\n- (Eq. 3) dy'_mu/dx_1 = a_mu - c_mu d = 0. So y'_mu is free of x_1: a rational linear form in x_2..x_n.\n\nStep 3. Let Y_1^# be the set of elements of Y^# free of x_1.\n- Any u in Y_1^# has the form u = sum g_mu y_mu with integers g_mu satisfying sum g_mu a_mu = 0.\n- By (2), u = sum g_mu y'_mu + z_1 sum g_mu c_mu, and sum g_mu c_mu = (1/d) sum g_mu a_mu = 0 (this step is mine, implicit in the text). Hence u = sum g_mu y'_mu.\n- Conversely every y'_mu lies in Y_1^#.\n- Therefore Y_1^# = [y'_1,...,y'_m], the Z-span of the y'_mu.\n\nImplicit continuation (mine).\n- Every w in Y^# satisfies w - (dw/dx_1 / d) z_1 in Y_1^#, with an integer multiplier. So Y^# = Z z_1 (+) Y_1^#, a direct sum.\n- The y'_mu span X^0 restricted to x_2..x_n, so they have rank n-1.\n- Induction on n gives a triangular ('Hermite-type') basis z_1,...,z_n of Y^#, with z_k free of x_1..x_{k-1}.\n- This proves that a finitely generated Z-submodule of Q^n of full rank is free of rank n. The induction matches the previous page's scheme a = [alpha'_1..alpha'_nu] + a_{nu+1}.",
+  "errors": [
+   "Slip: 'das System X ist identisch mit dem Inbegriff Y' should read X^0 (the rational forms), not X^#.",
+   "Slip: at the end 'alle y'_mu in Y_1 enthalten ... so ist Y_1' should be Y_1^#.",
+   "Notational looseness, not a mathematical error: in (1) a rational number is equated with the module [a_1,...,a_m]; Dedekind means that dz_1/dx_1 generates that module.",
+   "Unstated step: sum g_mu c_mu = 0 follows from sum g_mu a_mu = 0 by dividing by d != 0. That d != 0 relies on the rank-n hypothesis, also unstated here.",
+   "The inductive step's completion is not written on this page: Y^# = Z z_1 + Y_1^#, and the y'_mu have rank n-1 in x_2..x_n. Both are easy and correct."
+  ],
+  "results": [
+   {
+    "what": "For rational a_1..a_m there is an integer combination of the y_mu whose x_1-coefficient is the gcd d of the a_mu (Bezout for the rational module Z a_1+...+Z a_m).",
+    "modern_name": "Bezout identity / Z is a PID (gcd of rationals)",
+    "usually_credited_to": "Bachet/Bezout; classical",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Elimination y'_mu = y_mu - (a_mu/d) z_1; the x_1-free submodule equals the Z-span of the y'_mu; inductively, a triangular basis of the full-rank module [y_1..y_m] in Q^n.",
+    "modern_name": "Hermite normal form / triangular basis; finitely generated torsion-free Z-module (lattice) in Q^n is free of rank n",
+    "usually_credited_to": "Hermite (1851) for the normal form; Dedekind, Supplement X/XI to Dirichlet's Vorlesungen (1871/1879/1894) for module bases; also Kronecker",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the standard proof that a finitely generated module in a rational vector space of dimension n has a basis of n elements. Dedekind published essentially this in his Dirichlet supplements on modules. The only novelty is the draft notation (partial derivatives as coefficient extractors).",
+  "checkable": [
+   {
+    "sympy": "x1,x2=symbols('x1 x2'); y=[2*x1+x2,3*x1+5*x2,4*x1-x2]; z1=-y[0]+y[1]; expand(z1-(x1+4*x2))==0",
+    "asserts": "With x_1-coefficients 2,3,4 (gcd 1), z1=-y1+y2 has x_1-coefficient 1 = gcd."
+   },
+   {
+    "sympy": "[expand(yi - diff(yi,x1)/diff(z1,x1)*z1) for yi in y] == [-7*x2,-7*x2,-17*x2]",
+    "asserts": "The y'_mu from eq. (2) are free of x_1 (eq. 3)."
+   },
+   {
+    "sympy": "from math import gcd; gcd(gcd(7,7),17)==1 and gcd(gcd(Matrix([[2,1],[3,5]]).det(),Matrix([[2,1],[4,-1]]).det()),Matrix([[3,5],[4,-1]]).det())==1",
+    "asserts": "The x_1-free part is Z*x2 and the new basis {z1,x2} has det 1, equal to the gcd of the 2x2 minors (index consistency)."
+   },
+   {
+    "sympy": "a1,a2,a3,d,g1,g2,g3=symbols('a1 a2 a3 d g1 g2 g3'); Y=symbols('Y1:4'); Z=symbols('Z'); yp=[Y[i]-[a1,a2,a3][i]/d*Z for i in range(3)]; simplify((sum(g*Yi for g,Yi in zip([g1,g2,g3],Y)) - sum(g*p for g,p in zip([g1,g2,g3],yp))).subs(g3,-(g1*a1+g2*a2)/a3))==0",
+    "asserts": "If sum g_mu a_mu = 0 then sum g_mu y_mu = sum g_mu y'_mu."
+   }
+  ],
+  "transcription_corrections": [
+   "'das System X ist identisch' — the manuscript has 𝔛 (presumably meaning 𝔛^0); the transcription is faithful but should be read as X^0.",
+   "Equations (1)-(3) and the surrounding text are correctly transcribed; the inserted 'ihren', 'sind', 'alle', 'und', 'auch' and the superscript on 𝔜 are confirmed by the image.",
+   "Near the end 'in 𝔜_1 enthalten' and 'so ist 𝔜_1' appear without '#' in the manuscript (author's slip for 𝔜_1^#)."
+  ]
+ }
+}

@@ -1,0 +1,95 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c270",
+ "label": "261",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000271/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): Gauss studies a plane curve given implicitly by x = b - 2hxy/(x^2+y^2), i.e. (x^2+y^2)(x-b) + 2hxy = 0. Putting y = x tan(phi), so phi is the polar angle, gives 2xy/(x^2+y^2) = sin(2 phi). The curve is then parametrised by x = b - h sin(2 phi), y = x tan(phi). The polar form is r = (b - h sin 2phi)/cos phi.\n\nThe previous page also finds the extrema of y. [my step:] y = b tan(phi) - 2h sin^2(phi), so dy/dphi = b sec^2(phi) - 4h sin(phi) cos(phi). Setting this to zero gives b/(4h) = sin(phi) cos^3(phi). At such a point sin 2phi = b/(2h cos^2 phi). Hence x = b(1 - 1/(2cos^2 phi)) and y = b(1 - 1/(2cos^2 phi)) tan(phi) = b^2 cos(2phi)/(8h cos^6 phi).\n\nThis page is a numerical example ('Beispiel') with b = 3, h = 4. The tabulated values satisfy x = 3 - 4 sin 2phi, which requires h = +4, not -4. Gauss tabulates (x, y) for phi = 0 to 180 degrees in 15-degree steps, plus special angles.\n\n(a) Zeros of x, which are the passages through the origin: sin 2phi = b/h = 3/4. This gives phi = 24°17'42\" and phi = 65°42'18\". These are also the two tangent directions at the node of the cubic. [mine:] The quadratic terms b(x^2+y^2) - 2hxy = 0 give tan phi = (h ± sqrt(h^2-b^2))/b = (4 ± sqrt 7)/3.\n\n(b) Extrema of y: sin(phi) cos^3(phi) = 3/16 has the roots phi = 11°29'35\" and phi = 51°38'0\".\n- At 11°29'35\": x = 1.438, y = 0.292, a local maximum.\n- At 51°38'0\": x = -0.893, y = -1.128, a local minimum.\n\n(c) Ordinary table values. Examples: phi = 45 gives (-1, -1); phi = 75 gives (1, 3.732); phi = 90 gives x = 3, y = ±infinity, the vertical asymptote x = b; phi = 135 gives (7, -7); phi = 180 gives (3, 0).\n\nThe curve is a circular nodal cubic with a node at the origin (real since h^2 > b^2) and asymptote x = b. The loop through the node lies for phi between the two nodal tangents. The page serves to plot this curve.",
+  "errors": [
+   "The x-entries at phi = 120° and phi = 150° read +6.864 but should be +6.464 (3 + 2*sqrt(3)). The accompanying y-values -11.196 and -3.732 are computed correctly from 6.464, so this is a copying slip (8 for 4).",
+   "The 'y Max' label beside phi = 15° is wrong. At 15°, sin(phi)cos^3(phi) = 0.2333, not 3/16, and y = 0.268 < 0.292. The second extremum is at phi = 51°38'0\", and it is a minimum (y = -1.128). The second 'y Max.' mark perhaps belongs there or is a ditto/stray mark.",
+   "The heading's sign for h: the values require h = +4 in x = b - h sin 2phi. Either the transcription '-4' is a misreading or Gauss's sign convention differs from that formula."
+  ],
+  "results": [
+   {
+    "what": "Parametrisation of the cubic (x^2+y^2)(x-b)+2hxy=0 by the polar angle: x = b - h sin2phi, y = x tan phi; numerical tabulation for b=3, h=4",
+    "modern_name": "Rational (polar-angle) parametrisation of a nodal circular cubic",
+    "usually_credited_to": "standard analytic-geometry technique (Descartes/Newton/Euler era)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Condition for extremal ordinate b/(4h) = sin phi cos^3 phi, with roots 11°29'35\" and 51°38'0\" for b/h = 3/4",
+    "modern_name": "Extrema of a parametrised curve via dy/dphi = 0",
+    "usually_credited_to": "elementary calculus",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Node directions sin2phi = b/h, i.e. phi = 24°17'42\" and 65°42'18\"",
+    "modern_name": "Tangent cone at a double point of a plane cubic",
+    "usually_credited_to": "classical algebraic curve theory (Newton, Cramer)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "A routine numerical table for plotting an elementary cubic curve. It is correct apart from one copying slip and one mislabelled maximum.",
+  "checkable": [
+   {
+    "sympy": "simplify(((3-4*sin(2*p))**2*(1+tan(p)**2))*((3-4*sin(2*p))-3) + 2*4*(3-4*sin(2*p))**2*tan(p))",
+    "asserts": "The parametrisation x = 3-4 sin2p, y = x tan p satisfies (x^2+y^2)(x-b)+2hxy = 0 with b=3, h=4 (should simplify to 0)."
+   },
+   {
+    "sympy": "N(3-4*sin(2*pi*24.295/180))",
+    "asserts": "x vanishes at phi ≈ 24°17'42\" (asin(3/4)/2 = 24.2952 deg)."
+   },
+   {
+    "sympy": "N(90 - asin(Rational(3,4))*90/pi)",
+    "asserts": "The second zero of x is at 65.7048 deg = 65°42'17\"."
+   },
+   {
+    "sympy": "nsolve(sin(p)*cos(p)**3 - Rational(3,16), p, 0.2)*180/pi",
+    "asserts": "The y-maximum is at 11.4931 deg = 11°29'35\"."
+   },
+   {
+    "sympy": "nsolve(sin(p)*cos(p)**3 - Rational(3,16), p, 0.9)*180/pi",
+    "asserts": "The y-minimum is at 51.633 deg = 51°38'0\"."
+   },
+   {
+    "sympy": "N((3-4*sin(2*0.200589))*tan(0.200589))",
+    "asserts": "y ≈ 0.292 at the maximum."
+   },
+   {
+    "sympy": "N((3-4*sin(2*0.901174))*tan(0.901174))",
+    "asserts": "y ≈ -1.128 at the minimum (x ≈ -0.893)."
+   },
+   {
+    "sympy": "N(3-4*sin(2*pi*2/3))",
+    "asserts": "x(120°) = 3+2*sqrt(3) = 6.464, not 6.864."
+   },
+   {
+    "sympy": "N((3+2*sqrt(3))*tan(2*pi/3))",
+    "asserts": "y(120°) = -11.196, consistent with x = 6.464."
+   },
+   {
+    "sympy": "N((3-4*sin(5*pi/6*2))*tan(5*pi/6))",
+    "asserts": "y(150°) = -3.732 with x = 6.464."
+   },
+   {
+    "sympy": "N(5*tan(7*pi/12))",
+    "asserts": "y(105°) = -18.660."
+   },
+   {
+    "sympy": "solve(3 - 8*t + 3*t**2, t)",
+    "asserts": "The nodal tangent slopes are (4 ± sqrt(7))/3, i.e. tan 24.295° and tan 65.705°."
+   }
+  ],
+  "transcription_corrections": [
+   "Heading should read 'b = 3, h = 4' (the image shows 'h.=4'). The tabulated values require h = +4 in x = b - h sin 2phi.",
+   "The x-values at 120° and 150° are written '+6.864' in the manuscript, but the correct value is 6.464 (this is Gauss's slip, not a transcription error).",
+   "The 'y Max' annotations sit beside the 11.29.35 and 15 rows, as transcribed; mathematically, only 11°29'35\" is a maximum."
+  ]
+ }
+}

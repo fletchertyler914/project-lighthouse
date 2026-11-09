@@ -1,0 +1,69 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c154",
+ "label": "78r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000155/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the opening of Riemann's 'III Naturphilosophie (Neue Theorie), 1. Molecularmechanik'. The preceding pages argue that an agent acts by 'striving to maintain or restore' a state, so that opposing strivings are only satisfied 'as far as possible'. This page gives the mechanical model of that idea: Newtonian motion recast as a minimum principle.\n\n(1) Equations of motion. Point masses m_i at (x_i, y_i, z_i) are acted on by force components (X_i, Y_i, Z_i). Then m_i x_i'' = X_i, m_i y_i'' = Y_i, m_i z_i'' = Z_i.\n\n(2) Restatement as a minimum (Gauss's principle of least constraint for a free system). The accelerations a_i = (x_i'', y_i'', z_i'') are those that minimise\nZ(a) = sum_i m_i [ (x_i'' - X_i/m_i)^2 + (y_i'' - Y_i/m_i)^2 + (z_i'' - Z_i/m_i)^2 ].\nRiemann's argument has two parts.\n- Z >= 0, and Z = 0 exactly when (1) holds.\n- If some bracket, say x_i'' - X_i/m_i, is nonzero, one can change x_i'' slightly, keeping the other accelerations fixed, so that its absolute value and hence its square decreases. Such a point is therefore not a minimum.\nSo the Newtonian accelerations are the unique minimiser.\n\n(3) Expanding the square:\nZ = sum m_i |a_i|^2 - 2 sum (X_i x_i'' + Y_i y_i'' + Z_i z_i'') + sum |F_i|^2/m_i.\nThe last term does not depend on the accelerations, so Z differs from the first two terms only by a constant.\n\n(4) Central forces. Suppose points i and i' repel with force f_{ii'}(r), or attract with force -f_{ii'}(r). Let F_{ii'}' = f_{ii'} and P = sum F_{ii'}(r_{ii'}). Then X_i = dP/dx_i, and likewise for Y_i and Z_i (P is the 'Kräftefunktion', minus the potential energy).\n\n(5) Discretised form. Given positions and velocities at time t, Taylor expansion gives x_i(t+dt) = x_i + x_i' dt + x_i'' dt^2/2 + ...\nTherefore P(t+dt) = [terms independent of the accelerations] + (dt^2/2) sum F_i·a_i + O(dt^3).\nAlso d(dx_i/dt) = x_i'' dt, so (1/4) sum m_i (d dx_i/dt)^2 = (dt^2/4) sum m_i |a_i|^2.\nMultiplying Z by dt^2/4 [my correction of the factor; see errors] gives\n(dt^2/4) Z = (1/4) sum m_i [ (d dx_i/dt)^2 + (d dy_i/dt)^2 + (d dz_i/dt)^2 ] - P_{t+dt} + (acceleration-independent terms) + O(dt^3).\nSo the configuration at t+dt is the one making\n(1/4) sum m (dv)^2 - P(t+dt)\nas small as possible.\n\n(6) Interpretation. Riemann reads this as a 'striving' to make this quantity small. He proposes to explain the law by separate causes, each striving to make one term small. Opposing changes of state then balance so that the sum of the quantities the individual causes strive to keep small is a minimum. This is the bridge to his ether/'Geistesmassen' speculations on the next pages.",
+  "errors": [
+   "The multiplier needed to turn the acceleration function into (1/4) Σ m (d dx/dt)^2 − P(t+dt) is dt^2/4, not dt^4/4. If the manuscript truly reads dt^4/4, it is a slip. It would only be consistent if the first term were (1/4) Σ m (ddx)^2 with second differences; but then the P-term would require a factor dt^4/... against P's dt^2 dependence, so the dimensions would not match.",
+   "The equivalence in step (5) holds only to leading order in dt; P(t+dt) contains O(dt^3) acceleration-dependent terms. This is harmless in the infinitesimal sense Riemann intends, but unstated.",
+   "P = Σ_{ii'} F_{ii'} with 'je zwei verschiedene Indices' must be read over unordered pairs. Summing over ordered pairs would double the forces (or one must include a factor 1/2).",
+   "The uniqueness argument (any nonzero residual can be decreased) only shows there is no other local minimum. The conclusion is nonetheless correct because Z is a strictly convex quadratic."
+  ],
+  "results": [
+   {
+    "what": "Newton's equations for a free system are equivalent to minimising Σ m (a − F/m)^2 over the accelerations.",
+    "modern_name": "Gauss's principle of least constraint (free-system case)",
+    "usually_credited_to": "C. F. Gauss, 1829 ('Über ein neues allgemeines Grundgesetz der Mechanik')",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "For central forces the components are gradients of a force function P = Σ F(r_ij) with F' = f.",
+    "modern_name": "Conservative pair potential / force function",
+    "usually_credited_to": "Lagrange, Laplace, Green, Gauss (18th–early 19th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The position at t+dt minimises (1/4) Σ m (dv)^2 − P(t+dt) given the state at t, i.e. a time-step variational formulation of dynamics, interpreted as a 'striving' of causes.",
+    "modern_name": "Discrete-time (incremental) form of Gauss's principle; akin to the incremental-potential / variational time-stepping formulation",
+    "usually_credited_to": "Gauss's principle; the discrete-time variational viewpoint is usually associated with much later numerical mechanics",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page restates Gauss's principle of least constraint and a time-step reformulation. It is the known 'Molecularmechanik' section of Riemann's natural-philosophy fragments, printed in his Gesammelte Werke (1876/1892), so the content is published and recognised as his. It is philosophically interesting but not new mathematics.",
+  "checkable": [
+   {
+    "sympy": "m,a,X=symbols('m a X',positive=True); expand(m*(a-X/m)**2 - (m*a**2-2*X*a)) - X**2/m == 0",
+    "asserts": "The least-constraint function differs from m a^2 − 2 X a by the acceleration-independent constant X^2/m."
+   },
+   {
+    "sympy": "solve(diff(m*(a-X/m)**2,a),a) == [X/m]",
+    "asserts": "The unique critical point of the constraint function is Newton's law a = X/m."
+   },
+   {
+    "sympy": "x,v,a,dt,X,m=symbols('x v a dt X m'); P=Function('P'); series(P(x+v*dt+a*dt**2/2),dt,0,3)",
+    "asserts": "The acceleration-dependent part of P(t+dt) to order dt^2 is (dt^2/2) P'(x) a = (dt^2/2) X a."
+   },
+   {
+    "sympy": "simplify(dt**2/4*(m*a**2-2*X*a) - (Rational(1,4)*m*(a*dt)**2 - X*a*dt**2/2)) == 0",
+    "asserts": "Multiplying by dt^2/4 (not dt^4/4) gives (1/4) m (d(dx/dt))^2 minus the acceleration-dependent part of P(t+dt)."
+   },
+   {
+    "sympy": "x1,x2,y1,y2,z1,z2=symbols('x1 x2 y1 y2 z1 z2'); F=Function('F'); r=sqrt((x1-x2)**2+(y1-y2)**2+(z1-z2)**2); diff(F(r),x1)",
+    "asserts": "dF(r)/dx1 = F'(r)(x1−x2)/r, i.e. a repulsive central force of magnitude f = F' on point 1."
+   }
+  ],
+  "transcription_corrections": [
+   "Heading reads '~~II~~ III Naturphilosophie. (Neue Theorie)'; the crossed-out II and the page number 10 are consistent with the image.",
+   "The multiplier read as 'dt^4/4' should be checked against the image. Mathematically it must be dt^2/4; the superscript may be a 2.",
+   "'so könnte man d^2x/dt^2 einem[?] stetig so ändern' — 'einem' is likely a misreading (possibly 'um ein Weniges' or similar); the sense is 'change it slightly and continuously'.",
+   "The constraint and expansion formulas on the page use d^2x/dt^2 (second derivatives); the transcription is consistent with the image here."
+  ]
+ }
+}

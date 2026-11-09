@@ -1,0 +1,41 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c098",
+ "label": "97",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000099/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is written upside down relative to the scan; the folio number 97 is at the image top. It has three unrelated parts.\n\n(i) A personal or bibliographic jotting, largely illegible: possibly a name with 'Hofr.', then 'aus Carlsbad', a date 'd. 1 März 18x8', and '3 Gr.'. It contains no mathematics.\n\n(ii) Statics of a four-bar linkage ('Gelenkgestänge ABCD'). The figure shows a chain A–B–C–D. A is a short distance below B; BC is a long coupler; CD runs down-left to D. Dotted lines continue the line of BC beyond both ends, with dotted perpendiculars dropped onto it from A and from D. Read with the figure, the setting is: A and D are fixed pivots, B and C are joints, AB and DC are cranks, and BC is the coupler.\n\nThe claim is that the turning moments transmitted to the arms AB and DC are in the ratio of the perpendiculars from A and from D onto the line BC.\n\nModern reconstruction (mine): the coupler BC is a two-force member (pin joints at both ends, no load between them). So it carries a force F directed along BC. The moment of this force about A is M_A = F·p_A, where p_A = dist(A, line BC) = |(B−A)×(C−B)|/|C−B|. The reaction −F acts on crank DC, giving moment M_D = F·p_D. Hence M_A : M_D = p_A : p_D.\n\nEquivalently, by virtual work, M_A·dθ_A = M_D·dθ_D. Rigidity of BC gives (C−B)·(dC−dB) = 0, with dB = dθ_A·J(B−A) and dC = dθ_D·J(C−D), where J is rotation by 90°. This yields dθ_D/dθ_A = [(B−A)×(C−B)] / [(C−D)×(C−B)] = p_A/p_D (signed). So the angular velocities are in the inverse ratio of the moments, as virtual work requires.\n\nThis is the standard torque/velocity transmission law of a four-bar mechanism. It is presumably noted in connection with a mechanical device (cf. the travel notes and book lists on neighbouring pages).\n\n(iii) Two lines in a private shorthand or cipher, unreadable. Then a religious/philosophical aphorism: 'Er (Gott) ist der Mensch[?] ... als Größe, auf den wir uns verlassen — Dies (das Unendliche?) ist ein geistiges Recht[?], eine Sicherheit dem Mann[?]'. It is non-mathematical.",
+  "errors": [
+   "No mathematical error, provided A and D are the fixed points and B and C the joints. If the text literally says 'A, B feste Punkte; C, D Gelenke' (as in the machine transcription), that would contradict the figure, where the perpendiculars come from A and D and the arms are AB and DC. In that case it is a slip, either by the writer or by the transcriber.",
+   "The statement holds only for a coupler loaded at its ends alone (a pure two-force member), with friction and coupler weight ignored. This is unstated but standard."
+  ],
+  "results": [
+   {
+    "what": "In a four-bar linkage with fixed pivots A, D, the moments on the cranks AB and DC are proportional to the perpendicular distances from A and D to the coupler line BC.",
+    "modern_name": "Torque (mechanical advantage) relation of a four-bar linkage; two-force member / virtual work; equivalently the angular-velocity ratio via instantaneous centres (Aronhold–Kennedy)",
+    "usually_credited_to": "Classical statics of levers and links (18th-century machine theory; virtual work from Johann Bernoulli/Lagrange; instant-centre form from Aronhold 1872 and Kennedy 1886)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is an elementary statics fact about linkages, routine for anyone versed in mechanics around 1800. The page is otherwise personal notes, shorthand and an aphorism.",
+  "checkable": [
+   {
+    "sympy": "Bx,By,Cx,Cy,d=symbols('Bx By Cx Cy d',real=True); A=Matrix([0,0]); D=Matrix([d,0]); B=Matrix([Bx,By]); C=Matrix([Cx,Cy]); cr=lambda u,v:u[0]*v[1]-u[1]*v[0]; u=(C-B)/sqrt((C-B).dot(C-B)); simplify(cr(B-A,u)/cr(C-D,u) - cr(B-A,C-B)/cr(C-D,C-B))",
+    "asserts": "The ratio of moments of a force along BC about A and about D equals the ratio of signed perpendicular distances from A and D to line BC (expected result 0)."
+   },
+   {
+    "sympy": "tA,tD=symbols('tA tD'); expr=((C-B).T*(tD*Matrix([-(C-D)[1],(C-D)[0]]) - tA*Matrix([-(B-A)[1],(B-A)[0]])))[0]; simplify(solve(expr,tD)[0]/tA - cr(B-A,C-B)/cr(C-D,C-B))",
+    "asserts": "The rigid-coupler constraint gives dθ_D/dθ_A = p_A/p_D (signed), consistent with virtual work M_A dθ_A = M_D dθ_D (expected 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Very probably 'wo A, D feste Punkte; B, C Gelenke sind', not 'A, B feste Punkte; C, D Gelenke'. The figure has the perpendiculars from A and D and the arms AB and DC.",
+   "Before the dated line, the image appears to read 'am Carlsbad' or 'aus Carlsbad'. The opening name line (possibly 'Hofr. Langsdorf ...') is uncertain.",
+   "The year reads like 1808 or 1818. Given neighbouring pages (1816, 1818), 1818 is plausible.",
+   "The last line reads more like '... ist ein geistiges Recht[?], eine Sicherheit dem Mann[?]'. The parenthesis may read '(das Unendliche)' rather than '(das Erwähnte)'."
+  ]
+ }
+}

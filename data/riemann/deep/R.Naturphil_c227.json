@@ -1,0 +1,67 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c227",
+ "label": "114v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000228/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: on the previous page Riemann splits the velocity of a space-filling medium into a gravitational part v' and a light part v''. Section a) dealt with gravity. This page is section b): the motion that explains light in empty space.\n\n(1) Hypothesis. The light motion in empty space is a superposition of plane waves. In a plane wave the state of motion is constant along each plane of a family of parallel planes (the wave planes).\n\n(2) Coordinates. For one wave system take rectangular coordinates xi1, xi2, xi3, with xi1 normal to the wave planes and xi2, xi3 parallel to them. Let omega1, omega2, omega3 be the velocity components along these axes at time t. Then:\n- plane-wave condition: d omega/d xi2 = d omega/d xi3 = 0 for every component;\n- transversality, taken from experience: omega1 = 0.\nIn words, the motion is a vibration parallel to the wave plane, propagating normal to the plane with a speed c that is the same for all forms of motion.\n\n(3) d'Alembert decomposition. Write omega = omega' + omega''.\n- omega' is unchanged when t -> t+dt and xi1 -> xi1 + c dt, so omega'_t + c omega'_xi1 = 0.\n- omega'' is unchanged when t -> t+dt and xi1 -> xi1 - c dt, so omega''_t - c omega''_xi1 = 0.\nDifferentiating once more (filled in by me where implicit):\n- omega'_tt = -c omega'_{xi1 t} = c^2 omega'_{xi1 xi1};\n- omega''_tt = +c omega''_{xi1 t} = c^2 omega''_{xi1 xi1}.\nAdding gives (2): omega_tt = c^2 omega_{xi1 xi1}. This is the 1-D wave equation for each transverse component.\n\n(4) Invariant form. Since omega1 = 0 and nothing depends on xi2, xi3, the plane-wave relations are contained in the system\n- d omega1/d xi1 + d omega2/d xi2 + d omega3/d xi3 = 0,\n- d^2 omega_i/dt^2 = c^2 (d^2/d xi1^2 + d^2/d xi2^2 + d^2/d xi3^2) omega_i.\nDivergence and Laplacian are invariant under orthogonal changes of axes. So the system carries over unchanged to the original coordinates x1, x2, x3 (those of the gravity section):\n- div w = 0,\n- d^2 w_i/dt^2 = c^2 Laplacian(w_i).\nThe last line of the manuscript abbreviates the Laplacian as c c d^2 w/d x1^2.\nBy linearity the same equations hold for any superposition of such wave systems. They are the field equations for the light part v'' of the ether velocity: a divergence-free (transverse) vector wave equation.\n\nThe faint formula at lower right is an unrelated scrap.",
+  "errors": [
+   "The left-moving relation is written (d omega''/dt - c d omega'/d xi1) dt; it should be d omega''/dt - c d omega''/d xi1 = 0. The next line likewise has omega' where omega'' is meant (on the right of d^2 omega''/dt^2). These are slips; the result omega_tt = c^2 omega_xi1xi1 is correct.",
+   "The plane-wave conditions are first written as d omega/d xi2 = 0 twice, then corrected to d/d xi2 and d/d xi3. This is cosmetic.",
+   "The last line writes c^2 d^2 w/d x1^2 instead of the full Laplacian. This is an abbreviation, not an error, given the preceding line.",
+   "Gap: the converse is asserted without argument, namely that every solution of div w = 0 together with the vector wave equation is a superposition of transverse plane waves. Div = 0 alone only forces d omega1/d xi1 = 0 for a single plane wave. That leaves a non-propagating longitudinal part a + b t, which must be excluded separately, e.g. by a Fourier argument plus boundary or rest conditions."
+  ],
+  "results": [
+   {
+    "what": "Splitting a plane disturbance into parts translating with speeds +c and -c, giving omega_tt = c^2 omega_xixi",
+    "modern_name": "d'Alembert's solution / factorization of the 1-D wave equation",
+    "usually_credited_to": "d'Alembert (1747)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Light as transverse vibrations parallel to the wave planes, propagating normal to them with common speed c",
+    "modern_name": "Transverse wave theory of light",
+    "usually_credited_to": "Young and Fresnel (1817-1821)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Field equations for the light part of the ether velocity: div w = 0, w_tt = c^2 Laplacian w, coordinate-invariant",
+    "modern_name": "Divergence-free (transverse) vector wave equation, as in elastic-ether theories and later Maxwellian electrodynamics in vacuum",
+    "usually_credited_to": "Cauchy, Green, MacCullagh (1830s); vacuum Maxwell equations (1860s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the 'Gravitation und Licht' part of Riemann's Naturphilosophie fragments, published in his Gesammelte Werke (Weber/Dedekind, 1876). Its content, a transverse light ether obeying div w = 0 and the vector wave equation via d'Alembert's decomposition, was standard ether physics by the 1850s. Only draft-level details such as the slips and crossings-out are new.",
+  "checkable": [
+   {
+    "sympy": "x,t,c=symbols('x t c'); f=Function('f'); g=Function('g'); w=f(x-c*t)+g(x+c*t); simplify(diff(w,t,2)-c**2*diff(w,x,2))==0",
+    "asserts": "The superposition of right- and left-moving profiles satisfies the 1-D wave equation."
+   },
+   {
+    "sympy": "x,t,c=symbols('x t c'); f=Function('f'); w1=f(x-c*t); simplify(diff(w1,t)+c*diff(w1,x))==0",
+    "asserts": "A right-moving profile satisfies omega'_t + c omega'_xi = 0."
+   },
+   {
+    "sympy": "x,t,c=symbols('x t c'); g=Function('g'); w2=g(x+c*t); simplify(diff(w2,t)-c*diff(w2,x))==0",
+    "asserts": "A left-moving profile satisfies omega''_t - c omega''_xi = 0, the corrected form of the manuscript's slip."
+   },
+   {
+    "sympy": "x1,x2,x3,t,c=symbols('x1 x2 x3 t c'); F=Function('F'); n=Matrix([1,2,2])/3; a=Matrix([2,-2,1])/3; s=n.dot(Matrix([x1,x2,x3]))-c*t; W=a*F(s); X=[x1,x2,x3]; simplify(sum(diff(W[i],X[i]) for i in range(3)))==0 and all(simplify(diff(W[i],t,2)-c**2*sum(diff(W[i],X[j],2) for j in range(3)))==0 for i in range(3))",
+    "asserts": "A transverse plane wave with amplitude a perpendicular to unit normal n, written in rotated coordinates, satisfies div w = 0 and w_tt = c^2 Laplacian w. This illustrates the coordinate invariance used on the page."
+   }
+  ],
+  "transcription_corrections": [
+   "First line: '6, Bewegung der Lichtströmungen verwirft' should probably read 'b, Bewegung, so die Lichterscheinungen verursacht'. This parallels 'a) Bewegungen, so die Gravitationserscheinungen verursachen' on the previous page; the '6' is the letter b.",
+   "'6 Bewegungsformen' and '{+6+}' in the struck opening lines are likely also the letter 'b' or a fragment, not the numeral 6.",
+   "'(∂ω''/∂t - c ∂ω'/∂ξ1)∂t' reflects Riemann's own slip; the intended expression is ∂ω''/∂t - c ∂ω''/∂ξ1 = 0.",
+   "'diese Gleichungen sind ... geben folgenden Zusammenfassen' is better read as 'diese Gleichungen sind in folgenden zusammenzufassen'.",
+   "'sie bewegen sich auf ein beliebiges Coordinatensystem ... übertragen' should read 'sie lassen sich auf das ursprüngliche (or: ein beliebiges) Coordinatensystem ... in Gleichungen von derselben Form übertragen'.",
+   "'ω1 = 0, ∂ω/∂ξ2 = 0' line: the second condition is ∂ω/∂ξ3 = 0 after correction (∂ω/∂ξ2 = 0, ∂ω/∂ξ3 = 0)."
+  ]
+ }
+}

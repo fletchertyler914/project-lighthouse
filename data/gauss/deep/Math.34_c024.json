@@ -1,0 +1,63 @@
+{
+ "bundle": "Math.34",
+ "page": "c024",
+ "label": "10r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382187:00000025/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the next page, 'Nivellieren'): Gauss is analysing a spirit level (Libelle) hung from a suspension line AB (Aufhängungslinie). AL is horizontal and the angle LAB = u. Plane III passes through B perpendicular to AB, so plane III is tilted 90°-u against the horizontal. A point C lies in plane III with coordinates (x, y) relative to B. phi is the angle between the x-direction and the line BE, where BE is the trace in plane III of the vertical plane through AB, i.e. the line of steepest slope in III. CK, parallel to ED, is the component of BC along that steepest line, so CK = x cos phi + y sin phi (formula 1 of the next page). The goal is the inclination g of the line AC to the horizontal, e.g. the line of sight or level axis.\n\nThis page:\n\n(a) Two figures. The vertical plane through CA: A is low, M is directly above A, MQ is horizontal and C is above Q. The vertical plane through AN: rectangle M, P, A, N.\n\n(b) The height of C above A is AC·sin g = AM + CQ.\n- AM = BL = AB·sin u (formula 2 of the next page).\n- CQ = CK·cos u = (x cos phi + y sin phi) cos u (formula 3). The cos u holds because every line in plane III perpendicular to the intersection line (the horizontal direction in III) has slope 90°-u. Gauss states this explicitly in the German note on the right: 'Die Hauptsache ist eigentlich dass die Ebne III um 90°-u gegen die Horizontalebne geneigt ist ... dieß braucht bloss auf CK angewandt zu werden.'\n- Hence AC sin g = AB sin u + x cos phi cos u + y sin phi cos u.\n\n(c) Since BC lies in plane III, which is perpendicular to AB, AC = sqrt(AB^2 + BC^2) = sqrt(AB^2 + x^2 + y^2).\n\n(d) Setting AB = 1 gives the exact relation\nsqrt(1 + x^2 + y^2) · sin g = sin u + (x cos phi + y sin phi) cos u.\n\n(e) 'vel proxime': g ≈ u + x cos phi + y sin phi.\n[My filled step:] The square-root factor is 1 + O(2) in x and y. Also sin g - sin u ≈ cos u (g - u). So to first order g - u = x cos phi + y sin phi, valid for any u not near ±90°. This treats x and y as small, i.e. measured in units of AB.\n\n(f) Right lower block: a scheme of reversal readings.\n- With eta u = v: S = M + h + v + x (b), Sigma = M - h + v + x (a).\n- With eta u = -v, i.e. after reversal: S' = M + h - v + x (a), Sigma' = M - h ? v - x (b). The sign before v is blotted.\n- Then the differences S - S' and Sigma - Sigma' are formed.\n\nThe intent is the standard elimination of instrumental errors by reversing the level or telescope. M is the mean reading, h a half-length or height term, v the tilt term produced by u, and x a collimation/axis term. Differences of the paired readings isolate v (and x). With the transcribed signs, S - S' = 2v and Sigma - Sigma' = 2v + 2x.",
+  "errors": [
+   "No mathematical errors in the main derivation. The exact formula follows from the geometry (AB perpendicular to plane III, slope of the steepest line in III equal to 90°-u). The approximation g ≈ u + x cos phi + y sin phi is correct to first order in x, y (in units of AB) for any u away from ±90°.",
+   "The reversal scheme on the right is incomplete as written. The sign before v in Sigma' is blotted, and the final combinations S-S', Sigma-Sigma' are named but not evaluated. The roles of M, h, v, x are not defined on the page and can only be inferred."
+  ],
+  "results": [
+   {
+    "what": "Exact inclination of the line AC: sqrt(1+x^2+y^2) sin g = sin u + (x cos phi + y sin phi) cos u, from projecting onto the vertical with a plane perpendicular to an axis inclined at u",
+    "modern_name": "Elementary spatial trigonometry / vector projection: height of a point given in a tilted plane's coordinates",
+    "usually_credited_to": "Routine; standard in 18th–19th c. instrument theory",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "First-order approximation g ≈ u + x cos phi + y sin phi for the tilt of the line of sight/level axis",
+    "modern_name": "Linearized error equation for axis/level inclination (small-angle error theory of instruments)",
+    "usually_credited_to": "Standard instrument error theory (Bessel, Gauss, Reichenbach era)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Reversal (Umsetzen) readings S, Sigma, S', Sigma' with differences to eliminate level/collimation errors",
+    "modern_name": "Reversal method for spirit levels / two-face elimination of instrumental errors",
+    "usually_credited_to": "Classical practice in surveying (18th c. onward)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are routine geodetic-instrument calculations: the inclination of a line attached to a tilted suspension axis, and a reversal scheme for a level. They fit Gauss's well-documented work on the Hanover survey and leveling instruments. Nothing here goes beyond standard practice of his time.",
+  "checkable": [
+   {
+    "sympy": "u,x,y,p=symbols('u x y p',real=True); A=Matrix([cos(u),0,sin(u)]); e1=Matrix([-sin(u),0,cos(u)]); e2=Matrix([0,1,0]); C=A+(x*cos(p)+y*sin(p))*e1+(x*sin(p)-y*cos(p))*e2; simplify(C[2]-(sin(u)+(x*cos(p)+y*sin(p))*cos(u)))",
+    "asserts": "Height of C above A equals sin u + (x cos phi + y sin phi) cos u when AB=1 has elevation u and BC lies in the plane perpendicular to AB, with x cos phi + y sin phi the component along the steepest line (expected 0)"
+   },
+   {
+    "sympy": "simplify((C.T*C)[0]-(1+x**2+y**2))",
+    "asserts": "AC^2 = AB^2 + x^2 + y^2 with AB=1, since BC is perpendicular to AB (expected 0)"
+   },
+   {
+    "sympy": "e=symbols('e'); series(asin((sin(u)+e*(x*cos(p)+y*sin(p))*cos(u))/sqrt(1+e**2*(x**2+y**2))),e,0,2)",
+    "asserts": "g = u + e*(x cos phi + y sin phi) + O(e^2), i.e. Gauss's 'proxime' approximation is correct to first order"
+   },
+   {
+    "sympy": "M,h,v,x=symbols('M h v x'); S=M+h+v+x; Sig=M-h+v+x; S1=M+h-v+x; Sig1=M-h-v-x; (simplify(S-S1), simplify(Sig-Sig1))",
+    "asserts": "With the transcribed signs, S-S' = 2v and Sigma-Sigma' = 2v+2x (reversal differences isolate v and x)"
+   }
+  ],
+  "transcription_corrections": [
+   "In the line 'sqrt(1+xx+yy). sin g', the first 'sin' is struck through and rewritten. The transcription '[-sin-] sin g' is right; only one sin applies.",
+   "In Sigma' = M - h ? v - x, the sign before v is blotted by an ink spot and cannot be read reliably; '+' or '-' are both possible.",
+   "The labels beside S and Sigma on the image look like 'b' and 'a' (Sigma's possibly 'k'), with S' 'a' and Sigma' 'b', consistent with the transcription.",
+   "'157 d f 17' at the top is struck through (an old shelf/folio number), as transcribed."
+  ]
+ }
+}

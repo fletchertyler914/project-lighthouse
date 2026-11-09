@@ -1,0 +1,72 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c087",
+ "label": "[86]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000088/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to Gauss's Hanover triangulation (Gradmessung) of 1824. The stations Falkenberg, Bullerberg, Brüttendorf, Elmhorst and Bottel lie in the Bremen–Stade area. The heading reads 'ablesung am Theodolithen 1824' (readings on the theodolite). The previous page tabulates the 'mittlerer Fehler einer Ablesung (d.i. des Mittels der vier Verniers)' for each year 1821–1825; for 1824 it gives n = 843 and m = 1.5991″. This page and the next are the raw working that builds up those 1824 statistics, station by station.\n\nStructure of each station block. A station name is followed by n in parentheses, the number of readings, and by Σa, the signed sum of the residuals a. Then comes a frequency table: the right-hand column is the magnitude |a|, an integer, and the left-hand column is the number f_k of readings with |a| = k. The block closes with Σaa = Σ_k f_k·k². The unit of a is not stated. One plausible guess (mine, unverified) is a quarter of an arcsecond, since the mean of four verniers read to whole seconds would give multiples of 0.25″. With that unit, sqrt(11356/287) ≈ 6.29 units ≈ 1.57″, which is of the same order as the 1.60″ quoted for the full year. The sign of each residual is not tabulated; only the signed total Σa is kept, presumably as a check for systematic bias.\n\nStation blocks, with my recomputation:\n- Falkenberg: n = 25 = 2+3+2+3+1+5+4+2+1+1+1. Σaa = 0·2+1·3+4·2+9·3+16·1+25·5+36·4+49·2+64·1+81·1+169·1 = 735. Σa = −7.\n- Bullerberg: n = 70. Σaa = 0+4+24+72+96+200+324+539+256+243+300+242+288 = 2588. Σa = +58.\n- Brüttendorf: n = 89, which forces the count at |a| = 4 to be 13 (the other rows sum to 76). Σaa = 0+5+36+27+208+225+288+637+512+324+900+242+288+0+392 = 4084. Σa = −100.\n- Elmhorst: n = 66. Σaa = 0+8+40+63+96+200+144+196+384+405+200+121+288 = 2145. Σa = +65.\n- Bottel: n = 37 (count 0 at |a| = 5). Σaa = 0+2+12+18+112+0+144+98+320+243+300+242+144+169 = 1804. Σa = +34.\n\nCumulative block 'Alle bisherigen (287)':\n- n = 25+70+89+66+37 = 287.\n- Σa = −7+58−100+65+34 = +50.\n- Σaa = 735+2588+4084+2145+1804 = 11356.\n- The pooled frequency table is the row-wise sum of the five tables: 13, 22, 30, 23, 33, 30, 29, 32, 24, 16, 17, 7, 7, 2, 2 for k = 0..14, which totals 287.\n\nPurpose (implicit, my inference): the accumulated Σaa and n feed the Gaussian mean error m = sqrt(Σaa/n), possibly with a degrees-of-freedom correction, quoted on the previous page. The next page continues the running totals: +Bremen gives 455 / +114 / 18698, and further stations follow. The frequency tables of |a| also let Gauss inspect the empirical error distribution against his error law. The k = 0 bin (13) is roughly half the k = 1 bin (22), as expected when tabulating absolute values of a symmetric distribution.",
+  "errors": [
+   "No arithmetic errors found: every per-station count, every Σaa, the cumulative n, Σa and Σaa, and all fifteen pooled frequencies check exactly.",
+   "The next page's running total (287+168 = 455; 50+64 = 114; 11356+7342 = 18698) is also consistent.",
+   "Brüttendorf |a| = 4 entry: the digit is visibly overwritten in the manuscript; the consistency checks (n = 89, Σaa = 4084, pooled count 33 at k = 4) require it to be 13."
+  ],
+  "results": [
+   {
+    "what": "Accumulation of squared reading residuals by station and pooled, giving the mean error of one theodolite reading (mean of four verniers) as sqrt(Σaa/n).",
+    "modern_name": "Root-mean-square error / standard deviation estimate from residuals (Gaussian 'mittlerer Fehler')",
+    "usually_credited_to": "Gauss (Theoria combinationis observationum, 1821–1823)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Frequency tables of absolute residuals, per station and pooled, presumably to inspect the empirical error distribution.",
+    "modern_name": "Empirical histogram of residuals / check of the normal error law",
+    "usually_credited_to": "Bessel (Fundamenta Astronomiae, 1818) and Gauss; common practice in 19th-century geodesy",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are routine bookkeeping statistics from Gauss's Hanover survey; mean-error computations of this kind are well known as his practice. The page is a raw data reduction with no new theory.",
+  "checkable": [
+   {
+    "sympy": "sum([2,3,2,3,1,5,4,2,1,1,1]) == 25 and sum(f*k**2 for f,k in zip([2,3,2,3,1,5,4,2,1,1,1],[0,1,2,3,4,5,6,7,8,9,13])) == 735",
+    "asserts": "Falkenberg count and Σaa"
+   },
+   {
+    "sympy": "sum([4,4,6,8,6,8,9,11,4,3,3,2,2]) == 70 and sum(f*k**2 for f,k in zip([4,4,6,8,6,8,9,11,4,3,3,2,2],range(13))) == 2588",
+    "asserts": "Bullerberg count and Σaa"
+   },
+   {
+    "sympy": "sum([2,5,9,3,13,9,8,13,8,4,9,2,2,0,2]) == 89 and sum(f*k**2 for f,k in zip([2,5,9,3,13,9,8,13,8,4,9,2,2,0,2],range(15))) == 4084",
+    "asserts": "Brüttendorf count and Σaa, with the |a| = 4 entry read as 13"
+   },
+   {
+    "sympy": "sum([3,8,10,7,6,8,4,4,6,5,2,1,2]) == 66 and sum(f*k**2 for f,k in zip([3,8,10,7,6,8,4,4,6,5,2,1,2],range(13))) == 2145",
+    "asserts": "Elmhorst count and Σaa"
+   },
+   {
+    "sympy": "sum([2,2,3,2,7,0,4,2,5,3,3,2,1,1]) == 37 and sum(f*k**2 for f,k in zip([2,2,3,2,7,0,4,2,5,3,3,2,1,1],range(14))) == 1804",
+    "asserts": "Bottel count and Σaa"
+   },
+   {
+    "sympy": "(25+70+89+66+37, -7+58-100+65+34, 735+2588+4084+2145+1804) == (287, 50, 11356)",
+    "asserts": "Cumulative n, Σa and Σaa"
+   },
+   {
+    "sympy": "sum(f*k**2 for f,k in zip([13,22,30,23,33,30,29,32,24,16,17,7,7,2,2],range(15))) == 11356 and sum([13,22,30,23,33,30,29,32,24,16,17,7,7,2,2]) == 287",
+    "asserts": "Pooled frequency table is consistent with the cumulative n and Σaa"
+   },
+   {
+    "sympy": "N(sqrt(Rational(11356,287)))",
+    "asserts": "Mean error ≈ 6.29 (in units of a) for the 287 readings"
+   }
+  ],
+  "transcription_corrections": [
+   "Brüttendorf, row |a| = 4: the count is 13, not 3. The manuscript shows an overwritten digit, and the checks n = 89, Σaa = 4084 and pooled count 33 at k = 4 all require 13.",
+   "The heading is written 'ablesung am Theodolithen 1824' (lower-case a) in the manuscript.",
+   "Bottel row |a| = 5 is a dash, meaning zero, which is correctly transcribed; likewise Brüttendorf |a| = 13 is a dash, meaning zero."
+  ]
+ }
+}

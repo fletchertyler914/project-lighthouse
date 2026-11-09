@@ -1,0 +1,69 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c008",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of §§3-4 of Riemann's Göttingen Inaugural Dissertation (1851), 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse'. The text agrees almost word for word with the printed version.\n\n(a) End of §3 (conformality). The previous page fixes infinitesimal displacements dz = dx + i dy = ε e^{iφ} near a point O of plane A and their images dw = du + i dv = η e^{iψ} near Q in plane B. Take two displacements dz', dz''. If w is a function of z, then dw/dz is the same for both: dw'/dz' = dw''/dz''. Rearranging gives dw'/dw'' = dz'/dz''. Hence η'/η'' = ε'/ε'' and ψ' − ψ'' = φ' − φ''. So the infinitesimal triangles o'Oo'' and q'Qq'' have an equal angle at O and Q, and the sides enclosing it are proportional. They are therefore similar (SAS).\n\nThis page concludes that corresponding infinitesimal triangles, and hence the smallest parts of A and of their image on B, are similar. The map is conformal. The exception is the special points where corresponding changes of z and w do not stand in a finite ratio, i.e. dw/dz = 0 or ∞. The derivation silently assumed this does not happen. A footnote refers to Gauss's treatise on this subject, which 'spreads so much light'. This is Gauss 1825, 'Allgemeine Auflösung der Aufgabe, die Theile einer gegebenen Fläche auf einer andern gegebenen Fläche so abzubilden, dass die Abbildung dem Abgebildeten in den kleinsten Theilen ähnlich wird'.\n\n(b) §4 (Cauchy–Riemann equations). Write du = u_x dx + u_y dy and dv = v_x dx + v_y dy. Then\n  du + i dv = (u_x + i v_x) dx + (v_y − i u_y) i dy.\nThe second term is my check: (v_y − i u_y)·i dy = u_y dy + i v_y dy, which is correct. So\n  (du + i dv)/(dx + i dy) = [A dx + B i dy]/(dx + i dy), with A = u_x + i v_x and B = v_y − i u_y.\nThis quotient is independent of the ratio dx:dy exactly when A = B. (My step: put dy = 0 to get A, and dx = 0 to get B.) Separating real and imaginary parts gives u_x = v_y and v_x = −u_y. These conditions are therefore necessary and sufficient for w = u + iv to be a function of z = x + iy in Riemann's sense, namely that dw/dz is independent of dz.\n\nThe next page differentiates once more to obtain Δu = 0 and Δv = 0. This tacitly assumes second derivatives exist and commute.",
+  "errors": [
+   "No mathematical error on this page. The expansion of du + i dv and the equivalence with the Cauchy–Riemann equations are correct.",
+   "Implicit assumption (standard for 1851): u and v are differentiable, so that du and dv are linear in dx and dy. The C² regularity needed on the next page for Laplace's equation is likewise assumed silently.",
+   "The exceptional case is described only loosely, as the changes of z and w 'not in a finite ratio' (dw/dz = 0 or ∞). Riemann rightly flags that the similarity argument assumed this away.",
+   "Minor slip on the previous page (not this one): the values x+yi+dx+dyi and u+vi+du+dvi are attributed to 'w und z' in reversed order. The printed dissertation reads 'z und w'."
+  ],
+  "results": [
+   {
+    "what": "A complex-differentiable map w(z) is similar in the smallest parts (angle-preserving with locally uniform scale), except where dw/dz is 0 or ∞.",
+    "modern_name": "Conformality of holomorphic maps",
+    "usually_credited_to": "Lambert/Euler/Lagrange (maps); Gauss 1825 (general theory, cited here); stated in Riemann's 1851 dissertation §3",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "dw/dz is independent of dz iff u_x = v_y and v_x = −u_y.",
+    "modern_name": "Cauchy–Riemann equations",
+    "usually_credited_to": "d'Alembert 1752, Euler 1777, Cauchy 1814/1825; Riemann 1851 (dissertation §4, hence the name)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Footnote reference to Gauss's 1825 Copenhagen prize treatise on conformal mapping.",
+    "modern_name": "Gauss's theory of conformal mapping of surfaces",
+    "usually_credited_to": "Gauss 1825",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of §§3–4 of Riemann's published 1851 doctoral dissertation, almost verbatim. Both the conformality statement and the Cauchy–Riemann equations are famously associated with Riemann through exactly this text.",
+  "checkable": [
+   {
+    "sympy": "x,y,dx,dy=symbols('x y dx dy',real=True); u=Function('u')(x,y); v=Function('v')(x,y); lhs=(diff(u,x)*dx+diff(u,y)*dy)+I*(diff(v,x)*dx+diff(v,y)*dy); rhs=(diff(u,x)+I*diff(v,x))*dx+(diff(v,y)-I*diff(u,y))*dy*I; simplify(expand(lhs-rhs))==0",
+    "asserts": "The rewriting of du + i dv used in §4 is an identity."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); w=expand((x+I*y)**3); u=re(w); v=im(w); [simplify(diff(u,x)-diff(v,y)), simplify(diff(v,x)+diff(u,y))]",
+    "asserts": "A holomorphic example (z^3) satisfies the Cauchy–Riemann equations; result [0, 0]."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); w=expand((x-I*y)**2); u=re(w); v=im(w); simplify(diff(u,x)-diff(v,y))",
+    "asserts": "A non-holomorphic map (conj(z)^2) violates u_x = v_y; result is nonzero (4x)."
+   },
+   {
+    "sympy": "a,b,dx,dy=symbols('a b dx dy',real=True); A=a+I*b; simplify(((A*(dx+I*dy))/(dx+I*dy)) - A)==0",
+    "asserts": "If A = B, the quotient (A dx + B i dy)/(dx + i dy) is independent of dx:dy, which gives sufficiency."
+   },
+   {
+    "sympy": "a,b,c,d,dx,dy=symbols('a b c d dx dy',real=True); q=((a+I*b)*dx+(c+I*d)*I*dy)/(dx+I*dy); simplify(q.subs(dy,0)-q.subs(dx,0))",
+    "asserts": "The quotient at dy = 0 minus the quotient at dx = 0 equals A − B. Independence of direction therefore forces A = B, which gives necessity."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 5: the manuscript has 'nur dann ~~in~~ den besondern Fällen ein' (the word 'in' is struck through). The bracketed deletion in the transcription is correct.",
+   "Footnote marker '¹)' after 'vorausgesetzt ist.' is correct. The footnote ends with 'von Gauß:' and the citation itself is not on this page; presumably it continues on the next leaf. The printed dissertation cites Gauss, 'Allgemeine Auflösung der Aufgabe ...', Astronomische Abhandlungen, ed. Schumacher, Heft 3, 1825.",
+   "In the displayed condition ∂u/∂x = ∂v/∂y, the 'y' in the denominator appears to be overwritten or corrected in the manuscript. The transcription's reading ∂v/∂y is correct.",
+   "Orthography: the manuscript uses 'Grössen'/'Größen' variably. This has no mathematical significance."
+  ]
+ }
+}

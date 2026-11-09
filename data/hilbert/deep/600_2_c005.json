@@ -1,0 +1,63 @@
+{
+ "bundle": "600_2",
+ "page": "c005",
+ "label": "-",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page continues a programmatic entry begun on the previous page: 'Stelle auf eine Theorie des Rechnens', i.e. 'set up a theory of calculation'. There are no derivations on the page, only a research programme with two test problems.\n\nThe programme:\n(a) Explain wherein lie the advantages that well-known arithmetic formulas and theorems offer for working out specific problems. His examples are summation formulas for arithmetic series, congruence formulas, and Stirling's formula, with a reference to Schlömilch, Compendium der höheren Analysis, Bd. 2, S. 264, presumably the Stirling series.\n(b) Find out how these advantages can be estimated quantitatively ('rechnerisch abschätzen').\n\nProposed method: take elementary operations (addition, multiplication, exponentiation) as cost units. For each route one may take through a calculation, count how many units it uses. In modern terms this is an operation-count (arithmetic or algebraic) complexity measure for an algorithm, used to compare algorithms for the same task.\n\nTest problem 1: how many units are needed to get the k-th decimal digit of pi? Modern form: the complexity of computing pi to k digits, or of extracting its k-th digit, as a function of k.\n\nTest problem 2: how is n! computed fastest? His suggestion is a hybrid.\n- Leading digits: from Stirling's formula, log10 n! = (n + 1/2) log10 n - n log10 e + log10 sqrt(2 pi) + (1/(12n) - 1/(360 n^3) + ...)/ln 10. The fractional part of this gives the leading digits.\n- Trailing digits: by congruence computation, i.e. n! mod 10^k.\n\nImplicit completion (mine): the last digits of n! are zeros. Their number is Legendre's v_5(n!) = sum_{i>=1} floor(n/5^i). So a meaningful congruence computation targets the last nonzero digits, n!/10^{v_5(n!)} mod 10^k. That uses multiplication mod 10^k with the factors of 2 and 5 removed, a cost growing roughly like n operations on k-digit numbers rather than on numbers of about n log n digits.",
+  "errors": [
+   "No mathematical errors; the text is a sketch. Two unstated gaps are worth noting.",
+   "Gap 1: the 'last digits' of n! by congruences are trivially zeros. The non-trivial task is the last nonzero digits, which requires Legendre's formula for the number of trailing zeros and removing the factors 2 and 5.",
+   "Gap 2: leading plus trailing digits do not give the middle digits of n! for large n. Also, the Stirling series is asymptotic (divergent), so for fixed n only a bounded number of leading digits is reliably obtainable, and high-precision logarithms are needed. Hilbert's 'Vielleicht' signals a tentative idea."
+  ],
+  "results": [
+   {
+    "what": "Proposal for a 'theory of calculation': take elementary arithmetic operations as cost units and count them along different computational routes to compare the efficiency of methods quantitatively",
+    "modern_name": "Arithmetic/algebraic complexity (operation counting); analysis of algorithms",
+    "usually_credited_to": "Precursors: Lamé (1844) on step counts in the Euclidean algorithm and Babbage on operation economy. Systematic theory: Ostrowski (1954), Scholz (1937, addition chains), Turing/von Neumann-era numerical analysis, Hartmanis–Stearns (1965), Strassen (1969).",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Question of the cost of computing the k-th decimal digit of pi",
+    "modern_name": "Complexity of computing pi (digit extraction / high-precision evaluation)",
+    "usually_credited_to": "Modern: Brent and Salamin (1976); Bailey–Borwein–Plouffe (1995, for hexadecimal digit extraction)",
+    "already_credited_to_author": "no",
+    "routine": false
+   },
+   {
+    "what": "Hybrid computation of n!: leading digits from the Stirling series, trailing digits by congruence arithmetic",
+    "modern_name": "Stirling asymptotic series for log n!; last nonzero digits of n! via modular arithmetic and Legendre's formula",
+    "usually_credited_to": "Stirling/de Moivre (1730) for the formula; Legendre (1808) for v_p(n!); the hybrid computational idea is folklore",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 4,
+  "surprise_reason": "An explicit programme, likely from the 1880s–90s, to measure the efficiency of computational methods by counting elementary operations, applied to digits of pi and to n!. It anticipates algebraic complexity theory by decades. It is only a sketched question with no results, and operation-counting precursors (Lamé, Babbage) exist. I am unsure whether historians (e.g. work on Hilbert's notebooks) have already highlighted it. Notable, not major.",
+  "checkable": [
+   {
+    "sympy": "N(log(factorial(1000),10) - ((1000+Rational(1,2))*log(1000,10) - 1000*log(E,10) + log(sqrt(2*pi),10) + 1/(12*1000*log(10))), 30)",
+    "asserts": "The Stirling series with the 1/(12n) term gives log10(1000!) to high accuracy (difference near 0), so the leading digits of n! follow from Stirling."
+   },
+   {
+    "sympy": "sum(floor(1000/5**i) for i in range(1,6)) == multiplicity(5, factorial(1000))",
+    "asserts": "Legendre's formula: the number of factors of 5 (hence trailing zeros) of 1000! is sum floor(n/5^i) = 249."
+   },
+   {
+    "sympy": "multiplicity(10, factorial(1000)) == 249",
+    "asserts": "1000! ends in exactly 249 zeros, so 'last digits by congruence' must target the last nonzero digits."
+   },
+   {
+    "sympy": "(factorial(100) // 10**multiplicity(10, factorial(100))) % 1000",
+    "asserts": "The last three nonzero digits of 100!, computable by congruence arithmetic mod 1000 after removing the factors 2 and 5."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is essentially accurate.",
+   "'vergl. Schlömilch Compendium Bd 2 S. 264.' is confirmed: it refers to Schlömilch's Compendium der höheren Analysis.",
+   "'(addiren, multiplici-ren, potenziren)': in the image there is a mark resembling '{' after 'addiren'; it is most likely a comma."
+  ]
+ }
+}

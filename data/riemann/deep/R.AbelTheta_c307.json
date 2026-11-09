@@ -1,0 +1,63 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c307",
+ "label": "153v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000308/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a draft fragment for Riemann's 'Theorie der Abel'schen Functionen' (Crelle 54, 1857). The previous page builds the multi-sheeted surface over the (x,y)-plane, with branch points pictured as screw surfaces. It then moves to Green/Stokes for X dx + Y dy and the analysis situs lemmas. This page continues the outline with section headings and the opening of the Dirichlet-principle section.\n\n(1) Headings, readings uncertain:\n- '... in sich zurücklaufende Fläche': a surface returning into itself (closed surface, or its boundary).\n- 'Zerlegung durch Querschnitte': cutting a multiply connected surface into a simply connected one by cross-cuts. This is §1 of the 1857 paper.\n- 'Unstetigkeit [or Unveränderlichkeit] des Integrals [vollständiger?] Differentiale ... mit einem [unveränderlichen?] Periodicitäts[modul]': the integral of a closed differential X dx + Y dy is single-valued on the cut surface T'. It jumps across each cross-cut by a constant, the period modulus. This is §2 of the 1857 paper.\n\n(2) Bottom paragraph, an almost verbatim draft of the opening of §3 ('Bestimmung einer Function einer veränderlichen complexen Grösse durch Grenz- und Unstetigkeitsbedingungen'). It speaks of a function α+βi with prescribed discontinuities and, in addition, a prescribed boundary condition along the whole boundary. The boundary values and discontinuities must satisfy compatibility conditions, presented as follows.\n\nA crossed-out start ('Es seien α und β ... für jeden Punkt der Fläche T') is replaced by: in the surface T let two real functions α, β of x, y be given at every point, continuous up to isolated points. Riemann first writes the lone term (∂α/∂x − ∂β/∂y)² and then the full functional. In modern notation:\n\nΩ(α) = ∫_T [ (α_x − β_y)² + (α_y + β_x)² ] dT,\n\n'durch Ω(α)' meaning 'we denote this by Ω(α)'.\n\nThe integrand vanishes exactly when α+iβ satisfies the Cauchy–Riemann equations. Expanding (my step): integrand = |∇α|² + |∇β|² − 2(α_x β_y − α_y β_x). The Jacobian term is a divergence, ∂_x(α β_y) − ∂_y(α β_x).\n\nIn the published argument β is held fixed and α is varied by λ, where λ ranges over functions with finite Dirichlet integral. The minimizer satisfies the Euler–Lagrange equation Δα = 0 (the β terms cancel because β_xy = β_yx). Riemann then concludes that there is a correction α − λ making it the real part of an analytic function with the prescribed singularities and boundary data. This is Riemann's Dirichlet principle. Only the definition of Ω is written on this page.",
+  "errors": [
+   "The second square should be (∂α/∂y + ∂β/∂x)². The transcription reads a minus there; if the manuscript really has '−', it is a slip, since the Cauchy–Riemann equations for α+iβ give α_y = −β_x. The image is too faint to decide.",
+   "As usual for Riemann, the existence of a minimizer is assumed without justification (Weierstrass's later objection). This is a gap in the method, not a slip on this page."
+  ],
+  "results": [
+   {
+    "what": "Dissection of a multiply connected surface by cross-cuts (Querschnitte) into a simply connected one",
+    "modern_name": "Cutting a Riemann surface into a simply connected domain; connectivity number / genus via cuts",
+    "usually_credited_to": "Riemann 1857",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Integral of a closed differential on the cut surface is single-valued, with constant jumps (period moduli) across the cuts",
+    "modern_name": "Periods of closed 1-forms / de Rham periods",
+    "usually_credited_to": "Riemann 1857",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Functional Ω(α) = ∫((α_x−β_y)²+(α_y+β_x)²)dT, to be minimized to obtain analytic functions with prescribed boundary and discontinuity conditions",
+    "modern_name": "Dirichlet principle (Riemann's form, measuring deviation from the Cauchy–Riemann equations)",
+    "usually_credited_to": "Riemann 1851 (dissertation §16–18) and 1857 (§3); named after Dirichlet; rigorized by Hilbert 1900",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of the plan and of §§1–3 of the published 1857 Abelian functions paper, including its exact Dirichlet functional. It offers draft-genesis interest only and no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y'); a=Function('a')(x,y); b=Function('b')(x,y); simplify(expand((diff(a,x)-diff(b,y))**2+(diff(a,y)+diff(b,x))**2) - (diff(a,x)**2+diff(a,y)**2+diff(b,x)**2+diff(b,y)**2 - 2*(diff(a,x)*diff(b,y)-diff(a,y)*diff(b,x))))",
+    "asserts": "Integrand equals the Dirichlet energies of α and β minus twice the Jacobian (result 0)."
+   },
+   {
+    "sympy": "simplify(diff(a*diff(b,y),x) - diff(a*diff(b,x),y) - (diff(a,x)*diff(b,y)-diff(a,y)*diff(b,x)))",
+    "asserts": "The Jacobian term is a divergence, so it contributes only boundary terms (result 0)."
+   },
+   {
+    "sympy": "L=(diff(a,x)-diff(b,y))**2+(diff(a,y)+diff(b,x))**2; simplify(euler_equations(L,[a],[x,y])[0].lhs + 2*(diff(a,x,2)+diff(a,y,2)))",
+    "asserts": "The Euler–Lagrange equation for Ω with β fixed is Δα = 0; the β terms cancel (result 0)."
+   },
+   {
+    "sympy": "u=re(expand((x+I*y)**3)); v=im(expand((x+I*y)**3)); simplify((diff(u,x)-diff(v,y))**2+(diff(u,y)+diff(v,x))**2)",
+    "asserts": "The integrand vanishes for analytic α+iβ, here z**3 with x, y real (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The second term of Ω should probably read (∂α/∂y + ∂β/∂x)², not '−'.",
+   "'Unstetigkeit des ... Integrals ... vieldeutiger Differentiale' plausibly reads 'Unveränderlichkeit/Stetigkeit des Integrals vollständiger Differentiale mit einem unveränderlichen Periodicitätsmodul', matching §2 of the 1857 paper; uncertain.",
+   "Bottom paragraph likely reads '... einer willkürlich gegebenen Unstetigkeit ... und außerdem einer beliebigen Grenzbedingung in Bezug auf den ganzen Umfang ...' (cf. the opening of §3 of the 1857 paper).",
+   "Last lines likely read 'Es seien in der Fläche T für jeden Punkt zwei reelle ... Functionen α, β von x, y gegeben ... so bezeichnen wir das Integral ... durch Ω(α)'."
+  ]
+ }
+}

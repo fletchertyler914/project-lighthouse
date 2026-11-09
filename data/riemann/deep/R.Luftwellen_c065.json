@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c065",
+ "label": "46v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000066/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page has nothing to do with the shock-wave manuscript (Luftwellen) on the surrounding folios. It is a set of lecture or study notes in practical astronomy on the meridian circle, written on the reverse of a sheet that was later filed with the gas-dynamics drafts. There is no derivation in the analytic sense. The content, item by item, in modern terms:\n\n(1) Instrument basics.\n- The pivots (Zapfen) of the horizontal axis must be tested. If they are faulty, the instrument is usable only for differential determinations.\n- An instrument that only observes star transits is a transit instrument (Passageninstrument, Meridianfernrohr).\n- The meridian circle also measures altitudes.\n- A divided circle is fixed to the rotation axis, with its centre on that axis.\n\n(2) Reading the circle.\n- Several verniers, or better reading microscopes, are used instead of one vernier.\n- The micrometer microscope measures the offset of its zero from the two neighbouring graduation lines. The whole divisions are read directly.\n\n(3) Microscope carrier.\n- The microscopes must keep a fixed position. Their carrier is a frame with a central bush that fits closely on a conical part of the axis.\n- A tail on the carrier is clamped to a screw piece fixed to the piers.\n- A level (Libelle) on the carrier detects any rotation of the carrier about the axis. For 'our instrument' the level correction is 3–5 arc-seconds.\n- The value of one level division is found by moving the carrier with the screw and reading repeatedly.\n- Alternatively the microscopes are mounted directly on the piers (e.g. in England) and the level is omitted. Pier motions are then to be monitored by continued Polaris observations.\n\n(4) Eccentricity and division errors.\n- Let the reading error of a microscope at circle angle φ be E(φ). Eccentricity e gives E = e·sin(φ−φ0).\n- Regular division errors are expanded in a Fourier series: E(φ) = Σ_k a_k sin(kφ + A_k).\n- Mean of n equally spaced microscopes: (1/n) Σ_{j=0}^{n-1} sin(k(φ + 2πj/n) + A) = 0 unless n divides k.\n- Hence two opposite microscopes remove the sin φ (eccentricity) term and all odd harmonics.\n- Four microscopes at 90° also remove the sin 2φ term (all k not ≡ 0 mod 4).\n- Unequal (irregular) division errors remain. A quoted determination gives the mean error of the mean of four microscopes as 0.32″.\n\n(5) Zero point.\n- One must know the reading for the zenith or equator. It is obtained via the nadir point, using a mercury horizon: set the reflected image of the wires on the wires themselves and read the circle.\n- Corrections for the wires and for changes with time are to be controlled by Polaris observations.\n\n(6) Refraction and flexure.\n- Refraction is listed.\n- Gravity bends the telescope tube and affects circle readings. The flexure correction is proportional to sin z (z = zenith distance).\n- A further term, apparently another flexure or axis effect, is proportional to cos z.\n- In modern form: Δz = b·sin z + b'·cos z.\n\nNothing here serves the gas-dynamics problem.",
+  "errors": [
+   "No mathematical errors. The statements on eliminating harmonics by symmetric microscope arrangements and the sin z flexure law are standard and correct.",
+   "Two opposite microscopes cancel not only the eccentricity (sin φ) term but all odd harmonics. Four at 90° cancel every harmonic whose order is not a multiple of 4. The note mentions only the first two terms."
+  ],
+  "results": [
+   {
+    "what": "Elimination of eccentricity and periodic division errors by averaging symmetrically placed microscopes, with a Fourier-series model of the errors",
+    "modern_name": "Bessel's method of eliminating circle eccentricity/division errors (harmonic analysis of graduation errors)",
+    "usually_credited_to": "F. W. Bessel (1820s–1830s); standard in 19th-century practical astronomy",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Flexure correction proportional to sin of zenith distance; nadir determination with mercury horizon",
+    "modern_name": "Horizontal flexure term; nadir observation (Bohnenberger/Bessel practice)",
+    "usually_credited_to": "Bessel, Bohnenberger; standard textbook (e.g. Brünnow)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Level on microscope carrier to monitor carrier rotation; Polaris observations to monitor pier stability",
+    "modern_name": "Standard meridian-circle reduction practice",
+    "usually_credited_to": "19th-century observatory practice (Bessel, Struve, Airy)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are routine notes on the meridian circle, probably from astronomy lectures (e.g. in Göttingen). They contain textbook material on transit instruments, microscopes, eccentricity elimination and flexure, with no original mathematics, and are unrelated to the Luftwellen shock-wave work on adjacent pages.",
+  "checkable": [
+   {
+    "sympy": "simplify(sin(phi-phi0) + sin(phi+pi-phi0))",
+    "asserts": "Eccentricity error cancels in the mean of two opposite microscopes (result 0)."
+   },
+   {
+    "sympy": "simplify(sum(sin(2*(phi + j*pi/2) + A) for j in range(4)))",
+    "asserts": "The sin 2φ division-error term cancels in the mean of four microscopes 90° apart (result 0)."
+   },
+   {
+    "sympy": "simplify(sin(2*phi+A) + sin(2*(phi+pi)+A))",
+    "asserts": "Two opposite microscopes do NOT cancel the 2φ term (result 2*sin(2*phi+A)), hence the need for four."
+   },
+   {
+    "sympy": "simplify(sum(sin(k*(phi + 2*pi*j/n) + A) for j in range(n)).subs({k:3, n:4}))",
+    "asserts": "Four equally spaced microscopes cancel the 3rd harmonic (result 0); only multiples of 4 survive."
+   }
+  ],
+  "transcription_corrections": [
+   "The page concerns astronomy (meridian circle), not air waves. It is likely a reused sheet and should be flagged as unrelated to the Luftwellen text.",
+   "Line 1 begins 'Die Zapfen muss geprüft werden' (the stray 'die' in the margin belongs to it).",
+   "'Mit dem Meridiankreis [misst man] auch die Höhe der Sterne' — the elided verb is implicit.",
+   "Microscope line: likely 'Man misst den Abstand des Nullpunkts des Mikroskops von zwei benachbarten Theilstrichen ... den vollen Theil erhält man durch den Nonius' (reading uncertain).",
+   "'(zum Beispiel in England)' appears to be written '(z.B. in England)' with 'z.B.' inserted above.",
+   "Before '0'',32' the line likely reads '... ergiebt sich [aus] Bestimmung des mittleren Fehlers eines Mittels aus vier Mikroskopen 0'',32'.",
+   "'Correction wegen der Biegung dem Sinus der Zenithdistanz proportional' is followed by an interlinear remark about the tube ('wodurch dass das Fernrohr ... gemacht wird'). The final line ascribes a second correction to the cosine of the zenith distance; its first word is illegible."
+  ]
+ }
+}

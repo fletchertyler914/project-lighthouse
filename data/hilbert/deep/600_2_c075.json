@@ -1,0 +1,71 @@
+{
+ "bundle": "600_2",
+ "page": "c075",
+ "label": "[70]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000076/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page contains no computations. It holds four separate research notes, the first of which continues the algebraic theme of the previous page.\n\n(1) Struck-out start 'Alle Functionen'. The note then reads: 'In the far distance there eventually appears the problem of constructing all non-solvable equations of 5th degree with prescribed discriminant.' In modern terms: fix an integer D. Determine all f in Z[x] of degree 5 with disc(f) = D whose Galois group is not solvable, i.e. A5 or S5. Equivalently, up to field isomorphism, all quintic number fields of given discriminant with non-solvable closure. The task is meaningful only with some finiteness. Hermite's theorem gives finitely many number fields of given degree and discriminant. For polynomials themselves, finiteness up to x -> x + a was proved by Győry and by Birch–Merriman, both later. This continues the previous page: Hilbert's irreducibility theorem and his construction of equations with S_n and A_n groups (1892), and his remark on equations reducible mod every prime. The note is posed as a far-off programme, not solved.\n\n(2) 'The continuation of potentials, including the spatial ones, is permitted if and only if the boundary curve (boundary surface) and the boundary function are analytic.' In modern terms: let u be harmonic in a domain G in R^2 or R^3 with Dirichlet data phi on the boundary. Claim: u continues harmonically across the boundary iff the boundary and phi are real-analytic. The 'if' direction holds. In the plane it follows from conformal mapping plus Schwarz reflection (Schwarz 1870). In space it follows from analyticity of solutions up to an analytic boundary with analytic data, combined with Cauchy–Kovalevskaya. No proof or sketch is given.\n\n(3) A methodological remark: 'The modern critical period in mathematics is certainly safe from unfruitfulness; rather, one need not anxiously strive for new results, they come of themselves.' This is a defence of the rigour/critique movement (Weierstrass, Cantor, Dedekind, foundations) against the charge of sterility.\n\n(4) Later, smaller hand: 'In general theories in mathematics the main thing is that through them a perspicuous principle of classification and a fruitful path of investigation opens up.' This is a remark on the value of general theories.",
+  "errors": [
+   "Note (2): the 'only if' half is false as literally stated. Take u = x, an entire harmonic function, restricted to a domain with a smooth but non-analytic boundary curve. u continues harmonically everywhere, yet the boundary is not analytic. A correct form: continuation for all analytic data needs an analytic boundary; or the data and boundary together must form the trace of an analytic object. The intended precise statement is unclear.",
+   "Note (2): the parenthesis opened at '(Randfläche' is never closed. 'Randcurve' presumably refers to the plane case and 'Randfläche' to the spatial case.",
+   "Note (1): 'construct all' needs a normalisation. Equivalent polynomials (e.g. under translation x -> x+a) share a discriminant, so the classification is meaningful only up to equivalence or at the level of fields. This is implicit and unstated."
+  ],
+  "results": [
+   {
+    "what": "Programme: construct/classify all non-solvable quintics (Galois group A5 or S5) with a prescribed discriminant",
+    "modern_name": "Enumeration of quintic number fields by discriminant; finiteness of number fields of given degree and discriminant; finiteness of polynomials of given discriminant up to equivalence",
+    "usually_credited_to": "Hermite (finiteness of fields, 1857), Minkowski; Birch–Merriman 1972 and Győry 1973 (polynomials/forms); computational tables by Pohst, Jones–Roberts and others",
+    "already_credited_to_author": "no",
+    "routine": false
+   },
+   {
+    "what": "Harmonic functions (plane and space) with analytic Dirichlet data on an analytic boundary continue analytically across the boundary, claimed with a converse",
+    "modern_name": "Schwarz reflection principle / boundary analyticity of solutions of elliptic equations (Cauchy–Kovalevskaya; Lewy, Morrey–Nirenberg for general elliptic equations)",
+    "usually_credited_to": "H. A. Schwarz (1870) in the plane; general elliptic boundary analyticity: Lewy, Morrey–Nirenberg (1957)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Remark that the modern critical (rigour) period will not be sterile; results come by themselves",
+    "modern_name": "Methodological/philosophical remark (cf. Hilbert's 1900 Paris address optimism)",
+    "usually_credited_to": "Hilbert (general attitude well documented)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Value of general theories lies in providing a clear classification principle and fruitful research path",
+    "modern_name": "Methodological remark on axiomatic/general theories",
+    "usually_credited_to": "Hilbert (consistent with his published views)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The page holds programmatic notes, not results. The quintic-with-prescribed-discriminant problem is an early, unstated anticipation of later discriminant-finiteness and enumeration work. The potential-continuation claim prefigures his 19th/20th problems' interest in analyticity of solutions but is stated loosely and partly incorrectly. The methodological remarks fit his known views.",
+  "checkable": [
+   {
+    "sympy": "from sympy import symbols, discriminant, factorint; x=symbols('x'); d=discriminant(x**5-x-1, x); (d, factorint(d))",
+    "asserts": "Example of a non-solvable (S5) quintic with given discriminant: disc(x^5-x-1) = 2869 = 19*151"
+   },
+   {
+    "sympy": "from sympy import symbols, discriminant, expand; x,a=symbols('x a'); f=x**5-x-1; expand(discriminant(f.subs(x,x+a),x)-discriminant(f,x))==0",
+    "asserts": "Discriminant is invariant under translation x->x+a, so 'all quintics with given discriminant' requires normalisation up to equivalence"
+   },
+   {
+    "sympy": "from sympy import symbols, discriminant, expand; x,a,b=symbols('x a b'); expand(discriminant(x**5+a*x+b,x) - (256*a**5+3125*b**4))==0",
+    "asserts": "Discriminant formula for trinomial quintics x^5+ax+b, useful for constructing quintics with prescribed discriminant"
+   },
+   {
+    "sympy": "from sympy import symbols, diff, simplify; x,y=symbols('x y'); u=x; simplify(diff(u,x,2)+diff(u,y,2))==0",
+    "asserts": "u=x is harmonic everywhere, so it continues across any boundary, analytic or not (counterexample to the literal 'only if')"
+   }
+  ],
+  "transcription_corrections": [
+   "Top-left page number in the image reads '69', although the folio is labelled [70].",
+   "'(Randfläche und' — the parenthesis is unclosed in the original; the transcription is faithful.",
+   "Last note: 'übersichtlicher Eintheilungsprincip' is likely intended as 'übersichtliches Eintheilungsprincip'; the hand is hasty and the reading of the ending is uncertain.",
+   "'Re-sultate' is correctly read; the capital R is written with a flourish resembling 'Fle-'."
+  ]
+ }
+}

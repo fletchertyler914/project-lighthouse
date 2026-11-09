@@ -1,0 +1,104 @@
+{
+ "bundle": "Math.6",
+ "page": "c022",
+ "label": "[12r]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376171:00000023/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "WHAT THE TABLE IS (my identification, verified numerically below). The page is a table of 10-adic (natural) logarithms, i.e. values of the series log(1+u) = u - u^2/2 + u^3/3 - ... for odd numbers N ≡ 1 (mod 10) from 1 to 9991, computed modulo 10^8.\n\nHow the table is laid out:\n- Each N is written as N = 1000k + 100j + 10t + 1.\n- t is the tens digit and labels the block. This page has t = 0, 2, 4, 6, 8. The next page has t = 1, 3, 5, 7, 9.\n- j is the hundreds digit and labels the column. The column heads read 001, 101, ..., 901; 021, 121, ...; and so on. They are the numbers 100j + 10t + 1.\n- k is the thousands digit and labels the row (0-9).\n- Write L(N) = Σ_{n≥1} (-1)^{n+1} (N-1)^n / n mod 10^8. This series converges 10-adically. For N ≡ 1 (mod 10) every term has a denominator that is a unit mod 10 after cancellation.\n- The units digit of L is always 0.\n- The two-digit number after the colon in each column head is (L(x) mod 1000)/10, with x = 100j + 10t + 1. These are the hundreds and tens digits of the logarithm, which do not depend on k.\n- The five-digit cell entry is floor(L(N)/1000) mod 10^5, i.e. the digits from 10^3 to 10^7.\n\nDERIVATION (mine) of the header law. Mod 1000, put u = 10t + 100j. Then u^2/2 ≡ 50t^2, u^3/3 ≡ 0 and u^4/4 ≡ 500t^4, so L ≡ 10t + 100j - 50t^2 - 500t^4. The header is therefore 10j + t - 5t^2 - 50t^4 mod 100:\n- t = 0 gives j0 (00, 10, 20, ...).\n- t = 2 gives 8+j (82, 92, 02, ...).\n- t = 4 gives 24, 34, ...\n- t = 6 gives 26, ...\n- t = 8 gives 88, ...\n- On the next page: t = 1 gives 46, t = 3 gives 08, t = 5 gives 30, t = 7 gives 12, t = 9 gives 54.\nEvery header on both pages agrees.\n\nROW (k) STRUCTURE. L(x + 1000k) = L(x) + 1000k/x - 5·10^5 k^2/x^2 + O(10^9). So within a column:\n- entry(k) = entry(0) + k·(1/x mod 10^5) - 500k^2·(1/x^2) (mod 10^5).\n- First differences fall by a constant second difference -1000·(x^-2 mod 100) (mod 10^5).\n- That constant is -1000 for t = 0, +39000 for t = 2, -21000 (≡ +79000) for t = 4, +19000 for t = 6, and +59000 for t = 8.\n- The units digit of the entries runs k + const.\n\nSPOT CHECKS of the k = 0 values, each a direct series evaluation mod 10^8:\n- L(1001) ≡ 1000 - 500000 = 99,501,000 → entry 99501, header 00.\n- L(101) ≡ 100 - 5000 + 10^6/3 - 10^8/4 ≡ 41,995,100 → 41995 : 10.\n- L(201) = 35,980,200 → 35980 : 20.\n- L(301) = 83,955,300.\n- L(901) = 17,595,900.\n- L(21): the sum over n ≤ 7 is 20 - 200 + 33,336,000 - 40,000 + 640,000 - 44,000,000 + 40,000,000 = 29,935,820 → 29935 : 82.\n- L(41) = 90,527,240 → 90527 : 24.\n- L(11) = 50,684,460, matching the next page's 011:46 / 50684.\n\nINTERNAL CONSISTENCY WITH LOG LAWS:\n- L(121) = 2L(11) = 101,368,920 ≡ 01368920. This matches 121:92 / 01368.\n- L(441) = 2L(21) = 59,871,640. This matches 441:64 / 59871.\n- L(861) = L(21) + L(41) = 120,463,060 ≡ 20463060. This matches 861:06 / 20463.\n\nI checked every column on the page by its constant second differences (50 columns × 10 rows). All but three entries fit; those are listed under errors.\n\nPURPOSE (inference). L is a homomorphism from the units ≡ 1 mod 10 into Z/10^8. With such a table one can get the last 8 digits of products, quotients and powers by addition. Any unit can first be brought to ≡ 1 mod 10 by raising to the 4th power. Numbers with more than 4 digits are handled by L(N(1+10^4 y)) = L(N) + 10^4 y - 5·10^7 y^2. The previous page (decimal arithmetic) is unrelated. The next page is the same table for odd t, only partly filled.",
+  "errors": [
+   "Column 081 (N = 4081), row 4: the page/transcription reads 63904. The second differences require 03904: 93083 + 10821 = 103904, and the next step 03904 + 69821 = 73725 matches row 5. Either a misreading of a 0 as 6 or a slip by Gauss.",
+   "Column 461 (N = 4461), row 4: reads 27450. It should be 21450: 69809 + 51641 = 121450, and 21450 + 70641 = 92091 matches row 5. Either a transcription 1/7 confusion or a slip.",
+   "Column 741 (N = 6741), row 6: reads 77370. It should be 77340: 59979 + 17361 = 77340, and 77340 + 96361 = 173701 → 73701 matches row 7. Probably a slip of 7 for 4 in the tens-of-units place, or a misreading.",
+   "No other inconsistencies found. All other columns satisfy the exact difference law, and the headers satisfy 10j + t - 5t^2 - 50t^4 mod 100."
+  ],
+  "results": [
+   {
+    "what": "Table of the logarithm series log(1+u) = Σ(-1)^{n+1}u^n/n evaluated 10-adically mod 10^8 for all N ≡ 1 (mod 10), N < 10^4. Layout: thousands digit = row, hundreds = column, tens = block; low digits in the column header, high digits in the cells.",
+    "modern_name": "10-adic (2-adic × 5-adic) logarithm; additive homomorphism (1+10Z)/(1+10^9Z) → Z/10^8",
+    "usually_credited_to": "p-adic logarithm/analysis: K. Hensel (1897 onward). Precursors: Kummer's logarithmic derivatives mod p (1850s); Gauss's own indices (discrete logs) mod p^n (Disquisitiones, 1801).",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Interpolation within a column: L(x+1000k) = L(x) + 1000k/x - 5·10^5k^2/x^2 mod 10^8, i.e. constant second differences -1000·x^{-2} mod 10^5. This is evidently how the columns were filled.",
+    "modern_name": "Taylor expansion of the p-adic logarithm / finite-difference tabulation",
+    "usually_credited_to": "standard tabulation technique",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Closed form for the low digits: L(1+10t+100j) ≡ 10t + 100j - 50t^2 - 500t^4 (mod 1000).",
+    "modern_name": "truncated logarithm series mod 10^3",
+    "usually_credited_to": "elementary",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 6,
+  "surprise_reason": "If verified as Gauss's, this is an explicit, systematically computed 10-adic logarithm table, correct to 8 digits. It treats log(1+u) as a convergent series in the 10-adic sense and uses its homomorphism property, decades before Hensel's p-adic numbers (1897). Gauss's discrete indices and work mod p^n are well known, and the step to a 'logarithm mod 10^n' is natural for him. Still, an analytic 10-adic log table is not, to my knowledge, part of the standard picture of his work. I am unsure whether Gauss-Nachlass scholarship has already described it, so I rate it notable rather than revolutionary.",
+  "checkable": [
+   {
+    "sympy": "L=lambda N,M=10**8: sum(((-1)**(n+1)*Rational((N-1)**n,n)).p*mod_inverse(Rational((N-1)**n,n).q,M) for n in range(1,60)) % M; L(1001)==99501000",
+    "asserts": "Row 1, column 001: entry 99501, header 00"
+   },
+   {
+    "sympy": "L(101)==41995100",
+    "asserts": "Column 101:10, row 0, entry 41995 (with L defined as above)"
+   },
+   {
+    "sympy": "L(21)==29935820",
+    "asserts": "Column 021:82, row 0, entry 29935"
+   },
+   {
+    "sympy": "L(41)==90527240",
+    "asserts": "Column 041:24, row 0, entry 90527"
+   },
+   {
+    "sympy": "L(11)==50684460",
+    "asserts": "Next page, column 011:46, entry 50684"
+   },
+   {
+    "sympy": "(L(121)-2*L(11)) % 10**8 == 0 and L(121)//1000 % 10**5 == 1368",
+    "asserts": "Logarithm law and entry 121:92 / 01368"
+   },
+   {
+    "sympy": "(L(861)-L(21)-L(41)) % 10**8 == 0 and L(861)==20463060",
+    "asserts": "Entry 861:06 / 20463 and additivity"
+   },
+   {
+    "sympy": "L(3021)//1000 % 10**5 == 62578",
+    "asserts": "Resolves uncertain reading in column 021, row 3"
+   },
+   {
+    "sympy": "L(8481)//1000 % 10**5 == 32437",
+    "asserts": "Resolves uncertain reading in column 481, row 8"
+   },
+   {
+    "sympy": "L(4081)//1000 % 10**5 == 3904",
+    "asserts": "Correct value is 03904, not 63904"
+   },
+   {
+    "sympy": "L(4461)//1000 % 10**5 == 21450",
+    "asserts": "Correct value is 21450, not 27450"
+   },
+   {
+    "sympy": "L(6741)//1000 % 10**5 == 77340",
+    "asserts": "Correct value is 77340, not 77370"
+   },
+   {
+    "sympy": "all((L(100*j+10*t+1) % 1000)//10 == (10*j+t-5*t**2-50*t**4) % 100 for j in range(10) for t in range(10))",
+    "asserts": "Header formula for the two low digits"
+   }
+  ],
+  "transcription_corrections": [
+   "Column 021, row 3 is 62578 (the uncertain first digits are '62').",
+   "Column 481, row 8 is 32437 (overwritten digit resolved by the difference check).",
+   "Column 081, row 4 should read 03904; the transcribed 63904 is inconsistent with its neighbours.",
+   "Column 461, row 4 should read 21450; the transcribed 27450 is inconsistent with its neighbours.",
+   "Column 741, row 6 should read 77340; the transcribed 77370 is inconsistent (possibly Gauss's own slip).",
+   "Header '881:6?' is 881:68 and header '981:7?' is 981:78; the pencil mark over 901:90 is not part of the table.",
+   "'Math 6' at the top is a later archival pencil note, not Gauss's text."
+  ]
+ }
+}

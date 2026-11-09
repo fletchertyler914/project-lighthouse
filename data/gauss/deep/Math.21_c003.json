@@ -1,0 +1,96 @@
+{
+ "bundle": "Math.21",
+ "page": "c003",
+ "label": "2v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000004/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page computes 2^(1/4) to about 30 decimals in two ways (the heading 'aliter' means 'otherwise') and checks one against the other.\n\n(A) Factoring the 9-digit truncation. N = 118920711 = 2^(1/4)·10^8 truncated, and N = 3·7·13·435607. To factor M = 435607, Gauss writes it in two ways by the form x²+7y²: M = 660² + 7·1² = 40² + 7·249². Two different representations show M is composite, and they give a factor (step supplied by me): (660·249)² ≡ 40² (mod M), so gcd(660·249 − 40, M) = gcd(164300, M) = 53. Hence M = 53·8219, with 8219 prime. Regrouped, N = 8219·159·91 (159 = 3·53, 91 = 7·13).\n\n(B) Logarithmic computation. Using natural ('hyperbolic') logarithms to 25 decimals:\n- ln 8219 = 9.0142038261 4850001243 42426\n- ln 159 = 5.0689042022 2023152553 97144\n- ln 91 = 4.5108595065 1685004115 88402\n- complement of ln 10^8 = 20 − 8 ln 10 = 1.5793192560 4763452785 60684 (characteristic −20 suppressed)\n\nThe sum gives ln(1.18920711) = 0.1732867909 3321610698 88656. The target is ln2/4 = 0.1732867951 3998632735 43080. Their difference is δ = 4.2067702203654424·10^-9.\n\nThen e^δ − 1 ≈ δ + δ²/2. The side computation (1764 2708…, 1769691 38329) gives δ²/2 ≈ 8.8484582·10^-18. So δ + δ²/2 = 4.2067702292139006·10^-9.\n\nThis is multiplied by 1.18920711, built up from partial products for 1.1, 0.088, 0.0012, 0.0000007 and 0.000000011. The product is 5.002721066…·10^-9. So 2^(1/4) = 1.18920711 + 5.002721066…·10^-9 = 1.189207115002721066 7…; the further digits written (struck '73009') ran past the precision of the logs.\n\n(C) Check and extension via √2. Let b = 1.189207115 and ε = 2^(1/4) − b. Then:\n- b² = 1.414213562366623225 exactly (the second line under √2).\n- √2 is taken as 1.4142135623 7309504880 168872423, so √2 − b² = 6.47182380168872423·10^-12.\n- From the log result, ε ≈ 2.7210667·10^-12. Gauss forms 2bε with 2b = 2.378414230 (237841423 multiplied by 9, 27, 2 in the side work) and ε² (2721² = 7403841, via 2700² + 2·2700·21 + 21²).\n- This yields 6.47166511 9837403841·10^-12. The remainder 15868 1851320389 is divided by 2b = 2.378414230005442; 3·2b = 7135242690016326 serves as divisor table.\n- The quotient digits are 6, 6, 7, then 175 minus a correction. The correction 69999/2.378 ≈ 294315 gives 0.0175 − 0.000000294315 = 0.017499705685.\n\nSo the final digits are 2^(1/4) = 1.189207115 0027210667 1749997056 85, written as '74999705685' under the log result.",
+  "errors": [
+   "The √2 value used, …168872423, is slightly wrong: the true digits are …1688724209698. This propagates an error of about 0.85e-29 into 2^(1/4). The final digits …705685 should be …705604; everything is correct through …7499970560 (about 29 decimals).",
+   "The log-based value is reliable only to about 26 decimals because of the 25-place logarithms; Gauss evidently noticed and struck the tail (73009).",
+   "No other errors found. The factorization, the two x²+7y² representations, the logarithms, δ, δ²/2 and b² all check."
+  ],
+  "results": [
+   {
+    "what": "Factoring 435607 = 53·8219 from its two representations 660²+7·1² = 40²+7·249²",
+    "modern_name": "Euler's factoring method via two representations by a quadratic form (congruence of squares)",
+    "usually_credited_to": "Euler (1770s); systematized by Gauss in Disquisitiones Arithmeticae arts. 329-334",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Computing 2^(1/4) to about 30 places by factoring a truncation into small factors, using high-precision natural-log tables, and correcting with exp(δ) ≈ 1+δ+δ²/2",
+    "modern_name": "Factor-and-log correction method for high-precision evaluation (multiplicative argument reduction)",
+    "usually_credited_to": "Standard 18th-century table-making practice (Briggs, Sharp, Wolfram tables)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Verifying and extending the digits via (b+ε)² = √2, i.e. ε = (√2 − b² − ε²)/(2b)",
+    "modern_name": "Newton/Heron square-root correction step",
+    "usually_credited_to": "Heron/Newton",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine high-precision numerical work, tied to the √2 and log((1+√2)/2) computations on the previous page. Using two representations by x²+7y² to factor is Euler's method, which Gauss treats explicitly in the Disquisitiones. Nothing here is beyond his known practice.",
+  "checkable": [
+   {
+    "sympy": "3*7*13*435607 == 118920711",
+    "asserts": "factorization of the truncated 2^(1/4)·10^8"
+   },
+   {
+    "sympy": "435607 == 7 + 660**2 and 435607 == 7*249**2 + 40**2 and 435607 == 53*8219",
+    "asserts": "the two representations by x²+7y² and the factorization"
+   },
+   {
+    "sympy": "isprime(8219)",
+    "asserts": "8219 is prime"
+   },
+   {
+    "sympy": "gcd(660*249 - 40, 435607) == 53",
+    "asserts": "the factor follows from the two representations"
+   },
+   {
+    "sympy": "8219*159*91 == 118920711",
+    "asserts": "the regrouping used for the logarithms"
+   },
+   {
+    "sympy": "N(log(8219), 30), N(log(159), 30), N(log(91), 30), N(20 - 8*log(10), 30)",
+    "asserts": "should give 9.01420382614850001243424…, 5.06890420222023152553971…, 4.51085950651685004115884…, 1.57931925604763452785607…"
+   },
+   {
+    "sympy": "N(log(2)/4 - log(Rational(118920711, 10**8)), 30)",
+    "asserts": "δ ≈ 4.20677022036544…e-9"
+   },
+   {
+    "sympy": "Rational(1189207115, 10**9)**2 == Rational(1414213562366623225, 10**18)",
+    "asserts": "exact square of b = 1.189207115"
+   },
+   {
+    "sympy": "2721**2 == 7403841",
+    "asserts": "the ε² auxiliary"
+   },
+   {
+    "sympy": "3*2378414230005442 == 7135242690016326",
+    "asserts": "divisor multiple used in the long division"
+   },
+   {
+    "sympy": "N(2**Rational(1, 4), 35)",
+    "asserts": "equals 1.18920711500272106671749997056047…; the page's …705685 is off in the last 2-3 digits"
+   },
+   {
+    "sympy": "N(sqrt(2), 32)",
+    "asserts": "1.4142135623730950488016887242097; the page's …168872423 is off by about 2e-29"
+   }
+  ],
+  "transcription_corrections": [
+   "The 'Compl. log 10' line is the complement of ln(10^8), i.e. 20 − 8 ln 10 = 1.5793192560…; the logarithms are natural, not Briggsian.",
+   "The struck number at the end of the 1,1892071150027210667[1] line reads '73009' (or similar) and is cancelled; '74999705685' below it is the corrected continuation from the √2 check.",
+   "'1,4142135623 6662322 5' should read 1,4142135623 66623225, i.e. 1.189207115² = 1.414213562366623225.",
+   "The side line '1769691 38329' belongs to the δ² computation (δ² ≈ 17.6969·10^-18)."
+  ]
+ }
+}

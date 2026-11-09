@@ -1,0 +1,75 @@
+{
+ "bundle": "PH.Induktion",
+ "page": "c020",
+ "label": "11r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382427:00000021/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: a laboratory/observatory log dated 21 March 1836, headed 'Sternwarte' (observatory) and archived as 'Phys. 4'. It belongs to Gauss's magnetometer and induction experiments of 1836. The previous page has the same format: a thermometer reading of 9.7 C, then half-integer counts paired alternately with scale readings near 190–220 and near 715–755.\n\nThe page records:\n- Thermometer at the start: 10.9 C. Thermometer at the end: 12.3 C.\n- Column 1: half-integer numbers 6½, 22½, 37½, …, 127½. These are oscillation (swing) counts n. The steps are 16, then 15 each time.\n- Column 2: the clock time of each count. Times run 9h51'11\", 10h02'27\", 10h13'11\", 10h23'50\", 10h34'29\", 10h45'08\", 10h55'49\", 11h06'26\", 11h17'06\".\n- Columns 3 and 4: the observed scale reading (mean position of the needle) at each count. The magnet is in alternately reversed states. State A gives readings near 191–237 (column 3). State B gives readings near 715–765 (column 4). The A readings drift upward 191.3 → 237.5 and the B readings drift 715 → 765, presumably secular/diurnal variation of declination.\n\nWhat is computed (eliminating the drift by interpolation):\n- For each B reading at count n_k, Gauss interpolates linearly in n the A value at the same instant. He uses the neighbouring A readings at n_{k-1} and n_{k+1}. Conversely for each A reading he interpolates B. These interpolated values are column 5.\n- Column 6 is the reversal deflection D_k = |B(n_k) − A(n_k)|.\n- The mean of the 7 differences is written under the line: 527.548.\n- The marginal 42\"60 is the oscillation period: (11h17'06\" − 9h51'11\")/(127½ − 6½) = 5155 s/121 = 42.60 s.\n\nStep by step (formulas mine, numbers Gauss's):\n- n = 22½: interpolated A = 191.325 + (196.625 − 191.325)·16/31 = 194.0605, written 194.060. The unequal steps 16 and 15 force true linear interpolation here. D = 714.975 − 194.060 = 520.915.\n- n = 37½: interpolated B = (714.975 + 740.85)/2 = 727.9125 → 727.912; D = 531.287.\n- n = 52½: interpolated A = (196.625 + 227.25)/2 = 211.9375 → 211.937; D = 528.913.\n- n = 67½: interpolated B = (740.85 + 761.55)/2 = 751.200; D = 523.950.\n- n = 82½: interpolated A = (227.25 + 235.175)/2 = 231.2125 → 231.212; D = 530.338.\n- n = 97½: interpolated B = (761.55 + 765.45)/2 = 763.500; D = 528.325.\n- n = 112½: interpolated A = (235.175 + 237.5)/2 = 236.3375 → 236.337; D = 529.113.\n- Mean D = 3692.841/7 = 527.5487 → 527.548.\n\nThe time intervals per 15 swings (10'39\"–10'44\") and the 11'16\" for the first 16 swings are consistent with T ≈ 42.6 s. The physical meaning of the reversal (deflecting magnet versus galvanic or inductive current) cannot be fixed from this page alone.",
+  "errors": [
+   "No arithmetic errors: all interpolations, differences and the mean check to the last digit, with truncation rather than rounding of the final 5 in 727.912, 211.937, 231.212, 236.337 and in 527.548 (true value 527.5487).",
+   "Minor: the time entry at 97½ has an overwritten minute figure (55). The intervals make 10h55'49\" correct.",
+   "The scatter of the differences (520.9 to 531.3) is large compared with the interpolation precision. This reflects observational noise (oscillation and variation), not computational error."
+  ],
+  "results": [
+   {
+    "what": "Elimination of linear drift in alternating (reversed) magnetometer readings by interpolating each reading's counterpart at the same epoch, then averaging the reversal differences",
+    "modern_name": "Drift correction by linear interpolation / alternating (reversal) measurement scheme (precursor of ABA-type and lock-in style differencing)",
+    "usually_credited_to": "Gauss and Weber, Göttingen magnetic observations 1830s (Intensitas 1833, Resultate aus den Beobachtungen des magnetischen Vereins)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Oscillation period from counted swings and clock times: T = 5155 s / 121 = 42.60 s",
+    "modern_name": "Period determination by coincidence/swing counting",
+    "usually_credited_to": "standard pendulum/magnetometer practice; Gauss 1832–33",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "A routine raw observation sheet from Gauss's well-documented Göttingen magnetometer and induction work of 1836. The data reduction (interpolation and averaging) is exactly the standard procedure described in his and Weber's published magnetic papers.",
+  "checkable": [
+   {
+    "sympy": "Rational(191325,1000) + (Rational(196625,1000)-Rational(191325,1000))*Rational(16,31)",
+    "asserts": "Linear interpolation in swing count gives 194.0605 (Gauss: 194.060)"
+   },
+   {
+    "sympy": "Rational(714975,1000) - Rational(194060,1000) - Rational(520915,1000)",
+    "asserts": "First difference equals 520.915 (result 0)"
+   },
+   {
+    "sympy": "(Rational(714975,1000)+Rational(74085,100))/2",
+    "asserts": "Interpolated B at 37½ = 727.9125"
+   },
+   {
+    "sympy": "(Rational(196625,1000)+Rational(22725,100))/2",
+    "asserts": "Interpolated A at 52½ = 211.9375"
+   },
+   {
+    "sympy": "(Rational(22725,100)+Rational(235175,1000))/2",
+    "asserts": "Interpolated A at 82½ = 231.2125"
+   },
+   {
+    "sympy": "(Rational(235175,1000)+Rational(2375,10))/2",
+    "asserts": "Interpolated A at 112½ = 236.3375"
+   },
+   {
+    "sympy": "(Rational(520915,1000)+Rational(531287,1000)+Rational(528913,1000)+Rational(523950,1000)+Rational(530338,1000)+Rational(528325,1000)+Rational(529113,1000))/7",
+    "asserts": "Mean of the seven differences = 527.5487... (Gauss: 527.548)"
+   },
+   {
+    "sympy": "Rational((11*3600+17*60+6)-(9*3600+51*60+11), 121)",
+    "asserts": "Period = 5155/121 ≈ 42.603 s, matching the marginal 42\"60"
+   }
+  ],
+  "transcription_corrections": [
+   "520.915[?] is confirmed as 520.915 (= 714.975 − 194.060).",
+   "The time at 97½ reads (10h)55'49\"; the 55 is written over another figure but is correct from the regular ~10'40\" intervals.",
+   "'11 6 26' at 112½ is 11h06'26\" (hour change), and '17 6' at 127½ is 11h17'06\".",
+   "The struck-out folio number is probably '50b/504' replaced by 11; it is irrelevant to the content.",
+   "'530,338' and '528,325' use commas as decimal points, equivalent to 530.338 and 528.325.",
+   "'42\"60' is the oscillation period 42.60 seconds."
+  ]
+ }
+}

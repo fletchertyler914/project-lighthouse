@@ -1,0 +1,62 @@
+{
+ "bundle": "PH.Varia",
+ "page": "c008",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382762:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem: find the Newtonian potential, at a point P a distance r from the centre O, of a homogeneous spherical shell (radius u, thickness du), and then of a solid homogeneous sphere of radius ϱ (density 1).\n\n(1) Figure. O is the centre, P the external point, and M a point of the shell at radius u. θ is the polar angle of M measured from the axis OP. f = |PM|.\n\n(2) Mass element in spherical coordinates. The edges are u dθ, u sinθ dϖ and du (listed in the left column). So dm = u^2 du sinθ dθ dϖ ('Element der Masse').\n\n(3) Potential element: dV = u^2 du sinθ dθ dϖ / f ('Elem. d. Potentials').\n\n(4) Integrate over azimuth ϖ from 0 to 2π. f does not depend on ϖ, so dV = 2π u^2 du sinθ dθ / f.\n\n(5) Law of cosines: f^2 = r^2 + u^2 − 2ru cosθ. Differentiating at fixed r and u gives f df = r u sinθ dθ. Hence sinθ dθ = f df/(r u).\n\n(6) Substitute (the struck intermediate is 2π u^2 du f df/(f r u)). This gives dV = 2π u du df / r. The integrand is constant in f, which is the key simplification.\n\n(7) Integrate over θ from 0 to π, i.e. f from f^0 = |r−u| to f' = r+u. The result is 2π u du (f' − f^0)/r.\n\n(8) Case table:\n- 'ausserhalb' (P outside, r > u): f' = r+u, f^0 = r−u, so f' − f^0 = 2u and V_shell = 4π u^2 du / r. This equals the shell mass divided by r.\n- 'innerhalb' (P inside, r < u): f' = u+r, f^0 = u−r, so f' − f^0 = 2r and V_shell = 4π u du. This is independent of r, so the potential is constant inside the shell.\n\n(9) Last line 'Potential', started and struck through. For a full sphere of radius ϱ and an external point, integrate 4π u^2 du / r from 0 to ϱ to get (4π/3) ϱ^3 / r, i.e. M/r. The struck '2π…' begins the internal case.\n\n[My completion, not on the page:] For an internal point, V = ∫_0^r 4π u^2 du / r + ∫_r^ϱ 4π u du = (4π/3) r^2 + 2π(ϱ^2 − r^2) = 2πϱ^2 − (2π/3) r^2.",
+  "errors": [
+   "No mathematical errors in the surviving steps. f df = r u sinθ dθ follows correctly from the law of cosines, and both case evaluations (2u outside, 2r inside) are correct.",
+   "Notational inconsistency only: the azimuth differential is written both ∂ϖ (right column) and ∂π (left column).",
+   "The final 'Potential' line for the solid sphere is struck through and left incomplete. The internal-point formula is never written out on this page."
+  ],
+  "results": [
+   {
+    "what": "Potential of a thin homogeneous spherical shell: 4π u^2 du / r outside (as if the mass were concentrated at the centre), and constant 4π u du inside. Derived by the substitution f df = r u sinθ dθ.",
+    "modern_name": "Newton's shell theorem (potential form); the standard textbook evaluation of the shell potential integral",
+    "usually_credited_to": "Newton (Principia, 1687, Book I, Props. 70–71) for the force form; the potential form via this substitution is standard from Laplace/Legendre/Poisson (c. 1780–1813)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Potential of a solid homogeneous sphere at an external point: (4π/3) ϱ^3 / r = M/r (begun, then struck).",
+    "modern_name": "External potential of a uniform ball",
+    "usually_credited_to": "Newton / Laplace",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the textbook computation of the potential of a spherical shell and a uniform sphere. It has been known since Newton and Laplace. Gauss treats such matters in his published potential theory ('Allgemeine Lehrsätze…', 1840). The page is a routine working note, probably for teaching or self-reference.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(sqrt(r**2+u**2-2*r*u*cos(t)),t)*sqrt(r**2+u**2-2*r*u*cos(t)) - r*u*sin(t))",
+    "asserts": "f df/dθ = r u sinθ, where f = sqrt(r^2+u^2-2ru cosθ); the expression should be 0."
+   },
+   {
+    "sympy": "integrate(sin(t)/sqrt(9+1-6*cos(t)),(t,0,pi))",
+    "asserts": "For r=3, u=1 (outside case) the θ-integral equals 2/3 = 2u/(r u)·(1/u)·u... i.e. (f'-f0)/(r u) = 2/r."
+   },
+   {
+    "sympy": "integrate(sin(t)/sqrt(1+9-6*cos(t)),(t,0,pi))",
+    "asserts": "For r=1, u=3 (inside case) the θ-integral equals 2/3 = 2/u, so the shell potential is 2π u^2 du·(2/u) = 4π u du, independent of r."
+   },
+   {
+    "sympy": "simplify(integrate(4*pi*u**2/r,(u,0,R)) - Rational(4,3)*pi*R**3/r)",
+    "asserts": "External potential of a uniform solid sphere of radius R is (4π/3)R^3/r; the expression should be 0."
+   },
+   {
+    "sympy": "simplify(integrate(4*pi*u**2/r,(u,0,r)) + integrate(4*pi*u,(u,r,R)) - (2*pi*R**2 - Rational(2,3)*pi*r**2))",
+    "asserts": "Internal potential of a uniform sphere is 2πR^2 − (2π/3) r^2 (my completion of the struck line); the expression should be 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'Lamus' is a misreading. The word before 'f df = r u sinθ ∂θ' is most likely 'dann' (or 'nun').",
+   "In the left column 'f df = [-r-]u sinθ ∂θ' is wrong: the r is not deleted. The formula reads f df = r u sinθ ∂θ (any stroke is over a preceding character), as on the right side.",
+   "The struck fraction 2π uu du f df/(f r u) is joined by a long curved stroke to '(r+u) − (r−u)', which is itself partly struck. The '(r+u) − (r−u)' is not an independent line.",
+   "The left-column fraction is 2π uu du sinθ ∂θ / f, with a struck '∂f' after it and ', f' beneath. The '2π' was written over another symbol.",
+   "The final row reads: 4π uu du / r | 4π u du, then a struck '4π uu du', then 'du / r'. Below it: 'Potential' followed by a struck (4π/3)(1/r)(ϱ^3) and a struck '2π…'."
+  ]
+ }
+}

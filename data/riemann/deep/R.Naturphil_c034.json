@@ -1,0 +1,73 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c034",
+ "label": "18r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000035/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is folio 18r of Riemann's fragment on gravitation and light. It was posthumously published by Weber and Dedekind in the Gesammelte Werke (1876) as part of 'Neue mathematische Principien der Naturphilosophie' / 'Gravitation und Licht'. On the previous page Riemann postulates a continuous Stoff (aether) filling all of space. Its velocity at each point has the direction of the accelerating force there and a magnitude proportional to that force.\n\n(1) Gravitational sink flow. A single ponderable point of attractive strength m is at rest at the origin. The Stoff then moves straight toward it with velocity v(r) = -k m r_hat / r^2. In words: inversely proportional to the square of the distance and directly proportional to the attraction.\n\n(2) Incompressibility. Riemann says it is 'easy to show' that the same quantity of Stoff always occupies the same volume. Supplied step (mine): for r > 0, div v = (1/r^2) d/dr(r^2 * (-k m / r^2)) = 0. Equivalently, the flux through any sphere about the origin is 4 pi r^2 * k m / r^2 = 4 pi k m, independent of r. So the flow is volume-preserving, i.e. incompressible.\n\n(3) Sink condition. The properties of the ponderable point are not to change. So the inflowing Stoff must disappear in it at a constant rate, 'in equal times equal quantities proportional to its attractive force'. This rate is 4 pi k m per unit time (my explicit constant), i.e. div v = -4 pi k m delta(x). The general version appears on the next page: every part of a ponderable body continuously annihilates Stoff at a rate proportional to its gravity.\n\n(4) Light and radiant heat. These must also be motions of the same Stoff in empty space. Two known properties are invoked: the oscillations are transverse to the direction of propagation, and all rays have the same propagation speed. Consider a small cylinder whose base dA is perpendicular to the ray and whose height dl lies along the ray. A transverse displacement u = f(x - ct) e_perp changes neither the height nor the base. So the volume is unchanged and the same physical volume element always occupies the same space. In modern terms div u = 0: transverse waves are again incompressible motions, consistent with the gravitational flow.\n\n(5) Constitutive law (no derivation, a programme). Physical points have no inertia: the velocity, not the acceleration, measures the force (Aristotelian/overdamped dynamics). The force on a physical point is the resultant of the forces from all physical line elements ending there. Each line element tends to lengthen or shorten, i.e. it would move its endpoints apart or together at a definite rate. This rate is a sum of two terms. The first depends on the line element's own past extensions or contractions. The second depends on the past dilatations of the volume element containing it. This is a hereditary (memory) strain law split into a direction-dependent part and a volumetric part. The forces are to be combined by the principle of virtual velocities (virtual work).",
+  "errors": [
+   "No mathematical errors. The incompressibility claim is correct for r > 0; the point itself is a sink of strength 4 pi k m, which is exactly why Riemann adds the annihilation hypothesis.",
+   "The cylinder argument for transverse waves is heuristic: it holds exactly for plane transverse shear waves, and to first order in general.",
+   "Conceptual point, not a slip: identifying aether velocity with accelerating force, together with inertia-free physical points, is a speculative physical hypothesis. Riemann does not justify it here.",
+   "The final paragraph asserts a constitutive law (two hereditary terms plus virtual velocities) without specifying any functional form."
+  ],
+  "results": [
+   {
+    "what": "Gravity explained as a steady incompressible aether flow into point sinks, with velocity proportional to m/r^2 and a sink rate proportional to the mass",
+    "modern_name": "sink-flow (aether-sink) model of gravitation; Gauss law / potential flow with point sinks",
+    "usually_credited_to": "Riemann himself (published posthumously 1876 in Werke, 'Gravitation und Licht'); related aether-flow ideas from Euler, later Bjerknes, Challis, Yarkovsky",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Divergence of the inverse-square radial field vanishes away from the source; flux is independent of radius",
+    "modern_name": "Gauss's divergence theorem / solenoidal inverse-square field",
+    "usually_credited_to": "Gauss, Green, Lagrange (18th to early 19th century)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Transverse waves of constant speed are volume-preserving (div u = 0), so light and gravity are both incompressible motions of the same medium",
+    "modern_name": "solenoidal (transverse) elastic waves, Fresnel transversality",
+    "usually_credited_to": "Fresnel (transversality); Cauchy, Green, MacCullagh (elastic aether theory)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Inertia-free physical points with forces from line elements depending on past strain of the line element and of the volume element, combined by virtual velocities",
+    "modern_name": "hereditary/viscoelastic constitutive law with deviatoric and volumetric memory terms (Boltzmann-type heredity)",
+    "usually_credited_to": "Boltzmann (1874), Volterra for hereditary elasticity; for this text, Riemann (published 1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is the manuscript of a text Weber and Dedekind published in Riemann's Gesammelte Werke (1876) and which historians have discussed. The mathematics on it (divergence-free inverse-square flow, volume preservation under transverse waves) is routine.",
+  "checkable": [
+   {
+    "sympy": "r,k,m=symbols('r k m',positive=True); simplify(diff(r**2*(-k*m/r**2),r)/r**2)",
+    "asserts": "The divergence of the radial field v_r = -k m / r^2 is zero for r > 0, i.e. the flow is incompressible."
+   },
+   {
+    "sympy": "r,k,m=symbols('r k m',positive=True); simplify(4*pi*r**2*k*m/r**2)",
+    "asserts": "The flux through a sphere of radius r is 4*pi*k*m, independent of r, so the sink rate is proportional to m."
+   },
+   {
+    "sympy": "x,y,z,t,c=symbols('x y z t c'); f=Function('f'); u=Matrix([0,f(x-c*t),0]); simplify(diff(u[0],x)+diff(u[1],y)+diff(u[2],z))",
+    "asserts": "A plane transverse wave has zero divergence, so it preserves volume."
+   },
+   {
+    "sympy": "x,t,c,eps=symbols('x t c epsilon'); f=Function('f'); J=Matrix([[1,0,0],[eps*diff(f(x-c*t),x),1,0],[0,0,1]]); simplify(J.det())",
+    "asserts": "The Jacobian of the displacement map x -> x + eps*u for a transverse wave is exactly 1: Riemann's cylinder keeps its volume."
+   }
+  ],
+  "transcription_corrections": [
+   "The interlinear insertion above 'Bewegung' is 'sich'; the sentence reads 'Da bei dieser Bewegung sich die Eigenschaften des ponderabeln Punktes nicht ändern sollen'.",
+   "The circled marginal 'Figur' mark at top right is a reference symbol, probably a cross-reference sign; its reading is uncertain.",
+   "'dort endenden' (physische Linienelemente) is plausible from the image but uncertain.",
+   "'Geschwindigkeit' in 'mit bestimmter Geschwindigkeit (welche das Maß der Kraft ist)' is underlined in the manuscript.",
+   "The margin number (18) is the folio number, not part of the text."
+  ]
+ }
+}

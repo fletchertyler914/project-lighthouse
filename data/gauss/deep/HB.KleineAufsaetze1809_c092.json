@@ -1,0 +1,99 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c092",
+ "label": "83",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000093/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT (from the surrounding pages). This page belongs to Gauss's numerical computation of the secular perturbation of Pallas by Jupiter, done by treating Jupiter's mass as a ring. The fixed Pallas position is taken at mean anomaly 240°. Jupiter's position on its orbit is parametrised by its eccentric anomaly E'. The squared distance is rho^2 = A + B cos(E'+C) + D cos^2 E', with numerical values A = 38.761768, B = 35.374352, D = 0.06284467 = a'^2 e'^2 and C = 206°34'46.87\". The 'Zweites Moment' (second step) introduces a new variable V by tan((E'+phi)/2) = sqrt(tan(45°+zeta)) tan(V/2). Here phi and zeta are chosen so that R = rho^2 (1 - tan(zeta) cos V)^2 contains no first harmonics, i.e. R = F + H cos(2V+h). This is the reduction that turns the ring integral of rho^-3 into a complete elliptic integral, which Gauss evaluates by the arithmetic-geometric mean.\n\nNotation (mine): t = tan(zeta), w = sqrt(1-t^2), M = A + D cos^2(phi), psi = E'+phi.\n\n(1) A sharper formula for zeta. Since tan^2(45°+zeta) = (1+sin 2zeta)/(1-sin 2zeta), and the previous page gives sin 2zeta = B cos(phi-C)/M, it follows that tan(45°+zeta) = sqrt((M + B cos(phi-C))/(M - B cos(phi-C))).\n\n(2) Eliminating zeta. The two conditions are:\n- B cos(phi-C)(1+t^2) = 2tM (equivalent to sin 2zeta = B cos(phi-C)/M);\n- B sin(phi-C) = D t sin 2phi.\nEliminating t gives sin(phi-C)[4AD sin 2phi - B^2 sin 2(phi-C)] = 4D^2 sin C cos(phi) sin 2phi.\nMy check: substituting t, the relation becomes 4sMDS - 2pD^2S^2 - 2pB^2s^2 = 0 with s = sin(phi-C), p = cos(phi-C), S = sin 2phi. The leftover terms reduce via 2cos(phi)[s cos(phi) - p sin(phi)] = -2 sin C cos(phi).\nWith tan(phi) = T and division by -2cos^3(phi), this becomes the cubic\n0 = B^2 (T cos C - sin C)^2 (T sin C + cos C) - 4ADT (T cos C - sin C) + 4D^2 T sin C.\nGauss says he always prefers the indirect (iterative) solution to this cubic.\n\n(3) The substitution. In Kepler form with 'eccentricity' t = tan(zeta), psi plays the role of the true anomaly and V that of the eccentric anomaly:\n- (1 - t cos V) cos psi = cos V - t;\n- (1 - t cos V) sin psi = w sin V.\n\n(4) Coefficients of R (filled in by me). Expand R = (1 - t cos V)^2 [A + B cos(psi - phi + C) + D cos^2(psi - phi)].\n- cos V coefficient: -2At + B cos(C-phi)(1+t^2) - 2Dt cos^2(phi). It vanishes by the first condition.\n- sin V coefficient: -w[B sin(C-phi) + D t sin 2phi]. It vanishes by the second condition.\nThe remaining terms give:\n- F + H cos h = M(1-t^2)^2/(1+t^2) = M cos^2(2zeta)/cos^2(zeta);\n- F - H cos h = M cos 2zeta - D cos 2phi (1-t^2);\n- H cos h = -(1/2)(1-t^2)(M sin^2(zeta) - D cos 2phi);\n- H sin h = (w/2)(B sin(phi-C) t - D sin 2phi) = -(1/2)(1-t^2)^(3/2) D sin 2phi, using the second condition.\n\n(5) Numerics, with phi = 206°37'56.50\".\n- M = A + D/2 + (D/2) cos 2phi = 38.7931903 + 0.0187943 = 38.811985.\n- B cos(phi-C) = 35.374336.\n- log(M + Bp) = 1.8703239 and log(M - Bp) = 0.5362615. Half their difference is 0.6670312 = log tan(45°+zeta), giving zeta = 32°51'6.245\".\n- Consistency check: log sin(phi-C) = log sin 2phi + log tan(zeta) + log(D/B) = 6.9634874. This gives phi - C = 3'9.63\", which equals the actual difference 206°37'56.50\" - 206°34'46.87\". So phi is a converged root.\n- F + H cos h: log[cos^2(2zeta)/cos^2(zeta)] = 9.3800154, plus log M, gives 9.310676.\n- H cos h is computed as -(1/2) cos 2zeta tan^2(zeta)(M - D cos 2phi/sin^2(zeta)), using (1-t^2) sin^2(zeta) = cos 2zeta tan^2(zeta). Here M - D cos 2phi/sin^2(zeta) = 38.811985 - 0.1277348, with log 1.5875342. The result is log H cos h = 0.5209392n, i.e. -3.318480.\n- Hence F = 9.310676 + 3.318480 = 12.629156.\n- H sin h: log = 9.6485327 + 8.4010918 = 8.0496245n.\n- Since both components are negative, h = 180°11'36.80\".\n- log cos h = 9.9999975, so log H = 0.5209417.",
+  "errors": [
+   "No substantive error. All formulas on the page check symbolically: the zeta-elimination, the cubic in tan(phi), F ± H cos h, H cos h and H sin h.",
+   "Log slip in the tan^2(zeta) line: 2 × 9.8100541 = 9.6201082, but the line reads 9.6200082 (the digit may be corrected in the image). The subsequent sum 0.5209392 is correct with 9.6201082, so the slip does not propagate.",
+   "Label slips: '1/2 B ... 8.4972384' is numerically log(D/2), since 8.7982684 - 0.30103 = 8.4972384. Likewise 'A + 1/2 cos 2phi = 38.7931903' is actually A + D/2. The next line adds (D/2) cos 2phi = 0.0187943 to give M = 38.811985. These are notational shorthand, not computational errors.",
+   "Minor verbal ellipsis: 'Nachdem phi und zeta [gefunden]' — the verb is missing.",
+   "The bracketed quantity -0.1277348 is D cos 2phi / sin^2(zeta), not written explicitly as such. This rearrangement is legitimate."
+  ],
+  "results": [
+   {
+    "what": "Choice of an auxiliary 'eccentric-anomaly-like' variable V with tan((E'+phi)/2) = sqrt((1+tan zeta)/(1-tan zeta)) tan(V/2). Phi and zeta are chosen so that rho^2 (1 - tan zeta cos V)^2 = F + H cos(2V+h), killing the first harmonics. This makes the ring-attraction integral reducible to complete elliptic integrals (computed by AGM).",
+    "modern_name": "Gauss's method for secular perturbations (Gaussian ring averaging); reduction of the ring potential/force integral to complete elliptic integrals",
+    "usually_credited_to": "C. F. Gauss, 'Determinatio attractionis...' (1818); later developed by Hill (1882) and Halphen",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Elimination of zeta giving a cubic in tan(phi), solved in practice by iteration",
+    "modern_name": "Resultant/elimination yielding a cubic for the principal-axis angle (essentially diagonalising a quadratic form in cos E', sin E')",
+    "usually_credited_to": "Gauss (1818 paper treats the general case via a quadratic form / cubic)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "tan(45°+zeta) = sqrt((M+Bp)/(M-Bp)) from sin 2zeta = Bp/M, for better numerical precision",
+    "modern_name": "Standard trigonometric identity used for numerical conditioning",
+    "usually_credited_to": "classical",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Numerical values for Pallas at mean anomaly 240°: phi = 206°37'56.50\", zeta = 32°51'6.245\", F = 12.629156, log H = 0.5209417, h = 180°11'36.80\"",
+    "modern_name": "Numerical computation of secular perturbations of Pallas by Jupiter",
+    "usually_credited_to": "Gauss's Pallas work (c. 1810–1816; partially in Werke VII)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a working-out of Gauss's known ring method for secular perturbations, applied to Pallas–Jupiter, which he published in principle in 1818 and which is documented in his Pallas papers. The specific Kepler-type substitution with eccentricity tan zeta and these numerics are an interesting early, unpublished concrete instance. They do not, however, attribute anything new to Gauss.",
+  "checkable": [
+   {
+    "sympy": "simplify(tan(pi/4+z)**2 - (1+sin(2*z))/(1-sin(2*z)))",
+    "asserts": "tan^2(45°+zeta) = (1+sin 2zeta)/(1-sin 2zeta), the basis of the first formula; should simplify to 0"
+   },
+   {
+    "sympy": "t,V=symbols('t V'); c=(cos(V)-t)/(1-t*cos(V)); s=sqrt(1-t**2)*sin(V)/(1-t*cos(V)); simplify(c**2+s**2-1)",
+    "asserts": "The substitution defines a valid angle psi = E'+phi (cos^2 + sin^2 = 1); should give 0"
+   },
+   {
+    "sympy": "A,B,C,D,p,t,V=symbols('A B C D phi t V'); u=1-t*cos(V); cp=(cos(V)-t)/u; sp=sqrt(1-t**2)*sin(V)/u; rho2=A+B*(cp*cos(C-p)-sp*sin(C-p))+D*(cp*cos(p)+sp*sin(p))**2; R=expand(simplify(u**2*rho2)); [simplify(integrate(R*cos(V),(V,0,2*pi))/pi - (-2*A*t+B*cos(C-p)*(1+t**2)-2*D*t*cos(p)**2)), simplify(integrate(R*sin(V),(V,0,2*pi))/pi + sqrt(1-t**2)*(B*sin(C-p)+D*t*sin(2*p)))]",
+    "asserts": "First-harmonic coefficients of R; setting them to zero gives the two conditions for phi and zeta (both expressions should be 0)"
+   },
+   {
+    "sympy": "A,B,C,D,p,t=symbols('A B C D phi t'); M=A+D*cos(p)**2; F=A*(1+t**2/2)-Rational(3,2)*t*B*cos(C-p)+D*(cos(p)**2*(Rational(1,2)+t**2)+(1-t**2)*sin(p)**2/2); Hc=A*t**2/2-t*B*cos(C-p)/2+D*(cos(p)**2-(1-t**2)*sin(p)**2)/2; simplify((F+Hc).subs(B*cos(C-p),2*t*M/(1+t**2)) - M*(1-t**2)**2/(1+t**2))",
+    "asserts": "F + H cos h = (A + D cos^2 phi) cos^2(2zeta)/cos^2(zeta) under the first condition; should give 0"
+   },
+   {
+    "sympy": "A,D,p,t=symbols('A D phi t'); M=A+D*cos(p)**2; Hc=A*t**2/2-t*(2*t*M/(1+t**2))/2+D*(cos(p)**2-(1-t**2)*sin(p)**2)/2; simplify(Hc + Rational(1,2)*(1-t**2)*(M*t**2/(1+t**2)-D*cos(2*p)))",
+    "asserts": "H cos h = -(1/2)(1 - tan^2 zeta)((A + D cos^2 phi) sin^2 zeta - D cos 2phi); should give 0"
+   },
+   {
+    "sympy": "A,D,p,t=symbols('A D phi t'); M=A+D*cos(p)**2; F=A*(1+t**2/2)-Rational(3,2)*t*(2*t*M/(1+t**2))+D*(cos(p)**2*(Rational(1,2)+t**2)+(1-t**2)*sin(p)**2/2); Hc=A*t**2/2-t*(2*t*M/(1+t**2))/2+D*(cos(p)**2-(1-t**2)*sin(p)**2)/2; simplify(F-Hc-(M*(1-t**2)/(1+t**2)-D*cos(2*p)*(1-t**2)))",
+    "asserts": "F - H cos h = M cos 2zeta - D cos 2phi (1 - tan^2 zeta); should give 0"
+   },
+   {
+    "sympy": "A,B,C,D,p,T=symbols('A B C D phi T'); s=sin(p-C); q=cos(p-C); e1=s*(4*A*D*sin(2*p)-B**2*sin(2*(p-C)))-4*D**2*sin(C)*cos(p)*sin(2*p); e2=B**2*(T*cos(C)-sin(C))**2*(T*sin(C)+cos(C))-4*A*D*T*(T*cos(C)-sin(C))+4*D**2*T*sin(C); simplify(expand_trig(e1+2*cos(p)**3*e2.subs(T,tan(p))))",
+    "asserts": "The cubic in T = tan phi is the zeta-eliminated equation divided by -2cos^3 phi; should give 0"
+   },
+   {
+    "sympy": "A,B,C,D,p=symbols('A B C D phi'); t=B*sin(p-C)/(D*sin(2*p)); M=A+D*cos(p)**2; simplify(expand_trig(2*D*sin(2*p)*(B*cos(p-C)*(1+t**2)-2*t*M)*(D*sin(2*p))/B + (sin(p-C)*(4*A*D*sin(2*p)-B**2*sin(2*(p-C)))-4*D**2*sin(C)*cos(p)*sin(2*p))*2))",
+    "asserts": "Eliminating t = tan zeta between the two conditions yields Gauss's equation sin(phi-C){4AD sin2phi - B^2 sin2(phi-C)} = 4D^2 sinC cosphi sin2phi (up to sign and factor); should give 0"
+   },
+   {
+    "sympy": "A=38.761768; B=35.374352; D=0.06284467; C=(206+34/60+46.87/3600)*pi/180; p=(206+37/60+56.50/3600)*pi/180; M=A+D*cos(p)**2; z=asin(B*cos(p-C)/M)/2; N(M), N(z*180/pi), N(tan(z)-B*sin(p-C)/(D*sin(2*p)))",
+    "asserts": "Numerically M ≈ 38.811985 and zeta ≈ 32.85173° (32°51'6.2\"), and phi is (nearly) a root, i.e. both conditions hold simultaneously"
+   },
+   {
+    "sympy": "A=38.761768; D=0.06284467; p=(206+37/60+56.50/3600)*pi/180; t=tan((32+51/60+6.245/3600)*pi/180); M=A+D*cos(p)**2; Hc=-(1-t**2)*(M*t**2/(1+t**2)-D*cos(2*p))/2; Hs=-(1-t**2)**Rational(3,2)*D*sin(2*p)/2; F=M*(1-t**2)**2/(1+t**2)-Hc; [N(F), N(log(sqrt(Hc**2+Hs**2),10)), N(atan2(Hs,Hc)*180/pi+360)]",
+    "asserts": "Reproduces F ≈ 12.629156, log H ≈ 0.52094 and h ≈ 180.1936° (180°11'36.8\")"
+   }
+  ],
+  "transcription_corrections": [
+   "'1/2 B ...... 8.4972384' should be '1/2 D' (log D - log 2 = 8.4972384).",
+   "'A + 1/2 cos2phi = 38.7931903' should read 'A + 1/2 D = 38.7931903' (38.761768 + 0.0314223).",
+   "'tang zeta^2 ... 9.6200082': the arithmetically correct value is 9.6201082 (= 2 × 9.8100541), and the downstream sum 0.5209392 uses it. The image digit may be a correction; check.",
+   "In the H cos h line the image's operator before D cos 2phi is a minus (overwritten); the transcription '-' is correct and confirmed by derivation.",
+   "The bracketed pair '38.811985 / -0.1277348' denotes M - D cos 2phi / sin^2 zeta, whose log is 1.5875342; it is not an independent quantity.",
+   "'Nachdem phi und zeta hat man': Gauss omits 'gefunden'; this is not a transcription error."
+  ]
+ }
+}

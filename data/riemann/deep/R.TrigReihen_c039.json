@@ -1,0 +1,61 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c039",
+ "label": "18v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000040/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is §§7–8 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1854, published posthumously by Dedekind in 1867). This page is a fair copy of the published text.\n\n(1) Setup, continued from the previous page. Put A_0 = b_0/2 and A_n = a_n sin nx + b_n cos nx. The series Ω = Σ_{n≥0} A_n is taken as given. Its value f(x) is defined only at those x where Ω converges.\n\n(2) Case split. A necessary condition for convergence is A_n(x) → 0.\n- If a_n, b_n → 0, then A_n(x) → 0 for every x, since |A_n(x)| ≤ sqrt(a_n² + b_n²).\n- Otherwise A_n(x) → 0 can hold only for 'special' x.\nThe two cases are to be treated separately.\n\n(3) §8, first case: A_n(x) → 0 for all x. Integrate Ω twice term by term:\n- ∫∫ A_0 = A_0 x²/2.\n- ∫∫ (a_n sin nx + b_n cos nx) = −A_n/n².\nThis gives F(x) = C + C'x + A_0 x²/2 − Σ_{n≥1} A_n/n².\nRiemann claims three things:\n- this series converges for every x;\n- F is continuous;\n- hence F is integrable everywhere.\n\n(4) Proof of convergence. Let N be the partial sum up to −A_n/n² and R = −Σ_{m>n} A_m/m² the remainder. Let ε be the largest |A_m| for m > n. Then\n|R| ≤ ε Σ_{m>n} 1/m² < ε/n.\nThe last step is implicit; I fill it: 1/m² < 1/(m(m−1)) = 1/(m−1) − 1/m, and the sum telescopes to 1/n. So the tail can be made arbitrarily small by taking n large, and the series converges (Cauchy criterion).\n\n(5) Continuity. The argument begins at the foot of the page and ends on the next page. For a uniform choice of ε (independent of x), first take n so large that R is small for all x. Then take the change in x small enough that the finite sum N changes little. This is the standard uniform-convergence-implies-continuity argument.\n\nPurpose: F is the function whose second symmetric difference quotient yields Riemann's Theorem 1 (on the next page). That theorem is the basis of Riemann's localization and uniqueness theory for trigonometric series.",
+  "errors": [
+   "No real errors. ε is defined as 'the largest value of A_m for m>n' without saying explicitly that it must be taken as a bound uniform in x, e.g. sup_{m>n} sqrt(a_m²+b_m²). Pointwise, the bound only gives convergence at each x. The continuity argument on the next page ('was auch x sei') needs the uniform bound, which is available because a_n, b_n → 0 in this case.",
+   "The claim that otherwise A_n(x)→0 'can only happen for special values of x' is left as a heuristic here. The precise statement (if A_n(x)→0 on an interval, or on a set of positive measure, then a_n, b_n→0) is the Cantor–Lebesgue theorem: Cantor 1870 for intervals, Lebesgue later for positive measure.",
+   "The tail estimate Σ_{m>n} 1/m² < 1/n is stated without proof; it is correct, via telescoping."
+  ],
+  "results": [
+   {
+    "what": "Riemann function F(x) = C + C'x + A_0 x²/2 − Σ A_n/n², obtained by formal double termwise integration of a trigonometric series",
+    "modern_name": "Riemann's (second) formal integral / Riemann function in uniqueness theory of trigonometric series",
+    "usually_credited_to": "Riemann (Habilitationsschrift 1854, publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Convergence and continuity of F via the tail bound |R| ≤ ε Σ 1/m² < ε/n",
+    "modern_name": "Weierstrass M-test / uniform convergence implies continuity",
+    "usually_credited_to": "Weierstrass (M-test), Cauchy/Seidel/Stokes (uniform convergence ideas)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Case distinction according to whether a_n, b_n → 0; remark that otherwise A_n(x)→0 only for special x",
+    "modern_name": "Cantor–Lebesgue theorem (precise form)",
+    "usually_credited_to": "Cantor 1870; Lebesgue 1902–06",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a manuscript of the published Habilitationsschrift (§§7–8), whose content is universally known and credited to Riemann.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(-(a*sin(n*x)+b*cos(n*x))/n**2, x, 2) - (a*sin(n*x)+b*cos(n*x)))",
+    "asserts": "Twice differentiating −A_n/n² gives back A_n (should be 0)"
+   },
+   {
+    "sympy": "simplify(diff(A0*x**2/2 + C + Cp*x, x, 2) - A0)",
+    "asserts": "The constant term integrates twice to A_0 x²/2 + C + C'x (should be 0)"
+   },
+   {
+    "sympy": "summation(1/(m*(m-1)), (m, n+1, oo))",
+    "asserts": "The telescoping majorant sum equals 1/n, so Σ_{m>n} 1/m² < 1/n"
+   },
+   {
+    "sympy": "[N(summation(1/m**2,(m,k+1,oo)) - Rational(1,k)) < 0 for k in range(1,50)]",
+    "asserts": "The tail of Σ 1/m² is less than 1/n for sample n"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription matches the image well. Minor point: the page number at the top left reads '28', which continues from '27' on the previous page."
+  ]
+ }
+}

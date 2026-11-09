@@ -1,0 +1,74 @@
+{
+ "bundle": "Math.28",
+ "page": "c039",
+ "label": "20r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000040/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. No previous page is supplied. The page is plainly the end of an article, though. The left-hand recto of the bifolium (visible at the edge) and the reference to an inequality \"(4)\" show that the statement (\"Lehrsatz\") and a lemma (4) were given earlier. From the substitutions, the statement being proved must be Gauss's moment inequality. Let x = psi(y), 0<=y<=1, with psi(y)/y increasing. Put M = int_0^1 psi(y)^mu dy and N = int_0^1 psi(y)^nu dy, with nu > mu > 0. The Lehrsatz is then (nu+1)N >= [(mu+1)M]^{nu/mu}, i.e. [(nu+1)N]^{1/nu} >= [(mu+1)M]^{1/mu}. Reading psi as the inverse of the (normalised) distribution function of |error|, M and N are the mu-th and nu-th absolute moments. This is the inequality of Theoria Combinationis Observationum I (1821/23), art. 10.\n\nPROOF OF THE LEHRSATZ (page top).\n- Substitutions: u = (psi(y)/y)^mu, t = y^{mu+1}, n = nu/mu, a = (nu-mu)/(mu+1).\n- [mine] dt = (mu+1) y^mu dy, so u dt/(mu+1) = psi^mu dy. Hence M = int_0^1 u dt/(mu+1), integrating from t=0 to t=1 as Gauss says.\n- [mine] t^a u^n dt/(mu+1) = y^{nu-mu} (psi/y)^nu y^mu dy = psi^nu dy. Hence N = int_0^1 t^a u^n dt/(mu+1).\n- [mine] Since a+1 = (nu+1)/(mu+1): (a+1) int t^a u^n dt = (nu+1)N, and int u dt = (mu+1)M.\n- Gauss then invokes lemma (4). Its content is presumably: if u >= 0 is an increasing function of t on [0,1], n >= 1 and a >= 0, then (a+1) int_0^1 t^a u^n dt >= (int_0^1 u dt)^n.\n- u is increasing in t because psi/y increases with y and t increases with y. Here n = nu/mu > 1 and a >= 0, so (nu+1)N > [(mu+1)M]^n, which is the Lehrsatz.\n\nARTICLE 6 (sufficient condition).\n- Claim: if psi(0) = 0 and psi'(y) is always positive and increasing (psi convex), then the hypothesis of the previous article, psi(y)/y increasing, holds automatically.\n- A first version phrased the condition through psi'' > 0; it is struck out and replaced by 'psi' y immer positiv zunehmend'.\n- Proof: d(psi/y)/dy = (y psi' - psi)/y^2, and d(y psi' - psi)/dy = y psi''(y) > 0.\n- [implicit] y psi' - psi equals 0 at y = 0. Hence y psi' - psi > 0 for y > 0, so d(psi/y)/dy > 0.\n- Purpose [interpretation]: if the error density phi(x) is non-increasing for x > 0, the distribution function y = int_0^x phi is concave. Its inverse x = psi(y) is then convex with psi(0) = 0. So article 6 lets the moment inequality apply to every such 'unimodal' error law.",
+  "errors": [
+   "Final sentence says 'y psi'y - psi y und psi y / y positiv werden muessen'; what follows (and what is needed) is that d(psi y/y)/dy is positive, i.e. psi y/y is increasing. Positivity of psi/y itself is not the claim. This is a verbal slip.",
+   "Implicit step in art. 6: the conclusion y psi' - psi > 0 needs y psi'(y) - psi(y) -> 0 as y -> 0. This holds since psi(0)=0 and psi' is bounded near 0 (being positive and increasing), but it is not stated.",
+   "Gauss writes y d(psi'y)/dy and calls it positive, using differentiability of psi'. The revised hypothesis 'psi' increasing' gives only monotonicity, so strictly an integral or monotonicity argument would be needed. This is harmless.",
+   "The strict '>' in (nu+1)N > [(mu+1)M]^n should be '>=': equality holds when psi(y)/y is constant (psi linear, i.e. a uniform error law)."
+  ],
+  "results": [
+   {
+    "what": "Substitution u=(psi/y)^mu, t=y^{mu+1} reducing the moment inequality [(nu+1)int psi^nu]^{1/nu} >= [(mu+1)int psi^mu]^{1/mu} to the lemma (a+1) int t^a u^n dt >= (int u dt)^n for increasing u",
+    "modern_name": "Gauss's moment inequality for unimodal (symmetric) distributions (proof via quantile function)",
+    "usually_credited_to": "C. F. Gauss, Theoria combinationis observationum erroribus minimis obnoxiae, Pars prior (1821/1823), art. 10",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "If psi(0)=0 and psi' positive increasing (psi convex), then psi(y)/y is increasing",
+    "modern_name": "Convex function through the origin has increasing slope psi(y)/y (star-shapedness)",
+    "usually_credited_to": "folklore / elementary calculus",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the proof of Gauss's moment inequality, published by Gauss himself in Theoria Combinationis (1823), plus an elementary convexity lemma. It is well known as his. Only the details of the draft are of interest.",
+  "checkable": [
+   {
+    "sympy": "y,mu,nu=symbols('y mu nu',positive=True); p=Function('p')(y); u=(p/y)**mu; t=y**(mu+1); simplify(u*diff(t,y)/(mu+1) - p**mu)",
+    "asserts": "u dt/(mu+1) = psi^mu dy, so M = int psi^mu dy (should give 0)"
+   },
+   {
+    "sympy": "y,mu,nu=symbols('y mu nu',positive=True); p=Function('p')(y); u=(p/y)**mu; t=y**(mu+1); a=(nu-mu)/(mu+1); n=nu/mu; simplify(powsimp(t**a*u**n*diff(t,y)/(mu+1) - p**nu, force=True))",
+    "asserts": "t^a u^n dt/(mu+1) = psi^nu dy, so N = int psi^nu dy (should give 0)"
+   },
+   {
+    "sympy": "mu,nu=symbols('mu nu',positive=True); simplify((nu-mu)/(mu+1)+1 - (nu+1)/(mu+1))",
+    "asserts": "a+1 = (nu+1)/(mu+1), hence (a+1) int t^a u^n dt = (nu+1)N (should give 0)"
+   },
+   {
+    "sympy": "y=symbols('y',positive=True); M=integrate(y**2,(y,0,1)); N=integrate(y**4,(y,0,1)); (2+1)*N - ((1+1)*M)**2",
+    "asserts": "Instance psi=y^2, mu=1, nu=2: (nu+1)N - [(mu+1)M]^n = 3/5-4/9 = 7/45 > 0"
+   },
+   {
+    "sympy": "y=symbols('y',positive=True); c=symbols('c',positive=True); M=integrate((c*y)**Rational(3,2),(y,0,1)); N=integrate((c*y)**3,(y,0,1)); simplify(4*N - ((Rational(5,2))*M)**2)",
+    "asserts": "Equality case psi linear (uniform law), mu=3/2, nu=3: (nu+1)N = [(mu+1)M]^{nu/mu}, difference 0"
+   },
+   {
+    "sympy": "s=symbols('s'); a,n=Rational(1,2),Rational(3,2); [N(1-s0**(a+1)-(1-s0)**n) for s0 in [0.1,0.3,0.5,0.7,0.9]]",
+    "asserts": "Lemma (4) tested on step functions u=1_{t>s}: 1-s^{a+1} >= (1-s)^n for a>=0, n>=1 (all values nonnegative)"
+   },
+   {
+    "sympy": "y=symbols('y',positive=True); p=Function('p'); simplify(diff(y*diff(p(y),y)-p(y),y) - y*diff(p(y),y,2))",
+    "asserts": "d/dy[y psi' - psi] = y psi'' (should give 0)"
+   },
+   {
+    "sympy": "y=symbols('y',positive=True); p=Function('p'); simplify(diff(p(y)/y,y) - (y*diff(p(y),y)-p(y))/y**2)",
+    "asserts": "d(psi/y)/dy = (y psi' - psi)/y^2 (should give 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The struck-out text in line 2 of art. 6 reads roughly '[d psi'y/dy = psi''y positiv, psi y]' and is replaced by 'psi'y immer positiv zunehmend'. The machine transcription captures this essentially correctly.",
+   "After the first 'd.psi y/y = (y psi'y - psi y)/yy' there is a smudged, struck '=' followed by an integral-like mark. This is a deleted start, not part of the formula.",
+   "'ist' above the line at the end of the 'Also nach (4)' line is a superscript insertion: 'welches dem Lehrsatz gleichbedeutend ist'. This is correct as transcribed.",
+   "The number '6/' marks article 6. The preceding Lehrsatz and inequality (4) belong to earlier articles, presumably on the facing (left) page, which is not supplied."
+  ]
+ }
+}

@@ -1,0 +1,82 @@
+{
+ "bundle": "Math.48",
+ "page": "c046",
+ "label": "23r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382323:00000047/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a young Gauss's elementary notes, c. 1795.\n\n(1) Fermat's little theorem by induction on b. The header literally reads 'b^{a-1}/a is always an integer when a is prime'. As written that is false; the intended statement must be (b^a - b)/a ∈ Z for prime a (equivalently (b^{a-1}-1)/a ∈ Z when a does not divide b). The method Gauss announces is to replace b by b+1 and show the statement holds for b+1 once it holds for b. Implicit step (mine): (b+1)^a - (b+1) = (b^a - b) + Σ_{k=1}^{a-1} C(a,k) b^k. Each C(a,k) with 0<k<a is divisible by the prime a. So a | b^a - b implies a | (b+1)^a - (b+1). The base case is b=1 (or b=0). This is the classical binomial-induction proof.\n\n(2) Which primes divide numbers a^2+1? Gauss poses the problem empirically. Primes dividing some a^2+1: 2, 5, 13, 17, 29, 37, 41, … Primes that never do: 3, 7, 11, 19, 23, 31, 43, … He says the underlying law is to be determined.\n\n(3) A cancelled conjecture. If n, n' are consecutive primes of the first kind, then n' would be of the form n'k+n or nk+n'-n. The statement is ill-formed (n' cannot be of the form n'k+n) and is struck out.\n\n(4) He remarks that it would be useful to extend such a table far, so the law might be found by induction. The table is: 2, 5, 13, 17, 29, 37, 41, 53, 61, 73, 89 (corrected from 83), 101, 97 (corrected from 103, written out of order), 109. This is exactly the set of primes ≤ 109 that equal 2 or are ≡ 1 mod 4.\n\n(5) The same primes divide numbers a^2+4, and the others do not. In modern terms, for odd p, -4 = -1·2^2 is a quadratic residue iff -1 is. For p = 2, take a even.\n\n(6) The inductive law. The first class consists of all primes 4n+1, the second of primes 4n-1. Hence every number a^2+1 has, apart from 2, only divisors of the form 4n+1. (Since a^2+1 ≢ 0 mod 4, 2 occurs at most once. Products of 4n+1 numbers are again 4n+1, so the claim holds for all odd divisors.)\n\nThe proof of the law is not given here. The next page begins a descent-type argument on l^2+m^2.",
+  "errors": [
+   "The header as literally written ('b^{a-1}/a is an integer') is false; the intended statement must be (b^a - b)/a or (b^{a-1}-1)/a with a not dividing b. The induction b -> b+1 fits the form b^a - b.",
+   "The crossed-out conjecture about consecutive primes n, n' is ill-formed or false; Gauss rightly cancelled it.",
+   "Table slips 83 (≡3 mod 4) and 103 (≡3 mod 4) were corrected by Gauss to 89 and 97; 97 is left out of numerical order.",
+   "The 4n+1 law is stated by induction from the table only; no proof appears on this page."
+  ],
+  "results": [
+   {
+    "what": "Proof that a | b^a - b for prime a by induction on b using the binomial theorem",
+    "modern_name": "Fermat's little theorem (binomial/induction proof)",
+    "usually_credited_to": "Fermat (statement 1640); proof by Leibniz (unpublished) and Euler (1736)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Odd primes dividing some a^2+1 are exactly those ≡1 mod 4; so a^2+1 has, besides 2, only divisors 4n+1",
+    "modern_name": "First supplement to quadratic reciprocity: (-1/p) = (-1)^((p-1)/2)",
+    "usually_credited_to": "Fermat (statement), Euler (proof, c. 1747-49)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Primes dividing some a^2+4 are the same as those dividing some a^2+1",
+    "modern_name": "(-4/p) = (-1/p) since 4 is a square",
+    "usually_credited_to": "classical / Euler",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are Gauss's early (c. 1795) inductive explorations of which primes have -1 as a quadratic residue, plus a standard proof of Fermat's little theorem. Gauss himself describes (Disquisitiones, art. 131 and elsewhere) rediscovering such results by induction in his youth. The content is classical (Fermat/Euler), and his early empirical work on it is known.",
+  "checkable": [
+   {
+    "sympy": "all(sympy.expand((b+1)**p-(b+1)-(b**p-b)-sum(sympy.binomial(p,k)*b**k for k in range(1,p))) == 0 for p in [2,3,5,7,11,13])",
+    "asserts": "Binomial identity underlying the induction step (b symbol)"
+   },
+   {
+    "sympy": "all(sympy.binomial(p,k)%p==0 for p in sympy.primerange(2,60) for k in range(1,p))",
+    "asserts": "Middle binomial coefficients are divisible by a prime p"
+   },
+   {
+    "sympy": "all(pow(b,p,p)==b%p for p in sympy.primerange(2,100) for b in range(0,50))",
+    "asserts": "Fermat's little theorem b^p ≡ b mod p"
+   },
+   {
+    "sympy": "[p for p in sympy.primerange(2,110) if any((a*a+1)%p==0 for a in range(p))] == [2,5,13,17,29,37,41,53,61,73,89,97,101,109]",
+    "asserts": "Gauss's corrected table of primes dividing some a^2+1 up to 109"
+   },
+   {
+    "sympy": "all(any((a*a+1)%p==0 for a in range(p)) == (p==2 or p%4==1) for p in sympy.primerange(2,2000))",
+    "asserts": "p divides some a^2+1 iff p=2 or p≡1 mod 4"
+   },
+   {
+    "sympy": "all(any((a*a+1)%p==0 for a in range(p)) == any((a*a+4)%p==0 for a in range(p)) for p in sympy.primerange(2,2000))",
+    "asserts": "The same primes divide numbers a^2+1 and a^2+4"
+   },
+   {
+    "sympy": "all(d%4==1 for a in range(1,300) for d in sympy.divisors(a*a+1) if d%2==1)",
+    "asserts": "Every odd divisor of a^2+1 is ≡1 mod 4"
+   },
+   {
+    "sympy": "all((a*a+1)%4!=0 for a in range(1000))",
+    "asserts": "2 divides a^2+1 at most once"
+   }
+  ],
+  "transcription_corrections": [
+   "Header formula: the intended statement must be (b^a - b)/a (or (b^{a-1}-1)/a); 'b^{a-1}/a' as transcribed is mathematically false.",
+   "Line 2: the struck-out text is 'Setzt man statt b b+1' and the interlinear insertion above it is 'bb' (uncertain); the sense is 'setting b+1 for b, one can show…'.",
+   "'können als Theiler v. Zahlen' is probably 'können Theiler von Zahlen dieser Form (aa+1) sein'.",
+   "In the table, '8[-3-]9' is 83 corrected to 89, and '[-103-] 97' is 103 corrected to 97.",
+   "Final paragraph opening 'Also' is plausible (possibly 'Auch')."
+  ]
+ }
+}

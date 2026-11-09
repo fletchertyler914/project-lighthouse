@@ -1,0 +1,96 @@
+{
+ "bundle": "PH.Dioptrik",
+ "page": "c043",
+ "label": "20v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382418:00000044/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PURPOSE. This page is a numerical paraxial ray trace through a two-lens objective: a crown lens followed by a flint lens. The goal is the image (back-focal) distance behind the last surface for an object at infinity. It uses the recursive scheme set up on the previous page: alpha=1, beta=f; alpha'=h*beta-alpha, beta'=f'*alpha'-beta, and so on, with alternating signs (Gauss's continued-fraction form of the ray trace). Logarithms are 7-place Briggs logs, written with the -10 characteristic, and 'n' marks a negative number.\n\n1. DATA (top block). Two refractive indices are given: n1=1.527071 (crown) and n2=1.640932 (flint).\n- log(n1-1)=9.7218691 and log(n2-1)=9.8068120.\n- Logs of the radii:\n  - r = 10^3.2538828 ≈ 1794.5\n  - r' = 10^2.8539990 ≈ 714.4\n  - r'' = -10^2.8624520 ≈ -728.6 (marked n)\n  - r''' = 10^3.3901457 ≈ 2455.\n- log n1 = 0.1838592 and log n2 = 0.2150906.\n- Logs of the thicknesses: d = 10^1.1430148 = 13.90 and d'' = 10^1.0334238 = 10.80.\n\n2. SURFACE AND GAP COEFFICIENTS (my identification, verified numerically).\n- Surface powers are f_i = (n-1)/r_i, using the 'convex positive' sign rule:\n  - log f = 9.7218691-3.2538828 = 6.4679863\n  - log f' = 9.7218691-2.8539990 = 6.8678701\n  - log f'' = 9.8068120-2.8624520n = 6.9443600n\n  - log f''' = 9.8068120-3.3901457 = 6.4166663.\n- Gaps are reduced thicknesses h = d/n:\n  - log h = 1.1430148-0.1838592 = 0.9591556, so h = 9.10239\n  - log h'' = 1.0334238-0.2150906 = 0.8183332, so h'' = 6.58162\n  - h' = 0: the lenses are taken to be in contact.\n- Note: the previous page wrote f=(n-1)/(nr). Here f=(n-1)/r is used together with reduced thicknesses d/n, which is the consistent reduced-distance form.\n\n3. RECURSION (lower block). Each step is computed by logarithms, and the products are written in the right column.\n- beta = f = 0.0002937557.\n- h*beta = 0.002673880 (log 7.4271419), so alpha' = h*beta - 1 = -0.997326120.\n- f'*alpha' = -0.0007357110, so beta' = f'*alpha' - beta = -0.0010294667.\n- alpha'' = h'*beta' - alpha' = +0.997326120 (since h' = 0).\n- f''*alpha'' = -0.0008773992, so beta'' = f''*alpha'' - beta' = +0.0001520675 (log 6.1820364).\n- h''*beta'' = 0.0010008514, so alpha''' = h''*beta'' - alpha'' = -0.9963252686 (log 9.9984011n).\n- f'''*alpha''' = -0.0002600563, so beta''' = f'''*alpha''' - beta'' = -0.0004121238 (log 6.6150277n).\n\n4. RESULT. From the previous page, the image abscissa is (alpha'''x - gamma''')/(beta'''x - delta''').\n- For an object at infinity (x→∞) this becomes alpha'''/beta''' = 2417.538: the back focal distance from the last vertex, in the length units of the radii.\n- The equivalent focal length would be 1/|beta'''| ≈ 2426.5 (my addition).\n- The next page continues with gamma and delta (gamma'=h, delta=1, ...) for the second column of the transfer matrix. It then computes a finite-object case, x = (1+delta''')/gamma'''.\n\n5. SCRATCH. The marginal '+3 +7 -9 +2,6 10 -6,4' looks like last-digit corrections or rounding checks. The '-6.4' recurs on the next page.",
+  "errors": [
+   "No arithmetic errors found: every logarithm, product and difference checks to the last digit given, except that alpha'''/beta''' = 2417.539 is written 2417.538 (rounding; the next page has 2417.533).",
+   "Slight inconsistency with the previous page's definition f=(n-1)/(nr): the computation actually uses f=(n-1)/r with reduced gaps h=d/n. That combination is the correct reduced form, so the result is unaffected.",
+   "h'=0 treats the lenses as in contact although r' (714.4) and |r''| (728.6) differ. This means a small air gap is neglected; it is a modelling approximation, not an error."
+  ],
+  "results": [
+   {
+    "what": "Paraxial ray trace through a thick crown-flint doublet. It uses alternating-sign recurrences alpha_{k+1}=h_k*beta_k-alpha_k and beta_{k+1}=f_{k+1}*alpha_{k+1}-beta_k, with surface powers (n-1)/r and reduced thicknesses d/n.",
+    "modern_name": "Gaussian (paraxial) optics / ray-transfer (ABCD) matrix method via continued fractions",
+    "usually_credited_to": "Gauss, Dioptrische Untersuchungen (1841); matrix form later (Sampson 1913, etc.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Back focal distance of the objective from the limit of (alpha'''x-gamma''')/(beta'''x-delta''') as x→∞, giving alpha'''/beta''' = 2417.54",
+    "modern_name": "Back focal length from system matrix elements",
+    "usually_credited_to": "Gauss (1841)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine numerical application of Gauss's own continued-fraction dioptrics, the method of his 1841 Dioptrische Untersuchungen, to a specific doublet. It is of interest only as a worked example, and possibly for dating or identifying the objective; it contains no new theory.",
+  "checkable": [
+   {
+    "sympy": "abs(log(Rational(527071,1000000),10) - (Rational(97218691,10000000)-10)) < 1e-7",
+    "asserts": "log10(n1-1) = 9.7218691-10"
+   },
+   {
+    "sympy": "abs(log(Rational(1527071,1000000),10) - Rational(1838592,10000000)) < 1e-7",
+    "asserts": "log10(1.527071) = 0.1838592"
+   },
+   {
+    "sympy": "abs(Rational(11430148,10000000)-Rational(1838592,10000000) - Rational(9591556,10000000)) < 1e-12",
+    "asserts": "log h = log d - log n1 (h = d/n1)"
+   },
+   {
+    "sympy": "abs(Rational(10334238,10000000)-Rational(2150906,10000000) - Rational(8183332,10000000)) < 1e-12",
+    "asserts": "log h'' = log d'' - log n2"
+   },
+   {
+    "sympy": "abs(Rational(97218691,10000000)-Rational(32538828,10000000) - Rational(64679863,10000000)) < 1e-12",
+    "asserts": "log f = log(n1-1) - log r"
+   },
+   {
+    "sympy": "abs(10**(0.9591556)*10**(0.4679863-4) - 0.002673880) < 2e-9",
+    "asserts": "h*beta = 0.002673880"
+   },
+   {
+    "sympy": "abs(10**(0.8678701-4)*0.997326120 - 0.0007357110) < 2e-10",
+    "asserts": "|f'*alpha'| = 0.0007357110"
+   },
+   {
+    "sympy": "abs(10**(0.9443600-4)*0.997326120 - 0.0008773992) < 2e-10",
+    "asserts": "|f''*alpha''| = 0.0008773992"
+   },
+   {
+    "sympy": "abs(-0.0008773992 + 0.0010294667 - 0.0001520675) < 1e-13",
+    "asserts": "beta'' = f''alpha'' - beta'"
+   },
+   {
+    "sympy": "abs(10**(0.8183332)*0.0001520675 - 0.0010008514) < 2e-10",
+    "asserts": "h''*beta'' = 0.0010008514"
+   },
+   {
+    "sympy": "abs(0.0010008514 - 0.997326120 - (-0.9963252686)) < 1e-12",
+    "asserts": "alpha''' = h''beta'' - alpha''"
+   },
+   {
+    "sympy": "abs(10**(0.4166663-4)*0.9963252686 - 0.0002600563) < 2e-10",
+    "asserts": "|f'''*alpha'''| = 0.0002600563"
+   },
+   {
+    "sympy": "abs(-0.0002600563 - 0.0001520675 - (-0.0004121238)) < 1e-13",
+    "asserts": "beta''' = f'''alpha''' - beta''"
+   },
+   {
+    "sympy": "abs(0.9963252686/0.0004121238 - 2417.538) < 0.002",
+    "asserts": "back focal distance alpha'''/beta''' ≈ 2417.54"
+   }
+  ],
+  "transcription_corrections": [
+   "Interpretation note: '1,1430148' and '1.0334238' are log thicknesses (13.90 and 10.80), and h = d/n is obtained by subtracting the log n line directly above them.",
+   "The struck marks after 'f' 6.8678701' and 'α'' 9.9988372' are cancelled 'n' (negative) signs. The transcription's [-n-] is correct.",
+   "The scratch figures read '+3, +7, -9, +2,6' with '10' and '-6,4' to the right; possibly '+5' rather than '+3' at the top (unclear)."
+  ]
+ }
+}

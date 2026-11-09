@@ -1,0 +1,69 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c022",
+ "label": "11r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000023/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is Riemann's 1857 manuscript on linear differential equations with algebraic coefficients. It is the source of 'Zwei allgemeine Lehrsätze über lineare Differentialgleichungen mit algebraischen Coefficienten', printed in the Werke (1876).\n\nSetting (from the previous page). y_1,…,y_n are functions of x, single-valued and finite except at the branch points a,b,…,g. A closed curve through all branch points in order splits the sphere into a positive and a negative region. On each region the branches are single-valued. The values on the positive side are fixed as reference. A positive loop around a sends y_ν to Σ_i A^ν_i y_i. In vector form this is y ↦ A y with A=(A^ν_i). Likewise B,…,G for the other points.\n\nStep 1 (relation between the monodromy substitutions). Claim: (G)(F)…(B)(A) = (0), where (0) is the identity substitution.\n- Let x run along the positive side of the boundary curve from one branch point to the next.\n- At each branch point it goes once positively around it.\n- The system then becomes successively (A)(y), (B)(A)(y), …, (G)(F)…(B)(A)(y).\n- This path is homotopic in the punctured sphere to running along the negative side of the curve, i.e. the whole boundary of the negative region.\n- The functions are single-valued in the negative region, so they return to their original values.\n- Modern form: the local monodromies around all singular points, taken in the cyclic order fixed by the cut, multiply to the identity.\n- The marginal insertion ('durchläuft x die ganze Gränzlinie so, daß') is a rephrasing of the same path description.\n\nStep 2 (notation). A system with these properties is denoted Q(a b c … g; A B C … G; x).\n\nStep 3 (programme). Consider all systems with prescribed branch points and prescribed substitutions satisfying relation (1). Riemann announces there are infinitely many such systems; the marginal note specifies 'counted as belonging to one system'.\n\nStep 4 (begins here, finished on next page). By a theorem Riemann attributes to Jacobi, a substitution can generically be written as (α)·diag(λ_1,…,λ_n)·(α)^{-1}. In the middle factor all off-diagonal coefficients vanish. This is diagonalization by a similarity transformation, valid when the characteristic roots are distinct.\n\n[My addition] Purpose: passing to z=(α)^{-1}y makes the local monodromy at a diagonal, z_i ↦ λ_i z_i. This leads to the local exponents and Riemann's characterisation of the solution system by its branch points and monodromy (the precursor of the Riemann–Hilbert problem).",
+  "errors": [
+   "Composition order is convention-dependent. If y_ν ↦ Σ_i A^ν_i y_i is read as the matrix action y ↦ A y on the original branches, then continuing A y around b gives A(B y) = (AB) y, not (BA) y. Literal matrix composition would therefore give A B … G = I rather than G…BA = I. Riemann's (B)(A)(y) is consistent only if a substitution is applied to the variables of the previous expression (a right action). Since reversing the order is not equivalent to a cyclic permutation, the convention matters. This is a notational subtlety, not a mathematical error in the intended sense.",
+   "Possible slip: the identity is described as having 1's on the diagonal going 'abwärts nach links' (downward to the left). Read literally, that is the anti-diagonal; the main diagonal runs downward to the right. The reading of the word is uncertain from the image.",
+   "Unjustified at this point: 'Allgemein zu reden' (generically) is correctly hedged. Diagonalizability needs distinct roots or a semisimple matrix, and Riemann excludes repeated roots on the next page.",
+   "The existence of infinitely many systems is asserted but deferred ('wie sich bald ergeben wird')."
+  ],
+  "results": [
+   {
+    "what": "Product relation of local monodromies: (G)(F)…(B)(A) = identity, derived by deforming the loop along the positive side of the cut to the boundary of the negative region, where the functions are single-valued",
+    "modern_name": "Monodromy relation / presentation of π_1 of the punctured sphere (γ_1γ_2…γ_m = 1) mapped to the monodromy representation",
+    "usually_credited_to": "Riemann (1857 manuscript; Werke 1876); the group-theoretic formulation is later (Jordan, Poincaré, Hurwitz)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Notation Q(a b…g; A B…G; x) for the class of function systems with given branch points and monodromy substitutions",
+    "modern_name": "Local system / Fuchsian system with prescribed monodromy (Riemann–Hilbert data)",
+    "usually_credited_to": "Riemann (Zwei allgemeine Lehrsätze…, Werke 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Generic decomposition of a substitution as (α)·diag(λ)·(α)^{-1}",
+    "modern_name": "Diagonalization by similarity / eigen-decomposition",
+    "usually_credited_to": "Jacobi, Cauchy (1820s–1850s); Riemann himself attributes it to Jacobi",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page is the manuscript of the well-known posthumously published 'Zwei allgemeine Lehrsätze' fragment. The monodromy product relation and the Q-notation are standard and known to be Riemann's. The diagonalization is attributed to Jacobi by Riemann himself.",
+  "checkable": [
+   {
+    "sympy": "A=Matrix([[1,1],[0,2]]); B=Matrix([[1,0],[1,3]]); (A*B - B*A) != zeros(2,2)",
+    "asserts": "Monodromy matrices generally do not commute, so the order in the product relation (AB…G vs G…BA) matters."
+   },
+   {
+    "sympy": "A=Matrix([[1,1],[0,2]]); P,D=A.diagonalize(); simplify(P*D*P.inv()-A)==zeros(2,2)",
+    "asserts": "Jacobi decomposition A = (α) diag(λ) (α)^{-1} holds when the eigenvalues are distinct."
+   },
+   {
+    "sympy": "A=Matrix([[1,1],[0,2]]); P,D=A.diagonalize(); C=diag(5,7); simplify((P*C)*D*(P*C).inv()-A)==zeros(2,2)",
+    "asserts": "α may be right-multiplied by an arbitrary diagonal matrix without changing the decomposition (stated on the next page)."
+   },
+   {
+    "sympy": "A=Matrix([[1,1],[0,2]]); B=Matrix([[1,0],[1,3]]); C=(A*B).inv(); simplify(A*B*C)==eye(2) and simplify(B*C*A)==eye(2)",
+    "asserts": "A product relation equal to the identity is invariant under cyclic permutation, i.e. under the choice of starting branch point."
+   },
+   {
+    "sympy": "A=Matrix([[1,1],[0,2]]); B=Matrix([[1,0],[1,3]]); C=(A*B).inv(); (C*B*A)!=eye(2)",
+    "asserts": "The reversed-order product need not be the identity, so the composition convention is essential."
+   }
+  ],
+  "transcription_corrections": [
+   "The marginal note on the right ('durchläuft x die ganze Gränzlinie so, daß') sits beside the line 'Gränzlinie, kehrt aber jedesmal…'. It is an alternative wording of the path description, not a continuation after 'einwerthig sind'.",
+   "'nach links' in the diagonal description is uncertain in the image. The intended meaning is the main diagonal (downward to the right).",
+   "The inserted '{+sind+}' after '= 1' is doubtful. The image shows only a small mark ('ſ'/'f') after '= 1', and 'sind' already ends the clause.",
+   "The marginal note '(als zu einem Systeme gehörig)' sits opposite the line 'Man betrachte nun sämmtliche Systeme…'. It qualifies the counting of systems and does not belong after 'außer'."
+  ]
+ }
+}

@@ -1,0 +1,61 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c130",
+ "label": "73v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000131/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (my notation): (a,b) is a fixed point of the plane, r = sqrt((x-a)^2+(y-b)^2), and u is a smooth function on a plane region with boundary curve C. u0, ∂u/∂a, ∂u/∂b are the value and first derivatives of u at (a,b).\n\nThe single formula on the page evaluates v = ∬ (u_xx + u_yy) dx dy / r. The image shows the kernel 1/r, not 1/r^2; the 1/r^3 on the right confirms this.\n\nStep 1 (implicit, mine): replace u by its first-order Taylor remainder at (a,b):\n w = u - u0 - (∂u/∂a)(x-a) - (∂u/∂b)(y-b).\nSubtracting a linear function does not change the Laplacian, so Δw = Δu. Also w_x = u_x - ∂u/∂a and w_y = u_y - ∂u/∂b. These are exactly the brackets that appear on the page.\n\nStep 2 (implicit, mine): in two dimensions Δ(r^k) = k^2 r^(k-2). For k = -1 this gives Δ(1/r) = 1/r^3 away from r = 0.\n\nStep 3: apply Green's second identity with f = 1/r:\n ∬ (f Δw - w Δf) dx dy = ∮_C [(f w_x - w f_x) dy - (f w_y - w f_y) dx].\nThis yields\n v = ∮ (1/r)(u_x - ∂u/∂a) dy - ∮ (1/r)(u_y - ∂u/∂b) dx - ∮ ∂_x(1/r)·w dy + ∮ ∂_y(1/r)·w dx + ∬ w dx dy / r^3.\nRiemann's notation is compressed:\n- 'd' marks a boundary (line) integral.\n- The empty parentheses '( )' mean 'the same expression w again'.\n- The last term '+∫( ) dxdy/r^3' is ∬ w/r^3.\n\nStep 4 (implicit, why the subtraction is needed): ∬ u/r^3 diverges at r = 0 in the plane. With w = O(r^2), however, w/r^3 = O(1/r), which is integrable in 2D. On a small excised circle of radius ε around (a,b):\n- (1/r)·∂w/∂n·length = O(ε^-1 · ε · ε) → 0;\n- w·∂(1/r)/∂n·length = O(ε^2 · ε^-2 · ε) → 0.\nSo no extra point contribution arises, and the identity holds as written with convergent integrals.\n\nInterpretation: this is the Hadamard-finite-part (hypersingular) form of a 2D convolution with 1/r. In the whole plane, (1/r)* = 2π(-Δ)^(-1/2), so ∬Δu/r = -2π(-Δ)^(1/2)u, and the right side gives the singular-integral representation of the square-root Laplacian. Physically, this is the Laplacian of the potential of a plane layer (3D Newtonian kernel restricted to a plane). The page gives no stated application. The next page is unrelated (Laplace-type integrals and characteristic coordinates).",
+  "errors": [
+   "The kernel on the left is 1/r, not 1/r^2 as the machine transcription has it; with 1/r^2 the remainder kernel would be 4/r^4, not 1/r^3.",
+   "Sign/orientation: with the standard counterclockwise convention the dx-terms should carry the opposite sign, i.e. -∮(1/r)(u_y-u_b)dx and +∮∂_y(1/r)·w dx. Riemann writes + and - respectively, which is consistent only under the other orientation or the sign convention for 'd'. This is an unchecked sketch, not necessarily an error.",
+   "In the second line the line-element factors dy and dx after the ∂(1/r)/∂x and ∂(1/r)/∂y terms are omitted (shorthand).",
+   "The vanishing of contributions from a small circle around the singular point is not stated (it is true because w = O(r^2))."
+  ],
+  "results": [
+   {
+    "what": "Green's second identity applied to the Taylor remainder w = u - u0 - u_a(x-a) - u_b(y-b) with kernel 1/r in the plane, using Δ(1/r) = 1/r^3 in 2D, giving ∬Δu/r = boundary terms + ∬ w/r^3",
+    "modern_name": "Hadamard finite-part regularization of a hypersingular integral; singular-integral (hypersingular) representation of (-Δ)^{1/2} in R^2",
+    "usually_credited_to": "Green (1828) for the identity; Hadamard (1932) for finite parts; M. Riesz (1938) and Stein for fractional Laplacian singular-integral forms; subtraction of Taylor terms in such integrals used informally in 19th-century potential theory",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Δ(r^{-1}) = r^{-3} in two dimensions",
+    "modern_name": "Laplacian of a radial power, Δr^k = k^2 r^{k-2} in R^2",
+    "usually_credited_to": "standard (classical calculus)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The computation is a short Green's-identity manipulation, but the systematic subtraction of the first-order Taylor polynomial to make the 1/r^3 kernel convergent is an early, clean instance of finite-part regularization (the 2D square-root-Laplacian identity). It is a nice unpublished detail but fragmentary, and such devices appear in 19th-century potential theory.",
+  "checkable": [
+   {
+    "sympy": "x,y,a,b=symbols('x y a b',real=True); r=sqrt((x-a)**2+(y-b)**2); simplify(diff(1/r,x,2)+diff(1/r,y,2)-1/r**3)",
+    "asserts": "Δ(1/r) = 1/r^3 in the plane (result 0)"
+   },
+   {
+    "sympy": "x,y,a,b=symbols('x y a b',real=True); r=sqrt((x-a)**2+(y-b)**2); simplify(diff(r**-2,x,2)+diff(r**-2,y,2)-4/r**4)",
+    "asserts": "with kernel 1/r^2 the remainder kernel would be 4/r^4, confirming the page's kernel is 1/r"
+   },
+   {
+    "sympy": "x,y,a,b,u0,ua,ub=symbols('x y a b u0 ua ub'); u=Function('u')(x,y); w=u-u0-ua*(x-a)-ub*(y-b); simplify(diff(w,x,2)+diff(w,y,2)-(diff(u,x,2)+diff(u,y,2)))",
+    "asserts": "subtracting the linear Taylor part does not change the Laplacian (result 0)"
+   },
+   {
+    "sympy": "x,y,a,b=symbols('x y a b',real=True); r=sqrt((x-a)**2+(y-b)**2); w=Function('w')(x,y); f=1/r; simplify(diff(f*diff(w,x)-w*diff(f,x),x)+diff(f*diff(w,y)-w*diff(f,y),y)-(f*(diff(w,x,2)+diff(w,y,2))-w/r**3))",
+    "asserts": "pointwise divergence form of Green's identity used on the page (result 0)"
+   },
+   {
+    "sympy": "rho,eps,R=symbols('rho epsilon R',positive=True); limit(integrate(rho**2/rho**3*rho,(rho,eps,R)),eps,0)",
+    "asserts": "w/r^3 with w=O(r^2) is integrable near the singular point in 2D (finite limit R)"
+   }
+  ],
+  "transcription_corrections": [
+   "Left-hand kernel is dx dy / r (the 1/r^3 remainder and the 1/r boundary terms require this), not dx dy / r^2.",
+   "Second boundary term should read d (1/r)(∂u/∂y - ∂u/∂b) dx, with the bracket matching the first term.",
+   "The empty parentheses '( )' stand for the repeated expression u - u0 - (∂u/∂a)(x-a) - (∂u/∂b)(y-b)."
+  ]
+ }
+}

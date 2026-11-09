@@ -1,0 +1,50 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c147",
+ "label": "73v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000148/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Most of the page is a pencil draft of a business letter, not mathematics. Riemann writes from Pisa, where he lived during his Italian stays of 1863-65, to a 'Herr Consul', probably the German or Prussian consul at Livorno. He thanks him for the prompt sending of a bill of exchange ('Wechsel'). He encloses his debt of 90 fr 60 ct and adds 20 fr for the building of the Protestant ('evangelische') church, probably in Livorno. He explains that he could not yet organise a collection among the local Germans, because his state of health has kept him from getting to know many German families or ladies. It is signed 'gehorsamster B. Riemann, Professor'.\n\nThe mathematics consists of four scribbled expressions near the bottom: e^{mu x i} + mu_1 e^{(mu-2)x i} [+ ...], (1+z)^mu, mu > -1, and (1+e^{-2xi})^mu.\n\nReconstruction (the connecting steps are mine, but they are unambiguous):\n1. Take the binomial series (1+z)^mu = sum_{n>=0} mu_n z^n, where mu_n = binom(mu, n) in the older notation (so mu_1 = mu).\n2. Put z = e^{-2xi}, which lies on the unit circle. Multiplying by e^{mu x i} gives e^{mu x i}(1+e^{-2xi})^mu = sum_n mu_n e^{(mu-2n)x i} = e^{mu x i} + mu_1 e^{(mu-2)x i} + mu_2 e^{(mu-4)x i} + ...\n3. Since e^{mu x i}(1+e^{-2xi})^mu = (e^{xi}+e^{-xi})^mu = (2 cos x)^mu, for |x| < pi/2 with the principal branch, this gives (2cos x)^mu = sum_n binom(mu,n) e^{(mu-2n)ix}.\n4. Taking real parts: (2cos x)^mu = sum_n binom(mu,n) cos((mu-2n)x). Taking imaginary parts: 0 = sum_n binom(mu,n) sin((mu-2n)x).\n5. The condition mu > -1 is exactly the condition (Abel 1826) for the binomial series to converge on the boundary |z|=1, z != -1 (absolutely if mu >= 0, conditionally for -1 < mu < 0). This is the condition needed for the trigonometric expansion to hold for all x with cos x != 0.\n\nThis is the classical expansion of powers of cosine into cosines of multiple-type arcs (Euler, Poisson, Abel). It is relevant to integrals such as \\int cos^mu x cos(nx) dx, Beta/Gamma-function evaluations, or trigonometric-series examples. The page gives no indication of which application Riemann intended. The scribbles are unrelated to the theta-characteristic computations on the neighbouring folios.",
+  "errors": [
+   "No error in what is written; the page is fragmentary.",
+   "Implicit caveat (not stated): the identity e^{mu x i}(1+e^{-2xi})^mu = (2cos x)^mu holds with the principal branch only for |x| < pi/2. For pi/2 < x < pi the left side equals (2|cos x|)^mu e^{i mu pi}. At x = pi/2 (z = -1) the series diverges for mu < 0."
+  ],
+  "results": [
+   {
+    "what": "Binomial series evaluated on the unit circle z = e^{-2ix}: (2cos x)^mu = sum binom(mu,n) e^{(mu-2n)ix}, valid for mu > -1",
+    "modern_name": "Binomial series on the boundary of the disc of convergence; Fourier-type expansion of cos^mu x",
+    "usually_credited_to": "Euler (expansions of cos^mu x); Poisson; Abel (1826, rigorous convergence of the binomial series on |z|=1 for mu > -1)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are textbook scribbles (the binomial series at z = e^{-2ix} with Abel's convergence condition mu > -1) jotted on a personal letter draft. The material was standard well before Riemann. The page's interest is biographical (Pisa period, his health, a donation to the Livorno Protestant church), not mathematical.",
+  "checkable": [
+   {
+    "sympy": "simplify(exp(I*mu*x)*(1+exp(-2*I*x))**mu - (exp(I*x)+exp(-I*x))**mu).subs({mu: Rational(1,2), x: Rational(3,10)}).evalf()",
+    "asserts": "e^{mu x i}(1+e^{-2xi})^mu = (2cos x)^mu for x in (-pi/2, pi/2); expected value 0"
+   },
+   {
+    "sympy": "N(Sum(binomial(Rational(1,2), n)*cos((Rational(1,2)-2*n)*Rational(3,10)), (n, 0, 4000)).doit() - (2*cos(Rational(3,10)))**Rational(1,2))",
+    "asserts": "Real-part expansion (2cos x)^mu = sum binom(mu,n) cos((mu-2n)x) at mu=1/2, x=0.3; expected approximately 0"
+   },
+   {
+    "sympy": "N(Sum(binomial(Rational(1,2), n)*sin((Rational(1,2)-2*n)*Rational(3,10)), (n, 0, 4000)).doit())",
+    "asserts": "Imaginary part vanishes: sum binom(mu,n) sin((mu-2n)x) = 0 for |x| < pi/2; expected approximately 0"
+   },
+   {
+    "sympy": "N(Sum(binomial(Rational(-1,2), n)*cos((Rational(-1,2)-2*n)*Rational(1,2)), (n, 0, 20000)).doit() - (2*cos(Rational(1,2)))**Rational(-1,2))",
+    "asserts": "The expansion still holds, with slow conditional convergence, for -1 < mu < 0 (here mu = -1/2, x = 0.5); expected approximately 0"
+   }
+  ],
+  "transcription_corrections": [
+   "'mu_1' is the old binomial-coefficient notation (mu)_1 = binom(mu,1) = mu; the expression is the start of a series and should be read as e^{mu x i} + mu_1 e^{(mu-2) x i} + ...",
+   "'und[?] ersuche mich[?]' is more plausibly 'und erlaube mir' / 'erlaube mir', given the later 'erlaube'.",
+   "'gelernt[?]' in the struck passage is probably 'kennen gelernt'; the sense is that his health kept him from getting to know many German families.",
+   "'Pisa[?]' at the lower left is consistent with the place line of the letter ('Pisa'), matching Riemann's residence in 1863-65.",
+   "The insertion over 'Kirche' reads plausibly 'in Livorno', consistent with the addressee being a consul at Livorno."
+  ]
+ }
+}

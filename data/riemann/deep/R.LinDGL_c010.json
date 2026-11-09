@@ -1,0 +1,80 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c010",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is Riemann's 1857 manuscript 'Zwei allgemeine Sätze über lineare Differentialgleichungen mit algebraischen Coefficienten', published posthumously in the Werke (1876, Nachlass). A system Q of n functions y=(y_1..y_n) is branched at a,b,...,g. A positive loop around a sends y to A y. Riemann composes products as (G)(F)...(B)(A)=1.\n\n(1) Diagonalisation. Riemann writes A = alpha Lambda alpha^{-1}, with Lambda = diag(lambda_1..lambda_n). The lambda_i are the n roots of the characteristic equation det(A - lambda I)=0, an n-th degree equation fixed by A. He excludes repeated roots 'for simplicity', noting that the decomposition would then take a modified form (this is the Jordan-form case). The columns of alpha are eigenvectors. Replacing alpha by alpha*diag(c_1..c_n), i.e. rescaling the eigenvectors, still diagonalises A. Since the eigenvalues are distinct, every solution of the defining equations A alpha = alpha Lambda has this form, so alpha is unique up to that factor.\n\n(2) Change of basis. Put z = alpha^{-1} y. If y takes the value p before the loop, it becomes A p after it. So z goes from alpha^{-1}p to alpha^{-1}A p. Since alpha^{-1}A = Lambda alpha^{-1}, this equals Lambda alpha^{-1} p. Hence z_i -> lambda_i z_i: each z_i is multiplicatively multivalued around a.\n\n(3) Local exponents. (x-a)^mu acquires the factor e^{2 pi i mu} under a positive loop around a. Choose mu = log(lambda)/(2 pi i), so that e^{2 pi i mu} = lambda. Then z (x-a)^{-mu} is single-valued near a and has a Laurent expansion in integer powers of (x-a). Therefore z_i is a series in powers log(lambda_i)/(2 pi i) + m, with m an integer.\n\n(4) Regularity. Riemann assumes the y never become 'infinite of infinitely high order', i.e. a regular singular point / moderate growth. Then the Laurent series terminate on the side of decreasing powers. Let mu_i be the lowest exponent of z_i, so that z_i (x-a)^{-mu_i} is finite and nonzero at a.\n\n(5) Consequences.\n- mu_i - mu_j is never an integer for i != j, because e^{2 pi i mu_i} = lambda_i are pairwise distinct.\n- For two systems of the same class (same branch points and substitutions), the lambda_i coincide. Hence corresponding exponents differ only by integers.\n\nThe next page uses this to attach exponent data mu_i to the symbol Q and to prove that any n+1 systems of a class satisfy a linear relation with polynomial coefficients.",
+  "errors": [
+   "No mathematical errors. The step 'in this form all possible values are contained' (uniqueness of alpha up to right diagonal scaling) silently uses the distinct-eigenvalue hypothesis, which was stated just before; it is correct under that hypothesis.",
+   "Implicit: the branch of log(lambda) is arbitrary. This is harmless because the ambiguity is absorbed into the integers m.",
+   "Implicit: lambda_i != 0, which holds since A is invertible (A^{-1} is the monodromy of the reverse loop).",
+   "Implicit: the finite-order hypothesis applies to the z_i as well as to the y_i, since z = alpha^{-1} y with constant alpha."
+  ],
+  "results": [
+   {
+    "what": "Decomposition of the monodromy substitution A = alpha diag(lambda) alpha^{-1}, with lambda the roots of the characteristic equation; alpha unique up to right multiplication by a diagonal matrix when the roots are distinct",
+    "modern_name": "Diagonalisation of a matrix with distinct eigenvalues (eigenbasis)",
+    "usually_credited_to": "Cauchy/Jacobi (principal axes); Weierstrass/Jordan for the general normal form",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Change of basis z = alpha^{-1} y makes the local monodromy diagonal: z_i -> lambda_i z_i",
+    "modern_name": "Diagonalisation of local monodromy; choice of a local basis of eigen-solutions",
+    "usually_credited_to": "Riemann (1857 Nachlass, published 1876); Fuchs 1866",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "A multiplicatively multivalued z with factor lambda equals (x-a)^mu times a single-valued function, with mu = log(lambda)/(2 pi i); under moderate growth the Laurent part is meromorphic; local exponents are defined mod integers by the eigenvalues",
+    "modern_name": "Local exponents at a regular singular point; Fuchs/Frobenius-type expansion; exponents vs. monodromy eigenvalues",
+    "usually_credited_to": "Fuchs (1866), Frobenius (1873); Riemann 1857 (published 1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Exponents of systems in the same class (same monodromy) differ only by integers; distinct eigenvalues give exponent differences that are not integers",
+    "modern_name": "Exponents determined mod Z by monodromy; non-resonance condition",
+    "usually_credited_to": "Riemann (1857/1876), Fuchs",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of Riemann's known 1857 manuscript on linear differential equations with algebraic coefficients, published in the Werke in 1876 and well studied as a precursor of the Riemann–Hilbert problem and of Fuchs' theory. The content (diagonalised monodromy, local exponents mod Z, regular-singular growth assumption) is already attributed to Riemann.",
+  "checkable": [
+   {
+    "sympy": "A=Matrix([[2,1],[0,3]]); P,D=A.diagonalize(); simplify(P*D*P.inv()-A)==zeros(2,2)",
+    "asserts": "A matrix with distinct eigenvalues decomposes as alpha*diag(lambda)*alpha^{-1}"
+   },
+   {
+    "sympy": "A=Matrix([[2,1],[0,3]]); P,D=A.diagonalize(); C=diag(5,7); simplify((P*C)*D*(P*C).inv()-A)==zeros(2,2)",
+    "asserts": "alpha*diag(c) also diagonalises A (the freedom noted by Riemann)"
+   },
+   {
+    "sympy": "A=Matrix([[2,1],[0,3]]); P,D=A.diagonalize(); simplify(P.inv()*A - D*P.inv())==zeros(2,2)",
+    "asserts": "alpha^{-1} A = Lambda alpha^{-1}, so z=alpha^{-1}y transforms as z->Lambda z"
+   },
+   {
+    "sympy": "lam=symbols('lam',nonzero=True); simplify(exp(2*pi*I*log(lam)/(2*pi*I))-lam)==0",
+    "asserts": "mu=log(lambda)/(2 pi i) satisfies e^{2 pi i mu}=lambda"
+   },
+   {
+    "sympy": "mu,m=symbols('mu m'); m=Integer(3); simplify(exp(2*pi*I*(mu+m))-exp(2*pi*I*mu))==0",
+    "asserts": "Exponents differing by an integer give the same monodromy factor"
+   },
+   {
+    "sympy": "lam=symbols('lam'); A=Matrix([[2,1],[0,3]]); solve((A-lam*eye(2)).det(),lam)",
+    "asserts": "The lambda_i are the roots of the n-th degree characteristic equation det(A-lambda I)=0 determined by A"
+   }
+  ],
+  "transcription_corrections": [
+   "'einändrig' (twice) should most likely read 'einwerthig' (single-valued), as in the Werke text.",
+   "'deren Exponenten in den Formen' is probably 'deren Exponenten in der Form' in the image (minor).",
+   "The struck-through fragment after '(alpha)^{-1}(p)' is a cancelled 'in (alpha)^{-1}A' and is correctly marked as deleted.",
+   "In the phrase 'gehen ... aus (p_1, p_2, ... p_n) in (A)(p) über', the transcription is correct."
+  ]
+ }
+}

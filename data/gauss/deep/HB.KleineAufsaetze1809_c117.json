@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c117",
+ "label": "[108]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000118/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page holds only a numerical table: an argument column and four tabulated columns. There are no formulas, no headings and no explanation. I could not identify the functions, so what follows is structural description only.\n\nArgument column: x = 0.0, 0.1, ..., 2.0, step 0.1. The rows 2.1 and 2.2 are labelled but left empty.\n\nCol. A, e.g. A(0.1) = 0.0003596, A(1) = 0.0348214, A(2) = 0.1284305.\n- It vanishes at 0, is positive and appears even in x.\n- Fitting the 0.1 and 0.9 rows (my fit): ln(10)*A(x) is about 0.08283x^2 - 0.00268x^4 + ...\n- Its second differences are smooth, about 0.000718 down to 0.000634 over 0.1 to 0.9.\n\nCol. B, e.g. B(0.1) = 0.02876244, B(1) = 0.26994630, B(2) = 0.46481417.\n- It vanishes at 0 and appears odd in x.\n- From third differences (my fit): B(x) is about 0.2878x - 0.0193x^3 + ...\n- Second differences grow steadily (-11852, -23447, -34522, ... x10^-8).\n\nCol. C starts at C(0) = 9.6989700043 = log10(1/2) + 10. This is a Briggsian logarithm in the -10 convention.\n- It decreases to 8.7363223 at x = 2.\n- Fit (mine): C(x) - log10(1/2) is about -0.375x - 0.0553x^2 - ...\n\nCol. D also starts at log10(1/2).\n- It increases through 0 near x = 0.906 (D(0.9) = 9.9981075484) to 0.2990433 at x = 2.\n- Fit (mine): D(x) - log10(1/2) is about +0.375x - 0.052x^2 + ...\n\nRelations I noticed between the columns:\n- D - C is about 0.75x + 0.0103x^3 (fit from rows 0.1 and 0.2: 0.0750104 and 0.1500825).\n- Near 0, C + D - 2*log10(1/2) is about -3A. At 0.1: -0.0010786 versus 3A = 0.0010788. The agreement drifts at larger x (at x = 1: -0.10250 versus 0.10446).\n- So C and D look like log10 of 1/2 times factors of the form exp(-/+ ...). They are presumably two conjugate or complementary functions, of which A and B may be related auxiliary quantities.\n\nThe row x = 0.9 is given to 10 decimals in all four columns, against 7-8 elsewhere. It was presumably a directly computed control or anchor point, with the other entries obtained by series or interpolation.\n\nFinite-difference checks (mine) show all columns smooth to roughly one unit in the last place.\n\nContext: the previous page has Cardano's formula; the next page has Gauss's lemniscatic multiplication series and theta identities. That suggests, but does not prove, a link to lemniscatic or theta-function computations. Nothing on the page states what is tabulated.",
+  "errors": [
+   "In col. D the entry at x = 1.4 was first written 0.1400734 (that value appears in the copy at the page edge). It was then overwritten as 0.1400731. Fourth differences confirm the correction: with ...31 they are a nearly constant -0.0000035, while ...34 gives an irregular -32, -47, -16, -52 (x10^-7). The original 34 was a slip, and Gauss's correction is right.",
+   "Overwritten digits at x = 0.6 (cols. A, B, C, D) and at x = 0.8 (col. C) were checked by differencing. The written final values are consistent; no further errors were detected.",
+   "The functions tabulated are not stated on the page, so the correctness of individual values against a definition cannot be checked. Only internal smoothness can be checked."
+  ],
+  "results": [
+   {
+    "what": "Table of four smooth functions of x in [0,2], step 0.1. Two columns are Briggsian logarithms starting at log10(1/2) (with -10 characteristic). One column is even with A ~ 0.0360x^2 and one is odd with B ~ 0.288x. The x = 0.9 row is computed to 10 places as a control.",
+    "modern_name": "numerical function table (logarithmic tabulation; unidentified special functions, possibly theta/lemniscatic-related)",
+    "usually_credited_to": "n/a (computational worksheet)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Correction of the col. D entry at x = 1.4 from ...34 to ...31, which is confirmed by finite differences.",
+    "modern_name": "finite-difference error checking of tables",
+    "usually_credited_to": "standard practice of table makers (Briggs, Mouton, etc.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine numerical table of the kind Gauss produced in large numbers, with no theoretical content visible on the page. The functions cannot be identified with certainty, and nothing suggests an unrecognised result.",
+  "checkable": [
+   {
+    "sympy": "N(log(Rational(1,2),10)+10, 12)",
+    "asserts": "The x = 0 entries of cols. C and D, 9.6989700043, equal log10(1/2) + 10."
+   },
+   {
+    "sympy": "d=[0.0275034,0.0563435,0.0846836,0.1125769,0.1400731,0.1672184,0.1940556,0.2206235,0.2469573,0.2730880,0.2990433]; diff4=[d[i+4]-4*d[i+3]+6*d[i+2]-4*d[i+1]+d[i] for i in range(len(d)-4)]",
+    "asserts": "With the corrected value 0.1400731 at x = 1.4, the fourth differences of col. D are nearly constant (about -3.5e-6). With 0.1400734 they become irregular."
+   },
+   {
+    "sympy": "C=[9.6989700,9.6609255,9.6217748,9.5814981,9.5400834,9.4975260,9.4538289,9.4090019,9.3630618,9.3160301,9.2679339]; [C[i+2]-2*C[i+1]+C[i] for i in range(9)]",
+    "asserts": "Col. C (x = 0 to 1) has smooth second differences of about -1.1e-3, so the overwritten entries at x = 0.6 and 0.8 are consistent."
+   },
+   {
+    "sympy": "(9.7359359-9.6609255, 9.7718573-9.6217748)",
+    "asserts": "D - C is about 0.0750104 and 0.1500825 at x = 0.1 and 0.2, implying a linear coefficient of D - C of 0.75 to about 6 digits."
+   },
+   {
+    "sympy": "(9.6609255+9.7359359-2*(log(Rational(1,2),10)+10)).evalf(), 3*0.0003596",
+    "asserts": "Near x = 0, C + D - 2*log10(1/2) is approximately -3*A (about -0.0010786 versus 0.0010788)."
+   }
+  ],
+  "transcription_corrections": [
+   "Col. D, x = 1.4: the final value is 0.14007 31; 34 was overwritten. The copy at the page edge records the pre-correction 34.",
+   "Col. D, x = 0.9: 9.99810 75484, with one digit of '75' overwritten. The final reading 75484 is consistent with the differences.",
+   "Col. A, x = 0.6: 0.01279 59 (overwritten digit). The reading 59 is consistent with the differences.",
+   "Col. B, x = 0.6: 0.16856 866 (overwritten). Consistent with the differences.",
+   "Col. C, x = 0.6: 9.45382 89, and x = 0.8: 9.36306 18 (both overwritten). Both are consistent with the differences.",
+   "Col. D, x = 0.6: 9.90600 11 (overwritten). Consistent with the differences.",
+   "The 'Margin' list attributed to the next page is the edge of this page's col. D (truncated copy), not part of the lemniscatic notes."
+  ]
+ }
+}

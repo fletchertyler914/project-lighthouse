@@ -1,0 +1,101 @@
+{
+ "bundle": "Math.12",
+ "page": "c009",
+ "label": "5v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376631:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: these are working notes for Gauss's 'Methodus nova integralium valores per approximationem inveniendi' (1814/1816), where he introduced Gaussian quadrature. The previous page does the same computations for n = 3, 4, 5 on [-1,1] (monic Legendre polynomials x^4 - 6/7 x^2 + 3/35 and x^5 - 10/9 x^3 + 5/21 x) and lists error coefficients 1/12, 1/80, 1/280, ...\n\n(A) Midpoint rule on [0,1] (top left). Write f(g+δx) = G + G'δx + G''δ^2x^2 + G'''δ^3x^3 + ..., where G^(k) here denotes the Taylor coefficient f^(k)(g)/k!, not the derivative.\n- Exact integral: δ∫_0^1 f(g+δx) dx = Gδ + ½G'δ^2 + ⅓G''δ^3 + ¼G'''δ^4 + ...\n- Midpoint value: δ f(g+δ/2) = Gδ + ½G'δ^2 + ¼G''δ^3 + ⅛G'''δ^4 + ... [supplied by me].\n- So the midpoint value is 'zu klein' (too small) by (1/3-1/4)G''δ^3 + (1/4-1/8)G'''δ^4 = 1/12 G''δ^3 + 1/8 G'''δ^4.\n\n(B) Symmetric form (top right). Expand about the centre h, x from -1/2 to +1/2: H + H'δx + H''δ^2x^2 + ...\n- Odd terms vanish. Since ∫_{-1/2}^{1/2} x^2 dx = 1/12 and ∫ x^4 dx = 1/80, the true value ('wahr') is Hδ + (1/3)(1/4)H''δ^3 + (1/5)(1/16)H^IVδ^5 + ...\n- The midpoint error is therefore 1/12 H''δ^3 + 1/80 H^IVδ^5 + ...\n- 'näherung 1 + 1/12 + 1/144' is a rule whose value is Hδ(1 + (1/12)H''δ^2/H + (1/144)H^IVδ^4/H ...). That is exactly the 2-point Gauss rule: average of f at h ± δ/(2√3), since (1/(2√3))^2 = 1/12 and (1/(2√3))^4 = 1/144.\n- Its error is (1/80 - 1/144)H^IVδ^5 = 1/180 H^IVδ^5, i.e. f''''(ξ)δ^5/4320.\n\n(C) The same rule on [0,1].\n- Nodes 1/2 ∓ √3/6 are the roots of x^2 - x + 1/6 ('1 - 1 + 1/6'), the monic shifted Legendre P2.\n- Power sums p_k = a^k + b^k satisfy p_k = p_{k-1} - p_{k-2}/6: p_0..p_3 = 2, 1, 2/3, 1/2 (the line '2. 1 2/3 1/2').\n- The half power sums p_k/2 = 1, 1/2, 1/3, 1/4, 7/36, 11/72 are the coefficients in the rule's expansion G + ½G'δ + ⅓G''δ^2 + ¼G'''δ^3 + 7/36 G^IVδ^4 + 11/72 G^Vδ^5 (overall factor δ).\n- The first four agree with the exact 1/(k+1), so the first 'zu gross' is struck out.\n- The rule is too small by (1/5 - 7/36)G^IVδ^5 + (1/6 - 11/72)G^Vδ^6 = 1/180 G^IVδ^5 + 1/72 G^Vδ^6.\n\n(D) Remainder series via Legendre polynomials (Gauss's 1814 method). The kernel is ∫ dt/(x-t), expanded in powers of 1/x and multiplied by the monic orthogonal polynomial. The polynomial part gives the quadrature; the remainder starts after n vanishing coefficients (marked '*').\n- 'I' on [0,1], n = 1: (x - 1/2)·Σ x^{-k-1}/(k+1) = 1 + 0·x^{-1} + [1/(3·4)]x^{-2} + [2/(4·6)]x^{-3} + [3/(5·8)]x^{-4} + [4/(6·10)]x^{-5} + ...\n  General term k/(2(k+1)(k+2)); the remainder is (1/12)F(2,2,4;1/x) [identification mine].\n- 'II' on [0,1], n = 2: rows Σ1/(k+1), minus the shifted Σ1/(k+1), plus (1/6)·(shifted twice Σ1/(k+1)). This gives x - 1/2, *, *, then 1/180, 1/120, 1/105, 5/504, 5/504, 7/720.\n  - Successive ratios: 9/6, 16/14, 25/24, 36/36, 49/50, i.e. (m+3)^2/((m+1)(m+6)).\n  - Hence the remainder is (1/180)(1 + 3·3/(1·6) + 3·3·4·4/(1·2·6·7) + ...) = (1/180)F(3,3,6;1/x).\n  - The leading 1/180 matches the error constant found in (B) and (C).\n- On [-1,1] with Σ x^{-2k-1}/(2k+1):\n  - n = 1 (monic P1 = x): remainder 1/3 + 1/5 + 1/7 + ... = (1/3)F(1,3/2,5/2).\n  - n = 2 (x^2 - 1/3): coefficients 1/(2k+3) - 1/(3(2k+1)) = 4k/(3(2k+1)(2k+3)), giving 4/45, 8/105, 12/189, 16/297. These equal (4/45)(1 + 6/7 + 6/7·5/6 + 6/7·5/6·28/33 + ...), with ratios 2·3/(1·7), 3·5/(2·9), 4·7/(3·11). Hence (4/45)F(3/2,2,7/2).\n  - n = 3 (x^3 - 3/5 x; bottom right): 1, -4/15, *, then 4/(7·25), 8/(9·35), 12/(11·45), with denominators 5·5·7, 5·7·9, 5·9·11. This equals (4/175)F(2,5/2,9/2), with leading coefficient 4/175 = (4/45)(9/35).\n- These are hypergeometric forms of the Legendre functions of the second kind, Q_n ∝ x^{-n-1}F((n+1)/2,(n+2)/2; n+3/2; x^{-2}).\n\n(E) Continued fraction errors (lower left). V = 1 - α/(1 - β/(1 - γ/(1-δ))). Stars denote complete tails: β* = β/(1-γ*), γ* = γ/(1-δ...).\n- Approximant 1 is too large by α/(1-β*).\n- Approximant 1-α is too large by αβ*/(1-β*).\n- Approximant (1-α-β)/(1-β) is too large by αβγ*/((1-β)(1-β-γ*)).\n- The latter uses V = (1-α-β-γ*+αγ*)/(1-β-γ*), checked by expanding (1-α-β)(1-β-γ*) - (1-β)(1-α-β-γ*+αγ*) = αβγ*; the scratch cancellations at the bottom do this.\n- Purpose: estimating the error of convergents of the continued fraction for the remainder/ratio of hypergeometric series.\n- Fragments 'Δ = α*', 'Δ'/(1+α) = αβ*', 'Δ(1-β)^2 -' are not completed.",
+  "errors": [
+   "The second hypergeometric label reads F(2, 5/2, 7/2). The computed coefficients 4/45, 8/105, 12/189, 16/297 (ratios 6/7, 5/6, 28/33) correspond to F(3/2, 2, 7/2). 5/2 is either a slip for 3/2 or a misreading.",
+   "The prefactor '1/3·4/45·9/35' before F{2,5/2,9/2}, read as a product, is 4/525. The actual leading coefficient of the n = 3 remainder is 4/175 = (4/45)(9/35). The '1/3' is probably a column label or carried from the n = 1 line rather than a factor; ambiguous.",
+   "The derivations in (A), (B), (C), (D) and the continued-fraction identity in (E) all check out. Divergent-looking row subtractions are formal coefficient computations of power series in 1/x, so they are legitimate."
+  ],
+  "results": [
+   {
+    "what": "Midpoint rule error 1/12 G''δ^3 + 1/8 G'''δ^4 (Taylor coefficients), i.e. f''δ^3/24 + ...",
+    "modern_name": "midpoint rule error term",
+    "usually_credited_to": "classical (Newton–Cotes / Maclaurin era)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Two-point rule with nodes 1/2 ± √3/6 (roots of x^2 - x + 1/6) and error 1/180 H^IVδ^5 = f''''δ^5/4320",
+    "modern_name": "2-point Gauss–Legendre quadrature and its error constant",
+    "usually_credited_to": "Gauss 1814 (Methodus nova)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Remainder of (orthogonal polynomial)·∫dt/(x-t) expanded in 1/x, with n vanishing coefficients and the rest summed as hypergeometric series: (1/12)F(2,2,4;1/x), (1/180)F(3,3,6;1/x) on [0,1]; (1/3)F(1,3/2,5/2), (4/45)F(3/2,2,7/2), (4/175)F(2,5/2,9/2) on [-1,1]",
+    "modern_name": "Legendre functions of the second kind Q_n in hypergeometric form; Padé/continued-fraction derivation of Gaussian quadrature",
+    "usually_credited_to": "Gauss 1814 (quadrature via continued fraction of log((x+1)/(x-1))); hypergeometric form of Q_n usually attributed to Legendre/Heine",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Error of convergents of the continued fraction 1 - α/(1 - β/(1 - γ/...)): e.g. (1-α-β)/(1-β) exceeds the value by αβγ*/((1-β)(1-β-γ*))",
+    "modern_name": "difference formula for continued-fraction convergents",
+    "usually_credited_to": "classical (Euler, Lambert)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are draft computations for Gauss's own published 1814 paper on Gaussian quadrature (2-point nodes, error constants, Legendre-polynomial remainders via hypergeometric series). They are consistent with known work and add only minor working detail.",
+  "checkable": [
+   {
+    "sympy": "x,d=symbols('x d'); simplify(Rational(1,3)-Rational(1,4)-Rational(1,12))==0 and Rational(1,4)-Rational(1,8)==Rational(1,8)",
+    "asserts": "midpoint error coefficients 1/12 and 1/8"
+   },
+   {
+    "sympy": "integrate(x**2,(x,-Rational(1,2),Rational(1,2)))==Rational(1,12) and integrate(x**4,(x,-Rational(1,2),Rational(1,2)))==Rational(1,80)",
+    "asserts": "centred moments 1/12, 1/80"
+   },
+   {
+    "sympy": "Rational(1,80)-Rational(1,144)==Rational(1,180)",
+    "asserts": "2-point Gauss error coefficient 1/180"
+   },
+   {
+    "sympy": "solve(x**2-x+Rational(1,6),x)==[Rational(1,2)-sqrt(3)/6, Rational(1,2)+sqrt(3)/6]",
+    "asserts": "nodes of 2-point rule on [0,1]"
+   },
+   {
+    "sympy": "a=Rational(1,2)-sqrt(3)/6; b=Rational(1,2)+sqrt(3)/6; [nsimplify(expand((a**k+b**k)/2)) for k in range(6)]==[1,Rational(1,2),Rational(1,3),Rational(1,4),Rational(7,36),Rational(11,72)]",
+    "asserts": "half power sums of the nodes"
+   },
+   {
+    "sympy": "y=symbols('y'); s=series((1/y**2-1/y+Rational(1,6))*(-log(1-y))/y**0*y,y,0,11); [s.removeO().coeff(y,k) for k in range(3,9)]==[Rational(1,180),Rational(1,120),Rational(1,105),Rational(5,504),Rational(5,504),Rational(7,720)]",
+    "asserts": "remainder coefficients for n=2 on [0,1] (y=1/x; series of (x^2-x+1/6)·Σx^{-k-1}/(k+1))"
+   },
+   {
+    "sympy": "[Rational(1,180)*rf(3,m)**2/(rf(6,m)*factorial(m)) for m in range(6)]==[Rational(1,180),Rational(1,120),Rational(1,105),Rational(5,504),Rational(5,504),Rational(7,720)]",
+    "asserts": "remainder equals (1/180)F(3,3,6;1/x)"
+   },
+   {
+    "sympy": "[Rational(1,2*k+3)-Rational(1,3*(2*k+1)) for k in range(1,5)]==[Rational(4,45),Rational(8,105),Rational(12,189),Rational(16,297)] and all(Rational(4,45)*rf(Rational(3,2),m)*rf(2,m)/(rf(Rational(7,2),m)*factorial(m))==Rational(1,2*m+5)-Rational(1,3*(2*m+3)) for m in range(6))",
+    "asserts": "n=2 remainder on [-1,1] equals (4/45)F(3/2,2,7/2)"
+   },
+   {
+    "sympy": "all(Rational(4,175)*rf(2,m)*rf(Rational(5,2),m)/(rf(Rational(9,2),m)*factorial(m))==Rational(1,2*m+7)-Rational(3,5*(2*m+5)) for m in range(6))",
+    "asserts": "n=3 remainder equals (4/175)F(2,5/2,9/2), with 4/175=(4/45)(9/35)"
+   },
+   {
+    "sympy": "all(Rational(1,12)*rf(2,m)**2/(rf(4,m)*factorial(m))==Rational(1,m+3)-Rational(1,2*(m+2)) for m in range(6))",
+    "asserts": "n=1 remainder on [0,1] equals (1/12)F(2,2,4)"
+   },
+   {
+    "sympy": "al,be,ga=symbols('alpha beta gamma'); simplify((1-al-be)/(1-be)-(1-al/(1-be/(1-ga))) - al*be*ga/((1-be)*(1-be-ga)))==0",
+    "asserts": "error of convergent (1-α-β)/(1-β), with γ standing for the tail γ*"
+   }
+  ],
+  "transcription_corrections": [
+   "'naheru [?]' is probably 'näherung' (or 'nahezu'): the approximate rule with coefficients 1 + 1/12 + 1/144.",
+   "'3.3/1.7' should read '2.3/1.7' (ratio 6/7).",
+   "In the bottom-right block the first subtracted term '-3/3' should be '-3/5'.",
+   "'F(2, 5/2, 7/2)' is mathematically F(3/2, 2, 7/2); verify against the image.",
+   "In the bottom-left list '1-αβ' should be '1-α-β', and '(1-αβ-γ+αγ)/(1-β-γ)' should be '(1-α-β-γ+αγ)/(1-β-γ)'.",
+   "'1-α zu gross um αβ*/(1-[α]β*γ*)' is better read as αβ*/(1-β*), with α struck."
+  ]
+ }
+}

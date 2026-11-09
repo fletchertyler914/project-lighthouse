@@ -1,0 +1,77 @@
+{
+ "bundle": "Math.1",
+ "page": "c021",
+ "label": "[11v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000022/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Content. The page is one sheet of a large ruled table. The columns are headed, top and bottom, by the primes 2, 3, 5, …, 89, and the table continues to the right on the next page with 97…223. Only the bottom block is filled. Its rows are the primes 953, 967, 971, 977, 983, 991, 997. A small circle stands at some row/column crossings. Circles that are adjacent in a row or a column are joined by short line segments, which makes the pattern visible as little chains, squares and 'polyominoes'. There are no computations written on the page, only the marks.\n\nMeaning of a circle (my decoding, checked by hand). A circle at (row q, column p) means that p is a quadratic residue mod q, i.e. the Legendre symbol (p/q) = +1.\n- Column 2 makes the convention unambiguous. It is marked exactly for 953 (≡1 mod 8), 967, 977, 983 and 991 (≡7 or 1 mod 8). It is unmarked for 971 (≡3 mod 8) and 997 (≡5 mod 8).\n- The previous page uses the same convention: in red row 523, 857 is marked, and (857/523) = (334/523) = +1.\n\nEvaluation method (mine). Each entry is (p/q) = (q mod p / p), times (−1) when p ≡ q ≡ 3 (mod 4). This is quadratic reciprocity plus the supplementary law for 2.\n\nRows as read, with my verification:\n- 971 (≡3 mod 4): 3, 5, 7, 13, 17, 19, 23, 37, 47, 53, 61, 83, 89. This is exactly the set of primes ≤ 89 that are quadratic residues mod 971, so the row is complete and correct.\n- 977: 2, 7, 11, 17, 29, 31, 43, 47, 61, 67, 71, 83, 89. Exact.\n- 983: 2, 3, 7, 19, 23, 31, 37, 41, 43, 47, 53, 59, 67, 79, 89. Exact; the 89 circle sits slightly low.\n- 997: 3, 13, 19, 23, 31, 53, 59, 67, 71, 73, 79, 83, 89. Exact. The long horizontal chain 67–89 runs on into the next page.\n- 991: 2, 5, 13, 19, 29, 31, 43, 53, 59, 61, 67, 71, 79. These are correct. A further circle appears to stand in column 37, but (37/991) = (29/37) = −1.\n- 953: only 2, 7, 13 are marked (e.g. 953 = 21²+2·16², 953 ≡ 1 mod 7, 953 ≡ 4 mod 13).\n- 967: only 2 and 11 are marked.\n\nThe 953 and 967 rows are unfinished. Residues such as 17 (953 ≡ 1 mod 17) and 29 (953 ≡ 25 mod 29) for 953, and 17 for 967, are not entered, and nothing is entered beyond column 13 in these two rows.\n\nPurpose. Together with the neighbouring pages (columns 829–997 against rows 439–523; columns 97–223), this is a full two-dimensional table of quadratic characters (p/q) for primes p, q < 1000. It extends Table II of the Disquisitiones Arithmeticae, which, as I recall it, gives −1 and the primes up to 97 against the primes below 1000. Such a table serves for empirical study of quadratic reciprocity and of the distribution of residues and non-residues. The joining lines are a visual device for seeing the patterns.",
+  "errors": [
+   "Possible false mark: a circle seems to stand at row 991, column 37, but (37/991) = (991/37) = (29/37) = -1. This depends on the exact position of a circle near x≈650 in the bottom rows and may be a reading ambiguity rather than Gauss's slip.",
+   "Rows 953 and 967 are incomplete: residues 17 and 29 (for 953) and 17 (for 967), among others, are not entered. Entries stop after column 13, so these rows were apparently left unfinished, not mis-computed.",
+   "All other checked entries (rows 971, 977, 983, 997 in full; 991 apart from 37; columns 2–13 for 953 and 967) agree with the Legendre symbol."
+  ],
+  "results": [
+   {
+    "what": "Tabulation of quadratic characters (p/q) for prime columns p = 2…89 against prime rows q = 953…997. A circle means p is a quadratic residue mod q; adjacent residues are joined by lines.",
+    "modern_name": "Table of Legendre symbols / quadratic residue table",
+    "usually_credited_to": "Residue tables: Gauss (Disquisitiones Arithmeticae 1801, Table II), also Legendre; reciprocity: Euler/Legendre conjecture, Gauss proof 1796",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The larger manuscript appears to be a complete prime-by-prime table for all primes below 1000, on both axes. This goes beyond the published DA Table II, which (as recalled) is limited to residues up to 97.",
+    "modern_name": "Full quadratic character matrix for primes < 1000",
+    "usually_credited_to": "Gauss (manuscript residue tables are known from his Nachlass; extent unsure)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a computational residue table of the kind Gauss is well known to have made and partly published (DA Table II). The full prime-by-prime extent and the graphic joining of adjacent residues are of minor archival interest only; no new theorem is involved.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [p for p in primerange(2,90) if p==2 and 971%8 in (1,7) or p>2 and legendre_symbol(p,971)==1] == [3,5,7,13,17,19,23,37,47,53,61,83,89]",
+    "asserts": "Row 971 marks exactly the prime quadratic residues ≤ 89 mod 971."
+   },
+   {
+    "sympy": "[p for p in primerange(2,90) if legendre_symbol(p % 977, 977)==1] == [2,7,11,17,29,31,43,47,61,67,71,83,89]",
+    "asserts": "Row 977 marks exactly the prime quadratic residues ≤ 89 mod 977."
+   },
+   {
+    "sympy": "[p for p in primerange(2,90) if legendre_symbol(p % 983, 983)==1] == [2,3,7,19,23,31,37,41,43,47,53,59,67,79,89]",
+    "asserts": "Row 983 is complete and correct."
+   },
+   {
+    "sympy": "[p for p in primerange(2,90) if legendre_symbol(p % 997, 997)==1] == [3,13,19,23,31,53,59,67,71,73,79,83,89]",
+    "asserts": "Row 997 is complete and correct."
+   },
+   {
+    "sympy": "[p for p in primerange(2,90) if legendre_symbol(p % 991, 991)==1] == [2,5,13,19,29,31,43,53,59,61,67,71,79]",
+    "asserts": "Correct residue set for 991; 37 is not included, so a circle at (991,37) would be an error."
+   },
+   {
+    "sympy": "legendre_symbol(37, 991) == -1",
+    "asserts": "37 is a non-residue mod 991."
+   },
+   {
+    "sympy": "legendre_symbol(17, 953) == 1 and legendre_symbol(29, 953) == 1 and legendre_symbol(17, 967) == 1",
+    "asserts": "Residues missing from the unfinished rows 953 and 967."
+   },
+   {
+    "sympy": "[p for p in [2,3,5,7,11,13] if legendre_symbol(p, 953)==1] == [2,7,13] and [p for p in [2,3,5,7,11,13] if legendre_symbol(p, 967)==1] == [2,11]",
+    "asserts": "The entries actually present in rows 953 and 967 (columns 2–13) are correct."
+   },
+   {
+    "sympy": "legendre_symbol(857, 523) == 1",
+    "asserts": "Previous-page red row 523 uses the same convention (column prime is a residue mod row prime)."
+   }
+  ],
+  "transcription_corrections": [
+   "Column header '[-29-]29': Gauss overwrote a numeral to make 29; the column is 29.",
+   "Bottom header '71[?]' is 71 (the overwritten digit is 1).",
+   "The '[circle marks…]' summary should be made explicit. Row 953: 2, 7, 13. Row 967: 2, 11. Row 971: 3, 5, 7, 13, 17, 19, 23, 37, 47, 53, 61, 83, 89. Row 977: 2, 7, 11, 17, 29, 31, 43, 47, 61, 67, 71, 83, 89. Row 983: 2, 3, 7, 19, 23, 31, 37, 41, 43, 47, 53, 59, 67, 79, 89. Row 991: 2, 5, 13, 19, 29, 31, (37?), 43, 53, 59, 61, 67, 71, 79. Row 997: 3, 13, 19, 23, 31, 53, 59, 67, 71, 73, 79, 83, 89 (chain continues onto the next page).",
+   "A faint dotted mark (':') appears near row 977 / column 37; it is probably an erasure, not an entry."
+  ]
+ }
+}

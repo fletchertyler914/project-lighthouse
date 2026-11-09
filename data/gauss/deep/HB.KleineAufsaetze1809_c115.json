@@ -1,0 +1,67 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c115",
+ "label": "[106]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000116/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem (practical surveying). A, B, C, D lie in a horizontal plane. B, C, D are collinear and C is the midpoint of BD (added note 'u. BC = CD'). The azimuths are given as follows:\n- line DB: f\n- AB: f+g-δ\n- AC: f+g-x\n- AD: f+g+δ\n\nSo from station A the two end points B and D are sighted symmetrically about the mean direction f+g, with half-angle δ. The direction to the midpoint C differs from that mean direction by the small angle x. The angle g is the angle between the line BD and the mean line of sight. The task is to find x, that is, the reduction from the mean of the two edge sightings to the direction of the centre.\n\nDerivation (my reconstruction; Gauss gives only the result).\n1. Measure angles from the ray AC and put C at (1,0). The rays AB and AD make angles α_B = x-δ and α_D = x+δ with AC. The line BD makes angle θ = x-g with AC.\n2. A point C + s(cosθ, sinθ) lies on the ray at angle α when s = sin α / sin(θ-α). This gives:\n   - s_B = sin(x-δ)/sin(δ-g)\n   - s_D = -sin(x+δ)/sin(g+δ)\n3. C is the midpoint exactly when s_B + s_D = 0, i.e. sin(x-δ) sin(g+δ) = sin(x+δ) sin(δ-g).\n4. Expanding, the cross terms cancel and this reduces to sin x sin g cos²δ = cos x cos g sin²δ.\n5. Hence Gauss's two equivalent forms:\n   - tan x = tan²δ / tan g\n   - sin x = sin²δ cos(g-x) / sin g. Multiply out cos(g-x) to see it is the same relation.\n6. For small δ and x: x ≈ 206265'' · sin²δ · cot g, where 206265 is the number of arcseconds per radian.\n\nApplication. B and D are the extreme visible corners of a polygonal object 'in einem Kreise', e.g. a regular polygon such as an octagonal tower. The observed extreme corners are then the ends of a diagonal whose midpoint C is the centre. The observer does not know which diagonal was seen, but knows the greatest δ was observed. He should then take the orientation f (among the polygon's diagonals) for which g comes closest to 90°. For a circle (tangent sightings) x would be exactly 0.\n\nExample.\n- f = 144°41'2\"\n- f+g-δ = 236°34'18\"\n- f+g+δ = 239°18'28\"\n- Hence f+g = 237°56'23\", δ = 1°22'5\", g = 93°15'21\".\n- sin²δ = 0.00057001, so 206265'' · sin²δ ≈ 117.6\".\n- cot g = -tan 3°15'21\" ≈ -0.05688.\n- So x ≈ -6.7\" ≈ -7\".\n- The underlined value 237°56'30\" = f+g-x = 237°56'23\" + 7\" is the reduced azimuth of AC, the direction to the centre.",
+  "errors": [
+   "No mathematical errors found. The exact relation, both equivalent forms, the small-angle approximation and the numerical example (x ≈ -6.7\" written as -7\") are all consistent.",
+   "The phrase 'so wird dasjenige f wählen' lacks a subject ('man'), a slip of the pen."
+  ],
+  "results": [
+   {
+    "what": "Angle between the direction to the midpoint of a segment and the bisector of the angle it subtends: tan x = tan²δ / tan g, equivalently sin x = sin²δ cos(g-x)/sin g",
+    "modern_name": "Centring reduction / ratio-of-division cotangent relation for a median (a special case of (m+n)cot θ = m cot α - n cot β)",
+    "usually_credited_to": "standard trigonometric surveying folklore (18th–19th c. geodesy manuals)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Small-angle approximation x'' = 206265 sin²δ cot g",
+    "modern_name": "first-order centring correction in arcseconds",
+    "usually_credited_to": "routine geodetic practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Rule for choosing the diagonal of an inscribed polygon (observed object, e.g. polygonal tower) when the largest apparent width was observed: take g closest to 90°",
+    "modern_name": "reduction of edge sightings on a polygonal tower to its centre",
+    "usually_credited_to": "practical geodesy (no specific attribution)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "An elementary but neatly derived centring formula for surveying, with a numerical check. It is typical of Gauss's geodetic notes and has no non-standard mathematical content.",
+  "checkable": [
+   {
+    "sympy": "simplify(expand_trig(sin(x-d)*sin(g+d) - sin(x+d)*sin(d-g)) - 2*(sin(x)*sin(g)*cos(d)**2 - cos(x)*cos(g)*sin(d)**2))",
+    "asserts": "The midpoint condition is equivalent to sin x sin g cos²δ = cos x cos g sin²δ, i.e. tan x = tan²δ/tan g (expression should be 0)."
+   },
+   {
+    "sympy": "simplify(expand_trig(sin(x)*sin(g) - sin(d)**2*cos(g-x)) - (sin(x)*sin(g)*cos(d)**2 - cos(x)*cos(g)*sin(d)**2))",
+    "asserts": "Gauss's form sin x = sin²δ cos(g-x)/sin g is the same relation (expression should be 0)."
+   },
+   {
+    "sympy": "N(206265*sin(rad(1+Rational(22,60)+Rational(5,3600)))**2*cot(rad(93+Rational(15,60)+Rational(21,3600))))",
+    "asserts": "The example gives x ≈ -6.69 arcseconds ≈ -7''."
+   },
+   {
+    "sympy": "N(atan(tan(rad(1+Rational(22,60)+Rational(5,3600)))**2/tan(rad(93+Rational(15,60)+Rational(21,3600))))*206265)",
+    "asserts": "The exact formula also gives x ≈ -6.7''."
+   },
+   {
+    "sympy": "Eq((236*3600+34*60+18 + 239*3600+18*60+28)/2 + 7, 237*3600+56*60+30)",
+    "asserts": "f+g-x with x = -7'' equals the underlined value 237°56'30''."
+   }
+  ],
+  "transcription_corrections": [
+   "f = 144°41'2\" (the digits are overwritten corrections; 144.41.2 is consistent with the example since g = 93°15'21\" reproduces x = -7\").",
+   "The underlined 237.56.30 is the reduced azimuth f+g-x of AC, not a separate datum.",
+   "First azimuth line: the corrected label is DB (D written over another letter); fourth line: AD (D written over B).",
+   "In the tangent formula the struck-out symbol was overwritten with x: tg x = tg δ² / tang g."
+  ]
+ }
+}

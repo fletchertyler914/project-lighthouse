@@ -1,0 +1,93 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c030",
+ "label": "25",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000031/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PURPOSE. The page builds a Fourier (sine) series for the equation of the centre of Juno, with eccentricity e = 0.254236. It does so in three stages: (A) an exact table of the equation of centre at 10-degree steps; (B) harmonic analysis of that table into sin kx terms; (C) a check that resynthesizes the table from the series using a mod-3 (FFT-like) splitting. The previous page (Litt. L) gives Gauss's trigonometric interpolation formula, built from products of sin(1/2)(x-a) and cos(1/2)(x-b). This page applies the same programme of trigonometric interpolation (Theoria interpolationis, c. 1805) to Juno, which was discovered in 1804.\n\n(A) TABLE f(x), x = 0,10,...,180 (with 360-x in the '+' column). It lists f in deg/min/sec and in seconds, e.g. 10 -> 3 deg 50'38.30\" = 13838.30\"; 90 -> 27 deg 58'52.36\" = 100732.36\"; maximum near 110 -> 29 deg 20'33.68\" = 105633.68\"; 180 -> 0. Headers: '-' for 0..180, '+' for 360..180.\n- Recomputation (mine): f is the equation of centre v - M, from Kepler's equation E - e sin E = M and tan(v/2) = sqrt((1+e)/(1-e)) tan(E/2).\n- The argument x is the mean anomaly counted from APHELION, i.e. M = 180 + x.\n- So f(x) = -(v - M)|_{M = 180 - x}, negative for 0 < x < 180.\n- Checks: M = 90 gives E ~ 104.12 deg, v ~ 117.98 deg, v - M ~ 27.98 deg, matching the x = 90 entry. At M = 170, v - M ~ 3.84 deg (the x = 10 entry). At M = 10, v - M ~ 7.29 deg (the x = 170 entry, 7 deg 16'58\").\n\n(B) HARMONIC ANALYSIS (bottom tables). For x = 0..180 the two columns are |f(x)| sin x and |f(x)| cos x:\n- x = 10: 13838.30·sin10 = 2402.996 and 13838.30·cos10 = 13628.065.\n- x = 100: 104608.13·sin100 = 103018.897 and ·|cos100| = 18165.011.\n- x = 150: 70500.79·(sin, |cos|) = 35250.395 and 61055.475.\n- Implicit step (mine): b1 = (2/18)·Σ_{x=10..170} f(x) sin x. The 17 entries sum to 936398.38, and 936398.38/9 = 104044.264, exactly the leading coefficient.\n- The f cos x column presumably serves the higher harmonics (multiplying successively by cos x, sin x) or a check; its use is not shown.\n\nResulting series (the right-hand list) in arcseconds:\nf(x) = -104044.264 sin x + 16275.150 sin2x - 3527.378 sin3x + 873.513 sin4x - 232.622 sin5x + 64.848 sin6x - 18.655 sin7x + 5.492 sin8x - 1.643 sin9x + 0.493 sin10x - 0.149 sin11x + 0.052 sin12x - 0.017 sin13x + 0.005 sin14x - 0.005 sin15x + 0.002 sin16x.\n\nThis agrees with the classical expansion of v - M in powers of e, with M = x + 180 (mine):\n- 2e - e^3/4 + 5e^5/96 -> 104043\" (plus higher order -> 104044.26);\n- 5e^2/4 - 11e^4/24 + 17e^6/192 -> 16275.1\".\n\n(C) MOD-3 DECOMPOSITION (middle). Writing f = Σ b_k sin kx and grouping k by residue mod 3:\nf(x) = sin x·δ'(3x) + cos x·γ'(3x) + γ(3x), where\n- δ'(y) = b1 + Σ_m (b_{3m+1} - b_{3m-1}) cos my\n- γ'(y) = Σ_m (b_{3m+1} + b_{3m-1}) sin my\n- γ(y) = Σ_m b_{3m} sin my.\n\nGauss's coefficients follow from this:\n- δ' = -104044.264 - 15401.637 cos3x + 213.968 cos6x - 4.999 cos9x + 0.132 cos12x - 0.002 cos15x. Here b4 - b2 = -15401.637, b7 - b5 = 213.967, and so on.\n- γ' = 17148.663 sin3x - 251.277 sin6x + 5.986 sin9x - 0.167 sin12x + 0.007 sin15x. Here b2 + b4 = 17148.663, and so on.\n- γ = b3, b6, ... = -3527.378, 64.848, -1.643, 0.052, -0.005.\n\nThe small table evaluates γ, γ', δ' at y = 3x = 0, 30, ..., 180 (row labels are values of 3x; 360 - y gives opposite signs for the odd parts γ and γ'). Columns:\n- first column = γ(y);\n- 'cos x' column = γ'(y);\n- 'sin x' column = δ'(y).\n\nExamples:\n- y = 0: δ' = -119236.803.\n- y = 30: γ = -1709.130, γ' = 8362.563, δ' = -117275.556.\n- y = 90: γ = -3525.740, γ' = 17142.684, δ' = -104258.100.\n- y = 180: δ' = -88423.527.\n\nBecause every x on the 10-degree grid has 3x on the 30-degree grid, these seven rows let f be resynthesized at all 36 grid points as a check. For example, x = 90 gives δ'(270) + γ(270) = -104258.100 + 3525.740 = -100732.360, matching table (A) and the direct series sum.\n\nThis is Gauss's divide-and-conquer splitting of a trigonometric sum (the FFT idea of Theoria interpolationis), here used in the synthesis direction with factor 3.",
+  "errors": [
+   "No substantive errors found; all checked entries (δ', γ', γ at every row; f sin x, f cos x samples; b1 from the sum) agree to ~0.003\".",
+   "δ' coefficient of cos15x: b16 - b14 = 0.002 - 0.005 = -0.003, written -0.002. This is a rounding effect of the unrounded b's and is negligible.",
+   "γ'(120) correctly equals 15068.639. If the manuscript reads 15063.639 that is a slip, but the image likely shows 15068.639 overwritten (see transcription corrections).",
+   "The 'sin x'/'cos x' labels refer to the multipliers of δ' and γ', not to the tabulated functions themselves. This is a labelling convention, not an error."
+  ],
+  "results": [
+   {
+    "what": "Exact table of Juno's equation of centre (e = 0.254236) at 10-degree steps of mean anomaly counted from aphelion",
+    "modern_name": "Solution of Kepler's equation / equation-of-centre table",
+    "usually_credited_to": "Standard astronomical practice (Kepler, Euler, Lalande tables)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Fourier sine coefficients of the equation of centre obtained by discrete harmonic analysis: b1 = (1/9) Σ f(x) sin x over 18 intervals",
+    "modern_name": "Discrete Fourier transform / numerical harmonic analysis (trapezoidal rule)",
+    "usually_credited_to": "Clairaut (1754), Lagrange (1762); Gauss's Theoria interpolationis (c.1805, publ. 1866)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Splitting Σ b_k sin kx into sin x·δ'(3x) + cos x·γ'(3x) + γ(3x) by residue classes of k mod 3, evaluated on a 30-degree grid in 3x to resynthesize all 36 values",
+    "modern_name": "Radix-3 decimation (Cooley–Tukey-type FFT splitting)",
+    "usually_credited_to": "Cooley & Tukey 1965; Gauss's priority (c.1805) established by Heideman, Johnson & Burrus 1984",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Numerical coefficients agree with the e-power series of v - M (2e - e^3/4 + ..., 5e^2/4 - 11e^4/24 + ...)",
+    "modern_name": "Equation of centre series (Bessel-function coefficients)",
+    "usually_credited_to": "Lagrange/Laplace; Bessel 1824",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss's FFT-type splitting and trigonometric interpolation (c.1805) are already known from Theoria interpolationis, whose published example is Pallas. This page is an additional, unpublished worked instance: a 36-point, radix-3 resynthesis for Juno's equation of centre. It is notable as documentation of the method in practice, not a new result.",
+  "checkable": [
+   {
+    "sympy": "e=0.254236; M=pi*170/180; E=nsolve(Symbol('E')-e*sin(Symbol('E'))-M, Symbol('E'), 3.0); v=2*atan(sqrt((1+e)/(1-e))*tan(E/2)); N((v-M)*648000/pi)",
+    "asserts": "≈ 13838.30 arcsec, the table entry for x = 10 (argument from aphelion)."
+   },
+   {
+    "sympy": "e=0.254236; M=pi/2; E=nsolve(Symbol('E')-e*sin(Symbol('E'))-M, Symbol('E'), 1.8); v=2*atan(sqrt((1+e)/(1-e))*tan(E/2)); N((v-M)*648000/pi)",
+    "asserts": "≈ 100732.36 arcsec (x = 90 entry)."
+   },
+   {
+    "sympy": "(2402.996+9406.057+20404.395+34432.885+50228.929+66317.645+81117.011+93060.245+100732.360+103018.897+99263.189+89427.602+74247.149+55345.749+35250.395+17190.111+4552.765)/9",
+    "asserts": "= 104044.264 = b1 (discrete Fourier coefficient)."
+   },
+   {
+    "sympy": "e=0.254236; N((2*e-e**3/4+5*e**5/96)*648000/pi), N((Rational(5,4)*e**2-Rational(11,24)*e**4+Rational(17,192)*e**6)*648000/pi)",
+    "asserts": "≈ 104043 and ≈ 16275.1, matching b1 and b2."
+   },
+   {
+    "sympy": "b=[-104044.264,16275.150,-3527.378,873.513,-232.622,64.848,-18.655,5.492,-1.643,0.493,-0.149,0.052,-0.017,0.005,-0.005,0.002]; x=pi/2; sum(b[k-1]*sin(k*x) for k in range(1,17))",
+    "asserts": "≈ -100732.36, the series reproduces the x = 90 entry."
+   },
+   {
+    "sympy": "y=pi/6; -104044.264-15401.637*cos(y)+213.968*cos(2*y)-4.999*cos(3*y)+0.132*cos(4*y)-0.002*cos(5*y)",
+    "asserts": "δ'(30°) ≈ -117275.55."
+   },
+   {
+    "sympy": "y=2*pi/3; 17148.663*sin(y)-251.277*sin(2*y)+5.986*sin(3*y)-0.167*sin(4*y)+0.007*sin(5*y)",
+    "asserts": "γ'(120°) ≈ 15068.64."
+   },
+   {
+    "sympy": "x=symbols('x'); simplify(sin(4*x)-(sin(x)*cos(3*x)+cos(x)*sin(3*x))), simplify(sin(2*x)-(-sin(x)*cos(3*x)+cos(x)*sin(3*x)))",
+    "asserts": "Both = 0: the identities behind the mod-3 split sin((3m±1)x) = ±sin x cos 3mx + cos x sin 3mx."
+   },
+   {
+    "sympy": "70500.79*sin(5*pi/6), 70500.79*cos(5*pi/6)",
+    "asserts": "≈ 35250.395 and -61055.475 (f sin x, f cos x at x = 150)."
+   }
+  ],
+  "transcription_corrections": [
+   "Middle table, row 120, cos x column: value should be 15068,639 (γ'(120°)); '15063,639' is a misreading or overwritten digit.",
+   "Middle table row labels (0, 30, ..., 180 | 360, ..., 180) are values of 3x, not x; the three columns are γ(3x), γ'(3x) ('cos x' multiplier) and δ'(3x) ('sin x' multiplier).",
+   "Row 150, sin x column: the struck and rewritten value is −90599,137, confirmed by computation; the marginal '90599.137' is a fair copy.",
+   "Bottom table: the second-block value at 150 is 61055,475 (= 70500.79·|cos150|), confirmed.",
+   "Bottom table columns are f·sin x and f·cos x (f = equation of centre in arcsec). Column 2 is positive in sign for x > 90 although grouped under the '−' header."
+  ]
+ }
+}

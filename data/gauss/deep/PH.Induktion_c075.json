@@ -1,0 +1,81 @@
+{
+ "bundle": "PH.Induktion",
+ "page": "c075",
+ "label": "38v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382427:00000076/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: bundle PH.Induktion, sheet 'Phys. 4' (38v). This is raw data reduction from a Göttingen Magnetic Association term day (Termin). The values (765–772) are scale readings of a magnetometer, almost certainly for declination. Each block gives one reduced value per 5-minute mark, from 23h35' to 0h20'. The previous page continues the same series from 0h25' to 1h25'. The next page has related reductions and a station list (Göttingen, Leipzig, Brussels, Paris, London) typical of the Magnetic Association.\n\nStandard blocks (23h35', 23h50', 23h55', 0h0', 0h5', 0h10', 0h15', 0h20'):\n- Seven equally spaced readings r1..r7 are written in the left column, centred on the 5-minute mark.\n- The middle column holds five values m_i = (r_i + r_{i+2})/2 for i = 1..5, each rounded to 0.1. Readings two intervals apart are averaged. This is the usual device for cancelling the free swing of the needle: readings half an oscillation period apart are averaged. (Interpretation of the spacing is mine.)\n- The boxed value is M = (m_1+...+m_5)/5. In terms of the raw readings this is M = (r1 + r2 + 2r3 + 2r4 + 2r5 + r6 + r7)/10, a symmetric weighted mean centred on r4 (the algebraic restatement is mine).\n\nVerified examples:\n- 23h35': readings 766.3, 765.1, 767.8, 768.8, 766.8, 766.2, 767.8. Lag-2 means 767.05, 766.95, 767.3, 767.5, 767.3, written 767.1, 767.0, 767.3, 767.5, 767.3. Mean 767.24.\n- 23h50': lag-2 means 767.8, 767.7, 767.6, 767.7, 767.7; mean 767.70.\n- 23h55': lag-2 means 768.2, 768.1, 768.2, 768.1, 768.3; mean 768.18.\n- 0h0': lag-2 means 768.7, 768.9, 768.9, 768.8, 768.5; mean 768.76.\n- 0h5': lag-2 means 769.1, 769.3, 769.4, 769.6, 769.7; mean 769.42.\n- 0h10': lag-2 means 770.1, 770.1, 770.1, 770.0, 770.2; mean 770.10.\n- 0h15': lag-2 means 770.3, 770.4, 770.6, 770.7, 770.9; mean 770.58.\n- 0h20': lag-2 means 771.1, 771.2, 770.9, 770.8, 771.3; mean 771.06.\n\nSpecial blocks (23h40', 23h45') use explicitly timed readings at 10-second intervals:\n- 23h40': readings from 39'0\" to 40'10\". Here the pairs are 60 s apart (lag 6): (768.5+767.2)/2 = 767.85, written 767.8; (768.0+767.5)/2 = 767.75, written 767.7. Mean 767.75.\n- 23h45': twelve readings from 44'10\" to 46'0\". The middle column is (r_i + r_{i+6})/2 for i = 1..6: 767.85, 767.95, 768.05, 768.1, 767.9, 767.75, written 767.8, 767.9, 768.0, 768.1, 767.9, 767.8. Mean 4607.5/6 = 767.917, written 767.92.\n- The 60-second lag here matches the lag of two reading intervals in the 7-reading blocks if those are spaced 30 s apart. My inference: the needle's half-period was about 60 s, and these two denser series were taken at 10-s steps for a finer check.\n\nPurpose: to produce a needle-oscillation-free time series of declination at 5-minute intervals for a simultaneous term-day comparison between stations.",
+  "errors": [
+   "No arithmetic errors in the final means: every boxed mean checks to the stated precision.",
+   "Rounding of half-values (x.x5) in the intermediate means is inconsistent. For example, 767.05→767.1 but 770.05→770.0 in the same column type; 770.15→770.1 and also →770.2; 767.75→767.7 but 767.85→767.8. The effect on the boxed means is at most a few hundredths of a scale division.",
+   "Small timing offset in the special series (not an error in arithmetic). The 23h40' value is centred at 39'35\" rather than 40'0\", and the 23h45' value at 45'05\" rather than 45'0\"."
+  ],
+  "results": [
+   {
+    "what": "Reducing magnetometer readings to oscillation-free positions: average readings separated by a fixed lag (about half the oscillation period), then take the mean. The 7-reading scheme amounts to weights (1,1,2,2,2,1,1)/10.",
+    "modern_name": "Elimination of free oscillation by half-period averaging (a moving-average / comb filter); a weighted mean of a damped-oscillation record",
+    "usually_credited_to": "Gauss and Weber, Göttingen Magnetic Association procedures (Resultate aus den Beobachtungen des magnetischen Vereins, 1836–1841)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Term-day declination time series at 5-minute intervals (23h35'–1h25'), prepared for comparison across stations",
+    "modern_name": "Simultaneous geomagnetic variation observations (term days)",
+    "usually_credited_to": "Gauss and Weber, Göttinger Magnetischer Verein (from 1834)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Routine observational data reduction following the well-documented Gauss–Weber term-day procedure. The only content is arithmetic means of scale readings.",
+  "checkable": [
+   {
+    "sympy": "Rational(7671+7670+7673+7675+7673,50) == Rational(76724,100)",
+    "asserts": "23h35' mean of the five lag-2 means is 767.24"
+   },
+   {
+    "sympy": "[(a+b)/2 for a,b in [(7663,7678),(7651,7688),(7678,7668),(7688,7662),(7668,7678)]] == [7670.5,7669.5,7673.0,7675.0,7673.0]",
+    "asserts": "23h35' lag-2 means in tenths (767.05, 766.95, 767.3, 767.5, 767.3); requires reading the 6th value as 766.2"
+   },
+   {
+    "sympy": "Rational(7678+7679+7680+7681+7679+7678,60)",
+    "asserts": "23h45' mean = 767.9167, written 767.92"
+   },
+   {
+    "sympy": "[(r[i]+r[i+6])/Rational(20) for i in range(6)] where r=[7683,7684,7683,7683,7678,7675,7674,7675,7678,7679,7680,7680]",
+    "asserts": "23h45' middle column equals lag-6 (60 s) pair means: 767.85, 767.95, 768.05, 768.1, 767.9, 767.75"
+   },
+   {
+    "sympy": "Rational(7687+7689+7689+7688+7685,50) == Rational(76876,100)",
+    "asserts": "0h0' mean 768.76"
+   },
+   {
+    "sympy": "Rational(7691+7693+7694+7696+7697,50) == Rational(76942,100)",
+    "asserts": "0h5' mean 769.42"
+   },
+   {
+    "sympy": "Rational(7703+7704+7706+7707+7709,50) == Rational(77058,100)",
+    "asserts": "0h15' mean 770.58"
+   },
+   {
+    "sympy": "Rational(7711+7712+7709+7708+7713,50) == Rational(77106,100)",
+    "asserts": "0h20' mean 771.06"
+   },
+   {
+    "sympy": "Rational(7682+7681+7682+7681+7683,50) == Rational(76818,100)",
+    "asserts": "23h55' mean 768.18"
+   },
+   {
+    "sympy": "simplify(sum((Symbol('r%d'%i)+Symbol('r%d'%(i+2)))/2 for i in range(1,6))/5 - (Symbol('r1')+Symbol('r2')+2*Symbol('r3')+2*Symbol('r4')+2*Symbol('r5')+Symbol('r6')+Symbol('r7'))/10) == 0",
+    "asserts": "Mean of the five lag-2 pair means equals the weighted mean with weights (1,1,2,2,2,1,1)/10"
+   }
+  ],
+  "transcription_corrections": [
+   "23h35' block: the sixth reading is 766,2 (not '766,7[?]'). This is confirmed by the derived value 767.5 = (768.8+766.2)/2.",
+   "23h35' block: the middle column has only five entries (767,1; 767,0; 767,3; 767,5; 767,3). The transcription's layout suggests six rows.",
+   "The middle columns are derived means (r_i + r_{i+2})/2, or (r_i + r_{i+6})/2 in the 10-s series, not independent readings.",
+   "23h40' block: '40 0' should read 40'0\" (the time of the seventh reading)."
+  ]
+ }
+}

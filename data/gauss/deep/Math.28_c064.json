@@ -1,0 +1,48 @@
+{
+ "bundle": "Math.28",
+ "page": "c064",
+ "label": "33r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000065/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 33r contains no calculation. It is a single methodological self-assessment in German, followed by archival marks.\n\nReading of the text, with the interlinear insertion placed where Gauss's dash marks it:\n\"Der Radicalfehler, woran meine bisherigen Bestrebungen, den Geist der elliptischen Function zu verkörpern, gescheitert sind, scheint der zu sein, dass ich dem Integral ∫ dφ/√(1−ee sin φ²) die Bedeutung, als Ausdruck eines endlichen Theils der Kugelfläche habe unterlegen wollen, während es wahrscheinlich nur einen unendlich schmalen Kugelsector ausdrücken soll.\"\n\nTranslation: \"The radical error on which my previous efforts to embody the spirit of the elliptic function have foundered seems to be this. I wanted to give the integral ∫ dφ/√(1−e² sin²φ) the meaning of an expression for a finite portion of the sphere's surface. In fact it is probably meant to express only an infinitely narrow spherical sector.\"\n\nIn modern terms:\n- The object is Legendre's incomplete elliptic integral of the first kind, F(φ,e) = ∫_0^φ dθ/√(1−e² sin²θ), with modulus e.\n- Gauss reports that he had tried to realise F itself as the area (or measure) of a finite region on the sphere.\n- He now suspects the correct geometric object is the differential dφ/√(1−e² sin²φ). It would be the measure of an infinitesimally thin spherical sector (lune or sector element), and F would arise only by summing such elements.\n\nThe following paragraph is my interpretation, not on the page. This shift from a finite figure to an invariant infinitesimal element matches how the geometric theory actually developed. In Lagrange's and Legendre's spherical-triangle form of the addition theorem, a triangle has sin A / sin a = e fixed. The differential relation dφ/Δ(φ) + dψ/Δ(ψ) = 0 then comes from comparing infinitesimally neighbouring triangles. Jacobi's 1828 two-circle (Poncelet) construction has the same character: the infinitesimal arcs cut off by neighbouring chords tangent to an inner circle give the invariant element dφ/√(1−k² sin²φ). In both, the element, not a finite area, carries the meaning, and finite values come from integration and the addition theorem.\n\nWhat the note is for: it is a programmatic diagnosis of why Gauss's attempts to found the theory of elliptic functions on spherical geometry had failed. It is probably from his early period of work on lemniscatic and elliptic functions (around 1797–1800); the dating is uncertain.\n\nOther material on the folio:\n- \"Fi\" and \"(33)\" are cataloguing marks.\n- \"157 6/9\" is struck through and unrelated.\n- \"X 2, 546\" is an editorial reference, apparently to the place where the note is printed or quoted in Gauss's Werke vol. X (very likely Schlesinger's account of Gauss's function theory).\n- \"G.-Hameln\" and \"7\" are archive and paging marks.\n\nContext: the previous page (Lambert-type continued fraction for tan x) and the next page (projective or linear computations with A, B, A', B') are unrelated.",
+  "errors": [
+   "There is no mathematical derivation to check. The only claim is heuristic and self-critical, and Gauss hedges it himself ('scheint', 'wahrscheinlich').",
+   "Notation: 'sin φ²' means sin²φ, Gauss's habitual notation, not sin(φ²)."
+  ],
+  "results": [
+   {
+    "what": "Programmatic remark: the elliptic integral of the first kind should be interpreted geometrically through its differential element (an infinitely thin spherical sector), not as a finite spherical area.",
+    "modern_name": "Geometric (spherical-trigonometric / Poncelet-type) interpretation of the invariant differential dφ/Δ(φ) underlying the addition theorem",
+    "usually_credited_to": "Lagrange (1784–85) and Legendre (Exercices 1811; Traité 1825–28) for the spherical-triangle form of the addition theorem; Jacobi (1828) for the two-circle infinitesimal construction",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a published and well-known reflective note: it is referenced in the Werke (vol. X), and historians such as Schlesinger quote it as evidence of Gauss's early geometric approach to elliptic functions. It records a heuristic insight, not a theorem.",
+  "checkable": [
+   {
+    "sympy": "e,phi=symbols('e phi',positive=True); simplify(diff(elliptic_f(phi,e**2),phi) - 1/sqrt(1-e**2*sin(phi)**2))",
+    "asserts": "The integrand on the page is the derivative of Legendre's F(φ, m=e²) in sympy's parameter convention. The result should be 0."
+   },
+   {
+    "sympy": "r,dth=symbols('r dth',positive=True); integrate(sin(rho),(rho,0,r))*dth - (1-cos(r))*dth",
+    "asserts": "An infinitely thin spherical sector of angular radius r and opening dθ on the unit sphere has area (1−cos r)·dθ. The result should be 0 (define rho as a symbol first)."
+   },
+   {
+    "sympy": "e=Rational(1,2); N(elliptic_k(e**2) - pi/2*hyper([Rational(1,2),Rational(1,2)],[1],e**2))",
+    "asserts": "The complete integral ∫_0^{π/2} dφ/√(1−e² sin²φ) equals (π/2)·2F1(1/2,1/2;1;e²). The result should be about 0."
+   },
+   {
+    "sympy": "e=Rational(1,2); a,b=1,sqrt(1-e**2); [ (a:=(a+b)/2, b:=sqrt(a*b)) for _ in range(1) ]; N(elliptic_k(e**2) - pi/(2*0.9318083916224482))",
+    "asserts": "Gauss's AGM relation K(e) = π / (2·agm(1, √(1−e²))) for e=1/2, using agm(1, √3/2) ≈ 0.931808391622448. The result should be about 0."
+   }
+  ],
+  "transcription_corrections": [
+   "The inserted phrase 'die Bedeutung, als Ausdruck' belongs at the dash after the integral, so the sentence reads: '…dass ich dem Integral ∫dφ/√(1−ee sin φ²) die Bedeutung, als Ausdruck eines endlichen Theils der Kugelfläche habe unterlegen wollen…'.",
+   "The article should read 'eines' (genitive, required by 'als Ausdruck … Theils'). The final 's' should not be treated as deleted; it is apparently a correction from an earlier 'eine'/'einen'.",
+   "'X 2, 546' is a later editorial reference (Werke vol. X), and 'G.-Hameln', '7', 'Fi', '(33)' are archival marks, not Gauss's text. The struck '157 6/9' is unrelated to the note."
+  ]
+ }
+}

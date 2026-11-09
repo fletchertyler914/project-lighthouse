@@ -1,0 +1,77 @@
+{
+ "bundle": "Math.1",
+ "page": "c000",
+ "label": "1r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000001/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Title: 'Quadratorum numeris primis divisorum residua lateralia', roughly 'residues of squares divided by prime numbers', i.e. quadratic residues for prime moduli. The archival mark is 40.c/1, and this is sheet (1) of a series; the next page continues the columns 97 to 223.\n\nLayout. Rows give prime moduli p = 3, 5, 7, ..., 181, grouped in blocks of seven. Columns give primes q = 2, 3, 5, ..., 89. There are no numerals in the body. A small circle at (p, q) marks that q is a quadratic residue mod p, i.e. there is an x with x^2 ≡ q (mod p). In modern terms the circle means legendre_symbol(q, p) = +1. The diagonal cell q = p is also circled (q ≡ 0, trivially a 'residue').\n\nVerification of this reading (my checks against the image):\n- Row 3 has circles at q = 7, 13, 19, 31, 37, 43, 61, 67, 73, 79. These are exactly the q ≡ 1 (mod 3), plus the diagonal.\n- Row 5 has circles at 11, 19, 29, 31, 41, 59, 61, 71, 79, 89. These are exactly the q ≡ ±1 (mod 5).\n- Row 7 has circles at 2, 11, 23, 29, 37, 43, 53, 67, 71, 79. These are exactly the q ≡ 1, 2, 4 (mod 7).\n- Row 13 has circles at 3, 17, 23, 29, 43, 53, 61, 79. These are the q ≡ 1, 3, 4, 9, 10, 12 (mod 13).\n- Further spot checks: row 41 has 31 marked, and (31/41) = (-10/41) = +1. Rows 43, 79 and 83 also have 31 marked, which is correct.\n- The reading is NOT 'p is a residue mod q'. Row 3 would then mark q ≡ ±1 (mod 12), which does not match the image.\n\nLines. Circles in horizontally or vertically adjacent cells are joined by segments, producing squares, chains and polyomino-like figures. This is a purely visual device for spotting patterns in the distribution of residues. It has no arithmetic content beyond adjacency.\n\nPurpose (my interpretation). This is an empirical (inductive) table of Legendre symbols (q/p) for small primes. It is the kind of data from which the laws for which primes q are residues of which p (quadratic reciprocity) can be read off: compare the cell (p, q) with the cell (q, p) in the transposed position. It is evidently a working precursor of Tabula II of the Disquisitiones Arithmeticae (1801), which lists for each prime modulus below 1000 which of -1 and the primes up to 97 are residues. It fits Gauss's own account of discovering reciprocity by induction in 1795.",
+  "errors": [
+   "Possible omission (uncertain from image): row 11, column 31 appears unmarked, although 31 ≡ 9 = 3^2 (mod 11) is a residue.",
+   "Possible omission (uncertain from image): row 23, column 31 appears unmarked, although 31 ≡ 8 (mod 23) is a residue (2 is a residue mod 23 since 23 ≡ 7 mod 8).",
+   "Possible omission (uncertain from image): row 17, column 47 appears unmarked, although 47 ≡ 13 ≡ 8^2 (mod 17) is a residue. The column-47 chain seems to begin at row 19.",
+   "Otherwise every cell I spot-checked (rows 3, 5, 7, 13, 17, 19, 23 entirely; column 31 for rows 41-83) agrees with the Legendre symbol."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic residue character: for primes p ≤ 181 (rows) and q ≤ 89 (columns), circle iff q is a quadratic residue mod p",
+    "modern_name": "Table of Legendre symbols (q/p); quadratic residue table",
+    "usually_credited_to": "Such tables go back to Euler and Lagrange. The systematic prime-by-prime table is Gauss, Disquisitiones Arithmeticae (1801), Tabula II.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Empirical data underlying the inductive discovery of quadratic reciprocity (symmetry relation between (p/q) and (q/p))",
+    "modern_name": "Quadratic reciprocity (inductive evidence)",
+    "usually_credited_to": "Euler and Legendre (conjecture/statement); Gauss (inductive rediscovery 1795, first proof 1796)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Graphical joining of adjacent residue marks into figures to search for patterns",
+    "modern_name": "Visual pattern search in a residue table (no modern theorem)",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a computational table of quadratic residue characters. Such tables are well known to have been compiled by Gauss in his early number-theoretic period, and they culminated in Tabula II of the Disquisitiones. The connecting-line visualization is a curious personal device but carries no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [q for q in [2,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89] if legendre_symbol(q,3)==1] == [7,13,19,31,37,43,61,67,73,79]",
+    "asserts": "Row 3 marks exactly these columns (q ≡ 1 mod 3)."
+   },
+   {
+    "sympy": "[q for q in [2,3,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89] if legendre_symbol(q,5)==1] == [11,19,29,31,41,59,61,71,79,89]",
+    "asserts": "Row 5 marks exactly these columns."
+   },
+   {
+    "sympy": "[q for q in [2,3,5,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89] if legendre_symbol(q,7)==1] == [2,11,23,29,37,43,53,67,71,79]",
+    "asserts": "Row 7 marks exactly these columns."
+   },
+   {
+    "sympy": "[q for q in [2,3,5,7,11,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89] if legendre_symbol(q,13)==1] == [3,17,23,29,43,53,61,79]",
+    "asserts": "Row 13 marks exactly these columns."
+   },
+   {
+    "sympy": "legendre_symbol(31,11)==1 and legendre_symbol(31,23)==1 and legendre_symbol(47,17)==1",
+    "asserts": "The cells that appear unmarked in the image should be marked (possible slips)."
+   },
+   {
+    "sympy": "all(legendre_symbol(p,q)*legendre_symbol(q,p)==(-1)**(((p-1)//2)*((q-1)//2)) for p in primerange(3,182) for q in primerange(3,90) if p!=q)",
+    "asserts": "Quadratic reciprocity relates each cell (p,q) to its transposed cell (q,p) across this table."
+   },
+   {
+    "sympy": "[legendre_symbol(31,p) for p in [41,43,79,83]] == [1,1,1,1]",
+    "asserts": "Column 31 is correctly marked in rows 41, 43, 79, 83."
+   }
+  ],
+  "transcription_corrections": [
+   "The interpretation should be explicit: a circle at (row p, column q) means q is a quadratic residue mod p, i.e. Legendre symbol (q/p) = +1, not the reverse.",
+   "Diagonal cells (p = q) are circled throughout (e.g. row 3/col 3, row 5/col 5, row 7/col 7, row 11/col 11).",
+   "The pencil note under the title reads 'Gauss Math 1.', with 'Gauss' faint/partly crossed. The archival number '40.c/1' is struck through and replaced by the circled '1'.",
+   "The red crayon stroke in the middle of the sheet (around rows 79-97, columns 31-41) is a later archival/library mark, not part of the table."
+  ]
+ }
+}

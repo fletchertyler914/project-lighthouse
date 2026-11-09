@@ -1,0 +1,60 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c083",
+ "label": "40v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000084/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Riemann's Habilitationsschrift (1854, publ. 1867), §4 'Über den Begriff eines bestimmten Integrals' and the start of §5 (special cases). The previous page opens the main investigation of representability without special assumptions, and the integral concept is needed for that.\n\nSetup (from the preceding draft, implicit here). Partition [a,b] by a = x0 < x1 < ... < xn = b with δ_i = x_i − x_{i−1}, and all δ_i < d. Form the Riemann sum S = Σ δ_i f(x_{i−1} + ε_i δ_i), with 0 ≤ ε_i ≤ 1. D_i is the oscillation (Schwankung) of f on the i-th interval. S converges to a limit independent of the choices iff Σ δ_i D_i → 0 as d → 0.\n\n(1) Sufficiency of the second form of the criterion. Hypothesis: for every σ > 0, the total length s = s(d,σ) of the intervals with D_i > σ tends to 0 as d → 0. Split the sum Σ δ_i D_i into two parts.\n- Intervals with D_i > σ contribute at most s times the largest oscillation of f on [a,b]. That oscillation is finite because f is bounded.\n- The remaining intervals contribute less than σ(b−a).\nNow choose σ arbitrarily small first. Then choose d so that s is also arbitrarily small. Hence Σ δ_i D_i can be made arbitrarily small, and S is enclosed in arbitrarily narrow bounds.\nRiemann concludes that the conditions found (this one together with the earlier one) are necessary and sufficient for S to converge as δ → 0, i.e. for the definite integral of f(x) from a to b to exist. Necessity was shown on an earlier page.\n\n(2) Extended (improper) integral. When the integral concept is extended 'as above', the oscillation condition is still necessary for integration to be possible throughout. The requirement that f be everywhere finite is replaced by two conditions:\n- f becomes infinite only on approach to isolated argument values;\n- a definite limit results when the integration bounds approach those values, i.e. lim_{ε→0} ∫ over [a,c−ε] ∪ [c+ε',b] exists.\nThis is the Cauchy–Riemann improper integral. The following lines are heavily struck out and illegible.\n\n(3) Special case: bounded functions with finitely many maxima and minima.\nClaim: S always converges if f is finite and has only finitely many maxima and minima.\nProof for monotone f on [a,b] with all δ_i < d. Here D_i = f(x_i) − f(x_{i−1}), so Σ δ_i D_i ≤ d Σ D_i = d (f(b) − f(a)), which → 0 as d → 0.\nWith finitely many extrema, split [a,b] into finitely many monotone pieces. The contribution of each piece to the sum becomes infinitely small. Partition intervals straddling the finitely many split points contribute at most (number of points) · d · (total oscillation) → 0. That last step is my completion; Riemann only says the interval 'lässt sich in eine endliche Anzahl von Theilen zerlegen, deren Beitrag ... unendlich klein werde'.\nConsequence: a function without infinitely many maxima and minima can fail to be integrable only where it becomes infinite.\nThe right-hand column ('Wenn daher die Function zwischen a und b kein Maximum oder Minimum hat ...') is a revised version of the same monotone and finitely-many-extrema argument.\n\nPurpose: this sets up the integral concept used in the following sections. The next page applies it to Fourier coefficients ∫ f(x) sin n(x−a) dx near points where f becomes infinite.",
+  "errors": [
+   "No mathematical errors. The monotone bound should read ≤ d(f(b)−f(a)) rather than strictly <, but this is harmless.",
+   "The finitely-many-extrema case is only sketched: the intervals straddling turning points need a separate (easy) estimate, which Riemann does not write out on this page.",
+   "Necessity of the criterion is asserted ('nothwendig und hinreichend') but proved elsewhere, not on this page."
+  ],
+  "results": [
+   {
+    "what": "Riemann integrability criterion: for every σ>0 the total length of partition intervals with oscillation >σ tends to 0 with the mesh; proof of sufficiency via splitting Σδ_iD_i",
+    "modern_name": "Riemann's integrability criterion (oscillation form; precursor of the Lebesgue criterion)",
+    "usually_credited_to": "Riemann, Habilitationsschrift 1854 (publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Extension of the integral to functions unbounded near isolated points via limits of the integration bounds",
+    "modern_name": "Improper (Cauchy–Riemann) integral",
+    "usually_credited_to": "Cauchy (1823), Riemann (1854)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Bounded monotone functions, and bounded functions with finitely many extrema, are integrable, via Σδ_iD_i ≤ d(f(b)−f(a))",
+    "modern_name": "Integrability of monotone / piecewise monotone (bounded variation) functions",
+    "usually_credited_to": "Riemann 1854 (implicit in Dirichlet 1829)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of the well-known §4–§5 of Riemann's Habilitationsschrift on trigonometric series. The integrability criterion and the improper-integral extension are famously his. Only minor drafting variants are new, such as the explicit monotone bound d(f(b)−f(a)).",
+  "checkable": [
+   {
+    "sympy": "n=symbols('n',positive=True,integer=True); i=symbols('i',integer=True); simplify(summation((1/n)*((i/n)**2-((i-1)/n)**2),(i,1,n)) - (1/n)*(1**2-0**2))",
+    "asserts": "For monotone f=x^2 on [0,1] with uniform mesh d=1/n, Σδ_iD_i equals d(f(b)−f(a)) = 1/n, which tends to 0 (expect 0)"
+   },
+   {
+    "sympy": "x,eps=symbols('x eps',positive=True); limit(integrate(x**Rational(-1,2),(x,eps,1)),eps,0)",
+    "asserts": "Example of Riemann's extended integral: an unbounded function near an isolated point with a definite limit as the bound approaches it (expect 2)"
+   },
+   {
+    "sympy": "x,eps=symbols('x eps',positive=True); limit(integrate(1/x,(x,eps,1)),eps,0)",
+    "asserts": "Failure case: the limit does not exist (oo), so the extended integral is not defined"
+   }
+  ],
+  "transcription_corrections": [
+   "'<s(C-B)' is doubtful: the image suggests a symbol for the largest oscillation of f on [a,b] (perhaps D), not literally C−B.",
+   "The marginal correction should read 'und dann die Größe δ ...', i.e. the 'Intervalle' was replaced by 'Größe', and later '{+Größen+} δ' in 'bei unendlichem Abnehmen der Größen δ'.",
+   "The struck passage after 'genähert werden. —' is largely illegible ('Diese Bedingung muß ... nicht ... Untersuchung über die ... des Integrals'); the machine reading is unreliable there.",
+   "In the bottom-right block the text reads 'so läßt sich das Intervall in eine endliche Anzahl von Theilen zerlegen, deren Beitrag zu dieser Summe unendlich klein werde', with 'in eine endliche Anzahl' rather than 'eine endliche Anzahl von Maximis' repeated."
+  ]
+ }
+}

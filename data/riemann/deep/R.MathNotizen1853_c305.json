@@ -1,0 +1,64 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c305",
+ "label": "153v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000306/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page sets up Jacobi's Theta and H via Riemann's theta series. It also obtains Z(u) = Θ'(u)/Θ(u) = E(am u) - (E/K)u, with Z(u+2K) = Z(u) and Z(u+2K'i) = Z(u) - πi/K. This page derives Jacobi's formula expressing the elliptic integral of the third kind through Θ.\n\n(1) Goal, written at the top. Riemann wants the integral ∫ (…) du/(1 - k² sn²a sn²u). He proposes to compare it with log Θ(u+a) - log Θ(u-a), whose u-derivative is F(u) := Z(u+a) - Z(u-a).\n\n(2) Structure of F (partly implicit; the 'u, -u' note signals the parity argument).\n- F is doubly periodic with periods 2K and 2iK'. The quasi-periodic increment -πi/K of Z cancels in the difference.\n- F is even in u, since Z is odd: F(-u) = -Z(u-a) + Z(u+a) = F(u).\n- Its only poles in a period cell are simple ones where Θ(u±a) = 0, i.e. u + a ≡ iK' and u - a ≡ iK' (the lines 'u+a = K'i', 'u-a = K'i').\n- An even elliptic function is a rational function of x = sn²u. In x, these poles are exactly the zeros of 1 - k² sn²a sn²u. Riemann checks this using sn(v+iK') = 1/(k sn v), giving 'sn am u² = 1/(kk sn am a²)'.\n- Hence F = α + β x/(1 - k² sn²a x), written as 'α + βx …' and then 'Z(u+a) - Z(u-a) = α + β sn²u/(1 - kk sn²a sn²u)'.\n\n(3) Constants.\n- Putting u = 0 gives α = Z(a) - Z(-a) = 2Z(a) (the line '2Z(a) =').\n- β comes from residues. Near u0 = -a + iK', the denominator is ≈ -2k² sn²a sn u0 cn u0 dn u0 (u - u0). This is the line '-2kk sn²a sn u cn u Δ u (u + a ∓ K'i)'.\n- Z(u+a) has residue +1 there. So β sn²u0/(-2k² sn²a sn u0 cn u0 dn u0) = 1.\n- Use sn u0 = -1/(k sn a), cn u0 = i dn a/(k sn a), dn u0 = i cn a/sn a (my computation). Then sn u0/(cn u0 dn u0) = sn a/(cn a dn a).\n- The residue condition becomes -β/(2k² sn a cn a dn a) = 1, so β = -2k² sn a cn a dn a, exactly as written.\n\n(4) Definition. Riemann writes Π(u,a) = ∫_0^u k² sn a cn a dn a sn²u du/(1 - k² sn²a sn²u), which is Jacobi's normal form of the third kind.\n\n(5) Implied conclusion (not written; mine). Integrating (2) from 0 to u gives log Θ(u+a)/Θ(u-a) = 2u Z(a) - 2Π(u,a). That is, Π(u,a) = u Z(a) + ½ log[Θ(u-a)/Θ(u+a)], Jacobi's formula from Fundamenta Nova §49.",
+  "errors": [
+   "No mathematical error. The expression in the residue line is the linearisation of the denominator near the pole u = -a + iK'. The factor should therefore read (u + a - K'i), not (u + a + K'i) as transcribed. Modulo 2iK' periodicity this is harmless, but it is likely a transcription or reading issue.",
+   "The parity and Liouville-type argument (an even elliptic function with these poles must be α + β sn²u/(1 - k² sn²a sn²u)) is not written out. It is only gestured at ('u  -u', the pole locations), but it is sound.",
+   "The final integrated formula for Π(u,a) in terms of Θ is not written on the page. It is implied but not stated."
+  ],
+  "results": [
+   {
+    "what": "Z(u+a) - Z(u-a) = 2Z(a) - 2k² sn a cn a dn a sn²u/(1 - k² sn²a sn²u), derived via parity, double periodicity and residue comparison",
+    "modern_name": "Addition theorem for Jacobi's zeta function (difference form)",
+    "usually_credited_to": "C. G. J. Jacobi, Fundamenta Nova (1829)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Π(u,a) = ∫_0^u k² sn a cn a dn a sn²u/(1 - k² sn²a sn²u) du = u Z(a) + ½ log(Θ(u-a)/Θ(u+a)) (implied)",
+    "modern_name": "Jacobi's expression of the elliptic integral of the third kind via theta functions",
+    "usually_credited_to": "C. G. J. Jacobi, Fundamenta Nova (1829)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Determining constants in an elliptic-function identity by locating poles and matching residues (Liouville-style method)",
+    "modern_name": "Liouville's theorem / residue method for elliptic functions",
+    "usually_credited_to": "Liouville (1844–47), Cauchy; standard in Riemann's own lectures on elliptic functions",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a textbook rederivation of Jacobi's 1829 theta-function formula for the third-kind integral. The pole and residue method is exactly the function-theoretic approach Riemann is known to have taught in his lectures on elliptic functions. It is mildly interesting as a working note, but contains nothing new.",
+  "checkable": [
+   {
+    "sympy": "from mpmath import mp, ellipfun, ellipk, ellipe, jtheta, quad, log, pi, diff, mpf\nmp.dps=30; m=mpf('0.3'); k=m**0.5; K=ellipk(m); q=mp.exp(-pi*ellipk(1-m)/K)\nTheta=lambda u: jtheta(4, pi*u/(2*K), q)\nZ=lambda u: diff(lambda t: log(Theta(t)), u)\nsn=lambda u: ellipfun('sn',u,m=m); cn=lambda u: ellipfun('cn',u,m=m); dn=lambda u: ellipfun('dn',u,m=m)\na=mpf('0.4'); u=mpf('0.7')\nZ(u+a)-Z(u-a) - (2*Z(a) - 2*m*sn(a)*cn(a)*dn(a)*sn(u)**2/(1-m*sn(a)**2*sn(u)**2))",
+    "asserts": "Equals 0 (numerically): the difference formula for Jacobi's Z with alpha = 2Z(a) and beta = -2k² sn a cn a dn a."
+   },
+   {
+    "sympy": "Pi_ua = quad(lambda t: m*sn(a)*cn(a)*dn(a)*sn(t)**2/(1-m*sn(a)**2*sn(t)**2), [0,u]); Pi_ua - (u*Z(a) + log(Theta(u-a)/Theta(u+a))/2)",
+    "asserts": "Equals 0: Jacobi's formula Π(u,a) = u Z(a) + ½ log(Θ(u-a)/Θ(u+a)), the integrated form implied on the page."
+   },
+   {
+    "sympy": "u0 = -a + 1j*ellipk(1-m); (sn(u0) + 1/(k*sn(a)), cn(u0) - 1j*dn(a)/(k*sn(a)), dn(u0) - 1j*cn(a)/sn(a))",
+    "asserts": "All approximately 0: the values of sn, cn, dn at the pole u0 = -a + iK' used in the residue computation for beta."
+   },
+   {
+    "sympy": "1 - m*sn(a)**2*sn(u0)**2",
+    "asserts": "Approximately 0: the denominator 1 - k² sn²a sn²u vanishes at u = -a + iK' (the line 'sn am u² = 1/(kk sn am a²)')."
+   }
+  ],
+  "transcription_corrections": [
+   "Residue line: the factor read as '(u+a+K'i)' is more plausibly '(u+a-K'i)', i.e. (u - u0) with u0 = -a + K'i. The sign is not clearly legible.",
+   "In 'α + βx [sin am u]² du', x stands for sn²u. The struck-out 'sin am u²' replaced x, so the line is α + βx·du/(1 - kk sn²a x).",
+   "In the second line, the struck item is '-lgΘ', i.e. log Θ(u+a) - log Θ(u-a) with the log sign rewritten.",
+   "The stray '#' and 'Θ' on the left, and 'sin am u' below '2Z(a) =', are scratch marks. In 'Z(u+a) - Z(u-a) = α + β sin am u²/(…) du' the 'du' belongs to the integrand form, not to the identity."
+  ]
+ }
+}

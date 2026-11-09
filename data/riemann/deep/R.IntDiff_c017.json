@@ -1,0 +1,61 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c017",
+ "label": "8v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000018/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to Riemann's student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (dated 1847, printed posthumously in the Werke, 1876). There Riemann defines a derivative ∂_x^ν z of arbitrary order ν through a generalized Taylor expansion\n  (2) z(x+h) = Σ_ν K_ν ∂_x^ν z h^ν,\nwhere ν runs through ν0 + Z (all integers, positive and negative). The previous page notes two things. First, ordinary differentiation is recovered as a special case when K_n = 1/n! for integer n ≥ 0 and K_n = 0 for integer n < 0. Second, neither the function K_ν nor the coefficient system of such an expansion is unique.\n\nThis page:\n(a) Programme. Since there is freedom both in the choice of the function ν ↦ K_ν and in the choice among coefficient systems, Riemann proposes to make the choice so that the derivatives obey further laws. These are laws that would otherwise hold only for integer indices; the target is the law ∂^{ν+1} = d/dx ∂^ν.\n\n(b) Differentiate (2) termwise with respect to h:\n  d/dh Σ K_ν ∂^ν z h^ν = Σ K_ν ν ∂^ν z h^{ν-1}.\nThis must comprise all expansions of this form of ∂z(x+h)/∂h. [Reindexing ν→ν+1, mine but implicit:] it equals Σ K_{ν+1}(ν+1) ∂^{ν+1} z h^ν.\n\n(c) Differentiate (2) termwise with respect to x:\n  d/dx Σ K_ν ∂^ν z h^ν = Σ K_ν (d/dx ∂^ν z) h^ν.\nThis must comprise all expansions of ∂z(x+h)/∂x.\n\n(d) Since ∂z(x+h)/∂h = ∂z(x+h)/∂x, both families of series are the same. Coefficient comparison then gives\n  K_{ν+1}(ν+1) ∂_x^{ν+1} z = K_ν d/dx ∂_x^ν z.\nThe page breaks off at 'd.h. sie sind einander [gleich]'.\n\n(e) In the published text the argument continues. Imposing ∂^{ν+1} z = d/dx ∂^ν z turns the relation into K_{ν+1}(ν+1) = K_ν. Together with K_n = 1/n! this gives K_ν = 1/Γ(ν+1) (Riemann's choice, modulo a period-1 factor).\n\nThe red marginal entries are notational corrections. An older symbol, apparently a Fraktur D with superscript x, is struck through in the formulas and replaced by ∂_x^ν z; the last pair replaces it with ∂_x^{ν+1} z.",
+  "errors": [
+   "Logical gap: the two families of series 'comprise exactly the same series', but this does not by itself force term-by-term equality of coefficients. Riemann himself has just stressed that expansions in given powers of h are not unique. The equation K_{ν+1}(ν+1)∂^{ν+1}z = K_ν ∂_x ∂^ν z is therefore a normalizing choice, consistent with the announced 'Wahl', rather than a deduction.",
+   "Termwise differentiation of possibly divergent series in both h and x is assumed without justification. This is consistent with the previous page's defense of divergent series.",
+   "The reindexing ν→ν+1 in the h-derivative is left implicit."
+  ],
+  "results": [
+   {
+    "what": "Generalized Taylor series z(x+h)=Σ_{ν∈ν0+Z} K_ν ∂^ν z h^ν as a definition of fractional derivatives; comparison of the h- and x-derivatives yields K_{ν+1}(ν+1)∂^{ν+1}z = K_ν ∂_x∂^ν z, leading to K_ν=1/Γ(ν+1) and the composition law ∂^{ν+1}=∂_x∂^ν.",
+    "modern_name": "Riemann's generalized Taylor series / Riemann(-Liouville) fractional calculus",
+    "usually_credited_to": "Riemann (1847 student essay, publ. 1876); Liouville (1832ff) for fractional calculus generally; Hardy (1945) analysed the generalized Taylor series",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Requirement that the coefficient function satisfy K_{ν+1}(ν+1)=K_ν, i.e. the Gamma functional equation",
+    "modern_name": "Normalization K_ν = 1/Γ(ν+1) via Γ(s+1)=sΓ(s)",
+    "usually_credited_to": "Riemann in this essay (Gamma function: Euler/Legendre/Gauss)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a manuscript page of the 1847 essay on generalized differentiation, which was published in Riemann's Collected Works (1876). Its content, the generalized Taylor series and the derivation of K_ν=1/Γ(ν+1), is well known and standardly attributed to him.",
+  "checkable": [
+   {
+    "sympy": "simplify((nu+1)*(1/gamma(nu+2)) - 1/gamma(nu+1))",
+    "asserts": "K_nu=1/gamma(nu+1) satisfies K_{nu+1}(nu+1)=K_nu (result is 0)"
+   },
+   {
+    "sympy": "[1/gamma(n+1) - 1/factorial(n) for n in range(6)]",
+    "asserts": "K_n reduces to 1/n! at nonnegative integers"
+   },
+   {
+    "sympy": "[limit(1/gamma(s+1), s, -n) for n in range(1,5)]",
+    "asserts": "K_n=0 at negative integers, so series (2) reduces to the ordinary Taylor series (all zeros)"
+   },
+   {
+    "sympy": "simplify(diff(gamma(mu+1)/gamma(mu-nu+1)*x**(mu-nu), x) - gamma(mu+1)/gamma(mu-nu)*x**(mu-nu-1))",
+    "asserts": "For the Riemann-Liouville derivative of x**mu, d/dx of the order-nu derivative equals the order-(nu+1) derivative, consistent with the law chosen here (result 0)"
+   },
+   {
+    "sympy": "simplify(diff(h**nu, h)*1/gamma(nu+1) - h**(nu-1)/gamma(nu))",
+    "asserts": "Termwise h-derivative of K_nu h^nu gives K_{nu-1}-type coefficient, i.e. the index shift used in the coefficient comparison"
+   }
+  ],
+  "transcription_corrections": [
+   "The red marginal notations are corrections of notation: an older symbol (apparently Fraktur D with superscript x) is crossed out in the formulas and replaced by ∂_x^ν z (and ∂_x^{ν+1} z). They are not independent content.",
+   "In the K_{ν+1}(ν+1) term the manuscript originally had the old symbol with index ν+1 before z, corrected in red to ∂_x^{ν+1} z.",
+   "There is a bracket/insertion mark '[' before 'alle Entwicklungen dieser Form' in the x-derivative line.",
+   "'Coefficienten' in line 3 is partly overwritten in the manuscript."
+  ]
+ }
+}

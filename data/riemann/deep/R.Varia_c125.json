@@ -1,0 +1,76 @@
+{
+ "bundle": "R.Varia",
+ "page": "c125",
+ "label": "63v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173054:00000126/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a scratch sheet of pencil sketches with a few formulas. It sits next to a notice dated 26 April 1862 announcing Riemann's lectures on partial differential equations, so it is plausibly connected with potential and heat problems from those lectures. The fragments are reconstructed below as far as the image permits.\n\n(1) Top: 'arc cos (2n+1)/2 a' (or just cos((2n+1)a/2); the first word is unclear). This has the shape of the half-integer Fourier modes cos((2n+1)α/2). Such modes are the eigenfunctions for an interval with one Dirichlet end and one Neumann end, i.e. a mixed boundary value problem. My interpretation: they are probably meant as the angular or strip-variable modes for the conformal picture below.\n\n(2) Central figure:\n- A horizontal line, the real axis.\n- The points ai and -ai marked symmetrically above and below it.\n- Short arcs around ai and -ai.\n- A larger closed curve enclosing them.\n- Short vertical segments (slits or plates) crossing the real axis.\n- Elsewhere, families of nested, non-concentric circles around a point.\n\nThe formula below makes the meaning clear. Riemann writes log((z+ai)/(z-ai)) = 𝔷 (a struck-out 'log' precedes it). This is the map to bipolar coordinates:\n- The curves Re 𝔷 = const, i.e. |z+ai|/|z-ai| = k, are the Apollonian circles around ±ai. Explicitly, the circle has centre i·a(k²+1)/(k²-1) and radius 2ak/|k²-1| (my computation). These are the nested eccentric circles in the sketches.\n- The curves Im 𝔷 = const are the circular arcs through ai and -ai.\n- For real z, |(z+ai)/(z-ai)| = 1, so the real axis goes to Re 𝔷 = 0, with Im 𝔷 = 2·arctan(a/z) (mod 2π).\n- The upper half-plane goes to Re 𝔷 > 0, and the whole plane cut appropriately goes to a strip of width 2π.\n\nThis is the standard device for reducing the potential (or heat or electrostatic) problem for two circles, or for a point source against a line or circle, to a problem in a strip or rectangle. There Fourier modes such as those in (1) can be used.\n\n(3) The fragment 1/(𝔷 - p) is a simple pole in the new variable. My interpretation: this is the complex potential of a source or dipole at the point 𝔷 = p, i.e. the building block of a Green's function after the transformation.\n\n(4) The small circle labelled -1/2 most likely records a local exponent, a (z-c)^(-1/2) singularity. That is the typical behaviour at the end of a slit such as the vertical segments in the figure. This reading is my interpretation.\n\n(5) The fragment t(fa+t) is unclear and is not reconstructable.\n\n(6) Bottom: ∫ dx / ((1-x) log(1-x)) = log log(1-x).\n- Derivation (mine): put u = log(1-x), so du = -dx/(1-x).\n- Then ∫ dx/((1-x)log(1-x)) = -∫ du/u = -log|log(1-x)| + C.\n- The point of the computation is the borderline divergence near x → 1: the integral grows only like log log. This is the integral analogue of the divergence of Σ 1/(n log n), used to test the rate at which a function or series blows up at a boundary point. Here it is presumably the behaviour of a potential near a singular point or edge.",
+  "errors": [
+   "The antiderivative is written as log log(1-x), apparently without a minus sign. Since d/dx log(log(1-x)) = -1/((1-x)log(1-x)), the correct result is -log log(1-x) + C. For 0<x<1 the real form is -log(-log(1-x)). This is either a sign slip or a minus sign lost in the pencil.",
+   "No other step can be checked. The remaining items are isolated fragments and sketches without derivations."
+  ],
+  "results": [
+   {
+    "what": "Conformal map z -> log((z+ai)/(z-ai)), whose level curves are the Apollonian circles around ±ai and the circles through ±ai. It takes the real axis to Re = 0 and the plane to a strip.",
+    "modern_name": "Bipolar coordinates / logarithm of a Möbius transformation",
+    "usually_credited_to": "Lamé, W. Thomson (Kelvin) and Bôcher for bipolar coordinates; conformal-mapping use in potential theory is standard (Riemann 1851 among others)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "∫ dx/((1-x)log(1-x)) = -log log(1-x): the log-log borderline growth",
+    "modern_name": "Elementary substitution; integral test borderline (Abel–Dini type scale)",
+    "usually_credited_to": "Abel, Bertrand and Dini (logarithmic scales of convergence)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Half-integer Fourier modes cos((2n+1)a/2)",
+    "modern_name": "Eigenfunctions for mixed Dirichlet–Neumann boundary conditions",
+    "usually_credited_to": "Fourier",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Local exponent -1/2 at a slit endpoint (interpretive)",
+    "modern_name": "Edge singularity of a harmonic function at a crack tip",
+    "usually_credited_to": "standard 19th-century potential theory",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is scratch work containing a standard bipolar-coordinate conformal map and an elementary integral, likely in connection with the 1862 PDE lectures. Nothing here goes beyond techniques well known to be in Riemann's repertoire.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(-log(log(1-x)), x) - 1/((1-x)*log(1-x)))",
+    "asserts": "equals 0: the correct antiderivative carries a minus sign"
+   },
+   {
+    "sympy": "simplify(diff(log(log(1-x)), x) + 1/((1-x)*log(1-x)))",
+    "asserts": "equals 0: Riemann's written result has the opposite sign"
+   },
+   {
+    "sympy": "x,a=symbols('x a',positive=True); simplify(Abs((x+I*a)/(x-I*a)))",
+    "asserts": "equals 1: the real axis maps to Re log((z+ai)/(z-ai)) = 0"
+   },
+   {
+    "sympy": "z=Rational(4,3)+Rational(5,3)*I; simplify(Abs(z+I)/Abs(z-I))",
+    "asserts": "equals 2: this point lies on the Apollonian circle with k=2, a=1 (centre 5i/3, radius 4/3), illustrating centre i*a*(k**2+1)/(k**2-1) and radius 2*a*k/(k**2-1)"
+   },
+   {
+    "sympy": "x,a=symbols('x a',positive=True); simplify(arg((x+I*a)/(x-I*a)) - 2*atan(a/x))",
+    "asserts": "equals 0 for x>0: the image of the positive real axis is Im 𝔷 = 2*atan(a/x)"
+   }
+  ],
+  "transcription_corrections": [
+   "Top line likely reads 'arc cos (2n+1)/2 a' (first word abbreviated, possibly 'arc'), not just 'cos'.",
+   "The struck-out word before log((z+ai)/(z-ai)) is an abbreviated 'lg/log'. The right-hand side is a Fraktur 𝔷.",
+   "The integrand is written '1 ∂x' over '(1-x)(log(1-x))' with a small mark above ∂x (possibly a limit or an index). The struck-out word in the denominator is 'log'.",
+   "The right-hand side of the integral reads 'log log(1-x)'. Any minus sign is not clearly visible.",
+   "The '-1/2' is a label attached to the small circle at the lower left, not a free-standing formula.",
+   "'t(fa+t)' is underlined and uncertain; it may be a heading or label unrelated to the formulas."
+  ]
+ }
+}

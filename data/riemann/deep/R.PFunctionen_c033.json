@@ -1,0 +1,53 @@
+{
+ "bundle": "R.PFunctionen",
+ "page": "c033",
+ "label": "17v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206214:00000034/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. On the next folio Riemann studies the Euler-type integral of Z=(z-a)^alpha (z-b)^beta (z-c)^gamma (z-d)^delta with a<b<c<d. The exponents are subject to alpha+beta+gamma+delta=-2, which is what removes the singularity at infinity. The four arc integrals (a,b),(b,c),(c,d),(d,a) are written, up to elementary power factors, as P-functions of the cross ratio x. Closing the contour gives the linear relation (b,c) sin(alpha+beta)pi = -sin(alpha pi)(a,b) + sin(delta pi)(c,d). This leads to the connection formula between the 1-x and x expansions:\n(R) P(alpha,delta,gamma,1-x) sin(gamma+delta)pi = -P(delta,gamma,beta,x) x^{delta+gamma+1} sin(gamma pi) + P(alpha,beta,gamma,x) sin(beta pi).\n\nWhat this page does. It treats the exceptional case where (R) degenerates because gamma+delta+1 is an integer m, so that x^{delta+gamma+1}=x^m and sin(gamma+delta)pi=0. This is the logarithmic case.\n\nStep 1. Riemann sets delta = m-gamma-1. He holds beta and gamma fixed; the constraint alpha+beta+gamma+delta=-2 then forces d(delta) = -d(alpha). This is the line 'd delta = -d alpha'.\n\nStep 2 (implicit; my filling). Regard (R) as an identity in delta, with alpha = -2-beta-gamma-delta. At delta = m-gamma-1 the left side vanishes, so the two right-hand terms cancel. Differentiate (R) with respect to delta (L'Hopital):\nP(alpha,delta,gamma,1-x) * pi cos(gamma+delta)pi = -sin(gamma pi) x^m [dP(delta,gamma,beta,x)/d delta + log x * P(delta,gamma,beta,x)] - sin(beta pi) * dP(alpha,beta,gamma,x)/d alpha * (d alpha/d delta).\n\nStep 3. Insert cos(gamma+delta)pi = cos(m-1)pi = -cos(m pi) and d alpha/d delta = -1. This gives\nP(alpha,delta,gamma,1-x) cos(m pi) * pi = x^m sin(gamma pi) dP(delta,gamma,beta,x)/d delta + sin(beta pi) dP(alpha,beta,gamma,x)/d alpha + log x * x^m P(delta,gamma,beta,x) sin(gamma pi).\nThis is exactly the formula on the page; the 'Sigma^m' of the transcription is x^m. So the 1-x branch is expressed through parameter-derivatives of the x-branches plus a log x term: the logarithmic connection formula.\n\nStep 4 (text). Riemann remarks roughly: 'The integration constants are immediately expandable in ascending powers of x; so one must reach the goal more easily by starting from the series.' That is, the constants in the log case are better obtained by working directly from the power series than by the limiting process.",
+  "errors": [
+   "In the first right-hand term the factor x^m (from differentiating x^{delta+gamma+1}P) is not visible. Consistently it should read x^m * dP(delta,gamma,beta,x)/d delta * sin(gamma pi), as the log term carries x^m. This is either a slip/omission or absorbed in the normalisation of P.",
+   "The meaning of dP(alpha,beta,gamma,x)/d alpha is ambiguous: through the constraint, P(alpha,beta,gamma,x) also depends on delta. The derivative must be read as a total derivative along alpha+delta = const. This is implied by the line d delta = -d alpha but not stated.",
+   "Otherwise the signs check: d/d delta sin(gamma+delta)pi = pi cos(m-1)pi = -pi cos(m pi), and d alpha/d delta = -1 makes both derivative terms positive, as written."
+  ],
+  "results": [
+   {
+    "what": "Connection formula between x- and (1-x)-branches of Riemann P-functions in the degenerate case of an integer exponent difference, obtained by differentiating the generic connection relation with respect to a parameter (L'Hopital limit), producing a log x term.",
+    "modern_name": "Logarithmic case of hypergeometric connection formulas (e.g. A&S 15.3.10-15.3.12 type), derived by parameter differentiation / limiting process",
+    "usually_credited_to": "Gauss (1812) and Kummer (1836) for hypergeometric transformations; Riemann (1857) noted the log cases in his P-function paper; systematic treatment by Fuchs (1866) and Frobenius (1873)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Remark that the integration constants in the log case are more easily found from the power series than from the integral-based limit.",
+    "modern_name": "Frobenius-type series method for the logarithmic case",
+    "usually_credited_to": "Fuchs/Frobenius (method); Gauss/Kummer for explicit series",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is an unpublished working detail of Riemann's integral approach to P-function connection formulas. It handles the logarithmic case by a standard L'Hopital differentiation in a parameter. The technique and result are classical (Kummer-era) and consistent with Riemann's known 1857 work and his posthumous P-function notes; the sketch is not a new result.",
+  "checkable": [
+   {
+    "sympy": "m,g,d=symbols('m g d'); simplify(diff(sin((g+d)*pi),d).subs(d,m-g-1) + pi*cos(m*pi))  # with m integer -> 0",
+    "asserts": "d/d delta sin(gamma+delta)pi at delta=m-gamma-1 equals -pi*cos(m*pi), giving Riemann's cos(m pi)*pi."
+   },
+   {
+    "sympy": "x,d,g=symbols('x d g',positive=True); f=Function('P'); simplify(diff(x**(d+g+1)*f(d,x),d).subs(d,m-g-1) - x**m*(Derivative(f(d,x),d).subs(d,m-g-1)+log(x)*f(m-g-1,x)))",
+    "asserts": "Differentiating x^{delta+gamma+1}P gives x^m(dP/d delta + log x P), so x^m should multiply the dP/d delta term too."
+   },
+   {
+    "sympy": "a,b,z=0.3,0.45,0.2; lhs=mpmath.hyp2f1(a,b,a+b,z); rhs=mpmath.gamma(a+b)/(mpmath.gamma(a)*mpmath.gamma(b))*mpmath.nsum(lambda n: mpmath.rf(a,n)*mpmath.rf(b,n)/mpmath.factorial(n)**2*(2*mpmath.digamma(n+1)-mpmath.digamma(a+n)-mpmath.digamma(b+n)-mpmath.log(1-z))*(1-z)**n,[0,mpmath.inf]); lhs-rhs  # ~0",
+    "asserts": "Classical logarithmic (m=0) connection formula for 2F1, the modern counterpart of the degenerate case treated here."
+   }
+  ],
+  "transcription_corrections": [
+   "First line: 'delta = alpha - gamma - 1' should read 'delta = m - gamma - 1' (consistent with cos m pi and x^m).",
+   "'log x Sigma^m P(delta,gamma,beta,x)' should read 'log x * x^m P(delta,gamma,beta,x)'; the x^m is written over a correction.",
+   "End of the first text line: 'unmittelbar[?]' is more likely 'entwickelbar'; the reading 'Integralconstanten' (replacing a struck word) is plausible.",
+   "Second text line: probably 'Daß [darum] man leichter zum Ziel kommen muß, wenn man von den Reihen ausgeht', i.e. 'wenn man', not 'muß von den'."
+  ]
+ }
+}

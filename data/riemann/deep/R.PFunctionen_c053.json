@@ -1,0 +1,57 @@
+{
+ "bundle": "R.PFunctionen",
+ "page": "c053",
+ "label": "27v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206214:00000054/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of §3 of Riemann's published memoir 'Beiträge zur Theorie der durch die Gauss'sche Reihe F(α,β,γ,x) darstellbaren Functionen' (1857). There, P^α and P^α' are two branches of a P-function. A positive circuit of x around the branch point a carries them into linear combinations: P^α → p P^α + q P^α' and P^α' → r P^α + s P^α'. The constants p, q, r, s are defined on the previous draft pages, not on this one.\n\n(1) Choosing λ. A positive circuit sends P^α + λP^α' to (p+λr)P^α + (q+λs)P^α'. This is a constant multiple of P^α + λP^α' exactly when (q+λs)/(p+λr) = λ, that is, when p+λr = q/λ + s. Equivalently (my addition), r λ^2 + (p−s) λ − q = 0. Then (1, λ) is a left eigenvector of the circuit matrix [[p,q],[r,s]], and the multiplier p+λr is an eigenvalue.\n\n(2) Choosing μ. Under the same circuit, (x−a)^μ acquires the constant factor e^{2πiμ}. Riemann chooses μ so that the two functions acquire the same factor: e^{2πiμ} = p+λr = q/λ + s, i.e. μ = log(p+λr)/(2πi). μ is determined only up to an integer.\n\n(3) Single-valued function. With this μ, the combination of P^α + λP^α' with the power (x−a)^{±μ} is unchanged by the circuit, so it is einändrig (single-valued) near x = a. Correctly, this is the quotient (P^α+λP^α')(x−a)^{−μ}.\n\n(4) Expansion. The draft mentions a crossed-out 'nach einem bekannten Satze'. Combined with the standing hypothesis that P becomes infinite only of finite order, this single-valued function expands in integer powers of (x−a). Since the order is finite, only finitely many negative powers occur, i.e. it is a Laurent series with at most a pole.\n\n(5) Conclusion. Hence P^α + λP^α' expands in powers of (x−a) whose exponents differ from μ by integers. This is the local exponent ('Exponent') structure of the P-function at a. It leads to Riemann's characterisation by the exponents α, α' at each singular point.",
+  "errors": [
+   "Sign/exponent slip: the draft says (P^α+λP^α')(x−a)^μ is unchanged by the circuit when both factors acquire the same multiplier e^{2πiμ}. In fact the product then acquires (p+λr)^2 ≠ 1 in general. The invariant function is the quotient (P^α+λP^α')(x−a)^{−μ}, or else μ must be defined by e^{−2πiμ}=p+λr. The published version handles this correctly.",
+   "Implicit step: the existence of a suitable λ (a root of r λ^2+(p−s)λ−q=0) is assumed. The degenerate cases are not discussed: r=0, a double root, or a non-diagonalisable circuit matrix (the logarithmic case).",
+   "Implicit step: the passage from 'single-valued near a' to 'expansion in integer powers' needs the finite-order growth hypothesis to exclude an essential singularity. This is presumably supplied elsewhere in the manuscript."
+  ],
+  "results": [
+   {
+    "what": "Diagonalising the local monodromy of a two-dimensional space of branches by choosing the combination P^α+λP^α' that is multiplied by a constant around a",
+    "modern_name": "Eigenvectors of the local monodromy matrix; local monodromy of a Fuchsian equation / rank-2 local system",
+    "usually_credited_to": "Riemann 1857 (P-function memoir); systematised by Fuchs 1866",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Exponent μ = log(eigenvalue)/(2πi); a branch times (x−a)^{−μ} is single-valued, so it expands in powers μ+integer",
+    "modern_name": "Local exponents / characteristic exponents; Frobenius-type local expansion (Fuchs theory)",
+    "usually_credited_to": "Riemann 1857; Fuchs 1866; Frobenius 1873",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of a passage in Riemann's own published 1857 memoir on the hypergeometric P-function. The content is well known as his. The only novelty is a small exponent slip that was corrected in print.",
+  "checkable": [
+   {
+    "sympy": "p,q,r,s,lam=symbols('p q r s lam'); simplify(expand((q+lam*s) - lam*(p+lam*r)) - (-(r*lam**2+(p-s)*lam-q)))",
+    "asserts": "The eigencondition (q+λs)=λ(p+λr) is equivalent to r λ^2+(p−s)λ−q=0."
+   },
+   {
+    "sympy": "p,q,r,s,lam=symbols('p q r s lam'); M=Matrix([[p,q],[r,s]]); v=Matrix([[1,lam]]); simplify((v*M - (p+lam*r)*v).subs(q, lam*(p+lam*r)-lam*s))",
+    "asserts": "Under the eigencondition, (1,λ) is a left eigenvector of the circuit matrix with eigenvalue p+λr (the result is the zero row)."
+   },
+   {
+    "sympy": "z=symbols('z', nonzero=True); simplify(exp(2*pi*I*(log(z)/(2*pi*I))) - z)",
+    "asserts": "μ = log(p+λr)/(2πi) satisfies e^{2πiμ} = p+λr."
+   },
+   {
+    "sympy": "mu=symbols('mu'); t=symbols('t', real=True); simplify(exp(2*pi*I*mu)*exp(2*pi*I*mu) - exp(4*pi*I*mu))",
+    "asserts": "The product (P^α+λP^α')(x−a)^μ acquires e^{4πiμ}, not 1, which exhibits the sign slip. The quotient acquires e^{2πiμ}·e^{−2πiμ}=1."
+   }
+  ],
+  "transcription_corrections": [
+   "In the formula, the first summand is written P^α (the stray subscript-like stroke after P is not a separate symbol): read (P^α + λP^α')(x−a)^μ.",
+   "In e^{μ2πi} = p+λr, an initial fraction (λ q or similar) is struck through before 'r'; the final reading p + λr = q/λ + s is correct.",
+   "'einschließlich[?] Satz[?]' is doubtful. The crossed-out words read 'dann also, nach einem bekannten Satze', and the surviving phrase likely says the function is (in einer Umgebung von a) nach ganzen Potenzen von (x−a) entwickelbar.",
+   "The final insertion above the line reads 'folglich' before 'P^α + λP^α''."
+  ]
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "bundle": "Math.1",
+ "page": "c018",
+ "label": "10r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000019/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page holds no derivation. It is one sheet of a large hand-drawn table of quadratic-residue characters. It continues the previous sheet (columns 367–503) and the next sheet (columns 661–827).\n\nLayout:\n- Rows: the primes 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, and 523 in red.\n- Columns: the 24 primes 509, 521, …, 659, written at top and bottom.\n- Entries: a small circle at (row p, column q).\n\nMeaning of a circle (my reconstruction, verified below): a circle means q is a quadratic residue mod p, i.e. the Legendre symbol (q/p) = +1. A blank cell means (q/p) = −1.\n\nDirection of the relation. It matters only when p ≡ q ≡ 3 (mod 4), because then reciprocity flips the sign:\n- Row 439, column 547: no circle. Here 547 ≡ 108 = 4·27 (mod 439) and (3/439) = −1, so (547/439) = −1. By contrast (439/547) = +1.\n- So the relation is 'column is a residue of row', not the reverse.\n\nThe red row 523, checked by hand:\n- Residues found: 509, 521, 547, 563, 577, 587, 593, 599, 601, 613, 617, 619, 641, 647, 653.\n- Sample reductions:\n  - 509: (509/523) = (523/509) = (14/509) = (2/509)(7/509) = (−1)(−1) = +1.\n  - 547: (547/523) = (24/523) = (2/523)(3/523) = (−1)(−1) = +1.\n  - 577: (577/523) = (54/523) = (2/523)(3/523)^3 = +1.\n  - 647: (647/523) = (124/523) = (31/523) = +1.\n  - 653: (653/523) = (130/523) = (2)(5)(13) = (−1)(−1)(+1) = +1.\n- Non-residues, matching the blanks: 541, 557, 569, 571, 607, 631, 643, 659.\n\nBlack rows, sample checks:\n- Row 439 has circles at 509 and 541. Indeed (70/439) = +1 and (102/439) = +1.\n- Row 439 is blank at 521, since (82/439) = −1.\n\nOther features:\n- Rows 509 and 521 are essentially unfilled. They carry only a circle on the 'diagonal' (column 509, resp. 521). Row 523 likewise seems to carry a red mark under column 523. These appear to be markers for the table's diagonal or the start of a row, not residue entries.\n- The connecting strokes join circles in horizontally or vertically adjacent cells. They form polyomino-like clusters, apparently a visual aid for reading and checking the pattern. They carry no extra arithmetic content.\n- The circled '10' is the folio number; the red '19' is a later foliation.\n\nPurpose: this is an extension of the residue tables of the type of Disquisitiones Arithmeticae Table II. Such tables were used empirically for quadratic reciprocity, quadratic forms and class-number work.",
+  "errors": [
+   "No arithmetic errors found in the sampled entries. All red-row entries were checked by hand, and several black-row entries were spot-checked.",
+   "The circles at (509,509), (521,521) and (523,523) cannot denote (p/p) = +1, since the symbol is 0 there. They are presumably diagonal or start markers, not residue claims."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic residue characters (q/p) for primes p in 439..523 and q in 509..659; a circle means q is a quadratic residue mod p.",
+    "modern_name": "Table of Legendre symbols / quadratic residue table",
+    "usually_credited_to": "Gauss (Disquisitiones Arithmeticae 1801, Table II), with later extensions by Jacobi (Canon arithmeticus 1839) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Graphical joining of adjacent residue marks by lines, so the pattern reads as clusters.",
+    "modern_name": "Visual/pattern representation of a residue matrix",
+    "usually_credited_to": "unsure",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's extensive residue tables are well known, and Table II of the Disquisitiones is of exactly this kind. This sheet is a routine computational extension. The only mildly curious features are the connect-the-adjacent-circles style and the diagonal markers.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [q for q in [509,521,541,547,557,563,569,571,577,587,593,599,601,607,613,617,619,631,641,643,647,653,659] if legendre_symbol(q,523)==1]",
+    "asserts": "Should equal [509,521,547,563,577,587,593,599,601,613,617,619,641,647,653], the red-row circles."
+   },
+   {
+    "sympy": "legendre_symbol(547,439)",
+    "asserts": "Equals -1 (blank in row 439, column 547), showing the circle means column-is-residue-of-row."
+   },
+   {
+    "sympy": "legendre_symbol(439,547)",
+    "asserts": "Equals +1, so the reversed relation would give a different entry."
+   },
+   {
+    "sympy": "[legendre_symbol(q,439) for q in [509,521,541]]",
+    "asserts": "Equals [1,-1,1], matching circle, blank, circle in row 439."
+   },
+   {
+    "sympy": "[q for q in [509,521,523,541,547,557,563,569,571,577,587,593,599,601,607,613,617,619,631,641,643,647,653,659] if legendre_symbol(q,443)==1]",
+    "asserts": "Should match the circles in row 443 (visually about 509, 557, 563, 569, 587, 599, 607, 613, 617, 631, 641, 647)."
+   }
+  ],
+  "transcription_corrections": [
+   "The red row 523 has circles under 509, 521, 523(?), 547, 563, 577, 587, 593, 599, 601, 613, 617, 619, 641, 647, 653.",
+   "Rows 509 and 521 are not entirely empty: each has a circle in its own column (509, resp. 521), the 509 one joined to the entry above in row 503.",
+   "The faint writing above the headings is likely an archival mark ('Math 1' / numbering), not mathematical content."
+  ]
+ }
+}

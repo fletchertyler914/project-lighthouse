@@ -1,0 +1,68 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c043",
+ "label": "23v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000044/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of §3 of Riemann's 1861 Paris Prize essay on heat conduction (the 'Commentatio mathematica, qua respondere tentatur quaestioni ab Ill.ma Academia Parisiensi propositae'). The problem it serves is to find when an anisotropic body admits a system of lines that remain isothermal. The heat equation (I) is\n\nsum_{i} d/dx_i ( sum_{i'} a_{i i'} du/dx_{i'} ) = h du/dt,\n\nwith a symmetric and positive definite. Riemann treats (I) as the condition that the variation\n\n(A) delta ∫∫∫ sum a_{ii'} u_{x_i} u_{x_i'} dx + ∫∫∫ 2h u_t delta u dx\n\ndepends only on the boundary values of delta u.\n\nOn this page he passes to new coordinates s_1, s_2, s_3. Write M_{mu i} = ds_mu/dx_i and J = det M = sum ± (ds_1/dx_1)(ds_2/dx_2)(ds_3/dx_3). Since dx = ds/J, (A) becomes\n\n(B) delta ∫∫∫ sum b_{mu nu} u_{s_mu} u_{s_nu} ds + ∫∫∫ 2k u_t delta u ds.\n\nThe new coefficients are (the full form is written out on the next draft page; the first line here is an abbreviation):\n\nb_{mu nu} = (1/J) sum_{i,i'} a_{ii'} (ds_mu/dx_i)(ds_nu/dx_i'), i.e. b = J^{-1} M a M^T,\nk = h/J.\n\nRiemann then names the quantities he needs:\n- A = det(a) and B = det(b) are the determinants of the quadratic forms (1) (a_{ii'}) and (2) (b_{ii'}).\n- (3) alpha_{ii'} and (4) beta_{ii'} are their adjoint (adjugate) forms, so alpha = A a^{-1} and beta = B b^{-1}.\n\nHe states the following results; the steps in brackets are my reconstruction.\n\n(i) A = B·J.\n[det b = J^{-3} · J^2 · det a = A/J, so A = B·J.]\n\n(ii) beta_{mu nu} = sum alpha_{ii'} (dx_i/ds_mu)(dx_i'/ds_nu).\n[b^{-1} = J M^{-T} a^{-1} M^{-1}. Hence beta = B·b^{-1} = B·J·M^{-T} a^{-1} M^{-1} = A·M^{-T} a^{-1} M^{-1} = M^{-T} alpha M^{-1}. Note that (M^{-1})_{i mu} = dx_i/ds_mu.]\n\n(iii) Since dx_i = sum_mu (dx_i/ds_mu) ds_mu, it follows ('ideoque') that\n\nsum alpha_{ii'} dx_i dx_i' = sum beta_{ii'} ds_i ds_i'.\n\nThat is, the adjoint form alpha, read as a line element, is an invariant quadratic differential form (covariant 2-tensor).\n\n(iv) h/A = k/B.\n[k/B = (h/J)/(A/J) = h/A.]\n\nConclusion stated on the page: the transformation of equation (I) reduces to the transformation of the quadratic differential expression sum alpha_{ii'} dx_i dx_i'. The ratio h/A is a scalar invariant.\n\nAt the bottom stands the sample line element dz^2 + r^2 dphi^2 + dr^2, the Euclidean metric in cylindrical coordinates. It is evidently jotted as an example of transforming such an expression (the isotropic case, alpha proportional to the identity).",
+  "errors": [
+   "First displayed formula is incomplete as written: sum a_{ii'} ds_mu/dx_i = b_{mu nu} omits the factor ds_nu/dx_{i'} and the division by J = det(ds/dx). The next draft page gives the correct full form. This is an abbreviation, not a mathematical error.",
+   "No substantive errors: A = B·J, beta = M^{-T} alpha M^{-1}, the invariance of sum alpha dx dx, and h/A = k/B all check."
+  ],
+  "results": [
+   {
+    "what": "Transformation of the anisotropic heat-conduction operator via its variational (Dirichlet-integral) form under a change of coordinates: b = J^{-1} M a M^T, k = h/J",
+    "modern_name": "Coordinate covariance of a divergence-form elliptic operator / weak formulation; tensor-density transformation of the conductivity",
+    "usually_credited_to": "Riemann, Paris Prize essay 'Commentatio mathematica' (1861, published 1876 in Werke); the variational method itself goes back to Gauss/Green/Dirichlet/Jacobi",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Determinant relation A = B·det(ds/dx) and adjugate-form transformation beta = M^{-T} alpha M^{-1}, giving the invariance sum alpha dx dx = sum beta ds ds",
+    "modern_name": "The inverse conductivity tensor (scaled by its determinant) is a covariant 2-tensor; a Riemannian metric associated with the conduction tensor",
+    "usually_credited_to": "Riemann, Commentatio 1861 (the conductivity-induced metric is the well-known germ of his curvature tensor treatment there)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Scalar invariant h/A = k/B",
+    "modern_name": "Invariant ratio of a density to the determinant (density weight bookkeeping)",
+    "usually_credited_to": "Riemann, Commentatio 1861",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the well-known opening sections of Riemann's 1861 Paris Prize essay, published in his Gesammelte Werke. The reduction to the quadratic form sum alpha dx dx is exactly the known content. The only extras are the draft character and the cylindrical-coordinates example line element.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; M=Matrix(3,3,symbols('m0:9')); a=Matrix(3,3,lambda i,j: Symbol('a%d%d'%(min(i,j),max(i,j)))); J=M.det(); b=M*a*M.T/J; simplify(a.det()-b.det()*J)==0",
+    "asserts": "A = B * det(ds/dx) when b = J^{-1} M a M^T"
+   },
+   {
+    "sympy": "from sympy import *; M=Matrix(3,3,symbols('m0:9')); a=Matrix(3,3,lambda i,j: Symbol('a%d%d'%(min(i,j),max(i,j)))); J=M.det(); b=M*a*M.T/J; Minv=M.inv(); simplify(b.adjugate()-Minv.T*a.adjugate()*Minv)==zeros(3,3)",
+    "asserts": "beta_{mu nu} = sum alpha_{ii'} dx_i/ds_mu dx_i'/ds_nu, i.e. adj(b) = M^{-T} adj(a) M^{-1}"
+   },
+   {
+    "sympy": "from sympy import *; M=Matrix(3,3,symbols('m0:9')); a=Matrix(3,3,lambda i,j: Symbol('a%d%d'%(min(i,j),max(i,j)))); ds=Matrix(symbols('ds1:4')); dx=M.inv()*ds; J=M.det(); b=M*a*M.T/J; simplify((dx.T*a.adjugate()*dx)[0]-(ds.T*b.adjugate()*ds)[0])==0",
+    "asserts": "sum alpha dx dx = sum beta ds ds (invariance of the adjoint quadratic differential form)"
+   },
+   {
+    "sympy": "from sympy import *; h=Symbol('h'); M=Matrix(3,3,symbols('m0:9')); a=Matrix(3,3,lambda i,j: Symbol('a%d%d'%(min(i,j),max(i,j)))); J=M.det(); b=M*a*M.T/J; k=h/J; simplify(h/a.det()-k/b.det())==0",
+    "asserts": "h/A = k/B"
+   },
+   {
+    "sympy": "from sympy import *; r,phi,z=symbols('r phi z',positive=True); X=Matrix([r*cos(phi),r*sin(phi),z]); Jac=X.jacobian([r,phi,z]); simplify(Jac.T*Jac)",
+    "asserts": "Euclidean metric in cylindrical coordinates is dr^2 + r^2 dphi^2 + dz^2 (the example at the bottom of the page)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: the crossed-out words appear to be 'Quadrati formarum' and 'Sint sunt', with an interlinear correction reading probably 'Quodsi' (rather than 'Quadratici'). Intended sense: '[Quodsi] formarum secundi gradus (1)... (2)... determinantes A, B et formae adjunctae (3)... (4)...'",
+   "First formula: in the image the left-hand side is written as 'sum a_{i,i'} ds_mu/dx_i' followed by a gap before '= b_{mu,nu}'. The factor ds_nu/dx_i' and the 1/J are omitted on this page and are not a transcription loss.",
+   "In the k-formula the denominator is 'sum ± ds_1/dx_1' (abbreviated Jacobian), consistent with the transcription.",
+   "Before 'invenietur' the struck words look like 'invenietur' and 'Ar...' / 'Atque'; the transcription's [?] is fine.",
+   "Bottom line: 'dz^2 + r^2 dphi^2 + dr^2' is correct (the cylindrical line element)."
+  ]
+ }
+}

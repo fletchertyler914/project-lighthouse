@@ -1,0 +1,61 @@
+{
+ "bundle": "PH.Grundformel",
+ "page": "c004",
+ "label": "3r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382435:00000005/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The title reads: 'Attempt to develop the general fundamental formula for the action of galvanic currents with elementary clarity.' The page is the geometric set-up for the force that a current element exerts on a magnetic pole, i.e. the Biot–Savart–Laplace elementary law. The previous page already works with component expressions of the type ∫X dm = S(η dc − ζ db), so this page is a fresh, more careful start of the same derivation.\n\n§1. Geometric statement.\n- Let AB = ds be a current element with unit direction t, so ds = ds·t.\n- At the point C sits a unit positive (north) magnetic pole. Let r = |AC| and let u = (A − C)/r be the unit vector along CA.\n- CD is a line through C, perpendicular to CA and lying in the plane of AB and CA. Its unit vector v is ±(t − (t·u)u)/|t − (t·u)u|.\n- CE is perpendicular to both CA and CD. The triple (CA, CD, CE) is to have the orientation 'forward, to the right, upward'. So, in that orientation, CE = u × v.\n- θ is the angle between CD and AB (or a parallel to AB through C), so cos θ = t·v.\n- With current intensity 1 and unit pole, the force along CE is F_CE = −cos θ ds / r². Its sign tells whether the force acts from C towards E or the opposite way.\n\nModern restatement (my filling-in). Let φ be the angle between AB and CA. If v is taken as the normalised projection, then cos θ = sin φ and u × v = (u × t)/sin φ. Hence\n\n  F = −(ds/r²)(u × t) = ds (t × u)/r² = ds × (A − C)/r³.\n\nThe sign choice for CD does not matter: flipping v flips both cos θ and CE, so the product is unchanged. The magnitude is ds·sin φ/r², and the direction is normal to the plane through C and the element. This is exactly the Biot–Savart–Laplace law.\n\n§2. Coordinates.\n- A = (x, y, z), B = (x + dx, y + dy, z + dz), C = (a, b, c).\n- ε = +1 if the positive axes, in order, correspond to forward, right, up; ε = −1 if they are oppositely ordered.\n- The page breaks off here. The evident next step (my reconstruction) is to write the components as\n  X = ε[dy(z − c) − dz(y − b)]/r³\n  Y = ε[dz(x − a) − dx(z − c)]/r³\n  Z = ε[dx(y − b) − dy(x − a)]/r³\n  with r² = (x − a)² + (y − b)² + (z − c)².\n- These are the integrands that reappear as combinations like η dc − ζ db on the previous page. There ξ, η, ζ are presumably pole-relative coordinates and the integration S runs over the circuit.\n\nRemark on orientation (mine). Take forward = north, right = east, up = zenith. In the usual mathematical sense this triple is left-handed, since north × east = −up. So in a standard right-handed frame ε = −1 and F = −ds × (A − C)/r³ = ds × (C − A)/r³. That is the standard right-handed Biot–Savart field at C (Ampère's rule). Gauss's sign convention is therefore consistent with the physical rule, provided his tacit sign choice for the direction of current and pole is the usual one.\n\nMarginalia. The upper-right notes ('George', 1+4+16, 1+√21, 2+4i, 50/5, (3)) are unrelated scribbles or archival foliation marks. The faint mirrored writing is bleed-through from the verso.",
+  "errors": [
+   "The text says 'das Quantum positiven Magnetismus in A gleichfalls = 1'. Per §1 the magnetic fluid is at C, not A, so this is a slip of the pen: 'in A' should be 'in C'.",
+   "θ is defined with respect to CD, whose sense along the line is not fixed. This is harmless, because reversing CD also reverses CE (fixed by the orientation rule), so the force vector is well-defined. Gauss does not state this explicitly.",
+   "The 'forward, right, up' orientation is conventional and depends on the observer's posture; it is not defined intrinsically. Gauss compensates by introducing ε for the coordinate system, but the physical sign of the law (which way the pole is pushed for a given current direction) is simply asserted, not derived."
+  ],
+  "results": [
+   {
+    "what": "Force of a current element ds on a unit magnetic pole at distance r: magnitude ds·sin(angle)/r², directed normal to the plane of element and pole, here expressed as −cos θ ds/r² along the oriented normal CE",
+    "modern_name": "Biot–Savart (Biot–Savart–Laplace) law, dB = I ds × r̂ / r²",
+    "usually_credited_to": "Biot and Savart (1820), with Laplace's elementary formulation (1820–21)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Introduction of an orientation sign ε (±1) according to whether the coordinate axes have the 'forward, right, up' handedness, in preparation for a coordinate (cross-product) form of the law",
+    "modern_name": "Orientation/handedness sign of a coordinate system (determinant sign; pseudovector convention)",
+    "usually_credited_to": "Standard; explicit handedness conventions are common in 19th-century physics (e.g. Ampère's rule, Maxwell's right-hand screw rule, 1873)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's electrodynamic work of the 1830s–40s (with Weber) and his interest in the elementary law for current elements are well known, and parts of the Nachlass on this topic are printed in Werke V. This page is a careful but routine geometric setup of the Biot–Savart law, with an explicit handedness sign. It is a nice expository detail but not new mathematics.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; tx,ty,tz,ux,uy,uz=symbols('tx ty tz ux uy uz',real=True); t=Matrix([tx,ty,tz]); u=Matrix([ux,uy,uz]); w=t-(t.dot(u))*u; simplify((w.dot(w)).subs(ux**2,1-uy**2-uz**2) - (t.cross(u)).dot(t.cross(u)).subs(ux**2,1-uy**2-uz**2)).subs(tx**2,1-ty**2-tz**2)",
+    "asserts": "For unit t, u: |t − (t·u)u|² = |t × u|², i.e. cos θ = |t − (t·u)u| = sin φ for the normalised projection v (expression should simplify to 0)."
+   },
+   {
+    "sympy": "from sympy import *; t=Matrix(symbols('t1:4')); u=Matrix(symbols('u1:4')); w=t-(t.dot(u))*u; simplify(u.cross(w) - u.cross(t))",
+    "asserts": "u × (t − (t·u)u) = u × t, so CE·cos θ = (u × t) up to normalisation; the force is −ds (u × t)/r² = ds × (A − C)/r³."
+   },
+   {
+    "sympy": "from sympy import *; x,y,z,a,b,c,dx,dy,dz=symbols('x y z a b c dx dy dz'); ds=Matrix([dx,dy,dz]); AC=Matrix([x-a,y-b,z-c]); ds.cross(AC) - Matrix([dy*(z-c)-dz*(y-b), dz*(x-a)-dx*(z-c), dx*(y-b)-dy*(x-a)])",
+    "asserts": "The coordinate components X, Y, Z (before dividing by r³ and multiplying by ε) are those of ds × (A − C); result is the zero vector."
+   },
+   {
+    "sympy": "from sympy import *; north=Matrix([0,1,0]); east=Matrix([1,0,0]); up=Matrix([0,0,1]); Matrix.hstack(north,east,up).det()",
+    "asserts": "In a right-handed east-north-up frame, the triple (forward=north, right=east, up) has determinant −1, i.e. Gauss's 'forward, right, up' orientation is left-handed in the modern convention, so ε = −1 for a standard right-handed frame."
+   },
+   {
+    "sympy": "from sympy import *; t=Matrix(symbols('t1:4')); u=Matrix(symbols('u1:4')); v=t-(t.dot(u))*u; simplify((-v).dot(t)*u.cross(-v) - v.dot(t)*u.cross(v))",
+    "asserts": "Reversing the sense of CD (v → −v) leaves cos θ · CE unchanged, so the force is independent of the sign choice of CD (result is the zero vector)."
+   }
+  ],
+  "transcription_corrections": [
+   "The insertion 'ein negativer oder positiver Werth' replaces the struck 'das Zeichen'. The sentence therefore reads: 'wobei ein negativer oder positiver Werth von cos θ zugleich zu erkennen gibt, ob jene Kraft ...'.",
+   "'Quantum positiven Magnetismus in A': the manuscript does read 'A', but sense requires 'C' (author's slip, not a transcription error).",
+   "The faint mirrored text in the lower half (e.g. 'Conversion', 'échange d'échanges', and a line at the bottom) is bleed-through from the verso and not part of this page's text.",
+   "The marginal items ('George', 1+4+16, 1+√21, 2+4i, 50/5, (3)) are probably later or unrelated scribbles and archival numbering, not part of the derivation."
+  ]
+ }
+}

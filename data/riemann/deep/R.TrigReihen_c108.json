@@ -1,0 +1,66 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c108",
+ "label": "53r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000109/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft passage on the concept of the definite integral and on continuity. The previous page belongs to the trigonometric-series material (Habilitationsschrift circle, 1853/54). This page reads like a draft of an elementary exposition (lecture or introduction) of the integral of a continuous function, not the general oscillation criterion of Habilitation §4-5.\n\n(1) Setup (implicit, mine). f is defined on [a,b]. Take a partition a=x_0<x_1<...<x_{n-1}<x_n=b with mesh δ = max(x_k - x_{k-1}). A Riemann sum is S = Σ f(ξ_k)(x_k - x_{k-1}) with ξ_k in [x_{k-1},x_k]. For a fixed partition:\n- M = Σ sup_{I_k} f · Δx_k is the largest possible value of S.\n- m = Σ inf_{I_k} f · Δx_k is the smallest possible value of S.\n- d is the largest oscillation (sup f - inf f) over the subintervals.\nThen M - m = Σ (osc_k)Δx_k ≤ d·ΣΔx_k. The written line is M - m < d(x_1-a + x_2-x_1 + ... + b-x_{n-1}) < d(b-a); the sum telescopes to b-a.\n\n(2) Continuity step. Since f is continuous, d becomes infinitely small together with δ. Hence M - m → 0. The admissible values of S 'fall together more and more' as the largest interval shrinks, and S approaches a limit as δ → 0.\n\n(3) Geometric identification. Let F be the area under the curve y=f(x). For each partial interval, draw the parallel to the x-axis through the highest point of the curve: the sum obtained exceeds F (S > F, the upper sum). Through the lowest point it falls below F (S < F, the lower sum). So F always lies between m and M, and the limit of S equals F. 'Because of the frequent occurrence of this limit value' a symbol is presumably introduced next (∫).\n\n(4) Definition of continuity. Intuitively the curve proceeds in one stroke ('in einem Zuge'). Precisely, 'y changes gradually with x' means: given any quantity ε, the change of x can always be taken so small that the corresponding change of y is less than ε. This is the ε-δ definition; the sentence breaks off.",
+  "errors": [
+   "The strict inequalities should be non-strict: M - m ≤ d(b-a), and S ≥ F, S ≤ F for upper and lower sums.",
+   "The step 'd becomes infinitely small with δ' needs uniform continuity of f on [a,b]. Riemann (like Cauchy 1823) uses this tacitly; it was proved explicitly by Heine (1872).",
+   "The claim that S approaches a limit is asserted from M - m → 0. Strictly, one also needs that the sup of lower sums equals the inf of upper sums over all partitions (Darboux-type argument), or a Cauchy-criterion argument; this is sketched only."
+  ],
+  "results": [
+   {
+    "what": "Bound M - m ≤ (max oscillation)·(b-a) for upper/lower sums, giving existence of the integral of a continuous function as the limit of sums when the mesh tends to 0.",
+    "modern_name": "Riemann integrability of continuous functions (via upper/lower Darboux sums)",
+    "usually_credited_to": "Cauchy (Résumé des leçons, 1823) for continuous functions; Riemann (1854, publ. 1868) general definition; Darboux (1875) upper/lower sums",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Identification of the limit of sums with the area under the curve by sandwiching between circumscribed and inscribed step figures.",
+    "modern_name": "Upper and lower sums bounding area",
+    "usually_credited_to": "classical (Archimedean exhaustion; Cauchy; Darboux)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "ε-δ definition of continuity ('y changes gradually with x').",
+    "modern_name": "epsilon-delta continuity",
+    "usually_credited_to": "Bolzano 1817, Cauchy 1821, Weierstrass (lectures 1860s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of standard material on the definite integral and continuity; Riemann's integral definition is famous and his. The continuous-function case with upper/lower sums is Cauchy-level. The geometric upper/lower sum picture foreshadows Darboux but is implicit in Riemann's published oscillation criterion.",
+  "checkable": [
+   {
+    "sympy": "n=6; a,b=symbols('a b'); x=symbols('x1:6'); pts=[a]+list(x)+[b]; simplify(sum(pts[k+1]-pts[k] for k in range(n)) - (b-a)) == 0",
+    "asserts": "The interval lengths telescope to b-a."
+   },
+   {
+    "sympy": "n=symbols('n',positive=True,integer=True); k=symbols('k',integer=True); U=summation(((k)/n)**2/n,(k,1,n)); L=summation(((k-1)/n)**2/n,(k,1,n)); simplify(U-L - 1/n)==0",
+    "asserts": "For f=x^2 on [0,1] with n equal parts, M-m = 1/n = (max oscillation 1/n... bounded by d(b-a)), tending to 0."
+   },
+   {
+    "sympy": "n=symbols('n',positive=True,integer=True); k=symbols('k',integer=True); limit(summation((k/n)**2/n,(k,1,n)),n,oo)==Rational(1,3)",
+    "asserts": "Upper sums converge to the area F = integrate(x**2,(x,0,1)) = 1/3."
+   },
+   {
+    "sympy": "n=symbols('n',positive=True,integer=True); k=symbols('k',integer=True); limit(summation(((k-1)/n)**2/n,(k,1,n)),n,oo)==Rational(1,3)",
+    "asserts": "Lower sums converge to the same limit, so the limit values of S and F coincide."
+   }
+  ],
+  "transcription_corrections": [
+   "'Man sollte also die Function stetig sein' should probably read 'Nun soll aber die Function stetig sein, folglich wird d mit δ unendlich klein'.",
+   "'schließt[?] sich die Summe S einer Grenze' should read 'nähert sich die Summe S einer Grenze'.",
+   "'die Werthe von S fallen immermehr ...' is likely 'fallen immer mehr zusammen' (the values of S fall together).",
+   "Second line: 'δ' at the line start belongs to 'd mit δ unendlich klein'; a struck 'unendlich' is visible.",
+   "'Wollen[?] den Ausdruck y wiederum[?] als allmählich mit x' should read 'Unter dem Ausdrucke: y ändere sich allmählich mit x, ist zu verstehen'.",
+   "'Es ist aber leicht zu sehen ... dass die Fläche der Curve F ... bei jeder Theilung' is roughly 'dass der Flächeninhalt F der Curve bei jeder Theilung zwischen [den Werthen] fällt'; the central part is heavily struck and uncertain."
+  ]
+ }
+}

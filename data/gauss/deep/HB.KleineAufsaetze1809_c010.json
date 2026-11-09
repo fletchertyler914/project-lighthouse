@@ -1,0 +1,71 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c010",
+ "label": "1",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a numerical table with no derivation written out. It has 81 rows (argument 0 to 80, with row 40 repeated), and each row gives three four-digit numbers x, y, z (units of 10^-4). The column headers carry the signs: x positive, y negative, z negative. The next page continues the table from 80 to 160, where y and z change sign between 87 and 88; a line is drawn there and the headers change to ∓ and later +. A later marginal note reads: 'This table, in an improved arrangement, has been printed. M.C. 1812.' M.C. is probably Zach's Monatliche Correspondenz.\n\nInterpretation (mine, checked numerically below): x, y, z are the geocentric equatorial rectangular coordinates of the Sun, in units of the mean distance a = 1:\n  X = R cos L,\n  Y = R sin L cos ε,\n  Z = R sin L sin ε,\nwhere L is the Sun's true longitude, R its distance and ε the obliquity.\n\nThe argument is the Sun's mean anomaly M in centesimal degrees (grads, 400 per revolution), with 0 at perigee. The evidence:\n(a) Obliquity. z/y = 3859/8891 = 0.43403 and 2198/5065 = 0.43396. These are tan ε with ε ≈ 23°28', the mean obliquity around 1810.\n(b) Distance at argument 0. sqrt(x²+y²+z²) = 0.98316, which equals 1−e with e ≈ 0.0168, i.e. perigee distance.\n(c) Longitude at argument 0. L = 360° − arccos(0.1649/0.98316) ≈ 279.66°, the Sun's perigee longitude around 1810.\n(d) Argument 100 (M = 90°). The equation of the centre gives v ≈ 90° + 2e sin M ≈ 91.92°, so L ≈ 11.58°. The table gives tan L = (0.1842/cos ε)/0.9799 → L = 11.58°, and R ≈ 1.0003, as Kepler motion predicts.\n(e) Argument 160 (M = 144°). The table gives R = 1.0136 and L ≈ 64.8°, consistent with late May.\n(f) Full Kepler solutions. For M = 16 grad: E = M + e sin E gives E = 0.25557, x' = cos E − e = 0.95073, y' = √(1−e²) sin E = 0.25276. With ϖ = 279.66°, X = x' cos ϖ − y' sin ϖ = 0.40871. Table: 4087. M = 15 gives 0.3941 (table 3940) and M = 0 gives 0.1650 (table 1649); a perigee longitude smaller by about 20'' fits all three.\n\nSo each entry was presumably computed (implicit steps mine) as:\n  M (grad) → E by Kepler's equation → true anomaly v and R → L = ϖ + v → (X, Y, Z) by rotation through ε.\n\nPurpose: the reduction of observations of comets and the new planets (Ceres, Pallas, Juno, Vesta) by the methods of Theoria Motus (1809). That method needs the Sun's rectangular coordinates for each observation. Tabulating against mean anomaly rather than calendar date makes the table usable for any year near the epoch, apart from slow changes in ϖ, e and ε. One grad of mean anomaly ≈ 0.913 day.",
+  "errors": [
+   "No real errors found. Spot checks against a Kepler-ellipse model (e ≈ 0.01679, ϖ ≈ 279.66°, ε ≈ 23.465°) agree to about one unit of the 4th decimal.",
+   "The first differences of x near arguments 15–17 run 147, 147, 144. This is slightly uneven, but recomputation shows the individual values (3940, 4087) agree with the model to within about half a unit. The unevenness is consistent with rounding rather than a slip."
+  ],
+  "results": [
+   {
+    "what": "Table of the Sun's geocentric equatorial rectangular coordinates X = R cos L, Y = R sin L cos ε, Z = R sin L sin ε (4 decimals). The argument is the mean anomaly in centesimal degrees, so the table is general rather than tied to one year.",
+    "modern_name": "Solar rectangular (equatorial) coordinate table / solar ephemeris in rectangular coordinates",
+    "usually_credited_to": "Solar coordinate tables were standard by the early 19th century (e.g. Zach's and Delambre's solar tables). The use of rectangular solar coordinates in orbit determination is associated with Gauss's Theoria Motus (1809).",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of the solar mean anomaly in grads (400 per revolution) as table argument, with sign columns indicating quadrant changes.",
+    "modern_name": "Argument of a general (year-independent) solar table",
+    "usually_credited_to": "Common tabulation practice of the period",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a computational working table of standard solar coordinates for orbit reduction. The marginal note itself says an improved version was printed (1812, probably in Monatliche Correspondenz). It is routine astronomical computation fitting Gauss's known Theoria Motus work; the only mildly notable detail is the centesimal mean-anomaly argument.",
+  "checkable": [
+   {
+    "sympy": "sqrt(0.1649**2 + 0.8891**2 + 0.3859**2)",
+    "asserts": "Distance at argument 0 is ≈0.9832 = 1 - e (perigee), with e≈0.0168"
+   },
+   {
+    "sympy": "atan(Rational(3859,8891))*180/pi",
+    "asserts": "Obliquity ε ≈ 23.46 degrees (z/y = tan ε)"
+   },
+   {
+    "sympy": "atan(Rational(2198,5065))*180/pi",
+    "asserts": "Same obliquity ≈ 23.46 degrees at argument 50 (z/y constant)"
+   },
+   {
+    "sympy": "360 - acos(0.1649/sqrt(0.1649**2 + 0.8891**2 + 0.3859**2))*180/pi",
+    "asserts": "Solar longitude at argument 0 ≈ 279.66 degrees = longitude of perigee c.1810"
+   },
+   {
+    "sympy": "atan((0.1842/cos(23.465*pi/180))/0.9799)*180/pi",
+    "asserts": "Longitude at argument 100 (M=90 deg) ≈ 11.58 degrees ≈ 279.66 + 90 + 2e*180/pi"
+   },
+   {
+    "sympy": "E = nsolve(Symbol('E') - 0.01679*sin(Symbol('E')) - 16*pi/200, Symbol('E'), 0.25); (cos(E)-0.01679)*cos(279.66*pi/180) - sqrt(1-0.01679**2)*sin(E)*sin(279.66*pi/180)",
+    "asserts": "X at argument 16 grad ≈ 0.4087 (table 4087)"
+   },
+   {
+    "sympy": "E = nsolve(Symbol('E') - 0.01679*sin(Symbol('E')) - 15*pi/200, Symbol('E'), 0.24); (cos(E)-0.01679)*cos(279.66*pi/180) - sqrt(1-0.01679**2)*sin(E)*sin(279.66*pi/180)",
+    "asserts": "X at argument 15 grad ≈ 0.3941 (table 3940, within rounding / small ϖ offset)"
+   },
+   {
+    "sympy": "sqrt(0.4321**2 + 0.8411**2 + 0.3651**2)",
+    "asserts": "Distance at argument 160 (next page) ≈ 1.0136, consistent with Kepler ellipse at M=144 deg"
+   }
+  ],
+  "transcription_corrections": [
+   "Marginal note: 'M.[?] C.[?] 1812' is most likely 'M. C. 1812', i.e. Monatliche Correspondenz 1812, where the improved table was printed.",
+   "Row 6, y: the last digit of '8703' is overwritten in the manuscript; it reads 3, consistent with the differences.",
+   "The numerical entries otherwise match the image; no digit corrections needed."
+  ]
+ }
+}

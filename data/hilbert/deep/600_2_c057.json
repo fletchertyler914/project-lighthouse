@@ -1,0 +1,68 @@
+{
+ "bundle": "600_2",
+ "page": "c057",
+ "label": "[52]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000058/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a notebook page from around the mid-1890s. The previous page cites Voigt (1889) and Hertz's Mechanik (1894). The page records, in Hilbert's words, Weierstrass's criterion for an extremum of a real-analytic function of two variables at the origin.\n\nSetting. Let f(x,y) be analytic ('regulär') at (0,0). Implicitly, and this is mine: replace f by f - f(0,0), so f(0,0)=0. Also assume f(0,y) is not identically 0, i.e. f is regular in y of some order m; otherwise apply a linear change of coordinates. The question is whether f has a local maximum or minimum at (0,0).\n\nStep 1 (Weierstrass preparation and Newton-Puiseux). Near the origin, f = unit * (y^m + a_1(x) y^{m-1} + ... + a_m(x)) with a_i(0)=0. So the zero set f=0 is given by finitely many (at most m) branches y = phi_j(x) = sum_k c_{jk} x^{k/n_j}, which are convergent Puiseux series. This is the 'endliche Anzahl solcher Potenzreihen'.\n\nStep 2 (strict extremum). Suppose no branch has all real coefficients. Then f has no real zeros in a punctured real neighbourhood of 0. The punctured disc is connected, so f has constant sign there. Hence f has a strict maximum (f<0) or strict minimum (f>0) at the origin. Conversely, if a real branch exists, f vanishes at points arbitrarily close to 0, so there is no strict extremum ('sonst nicht').\n\nStep 3 (non-strict extremum, 'gleiche Werthe gestattet'). Suppose a real branch y = phi(x) exists. Expand f(x, phi(x)+t) = sum_k (t^k/k!) * (d^k f/dy^k)(x, phi(x)). Let k be the smallest index for which (d^k f/dy^k)(x, phi(x)) is not identically 0 in x; this is the multiplicity of the branch. Near the branch, f behaves like c(x) t^k. So f keeps its sign across the branch iff k is even. If this holds for every real branch, then all sectors of the complement have the same sign. f then has a weak (non-strict) maximum or minimum. Hilbert writes that this first non-vanishing derivative must be of 'ungerader' (odd) order; see errors.\n\nPurpose: this is an isolated memorandum, not tied to the surrounding entries. The neighbouring entries concern linear ODEs, the 'Schnelldampfer' metaphor for ideal theory, and algebraic 'Bünde'.",
+  "errors": [
+   "Parity slip: for f not to change sign across a real branch y=phi(x), the first derivative d^k f/dy^k that does not vanish identically along the branch must be of EVEN order. With odd order, f changes sign. Examples: f=y has order 1 and no extremum; f=y^2 has order 2 and a weak minimum. 'ungerader Ordnung' should read 'gerader Ordnung', unless Hilbert means something else by 'Ordnung'.",
+   "Gap in the real-coefficient test. Expanding y in powers of x^{1/n} and asking for 'lauter reelle Coefficienten' only detects real branches for x>0. Example: f = y^2 + x has Puiseux roots y = ±i x^{1/2}, which have non-real coefficients. Yet f has the real zero curve y^2 = -x for x<0, and no extremum at 0. One must also expand in (-x)^{1/n}, i.e. treat x<0 separately.",
+   "Implicit hypotheses not stated: f(0,0)=0 (replace f by f-f(0,0)), and f(0,y) not identically 0 (regularity in y). The finiteness of the set of Puiseux series needs the latter.",
+   "Step 3 also needs the even-order condition for every real branch, on each side x>0 and x<0. The note speaks of 'eine Potenzreihe' only."
+  ],
+  "results": [
+   {
+    "what": "Finiteness of the Puiseux expansions y=phi(x^{1/n}) of the zero set of an analytic f(x,y) regular at the origin.",
+    "modern_name": "Weierstrass preparation theorem plus Newton-Puiseux theorem",
+    "usually_credited_to": "Newton (1676), Puiseux (1850); Weierstrass (lectures 1860s, published 1886)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "f has a strict extremum at 0 iff the real zero set of f-f(0) near 0 is only the origin, i.e. no real Puiseux branch exists.",
+    "modern_name": "Sign/extremum criterion via real branches of the level curve",
+    "usually_credited_to": "Weierstrass (lectures on maxima and minima); cf. Peano's counterexamples (1884) on second-derivative tests",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Weak extremum when real branches exist iff each real branch has even multiplicity, i.e. f does not change sign across it.",
+    "modern_name": "Multiplicity/parity criterion for sign change across a branch",
+    "usually_credited_to": "Weierstrass school / standard real-analytic geometry",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a student-style memo reporting Weierstrass's known extremum criterion via Puiseux expansions, with a parity slip and a sign-of-x gap. There is nothing original or anticipatory here. It is mildly interesting as evidence of Hilbert's reading of Weierstrass in the 1890s.",
+  "checkable": [
+   {
+    "sympy": "solve(y**2 + x, y)",
+    "asserts": "Puiseux roots of y^2+x are ±sqrt(-x), i.e. ±I*x**(1/2) for x>0. The coefficients are non-real, yet real zeros exist for x<0, so the stated test misses them."
+   },
+   {
+    "sympy": "solve(x**2 + y**2, y)",
+    "asserts": "Roots y=±I*x have non-real coefficients, and x^2+y^2 indeed has a strict minimum at 0."
+   },
+   {
+    "sympy": "simplify(diff((y - x**2)**2, y).subs(y, x**2)) == 0 and simplify(diff((y - x**2)**2, y, 2).subs(y, x**2)) == 2",
+    "asserts": "For f=(y-x^2)^2 (weak minimum), the first non-vanishing y-derivative along the real branch y=x^2 has even order 2. This contradicts 'ungerader Ordnung'."
+   },
+   {
+    "sympy": "simplify(diff(y - x**2, y).subs(y, x**2)) == 1",
+    "asserts": "For f=y-x^2 (no extremum, sign change), the first non-vanishing y-derivative along y=x^2 has odd order 1."
+   },
+   {
+    "sympy": "solve(x**2 - y**2, y)",
+    "asserts": "x^2-y^2 has real branches y=±x of multiplicity 1 (odd), and indeed has a saddle, not an extremum."
+   }
+  ],
+  "transcription_corrections": [
+   "Top-left mark is an ink blot, possibly an overwritten folio number '52'. It is not text.",
+   "'hat - an der Stelle': the dash is a stray stroke or comma, read 'hat, an der Stelle'.",
+   "Otherwise the machine transcription matches the image. 'Function', 'Werthe', 'existirt', 'voraussetzen' and 'Einsetzung' are correctly read, as is 'x^{1/n}'."
+  ]
+ }
+}

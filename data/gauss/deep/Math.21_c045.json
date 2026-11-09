@@ -1,0 +1,73 @@
+{
+ "bundle": "Math.21",
+ "page": "c045",
+ "label": "23v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000046/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a numerical check of the closed radical expression for the cosine of the angle 180°/17 = π/17, the half-angle of the side of the regular 17-gon. It relates to Gauss's 1796 discovery that the 17-gon is constructible.\n\n(a) Heading. Cos(180°/17) is stated, with the angle given as 10° 35' 5/(1)7. Exactly: 180/17 = 10 + 10/17 degrees, and (10/17)·60' = 600/17 = 35 + 5/17 minutes.\n\n(b) The formula. Gauss writes cos(π/17) = (1/16)·[1 − √17 + √(2(17−√17)) + √(68 + 12√17 + 4√(2(17−√17)) + 8√(2(17+√17)))].\nThis is equivalent to the published Disquisitiones §365 formula for cos(2π/17) (my inference). Since cos(π/17) = −cos(16π/17), one applies the Galois conjugation 2π/17 → 16π/17 to Gauss's formula 16cos(2π/17) = −1 + √17 + √(34−2√17) + 2√(17 + 3√17 − √(34−2√17) − 2√(34+2√17)). Writing 2√A = √(4A) and noting √(2(17∓√17)) = √(34∓2√17) gives the page's form with the signs as shown.\n\n(c) Term-by-term numerics, to 10 decimals:\n- 1 = +1.\n- −√17 = −4.1231056256.\n- +√(2(17−√17)) = √25.7537887488 = +5.0748190853.\n- The nested root: 68 + 49.4772675 + 20.2992763 + 8·6.4997085509 = 189.7742122, whose square root is +13.7758561351.\n\n(d) Summation and division. The positive terms sum to 19.8506752204. Subtracting 4.1231056256 gives 15.7275695948. Dividing by 16 gives 0.9829730994 as written (the exact quotient is 0.98297309967...). This is compared with 'Die Tafeln geben 0,9829731' (the tables give 0.9829731).\n\n(e) Auxiliary root. √(34 + √68) = 6.4997085509 is the root √(2(17+√17)) used in the last term, since √68 = 2√17.\n\n(f) Remaining material. Below are the words 'Demonstr[ation]' and 'dritten', and partly upside-down notes. There are sketches of circles divided by tick marks into many equal parts (apparently 17-gon divisions) and by parallel chords, presumably for a geometric demonstration or construction. Number groups such as 26 35 15 / 6 1 / 65 85 94 99 / 100 / 36 108 are unreadable as a coherent computation.",
+  "errors": [
+   "Angle heading: 180°/17 = 10° 35' 5/17'' in minutes, i.e. 10°35' + 5/17 of a minute. If Gauss really wrote 5/7, it is a slip; more likely the '1' of 17 is faint or misread.",
+   "Final quotient: 15.7275695948/16 = 0.98297309967..., so the last digit written (…0994) should be …0997. The true value cos(π/17) = 0.9829730997 agrees with the sum 15.7275695948, so this is a slip only in the division. It does not affect agreement with the 7-place table value 0.9829731.",
+   "All other intermediate values (√17, √(34−2√17), √(34+2√17), the nested radical 13.7758561351, the sums) are correct to the 10 places given."
+  ],
+  "results": [
+   {
+    "what": "Closed form of cos(π/17) by nested square roots: 16cos(π/17) = 1 − √17 + √(34−2√17) + √(68 + 12√17 + 4√(34−2√17) + 8√(34+2√17)), with a 10-place numerical check against trigonometric tables.",
+    "modern_name": "Constructibility of the regular heptadecagon; explicit radical expression for cos(2π/17) via Gaussian periods.",
+    "usually_credited_to": "C. F. Gauss (discovery 30 March 1796; announced in the Intelligenzblatt 1796; published in Disquisitiones Arithmeticae 1801, §365).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Identity √(34+√68) = √(2(17+√17)) = 6.4997085509.",
+    "modern_name": "Elementary radical simplification (part of the period computation for p = 17).",
+    "usually_credited_to": "Gauss (in the 17-gon context).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a numerical verification of Gauss's famous 17-gon cosine formula, in a sign-conjugate (π/17) form that follows directly from the published one. It is well documented as his; the page is of biographical rather than mathematical interest.",
+  "checkable": [
+   {
+    "sympy": "nsimplify(0) ; abs(N((1 - sqrt(17) + sqrt(2*(17-sqrt(17))) + sqrt(68 + 12*sqrt(17) + 4*sqrt(2*(17-sqrt(17))) + 8*sqrt(2*(17+sqrt(17)))))/16 - cos(pi/17), 30)) < 1e-25",
+    "asserts": "The page's radical expression equals cos(pi/17) exactly (numerically to 30 digits)."
+   },
+   {
+    "sympy": "N(cos(pi/17), 15)",
+    "asserts": "cos(pi/17) = 0.982973099683902..., so the correct 10-place value ends ...0997, not ...0994."
+   },
+   {
+    "sympy": "N(sqrt(2*(17-sqrt(17))), 15)",
+    "asserts": "Equals 5.0748190853..."
+   },
+   {
+    "sympy": "N(sqrt(68 + 12*sqrt(17) + 4*sqrt(2*(17-sqrt(17))) + 8*sqrt(2*(17+sqrt(17)))), 15)",
+    "asserts": "Equals 13.7758561351..."
+   },
+   {
+    "sympy": "simplify(sqrt(34+sqrt(68)) - sqrt(2*(17+sqrt(17))))",
+    "asserts": "sqrt(34+sqrt(68)) = sqrt(2(17+sqrt17)); numerically 6.4997085509."
+   },
+   {
+    "sympy": "Rational(180,17)*60 - 10*60",
+    "asserts": "The fractional part of 180/17 degrees in minutes is 600/17 = 35 + 5/17, so the heading should read 10° 35' 5/17."
+   },
+   {
+    "sympy": "abs(N(16*cos(16*pi/17) - (-1 + sqrt(17) - sqrt(34-2*sqrt(17)) - sqrt(68 + 12*sqrt(17) + 4*sqrt(34-2*sqrt(17)) + 8*sqrt(34+2*sqrt(17)))), 30)) < 1e-25",
+    "asserts": "The page's formula is the Galois conjugate (k=8) of Gauss's published formula for 16cos(2pi/17)."
+   },
+   {
+    "sympy": "Rational(157275695948,10**10)/16",
+    "asserts": "The division step gives 0.982973099675, so the last written digit 4 should be 7."
+   }
+  ],
+  "transcription_corrections": [
+   "Heading '(= 10° 35' 5/7)': the mathematically correct value is 35' 5/17; the denominator is probably 17, not 7.",
+   "The quotient line '16) 0,9829730994' matches the manuscript as written, but the arithmetically correct value is 0,9829730997.",
+   "'Demonstr' is presumably the start of 'Demonstratio'. The upside-down fragments include a word that may read 'Demonstration…' and should not be read as 'Gauss'.",
+   "√(2(17−√17)) and √(2(17+√17)) are the same as √(34−2√17) and √(34+2√17); the transcription of the nested radical is otherwise correct."
+  ]
+ }
+}

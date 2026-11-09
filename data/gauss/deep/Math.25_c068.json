@@ -1,0 +1,85 @@
+{
+ "bundle": "Math.25",
+ "page": "c068",
+ "label": "34r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000069/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT (my inference, checked numerically): A is e^(-pi) = 0.0432139182637722497744... On the next page A = N*e^delta with N = 81*125*13*373*8819/10^14 and an exponent containing -pi. Here 373*8819 should read 373*88019, since 373*88019 = 32831087, the cofactor printed there. The next page also lists 48-50 digit natural logarithms (of 8819, 325, 81, pi, ...). The overall task is a high-precision evaluation of e^(-pi) (equivalently e^pi) by the 'factor method': find a multiplier m with m*A extremely close to an integer M; factor M into primes small enough to appear in a table of natural logarithms to ~48 places (factors < 10000, as in Wolfram's table); then A = (M/m)*e^delta with delta tiny and obtainable by a short series. This page is a second, independent check of a previously obtained value of A.\n\nSTEP 1. Multiply A by 599*10^k. The exponent is hard to read; it is 8 if A = e^(-pi). This gives 2588513703.999957..., so the nearby integer is M = 2588513704 and delta = ln(1 - 0.000043.../M), which is tiny. Check: e^(-pi)*599 = 25.92835095826335 - 0.04321391826377 = 25.88513703999958, consistent.\n\nSTEP 2. The 'very easy computation' remains only if M splits into factors < 10000. Trial division gives M = 8*7*17*2719027 (952*2719027 = 2719027000 - 130513296 = 2588513704, correct). Whether the attempt works now depends on whether 2719027 is prime.\n\nSTEP 3 (primality test by a quadratic form of determinant -1848, an idoneal number). Let n = 2719027, which is coprime to 1848 = 2^3*3*7*11.\n- If n is prime, -1848 must be a quadratic residue of n. By genus theory, n must then be properly represented by the unique form of its genus. Since every genus of determinant -1848 contains a single class, that form is 3x^2 + 616y^2, and the representation is exactly one (x, y > 0).\n- Conversely, if n is composite, it is represented by this form either not at all or more than once.\n- The exclusion method (Disq. Arith. art. 319ff, used in the art. 329-334 factoring methods) showed exactly one representation: n = 3*197^2 + 616*65^2 = 116427 + 2602600, with gcd(3*197, 616*65) = 1.\n- Hence n is prime. M then has a prime factor > 10000, so this multiplier is unusable ('die versuchte Methode diesmal nicht anwendbar').\n\nThe next page finds a successful multiplier, 10^13 (really 10^14 if A = e^(-pi)). The previous page applies the same kind of test (11539097 vs 88x^2 + y^2, with exclusion moduli 3, 5, 25, 7), presumably for a cofactor from another trial multiplier.",
+  "errors": [
+   "No mathematical error on this page: 952*2719027 = 2588513704 and 3*197^2 + 616*65^2 = 2719027 are both correct, and 2719027 is indeed prime (per sympy check expected).",
+   "The criterion as stated is slightly loose: for composite n one should speak of proper (primitive) representations, and n must be coprime to 1848. Both conditions are satisfied here, so the conclusion is valid.",
+   "Next-page inconsistency, not on this page: if A = e^(-pi), then 10^13*A = 432139182637.72, so the '10^13' there should be 10^14, consistent with the 10^14 in the denominator of the formula. Likewise 373.8819 should be 373.88019."
+  ],
+  "results": [
+   {
+    "what": "Computing e^(-pi) to high precision by finding a multiplier making m*A nearly an integer whose prime factors all lie in a natural-log table (factor method for logarithms/exponentials)",
+    "modern_name": "factor (multiplicative decomposition) method for high-precision logarithms/exponentials using prime-log tables",
+    "usually_credited_to": "Briggs / Wolfram / 18th-century table computers; Gauss's high-precision e^pi computations are known from his AGM work",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Primality proof of 2719027 via unique proper representation by 3x^2+616y^2 (determinant -1848, one class per genus), with representations found by the exclusion method",
+    "modern_name": "Euler's idoneal-number (convenient number) primality test; Gauss's genus-theoretic primality/factoring method (Disq. Arith. arts. 303, 329-334)",
+    "usually_credited_to": "Euler (idoneal numbers, 1778) and Gauss (Disquisitiones Arithmeticae, 1801)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Factorization 2588513704 = 2^3*7*17*2719027",
+    "modern_name": "trial division",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a worked application of Euler's idoneal-number primality test as systematized in Gauss's own Disquisitiones (1848 is Euler's largest idoneal number), inside a routine high-precision computation of e^(-pi) via log tables. It is a nice illustration of Gauss actually using DA art. 329ff in practice, but nothing new.",
+  "checkable": [
+   {
+    "sympy": "8*7*17*2719027 == 2588513704",
+    "asserts": "the factorization of the near-integer"
+   },
+   {
+    "sympy": "factorint(2588513704) == {2:3, 7:1, 17:1, 2719027:1}",
+    "asserts": "complete factorization; the cofactor is prime"
+   },
+   {
+    "sympy": "isprime(2719027)",
+    "asserts": "Gauss's conclusion that 2719027 is prime"
+   },
+   {
+    "sympy": "3*197**2 + 616*65**2 == 2719027",
+    "asserts": "the representation found by exclusion"
+   },
+   {
+    "sympy": "jacobi_symbol(-1848 % 2719027, 2719027) == 1",
+    "asserts": "-1848 is a quadratic residue of 2719027"
+   },
+   {
+    "sympy": "len([(x,y) for y in range(1,67) for x in [isqrt((2719027-616*y**2)//3)] if 616*y**2 < 2719027 and (2719027-616*y**2) % 3 == 0 and 3*x**2 + 616*y**2 == 2719027]) == 1",
+    "asserts": "exactly one representation with x, y positive (uniqueness claimed via the exclusion method); needs from math import isqrt"
+   },
+   {
+    "sympy": "N(599*10**8*exp(-pi), 25)",
+    "asserts": "approx 2588513703.999957..., matching the page if A = e^(-pi) and the multiplier is 599*10^8"
+   },
+   {
+    "sympy": "N(10**14*exp(-pi), 20)",
+    "asserts": "approx 4321391826377.2, matching the next page's 4321391826377.25 (with 10^14 rather than 10^13)"
+   },
+   {
+    "sympy": "125*81*13*373*88019 == 4321391826375",
+    "asserts": "the next page's successful factorization; its cofactor is 373*88019 = 32831087"
+   }
+  ],
+  "transcription_corrections": [
+   "'599.10^{n}[?]': the superscript is a single digit. Numerically, if A = e^(-pi), it must be 10^8 (599*e^(-pi) = 25.88513703999958), so read 599.10^8.",
+   "'wenn si zusammengesetzt sei' should be read 'wenn sie zusammengesetzt sei'.",
+   "'und dass {+sie+} in diesem Fall': 'sie' is an interlinear insertion above 'in'. The struck text is '[-oder dass jene-]'; the transcription is correct.",
+   "'müsse' is interlined above 'dargestellt', giving: 'entweder gar nicht oder mehr als einmal dargestellt werden können müsse'.",
+   "Next-page note: '373. 8819' and '- l8819' are inconsistent with 32831087; it should be 373.88019 (373*88019 = 32831087)."
+  ]
+ }
+}

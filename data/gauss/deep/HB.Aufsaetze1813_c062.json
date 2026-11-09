@@ -1,0 +1,89 @@
+{
+ "bundle": "HB.Aufsaetze1813",
+ "page": "c062",
+ "label": "55",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354043:00000063/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a table 'Aus den Höhenmessungen von 1824', the reciprocal zenith-distance (trigonometric) levelling of Gauss's 1824 Hanover triangulation season. The station pairs, with the left edge cut off, are: Falkenberg–Elmhorst, Wilsede–Elmhorst, Elmhorst–Litberg, Wilsede–Litberg, Wilsede–Brüttendorf, Litberg–Brüttendorf, Wilsede–Zeven, Litberg–Zeven, Wilsede–Steinberg, Zeven–Steinberg, Wilsede–Bottel, Brüttendorf–Bottel, Brüttendorf–Bullerberg, Bottel–Bullerberg, Zeven–Bremen, Brüttendorf–Bremen, Steinberg–Bremen, Zeven–Brillit, Bremen–Brillit, Bremen–Garlstedt and Brillit–Garlstedt.\n\nColumns, for each station of a pair:\n(1) Two heights p, q: the height of the instrument (telescope) and the height of the sighted point at the other station, in metres.\n(2) The number n of observations.\n(3) The observed altitude angle a0 = 90° − z, given as minutes and seconds; negative means a depression.\n(4) A reduction δ = (p − q)/S · ρ, with ρ = 206265. This reduces the line of sight to equal heights of instrument and target.\n(5) The corrected angle a = a0 + δ, in seconds.\n(6) log S, where S is the distance in metres.\n(7) The height difference s.\n\nMethod. Assume equal refraction at both ends. Then refraction and earth curvature cancel in the reciprocal pair, and\n  h' − h = S·tan((a − a')/2) ≈ S·(a − a')/(2ρ).\nThe sign convention is that s is the height of the second station minus the height of the first.\n\nWorked example, Falkenberg–Elmhorst:\n- a = −14'30.750\" + 0.521\" = −870.229\".\n- a' = +3'51.950\" + 0.201\" = +232.151\".\n- (a − a')/2 = −551.190\", with log 551.190 = 2.74130.\n- Add log(1/ρ) = 4.68557 (that is, 10 − 5.31443) and log S = 4.35330. The sum is 1.78017, so s = −60.280 m.\n\nThe margin (right-hand column) shows two checks:\n- The reduction at Falkenberg: 0.326 − 0.269 = 0.057, with log 8.75587 (−10). Add log ρ = 5.31443 and the complement of log S, 5.64670. The sum is 9.71700, giving δ = 0.521\".\n- The remark that the computation was 'simply' made by h' − h = (S/2)(a' − a)/206265 = S·tan((z' − z)/2), with the refraction angles at both ends set equal.\n\nThe signature 'Kr.' indicates that these marginal checks are by an editor (very probably Louis Krüger, editor of Gauss's Werke vol. IX on geodesy) reverse-engineering Gauss's computation scheme; they are not Gauss's own.\n\nThe resulting s values feed the next page. There, 24 height differences among 13 stations are adjusted by least squares (normal equations in a…m). The mean error is computed from the sum of squared residuals divided by the redundancy.",
+  "errors": [
+   "Steinberg–Bremen row: the corrected angle is written −440.923\". But −6'21.237\" + 0.314\" = −380.923\". The tabulated s = +9.680 m is consistent only with −380.923, since (−380.923 + 502.443)/2 = 60.76\" and 10^4.51668·60.76/206265 = 9.68. So the −440.923 entry is a copying or arithmetic slip, or a misreading of the transcription, that did not propagate.",
+   "Margin: the transcription gives the complement of log S as 5.67670. It must be 5.64670 (= 10 − 4.35330), as the sum 9.71700 confirms. This is a transcription error, or possibly a slip of the pen.",
+   "Wilsede–Brüttendorf: recomputing from the listed values, (−1178.106 + 116.121)/2 = −530.9925\" with log S = 4.66622 gives 119.37 m, whereas 119.407 is tabulated (a log difference of about 0.00015). Either log S or one of the angles is mis-transcribed, or there is a small computational slip of about 4 cm. This is unresolved.",
+   "Bremen–Brillit: a second group (6 observations, −3'52.792\") is listed, but only the 20-observation value −5'50.675\" (corrected −350.396) is used. This is not an error, but the second group is evidently to a different target or was rejected.",
+   "All other rows recheck correctly to within 0.001–0.01 m, including every reduction δ = (p − q)ρ/S."
+  ],
+  "results": [
+   {
+    "what": "Height differences from reciprocal (simultaneous-type) zenith distances assuming equal refraction at both ends: Δh = S·tan((z' − z)/2), with eccentric-height reduction δ = (p − q)ρ/S",
+    "modern_name": "Reciprocal trigonometric levelling",
+    "usually_credited_to": "Standard 18th/19th-century geodetic practice (Delambre, Laplace, Bessel, Gauss among users)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Logarithmic computation scheme with log ρ = 5.31443 and log(1/ρ) = 4.68557",
+    "modern_name": "Radian–arcsecond conversion via logarithms",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine computational table from Gauss's 1824 Hanover triangulation levelling, which is documented in Werke IX. The marginal checks are by the editor (Krüger), not Gauss. The only noteworthy item is a harmless intermediate slip (440 for 380) in the Steinberg–Bremen row.",
+  "checkable": [
+   {
+    "sympy": "(-870.229 - 232.151)/2",
+    "asserts": "equals -551.19 (half-difference of corrected angles, Falkenberg–Elmhorst)"
+   },
+   {
+    "sympy": "log(551.19, 10)",
+    "asserts": "≈ 2.74130"
+   },
+   {
+    "sympy": "10 - log(206265, 10)",
+    "asserts": "≈ 4.68557"
+   },
+   {
+    "sympy": "10**4.35330*551.19/206265",
+    "asserts": "≈ 60.28 m height difference Falkenberg–Elmhorst"
+   },
+   {
+    "sympy": "0.057/10**4.35330*206265",
+    "asserts": "≈ 0.521 arcsec reduction at Falkenberg"
+   },
+   {
+    "sympy": "log(0.057,10)+10",
+    "asserts": "≈ 8.75587"
+   },
+   {
+    "sympy": "-381.237 + 0.314",
+    "asserts": "= -380.923 (correct corrected angle Steinberg→Bremen, not -440.923)"
+   },
+   {
+    "sympy": "10**4.51668*((-380.923 + 502.443)/2)/206265",
+    "asserts": "≈ 9.68 m, matching tabulated s for Steinberg–Bremen"
+   },
+   {
+    "sympy": "10**4.66622*((1178.106 - 116.121)/2)/206265",
+    "asserts": "≈ 119.37, vs tabulated 119.407 (small discrepancy)"
+   },
+   {
+    "sympy": "1.019/10**4.20816*206265",
+    "asserts": "≈ 13.01 arcsec reduction (Bullerberg, q = -0.697)"
+   },
+   {
+    "sympy": "10**4.59254*((731.072 - 350.396)/2)/206265",
+    "asserts": "≈ 36.11 m Bremen–Brillit"
+   }
+  ],
+  "transcription_corrections": [
+   "Station names, left edge cropped: Falkenberg/Elmhorst, Wilsede/Elmhorst, Elmhorst/Litberg, Wilsede/Litberg, Wilsede/Brüttendorf, Litberg/Brüttendorf, Wilsede/Zeven, Litberg/Zeven, Wilsede/Steinberg, Zeven/Steinberg, Wilsede/Bottel, Brüttendorf/Bottel, Brüttendorf/Bullerberg, Bottel/Bullerberg, Zeven/Bremen, Brüttendorf/Bremen, Steinberg/Bremen, Zeven/Brillit, Bremen/Brillit, Bremen/Garlstedt, Brillit/Garlstedt.",
+   "Margin '5,67670' should read 5,64670 (complement of log S = 4.35330).",
+   "'−80,1[?]6' reads −80,116 (confirmed on the next page).",
+   "'+0,334[?]' (Zeven–Steinberg, second station) is +0,334, consistent with 0.054·ρ/S.",
+   "'Kr' / 'Kr.' in the margin is an editor's signature (Krüger), so the marginal notes are editorial checks, not Gauss's.",
+   "The header 'z+z'−180' stands over the corrected-angle column; the column actually lists the individually corrected altitude angles a = a0 + δ in seconds."
+  ]
+ }
+}

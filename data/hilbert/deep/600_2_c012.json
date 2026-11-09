@@ -1,0 +1,71 @@
+{
+ "bundle": "600_2",
+ "page": "c012",
+ "label": "7",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds four separate research notes (Problemstellungen). None contains a worked derivation.\n\n(1) Continued fraction of e^pi. Hilbert sets himself the task of expanding the number e^pi (written as i^i) into an ordinary (simple) continued fraction 'by simple computation' and seeing whether a law appears. In modern terms the principal value is i^i = exp(i*Log i) = exp(i*(i*pi/2)) = e^{-pi/2}. So the correct identities are e^pi = i^{-2i} = (i^i)^{-2} and e^{-pi/2} = i^i, not e^pi = i^i. The intended computation is the regular continued fraction e^pi = 23.1406926327792... = [23; 7, 9, 3, 1, 1, 591, 2, 9, 1, 2, 34, 1, 16, 1, 30, 1, ...]. No regular pattern is known (OEIS A058287), in contrast with e = [2; 1, 2, 1, 1, 4, 1, 1, 6, ...]. The '7.' at the top right is the folio number, not part of the sentence.\n\n(2) 'Lindemann's problem'. A problem 'designated above (oben bezeichnet)', presumably on an earlier sheet, is reduced to the following task. Given a rational function R(U,z), find a rational function Phi(z, U, U', U'', ...) with real coefficients, where U' = dU/dz, such that Phi is unchanged when U is replaced by R(U,z). This is the problem of a rational differential invariant under the point substitution U -> R(U,z), with derivatives transformed by the chain rule. The model case is the Schwarzian derivative {U,z} = U'''/U' - (3/2)(U''/U')^2. It is invariant under U -> (aU+b)/(cU+d) with constant coefficients (my example, not on the page). Hilbert then remarks that Lindemann's argument is unnecessary. To get a function that is real on the x-axis, one need only regard x = (z+z')/2 as a function of z, with z' the conjugate variable treated as an independent variable. What exactly Lindemann's problem was cannot be recovered from this page.\n\n(3) A question: what do Jacobi's inversion problem and Abel's theorem mean for genus p = infinity? That is, how do the Abel map and its inversion extend to Riemann surfaces, for example hyperelliptic ones, with infinitely many branch points? No answer is attempted.\n\n(4) A question on approximation by quadratic irrationals. Suppose a quadratic equation is chosen so that one of its roots approximates a given root of an equation of degree n. What value does the other (conjugate) root approach? The same question is asked for quadratic approximations to e and pi. The next page speculates that the conjugate might tend to e^2 or 2*pi. Without further normalisation the question is ill-posed. The conjugate x2 = -b/a - x1 is not determined by the approximation. For quadratics P with |P(alpha)| small and bounded height, as in Dirichlet/Minkowski approximation, the conjugate root generally has no limit.",
+  "errors": [
+   "The identity 'e^pi = i^i' is wrong as written. With principal values i^i = e^{-pi/2}, so e^pi = i^{-2i} = (i^i)^{-2}. This is the form Hilbert later used in the 1900 problem list (7th problem).",
+   "Taken literally, x = (z + z')/2 with z' = conj(z) is not an analytic function of z. The remark only makes sense if z and z' are treated as independent complex variables (complexification).",
+   "The question in (4) has no canonical answer without further constraints. The next-page guess that the conjugate root approaches e^2 or 2*pi is unfounded."
+  ],
+  "results": [
+   {
+    "what": "Proposal to compute the simple continued fraction of e^pi (= i^{-2i}) and look for a pattern",
+    "modern_name": "Continued fraction of Gelfond's constant e^pi",
+    "usually_credited_to": "e^pi's arithmetic nature was raised in Hilbert's 7th problem (1900); its transcendence was proved by Gelfond (1929). Its continued fraction is known to have no apparent pattern.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reduction of a 'Lindemann problem' to finding rational differential invariants Phi(z,U,U',U'',...) under a substitution U -> R(U,z)",
+    "modern_name": "Differential invariants under a (birational) point transformation; cf. the Schwarzian derivative for Möbius maps",
+    "usually_credited_to": "Lie, Halphen and Schwarz (differential invariants, 1870s-1880s); the specific Lindemann problem is unidentified",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Question: meaning of Jacobi inversion and Abel's theorem for genus p = infinity",
+    "modern_name": "Abel-Jacobi theory on Riemann surfaces of infinite genus",
+    "usually_credited_to": "McKean-Trubowitz (1976, hyperelliptic curves with infinitely many branch points); Feldman-Knörrer-Trubowitz (1990s-2003)",
+    "already_credited_to_author": "no",
+    "routine": false
+   },
+   {
+    "what": "Question: limit of the conjugate root when a real algebraic number, or e or pi, is approximated by quadratic irrationals",
+    "modern_name": "Approximation by algebraic numbers of bounded degree (Wirsing, Davenport-Schmidt); behaviour of conjugates",
+    "usually_credited_to": "Wirsing (1961), Davenport-Schmidt (1967-69) for the approximation theory",
+    "already_credited_to_author": "no",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "These are unanswered questions, not results. Hilbert's early interest in e^pi = i^{-2i} is a nice precursor of his 7th problem, but his interest in this number is well known. Asking about Abel/Jacobi theory for infinite genus anticipates a much later theory, but only as a one-line question. The Lindemann reduction is standard differential-invariant thinking.",
+  "checkable": [
+   {
+    "sympy": "simplify(I**I - exp(-pi/2)) == 0",
+    "asserts": "The principal value of i^i is e^{-pi/2}, not e^pi."
+   },
+   {
+    "sympy": "simplify((I**I)**(-2) - exp(pi)) == 0",
+    "asserts": "e^pi = (i^i)^{-2} = i^{-2i}, the correct form of Hilbert's identity."
+   },
+   {
+    "sympy": "from itertools import islice; list(islice(continued_fraction_iterator(Rational(str(N(exp(pi),60)))),12)) == [23,7,9,3,1,1,591,2,9,1,2,34]",
+    "asserts": "The first partial quotients of the simple continued fraction of e^pi show no evident law."
+   },
+   {
+    "sympy": "U=Function('U')(z); S=lambda f: diff(f,z,3)/diff(f,z)-Rational(3,2)*(diff(f,z,2)/diff(f,z))**2; simplify(S((a*U+b)/(c*U+d)) - S(U)) == 0",
+    "asserts": "The Schwarzian derivative is a rational differential invariant under U -> (aU+b)/(cU+d), the model case of the reduced Lindemann task."
+   }
+  ],
+  "transcription_corrections": [
+   "The '7.' at the end of line 1 is the folio/page number at top right, not part of the text. The line ends with '... i^i in'.",
+   "'Das aber bezeichnete' should most likely read 'Das oben bezeichnete Lindemannsche Problem'.",
+   "The formula on line 1 is written as 'e^π = i^i' in the manuscript; it is a mathematical slip, not a transcription error.",
+   "In 'als [-A-] analytische Funktion von Z', the struck-out character precedes 'analytische'. The variable is written as capital Z at the end, but z earlier."
+  ]
+ }
+}

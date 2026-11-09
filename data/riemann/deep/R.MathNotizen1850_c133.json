@@ -1,0 +1,81 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c133",
+ "label": "75r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000134/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds two unrelated pieces of work.\n\n(A) Header text. This is a lecture or text draft. A plausible reading is: \"In unseren bisherigen Untersuchungen über die Anziehung ... vorausgesetzt ... Wir haben bisher angenommen, dass, wie es bei der Gravitation der Fall ist, die Masseneinheit eine Masseneinheit in der Entfernung r mit der Kraft 1/rr [anzieht].\" In English: so far we assumed, as with gravitation, that a unit mass attracts a unit mass at distance r with force 1/r^2. This reads like the opening of a section that generalises the force law, as in his lectures on gravitation, electricity and magnetism.\n\n(B) Image-series potential for a layer of thickness alpha. This continues the previous page, where phi(s) = 1/sqrt(r^2+s^2) is the potential of a unit source on the axis, at radial distance r and axial offset s.\n\nRiemann writes\n u(z) = 1/2 * sum_{n in Z} (-1)^n [phi(z+2n alpha-beta) - phi(z+2n alpha+beta)].\nThe singular term is the n=0 term phi(z-beta), a source at height beta. All other terms are alternating images. Because phi is even, one can check (my verification):\n- u(0) = 0. Substituting n -> -n in the second family cancels the first.\n- du/dz(alpha) = 0. Substituting n -> -n-1 and using that phi' is odd does it.\n- u is odd in z and odd in beta.\nSo this is the Green's function for the strip 0<z<alpha with Dirichlet data at z=0 and Neumann data at z=alpha. That is the configuration of a conducting plate under a liquid layer with an insulating free surface, as in Riemann's 1855 theory of Nobili's rings.\n\nSplitting n into even (2k) and odd (2k+1) gives\n u = 1/2 sum_k [phi(z+4k alpha-beta) - phi(z+4k alpha+beta) - phi(z+4k alpha+2 alpha-beta) + phi(z+4k alpha+2 alpha+beta)].\nIn modern terms (my formulation), u = 1/2 [F(z-beta) - F(z+beta) - F(z+2alpha-beta) + F(z+2alpha+beta)], where F(w) = sum_k phi(w+4k alpha). F is even and has period 4alpha, at least after its divergent constant is removed. Hence F(z+2alpha+beta) = F(-z-2alpha-beta) = F(z-2alpha+beta), which explains Riemann's fourth bracket (z-2alpha+beta).\n\nEach phi(w+4k alpha) is Taylor-expanded about 4k alpha: phi^{(m)}(4k alpha) w^m/Pi(m), with Pi(m) = m! in Gauss's notation.\n- The k=0 term gives 1/2 sum_{m>=1} phi^{(m)}(0)/m! [(z-beta)^m - (z+beta)^m - (z+2alpha-beta)^m + (z-2alpha+beta)^m]. Odd derivatives at 0 vanish anyway.\n- For k = +-n, n>=1, the odd derivatives cancel in pairs and the even ones double. The factor 1/2 disappears, giving sum_{n>=1} sum_m phi^{(2m)}(4n alpha)/(2m)! [(z-beta)^{2m} - (z+beta)^{2m} - (z+2alpha-beta)^{2m} + (z-2alpha+beta)^{2m}].\n- For m=1 the bracket is (z-beta)^2 - (z+beta)^2 - (z+2alpha-beta)^2 + (z-2alpha+beta)^2 = -4z beta + 4z(beta-2alpha) = -8 alpha z. This is the bottom-right line.\n- So the leading contribution is sum_n phi''(4n alpha)/2 * (-8 alpha z) = -z * 4alpha * sum_{n>=1} phi''(4n alpha).\n\nTo evaluate 4alpha * sum phi''(4n alpha), Riemann uses a finite-difference (Euler–Maclaurin-type) device. Taylor's theorem gives phi'(4n alpha +- 4alpha) = sum_m phi^{(m+1)}(4n alpha)(+-4alpha)^m/m!. A first forward-difference version was crossed out. He keeps the backward version\n 4alpha phi''(4n alpha) = phi'(4n alpha) - phi'(4n alpha - 4alpha) + sum_{m>=2} phi^{(m+1)}(4n alpha)(-4alpha)^m/m!.\nSumming over n>=1 telescopes, since phi'(infinity)=0:\n 4alpha sum_{n>=1} phi''(4n alpha) = -phi'(0) + sum_{m>=2} sum_{n>=1} phi^{(m+1)}(4n alpha)(-4alpha)^m/m!.\nFor this phi, phi'(0)=0. Thus the z-linear part of u is expressed through a hierarchy of further lattice sums, convenient for a thin layer (small alpha).\n\n(C) Gas-dynamics scraps continuing the shock computation of the previous page. There, mass conservation across a jump moving with speed u gave u(1-e^{-2p}) = 2ap. Here p is a logarithmic density/Riemann-invariant variable and a is the sound speed (an isothermal or Boyle-law gas).\n- A characteristic family is x - p = at(2p+1). At p=1 this gives x = 3at+1, i.e. speed 3a.\n- Riemann sets this against the shock-speed formula 1/u = (1-e^{-2p})/(2ap). At p=1 that gives u = 2a/(1-e^{-2}) ≈ 2.31a, not 3a. Writing '1/u = 1/(3a)' beside it looks like a deliberate comparison.\n- The line x - p = (1+1/(2p))(1-e^{-2p}) + const = at(2p+1) is a candidate shock path. It cannot be checked from this page alone.",
+  "errors": [
+   "The crossed-out forward-difference line has a wrong exponent: (4alpha)^{m-1} where (4alpha)^m/m! is needed. Riemann replaced it with the correct backward-difference version.",
+   "The termwise Taylor expansion about 4k alpha with increments of size 2alpha (and the k=0 expansion about 0) is formal. phi = 1/sqrt(r^2+s^2) has radius of convergence r about 0, so convergence needs r > ~2alpha+beta. Also, sum_k phi(w+4k alpha) diverges logarithmically; only the combination u, or the derivatives, are meaningful. The individual m-terms (e.g. -8 alpha z, which is even in beta) do not have the oddness in beta that the full u has. This is not an error, but it is an unjustified rearrangement as written.",
+   "The relation x - p = (1+1/(2p))(1-e^{-2p}) + const = at(2p+1) cannot be confirmed as a solution of the shock-path ODE (u - a(2p+1))dt = (2at+1)dp. A quick test of the constant-free form at p=1 fails, so it is either a trial expression or depends on context not shown."
+  ],
+  "results": [
+   {
+    "what": "Infinite alternating image series giving the potential of a point source in a layer 0<z<alpha with u=0 at z=0 and du/dz=0 at z=alpha",
+    "modern_name": "Method of images / Green's function for a slab with mixed Dirichlet–Neumann boundary conditions",
+    "usually_credited_to": "W. Thomson (method of images, 1840s); Riemann applied repeated images in 'Zur Theorie der Nobili'schen Farbenringe' (1855)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Regrouping by period 4alpha and Taylor expansion in z, beta; odd derivatives cancel; the quadratic bracket gives -8 alpha z",
+    "modern_name": "Lattice-sum expansion of a periodised Green's function",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Telescoping finite-difference evaluation: 4alpha sum_{n>=1} phi''(4n alpha) = -phi'(0) + sum_{m>=2} sum_n phi^{(m+1)}(4n alpha)(-4alpha)^m/m!",
+    "modern_name": "Euler–Maclaurin-type summation via Taylor/finite differences",
+    "usually_credited_to": "Euler, Maclaurin (1730s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Comparison of characteristic speed (3a at p=1) with shock speed 2ap/(1-e^{-2p}) from mass conservation",
+    "modern_name": "Rankine–Hugoniot jump condition vs characteristic speed (isothermal gas)",
+    "usually_credited_to": "Riemann 1859 (jump conditions), Rankine 1870, Hugoniot 1887",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The image-series slab potential matches Riemann's published 1855 Nobili-rings work. The summation trick is standard Euler–Maclaurin-style manipulation. The shock scraps belong to his known 1859 gas-dynamics paper. These are working notes for known material.",
+  "checkable": [
+   {
+    "sympy": "z,b,a=symbols('z b a'); expand((z-b)**2-(z+b)**2-(z+2*a-b)**2+(z-2*a+b)**2) == -8*a*z",
+    "asserts": "The m=1 bracket equals -4z*beta + 4z(beta-2alpha) = -8*alpha*z"
+   },
+   {
+    "sympy": "s,h,r=symbols('s h r',positive=True); phi=1/sqrt(r**2+s**2); simplify(series(diff(phi,s).subs(s,s-h),h,0,4).removeO() - (diff(phi,s) - h*diff(phi,s,2) + h**2/2*diff(phi,s,3) - h**3/6*diff(phi,s,4)))==0",
+    "asserts": "Taylor expansion of phi'(s-4alpha) used for the backward-difference identity (h = 4alpha)"
+   },
+   {
+    "sympy": "r,al,be,z=1.0,0.3,0.1,0.0; phi=lambda s:1/sqrt(r**2+s**2); N=2000; abs(sum((-1)**n*(phi(z+2*n*al-be)-phi(z+2*n*al+be)) for n in range(-N,N+1))/2) < 1e-6",
+    "asserts": "u(0)=0 (Dirichlet at z=0) for the image series, numerically"
+   },
+   {
+    "sympy": "zz=symbols('zz'); r0,al,be=1,Rational(3,10),Rational(1,10); phi=lambda s:1/sqrt(r0**2+s**2); N=400; du=sum((-1)**n*(diff(phi(zz+2*n*al-be),zz)-diff(phi(zz+2*n*al+be),zz)) for n in range(-N,N+1))/2; abs(N_(du.subs(zz,al))) < 1e-4",
+    "asserts": "du/dz(alpha)=0 (Neumann at z=alpha) for the image series, numerically (N_ = sympy.N)"
+   },
+   {
+    "sympy": "s,r=symbols('s r',positive=True); diff(1/sqrt(r**2+s**2),s).subs(s,0)==0",
+    "asserts": "phi'(0)=0, so the boundary term -phi'(0) vanishes"
+   },
+   {
+    "sympy": "a=symbols('a',positive=True); N(2*a/(1-exp(-2))/a), 3",
+    "asserts": "At p=1 the shock speed 2ap/(1-e^{-2p}) ≈ 2.313a differs from the characteristic speed 3a"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'Abgleichung' is more plausibly 'Anziehung' (attraction), given the following sentence about the force 1/rr.",
+   "Line 2: 'um es bei der Grenzbedingung' should read 'wie es bei der Gravitation [der Fall ist]'.",
+   "The function symbol is the same as the previous page's ϱ/φ (phi(s) = 1/sqrt(r^2+s^2)); the transcription's φ is acceptable.",
+   "In the double-sum line the leading '1/2' is struck out (written 'Σ_1 Σ'), consistent with the doubling from pairing ±n.",
+   "The double sum in the telescoped identity is Σ^{m}_{2,∞} Σ^{n}_{1,∞}, i.e. over m from 2 and n from 1.",
+   "The struck-out line ends with (4α)^{m-1}, an exponent slip later corrected to (-4α)^m."
+  ]
+ }
+}

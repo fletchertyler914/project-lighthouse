@@ -1,0 +1,86 @@
+{
+ "bundle": "R.Modulfunctionen",
+ "page": "c062",
+ "label": "31r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3223711:00000063/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PROBLEM. The page is a worked boundary-value problem for a diffusion equation with a decay term, s_t + s - s_xx = 0 (s is the manuscript's ς). Near the decay term it gives the Fourier-series solution, recasts it as a theta function, and derives the Jacobi imaginary transformation of theta_1 to get a series that converges well for small t. The physical context is unsure: it could be a leaky cable or Riemann's residual-charge (Rückstand) theory.\n\n(1) Separation of variables. Try s = e^{mx+mu t}. Then mu + 1 - m^2 = 0, so s = e^{mx+(m^2-1)t}. With imaginary exponent (m -> i m) the general solution is s = Sum c_m e^{imx-(m^2+1)t} = Sum e^{-(m^2+1)t}(p_m cos mx + q_m sin mx).\n\n(2) Auxiliary function. Riemann introduces u = Sum e^{-(m^2+1)t}(p_m cos mx + q_m sin mx)/m^2 + A + Bx, so that u_xx = -s. Then u_x = Sum e^{-(m^2+1)t}(-p_m sin mx + q_m cos mx)/m + B.\n- Conditions imposed: u_x = 0 at x = +-a for all t, and u_x = 1 at t = 0 (for -a<x<a).\n- Separating the even and odd parts gives B = 0, p_m sin ma = 0 and q_m cos ma = 0.\n- Hence for m = (n-1/2)pi/a one must have p_m = 0, and for m = n pi/a one must have q_m = 0.\n\n(3) Resulting series (constant factors a^2/pi^2 absorbed into p_n, q_n):\nu (- const) = e^{-t} Sum e^{-(n-1/2)^2 pi^2 t/a^2} q_n sin((n-1/2)pi x/a)/(n-1/2)^2 + e^{-t} Sum e^{-n^2 pi^2 t/a^2} p_n cos(n pi x/a)/n^2.\nDifferentiating:\nu_x = (pi/a) e^{-t} { Sum e^{...} q_n cos((n-1/2)pi x/a)/(n-1/2) - Sum e^{...} p_n sin(n pi x/a)/n }.\nThe '+' is struck and replaced by '-', which is correct.\n\n(4) Initial condition at t = 0: 1 = (pi/a){Sum q_n cos((n-1/2)pi x/a)/(n-1/2) - p_n sin(n pi x/a)/n}.\n- Since 1 is even, p_n = 0.\n- Multiply by cos((nu-1/2)pi x/a) and integrate over [-a,a].\n- Left side: [sin((nu-1/2)pi x/a)/((nu-1/2)pi/a)]_{-a}^{a} = 2(-1)^{nu-1}/((nu-1/2)pi/a).\n- Right side: use the product formula cos A cos B = (1/2)[cos((nu+n-1)pi x/a) + cos((nu-n)pi x/a)]. Only n = nu survives, giving (pi/a) q_nu/(nu-1/2) * a.\n- Hence q_nu = 2(-1)^{nu-1}/(pi pi/a) = 2a(-1)^{nu-1}/pi^2.\n- So u - u_0 = e^{-t}(2a/pi^2) Sum e^{-(n-1/2)^2 pi^2 t/a^2} (-1)^{n-1} sin((n-1/2)pi x/a)/(n-1/2)^2.\n- Equivalently, u_x is e^{-t} times the classical cosine series of 1 on (-a,a).\n- The next page shows s = -u_xx = (2e^{-t}/a) Sum (-1)^{n-1} q^{(n-1/2)^2} sin((n-1/2)pi x/a) = (e^{-t}/(ai)) theta_1(v,q), with q = e^{-pi^2 t/a^2} and v = x pi i/(2a).\n\n(5) Theta function and heat equation. Define theta_1(v,q) = Sum_{n in Z} (-1)^n q^{(n+1/2)^2} e^{(2n+1)v}. Then q d theta_1/dq = Sum (n+1/2)^2 (-1)^n q^{(n+1/2)^2} e^{(2n+1)v} = (1/4) d^2 theta_1/dv^2. This is the heat equation in theta form; under the substitution above it becomes sigma_t = sigma_xx.\n\n(6) Imaginary (Jacobi) transformation, derived by quasi-periodicity.\n- Set log q log q' = pi^2 and v' = v log q'/(pi i).\n- Ansatz: theta_1(v',q')/theta_1(v,q) = e^{alpha v^2 + beta}.\n- When v -> v + pi i, v' -> v' + log q'. The quasi-periods are theta_1(v+pi i) = -theta_1(v) and theta_1(v+log q) = -q^{-1}e^{-2v} theta_1(v) (written out on the next page).\n- Hence the ratio changes by (-q'^{-1}e^{-2v'})/(-1) = e^{alpha(2 pi i v - pi^2)}.\n- Comparing coefficients of v: alpha * 2 pi i = -2 log q'/(pi i), so alpha = log q'/pi^2 = 1/log q.\n- The constant term gives q' = e^{alpha pi^2}, which is consistent.\n- Letting v -> 0: e^beta = (log q'/(pi i)) theta_1'(0,q')/theta_1'(0,q).\n- Result: theta_1(v',q') = e^beta e^{v^2/log q} theta_1(v,q).\n- Implicit, mine: the modern evaluation is e^beta = i sqrt(-log q/pi); Riemann does not evaluate it on this page.\n\n(7) Right column: small-time / similarity solution.\n- phi(lambda) = Int_lambda^infty e^{-lambda^2} d lambda.\n- Put s = e^{-t} sigma. Then s_t = e^{-t}sigma_t - e^{-t}sigma, so sigma_t = sigma_xx.\n- Try sigma = f(x/sqrt t), lambda = x/sqrt t. Then sigma_t = f' * (-1/2 x t^{-3/2}) and sigma_xx = f''/t, so -(1/2) lambda f' = f''.\n- Integrating: log f' = -lambda^2/4, so f' = e^{-lambda^2/4}, i.e. sigma is a multiple of phi(x/(2 sqrt t)) (erfc).\n\nPURPOSE. The theta series in q = e^{-pi^2 t/a^2} converges slowly for small t. The transformation q -> q' (log q' = -a^2/t) turns it into a rapidly convergent sum of Gaussians, i.e. images of the erfc similarity solution near the walls x = +-a.",
+  "errors": [
+   "Minor notation: the lines pairing p_m = 0 with m = (n-1/2)pi/a and q_m = 0 with m = n pi/a are labels for the two families, not simultaneous conditions; the logic is correct.",
+   "u = Sum(...)/m^2 + A + Bx satisfies u_xx = -s; the term A + Bx does not itself satisfy the decay equation. This is harmless, since only u_x and s = -u_xx enter.",
+   "The factor a^2/pi^2 is silently absorbed into q_n, p_n when passing from m to n; it is consistent with the later u_x line and with q_nu = 2a(-1)^{nu-1}/pi^2.",
+   "In the constant-term line the exponent of q' is struck out; the correct relation is q' = e^{alpha pi^2} (equivalently q'^{-1} = e^{-alpha pi^2}), consistent with alpha = log q'/pi^2.",
+   "e^beta is left in terms of the theta_1'(0) ratio; it is not evaluated (it equals i sqrt(-log q/pi)). The next page drops e^beta from the transformation formula, but on this page it is correctly retained.",
+   "f' = e^{-lambda^2/4} omits the integration constant; this is immaterial.",
+   "The compatibility of u_x = 0 at x = +-a with u_x = 1 at t = 0 fails only at the corners, which is standard for such problems. No real error."
+  ],
+  "results": [
+   {
+    "what": "Fourier-series solution of s_t + s = s_xx on [-a,a] with Neumann-type data, coefficients q_n = 2a(-1)^{n-1}/pi^2 (cosine series of 1 on (-a,a))",
+    "modern_name": "Separation of variables / Fourier series for the heat equation with linear decay (cable equation with leakage)",
+    "usually_credited_to": "Fourier (1807/1822); leaky-cable form W. Thomson (1855)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "q d theta_1/dq = (1/4) d^2 theta_1/dv^2, so the solution is e^{-t} theta_1(x pi i/(2a), e^{-pi^2 t/a^2})/(ai)",
+    "modern_name": "Theta function as fundamental solution (heat kernel) on an interval",
+    "usually_credited_to": "Fourier / Poisson (1820s); Jacobi",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Derivation of theta_1(v',q') = e^beta e^{v^2/log q} theta_1(v,q), with log q log q' = pi^2 and v' = v log q'/(pi i), from the quasi-periodicities and an exponential-quadratic ansatz; e^beta fixed by v -> 0",
+    "modern_name": "Jacobi imaginary transformation (tau -> -1/tau) of theta_1",
+    "usually_credited_to": "Poisson (1823), Jacobi (1828, Fundamenta Nova 1829)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Similarity solution sigma = f(x/sqrt t), f' = e^{-lambda^2/4}, giving an erfc solution phi(lambda) = Int_lambda^infty e^{-lambda^2}",
+    "modern_name": "Error-function similarity solution of the heat equation (Boltzmann-type substitution)",
+    "usually_credited_to": "Fourier/Laplace/Poisson for erfc solutions; similarity variable later formalized (Boltzmann 1894)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Everything is classical: Fourier series for a diffusion problem, the theta–heat connection, and Jacobi's imaginary transformation. Riemann treated these routinely in his lectures and in his theta-function work, and used the transformation to pass from large-t to small-t asymptotics. The quasi-periodicity derivation of the transformation is standard textbook material. Only the specific applied problem is mildly of interest (decay term; possibly cable or residual-charge theory).",
+  "checkable": [
+   {
+    "sympy": "nu,a=symbols('nu a',positive=True); simplify(integrate(cos((3-Rational(1,2))*pi*x/a),(x,-a,a)) - 2*(-1)**(3-1)*a/((3-Rational(1,2))*pi))",
+    "asserts": "Int_{-a}^{a} cos((nu-1/2) pi x/a) dx = 2(-1)^{nu-1} a/((nu-1/2) pi) (checked at nu=3; should be 0)"
+   },
+   {
+    "sympy": "y=Rational(3,10); N(Sum(4/pi*(-1)**(n-1)*cos((2*n-1)*y)/(2*n-1),(n,1,20000)))",
+    "asserts": "(2/pi) Sum (-1)^{n-1} cos((n-1/2)pi x/a)/(n-1/2) = 1 for |x|<a, i.e. q_n = 2a(-1)^{n-1}/pi^2 reproduces u_x = 1 at t=0 (approx 1)"
+   },
+   {
+    "sympy": "q,v=symbols('q v',positive=True); th=sum((-1)**n*q**((n+Rational(1,2))**2)*exp((2*n+1)*v) for n in range(-6,6)); simplify(q*diff(th,q)-diff(th,v,2)/4)",
+    "asserts": "q d theta_1/dq = (1/4) d^2 theta_1/dv^2 termwise (result 0)"
+   },
+   {
+    "sympy": "s=1.3; vv=0.2; th=lambda V,Q: sum((-1)**n*Q**((n+0.5)**2)*exp((2*n+1)*V) for n in range(-40,40)); N(th(I*pi*vv/s, exp(-pi**2/s)) - I*sqrt(s/pi)*exp(-vv**2/s)*th(vv, exp(-s)))",
+    "asserts": "Imaginary transformation: with q=e^{-s}, q'=e^{-pi^2/s}, v'=v log q'/(pi i)=i pi v/s, theta_1(v',q') = e^beta e^{v^2/log q} theta_1(v,q) with e^beta = i sqrt(s/pi) (result approx 0)"
+   },
+   {
+    "sympy": "x,t=symbols('x t',positive=True); sig=erfc(x/(2*sqrt(t))); simplify(diff(sig,t)-diff(sig,x,2))",
+    "asserts": "sigma = f(x/sqrt t) with f' = e^{-lambda^2/4} (erfc) solves sigma_t = sigma_xx (result 0)"
+   },
+   {
+    "sympy": "x,t,m=symbols('x t m'); s=exp(-(m**2+1)*t)*cos(m*x); simplify(diff(s,t)+s-diff(s,x,2))",
+    "asserts": "e^{-(m^2+1)t} cos mx solves s_t + s - s_xx = 0 (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'u e^{-t} = Sum ...' should read 'u = e^{-t} Sum ...' (possibly with the constant subtracted); the e^{-t} is a factor on the right.",
+   "'-u_0/u = e^{-t}·(2a/pi pi) Sum ...' is most plausibly 'u - u_0 = e^{-t}(2a/pi^2) Sum ...' (u minus its constant part).",
+   "'e^{alpha v^2 + [-...-] beta}' should read e^{alpha v^2 + beta}; the struck symbol is irrelevant.",
+   "'q'^{[-...-]} = e^{alpha pi^2}' should read q' = e^{alpha pi^2}; the struck exponent is consistent with q'^{-1} = e^{-alpha pi^2}.",
+   "In 'alpha·2 pi i = -2 log q'/(pi i)' the coefficient is 2 (a struck symbol precedes it); the result alpha = +log q'/pi^2 = 1/log q is as transcribed.",
+   "'[-+-]' in the u_x line is a '+' struck and replaced by '-'.",
+   "In the line 'p_m=0 und m=(n-1/2)pi/a | q_m=0 und m = n pi/a', the leading struck mark before p_m sin ma = 0 is a deletion."
+  ]
+ }
+}

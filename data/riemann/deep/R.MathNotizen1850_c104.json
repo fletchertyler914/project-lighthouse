@@ -1,0 +1,65 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c104",
+ "label": "58v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000105/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: these are lecture notes (a heat-conduction lecture recapping 'die vorige Stunde'). The material matches Riemann's Göttingen lectures on partial differential equations, later edited by Hattendorff in 1869.\n\nProblem. A body fills the half-space x>0 and is bounded by an (infinite) plane. The temperature u depends only on the distance x from that plane and on t:\n u_t = a^2 u_xx, for x>0 and t>0.\nThe initial temperature u(x,0) is given, and the boundary temperature u(0,t) is given for all t.\n\nDecomposition (by linearity). Riemann splits the problem into two:\n (i) boundary temperature 0 with arbitrary initial data;\n (ii) initial temperature 0 with arbitrary boundary data.\nCase (ii) is what remains to be solved generally.\n\nStep 1 (recalled from the previous lecture): constant boundary value.\n- Data: u(0,t)=c for t>0; u(x,0)=0 for 0<x<∞.\n- He begins writing the source-kernel form u = 1/(2a√(πt)) ∫ e^{...} (unfinished).\n- He then gives the result u = c(1 - (2/√π) ∫_0^{x/(2a√t)} e^{-β²} dβ) = c·erfc(x/(2a√t)).\n\nStep 2: definition of the unit-step response.\n- χ(x,t) = (2/√π) ∫_{x/(2a√t)}^∞ e^{-β²} dβ = erfc(x/(2a√t)) for t>0.\n- χ(x,t) = 0 for t<0.\nSo χ is the response to boundary data that jumps from 0 to 1 at t=0.\n\nStep 3: piecewise-constant boundary data.\n- Boundary value c on 0<t<t', c+c' on t'<t<t'', c+c'+c'' on t>t''; initial value 0.\n- By superposition of time-shifted step responses: u = c χ(x,t) + c' χ(x,t-t') + c'' χ(x,t-t'').\n\nStep 4: continuously varying boundary value u(0,t)=φ(t).\n- The sum of jumps becomes a Stieltjes integral: u = ∫_0^t χ(x,t-τ) φ'(τ) dτ.\n- Implicitly φ(0)=0, or else a term φ(0)χ(x,t) must be added. [mine]\n- Integration by parts [mine] gives the familiar form u = ∫_0^t φ(τ) · x/(2a√π (t-τ)^{3/2}) · e^{-x²/(4a²(t-τ))} dτ.\n\nThe page ends with a remark that making this representation fully rigorous requires a further argument (a proof of convergence to the boundary values).",
+  "errors": [
+   "Interval table slips: 't>t>0' should read t'>t>0, and 't'>t>t'' should read t''>t>t'.",
+   "'u = c ± c'' should simply be c + c' (with c' possibly negative).",
+   "The integral formula u=∫_0^t χ(x,t-τ)φ'(τ)dτ tacitly assumes φ(0)=0 (or includes the initial jump in a Stieltjes sense). Otherwise φ(0)χ(x,t) must be added.",
+   "Struck line '√π/2 - 2/√π ∫^∞ ...' is a muddled normalization attempt. It was correctly cancelled.",
+   "The first kernel formula u = 1/(2a√(πt))∫ e^{...} is left incomplete.",
+   "The rigour issue (uniform convergence and attainment of the boundary values) is only flagged, not proved."
+  ],
+  "results": [
+   {
+    "what": "Solution of the half-line heat equation with constant boundary temperature and zero initial temperature: u = c·erfc(x/(2a√t))",
+    "modern_name": "erfc solution / Fourier–Laplace half-space heat conduction",
+    "usually_credited_to": "Fourier (1822), Laplace, Poisson",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Superposition of time-shifted step responses and passage to an integral for time-varying boundary data",
+    "modern_name": "Duhamel's principle (superposition integral)",
+    "usually_credited_to": "J.-M.-C. Duhamel (1833)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Standard lecture material on heat conduction (Duhamel's principle, erfc solution). It appears in Riemann's published lectures on PDE (Hattendorff 1869). Nothing beyond the known.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(erfc(x/(2*a*sqrt(t))),t) - a**2*diff(erfc(x/(2*a*sqrt(t))),x,2))",
+    "asserts": "chi = erfc(x/(2a sqrt t)) satisfies u_t = a^2 u_xx (expect 0)"
+   },
+   {
+    "sympy": "limit(erfc(x/(2*a*sqrt(t))), t, 0, '+').subs({x:1,a:1})",
+    "asserts": "chi -> 0 as t->0+ for x>0 (zero initial temperature)"
+   },
+   {
+    "sympy": "erfc(0)",
+    "asserts": "chi(0,t)=1: unit boundary temperature"
+   },
+   {
+    "sympy": "simplify(1 - 2/sqrt(pi)*integrate(exp(-b**2),(b,0,z)) - 2/sqrt(pi)*integrate(exp(-b**2),(b,z,oo)))",
+    "asserts": "the two written forms c(1 - 2/√π∫_0) and 2/√π∫^∞ agree (expect 0)"
+   },
+   {
+    "sympy": "simplify(diff(erfc(x/(2*a*sqrt(t))),t) - x/(2*a*sqrt(pi)*t**Rational(3,2))*exp(-x**2/(4*a**2*t)))",
+    "asserts": "kernel obtained by integrating Duhamel's formula by parts (expect 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "'unendlich kleine Ebene' is likely 'unendliche Ebene' (an infinite bounding plane).",
+   "In the boxed system the first equation should read ∂u/∂t = aa ∂²u/∂x² (the image has ∂u/∂t, not ∂²u/∂t).",
+   "'t>t>0' and 't'>t>t'' are as written, but intended as t'>t>0 and t''>t>t'.",
+   "The line before the integral reads approximately 'Wenn nun die Temperatur in der Begrenzung sich stetig ändert, so geht diese Summe in ein Integral über'.",
+   "The final lines discuss what is needed to make the representation 'völlig strenge' (fully rigorous) and to prove it."
+  ]
+ }
+}

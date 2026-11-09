@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c213",
+ "label": "204",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000214/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: This is a note in Gauss's electrodynamics material. The next page (205) treats 'Elektromotorische Kraft, durch Entstehung eines Stroms'. It computes ∫dx/r for a straight segment, log[(x'+√(x'²+y²))/(x0+√(x0²+y²))], and the inductance of a ring, 2M log(8R/(a e²)). So the 'Kraft' (X,Y,Z) here is the induction (electromotive) action of a closed current. In modern terms it is the vector potential of a unit current filament, Neumann's potential. The page explains a red marginal remark on p. 189.\n\n(1) Setup. A closed curve C has points (x,y,z). The field point is (a,b,c), and r² = (x−a)²+(y−b)²+(z−c)². The force components are\nX = ∮dx/r, Y = ∮dy/r, Z = ∮dz/r,\nthat is, A = ∮ ds/r. If C is plane with z constant, then dz = 0 and Z = 0.\n\n(2) Definition of U. Write u = x−a, v = y−b, h = z−c (constant on a plane curve) and ρ² = u²+v². Gauss defines\nU = ∮ r (u dv − v du)/ρ².\nWith tan λ = v/u, where λ is the azimuth of the curve point about the vertical through (a,b), we have dλ = (u dv − v du)/ρ². Hence U = ∮ r dλ.\nIn the margin he adds: if h = r sin θ (θ the elevation angle), then U = h ∮ dλ/sin θ.\nA first attempt with a = b = 0, ∫(x dy − y dx) r/(x²+y²), is crossed out.\n\n(3) Claim: X = ∂U/∂b and Y = −∂U/∂a.\nProof (mine; Gauss gives none). Let ω = P du + Q dv with P = −r v/ρ² and Q = r u/ρ². Then\n∂Q/∂u − ∂P/∂v = div( r (u,v)/ρ² ) = (∇r·(u,v))/ρ² + r·div((u,v)/ρ²) = (ρ²/r)/ρ² + 0 = 1/r.\nSo dω = (1/r) du∧dv.\nA shift of b is the flow −∂_v, so\n∂U/∂b = −∮ L_{∂v} ω = −∮ [d(i_{∂v}ω) + i_{∂v}dω] = −∮ i_{∂v}dω = ∮ du/r = X.\nIn the same way, ∂U/∂a = −∮ L_{∂u} ω = −∮ i_{∂u}dω = −∮ dv/r = −Y.\nThus the planar vector potential is A = curl(U e_z), and U is a stream function.\n\n(4) Consequence. Since (X,Y)·(∂U/∂a, ∂U/∂b) = U_b U_a − U_a U_b = 0 and Z = 0, the direction of (X,Y,Z) at every point lies in the surface U(a,b,c) = const. It also lies in the plane c = const. The field lines are therefore the intersections of these two surfaces, i.e. level curves of U in horizontal planes, and so they are closed ('kehrt in sich selbst zurück').\nGauss notes that this surface U = const differs from the surface V = const of p. 188. V is presumably the magnetic potential, the solid angle subtended by the circuit.",
+  "errors": [
+   "No mathematical errors found. X = ∂U/∂b and Y = −∂U/∂a are correct for a closed plane curve.",
+   "The derivation is not written out; the step is stated without proof. It relies on div(r·(u,v)/ρ²) = 1/r and on the exact term vanishing around the closed curve.",
+   "Implicit restriction: the point (a,b) must not lie on the projection of the curve (ρ ≠ 0 along C), and c ≠ z unless the field point is off the curve.",
+   "Minor grammar: 'Die Richtungen ... fällt' (singular verb with plural noun)."
+  ],
+  "results": [
+   {
+    "what": "Induction 'force' of a closed circuit written as the line integrals X = ∮dx/r, Y = ∮dy/r, Z = ∮dz/r",
+    "modern_name": "Vector potential of a current filament (Neumann potential)",
+    "usually_credited_to": "F. E. Neumann (1845/1847); later Kirchhoff, W. Weber, Maxwell",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "For a plane closed curve, (X,Y) = (∂U/∂b, −∂U/∂a) with U = ∮ r dλ = ∮ r((x−a)dy − (y−b)dx)/((x−a)²+(y−b)²)",
+    "modern_name": "Stream function for the in-plane, divergence-free vector potential of a planar loop, A = curl(U e_z)",
+    "usually_credited_to": "No specific attribution; the general idea is standard potential theory",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Lines of the vector potential of a plane loop are closed curves: level sets of U in the planes c = const",
+    "modern_name": "Field lines as level sets of a stream function",
+    "usually_credited_to": "Standard",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss's unpublished electrodynamics notes from the 1830s–40s on induction are partly known (Werke V, Nachlass), and his anticipation of the vector-potential concept is discussed in the literature. The explicit stream function U = ∮ r dλ for a planar loop is a neat, correct, unpublished detail. Together with the next page (the ring inductance log(8R/a) − 2, usually attributed to Kirchhoff/Maxwell), it suggests a notable but not revolutionary anticipation of Neumann.",
+  "checkable": [
+   {
+    "sympy": "u,v,h=symbols('u v h',real=True); r=sqrt(u**2+v**2+h**2); simplify(diff(r*u/(u**2+v**2),u)+diff(r*v/(u**2+v**2),v)-1/r)",
+    "asserts": "div(r·(u,v)/ρ²) = 1/r. Equals 0, which proves dω = du∧dv/r."
+   },
+   {
+    "sympy": "t=symbols('t'); a,b,c=Rational(3,10),Rational(-1,5),Rational(1,2); x=cos(t); y=sin(t); r=sqrt((x-a)**2+(y-b)**2+c**2); U=lambda A,B: Integral(sqrt((x-A)**2+(y-B)**2+c**2)*((x-A)*diff(y,t)-(y-B)*diff(x,t))/((x-A)**2+(y-B)**2),(t,0,2*pi)); eps=Rational(1,10**5); N((U(a,b+eps)-U(a,b-eps))/(2*eps)) - N(Integral(diff(x,t)/r,(t,0,2*pi)))",
+    "asserts": "Numerically, ∂U/∂b = X = ∮dx/r for the unit circle in the plane z = 0, field point (0.3, −0.2, 0.5). Result ≈ 0."
+   },
+   {
+    "sympy": "N(-(U(a+eps,b)-U(a-eps,b))/(2*eps)) - N(Integral(diff(y,t)/r,(t,0,2*pi)))",
+    "asserts": "Numerically, −∂U/∂a = Y = ∮dy/r for the same configuration. Result ≈ 0."
+   },
+   {
+    "sympy": "Ua,Ub=symbols('Ua Ub'); simplify(Ub*Ua + (-Ua)*Ub)",
+    "asserts": "(X,Y)·∇U = 0, so the force direction is tangent to U = const."
+   }
+  ],
+  "transcription_corrections": [
+   "Marginal line '=(z−c)∫∂λ/sin θ': the factor is (z−c); the machine's '(ź−c)' is a misreading.",
+   "The crossed-out first trial is ∫(x dy − y dx) r/(xx+yy) = U, the special case a = b = 0; the right-hand letter is heavily scribbled.",
+   "'Componenten X, Y, Z' — transcription is correct. 'das Planum' is struck and replaced above the line by 'die Fläche', as given."
+  ]
+ }
+}

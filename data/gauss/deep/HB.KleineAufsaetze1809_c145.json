@@ -1,0 +1,61 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c145",
+ "label": "[136]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000146/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PART A (dated 4 Dec 1825; theory of developable surfaces).\n\nStatement. Let z = z(x,y) satisfy z_xx * z_yy = z_xy^2, the homogeneous Monge–Ampère equation rt - s^2 = 0, i.e. vanishing Gaussian curvature. Then there are new parameters t, u such that x, y, z, written as functions of (t,u), are linear in u. Gauss adds that u may be taken to be any linear function of x, y, z. No derivation is written on the page.\n\nStandard derivation [mine, certain]:\n1. Put p = z_x and q = z_y. The Jacobian d(p,q)/d(x,y) equals z_xx z_yy - z_xy^2, which is 0 by hypothesis. So p and q are functionally dependent. Generically q = phi(p), unless p is constant.\n2. Consider w = z - p x - q y, the Legendre-type quantity. Its differential is dw = -x dp - y dq = -(x + phi'(p) y) dp. Hence w depends on p only: w = psi(p).\n3. The surface is therefore the envelope of the one-parameter family of planes z = t x + phi(t) y + psi(t), with t = p.\n4. The characteristic is cut out by that plane together with its t-derivative, 0 = x + phi'(t) y + psi'(t). For fixed t these are two linear equations in x, y, z, so they define a straight line. The surface is ruled by these lines (its generators).\n5. Writing the generator as r(t,s) = A(t) + s B(t) makes x, y, z linear in s.\n6. If u = a x + b y + c z is a linear function, then u = a·A(t) + s a·B(t) along a generator. So s = (u - a·A)/(a·B) is linear in u, and x, y, z become linear in u. This holds wherever a·B(t) ≠ 0.\n\nPART B ('Fragen zur Metaphysik der Mathematik'). This part is philosophical.\n(1) What is the essential condition for a combination of concepts to be thought of as relating to a magnitude?\n(2) Everything becomes simpler if one first abstracts from infinite divisibility and considers only discrete magnitudes. Example: in the theory of biquadratic residues, the lattice points (the Gaussian integers; a square grid is sketched) are the objects. The transitions between them are relations, i.e. magnitudes. In this picture the meaning of a+bi-c-di, the step from c+di to a+bi, is immediately clear.\nConclusion: mathematics, in the most general sense, is the science of relations, abstracting from all content of the relations. A relation presupposes two things and is then called a simple relation, etc. The next page continues: points on a line, then points in a plane related in threes.",
+  "errors": [
+   "'jede beliebige linearische Function' is slightly overstated. The linear function u must not be constant along the generators, i.e. a·B(t) ≠ 0. Example: for the cylinder z = f(x) the generators run in the y-direction, so u = x (or u = z) fails, while u = y works.",
+   "Degenerate cases (z linear, p constant) are tacitly ignored; they are trivial.",
+   "No proof is given on the page; it is a statement only."
+  ],
+  "results": [
+   {
+    "what": "Surfaces z(x,y) with z_xx z_yy = z_xy^2 (developable surfaces) are ruled: there is a parametrization linear in one parameter, and that parameter can be taken as a (generic) linear function of x,y,z.",
+    "modern_name": "Characterization of developable surfaces by the homogeneous Monge–Ampère equation rt - s^2 = 0; developables are ruled (envelopes of one-parameter families of planes).",
+    "usually_credited_to": "Euler (1772, De solidis quorum superficiem in planum explicare licet) and Monge (1770s–1780s, PDE characterization and envelope theory)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Mathematics as the science of relations abstracted from their content; Gaussian integers as a lattice of points, with differences as 'transitions', motivating the geometric meaning of complex numbers.",
+    "modern_name": "Geometric (lattice) interpretation of Gaussian integers / complex numbers; structuralist view of mathematics",
+    "usually_credited_to": "Gauss himself (Anzeige of Theoria residuorum biquadraticorum II, 1831); also Wessel 1799 and Argand 1806 for the complex plane",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The developable-surface theorem is classical (Euler/Monge); Gauss's phrasing with u as an arbitrary linear function is a minor variant. The metaphysical notes match views Gauss published in 1831, and to my knowledge these fragments are printed in the Werke (vol. XII?, 'Zur Metaphysik der Mathematik') — unsure.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y'); f=Function('f'); z=x*f(y/x); simplify(diff(z,x,2)*diff(z,y,2)-diff(z,x,y)**2)",
+    "asserts": "Degree-1 homogeneous functions (cones) satisfy z_xx z_yy - z_xy^2 = 0 (result is 0)."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); z=sqrt(x**2+y**2); simplify(diff(z,x,2)*diff(z,y,2)-diff(z,x,y)**2)",
+    "asserts": "The circular cone satisfies the developability equation (result is 0)."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); z=Function('z')(x,y); p=diff(z,x); q=diff(z,y); simplify(Matrix([[diff(p,x),diff(p,y)],[diff(q,x),diff(q,y)]]).det()-(diff(z,x,2)*diff(z,y,2)-diff(z,x,y)**2))",
+    "asserts": "The Jacobian of (p,q) with respect to (x,y) equals the Hessian determinant (result is 0), so p and q are functionally dependent."
+   },
+   {
+    "sympy": "t,u=symbols('t u'); X=u*cos(t); Y=u*sin(t); Z=u; simplify(Z-sqrt(X**2+Y**2))",
+    "asserts": "The cone z=sqrt(x^2+y^2) (u>0) is parametrized with x,y,z linear in u and u=z, a linear function of x,y,z (result 0 for u>0)."
+   },
+   {
+    "sympy": "x,y,t=symbols('x y t'); phi=t**2; psi=t**3; eqs=[diff(t*x+phi*y+psi,t)]; T=solve(eqs[0],t)[0]; Z=(t*x+phi*y+psi).subs(t,T); simplify(diff(Z,x,2)*diff(Z,y,2)-diff(Z,x,y)**2)",
+    "asserts": "The envelope of the planes z = t x + t^2 y + t^3 (one branch) satisfies z_xx z_yy = z_xy^2 (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 date reads '1825 Dec. 4' (the '1' is overwritten but legible); correct as given.",
+   "The figure is a 3x3 grid of small squares drawn with dashed or dotted lines: the lattice of Gaussian integers.",
+   "'im allgemeinsten Sinn' may read 'im Allgemeinsten Sinne'; the tail of the word is unclear.",
+   "The marginal pencil marks ('Sch'? at top, 'Sal. II'? beside the heading) are later archival or editor annotations, not Gauss's text."
+  ]
+ }
+}

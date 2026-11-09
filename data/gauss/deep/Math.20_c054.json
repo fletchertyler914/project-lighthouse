@@ -1,0 +1,75 @@
+{
+ "bundle": "Math.20",
+ "page": "c054",
+ "label": "27r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000055/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "OVERVIEW. The page is a 24-interval trigonometric (cosine-Fourier) analysis of a real root of an algebraic equation whose coefficients depend on an angle θ. The root is tabulated at θ = 0°, 7½°, ..., 180°.\n\nCONTEXT. The previous page lists the roots of some equation: +1.1720974, −1.5288312, −3.0004806, and complex pairs. One of these, −3.0004806, reappears here as the value at θ = 180°. 'Mutato signo' (with the sign changed) explains why: the tabulated root is negative, so Gauss tabulates r(θ) = −x(θ) > 0. The dash before 2.5778036 in the θ = 0° row is that minus sign.\n\nCOLUMN 2: r_k = r(7.5°·k), k = 0..24. It rises monotonically from 2.5778036 at 0° to 3.0004806 at 180°.\n\nCOLUMN 3: log10 r_k. Spot checks:\n- log10 2.5778036 = 0.4112498.\n- log10 3.0004806 = 0.4771908.\n- Other rows agree similarly.\nThese are working logarithms, presumably for the multiplications by cosines.\n\nCOLUMN 4, indices (0)..(24). These are the cosine coefficients a_n, in units of 10^-7, of the even 360°-periodic function\n r(θ) = Σ_{n=0}^{24} a_n cos nθ.\nThe sign written after each index is '−', so a_0 = 2.8458263 and a_n < 0 for n ≥ 1:\n- a_1 = −0.1858923\n- a_2 = −0.0428350\n- a_3 = −0.0171217\n- ... down to a_23 = −0.0000190 and a_24 = −0.0000091.\n\nFormulas (discrete cosine transform with the trapezoidal end convention):\n- a_0 = (1/24)[r_0/2 + Σ_{k=1}^{23} r_k + r_24/2].\n- a_n = (1/12)[r_0/2 + Σ_{k=1}^{23} r_k cos(nkπ/24) + (−1)^n r_24/2] for 1 ≤ n ≤ 23.\n- The Nyquist term a_24 is halved. That is why 91 is about half of what the trend from 190 (n = 23) would give.\n\nMy verification (not on the page):\n- Trapezoidal mean of column 2 ≈ 2.8458, equal to a_0.\n- Σ a_n = 2.5778036 = r(0).\n- Σ (−1)^n a_n = 3.0004806 = r(180°).\n- Both identities hold to about 1×10^-7. This confirms the interpretation and the all-negative signs.\n\nCOLUMN 5, headed 'Die andere Wurzel' (the other root). These are the same kind of cosine coefficients for a second root of the same equation:\n- b_0 = 1.8955895\n- then 5244301, 116397, 304763, 46814, 60037, ... (×10^-7)\n- each followed by a '+' sign written between columns 4 and 5.\n\nCaveats on column 5:\n- The row-2 sign is blotted out.\n- With all-plus signs the series gives about 2.4814 at 0° and about 1.3522 at 180°. These cannot be checked against the root list on the previous page.\n- So the sign convention for column 5 is uncertain.\n- Its low harmonics are irregular (a small n = 2 term, larger n = 3 and 5 terms). This suggests the second root's behaviour is less smooth or involves a different branch.\n\nTAILS. In both columns the coefficients for n ≳ 9 almost coincide in magnitude: 8233/8410, 5706/5639, ..., 301/301. They decay roughly like n^-4. This hints at a common weak singularity near the ends, or at aliasing from the finite 24-point sampling.\n\nPURPOSE. Representing a parameter-dependent root as a finite cosine series is a step in a quadrature or perturbation calculation. Examples are averaging over an orbit, as in Gauss's secular-perturbation and Pallas computations or the Determinatio attractionis work, where a cubic must be solved for each point of the orbit. The exact underlying equation is not recoverable from this page alone.",
+  "errors": [
+   "No arithmetic errors detected in the checks performed.\n- Column 3 equals log10 of column 2 to 7 places in the rows checked.\n- The column-4 coefficients satisfy Σa_n = r(0) and Σ(−1)^n a_n = r(180°) to within 1e-7.",
+   "Column 5 could not be checked: the underlying values of the 'other root' are not on the page, and the sign of the n = 2 entry is obliterated by an ink blot."
+  ],
+  "results": [
+   {
+    "what": "Tabulation of a real root r(θ) (sign reversed) of a θ-dependent algebraic equation at 7½° steps from 0° to 180°, with 7-place common logarithms",
+    "modern_name": "numerical root tabulation / parametric root continuation",
+    "usually_credited_to": "standard numerical practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "24-interval cosine Fourier analysis of r(θ): a_0 as trapezoidal mean, a_n = (1/12)Σ'' r_k cos(nkπ/24), with the halved Nyquist coefficient a_24",
+    "modern_name": "discrete cosine transform (DCT-I) / trigonometric interpolation by harmonic analysis",
+    "usually_credited_to": "Clairaut, Lagrange, Euler (18th c.); Gauss, Theoria interpolationis (c.1805, publ. 1866)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Same cosine analysis applied to a second root of the equation ('Die andere Wurzel')",
+    "modern_name": "discrete cosine transform",
+    "usually_credited_to": "as above",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a worked numerical application of trigonometric interpolation (a 24-point DCT), a technique well documented as Gauss's (Theoria interpolationis; FFT-history literature). Nothing methodologically new appears; it is an unpublished computational sheet.",
+  "checkable": [
+   {
+    "sympy": "abs(log(2.5778036,10) - 0.4112498) < 1e-7",
+    "asserts": "Column 3 is log10 of column 2 (row 0)"
+   },
+   {
+    "sympy": "abs(log(3.0004806,10) - 0.4771908) < 1e-7",
+    "asserts": "Column 3 is log10 of column 2 (row 24)"
+   },
+   {
+    "sympy": "a=[28458263,-1858923,-428350,-171217,-85343,-47910,-28963,-18415,-12144,-8233,-5706,-4023,-2878,-2083,-1527,-1128,-842,-637,-487,-378,-301,-246,-211,-190,-91]; abs(sum(a)/Integer(10)**7 - 2.5778036) < 2e-7",
+    "asserts": "The cosine series with all-negative higher coefficients reproduces r(0°)"
+   },
+   {
+    "sympy": "a=[28458263,-1858923,-428350,-171217,-85343,-47910,-28963,-18415,-12144,-8233,-5706,-4023,-2878,-2083,-1527,-1128,-842,-637,-487,-378,-301,-246,-211,-190,-91]; abs(sum((-1)**n*a[n] for n in range(25))/Integer(10)**7 - 3.0004806) < 2e-7",
+    "asserts": "The cosine series reproduces r(180°)"
+   },
+   {
+    "sympy": "r=[2.5778036,2.5891994,2.6147783,2.6449256,2.6759154,2.7064138,2.7358730,2.7640329,2.7907600,2.8159774,2.8396392,2.8617165,2.8821907,2.9010480,2.9182811,2.9338838,2.9478510,2.9601796,2.9708685,2.9799144,2.9873171,2.9930759,2.9971897,2.9996579,3.0004806]; abs((r[0]/2+sum(r[1:24])+r[24]/2)/24 - 2.8458263) < 1e-6",
+    "asserts": "a_0 is the trapezoidal mean of the 25 tabulated values"
+   },
+   {
+    "sympy": "r=[2.5778036,2.5891994,2.6147783,2.6449256,2.6759154,2.7064138,2.7358730,2.7640329,2.7907600,2.8159774,2.8396392,2.8617165,2.8821907,2.9010480,2.9182811,2.9338838,2.9478510,2.9601796,2.9708685,2.9799144,2.9873171,2.9930759,2.9971897,2.9996579,3.0004806]; n=1; abs((r[0]/2+sum(r[k]*cos(n*k*pi/24) for k in range(1,24))+(-1)**n*r[24]/2)/12 + 0.1858923).evalf() < 2e-6",
+    "asserts": "a_1 = -0.1858923 by the discrete cosine formula (repeat with n=2,3,... for the other entries; n=24 uses factor 1/24)"
+   },
+   {
+    "sympy": "r=[2.5778036,2.5891994,2.6147783,2.6449256,2.6759154,2.7064138,2.7358730,2.7640329,2.7907600,2.8159774,2.8396392,2.8617165,2.8821907,2.9010480,2.9182811,2.9338838,2.9478510,2.9601796,2.9708685,2.9799144,2.9873171,2.9930759,2.9971897,2.9996579,3.0004806]; abs((r[0]/2+sum(r[k]*(-1)**k for k in range(1,24))+r[24]/2)/24 + 0.0000091) < 2e-6",
+    "asserts": "The halved Nyquist coefficient a_24 = -0.0000091"
+   }
+  ],
+  "transcription_corrections": [
+   "Heading: '456' is struck through and replaced by the folio number 28; the circled 27 is a separate numbering.",
+   "Column 4 entries are coefficients in units of 1e-7. The '—' written after each index (n) is the sign of the column-4 coefficient (a_n < 0 for n ≥ 1), not a dash separator.",
+   "The '+' written after each column-4 number belongs to the column-5 coefficient (its sign). In row (2) this sign is obliterated by an ink blot, not an illegible digit.",
+   "Row 0: the leading '—' before 2.5778036 is the minus sign of the original root ('Mutato signo'). '2,8458263' uses a decimal comma: a_0 = 2.8458263; column 5 row 0 = 1.8955895."
+  ]
+ }
+}

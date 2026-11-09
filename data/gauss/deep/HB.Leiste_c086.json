@@ -1,0 +1,89 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c086",
+ "label": "29",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000087/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a printed German arithmetic textbook set in Fraktur, numbered §§80–83. The bundle name 'HB.Leiste' suggests Christian Leiste's 'Arithmetik und Algebra' (Wolfenbüttel 1790), a schoolbook of Gauss's youth. Only the left-margin numbers are handwritten and possibly Gauss's.\n\n(§80, end) Reducing a fraction by the Euclidean algorithm, worked for 345/437:\n- Write 437 = a·m + n with m = 345. Here a = 1, giving remainder n = 92.\n- m = p·n + q: 345 = 3·92 + 69, so p = 3 and q = 69.\n- n = q·t + r: 92 = 1·69 + 23, so t = 1 and r = 23.\n- q = 3r: 69 = 3·23, remainder 0.\n- Back-substitution: n = (3+1)r = 92, and m = (p·(3+1)+3)r = (3·4+3)·23 = 15·23 = 345.\n- Hence gcd = 23 and 345/437 = (345:23)/(437:23) = 15/19.\nThe stated rule: once a remainder divides the preceding divisor, it is the greatest common divisor. If the last remainder is 1, the numbers are coprime.\n\n(§81) For several numbers: gcd(a,b,c,...) = gcd(gcd(a,b),c,...).\n\n(§82) a/b shrinks as b/a grows. 1/∞ is a vanishing quantity and may be set to 0.\n\n(§83) Converting a fraction to a decimal: multiply the numerator by 10^k and divide. Example: 3·10^4/16 = 1875, so 3/16 = 0.1875. But 2/3 = 0.6666… does not terminate; the book calls the decimal division 'irrational' for thirds. Only fractions whose denominators are factors of a power of ten (in lowest terms) terminate; the sentence continues on p.30.\n\nHandwritten margin, a numeric scratch column continuing p.28's 'Gauss' notes: 0.0812744, 202.7813, 2.134039, 203.99…, 1.1666, 20?.83, 7.83, 1638.64, 163.864, 6.144, 1808.6…, 1604, 1598, …\n- Partly decodable (my reconstruction): 1638.64 = 8 × 204.83 and 163.864 = 1638.64/10.\n- 1638.64 + 163.864 + 6.144 = 1808.648, matching the '1808,6…' entry.\n- The rest is an unidentified numerical (possibly logarithmic) computation linked to p.28, where the scratch column also has √11200 and (x+21)^2 = 448.",
+  "errors": [
+   "No mathematical error in the printed reduction: 437 = 345+92, 345 = 3·92+69, 92 = 69+23, 69 = 3·23; gcd 23; 15/19 is correct.",
+   "'Ist der letzte Rest = 1: so giebt es keinen gemeinschaftlichen Theiler' – this means no nontrivial common divisor (1 is excluded); acceptable for the period.",
+   "'irrational' is used loosely for 'not finitely representable in decimals'; it is not irrationality in the modern sense.",
+   "Context (next page): the claim that 0,666666 falls short of 2/3 by 4/1000000 is wrong; the shortfall is 2/3000000 ≈ 6.7·10^-7. The cross-reference there to §81 should be §82."
+  ],
+  "results": [
+   {
+    "what": "Reduction of 345/437 to 15/19 via successive division (gcd 23)",
+    "modern_name": "Euclidean algorithm",
+    "usually_credited_to": "Euclid (Elements VII.2), c. 300 BC",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "gcd of several numbers computed iteratively",
+    "modern_name": "gcd(a,b,c) = gcd(gcd(a,b),c)",
+    "usually_credited_to": "Euclid (Elements VII.3)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Fraction to decimal; terminating iff the reduced denominator divides a power of 10",
+    "modern_name": "Terminating decimal criterion (denominator of form 2^a 5^b)",
+    "usually_credited_to": "folklore / standard 18th-century textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Margin arithmetic: 1638.64 + 163.864 + 6.144 = 1808.648, etc.",
+    "modern_name": "numerical scratch computation",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is a printed elementary textbook (Euclidean algorithm, decimal fractions); the only handwriting is routine numerical scratch work in the margin.",
+  "checkable": [
+   {
+    "sympy": "gcd(345, 437) == 23",
+    "asserts": "the greatest common divisor found is 23"
+   },
+   {
+    "sympy": "Rational(345, 437) == Rational(15, 19)",
+    "asserts": "the reduced fraction is 15/19"
+   },
+   {
+    "sympy": "(437 == 1*345 + 92) and (345 == 3*92 + 69) and (92 == 1*69 + 23) and (69 == 3*23)",
+    "asserts": "the Euclidean algorithm steps are correct"
+   },
+   {
+    "sympy": "(3*(3+1)+3)*23 == 345 and (3+1)*23 == 92",
+    "asserts": "the back-substitution m = (p(3+1)+3)r and n = (3+1)r"
+   },
+   {
+    "sympy": "Rational(3*10**4, 16) == 1875 and Rational(3, 16) == Rational(1875, 10000)",
+    "asserts": "3/16 = 0.1875"
+   },
+   {
+    "sympy": "Rational(2, 3) - Rational(666666, 10**6) == Rational(2, 3*10**6)",
+    "asserts": "the true shortfall of 0.666666 from 2/3 (contradicts 4/1000000 on next page)"
+   },
+   {
+    "sympy": "Rational(163864, 100) + Rational(163864, 1000) + Rational(6144, 1000) == Rational(1808648, 1000)",
+    "asserts": "margin sum 1638.64 + 163.864 + 6.144 = 1808.648"
+   },
+   {
+    "sympy": "Rational(20483, 100)*8 == Rational(163864, 100)",
+    "asserts": "1638.64 = 8 × 204.83 (suggests margin '203,83' reads '204,83')"
+   }
+  ],
+  "transcription_corrections": [
+   "The page is a printed Fraktur textbook, not a manuscript; only the left-margin numerals are handwritten.",
+   "Margin '203,83[?]' is probably '204,83', since 8 × 204.83 = 1638.64, the next entry.",
+   "Margin '1808,16[?]' is probably '1808,6' (truncation of 1638.64 + 163.864 + 6.144 = 1808.648).",
+   "Margin '203,9966[?]' is uncertain; the image suggests '203,9966' or '204,9966'.",
+   "'Nenner = am + n' is printed with a = 1 implicit (437 = 1·345 + 92)."
+  ]
+ }
+}

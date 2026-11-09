@@ -1,0 +1,66 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c009",
+ "label": "4v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the second page of Riemann's 1857 memoir 'Zwei allgemeine Sätze über lineäre Differentialgleichungen mit algebraischen Coefficienten' (Werke, XXI). The setting is n functions y_1..y_n, single-valued and finite on the sphere except at branch points a,b,...,g. The sphere is cut along a closed curve through g,...,c,b,a, so the y's are single-valued in each of the two regions. Their values on the positive side are taken as given.\n\n(i) Monodromy matrices. A positive closed loop of x around a sends y_nu to sum_i A_i^(nu) y_i. Likewise a loop around b gives B, and so on up to g, which gives G. Write (y) for the column (y_1,...,y_n) and (A) for the n x n matrix with rows (A_1^(nu),...,A_n^(nu)). Then the loop sends (y) to (A)(y). In modern terms: rho(gamma_a)=A, ..., rho(gamma_g)=G, and the y's form a vector of multivalued functions with given monodromy.\n\n(ii) Product relation (1): (G)(F)...(B)(A) = (1), the identity matrix. Proof: let x run along the whole boundary curve, moving from one branch point to the next on the positive side and making a small positive loop around each branch point. Analytic continuation then sends (y) successively to (G)(y), (G)(F)(y), ..., (G)(F)...(B)(A)(y).\n- Composition rule (implicit; my gloss). After the first loop the components of (G)(y) are fixed linear combinations of the y_i. Continuing each y_i around f replaces y by F y inside, which gives the matrix product G F.\n- The same path is homotopic to traversing the boundary of the region on the negative side. There the y's are single-valued, so they return to their original values. Hence the product is the identity.\n- In modern language: gamma_g ... gamma_a = 1 in pi_1 of the punctured sphere, and rho is a homomorphism (antihomomorphism depending on convention).\n\n(iii) Notation and classes. A system with these properties is denoted Q(a b c ... g / A B C ... G ; x). A 'class' is the set of all systems with the same branch points and the same substitutions satisfying (1). Riemann announces that each class contains infinitely many systems. In modern terms this is the set of multivalued vector functions with prescribed monodromy representation; multiplying by rational functions, or by elements of the ring they generate, gives infinitely many.\n\n(iv) Jacobi's lemma. 'Generically' every substitution decomposes as (A) = (alpha) diag(lambda_1,...,lambda_n) (alpha)^{-1}, a similarity transformation to diagonal form. The continuation on the next page identifies the lambda as the roots of the characteristic equation and excludes repeated roots. This sets up local exponents mu = log(lambda)/(2 pi i) on the next page.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "Implicit assumption: x = infinity is either regular or counted among the branch points a..g. Otherwise the loop through all listed points is not contractible and (1) fails.",
+   "The matrix-product order G F ... B A depends on the convention that continuation acts on the y's inside already-formed linear combinations. Riemann's order is consistent with his convention (A)(y)_nu = sum_i A_i^(nu) y_i.",
+   "'Allgemein zu reden' correctly flags that diagonalizability is only generic (e.g. guaranteed for distinct eigenvalues). The non-diagonalizable case is deferred on the next page.",
+   "The claim that each class has infinitely many systems is only asserted here ('wie sich bald ergeben wird')."
+  ],
+  "results": [
+   {
+    "what": "Monodromy matrices of a system of multivalued functions with finitely many branch points, and the product relation G F ... B A = I",
+    "modern_name": "Monodromy representation of pi_1(P^1 minus {a,...,g}); relation gamma_1...gamma_m = 1 in the fundamental group",
+    "usually_credited_to": "Riemann (1857 hypergeometric memoir and this posthumous memoir, published 1876); later Fuchs, Poincaré, Hilbert",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Classes of function systems sharing branch points and monodromy substitutions; the notation Q(...)",
+    "modern_name": "Riemann's formulation underlying the Riemann–Hilbert problem (Hilbert's 21st problem); local systems with prescribed monodromy",
+    "usually_credited_to": "Riemann (this memoir); Hilbert 1900 as a problem; Plemelj 1908",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Diagonalization A = alpha diag(lambda) alpha^{-1}",
+    "modern_name": "Similarity to diagonal form / eigen-decomposition for distinct eigenvalues",
+    "usually_credited_to": "Cauchy, Jacobi (cited by Riemann); Weierstrass and Jordan for the general normal form",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of Riemann's well-known 1857 memoir on linear ODEs with algebraic coefficients, published in his Gesammelte Werke (1876). It is the standard historical source for monodromy and the Riemann–Hilbert problem. The content is significant but already firmly credited to him; the linear algebra is routine.",
+  "checkable": [
+   {
+    "sympy": "x,a,b,c,p,q=symbols('x a b c p q'); r=-p-q; simplify(exp(2*pi*I*p)*exp(2*pi*I*q)*exp(2*pi*I*r))==1",
+    "asserts": "For n=1, y=(x-a)**p*(x-b)**q*(x-c)**r with infinity regular (p+q+r=0) has monodromy factors whose product is 1, an instance of relation (1)."
+   },
+   {
+    "sympy": "alpha=Matrix([[1,2],[3,5]]); D=diag(2,7); A=alpha*D*alpha.inv(); simplify(A.charpoly().as_expr().subs(A.charpoly().gen,2))==0 and simplify(A.charpoly().as_expr().subs(A.charpoly().gen,7))==0",
+    "asserts": "A = alpha*diag(lambda)*alpha^{-1} has the lambda as roots of its characteristic polynomial (Jacobi decomposition)."
+   },
+   {
+    "sympy": "A=Matrix([[4,1],[2,3]]); P,D=A.diagonalize(); simplify(P*D*P.inv()-A)==zeros(2)",
+    "asserts": "A matrix with distinct eigenvalues decomposes as (alpha) diag (alpha)^{-1}."
+   },
+   {
+    "sympy": "t,mu=symbols('t mu',real=True); simplify(exp(mu*(log(1)+I*2*pi))/exp(mu*log(1)))==exp(2*pi*I*mu)",
+    "asserts": "(x-a)**mu acquires the factor exp(2*pi*I*mu) under a positive loop around a (used immediately after this page)."
+   }
+  ],
+  "transcription_corrections": [
+   "'die ganze Begrenzung des ausschliesslich liegenden Gebiets' should almost certainly read 'des negativerseits liegenden Gebiets' (the region on the negative side), as in the Werke text and consistent with the image.",
+   "'ihre früheren Werthe wieder annehmen' is correct.",
+   "Equation (1) is correctly '(G)(F)...(B)(A) = (1)'. The image shows '(1)' written somewhat like '(0)'; it means the identity substitution.",
+   "The symbol for the system, transcribed 'Q', is a stylized capital (P/Q/Θ-like) in the hand. The Werke edition should be consulted."
+  ]
+ }
+}

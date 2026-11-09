@@ -1,0 +1,77 @@
+{
+ "bundle": "R.ElektrCyl",
+ "page": "c012",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173043:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the bundle R.ElektrCyl concerns electrostatics of (parallel, infinitely long) charged cylinders, which reduces to a plane potential problem. The previous page has inversion-type expressions x^2/(x'-a')+a and a substitution z=psi(zeta), which suggests the method of images or inversion.\n\n(1) Two-dimensional Laplace equation for the potential v: v_xx + v_yy = 0. v is taken as the real part of an analytic function, f(z) = v + u*i. The written 'v = phi(zeta)' should be read in this sense, though the precise meaning is uncertain.\n\n(2) Gauss/Green flux condition. For a cylinder carrying charge m per unit length, -\\oint dv/dp ds = 4*pi*m, with p the normal. Check (mine): v = -2m log r gives dv/dr = -2m/r, so -\\oint dv/dr ds = (2m/r)(2*pi*r) = 4*pi*m. By Cauchy-Riemann, the same number is the increment of the conjugate function u around the cylinder. The transcription's 'du/dp' is therefore either a variant or a misreading of dv/dp.\n\n(3) Polar form z = x + yi = r e^{i phi}. A first attempt, v + 2m log z, is struck out.\n\n(4) 'Application to the case radius = 1': exterior of the unit circle.\n- General potential regular outside the circle and with total charge m: f(z) = -2m log z + c0 + c1/z + c2/z^2 + c3/z^3 + ..., with arbitrary constants c_n = a_n + b_n i.\n- Real part (my step): Re(c_n z^{-n}) = r^{-n}(a_n cos n phi + b_n sin n phi), hence the marginal note '(1/r)^n'.\n- Re(-2m log z) = -2m log r, which vanishes at r = 1.\n- So on r = 1: v = a0 + a1 cos phi + b1 sin phi + ...\n\n(5) 'By Fourier's theorem the constants a0, ... can now always be determined, and in only one way.' Given boundary values on the unit circle, the Fourier coefficients fix the exterior solution: v = -2m log r + a0 + sum r^{-n}(a_n cos n phi + b_n sin n phi). The note 'r^n this series' refers to the companion interior problem, where the factors are r^{n}.\n- The sketches show a circle with interior points (external charges or line sources), a small circle, and a concentric annulus. This strongly suggests the plan: reduce eccentric two-cylinder configurations to the concentric annulus.\n\n(6) Conformal transfer. Let z' = x - yi be the conjugate variable. Then Delta v = 4 d^2v/(dz dz') = 0. Under z = phi(zeta), z' = phi(zeta') one has d/dz' = (1/phi'(zeta')) d/dzeta', and likewise for z. So 4 v_{zz'} = 4 v_{zeta zeta'} / (phi'(zeta) phi'(zeta')): Laplace's equation is invariant under conformal maps.\n\n(7) 'To find the transformation one must know a theorem: by a rational substitution of the first degree a circle always goes over into a circle.' This is circle preservation by Moebius maps zeta -> (a zeta + b)/(c zeta + d). It is presumably to be used to map two non-concentric circles (cross-sections of two cylinders) to concentric ones, where the series of (4)-(5) applies.",
+  "errors": [
+   "The flux integral is transcribed with du/dp. For the stated value 4*pi*m it should be dv/dp (flux of the potential), or equivalently minus the increment of u around the circle. Minor ambiguity, not a real error.",
+   "'v = phi(zeta)' conflicts with the later use of phi as the mapping z = phi(zeta). Notation is loose; presumably v is meant as the real part of a function of the complex variable.",
+   "The uniqueness claim 'immer und nur auf eine Weise' tacitly assumes the boundary function has a convergent Fourier series (Dirichlet conditions). The charge m is fixed separately by the flux condition, not by the boundary values; the log term contributes nothing on r = 1. Unstated but standard.",
+   "If the unit circle is itself a conductor at constant potential, all a_n, b_n with n >= 1 vanish. The general expansion is meaningful only with external charges or other boundaries, presumably the dots in the sketches. Left implicit."
+  ],
+  "results": [
+   {
+    "what": "Flux of the logarithmic potential of a line charge: -\\oint dv/dn ds = 4*pi*m for v = -2m log r",
+    "modern_name": "Gauss's law in 2D / logarithmic potential",
+    "usually_credited_to": "Gauss (1813/1839), Green (1828)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Exterior Dirichlet problem for the unit circle solved by a Laurent series plus logarithm, coefficients from the Fourier series of boundary values; interior case with r^n",
+    "modern_name": "Fourier-series solution of the Dirichlet problem for the disk/exterior (separation of variables)",
+    "usually_credited_to": "Fourier (1822), Poisson (1820s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Delta = 4 d^2/(dz dz-bar) and invariance of Laplace's equation under conformal maps z = phi(zeta)",
+    "modern_name": "Conformal invariance of the Laplace equation (Wirtinger-type operators)",
+    "usually_credited_to": "Euler/Lagrange/Gauss; systematically Riemann (Dissertation 1851)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Linear fractional (first-degree rational) substitutions map circles to circles, used to transform cylinder cross-sections",
+    "modern_name": "Circle-preserving property of Moebius transformations",
+    "usually_credited_to": "Moebius (Kreisverwandtschaft, 1853-55); inversion/images by W. Thomson (1845-48)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Standard mid-19th-century potential theory: Gauss flux, Fourier-series solution for the circle, conformal invariance (already central in Riemann's 1851 dissertation), and the known circle-preserving property of Moebius maps. It is lecture-note-level material on electricity on cylinders, consistent with what is known of Riemann's teaching. Nothing non-standard appears.",
+  "checkable": [
+   {
+    "sympy": "r,phi,m=symbols('r phi m',positive=True); simplify(-integrate(diff(-2*m*log(r),r)*r,(phi,0,2*pi)) - 4*pi*m)",
+    "asserts": "Flux of v=-2m log r through a circle equals 4*pi*m (result 0)"
+   },
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); a,b=symbols('a b',real=True); n=3; z=r*exp(I*phi); simplify(expand_complex(re((a+I*b)/z**n)) - r**(-n)*(a*cos(n*phi)+b*sin(n*phi)))",
+    "asserts": "Re(c_n z^{-n}) = r^{-n}(a_n cos n phi + b_n sin n phi) for n=3 (result 0)"
+   },
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); n=4; v=r**(-n)*cos(n*phi); simplify(diff(v,r,2)+diff(v,r)/r+diff(v,phi,2)/r**2)",
+    "asserts": "Each term r^{-n} cos n phi is harmonic (polar Laplacian = 0)"
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); v=Function('v')(x,y); dz=lambda g:(diff(g,x)-I*diff(g,y))/2; dzb=lambda g:(diff(g,x)+I*diff(g,y))/2; simplify(4*dz(dzb(v)) - (diff(v,x,2)+diff(v,y,2)))",
+    "asserts": "Delta = 4 d^2/(dz dz') with z' = conjugate of z (result 0)"
+   },
+   {
+    "sympy": "t=symbols('t',real=True); w=(2*exp(I*t)+1)/(exp(I*t)+3); c=Rational(5,8); R=Rational(3,8); simplify(expand_complex(re(w-c)**2+im(w-c)**2) - R**2)",
+    "asserts": "The Moebius map (2z+1)/(z+3) sends the unit circle to the circle with center 5/8 and radius 3/8 (circle -> circle)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3: the integrand appears to read dv/dp, or at least should be dv/dp for consistency; 'v+u sqrt(-1)' likely belongs to a separate line, possibly '= f(z)', not equated to the flux integral.",
+   "'hierin sind c beliebige Grössen': reading 'beliebige' fits the image and sense.",
+   "The struck-out line reads roughly 'a_0 + Sigma(a_n cos n phi + b_n sin n phi)' with indices written as n.",
+   "Last line: 'immer[?]' may be 'wieder' ('geht ein Kreis wieder in einen Kreis über'); the sense is unchanged.",
+   "Top right '[=4b]' is an archival foliation mark; the oval stamp is the library stamp (cf. next page 'Ex Bibliotheca Regia Academ. Georgiae Aug.')."
+  ]
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "bundle": "600_2",
+ "page": "c011",
+ "label": "[6]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000012/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): Hilbert asks for a Gauss-type quadrature rule that is exact for trigonometric polynomials of order n and, with the nodes chosen well, for higher orders too. He remarks that the task amounts to carrying over what Gauss and Jacobi did for polynomials to a wider class of functions.\n\n(1) Setting. The class is the 'ganze Funktionen' (the integral closure of C[x]) of the algebraic function field K = C(x, w), where w^2 = x^2 + 1. These are the elements F = G(x) + H(x)*w with G and H polynomials. The quadrature problem becomes: find the best approximation (for the purpose of integration) of a continuous function by such F with deg G, deg H <= n. Equivalently: how does one best represent a given function by an integral element of K of given degree?\n\n(2) Gauss's method transposed. Find an integral element f of K such that the integral from -1 to 1 of f(x)*phi(x) dx = 0 for all integral phi of degree as high as possible. The zeros of f would then serve as quadrature nodes, as in Gauss's approach via Legendre polynomials.\n\n(3) Rodrigues-type ansatz. After crossing out several attempts, Hilbert proposes\n f_0(x) = (x - sqrt((x^2+1)/2))^n.\nHe then defines\n f_{k+1}(x) = sqrt(x^2+1) * d f_k/dx,\nand says the function f = f_n will 'probably' serve. His justification is that, as in the Legendre case, successive integration by parts shows that the relevant integral vanishes.\n\nHe adds two remarks and a question:\n- 'f_n = 0 has only real roots.' (claimed)\n- 'Does f_n satisfy a differential equation of order n?' (question)\n\nProgramme: transfer the construction to arbitrary algebraic function fields, and relate it to continued-fraction expansions of the transcendental functions of these fields.\n\n(4) Uniformization. Define x(t) by dx/dt = sqrt(x^2+1), so x = sinh t (my identification) and sqrt(x^2+1) = cosh t. Then sqrt(x^2+1) d/dx = d/dt, and so f_n = d^n f_0/dt^n. Hilbert remarks that with sqrt(x^2-1) one would instead get x = sin t.\n\nModern reading (mine):\n- Integral elements of degree <= n are exactly the exponential sums sum_{|k|<=n} c_k e^{k t}, since G has degree <= n and H has degree <= n-1 for the top degree to match.\n- The interval [-1, 1] corresponds to t in [-asinh 1, asinh 1], with dx = cosh t dt.\n- The page is therefore an early attempt at Gaussian quadrature for hyperbolic/trigonometric (Chebyshev-system) polynomials, via orthogonality on the curve w^2 = x^2 + 1.\n- The intended integration-by-parts argument would be: the integral of f_n*phi dx equals the integral of (d^n f_0/dt^n) * (phi cosh t) dt, which equals (-1)^n times the integral of f_0 * d^n(phi cosh t)/dt^n dt, plus boundary terms.",
+  "errors": [
+   "The analogy with Rodrigues' formula breaks down. In the polynomial case d^n/dx^n annihilates all polynomials of degree < n, which yields orthogonality. Here d/dt maps exponential sums sum c_k e^{kt} into themselves and annihilates only constants. So n-fold integration by parts does not make the integral vanish for the nonconstant phi of the ring. A correct analogue would need an annihilating operator such as prod_k (d^2/dt^2 - k^2), not (d/dt)^n. Hilbert's own hedge ('wahrscheinlich') is justified.",
+   "With the chosen branch, f_0 = (x - sqrt((x^2+1)/2))^n vanishes to order n at x = +1 but not at x = -1, where f_0(-1) = (-2)^n. The boundary terms at -1 therefore do not vanish. The product of both branches is (x^2-1)/2, which only reproduces the ordinary Legendre factor.",
+   "Also, sqrt((x^2+1)/2) = w/sqrt(2), so f_0 lies in K only over R (or with sqrt 2 adjoined). This is harmless.",
+   "Final remark slip: dx/dt = sqrt(x^2-1) gives x = cosh t, not sin t. The value x = sin t arises from dx/dt = sqrt(1-x^2), or from sqrt(x^2-1) only up to a factor i.",
+   "The claims 'f_n = 0 has only real roots' and the orthogonality are asserted without proof. The orthogonality is false as stated."
+  ],
+  "results": [
+   {
+    "what": "Program: Gaussian quadrature for functions G(x)+H(x)sqrt(x^2+1), i.e. for exponential/hyperbolic or trigonometric polynomials, via orthogonality of integral elements of an algebraic function field",
+    "modern_name": "Gaussian quadrature for Chebyshev (T-)systems / trigonometric and exponential polynomials; orthogonality on algebraic curves",
+    "usually_credited_to": "Trigonometric Gauss quadrature: Turetskii (1959) and later authors. Gauss quadrature for Chebyshev systems: Krein, Karlin–Studden (1950s–60s).",
+    "already_credited_to_author": "no",
+    "routine": false
+   },
+   {
+    "what": "Rodrigues-type formula f_n = (sqrt(x^2+1) d/dx)^n f_0 = d^n f_0/dt^n via uniformization x = sinh t",
+    "modern_name": "Rodrigues formula analogue via uniformizing parameter",
+    "usually_credited_to": "Rodrigues (1816) for Legendre polynomials; the generalization as attempted here is not standard and does not work as stated",
+    "already_credited_to_author": "no",
+    "routine": false
+   },
+   {
+    "what": "Suggested link with continued fractions of transcendental functions of algebraic function fields",
+    "modern_name": "Continued fractions / Padé approximation on hyperelliptic curves (Abel–Chebyshev problem)",
+    "usually_credited_to": "Abel (1826), Chebyshev (1857–60s), later Akhiezer and Nuttall",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a research-notebook idea: transferring Gauss–Jacobi quadrature to the ring of integral functions of C(x, sqrt(x^2+1)), linked to trigonometric/exponential quadrature and continued fractions on algebraic curves. It anticipates later themes (Gauss quadrature for Chebyshev systems, orthogonality on curves). However, it is only a programme, the key orthogonality construction is flawed, and nothing is carried through.",
+  "checkable": [
+   {
+    "sympy": "x=symbols('x'); simplify((x - sqrt((x**2+1)/2))*(x + sqrt((x**2+1)/2)) - (x**2-1)/2) == 0",
+    "asserts": "The product of the two branches of the f_0 factor is (x^2-1)/2."
+   },
+   {
+    "sympy": "x=symbols('x'); (x - sqrt((x**2+1)/2)).subs(x,1) == 0 and (x - sqrt((x**2+1)/2)).subs(x,-1) == -2",
+    "asserts": "The chosen factor vanishes at x=1 but equals -2 at x=-1, so the boundary terms at -1 do not vanish."
+   },
+   {
+    "sympy": "x=symbols('x'); g=x - sqrt((x**2+1)/2); simplify(diff(g,x).subs(x,1)) == Rational(1,2)",
+    "asserts": "The zero of the factor at x=1 is simple, so f_0 has a zero of exact order n there."
+   },
+   {
+    "sympy": "t=symbols('t'); F=Function('F'); x=sinh(t); simplify(diff(F(x),t) - sqrt(x**2+1)*Subs(Derivative(F(symbols('y')),symbols('y')),symbols('y'),x).doit()) == 0",
+    "asserts": "With x=sinh t, d/dt = sqrt(x^2+1) d/dx, so f_n = d^n f_0/dt^n."
+   },
+   {
+    "sympy": "t=symbols('t'); simplify(diff(cosh(t)*sinh(t),t,3)) != 0",
+    "asserts": "Repeated t-differentiation does not annihilate elements of the ring (here sinh t * cosh t), so the Rodrigues orthogonality argument fails."
+   },
+   {
+    "sympy": "t=symbols('t'); simplify(diff(cosh(t),t)**2 - (cosh(t)**2-1)) == 0",
+    "asserts": "x = cosh t, not sin t, solves dx/dt = sqrt(x^2-1)."
+   }
+  ],
+  "transcription_corrections": [
+   "The f_0 line reads f_0(x) = [crossed out] (x - sqrt((x^2+1)/2))^n. The crossed-out fragments seem to involve sqrt(2); the exponent n sits outside the large bracket.",
+   "'die für die Integra-tion besten Annäherungen [-einer-] oder Darstellung': the deleted word is 'einer' following 'Annäherungen', and the grammar is loose in the original ('einer stetige Funktion').",
+   "The sentence 'dazu wird wahrscheinlich die folgende Funktion ... f = f_n dienen' continues after the displayed formulas. 'f = f_n dienen' completes that sentence."
+  ]
+ }
+}

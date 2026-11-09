@@ -1,0 +1,60 @@
+{
+ "bundle": "Math.25",
+ "page": "c120",
+ "label": "61r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000121/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The previous page has mean-iteration algorithms (Archimedes-type polygon recursions B' = (A+B)/2-like, A' = sqrt(A(A+B)/2), harmonic means). This page states, with no derivation, the Gauss (descending Landen) transformation of the elliptic integral in a tangent form, which underlies the arithmetic-geometric mean (AGM).\n\nStatement on the page. Throughout, sin T^2 means (sin T)^2.\n- Put tan T' = sqrt(a/b) tan T, tan 2T'' = sqrt(a'/b') tan 2T', tan 4T''' = sqrt(a''/b'') tan 4T'', and so on.\n- Then ∫ dT/sqrt(a^2 sin^2 T + b^2 cos^2 T) = ∫ dT'/sqrt(a'^2 sin^2 2T' + b'^2 cos^2 2T') = ∫ dT''/sqrt(a''^2 sin^2 4T'' + b''^2 cos^2 4T'') = ...\n- Also sin 2T / sqrt(a^2 sin^2 T + b^2 cos^2 T) = sin 2T' / sqrt(a'^2 sin^2 2T' + b'^2 cos^2 2T').\n\nThe page never defines a', b'. They are forced, and I supply them: a' = (a+b)/2 and b' = sqrt(ab), i.e. one AGM step.\n\nVerification of the integral identity (my steps).\n1. Let t = tan T. Then a^2 sin^2 T + b^2 cos^2 T = cos^2 T (a^2 t^2 + b^2) and dT = dt/(1+t^2). So dT/sqrt(...) = dt / sqrt((1+t^2)(a^2 t^2 + b^2)).\n2. Substitute t = sqrt(b/a) u with u = tan T'. This gives du / sqrt((a + b u^2)(a u^2 + b)).\n3. On the other side, sin 2T' = 2u/(1+u^2), cos 2T' = (1-u^2)/(1+u^2) and dT' = du/(1+u^2). So dT'/sqrt(a'^2 sin^2 2T' + b'^2 cos^2 2T') = du / sqrt(b'^2 u^4 + (4a'^2 - 2b'^2) u^2 + b'^2).\n4. Expanding, (a + b u^2)(a u^2 + b) = ab u^4 + (a^2 + b^2) u^2 + ab.\n5. Matching coefficients requires b'^2 = ab and 4a'^2 = (a+b)^2. Hence a' = (a+b)/2 and b' = sqrt(ab).\n\nIterating the step. Apply the same computation to the variable 2T': ∫ dT'/Δ'(2T') = (1/2)∫ d(2T')/Δ'(2T') = (1/2)∫ d(2T'')/Δ''(4T'') = ∫ dT''/Δ''(4T''). Here a'' = (a'+b')/2 and b'' = sqrt(a'b'). The factor 2^n in the angles comes from this doubling.\n\nComplete integrals. As T runs over [0, π/2], T' also runs over [0, π/2] and 2T' over [0, π]. So the complete integrals are equal: I(a,b) = I(a',b') = ... = I(M,M) = π/(2M), where M = M(a,b) is the AGM. This is Gauss's AGM theorem. The page shows the transformation step only; the limit is implicit.\n\nVerification of the second identity. Both sides reduce to 2u / sqrt((a + b u^2)(a u^2 + b)). This is an invariant of the transformation, useful for the incomplete integral and for the auxiliary quantities in Gauss's algorithm.",
+  "errors": [
+   "The third integral appears as sqrt(a''a'' sin 2T''^2 + b''b'' cos 2T''^2). By Gauss's own pattern (tan 4T'' sqrt(a''/b'') = tan 4T''') and by direct computation it must be sin 4T'', cos 4T''. Either Gauss slipped or the 4 is misread; with 2T'' the equality is false.",
+   "a', b' (and a'', b'') are never defined on the page. The identities hold only with a' = (a+b)/2, b' = sqrt(ab) (AGM step). This is an implicit assumption, not an error.",
+   "No derivation is given; the statements are asserted. Both the integrand identity and the sin 2T invariant check out exactly as stated (first step)."
+  ],
+  "results": [
+   {
+    "what": "Tangent-form transformation tan T' = sqrt(a/b) tan T carrying dT/sqrt(a^2 sin^2 T + b^2 cos^2 T) into dT'/sqrt(a'^2 sin^2 2T' + b'^2 cos^2 2T') with a'=(a+b)/2, b'=sqrt(ab), iterated with angles 2^n T^(n)",
+    "modern_name": "Gauss (descending Landen) transformation of the elliptic integral of the first kind; basis of the AGM algorithm K = π/(2M(a,b))",
+    "usually_credited_to": "Landen (1775), Lagrange (1784); Gauss (AGM, c. 1799, published in part in Determinatio attractionis 1818 and in the Nachlass, Werke III)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Invariant sin 2T / sqrt(a^2 sin^2 T + b^2 cos^2 T) = sin 2T' / sqrt(a'^2 sin^2 2T' + b'^2 cos^2 2T')",
+    "modern_name": "Algebraic relation accompanying the Landen/Gauss transformation (related to sn·cn/dn under quadratic transformation)",
+    "usually_credited_to": "Implicit in Landen/Lagrange/Gauss transformation theory; Gauss's AGM Nachlass",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's AGM and the quadratic transformation of elliptic integrals are well documented as his (from 1799, Werke III). This is a compact restatement in a tangent parametrization with an accompanying invariant. It is a mildly interesting variant form, but not new.",
+  "checkable": [
+   {
+    "sympy": "a,b,t=symbols('a b t',positive=True); u=sqrt(a/b)*t; simplify((1/(1+t**2))/sqrt(a**2*sin(atan(t))**2+b**2*cos(atan(t))**2) - (diff(u,t)/(1+u**2))/sqrt(((a+b)/2)**2*sin(2*atan(u))**2+a*b*cos(2*atan(u))**2))",
+    "asserts": "dT/sqrt(a^2 sin^2T+b^2cos^2T) = dT'/sqrt(a'^2 sin^2 2T'+b'^2 cos^2 2T') under tan T' = sqrt(a/b) tan T, a'=(a+b)/2, b'=sqrt(ab) (result 0)"
+   },
+   {
+    "sympy": "a,b,u=symbols('a b u',positive=True); expand((a+b*u**2)*(a*u**2+b) - (a*b*u**4 + (4*((a+b)/2)**2 - 2*a*b)*u**2 + a*b))",
+    "asserts": "Coefficient matching that forces a'=(a+b)/2, b'=sqrt(ab) (result 0)"
+   },
+   {
+    "sympy": "a,b,t=symbols('a b t',positive=True); u=sqrt(a/b)*t; simplify(sin(2*atan(t))/sqrt(a**2*sin(atan(t))**2+b**2*cos(atan(t))**2) - sin(2*atan(u))/sqrt(((a+b)/2)**2*sin(2*atan(u))**2+a*b*cos(2*atan(u))**2))",
+    "asserts": "The invariant sin2T/Δ(a,b;T) = sin2T'/Δ(a',b';2T') (result 0)"
+   },
+   {
+    "sympy": "import mpmath as mp; a,b=3,1; mp.quad(lambda T:1/mp.sqrt(a**2*mp.sin(T)**2+b**2*mp.cos(T)**2),[0,mp.pi/2]) - mp.pi/(2*mp.agm(a,b))",
+    "asserts": "Iterating the transformation yields the complete integral = π/(2·AGM(a,b)) (result ≈ 0)"
+   },
+   {
+    "sympy": "import mpmath as mp; a,b=3,1; a1,b1=(a+b)/2.0,mp.sqrt(a*b); mp.quad(lambda T:1/mp.sqrt(a**2*mp.sin(T)**2+b**2*mp.cos(T)**2),[0,mp.pi/2]) - mp.quad(lambda T:1/mp.sqrt(a1**2*mp.sin(2*T)**2+b1**2*mp.cos(2*T)**2),[0,mp.pi/2])",
+    "asserts": "Complete integrals equal after one step with the 2T' argument (result ≈ 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Third integral: the denominator should read sqrt(a''a'' sin 4T''^2 + b''b'' cos 4T''^2). If the manuscript really has 2T'', that is Gauss's slip; the image is ambiguous.",
+   "'sin T^2' etc. denote (sin T)^2, Gauss's usual notation; 'tg' = tan.",
+   "Folio header: 'Math. 25', circled '61', crossed-out '7741', then '10'; the transcription's rendering is acceptable."
+  ]
+ }
+}

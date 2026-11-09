@@ -1,0 +1,69 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c055",
+ "label": "[54]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000056/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two parts.\n\n(1) Reading notes headed 1843. Bibliographic entries:\n- L. Moser, Die Gesetze der Lebensdauer (Berlin 1839, 8°).\n- P. A. Hansen, Schriften der Sternwarte Seeberg, Th. 1 (Gotha 1843).\n- H. E. G. Paulus's 1843 polemical edition of Schelling's Berlin lectures (on Schelling's 'Entdeckungen über Philosophie'). The asterisk sends to 'Vollst. Titel 1843 Jun. p. 170'.\n- F. C. Schlosser, Geschichte des 18. Jahrhunderts, Bd 3 Abth. 2 (Heidelberg 1843).\n- von Bissing, Die Familie Steinfels 1–2 (Hannover 1841).\n- A pointer to reviews of Bruno Bauer's Kritik der evangelischen Geschichte and related theological writings by Thenius, Räbiger and others, in the Blätter für literarische Unterhaltung 1844, Nos. 69–72, 161–165, 262–266 and 329–331.\n\n(2) 'Aufgabe' (problem statement only; the equation is on the next page). The notation is:\n- A = subscription price paid per share.\n- a = annual dividend on each share not yet redeemed.\n- B = redemption price.\n- n = number of years over which the shares are drawn by lot and redeemed in equal portions.\n- x = accumulation factor (capital 1 grows to x in one year) at which the enterprise yields neither gain nor loss. This is the break-even or internal rate of return.\n\nImplicit model (my reconstruction, confirmed by the next page's numbers):\n- At the end of year k (k = 1..n), each share still outstanding at the start of that year receives a. That is a fraction (n−k+1)/n of the original issue.\n- A fraction 1/n of the shares is redeemed at B.\n- With v = 1/x, the break-even condition is A = Σ_{k=1}^n v^k [a(n−k+1)/n + B/n].\n\nDerivation (mine):\n- Put S0 = Σ v^k = (1−v^n)/(x−1).\n- Then Σ(n+1−k)v^k = Σ_{m=1}^n (1−v^m)/(x−1) = (n−S0)/(x−1).\n- Hence nA(x−1) = a(n−S0) + B(1−v^n).\n- Using S0 = (1−v^n)/(x−1): n(A(x−1)−a) = (1−v^n)(B(x−1)−a)/(x−1).\n- So 1 = x^{−n} + n(Ax−A−a)(x−1)/(Bx−B−a). This is the 'simplest form' Gauss gives on the next page for solving for n.\n\nNext page example (A=90, a=3, B=100):\n- x=1.035 gives 1 = (200/207)^n + (21/2000)n, so n ≈ 91.09.\n- x=1.04 gives 1 = (25/26)^n + (3/125)n, so n ≈ 27.49.\n- x=1.045 gives 1 = (200/209)^n + (63/2000)n, so n ≈ 16.16.\n- x=1.05 gives 1 = (20/21)^n + (3/80)n, so n ≈ 11.31.\n- x=1.03 is struck out: Ax−A−a < 0 there, so there is no positive root.",
+  "errors": [
+   "No error on this page itself; it only sets up the problem.",
+   "The next-page transcription prints the denominator as Bx−A−a. The derivation and all four of Gauss's numerical coefficients require Bx−B−a = B(x−1)−a. For x=1.04: 0.6·0.04/1 = 3/125, whereas 0.6·0.04/11 does not match. So either the transcription or Gauss's written formula is wrong, but his computations use the correct form.",
+   "All four of Gauss's tabulated n-values check numerically to about 4–5 significant figures."
+  ],
+  "results": [
+   {
+    "what": "Break-even (internal) rate for shares sold at A, paying dividend a, and redeemed at B by equal annual lottery drawings over n years. Reduces to 1 = x^-n + n(Ax−A−a)(x−1)/(B(x−1)−a), solved numerically for n given x.",
+    "modern_name": "Yield / internal rate of return of a serial (lottery-redeemed) loan. Equivalent to Makeham's formula for the value of a loan redeemable in instalments: A = K + (g/i)(C−K).",
+    "usually_credited_to": "W. M. Makeham (1874) for the general formula; such yield computations were standard 19th-century financial-actuarial practice.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Bibliographic reading list for 1843/44.",
+    "modern_name": "n/a",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a clean closed-form treatment of a serial-redemption yield problem, equivalent to Makeham's 1874 formula, written c. 1843–44. However, the mathematics is elementary geometric-series manipulation. Gauss's actuarial and financial work (e.g. the widows' fund, 1845–51) is well known. So this is a minor unpublished detail rather than a priority claim.",
+  "checkable": [
+   {
+    "sympy": "n,x,A,a,B=symbols('n x A a B',positive=True); k=symbols('k',integer=True); v=1/x; simplify((Sum(v**k*(a*(n-k+1)/n+B/n),(k,1,n)).doit() - A).subs(n,5) * 5*(x-1)*(B*(x-1)-a) - (1 - x**-5 - 5*(A*x-A-a)*(x-1)/(B*x-B-a))*(-(B*(x-1)-a))*(x-1)*x**0) ",
+    "asserts": "Checks for n=5 that the break-even condition A = Σ v^k[a(n−k+1)/n + B/n] is equivalent to 1 = x^-n + n(Ax−A−a)(x−1)/(Bx−B−a). Safer check: solve both for A and compare."
+   },
+   {
+    "sympy": "x,A,a,B=symbols('x A a B',positive=True); N=6; v=1/x; lhs=sum(v**k*(a*(N-k+1)/Rational(N)+B/Rational(N)) for k in range(1,N+1)); Asol=solve(Eq(1, x**-N + N*(A*x-A-a)*(x-1)/(B*x-B-a)),A)[0]; simplify(lhs-Asol)",
+    "asserts": "Should give 0: the closed form gives the same price A as the direct cash-flow sum, here for n=6."
+   },
+   {
+    "sympy": "nsolve((Rational(25,26))**n + Rational(3,125)*n - 1, n, 27)",
+    "asserts": "Root ≈ 27.4923, matching Gauss's 27.492345 for x=1.04."
+   },
+   {
+    "sympy": "nsolve((Rational(20,21))**n + Rational(3,80)*n - 1, n, 11)",
+    "asserts": "Root ≈ 11.307 for x=1.05."
+   },
+   {
+    "sympy": "nsolve((Rational(200,207))**n + Rational(21,2000)*n - 1, n, 90)",
+    "asserts": "Root ≈ 91.09 for x=1.035."
+   },
+   {
+    "sympy": "nsolve((Rational(200,209))**n + Rational(63,2000)*n - 1, n, 16)",
+    "asserts": "Root ≈ 16.159 for x=1.045."
+   },
+   {
+    "sympy": "[(90*x-90-3)*(x-1)/(100*x-100-3) for x in [Rational(207,200),Rational(26,25),Rational(209,200),Rational(21,20)]]",
+    "asserts": "Gives [21/2000, 3/125, 63/2000, 3/80], confirming that the denominator is Bx−B−a."
+   }
+  ],
+  "transcription_corrections": [
+   "'Schellings Erkenntnisse[?] über Philosophie' should almost certainly read 'Schellings Entdeckungen über Philosophie'. This matches Paulus's 1843 title '…Beurtheilung und Berichtigung der v. Schellingischen Entdeckungen über Philosophie…'.",
+   "'Zinsfuss [-dem-] welchen' should read 'Zinsfuss ~~dem~~ welchem' / 'bei welchem': the rate at which the enterprise yields neither gain nor loss.",
+   "'damit zusammenhangende' is probably 'damit zusammenhangende' / 'zusammenhängende' (minor).",
+   "Next page: the denominator should read Bx − B − a, not Bx − A − a (consistent with Gauss's numerical coefficients)."
+  ]
+ }
+}

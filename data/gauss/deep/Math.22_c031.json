@@ -1,0 +1,56 @@
+{
+ "bundle": "Math.22",
+ "page": "c031",
+ "label": "16v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000032/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (from the previous page): x is defined implicitly by x = t + u·X with X = f(x), which is Lagrange's equation. φ = φ(x) is arbitrary. Subscripts below denote partial derivatives in t and u. Equations already established there:\n(1) φ_u = X φ_t, obtained from x_u = X x_t.\n(2) X_u = X X_t, which is (1) with φ = X.\n(3) φ_tu = X_t φ_t + X φ_tt, from differentiating (1) in t.\n(4) φ_uu = ∂_t(X² φ_t).\nThe previous page ended with φ_uuu = ∂_t∂_u(X² φ_t).\n\nThis page:\n(a) The order of mixed partial differentiation is immaterial, so φ_uuu = ∂_t[∂_u(X² φ_t)].\n(b) Product rule: ∂_u(X² φ_t) = 2X X_u φ_t + X² φ_tu.\n(c) Substitute (2) and (3) (my explicit expansion): 2X·X X_t φ_t + X²(X_t φ_t + X φ_tt) = 3X² X_t φ_t + X³ φ_tt = ∂_t(X³ φ_t).\n(d) Hence (5): φ_uuu = ∂_t²(X³ φ_t). 'Likewise' φ_uuuu = ∂_t³(X⁴ φ_t), and so on.\n(e) General lemma (6): ∂_u(Xⁿ φ_t) = ∂_t(X^{n+1} φ_t). The check (implicit, mine): n X^{n-1} X_u φ_t + Xⁿ φ_tu = n Xⁿ X_t φ_t + Xⁿ(X_t φ_t + X φ_tt) = (n+1) Xⁿ X_t φ_t + X^{n+1} φ_tt = ∂_t(X^{n+1} φ_t).\n(f) Induction (7): suppose ∂ⁿφ/∂uⁿ = ∂_t^{n-1}(Xⁿ φ_t). Differentiate in u and commute ∂_u past ∂_t^{n-1}. Then apply (6) to get ∂^{n+1}φ/∂u^{n+1} = ∂_t^{n-1} ∂_u(Xⁿ φ_t) = ∂_tⁿ(X^{n+1} φ_t). So the law holds for the next term.\n(g) Conclusion: (1), (4), (5) give the formula for the first three terms, and (6) gives it for all subsequent ones.\n\nPurpose: this is the key lemma for the Lagrange inversion series. Note that Xⁿ φ_t = f(x)ⁿ φ'(x) x_t = ∂_t ∫ f(x)ⁿ φ'(x) dx. At u = 0 we have x = t, so ∂ⁿφ/∂uⁿ|_{u=0} = dⁿ⁻¹/dtⁿ⁻¹ [f(t)ⁿ φ'(t)]. The Taylor series in u then gives φ(x) = φ(t) + Σ uⁿ/n! dⁿ⁻¹/dtⁿ⁻¹ [f(t)ⁿ φ'(t)]. The next page (headed 'Lagranges Lehrsatz') carries out exactly this step.",
+  "errors": [
+   "In the line after substituting (2) and (3), the term written as X³ d²φx/(dt du) should be X³ d²φx/dt². The final equality with d(X³ dφx/dt)/dt holds only with φ_tt. This is a notational slip; the result is correct.",
+   "The text says (6) follows 'durch die Substitution (3) u. (4)'. The substitutions actually needed are (2) and (3), as in the n = 2 case earlier on the page. This is a reference slip.",
+   "The notation (dφx^n/du^n) stands for dⁿφx/duⁿ. It is idiosyncratic, not an error.",
+   "The interchange of the order of partial differentiation is taken as 'bekanntlich' (well known). Analytic or smooth dependence is tacitly assumed, which is acceptable for the period.",
+   "The step 'Man findet ebenso' for n = 4 is asserted, not computed. It is subsumed by the general induction."
+  ],
+  "results": [
+   {
+    "what": "For x = t + u f(x): ∂φ/∂u = f(x) ∂φ/∂t and ∂(f(x)ⁿ ∂φ/∂t)/∂u = ∂(f(x)^{n+1} ∂φ/∂t)/∂t. Hence ∂ⁿφ/∂uⁿ = ∂ⁿ⁻¹/∂tⁿ⁻¹ (f(x)ⁿ ∂φ/∂t), proved by induction.",
+    "modern_name": "Laplace's partial-differential proof of the Lagrange inversion theorem (Lagrange–Bürmann series)",
+    "usually_credited_to": "Lagrange (1770) for the series; Laplace (1777/1780) for this PDE-based proof via ∂z/∂u = f ∂z/∂t",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the standard textbook (Laplace-style) derivation of Lagrange's inversion series, reproduced as a student or exercise-like exposition with minor slips. Nothing here is original or non-standard, and Gauss's familiarity with Lagrange's theorem is well known. The hand may not even be Gauss's own.",
+  "checkable": [
+   {
+    "sympy": "t,u=symbols('t u',positive=True); x=(1-sqrt(1-4*u*t))/(2*u); simplify(diff(x,u)-x**2*diff(x,t))",
+    "asserts": "Equation (1)/(2) for f(x) = x², φ = x: x_u = X x_t with X = x². Should simplify to 0."
+   },
+   {
+    "sympy": "t,u=symbols('t u',positive=True); x=(1-sqrt(1-4*u*t))/(2*u); simplify(diff(x,u,2)-diff(x**4*diff(x,t),t))",
+    "asserts": "Equation (4) for f(x) = x², φ(x) = x: φ_uu = ∂_t(X² φ_t). Should simplify to 0."
+   },
+   {
+    "sympy": "t,u=symbols('t u',positive=True); x=(1-sqrt(1-4*u*t))/(2*u); simplify(diff(x,u,3)-diff(x**6*diff(x,t),t,2))",
+    "asserts": "Equation (5): φ_uuu = ∂_t²(X³ φ_t) for f(x) = x², φ = x. Should simplify to 0."
+   },
+   {
+    "sympy": "t,u=symbols('t u',positive=True); x=(1-sqrt(1-4*u*t))/(2*u); simplify(diff(x**4*diff(x,t),u)-diff(x**6*diff(x,t),t))",
+    "asserts": "Lemma (6) with n = 2: ∂_u(X² φ_t) = ∂_t(X³ φ_t). Should simplify to 0."
+   },
+   {
+    "sympy": "t,u=symbols('t u',positive=True); x=(1-sqrt(1-4*u*t))/(2*u); simplify(series(x,u,0,5).removeO()-(t+sum(u**n/factorial(n)*diff(t**(2*n),t,n-1) for n in range(1,5))))",
+    "asserts": "The consequence φ(x) = φ(t) + Σ uⁿ/n! dⁿ⁻¹/dtⁿ⁻¹[f(t)ⁿ φ'(t)] for f = t², φ = x, through order u⁴. Should simplify to 0."
+   }
+  ],
+  "transcription_corrections": [
+   "In the line '= X^3 d^{[?]2}φx/dtdu + 3X²(dX/dt)(dφx/dt)', the manuscript has a '2' (with a stray mark) on d, and the denominator is written 'dtdu'. Mathematically it must be dt²; the [?] can be resolved as 2.",
+   "'so folgt' is written above the right end of that line, and a struck-out 'folglich' follows the equation. The transcription renders this essentially correctly.",
+   "In (7) the middle term's denominator in the manuscript reads dt^{n-1}du, written with a correction over the exponent. This is consistent with the transcription.",
+   "The struck-out fragment at the start of the line '[-Aus den Gleichungen-] d.i. auch für das nächstfolgende Glied' is correct as given."
+  ]
+ }
+}

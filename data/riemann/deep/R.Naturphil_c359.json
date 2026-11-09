@@ -1,0 +1,70 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c359",
+ "label": "181v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000360/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: these are lecture-style notes on elementary number theory. The previous page set up the Euclidean algorithm for positive integers a, b: a = m b + c, b = n c + d, ..., f = t g + h, g = u h. The remainders strictly decrease, so the process terminates. Every common divisor of a and b is a common divisor of b and c, and conversely. Hence the common divisors of a and b are exactly the divisors of the last nonzero remainder h. Riemann remarks that this is already in Euclid.\n\nThis page:\n\n(1) The question about a and b is thereby reduced to the divisors of a single number.\n\n(2) If a and b are relatively prime, gcd(a,b) = 1, then the last remainder is 1. Consequences follow.\n\n(3) Remark: the earlier stipulation a > b is not needed. If a < b, the first division gives m = 0 and c = a, which simply swaps the roles.\n\n(4) Theorem. If gcd(a,b) = 1, then aK and b have the same common divisors as K and b; in particular gcd(aK, b) = gcd(K, b).\n\nProof idea, as Riemann gives it: multiply every equation of the Euclidean chain for (a,b) by K:\n- aK = m(bK) + cK\n- bK = n(cK) + dK\n- ...\n- fK = t(gK) + hK, with hK = 1·K = K.\n\nThis gives the chain aK, bK, cK, ..., fK, gK, K.\n\nSuppose x is a common divisor of aK and b. Then x | bK (a multiple of b). Running down the chain (my explicit step): x | aK − m·bK = cK, then x | bK − n·cK = dK, and so on, until x | K. So x is a common divisor of K and b. Conversely, any common divisor of K and b obviously divides aK and b. Hence the two sets of common divisors coincide.\n\n(5) Two special cases 'usually treated separately':\n\n(a) If moreover gcd(K,b) = 1, then gcd(aK, b) = 1. Iterating: if r, p, q, s, ... are each coprime to v, then rp, rpq, rpqs, ... are coprime to v. In modern terms, a product of integers coprime to v is coprime to v.\n\n(b) What must K be for b | aK? If b | aK, then aK and b have b as a common divisor. By the theorem, K and b have b as a common divisor, i.e. b | K. This is Euclid's lemma: gcd(a,b) = 1 and b | aK imply b | K.\n\nThe next page continues with the related statement that a number divisible by pairwise coprime numbers is divisible by their product.",
+  "errors": [
+   "No mathematical errors. The step 'a common divisor of aK and b also divides bK, hence divides every term of the multiplied chain down to K' is left implicit ('Die Gleichungen nur zu durchlaufen'), but it is correct.",
+   "Slight grammatical slip ('Wenn haben a u. b relative Primzahlen' for 'Wenn a u. b relative Primzahlen sind') in this quick lecture note; no mathematical consequence.",
+   "The proof uses a Euclidean-algorithm style argument rather than Bezout's identity. That is fully valid (it is essentially Euclid VII.24 / VII.30 in algorithmic form)."
+  ],
+  "results": [
+   {
+    "what": "Euclidean algorithm: common divisors of a, b are the divisors of the last nonzero remainder; for coprime a, b the last remainder is 1",
+    "modern_name": "Euclidean algorithm / gcd",
+    "usually_credited_to": "Euclid (Elements VII.1-2)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "If gcd(a,b)=1 then gcd(aK,b)=gcd(K,b), proved by multiplying the Euclidean chain by K",
+    "modern_name": "gcd(aK,b)=gcd(K,b) for coprime a,b (via gcd(aK,bK)=K·gcd(a,b))",
+    "usually_credited_to": "Classical (Euclid; standard in Gauss, Dirichlet's Vorlesungen)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Product of numbers each coprime to v is coprime to v",
+    "modern_name": "Multiplicativity of coprimality",
+    "usually_credited_to": "Euclid VII.24-26",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "If gcd(a,b)=1 and b | aK then b | K",
+    "modern_name": "Euclid's lemma (Gauss's lemma for integers)",
+    "usually_credited_to": "Euclid VII.30; Gauss, Disquisitiones (1801)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Entirely standard elementary number theory (Euclidean algorithm, Euclid's lemma), presented in the style of Dirichlet's lectures. These are clearly lecture notes, with nothing non-standard.",
+  "checkable": [
+   {
+    "sympy": "from sympy import gcd; all(gcd(a*K,b)==gcd(K,b) for a in range(1,40) for b in range(1,40) for K in range(1,40) if gcd(a,b)==1)",
+    "asserts": "gcd(a,b)=1 implies gcd(aK,b)=gcd(K,b)"
+   },
+   {
+    "sympy": "from sympy import gcd; all(gcd(a*K,b*K)==K*gcd(a,b) for a in range(1,30) for b in range(1,30) for K in range(1,30))",
+    "asserts": "Multiplying the Euclidean chain by K gives gcd(aK,bK)=K·gcd(a,b), so the last remainder is K when a, b are coprime"
+   },
+   {
+    "sympy": "from sympy import gcd; all(K % b == 0 for a in range(1,40) for b in range(1,40) for K in range(1,40) if gcd(a,b)==1 and (a*K) % b == 0)",
+    "asserts": "Euclid's lemma: gcd(a,b)=1 and b|aK imply b|K"
+   },
+   {
+    "sympy": "from sympy import gcd; all(gcd(r*p*q,v)==1 for r in range(1,15) for p in range(1,15) for q in range(1,15) for v in range(1,15) if gcd(r,v)==1 and gcd(p,v)==1 and gcd(q,v)==1)",
+    "asserts": "A product of numbers each coprime to v is coprime to v"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 4: 'Die ob [?] folgt daß a > b sei' is likely 'Die obige Festsetzung daß a > b sei, nicht nöthig'.",
+   "'Denken wir uns einen gem. Theiler von Ka u. Kb' should logically read 'von Ka u. b' (a common divisor of aK and b, which then also divides Kb). The image is smudged at this point.",
+   "Line 1: '[...] zurückgeführt' likely refers to the divisors of the last remainder (h), not 'b'. The word is uncertain."
+  ]
+ }
+}

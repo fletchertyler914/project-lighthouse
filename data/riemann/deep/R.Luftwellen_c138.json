@@ -1,0 +1,62 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c138",
+ "label": "83r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000139/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. These are working notes for Riemann's 1860 memoir 'Ueber die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'. The previous page introduces the Riemann invariants p, q as independent variables in place of x, t. Here u = 2(p+q) and the sound speed a is constant, which is the isothermal (Boyle-law) case of the draft. The relations x-(u+a)t and x-(u-a)t, differentiated crosswise, both give -2at. Hence (x-(u+a)t)dp + (x-(u-a)t)dq is an exact differential dw. Then w_pq = -2at = w_p - w_q.\n\nFirst line. 'wo wegen ... auch ... gleich Null ist' ends the previous page's discussion of the degenerate cases. There p or q is constant (simple waves), because the Jacobian Delta vanishes.\n\nStep 1: the equation. Main case: w satisfies L w := w_pq - w_p + w_q = 0. This is a linear hyperbolic equation in characteristic coordinates with constant coefficients.\n\nStep 2: the Cauchy problem. Regard (p,q) as rectangular coordinates in a plane. The initial state gives a curve s, the image of the initial data. On s, w_p and w_q are given, so w is known up to an additive constant. Problem: determine w off the curve s.\n\nStep 3: the method. Riemann's methodological remark: to find a function satisfying linear PDEs and linear boundary conditions, proceed as when solving a linear system, i.e. multiply by suitable factors and add. Take an arbitrary function v(p,q) and a region T of the (p,q)-plane. Integrate v·Lw over T and integrate by parts. This turns the area integral into an area integral of w·L*v plus a boundary integral. Here L* is the formal adjoint, L*v = v_pq + v_p - v_q.\n\nStep 4: the page's formula. Riemann writes\n∫∫ w (v_pq + v_p - v_q) dp dq + ∫ ((v w_q + w) dp + v w_p dq),\nwith the boundary taken in the positive sense.\n\nCorrect identity (my completion). For counterclockwise tangential dp, dq:\n∫∫_T v Lw dp dq = ∫∫_T w L*v dp dq - ∮_{∂T} [ (v w_p + v w) dp + (w v_q + v w) dq ].\nIt follows from\nv Lw - w L*v = ∂_q(v w_p + v w) - ∂_p(w v_q + v w).\nAn equivalent symmetric form is\nv w_pq - w v_pq = ½[∂_q(v w_p - w v_p) + ∂_p(v w_q - w v_q)].\n\nIntended continuation (not on the page). Choose v with L*v = 0, such that v = 1 at the point (p0,q0) and v satisfies simple ODEs on the characteristics through that point. Apply the identity to the triangle cut off by s and the two characteristics. w(p0,q0) is then expressed through the data on s alone. This is Riemann's method.\n\nAside (mine). For this constant-coefficient equation, put w = e^{q-p} W. Then W_pq + W = 0, and the Riemann function is a Bessel function: v = e^{(p-p0)-(q-q0)} J0(2 sqrt((p-p0)(q-q0))). Equivalently R(p,q;p0,q0) = e^{(p0-p)-(q0-q)} J0(2 sqrt((p-p0)(q-q0))) in Riemann's variables.",
+  "errors": [
+   "The boundary integral as written, ∫((v w_q + w)dp + v w_p dq), is not the correct boundary form. 'w' should carry a factor v (vw). The terms w v_q (or the antisymmetric v w_p - w v_p combinations) are missing. The adjoint area term w(v_pq + v_p - v_q) is correct, and its sign convention relative to the area term is unspecified. This looks like an unfinished draft (heavily struck through) rather than a final result.",
+   "On the previous page, the crosswise derivatives giving -2at hold only under that page's assumptions (u = 2(p+q), a constant). This page inherits the equation w_pq - w_p + w_q = 0 consistently from w_pq = w_p - w_q."
+  ],
+  "results": [
+   {
+    "what": "Hodograph-type linearization: with Riemann invariants p, q as independent variables, the gas-dynamics equations become a linear second-order hyperbolic equation for a potential w (here w_pq - w_p + w_q = 0 in the constant-sound-speed case)",
+    "modern_name": "Hodograph transformation / Riemann invariants",
+    "usually_credited_to": "Riemann 1860 (Luftwellen memoir)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Solving the Cauchy problem with data on a curve s by multiplying by an arbitrary v, integrating by parts and passing to the adjoint operator plus a boundary integral, then choosing v suitably",
+    "modern_name": "Riemann's method / Riemann function (Riemann-Green function) for linear hyperbolic equations",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Formal adjoint of L = ∂pq - ∂p + ∂q is L* = ∂pq + ∂p - ∂q (Green's identity)",
+    "modern_name": "Lagrange adjoint / Green's formula",
+    "usually_credited_to": "Lagrange; Green",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the derivation published in Riemann's 1860 Luftwellen paper (Riemann's method), already firmly credited to him. The only minor detail is the constant-coefficient (isothermal) version worked in the draft; its Riemann function is a Bessel J0, which Riemann does not write here.",
+  "checkable": [
+   {
+    "sympy": "p,q=symbols('p q'); v=Function('v')(p,q); w=Function('w')(p,q); simplify(v*(diff(w,p,q)-diff(w,p)+diff(w,q)) - w*(diff(v,p,q)+diff(v,p)-diff(v,q)) - (diff(v*diff(w,p)+v*w,q) - diff(w*diff(v,q)+v*w,p)))",
+    "asserts": "Equals 0: the pointwise Green identity v Lw - w L*v = ∂q(v w_p + v w) - ∂p(w v_q + v w)."
+   },
+   {
+    "sympy": "p,q=symbols('p q'); W=Function('W')(p,q); w=exp(q-p)*W; simplify(exp(p-q)*(diff(w,p,q)-diff(w,p)+diff(w,q)) - (diff(W,p,q)+W))",
+    "asserts": "Equals 0: the substitution w = e^{q-p} W reduces w_pq - w_p + w_q = 0 to W_pq + W = 0."
+   },
+   {
+    "sympy": "p,q,p0,q0=symbols('p q p0 q0'); V=besselj(0,2*sqrt((p-p0)*(q-q0))); simplify(diff(V,p,q)+V)",
+    "asserts": "Equals 0: J0(2 sqrt((p-p0)(q-q0))) solves W_pq + W = 0 and equals 1 on the characteristics p=p0, q=q0."
+   },
+   {
+    "sympy": "p,q,p0,q0=symbols('p q p0 q0'); v=exp((p-p0)-(q-q0))*besselj(0,2*sqrt((p-p0)*(q-q0))); simplify(diff(v,p,q)+diff(v,p)-diff(v,q))",
+    "asserts": "Equals 0: the Riemann function of the adjoint equation v_pq + v_p - v_q = 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 is likely 'wo wegen ∂x/∂q [or similar] auch ∂q/∂x gleich Null ist' (continuation of the degenerate-case discussion), not 'dx/dx ... dy/dx'.",
+   "The struck phrase near 'positive' is probably 'die positive Richtung der Begrenzung, durch dp und dq bezeichnet' (orientation of the boundary).",
+   "In the final boundary integral, '+ w' is probably '+ vw' or is an incomplete term; the reading should be marked uncertain."
+  ]
+ }
+}

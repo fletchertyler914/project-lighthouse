@@ -1,0 +1,62 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c239",
+ "label": "230",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000240/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem: find the cardinal points of a lens whose back surface reflects. Light enters the front surface (vertex N), crosses the glass, reflects at the back surface, crosses the glass again and leaves through the front surface. The page treats this as one optical system: 'zwei Brechungen und Eine Reflexion' (two refractions and one reflection). The page states only definitions and the final formulas I-III. All intermediate steps below are mine.\n\nNotation on the page:\n- r is the radius of the front surface, which meets the axis at N.\n- r* is the radius of the back (reflecting) surface.\n- f = r/(n-1) is the focal length of the front refraction.\n- f* = r*/n.\n- The thickness is n e, so e is the reduced thickness (thickness divided by index).\n- F is the focal point (its distance is called F). E and E' are the 'erster' and 'zweiter Hauptpunkt' (first and second principal point), with E'-E = 2F = 'doppelte Brennweite' (twice the focal length).\n- All coordinates increase in the direction of the returning light. In the figure the light comes from the right, the reflection happens at the left surface, and the returning light travels to the right. So E lies left of N, and the focal point and E' lie to the right.\n\nStated results:\n- I. E = N - e f/(f-e)\n- II. E' = N + (f*-e) f/(f+f*-e)\n- III. E'-E = 2F = f f f*/((f-e)(f+f*-e))\n\nThe column at the right repeats I and II as fair copies.\n\nMy reconstruction, in Gauss's own algorithm of 'Dioptrische Untersuchungen' (Gaussian brackets / ray-transfer matrices; the previous page develops exactly these continuant identities):\n\n1. Unfold the path into a symmetric sequence of elements: power a = 1/f, reduced gap e, mirror power b = 2n/r* = 2/f*, reduced gap e, power a.\n\n2. Ray transfer: refraction u' = u - phi*y; translation y' = y + t*u.\n\n3. Total power:\n   Phi = 2a + b - 2eab - 2ea^2 + e^2 a^2 b\n       = (1 - ea)(2a + b(1 - ea))\n       = 2(f-e)(f+f*-e)/(f^2 f*).\n   So the equivalent focal length is 1/Phi = f^2 f*/(2(f-e)(f+f*-e)). This is F in III.\n\n4. Because the system is symmetric, A = D = 1 - 2ea - eb(1 - ea).\n   - The back principal plane lies at (A-1)/Phi = -e/(1-ea) = -ef/(f-e) from N, measured in the returning direction.\n   - The front principal plane lies at (1-D)/Phi = +ef/(f-e), measured in the incoming direction. In the returning-light coordinates this is the same point.\n   - Hence both principal planes coincide at E = N - ef/(f-e), which is formula I.\n\n5. E' = E + 2F. Combining over a common denominator:\n   [-ef(f+f*-e) + f^2 f*] / ((f-e)(f+f*-e)) = f(f-e)(f*-e) / ((f-e)(f+f*-e)) = f(f*-e)/(f+f*-e).\n   This is formula II, so I, II and III are mutually consistent.\n\n6. Meaning: the silvered lens acts as a single spherical mirror.\n   - Its vertex is at E.\n   - Its centre of curvature, i.e. the nodal point of a mirror, is at E'.\n   - Its radius is E'-E = 2F, with the focal point midway between them.\n   - Check: if f goes to infinity (no refraction), E becomes N-e, the mirror vertex, and E'-E becomes f*, the mirror radius.\n   - Gauss's 'zweiter Hauptpunkt' E' is therefore the point lying 2F beyond E. This is what reflection-as-refraction with index ratio -1 gives in his formalism.",
+  "errors": [
+   "No mathematical errors found: I, II and III are mutually consistent and agree with a ray-transfer computation for refract–translate–reflect–translate–refract.",
+   "Interpretive caveat: E and E' are not two distinct principal planes in the modern sense. The modern principal planes coincide at E. Gauss's E' sits 2F further on and is the centre of the equivalent mirror (its nodal point). The relation E'-E = 2F is stated without derivation."
+  ],
+  "results": [
+   {
+    "what": "Cardinal points of a thick lens silvered on its back surface: E = N - ef/(f-e), E' = N + f(f*-e)/(f+f*-e), equivalent focal length F = f^2 f*/(2(f-e)(f+f*-e)), with f = r/(n-1), f* = r*/n and reduced thickness e",
+    "modern_name": "Equivalent mirror of a thick silvered lens (Mangin-type mirror); Gaussian (paraxial) optics of a catadioptric system via ray-transfer matrices",
+    "usually_credited_to": "The thin silvered-lens equivalent mirror is classical 18th–19th c. textbook material. General thick-system treatment via Gauss's Dioptrische Untersuchungen (1840/41); Möbius had already treated reflection as refraction with index ratio -1.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Treating reflection inside Gauss's dioptric (continuant) formalism, giving principal point E and a second point E' at distance 2F (the equivalent mirror centre)",
+    "modern_name": "Unfolding of reflective systems; reflection as refraction with n' = -n",
+    "usually_credited_to": "Möbius (1830); also standard in Gaussian optics",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a straightforward application of Gauss's own 1840 dioptric theory to a silvered thick lens. The result is correct and tidy, but it is textbook-level paraxial optics and the method is well known to be his.",
+  "checkable": [
+   {
+    "sympy": "f,fs,e=symbols('f fs e'); a=1/f; b=2/fs; Phi=(1-e*a)*(2*a+b*(1-e*a)); simplify(1/Phi - f**2*fs/(2*(f-e)*(f+fs-e)))==0",
+    "asserts": "The equivalent focal length of the silvered thick lens equals F = f^2 f*/(2(f-e)(f+f*-e)), i.e. 2F as in III."
+   },
+   {
+    "sympy": "f,fs,e=symbols('f fs e'); R=lambda p: Matrix([[1,0],[-p,1]]); T=lambda t: Matrix([[1,t],[0,1]]); M=R(1/f)*T(e)*R(2/fs)*T(e)*R(1/f); simplify(-M[1,0] - 2*(f-e)*(f+fs-e)/(f**2*fs))==0",
+    "asserts": "The full ray-transfer matrix product gives total power Phi = 2(f-e)(f+f*-e)/(f^2 f*)."
+   },
+   {
+    "sympy": "f,fs,e=symbols('f fs e'); R=lambda p: Matrix([[1,0],[-p,1]]); T=lambda t: Matrix([[1,t],[0,1]]); M=R(1/f)*T(e)*R(2/fs)*T(e)*R(1/f); Phi=-M[1,0]; simplify((M[0,0]-1)/Phi + e*f/(f-e))==0",
+    "asserts": "The principal plane lies at N - ef/(f-e) in returning-light coordinates (formula I)."
+   },
+   {
+    "sympy": "f,fs,e=symbols('f fs e'); simplify(-e*f/(f-e) + f**2*fs/((f-e)*(f+fs-e)) - f*(fs-e)/(f+fs-e))==0",
+    "asserts": "Formula I plus formula III (2F) equals formula II, so E' = E + 2F."
+   },
+   {
+    "sympy": "f,fs,e=symbols('f fs e'); limit(f*(fs-e)/(f+fs-e),f,oo)==fs-e",
+    "asserts": "Without refraction (f -> oo), E' = N + f* - e, the centre of curvature of a mirror at N - e with radius f*."
+   }
+  ],
+  "transcription_corrections": [
+   "Second definition line: the page has 'r* Halbmesser der Hinterfläche' with r* overwritten/blotted, and reads 'an welches' (sic) rather than 'an welcher'.",
+   "'E' - E = 2F [-=-] doppelte Brennweite' should read 'E' - E = 2F = doppelte Brennweite'; a struck-through character precedes 'doppelte'.",
+   "Figure label is spelled 'Brenpunkt' with a blotted B.",
+   "Pencil marks at top left (approximately 'D.' and 'Br.', with superscript marks) are omitted from the transcription.",
+   "In II the first-column denominator is written 'f*+f-e'; the right-hand fair copy has 'f+f*-e'. They are equivalent.",
+   "'Dicke = ne': the 'e' is overwritten/corrected in the original."
+  ]
+ }
+}

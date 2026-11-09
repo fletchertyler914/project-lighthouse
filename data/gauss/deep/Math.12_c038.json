@@ -1,0 +1,67 @@
+{
+ "bundle": "Math.12",
+ "page": "c038",
+ "label": "18r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376631:00000039/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The previous page sets out a 'second method' for computing the 'Decident'. That is a lattice-point count over integer pairs (x,Y) and (Y,y). The points are taken in half-open regions such as 0 <= xi=(Ax+bY)/alpha <= 1/2 and 0 <= eta=(-Bx+aY)/alpha <= 1/2. The counted points are split into two classes by the parity of [X], Y and [y]. This is Gauss's lattice-point (Gauss-lemma type) attack on the biquadratic or Gaussian-integer character problem, built from a substitution with entries a,b,A,B,alpha,beta (and D,d). Such counts are only exact up to boundary and edge terms. Those terms depend only on the signs of the parameters.\n\nThis page (f.18r) is a sign-case table that computes those correction terms.\n- Header rows: the sign pair of (a,b) in 4 blocks; the sign pair of (A,B), cycling through +-, --, -+, ++ in 16 columns; and in each column two sub-columns with the sign pair of (alpha,beta). The label reads 'alpha delta' but is probably alpha beta, as on the next page.\n- Why only 32 cases: only 2 of the 4 (alpha,beta) sign pairs occur per (a,b,A,B) case. My inference is that a determinant or orientation condition removes the other two, giving 32 rather than 64 cases.\n- Body rows: for each case Gauss enters the contributions of four auxiliary counts, labelled R' (or a corrected label), R'', R''' and R^0. Each is a column of small integers 0, +-1, +-2, apparently one entry per partial count.\n- Last row: four-entry sums per column, e.g. 0+4 0 0, +2-2 0 0, -2-2 0 0, -2-0+2 0. These are column totals of the corrections.\n\nLower right: Gauss tries to express the R^0 corrections as linear combinations of sign-symbols.\n- Under labels I, II, III, IV he writes terms like -1/2(Jm), -1/2(JMi^n), +1/2(Jmi^n), 1/2(JM).\n- He combines them into roughly -2Jm+2JM+2Jmu.\n\nLower half: more small +-0, +-2, +-4, +-6 tables. These look like repeated case checks, for instance with the roles of the parameters permuted.\n\nNext page: the outcome of this tabulation, written as closed formulas. Here (x) denotes sgn(x). For example k' = -1/2(a) - 1/2(b) and K' = -1/2(A) + 1/2(B). The general shape is R' = -1/2(a) - 1/2(b) - 1/2(A) + 1/2(B) + (alpha) + 1/2(alpha beta) + 1/2(AB ab alpha beta), and similarly for R'' and R'''.\n\nSo the page is the empirical case-by-case data from which Gauss reads off sign-indicator formulas for the boundary terms of his lattice-point count.\n\nMy reasoning on the margin note of the previous page: class I means all three or exactly one of the conditions 'Y even, [X] even, [y] even' hold. That means 0 or 2 of the quantities are odd, which is equivalent to the sum Y+[X]+[y] being even. This agrees with Gauss's marginal 'I wo [Y+x+y] gerade'.",
+  "errors": [
+   "Most individual table entries cannot be verified from the image, so I cannot check them case by case.",
+   "The k' and K' rows of the next page are consistent with the closed formulas -(sgn a+sgn b)/2 and (-sgn A+sgn B)/2.",
+   "The kappa' row on the next page (values +1/2, -1/2, -3/2?, +2/2?) does not obviously match the alpha/beta part of the R' formula without knowing the sign of the S(AB ab alpha beta) term. Either the transcription or Gauss's entry is uncertain there.",
+   "Several cells were overwritten or blotted (the heavy ink in the right-hand columns of the R', R'' and R^0 rows). This indicates Gauss corrected values; no definite error can be identified."
+  ],
+  "results": [
+   {
+    "what": "Exhaustive sign-case tabulation of boundary/edge correction terms in a lattice-point count for a quartic (Gaussian-integer) character, with each case's corrections summed",
+    "modern_name": "Boundary-term analysis in lattice-point (Gauss/Eisenstein-lemma type) proofs of reciprocity laws",
+    "usually_credited_to": "Gauss (lattice-point idea, 3rd/5th proofs of quadratic reciprocity); Eisenstein (geometric version, 1844); for quartic reciprocity Eisenstein and Jacobi (1844)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Expressing the correction terms as linear combinations of sign indicators sgn(a), sgn(b), sgn(A), sgn(B), sgn(alpha), sgn(alpha beta), etc. (results stated on the next page)",
+    "modern_name": "Sign-function (indicator) decomposition of case-dependent correction terms",
+    "usually_credited_to": "standard technique",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Parity classification: 'all three or exactly one of the even-conditions hold' is equivalent to 'the sum Y+[X]+[y] is even'",
+    "modern_name": "elementary parity identity",
+    "usually_credited_to": "folklore",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is working data for Gauss's known but unpublished lattice-point approach to biquadratic residues and reciprocity. The method fits his published lattice-point proofs, and fragments on biquadratic residues appear in Werke II. The page is careful case-checking rather than a new theorem, though it documents the detail of his unpublished attempt.",
+  "checkable": [
+   {
+    "sympy": "all(((Y%2==0)+(X%2==0)+(y%2==0)) in (1,3)) == ((Y+X+y)%2==0) for Y in range(2) for X in range(2) for y in range(2))",
+    "asserts": "Class I (all three or exactly one of Y, [X], [y] even) is equivalent to Y+[X]+[y] even, as in Gauss's marginal note."
+   },
+   {
+    "sympy": "[-(sa+sb)/Rational(2) for (sa,sb) in [(1,1),(-1,1),(-1,-1),(1,-1)]] == [-1,0,1,0]",
+    "asserts": "The next page's k' table equals -1/2 sgn(a) - 1/2 sgn(b)."
+   },
+   {
+    "sympy": "[(-sA+sB)/Rational(2) for (sA,sB) in [(1,1),(-1,1),(-1,-1),(1,-1)]] == [0,1,0,-1]",
+    "asserts": "The next page's K' table equals -1/2 sgn(A) + 1/2 sgn(B)."
+   },
+   {
+    "sympy": "len([(sa,sb,sA,sB,sal,sbe) for sa in (1,-1) for sb in (1,-1) for sA in (1,-1) for sB in (1,-1) for sal in (1,-1) for sbe in (1,-1)])//2 == 32",
+    "asserts": "The table has 32 columns: half of the 64 sign cases, consistent with 2 admissible (alpha,beta) pairs per (a,b,A,B) case."
+   }
+  ],
+  "transcription_corrections": [
+   "The row label read as 'alpha delta' is very probably 'alpha beta', matching the next page.",
+   "The fourth row label (transcribed 'R'R''') is the first correction row, most likely R' with an overwritten superscript; the next row is R''. The data rows are R', R'', R''', R^0.",
+   "The top-right shelfmark '43 d.' is struck through, with '5' (or similar) written beside it, and the circled folio number is 18.",
+   "The header layout is (a,b) sign in 4 blocks of 4 columns, (A,B) cycling +-, --, -+, ++ across 16 columns, and two (alpha,beta) sub-columns per column.",
+   "The sums row has four entries per column (e.g. '0+4 0 0', '+2-2 0 0'), apparently corresponding to the labels I-IV in the margin.",
+   "The bottom-right annotation reads approximately 'Combinirt -2Jm +2JM +2Jmu'."
+  ]
+ }
+}

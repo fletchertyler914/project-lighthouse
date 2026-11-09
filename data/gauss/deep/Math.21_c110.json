@@ -1,0 +1,90 @@
+{
+ "bundle": "Math.21",
+ "page": "c110",
+ "label": "53r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000111/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page, 22 Sept 1852): after a letter-arithmetic problem has given x = 4, the other three roots satisfy x^3 + 180x^2 + 366x + 182 = 0. With x = p - 1 this becomes p^3 + 177p^2 + 9p - 5 = 0. This page computes the small positive root p ≈ 0.1445113, so x = p - 1 ≈ -0.8554887. All work is in 7-place common logarithms, written in the old style with characteristic +10 (8.xxx means 8.xxx - 10).\n\nMethod: fixed-point iteration p = sqrt((5 - 9p - p^3)/177).\n\nIteration 1, starting from p = 0.144:\n- p^3 = 0.002986 and 9p = 1.296, so 5 - 9p - p^3 = 3.701014.\n- log 3.701014 = 0.5683208 and log 177 = 2.2479733.\n- The difference is 8.3203475 (that is, -1.6796525).\n- Half of it is 9.16017375. A false start '9.44' is struck out.\n- Taking the antilog gives p = 0.144602. Gauss writes '1,44602', meaning the digits of 0.144602.\n\nIteration 2, from p = 0.144602:\n- p^3 = 0.0030236 and 9p = 1.301418, giving 3.69556.\n- log = 0.5676803; minus log 177 gives 8.3197070; halved gives 9.1598535.\n- Result: p = 0.1444952.\n\nIteration 3, from p = 0.1444952:\n- p^3 = 0.0030169 and 9p = 1.3004568, giving 3.6965263.\n- log = 0.5677938; then 8.3198205; halved gives 9.1599102.\n- Result: p = 0.144514.\n\nThe iterates oscillate: 0.144, 0.144602, 0.1444952, 0.144514. Their differences are +6.02e-4, -1.068e-4, +1.89e-5. The ratio is about -0.177, which matches g'(p) = -(9 + 3p^2)/(354p).\n\nAt the head of column 2 Gauss writes 0.1445112. My inference: this is not the next iterate (that would be about 0.1445106) but the limit extrapolated from the oscillating iterates. Either Aitken's formula p3 - Δ^2/(Δ - Δprev) or the geometric-series correction p3 + Δ·r/(1 - r) gives 0.1445112-0.1445113.\n\nHe then rewrites the iteration as p^2 = -p^3/177 - 3p/59 + 5/177, using 9/177 = 3/59.\n\nCheck iteration from p = 0.1445112:\n- log p = 9.1599015 and 3 log p = 7.4797045, so p^3 = 0.003017898.\n- 9p = 1.3006008, so 5 - 1.300600800 - 0.003017898 = 3.696381302.\n- log = 0.5677768; minus log 177 gives 8.3198035; halved gives 9.15990175.\n- Result: p = 0.14451128.\n\nOne more pass:\n- 3 log p = 7.47970525, so p^3 = 0.003017903; 9p = 1.30060152.\n- 5 minus these gives 3.696380577; log = 0.5677767; minus 2.2479733 gives 8.3198034.\n- The halving (which would give p ≈ 0.1445112(5)) is not written.\n\nTrue root: p = 0.1445113 (to 7 d.p.), so x = -0.8554887 as recorded on the previous page.",
+  "errors": [
+   "No substantive errors; every arithmetic and logarithmic step checks to 7 places.",
+   "Iteration 3 antilog is written 1,44514, a slightly truncated form of 1.445141 (that is, p = 0.1445141); this is harmless.",
+   "The final pass stops at 8.3198034 without the halving and antilog. It confirms the fixed point at about 0.1445112-0.1445113.",
+   "The jump from 0.144514 to 0.1445112 is not explained on the page. Reading it as an extrapolation is my inference, though a strong one: the next plain iterate would be about 0.1445106, not 0.1445112."
+  ],
+  "results": [
+   {
+    "what": "Numerical solution of the small root of p^3+177p^2+9p-5=0 by the fixed-point iteration p = sqrt((5-9p-p^3)/177), carried out with 7-place logarithms",
+    "modern_name": "Fixed-point (successive substitution) iteration",
+    "usually_credited_to": "Classical (Viète/Newton era onward)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Jump from the oscillating iterates 0.144602, 0.1444952, 0.144514 straight to the limit 0.1445112, consistent with a geometric-ratio or Delta^2 correction",
+    "modern_name": "Aitken Delta-squared extrapolation / acceleration of linearly convergent iteration",
+    "usually_credited_to": "A. C. Aitken 1926 (anticipated by Seki Kowa; Kummer 1837)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Root p ≈ 0.14451128, so x = p - 1 ≈ -0.8554887 for x^3+180x^2+366x+182=0",
+    "modern_name": "Root of a cubic",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is routine logarithmic computation of a root by successive substitution. The only notable feature is the apparent extrapolation of the oscillating iterates to the limit, an Aitken-type acceleration. However, such corrections were standard practice among skilled computers like Gauss, and the step is implicit rather than written out.",
+  "checkable": [
+   {
+    "sympy": "expand(((x)**3+180*x**2+366*x+182).subs(x,p-1))",
+    "asserts": "equals p**3+177*p**2+9*p-5"
+   },
+   {
+    "sympy": "N(log(5-9*Rational(144,1000)-Rational(144,1000)**3,10),8)",
+    "asserts": "≈ 0.5683208 (3.701014)"
+   },
+   {
+    "sympy": "N(log(177,10),8)",
+    "asserts": "≈ 2.2479733"
+   },
+   {
+    "sympy": "N(sqrt((5-9*Rational(144,1000)-Rational(144,1000)**3)/177),7)",
+    "asserts": "≈ 0.144602"
+   },
+   {
+    "sympy": "N(sqrt((5-9*Rational(144602,10**6)-Rational(144602,10**6)**3)/177),7)",
+    "asserts": "≈ 0.1444952"
+   },
+   {
+    "sympy": "N(sqrt((5-9*Rational(1444952,10**7)-Rational(1444952,10**7)**3)/177),7)",
+    "asserts": "≈ 0.1445141"
+   },
+   {
+    "sympy": "N(Rational(1445141,10**7)-(Rational(189,10**7))**2/(Rational(189,10**7)+Rational(1068,10**7)),8)",
+    "asserts": "Aitken extrapolation ≈ 0.1445113, matching 0.1445112"
+   },
+   {
+    "sympy": "N(5-9*Rational(1445112,10**7)-Rational(1445112,10**7)**3,10)",
+    "asserts": "≈ 3.696381302"
+   },
+   {
+    "sympy": "nsolve(p**3+177*p**2+9*p-5,p,0.14)",
+    "asserts": "≈ 0.14451127"
+   },
+   {
+    "sympy": "N(-(9+3*Rational(1445,10**4)**2)/(354*Rational(1445,10**4)),5)",
+    "asserts": "iteration ratio g'(p) ≈ -0.177"
+   }
+  ],
+  "transcription_corrections": [
+   "'1,44602', '1,444952', '1,44514' are Gauss's mantissa notation for p = 0.144602, 0.1444952, 0.1445141 (the last more precisely 1.445141).",
+   "'3197070' stands for 8.3197070.",
+   "'0.1445|128' should read 0.14451128; the stroke is a digit 1 or a separator.",
+   "Previous page: 'p = +0,14451426' should be about 0,1445113 (consistent with x = -0.8554887).",
+   "'5677767', '2479733', '3198034' stand for 0.5677767, 2.2479733, 8.3198034."
+  ]
+ }
+}

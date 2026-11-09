@@ -1,0 +1,144 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c060",
+ "label": "31r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000061/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a set of working notes on prime counting. It splits into five blocks: the exponential integral, the Euler product and Möbius inversion of zeta'/zeta, numerical values of Li, a series for Riemann's R(x) in powers of log x, and the loop integral for zeta.\n\n(A) Exponential integral (top left).\n- Integration by parts gives int e^x/x dx = e^x/x + int e^x/x^2 dx.\n- Repeating: int e^x/x dx = e^x * sum_{k=1}^{n} (k-1)!/x^k + n! * int e^x/x^{n+1} dx. This is the asymptotic expansion of Ei(x), i.e. of Li(e^x).\n- The remainder is treated with n!/x^{n+1} = int_0^oo e^{-s x} s^n ds (valid for x>0).\n- Swapping the integrals gives int_0^oo e^{(1-s)x} s^n/(1-s) ds. This is singular at s=1.\n- The faded entries in the stained area (log r - pi i, log r + pi i, sums with (1-s)^...) appear to handle that singularity by going above or below it, i.e. a principal-value treatment. Those details are illegible.\n\n(B) Euler product and the logarithmic derivative.\n- sum n^{-s} = prod (1-p^{-s})^{-1} for s>1.\n- Taking logs: log zeta = -sum log(1-p^{-s}).\n- Differentiating: chi(s) := zeta'(s)/zeta(s) = -sum_p log p/(p^s-1) = -sum_p sum_{k>=1} p^{-ks} log p.\n- Gamma integral: Pi(s-1)/n^s = int_0^oo e^{-nx} x^{s-1} dx. Summing over n gives Pi(s-1) zeta(s) = int_0^oo x^{s-1}/(e^x-1) dx (Riemann 1859).\n- Möbius inversion: chi(s) - chi(2s) - chi(3s) - chi(5s) + chi(6s) - chi(7s) + chi(10s) - chi(11s) ... = sum_m mu(m) chi(ms) = -sum_p p^{-s} log p. The written signs are exactly mu(m).\n- Heuristic step: keep only the pole of each chi(ms), i.e. chi(ms) ~ -1/(ms-1). Then -sum_p p^{-s} log p ~ -1/(s-1) + 1/(2s-1) + 1/(3s-1) + 1/(5s-1) - ...\n- Each term is written as an integral. Using 1/(ms-1) = (1/m) int_1^oo x^{-s-1+1/m} dx, this becomes -int_1^oo (x^{-s} - 1/2 x^{-s-1/2} - 1/3 x^{-s-2/3} - 1/5 x^{-s-4/5} + ...) dx. He checks int_1^oo x^{-s} dx = 1/(s-1).\n- Comparing with sum p^{-s} log p = int x^{-s} d(theta), the density of log p is about 1 - 1/2 x^{-1/2} - 1/3 x^{-2/3} - ... So the density of primes is that expression divided by log x.\n- Integrating (substitute u = x^{1/m}): pi(x) ~ Li x - 1/2 Li x^{1/2} - 1/3 Li x^{1/3} - 1/5 Li x^{1/5} + 1/6 Li x^{1/6} - 1/7 Li x^{1/7} ... This is Riemann's R(x) = sum mu(m)/m Li(x^{1/m}). Here it is derived from the pole of zeta alone.\n\n(C) Numerics for R(10^6) and R(10^5).\n- Values written: Li 10^6 = 78627.54928, Li 10^3 = 177.609658, Li 100 = 30.126139, Li 10 = 6.1655995.\n- 88.804829 = Li(10^3)/2, which is the term (1/2) Li(x^{1/2}) at x = 10^6.\n- 10.042046 = Li(100)/3, which is (1/3) Li(x^{1/3}).\n- 98.846875 is their sum.\n- For x = 10^5: Li 10^5 = 9629.80904, plus the arguments 316.227766 = 10^{5/2}, 46.4159 = 10^{5/3} and 10 = 10^{5/5}.\n- The long-hand work at lower right is a digit-by-digit square root (sqrt 10 = 3.16227766...).\n- Then Li(316.227766) is obtained from Li(320) ≈ 71.820157 by subtracting int_{316.23}^{320} dt/log t. The interval is 3.772234 and the midpoint is 318.113883, so the integral is about 3.772234/log 318.113883 ≈ 0.6546. My completion gives Li(316.23) ≈ 71.165.\n\n(D) Series for R in powers of y = log x (centre).\n- int e^y/y dy = log y + y + y^2/(2!2) + y^3/(3!3) + ... + const, so Li(x^{1/n}) has terms y^m/(m! m n^m).\n- Inserting into sum mu(n)/n Li(x^{1/n}):\n  - the coefficient of y^m/(m! m) is sum mu(n)/n^{m+1} = prod(1-p^{-m-1}) = 1/sum n^{-(m+1)};\n  - the constant terms give 1. This needs sum mu(n)/n = 0 and sum mu(n) log n/n = -1.\n- He writes: = 1 + y^m/(m! m sum 1/n^{m+1}). That is Gram's series R(x) = 1 + sum_{m>=1} (log x)^m/(m * m! * zeta(m+1)). The isolated '±1/2 log y' entries are bookkeeping of the log y / log log x terms, which cancel.\n\n(E) Contour integral (right column).\n- On the two edges of the cut, log(-x) = log r ∓ pi i. So int_oo^oo (-x)^{s-1}/(e^x-1) dx = (e^{-s pi i} - e^{s pi i}) int_0^oo x^{s-1}/(e^x-1) dx = -2i sin(pi s) Pi(s-1) zeta(s). This is the 1859 representation.\n- At s = 0 he uses 1/(e^x-1) = 1/x - 1/2 + ..., equivalently -1/2 + (1/2)(e^x+1)/(e^x-1).\n- With Pi(0) = 1 and the residue, the loop integral equals pi i = -2 pi i zeta(0). Hence zeta(0) = -1/2.\n- He then lists singularities of chi:\n  - chi(s) = -1/(s-1) + ... from the pole;\n  - claimed trivial zeros zeta(-1-2n) = 0, giving chi(s) = 1/(s+2n+1) + ...\n- Representing these as Mellin-type integrals: chi(s) ≈ int_1^oo (-x^{-s} + sum x^{-s-2n-...}) dx = int_1^oo (-1 + 1/(x^2-1)) x^{-s} dx = int_1^oo x^{-s} (2-x^2)/(x^2-1) dx.\n- Then chi(ms) = int_1^oo x^{-ms}(2-x^2)/(x^2-1) dx. Substituting x -> x^{1/m} gives int_1^oo x^{-s} (2-x^{2/m})/(x^{2/m}-1) (1/m) x^{1/m} dx/x.\n- The aim is to feed sum mu(m) chi(ms) into a corrected prime density that includes the trivial-zero term. This is a precursor of the term int_x^oo dt/((t^2-1) t log t) in the 1859 formula. The next page derives the functional equation, with sin(pi s/2) and trivial zeros at even negatives.",
+  "errors": [
+   "zeta(-1-2n)=0 and chi(s) = 1/(s+2n+1)+... are wrong: the trivial zeros are at s=-2,-4,... (zeta(-1)=-1/12). This plausibly predates the functional equation derived on the next page. The resulting kernel 1/(x^2-1) should be 1/(x(x^2-1)), i.e. sum_{n>=1} x^{-s-2n-1}.",
+   "Partly as a consequence, int_1^oo x^{-s}/(x^2-1) dx diverges at x=1 (non-integrable singularity), so the representation chi(s) = int_1^oo x^{-s}(2-x^2)/(x^2-1) dx is only formal.",
+   "Keeping only the pole of zeta'/zeta (ignoring the nontrivial zeros) is a heuristic. It yields R(x) as a main term, not an identity.",
+   "Small numerical inaccuracies: li(10^6)=78627.549159 (page .54928), li(10^5)=9629.809001 (page .80904), li(100)=30.1261416 (page 30.126139). li(1000) and li(10) are correct to all digits shown.",
+   "The Ei remainder rewritten as int_0^oo e^{(1-s)x} s^n/(1-s) ds has a pole at s=1. It needs a principal value or contour indentation, apparently handled in the stained, illegible part."
+  ],
+  "results": [
+   {
+    "what": "Asymptotic expansion of int e^x/x dx with explicit factorial remainder written as a Laplace integral",
+    "modern_name": "Asymptotic expansion of Ei(x)/li(x)",
+    "usually_credited_to": "Euler/Soldner, Laplace (classical)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Pi(s-1)zeta(s) = int_0^oo x^{s-1}/(e^x-1) dx and the loop-integral form with factor -2i sin(pi s)",
+    "modern_name": "Mellin/Hankel contour representation of zeta",
+    "usually_credited_to": "Riemann 1859",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "zeta(0) = -1/2 from the residue of the loop integral",
+    "modern_name": "Special value zeta(0)",
+    "usually_credited_to": "Euler (formally), Riemann 1859 (via contour)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Möbius inversion sum mu(m) zeta'/zeta(ms) = -sum p^{-s} log p, and the pole-term heuristic giving pi(x) ~ sum mu(m)/m Li(x^{1/m})",
+    "modern_name": "Riemann's R(x); Möbius inversion of log zeta",
+    "usually_credited_to": "Riemann 1859 (R(x) via inversion of log zeta)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Numerical evaluation of li at 10, 100, 1000, 10^5, 10^6 and of the terms of R(10^6), R(10^5)",
+    "modern_name": "Numerical test of R(x) against prime counts",
+    "usually_credited_to": "Gram 1884; Lehmer; earlier Gauss's li tables",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "R(x) = 1 + sum_m (log x)^m/(m! m zeta(m+1)), obtained by expanding each Li(x^{1/n}) in the Ei series and summing over n",
+    "modern_name": "Gram series for Riemann's R function",
+    "usually_credited_to": "J. P. Gram 1884",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Mellin-integral representation of the trivial-zero contribution to zeta'/zeta and its Möbius-weighted rescaling chi(ms)",
+    "modern_name": "Precursor of the trivial-zero term int_x^oo dt/(t(t^2-1)log t) in the explicit formula",
+    "usually_credited_to": "Riemann 1859 (final formula)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 5,
+  "surprise_reason": "Most of the page is material known from Riemann's 1859 paper: the integral and loop representations, zeta(0), and R(x) via Möbius inversion. Seeing it derived heuristically from the pole of zeta'/zeta, with hand values of li, is a notable glimpse of his process. The most surprising item is the clear derivation of the series 1 + sum (log x)^m/(m! m zeta(m+1)), normally credited to Gram (1884). It appears here in Riemann's hand with the constant 1 correctly identified. Whether historians already note this in the Nachlass literature is unknown to me, so the score is moderate.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(exp(x)*sum((factorial(k-1)/x**k) for k in range(1,6)), x) + factorial(5)*exp(x)/x**6 - exp(x)/x)",
+    "asserts": "Integration-by-parts expansion of int e^x/x dx with n=5 (should be 0)"
+   },
+   {
+    "sympy": "integrate(exp(-s*x)*s**3, (s, 0, oo), conds='none') - factorial(3)/x**4",
+    "asserts": "n!/x^{n+1} = int_0^oo e^{-sx} s^n ds for x>0 (should be 0)"
+   },
+   {
+    "sympy": "sum(mobius(m)*Rational(1,1) for m in divisors(12))",
+    "asserts": "Sum of mu over divisors of N>1 is 0, the key fact behind sum mu(m) chi(ms) = -sum p^{-s} log p"
+   },
+   {
+    "sympy": "[mobius(m) for m in [1,2,3,5,6,7,10,11]]",
+    "asserts": "Signs used: [1,-1,-1,-1,1,-1,1,-1]"
+   },
+   {
+    "sympy": "integrate(x**(-s-1+Rational(1,3)), (x, 1, oo), conds='none') - 3/(3*s-1)",
+    "asserts": "1/(ms-1) = (1/m) int_1^oo x^{-s-1+1/m} dx for m=3 (should be 0)"
+   },
+   {
+    "sympy": "zeta(0)",
+    "asserts": "zeta(0) = -1/2"
+   },
+   {
+    "sympy": "zeta(-1)",
+    "asserts": "zeta(-1) = -1/12 != 0, so the page's claim zeta(-1-2n)=0 is wrong"
+   },
+   {
+    "sympy": "N(li(10**6), 15)",
+    "asserts": "li(10^6) ≈ 78627.5491594 (page: 78627.54928)"
+   },
+   {
+    "sympy": "N(li(10**5), 15)",
+    "asserts": "li(10^5) ≈ 9629.80900 (page: 9629.80904)"
+   },
+   {
+    "sympy": "[N(li(10),12), N(li(100),12), N(li(1000),12)]",
+    "asserts": "li(10)=6.1655995, li(100)=30.1261416, li(1000)=177.6096581"
+   },
+   {
+    "sympy": "177.609658/2 + 30.126139/3",
+    "asserts": "88.804829 + 10.042046 = 98.846875 as on the page"
+   },
+   {
+    "sympy": "N(li(320),10)",
+    "asserts": "Li(320) ≈ 71.82 (page 71.820157)"
+   },
+   {
+    "sympy": "(316.227766+320)/2, 320-316.227766, N(sqrt(10)*100, 12)",
+    "asserts": "Midpoint 318.113883, difference 3.772234, 10^{5/2}=316.227766"
+   },
+   {
+    "sympy": "N(1 + Sum(log(10**6)**m/(m*factorial(m)*zeta(m+1)), (m, 1, 200)), 15)",
+    "asserts": "Gram series value equals Riemann R(10^6) ≈ 78527.4 (compare mpmath.riemannr(10**6))"
+   },
+   {
+    "sympy": "simplify(-1 + 1/(x**2-1) - (2-x**2)/(x**2-1))",
+    "asserts": "Algebraic identity used on the page (should be 0)"
+   },
+   {
+    "sympy": "simplify((x**(-m*s)*(2-x**2)/(x**2-1)).subs(x, u**(1/m))*diff(u**(1/m), u) - u**(-s)*(2-u**(2/m))/(u**(2/m)-1)*u**(1/m)/(m*u))",
+    "asserts": "Change of variables x -> u^{1/m} in chi(ms) (should be 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "In the Gram-type line the product is most likely prod(1 - 1/p^{m+1}) = 1/zeta(m+1), not prod 1/(1-1/p^{m+1}). The next line places sum 1/n^{m+1} in the denominator: = 1 + y^m/(m! m sum 1/n^{m+1}).",
+   "The line 'y^m/(m! m n^{m+1})' is the n-th contribution (mu(n)/n)*y^m/(m! m n^m), consistent with the reading above.",
+   "The right-column sum in chi(s) = int_1^oo(-x^{-s} + sum x^{-s-2n-...})dx must, to match the next line (-1 + 1/(x^2-1)), have exponent -s-2n-2 for n>=0 (equivalently -s-2n for n>=1). The transcribed '-s-2n-1' is inconsistent with the following line as written.",
+   "'Li 10,' at the lower left is Li(10) = 10^{5/5}, the third term needed for R(10^5) alongside Li 316.227766 and Li 46.4159.",
+   "The digit columns at lower right are a long-hand square-root extraction (doubling 3162277.5 -> 6324555), not separate results.",
+   "The faded entries in the stained area ((1-s)^..., log r ± pi i) belong to a principal-value or contour treatment of the Ei remainder and are largely illegible; transcribed content there is uncertain."
+  ]
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c110",
+ "label": "57r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000111/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This is a draft or fair copy of Riemann's Paris Academy prize essay on heat conduction (the 'Commentatio mathematica', 1861), printed posthumously in the Gesammelte Werke (1876). The prize question asked when the temperature u in a homogeneous body can be a function of time and only two spatial variables. On the previous page Riemann said lack of time prevented him from carrying out the substitutions into his six curvature-type conditions. So here he only lists the solutions, and only for the simplest, isotropic law:\n(I) u_x1x1 + u_x2x2 + u_x3x3 = a^2 u_t.\nHe says the other cases reduce to this one by a linear change of coordinates. That is my gloss, but it is standard for a constant-coefficient anisotropic conductor.\n\nThe index m labels the four cases from his earlier analysis. To my understanding it counts how u depends on t (the number of independent quantities among u and its time derivatives); the defining passage is on earlier pages and I have not verified it.\n\nThe cases are:\n\n(m=1) u is independent of t and depends on two spatial functions alpha, beta. This happens only in two situations:\n- u is constant along parallel straight lines, i.e. u = u(x, y);\n- u is constant along coaxial circles or helices. In cylindrical coordinates (z, r cos phi, r sin phi) one can take alpha = r and beta = z + c*phi. This is helical symmetry, with rotational symmetry as the special case c = 0.\n\n(m=2) u = f(alpha) + phi(beta).\n\n(m=3) u = alpha*e^{lambda t} + f(beta), with lambda a real constant.\n\n(m=4), as found earlier in the essay, u has one of three forms:\n- u = alpha*e^{lambda t} + beta*e^{mu t} + const;\n- u = (alpha + beta*t)*e^{lambda t} + const;\n- u = f(alpha).\n\nFurther claim. If u is not of the form alpha*e^{lambda t}, it can be a function of t and a single spatial variable only when u is constant on:\n- parallel planes;\n- coaxial cylinders;\n- concentric spheres.\n\nIf u = alpha(x) e^{lambda t}, substituting into (I) gives Delta alpha = lambda a^2 alpha, a Helmholtz/eigenvalue equation.\n\nIn case 4, substituting each form into (I) determines alpha and beta easily (the explicit steps below are mine):\n- First form: Delta alpha = lambda a^2 alpha and Delta beta = mu a^2 beta.\n- Second form: Delta beta = lambda a^2 beta and Delta alpha = a^2 (lambda alpha + beta). Comparing the coefficients of t e^{lambda t} and e^{lambda t} gives these.\n\nRiemann adds that alpha e^{lambda t} and beta e^{mu t} may be complex conjugates, so that u is real while lambda and mu are conjugate complex numbers (oscillating, decaying solutions). Footnote (2) is attached here.",
+  "errors": [
+   "No mathematical errors detected in what is stated; the page is a summary without proofs.",
+   "Unjustified on this page: the completeness claims ('tum tantum'), i.e. only lines or helices for m=1, and only planes, cylinders, spheres for one-variable dependence. The previous page admits the calculations were not written out ('angustia temporis non permisit').",
+   "The reduction of the anisotropic case to the isotropic one is asserted ('constat') without argument. It is true for constant conductivity coefficients via a linear change of variables."
+  ],
+  "results": [
+   {
+    "what": "Classification of solutions of the 3D heat equation depending on t and only two spatial functions: cases m=1..4 (translational or helical symmetry, additive splitting, exponential-in-time forms).",
+    "modern_name": "Symmetry or functional-separation reductions of the heat equation (helical/translational invariance; separation of variables)",
+    "usually_credited_to": "Riemann himself (Paris prize essay 1861, published in Werke 1876); later systematic symmetry reductions by Lie-group methods (Ovsiannikov, Olver, 20th c.)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Temperature depending on t and one spatial variable only (and not of the form alpha*e^{lambda t}) must be constant on parallel planes, coaxial cylinders or concentric spheres.",
+    "modern_name": "Classification of isoparametric families of surfaces in R^3 (|grad alpha|^2 and Delta alpha functions of alpha), as relevant to the heat/wave equation",
+    "usually_credited_to": "Somigliana (1919), Levi-Civita (1937), B. Segre (1938)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Substituting u = alpha e^{lambda t} gives Delta alpha = lambda a^2 alpha; complex conjugate exponents give real oscillatory solutions.",
+    "modern_name": "Separation of variables / Helmholtz eigenvalue equation",
+    "usually_credited_to": "Fourier (1822)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the known Commentatio mathematica text, published in Riemann's Werke since 1876 and well studied. The only mildly notable point is the unproved isoparametric-type claim (planes, cylinders, spheres), which anticipates Somigliana and Levi-Civita. Even that is in the published essay, so it is not new.",
+  "checkable": [
+   {
+    "sympy": "x1,x2,x3,t,a,lam=symbols('x1 x2 x3 t a lam'); al=Function('alpha')(x1,x2,x3); u=al*exp(lam*t); simplify((diff(u,x1,2)+diff(u,x2,2)+diff(u,x3,2)-a**2*diff(u,t)).subs(diff(al,x1,2), lam*a**2*al-diff(al,x2,2)-diff(al,x3,2)))==0",
+    "asserts": "u = alpha e^{lambda t} solves (I) iff Delta alpha = lambda a^2 alpha"
+   },
+   {
+    "sympy": "r,t,a,k=symbols('r t a k',positive=True); u=sin(k*r)/r*exp(-k**2*t/a**2); simplify(diff(r**2*diff(u,r),r)/r**2 - a**2*diff(u,t))==0",
+    "asserts": "Spherically symmetric solution of (I) depending on t and one variable r"
+   },
+   {
+    "sympy": "r,t,a,k=symbols('r t a k',positive=True); u=besselj(0,k*r)*exp(-k**2*t/a**2); simplify(diff(r*diff(u,r),r)/r - a**2*diff(u,t))==0",
+    "asserts": "Cylindrically symmetric solution of (I) depending on t and r"
+   },
+   {
+    "sympy": "r,phi,z,c=symbols('r phi z c'); F=Function('F'); u=F(r,z+c*phi); L=diff(r*diff(u,r),r)/r+diff(u,phi,2)/r**2+diff(u,z,2); L",
+    "asserts": "For a helically invariant u(r, z+c*phi) the Laplacian depends only on r and z+c*phi (m=1 helix case is consistent)"
+   },
+   {
+    "sympy": "x,t,a,lam=symbols('x t a lam'); A=Function('A')(x); B=Function('B')(x); u=(A+B*t)*exp(lam*t); expand(simplify((diff(u,x,2)-a**2*diff(u,t))*exp(-lam*t)))",
+    "asserts": "Coefficient of t gives B''=a^2 lam B and constant term gives A''=a^2(lam A + B) for the (alpha+beta t)e^{lambda t} form"
+   }
+  ],
+  "transcription_corrections": [
+   "Page number at top right is '17.'; the pencil '57' in the right margin is the folio number.",
+   "'eadem axi' is as written in the manuscript (grammatically 'eodem axe' would be expected).",
+   "'ita ut' is correct; 'beta = z + phi.const' means z + c*phi, with c constant.",
+   "The word 'formae' after 'si u est' is struck through, consistent with the [-formae-] in the transcription.",
+   "The trailing '(2)' is a footnote marker."
+  ]
+ }
+}

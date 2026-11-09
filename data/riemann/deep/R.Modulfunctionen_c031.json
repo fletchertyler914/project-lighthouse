@@ -1,0 +1,48 @@
+{
+ "bundle": "R.Modulfunctionen",
+ "page": "c031",
+ "label": "15v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3223711:00000032/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page continues the previous one. In the fragment on the limiting cases of the elliptic modular functions, Riemann needs the boundary values of power series as r -> 1, for example at x = 2*pi*m/n in his 'formula 65'. On the previous page he states the hypothesis. The series a_0 + a_1 + a_2 + ... converges. So for any small eps there is an n such that every partial sum of the tail, a_{n+1} + ... + a_{n+k}, has absolute value < eps. The page opens with '[brevi]tatis gratia', i.e. 'for brevity'.\n\nStep 1 (notation). Riemann defines the tail partial sums:\neps_{n+1} = a_{n+1}\neps_{n+2} = a_{n+1} + a_{n+2}\neps_{n+3} = a_{n+1} + a_{n+2} + a_{n+3}\n...\nBy hypothesis |eps_{n+k}| < eps for every k >= 1.\n\nStep 2 (summation by parts). Let f(r) = a_0 + a_1 r + a_2 r^2 + ... with 0 < r < 1. Since a_{n+k} = eps_{n+k} - eps_{n+k-1}:\nf(r) = a_0 + a_1 r + ... + a_n r^n + eps_{n+1} r^{n+1} + (eps_{n+2} - eps_{n+1}) r^{n+2} + (eps_{n+3} - eps_{n+2}) r^{n+3} + ...\nRegrouping gives\nf(r) = a_0 + ... + a_n r^n + eps_{n+1}(r^{n+1} - r^{n+2}) + eps_{n+2}(r^{n+2} - r^{n+3}) + ...\nThe regrouping is legitimate. For finite N the boundary term is eps_N r^N, which tends to 0 because the eps_N are bounded and r < 1. This justification is mine; Riemann does not state it.\n\nStep 3 (estimating the tail). Every eps_{n+k} has absolute value < eps, and every difference r^{n+k} - r^{n+k+1} is positive. So the terms of degree higher than n are in absolute value\n< eps(r^{n+1} - r^{n+2}) + eps(r^{n+2} - r^{n+3}) + ... = eps r^{n+1} (telescoping) < eps.\n\nStep 4 (the head). The terms of degree at most n form a polynomial in r. Riemann calls it an 'algebraic function of r'. As r -> 1 it approaches a_0 + a_1 + ... + a_n as closely as desired.\n\nConclusion, stated on the page ('Unde patet...'): as r converges to the limit 1, f(r) eventually differs from the value of the series a_0 + a_1 + a_2 + ... by less than any given quantity.\n\nImplicit step (mine): |f(r) - S| <= |P_n(r) - P_n(1)| + eps r^{n+1} + |sum_{k>n} a_k|. The last term is <= eps, being the limit of the eps_{n+k}. Hence limsup_{r->1-} |f(r) - S| <= 2 eps.\n\nThis is Abel's limit theorem, proved by Abel's own method of partial summation. Riemann needs it to evaluate the boundary values of the modular-function series treated on the previous page.",
+  "errors": [
+   "In the first transformed line Riemann writes 'a_0 + a_1 + a_2 r ...'; it should read a_0 + a_1 r + a_2 r^2 + ... . This is a harmless slip; the next line is correct.",
+   "The target value of the polynomial head is written 'a_1 + a_2 ... a_n'; it should be a_0 + a_1 + ... + a_n. This is a minor slip, or a_0 is merely omitted.",
+   "The page does not justify infinite regrouping (Abel summation) for r < 1, which needs the boundary term eps_N r^N -> 0. This is true and routine, but left implicit.",
+   "The final combination is only gestured at ('unde patet appropinqua...', the sentence breaks off). Its pieces are: the polynomial approximation, the tail bound eps r^{n+1}, and the fact that the series tail itself has absolute value <= eps. The resulting bound is 2*eps, not eps; this is immaterial."
+  ],
+  "results": [
+   {
+    "what": "If sum a_k converges to S, then sum a_k r^k -> S as r -> 1-, proved by partial summation with tail sums eps_{n+k} and the telescoping bound eps*r^{n+1}.",
+    "modern_name": "Abel's limit theorem (Abel's theorem on power series), proof via Abel summation by parts",
+    "usually_credited_to": "N. H. Abel, 1826 (Crelle's Journal, binomial series paper)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a standard textbook proof of Abel's 1826 limit theorem, essentially Abel's own argument. It is mildly interesting only as evidence that Riemann wrote out this lemma himself while studying the boundary behaviour of the modular-function series. That fits the known 'Fragmente über die Grenzfälle der elliptischen Modulfunctionen'. Nothing in it is new.",
+  "checkable": [
+   {
+    "sympy": "r,a0,a1,a2,a3,a4,a5=symbols('r a0 a1 a2 a3 a4 a5'); n=1; a=[a0,a1,a2,a3,a4,a5]; e=lambda k: sum(a[n+1:k+1]); lhs=sum(a[k]*r**k for k in range(6)); rhs=sum(a[k]*r**k for k in range(n+1))+sum(e(k)*(r**k-r**(k+1)) for k in range(n+1,5))+e(5)*r**5; simplify(lhs-rhs)==0",
+    "asserts": "Finite form of Riemann's summation-by-parts identity, with boundary term eps_N r^N (here n=1, N=5)."
+   },
+   {
+    "sympy": "r,j,n=symbols('r j n',positive=True); simplify(Sum(r**(n+j)-r**(n+j+1),(j,1,oo)).doit().subs(r,Rational(1,2)).subs(n,3) - Rational(1,2)**4)==0",
+    "asserts": "The telescoping sum of r^{n+k} - r^{n+k+1} over k >= 1 equals r^{n+1} for 0 < r < 1, giving the tail bound eps*r^{n+1}."
+   },
+   {
+    "sympy": "r=symbols('r'); k=symbols('k',integer=True,positive=True); limit(Sum((-1)**(k+1)*r**k/k,(k,1,oo)).doit(),r,1,'-')==log(2)",
+    "asserts": "Example of the theorem: the alternating harmonic power series tends to its convergent sum log 2 as r -> 1-."
+   }
+  ],
+  "transcription_corrections": [
+   "'tatis gratia' is the end of 'brevitatis gratia', continuing 'brevi-' from the previous page.",
+   "'fr tandem' should read 'f r tandem', i.e. f(r) eventually.",
+   "The interlinear '{+abs[?] facto+}' above 'omisso signo' is uncertain; it may be 'absoluto' (quantitate absoluta).",
+   "In 'valor + a_1 + a_2 ...' above 'Summa terminorum' the first symbol appears to be a_0 overwritten on 'valor', i.e. the series a_0 + a_1 + a_2 + ... .",
+   "The machine transcription faithfully preserves the slip 'a_0 + a_1 + a_2 r' in the first transformed line; the intended reading is a_0 + a_1 r + a_2 r^2."
+  ]
+ }
+}

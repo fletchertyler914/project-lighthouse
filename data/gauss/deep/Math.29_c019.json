@@ -1,0 +1,65 @@
+{
+ "bundle": "Math.29",
+ "page": "c019",
+ "label": "-",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381845:00000020/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context and caveats. The page is a very faint pencil sheet. Only the outline of the argument and the shape of the displayed formulas are legible. Inner numerators that the transcription marks '...' cannot be read, so the reconstruction below is partly inferential and is marked as such.\n\n(1) Setting (prose, legible fragments). A surface, or more generally a quadratic differential form, is given in terms of 'certain variables p, q'. The squared line element is put 'in die Form E dp^2 + 2F dp dq + G dq^2'. A quantity k appears; from the bottom line 'k dq =' and from the 1/k^2 and 1/(kkm) factors it is, with high probability, k = sqrt(EG - F^2). Gauss's own Delta = EG - FF would then be k^2.\n\n(2) Factorisation (my reconstruction of the standard Gauss step). The form splits into two complex-conjugate linear factors:\nE dp^2 + 2F dp dq + G dq^2 = (1/E)(E dp + (F + i k) dq)(E dp + (F - i k) dq).\nEach factor, multiplied by an integrating factor, becomes an exact differential: proportional to dt and du respectively. Hence the line element becomes m dt du; the exact power of m cannot be read. The page's phrase 'T dt . U du = ... E dp^2 + 2F dp dq ...' and 'ein Produkt aus zwei ... Differentialen' fits this.\n\n(3) Freedom in the factorisation (legible prose). The substitution t -> phi(t), u -> psi(u), i.e. multiplying by T dt and U du with T a function of t and U a function of u, preserves the product form. It changes log m only by adding a function of t plus a function of u.\n- The condition that log m be such an aggregate is expressed by d^2 log m/(dt du) = 0.\n- The words '= 0' and 'k' indicate that this is tied to the curvature vanishing (developable / flat case). In general the curvature is proportional to (1/m) d^2 log m/(dt du).\n\n(4) The computation 'Die Ausführung der Rechnung für dd log m/(dt du)'. dt and du are written as linear combinations of dp and dq: 'die Buchstaben die Bedeutung haben dt = .. dp + .. dq, du = .. dp + .. dq'. The operators d/dt and d/du are then obtained by inverting this Jacobian. The result has the structure:\nd^2 log m/(dt du) = (1/k^2)(first-order terms) + (1/(kkm))[E d^2/dq^2 - 2F d^2/dp dq + G d^2/dp^2](...).\nThis is the second-order symbol of the Laplace-Beltrami operator of E dp^2 + 2F dp dq + G dq^2, divided by k^2 = EG - F^2. In modern form, with Delta_g f = (1/k)[d/dp((G f_p - F f_q)/k) + d/dq((E f_q - F f_p)/k)], one has (my reconstruction) d^2 f/(dt du) = const * m * Delta_g f. Therefore K = -(1/2) Delta_g log m = -(c/m) d^2 log m/(dt du).\n\n(5) Continuation. The next page (Math 29 [11]) continues expanding the first-order terms: coefficients of dm/dp involving E, F, G, their derivatives, and auxiliary quantities a, b, A, B, a', b', A', B', C'. This confirms a brute-force coordinate verification of the formula.\n\nOverall purpose. The page reduces a general line element to conformal (isothermal / characteristic) form via complex factorisation. It then expresses the curvature as d^2 log m/(dt du), verifying it in the original coordinates p, q. This is the material of Gauss's 1822 Copenhagen prize essay on conformal mapping and of his 1822-1827 work on the Disquisitiones generales circa superficies curvas.",
+  "errors": [
+   "No definite error can be identified: the numerators of all displayed derivatives are illegible, so individual coefficients cannot be checked against the image.",
+   "Signs and the power of m (m vs m^2 in the line element) are uncertain from the image. The structural sign pattern E(.)_qq - 2F(.)_pq + G(.)_pp is the correct symbol of the Laplace-Beltrami operator."
+  ],
+  "results": [
+   {
+    "what": "Factorisation of E dp^2+2F dp dq+G dq^2 into two conjugate linear differentials, which integrating factors turn into m dt du (isothermal/conformal coordinates).",
+    "modern_name": "Existence/construction of isothermal (conformal) coordinates via characteristic (null) coordinates",
+    "usually_credited_to": "Gauss (Copenhagen prize essay 1822, publ. 1825); rigorous existence later by Korn, Lichtenstein",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Line element unchanged in form under t->phi(t), u->psi(u); log m changes by a function of t plus a function of u. Flatness iff d^2 log m/(dt du)=0.",
+    "modern_name": "Conformal invariance; Gaussian curvature in isothermal coordinates K = -(1/2m) Delta log m (for ds^2 = m(dx^2+dy^2))",
+    "usually_credited_to": "Gauss (Nachlass / Disquisitiones era); formula often cited via Liouville (1850)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Expression of d^2 log m/(dt du) in the original coordinates p, q, via an operator with second-order part (E d_qq - 2F d_pq + G d_pp)/k^2.",
+    "modern_name": "Laplace-Beltrami operator in general coordinates; K = -(1/2) Delta_g log(conformal factor)",
+    "usually_credited_to": "Beltrami (1864-68) for the invariant operator; Gauss for the curvature computations",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Conformal factorisation and the curvature formula in conformal coordinates are well-known Gauss material (Copenhagen essay, Disquisitiones drafts, Werke VIII). The explicit coordinate expansion of the Laplace-Beltrami-type operator is a mildly interesting unpublished detail, but it is illegible and routine for him.",
+  "checkable": [
+   {
+    "sympy": "E,F,G,dp,dq=symbols('E F G dp dq',positive=True); k=sqrt(E*G-F**2); simplify(expand((E*dp+(F+I*k)*dq)*(E*dp+(F-I*k)*dq)/E) - (E*dp**2+2*F*dp*dq+G*dq**2)) == 0",
+    "asserts": "The quadratic form factors into two conjugate linear differentials with k = sqrt(EG-F^2)."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); m=exp(x**2*y); E=m; F=0; G=m; K=-1/(2*sqrt(E*G))*(diff(diff(G,x)/sqrt(E*G),x)+diff(diff(E,y)/sqrt(E*G),y)); simplify(K - (-(diff(log(m),x,2)+diff(log(m),y,2))/(2*m))) == 0",
+    "asserts": "For ds^2 = m(dx^2+dy^2), Gauss curvature K = -(1/(2m))(log m)_xx+(log m)_yy."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); f=Function('f')(x,y); t=x+I*y; u=x-I*y; # d/dt=(d/dx - I d/dy)/2, d/du=(d/dx + I d/dy)/2; simplify(((diff(f,x)-I*diff(f,y))/2).diff(x)/2 + I*((diff(f,x)-I*diff(f,y))/2).diff(y)/2 - (diff(f,x,2)+diff(f,y,2))/4) == 0",
+    "asserts": "d^2/(dt du) = (1/4)(d_xx + d_yy), so d^2 log m/(dt du) is proportional to the flat Laplacian of log m."
+   },
+   {
+    "sympy": "p,q=symbols('p q'); E,F,G,f=[Function(n)(p,q) for n in 'EFGf']; k=sqrt(E*G-F**2); L=(diff((G*diff(f,p)-F*diff(f,q))/k,p)+diff((E*diff(f,q)-F*diff(f,p))/k,q))/k; simplify(L.coeff(Derivative(f,p,2))-G/k**2)==0",
+    "asserts": "The Laplace-Beltrami operator of E dp^2+2F dp dq+G dq^2 has second-order part (G f_pp - 2F f_pq + E f_qq)/k^2, matching the pattern on the page."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 likely reads 'Es sei ferner ... eine bestimmte Funktion von gewissen veränderlichen p, q'.",
+   "The line before the factorisation appears to read 'zurückgeführt wird' / 'angezogen wird', and 'willkürliche' likely belongs to 'mit einer willkürlichen Rechnungsoperation' (uncertain).",
+   "'(log m nicht) anders als das Aggregat einer Funktion von T(t) und einer Funktion von u': the variable is probably t (lowercase), paired with u.",
+   "The line 'Es ist aber T dt . U du = ... E dp^2 + 2F dp dq + G dq^2' is followed by 'also ein Produkt aus zwei linearen(?) Differentialen'. 'zwei lineare' is written above the line as an insertion.",
+   "Displayed second-order brackets: pattern E d^2/dq^2 - 2F d^2/dp dq + G d^2/dp^2 is legible. The leading factors 1/k^2 and 1/(kkm) are confirmed; inner numerators are illegible.",
+   "The final lines contain 'dt = ... dp + ... dq', 'du = ... dp + ... dq', and expressions like 'k dq' in a pencil note at the lower left margin."
+  ]
+ }
+}

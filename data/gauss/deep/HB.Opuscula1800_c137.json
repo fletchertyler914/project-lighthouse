@@ -1,0 +1,60 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c137",
+ "label": "[132]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000138/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The previous page sets up aberration and nutation reduction constants for star places. It gives Burckhardt's lunar node for 1818-1830, the argument of the node for 1819 Jan 1, 0h Göttingen sidereal time, and formulas for the table columns. The next page (f.133) starts a daily table for January, with arguments -2 to 32 and columns such as log values, sun's longitude and correction terms. This page is the instruction for entering that table.\n\nRule (restated in modern terms). Let d be the calendar date (day number in the table's month layout) and t the local sidereal time at Göttingen. In the sum t enters as a fraction of a sidereal day (t/360 deg, or t/24h). In the conditions t is compared in degrees with the sun's right ascension. The table argument is\n  A = d + t + E + x.\n\nThe integer x is chosen as follows:\n- If t <= 280 deg: x = -1 up to the day on which the sun's RA equals t, and x = 0 from that day to the end of the year.\n- If t > 280 deg: x = -2 up to the day on which RA(sun) = t, and x = -1 from that day on.\n\nWhy x is needed (my explanation). A given sidereal time t occurs once per civil (astronomical, noon-to-noon) day. The exception is the day on which it coincides with the day boundary, i.e. when RA(sun) is about t. There it occurs twice, because the sidereal day is shorter than the solar day. So the count of sidereal days relative to the calendar jumps by one on that day. The threshold 280 deg is roughly the sun's RA at the start of the table: at argument -2 the longitude is 279 deg 13', so RA is about 279 deg. For t > 280 deg the jump occurs in the first days of the table; otherwise it comes later in the year. This selects the base offset (-1 or -2).\n\nE (for Göttingen) is a yearly constant:\n- 1818: -0.48379\n- 1819: -0.72605\n- 1820: -0.96832, with the alternative +0.03168 = -0.96832 + 1 (leap-year renormalisation)\n- 1821: -0.21\n\nE decreases by 0.24226 or 0.24227 per year, i.e. by the fractional part of the year's length in days. The same sidereal time recurs that much earlier relative to the calendar each year. Every four years one whole day is added back for the leap day. Implicit step (mine): E(1821) = 0.03168 - 0.24226 = -0.21058, which Gauss abbreviates as -0.21.",
+  "errors": [
+   "No arithmetic errors. The yearly difference used is 0.24226-0.24227 day, slightly larger than the tropical-year fraction 0.24222 (Bessel's year). The 4e-5 day (about 3.5 s) discrepancy is unexplained on this page. It may reflect the year length Gauss adopted or the epoch definition, and is not clearly a slip.",
+   "The units of t are mixed: t is added to d as a fraction of a day but compared with 280 in degrees. This is a notational convenience, not an error.",
+   "The 1821 value -0.21 is truncated; the consistent value is -0.21058."
+  ],
+  "results": [
+   {
+    "what": "Rule for converting calendar date plus local sidereal time into a continuous table argument (day count), with a yearly epoch constant E and an integer correction x that jumps on the day when the sun's RA equals the given sidereal time",
+    "modern_name": "Conversion of sidereal time to a running day count; the 'sidereal day gained per year' bookkeeping, as in almanac/ephemeris star-reduction tables (day numbers)",
+    "usually_credited_to": "Standard practical astronomy of the period (Berliner Jahrbuch, Connaissance des Temps, later Bessel's Tabulae Regiomontanae 1830)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Yearly constant E decreasing by about 0.2423 day per year, renormalised by +1 at the leap year",
+    "modern_name": "Annual epoch correction (fractional part of the tropical year)",
+    "usually_credited_to": "Routine calendar/ephemeris practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine working instruction for using Gauss's own star-reduction (aberration/nutation) tables computed for Göttingen around 1818-1821. It is ordinary observatory bookkeeping with no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "Eq(Rational(-72605,100000) - Rational(-48379,100000), Rational(-24226,100000))",
+    "asserts": "Yearly decrement of E from 1818 to 1819 is 0.24226"
+   },
+   {
+    "sympy": "Eq(Rational(-96832,100000) - Rational(-72605,100000), Rational(-24227,100000))",
+    "asserts": "Yearly decrement of E from 1819 to 1820 is 0.24227"
+   },
+   {
+    "sympy": "Eq(Rational(-96832,100000) + 1, Rational(3168,100000))",
+    "asserts": "Leap-year renormalisation: -0.96832 + 1 = +0.03168"
+   },
+   {
+    "sympy": "Eq(Rational(3168,100000) - Rational(24226,100000), Rational(-21058,100000))",
+    "asserts": "E(1821) = -0.21058, consistent with the written -0.21"
+   },
+   {
+    "sympy": "N(atan(cos(23.45*pi/180)*tan((279+13/60)*pi/180))*180/pi + 180)",
+    "asserts": "Sun's RA at table argument -2 (longitude 279 deg 13') is about 279 deg, matching the 280 deg threshold"
+   }
+  ],
+  "transcription_corrections": [
+   "The 1821 entry reads '-0.21' (an abbreviation of -0.21058); 1817 is left blank.",
+   "In the first condition the sign is rendered as '<=' (written as a curved less-or-equal mark) before 280 deg; the second reads 't > 280' without a degree sign.",
+   "'R.☉' stands for the right ascension of the sun (AR ☉)."
+  ]
+ }
+}

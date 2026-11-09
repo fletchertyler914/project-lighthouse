@@ -1,0 +1,94 @@
+{
+ "bundle": "Math.17",
+ "page": "c039",
+ "label": "18v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376641:00000040/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page continues, in descending order of p, Gauss's table of decimal expansions of 1/p for primes p (and, per the bottom note, prime powers) below 1000. The previous page held p = 373 to 337; the next page holds 193, 197, 169, 121, 211, 223.\n\nFormat of each entry: the prime p sits in the margin. The digits of 1/p are written in blocks of ten, starting after the leading zeros (1/p = 0.00d3d4...). A dot marks the first significant digit. Roman numerals I, II, III, ... number the blocks (more precisely, they sit above the last digit of each block). Each entry ends when the expansion begins to repeat. The repeating initial segment (including the leading zeros) is underlined, followed by '...'. The period length is therefore implied by the number of digits written (my inference from counting):\n- 317: 8 blocks = 80 digits (d3 to d82); the final '003' restarts the expansion, so ord_317(10) = 79 (316 = 4*79).\n- 311: 16 blocks; the final '0032154' restarts it, so the period is 155 (310/2).\n- 293: 15 blocks, ending '003412'; period 146 (292/2).\n- 281: 3 blocks, ending '0035'; period 28.\n- 269: 27 blocks, ending '0037'; period 268 (10 is a primitive root).\n- 263: 27 blocks, ending '0038022813'; period 262 (full).\n- 257: 26 blocks plus a slip (see errors), ending '003891'; period 256 (full).\n- 251: 5 blocks, then the first block is repeated in full; period 50.\n- 239: one block '4184100418' with '00418' underlined; period 7.\n- 233: 24 blocks, the last being '0042918454'; period 232 (full).\n- 227: 12 blocks, ending '004405286'; period 113 (226/2).\n\nThe computation is plain long division, 10^k mod p, carried until the remainder 1 recurs. Its purpose is the table for converting common fractions to decimals that Gauss describes in Disquisitiones Arithmeticae arts. 312-318. There the period of 1/p, together with a table of indices (discrete logarithms), gives the period of a/p for any a by cyclic shifting.\n\nBottom of page (bookkeeping):\n- An array of primes from 997 down to 419 is crossed out one by one, apparently as they were entered. The stray numbers 14, 15, 16, 17 and '90' are probably page or count marks.\n- Under 'Explicitus' (= done) he lists composite or small moduli already treated: 4, 8, 16 (struck); 9, 27, 81, 243, 729; 25, 125, 625 (struck); 7, 49, 343; 11, 121; and 13, 17, 19, 23, 29, 31.\n- This confirms the goal: every prime and prime-power denominator below 1000.",
+  "errors": [
+   "p = 257, rows 3-4: the 10-digit grouping slips. The true digits after '6147859922' are '1789883268 4824902723 7354085603 1128404669 2607003891 0...'. Gauss wrote '6147859922|1' (an 11-digit group) and then row 4 as '7898832684 8249027237 3540856031 1284046692 607003891'. He marked the slip with vertical bars, so the digit string itself is correct and only the block boundaries in row 4 are shifted by one. The bars are his own correction.",
+   "p = 263, row 2: one block ('4904942965') shows an ink blot or overwriting at the 6th-7th digits. This is apparently a corrected digit; the correct block is 4904942965.",
+   "No digit errors were found in the blocks spot-checked for 233, 239, 251, 257, 263, 281 and 317. The full digit strings should be machine-verified (see checkable)."
+  ],
+  "results": [
+   {
+    "what": "Full repetends of the decimal expansions of 1/p for p = 317, 311, 293, 281, 269, 263, 257, 251, 239, 233, 227, written as part of a table for all primes and prime powers < 1000",
+    "modern_name": "Table of decimal periods (reptends) of reciprocals of primes; multiplicative order of 10 mod p",
+    "usually_credited_to": "Gauss himself (Disquisitiones Arithmeticae 1801, arts. 312-318; table published posthumously in Werke II, 'Tafel zur Verwandlung gemeiner Brüche in Decimalbrüche'). Earlier tables by J. H. Lambert, Burckhardt and others; later by Reuschle and Shanks",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Implied orders of 10: ord_317=79, ord_311=155, ord_293=146, ord_281=28, ord_269=268, ord_263=262, ord_257=256, ord_251=50, ord_239=7, ord_233=232, ord_227=113",
+    "modern_name": "Multiplicative order / full-reptend primes (10 a primitive root mod p)",
+    "usually_credited_to": "Gauss (DA, 1801); Euler and Lambert for earlier observations",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Bookkeeping list of moduli done ('Explicitus'): prime powers 2^k, 3^k, 5^k, 7^k, 11^2 and small primes",
+    "modern_name": "Extension of decimal-period tables to prime-power denominators",
+    "usually_credited_to": "Gauss (DA art. 316 onward; Werke II table)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a working sheet of Gauss's well-known table of decimal periods of 1/p for denominators below 1000. He describes the method in the Disquisitiones, and the table was published in Werke II. The content is pure long-division arithmetic with routine bookkeeping.",
+  "checkable": [
+   {
+    "sympy": "n_order(10,317)==79 and n_order(10,311)==155 and n_order(10,293)==146 and n_order(10,281)==28",
+    "asserts": "Period lengths implied for 317, 311, 293, 281"
+   },
+   {
+    "sympy": "n_order(10,269)==268 and n_order(10,263)==262 and n_order(10,257)==256 and n_order(10,251)==50",
+    "asserts": "Period lengths implied for 269, 263, 257, 251"
+   },
+   {
+    "sympy": "n_order(10,239)==7 and n_order(10,233)==232 and n_order(10,227)==113",
+    "asserts": "Period lengths implied for 239, 233, 227"
+   },
+   {
+    "sympy": "floor(10**82/317)==31545741324921135646687697160883280757097791798107255520504731861198738170347003",
+    "asserts": "The 80 written digits for 1/317 (8 blocks) are correct"
+   },
+   {
+    "sympy": "floor(10**32/281)==355871886120996441281138790035",
+    "asserts": "The three blocks for 1/281 are correct"
+   },
+   {
+    "sympy": "floor(10**12/239)==4184100418",
+    "asserts": "The single block for 1/239 is correct"
+   },
+   {
+    "sympy": "floor(10**62/251)==398406374501992031872509960159362549800796812749003984063745",
+    "asserts": "The six blocks for 1/251 (period 50 plus repeated first block) are correct"
+   },
+   {
+    "sympy": "floor(10**72/233)==4291845493562231759656652360515021459227467811158798283261802575107296",
+    "asserts": "First row (7 blocks) for 1/233 is correct"
+   },
+   {
+    "sympy": "floor(10**72/263)==3802281368821292775665399239543726235741444866920152091254752851711026",
+    "asserts": "First row (7 blocks) for 1/263 is correct"
+   },
+   {
+    "sympy": "(floor(10**262/257) % 10**51)==178988326848249027237354085603112840466926070038910 // 10",
+    "asserts": "The tail of 1/257 including the inserted '1' matches Gauss's corrected digits; alternatively check that str(floor(10**262/257)) ends with '6147859922178988326848249027237354085603112840466926070038910'[:-1]"
+   },
+   {
+    "sympy": "str(floor(10**272/263))[-10:]=='0038022813'",
+    "asserts": "The final (repeat-start) block for 263 at digits 263-272 is correct"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 233, row 2: the transcription '9399141630' is correct (true digits 9399141630), although the image could be misread as '9599141630'.",
+   "Line 257, rows 3-4: Gauss's vertical bars show corrected block boundaries ('6147859922|1', then '789883268|4', '824902723|7', '354085603|1', '128404669|2', '607003891'). The digit sequence is 6147859922 1789883268 4824902723 7354085603 1128404669 2607003891.",
+   "Line 263, row 2: '4904942965' has a blot or overwrite in the image; the correct reading is 4904942965.",
+   "Line 239: the underlining covers '418' (with the preceding '00' marking the restart); the period is 7.",
+   "Bottom right: 'Explicitus' list reads 4.8.16 (struck); 9,27,81,243,729; 25,125,625 (struck); 7,49,343; 11,121; 13.17.19.23.29.31.",
+   "Roman numerals sit above each block and number the 10-digit blocks; they are not part of the digits."
+  ]
+ }
+}

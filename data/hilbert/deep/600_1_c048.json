@@ -1,0 +1,65 @@
+{
+ "bundle": "600_1",
+ "page": "c048",
+ "label": "39",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000049/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. The previous page ends with: \"The irrational number has nothing infinite about it (which is mathematically nonsense anyway); rather, the fundamental sequence (Cauchy sequence) is only the carrier of a fin-\". This page continues: \"-ite law, i.e. a_n is, for finite n, always found by a finite number of operations.\" The computation that follows is an example of such a finite law: the irrational number log y.\n\n(A) Logarithm as a limit of harmonic-sum differences. Let x > 0 and use the variable of integration t.\n\n1. Riemann sum. Hilbert writes\n   ∫_1^{1+x} dt/t = lim_{n→∞} Σ_{k=1}^{n} 1/(n/x + k).\n   Implicit step (mine): partition [1, 1+x] into n parts of width x/n and take right endpoints t_k = 1 + kx/n. Then\n   (x/n)·1/(1 + kx/n) = 1/(n/x + k).\n\n2. Integer parts. He replaces n/x by its integer part [n/x]:\n   lim Σ_{k=1}^{n} 1/([n/x] + k).\n   Justification (mine): each term changes by at most 1/([n/x]+k)^2 ≤ x²/n². Summed over n terms, the total change is O(x²/n), which tends to 0.\n\n3. Harmonic numbers. Let λ(m) = 1 + 1/2 + … + 1/m. This definition is implicit, mine. The sum then equals\n   λ([n/x] + n) − λ([n/x]).\n   Hilbert then writes this as lim_{n→∞} [λ(n(x+1)) − λ(n)]. This tacitly renames N = [n/x] as the new running index, using [n/x] + n ≈ N(1+x).\n\n4. Conclusion, with y = 1 + x:\n   log y = lim_{n→∞} (λ(ny) − λ(n)).\n   Here λ(ny) must be read as λ([ny]); the change is at most 1/(ny), which tends to 0.\n\nPurpose: for rational y, each a_n = λ([ny]) − λ(n) is a rational number obtained by finitely many arithmetic operations. So log y is exhibited as a Fundamentalreihe governed by a finite law.\n\n(B) Foundational definition. When defining the irrational number one must say: \"if a calculation law (Rechnungsgesetz) is given, by virtue of which a number a_n can be found for every number n, etc.\"\n- A Rechnungsgesetz is to be defined as a system of calculating operations. Addition and subtraction of integers suffice, \"since everything else can be reduced to these\".\n- These operations allow one, always by a finite number of applications of subtracting and adding, to find a number a_n for each n.\n- Footnote: \"i.e. according to the prescription; thus e.g. the use of a finite, though arbitrary, table of numbers is permitted.\"\n- The next page continues: the definition suffices because, for any object presented, one can decide from it whether it is such a law or not. Hilbert calls this \"the truly correct mark of a definition\" and adds that definitions with negative marks are therefore not faulty.\n\nIn modern terms, this is a proposal that real numbers be given by algorithmic (finitely describable) rules generating Cauchy sequences of rationals, with finite arbitrary data allowed but no infinite arbitrary choice.",
+  "errors": [
+   "Step 3: the passage from λ([n/x]+n) − λ([n/x]) to λ(n(x+1)) − λ(n) silently re-indexes (n/x → n) and evaluates λ at the non-integer argument n(x+1). This is harmless in the limit (read λ([·])), but it is not written out.",
+   "The interchange in step 2 (replacing n/x by [n/x]) is asserted without the O(1/n) error estimate; it is correct for x > 0.",
+   "The claim that integer addition and subtraction alone 'suffice' for a calculation law is imprecise. Multiplication, division and comparison require iteration or branching, whose number of steps depends on n. Also, a_n must be rational, i.e. a pair of integers. The intuitive notion of 'finitely many applications' really presupposes control structure (in modern terms, a general algorithm).",
+   "The next page's claim that one can always decide whether a given object is a calculation law holds for syntactic rule-descriptions. But whether such a rule actually produces an a_n for every n, and whether the a_n form a fundamental sequence, is in general undecidable (totality problem). Hilbert does not address this; it was naturally unrecognized at the time.",
+   "The definition as stated does not include the convergence (Cauchy) condition; it presumably comes from the Fundamentalreihe context of the previous page."
+  ],
+  "results": [
+   {
+    "what": "log y = lim_{n→∞} (H_{[ny]} − H_n), derived via the Riemann sum ∫_1^{1+x} dt/t = lim Σ_{k=1}^n 1/(n/x+k)",
+    "modern_name": "Harmonic-number asymptotics H_m = log m + γ + o(1); Riemann-sum definition of the logarithm",
+    "usually_credited_to": "Classical (Euler, 1734/35; Mengoli/Mercator lineage); textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Definition of irrational numbers as fundamental sequences given by a finite calculation law (finitely many integer operations per term, finite arbitrary tables allowed), with decidability of 'being a law' as the criterion of a good definition",
+    "modern_name": "Constructive/computable real numbers (algorithmic Cauchy sequences); finitism",
+    "usually_credited_to": "Kronecker (1887, 'Über den Zahlbegriff'); du Bois-Reymond's discussions of 'laws'; Borel (1912) computable numbers; Turing (1936) computable reals; later Brouwer, Bishop",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The logarithm computation is routine. The foundational note, probably late 1880s and plainly under Kronecker's influence, sketches an algorithmic definition of real numbers. It prefigures computable reals and Hilbert's later finitism, and pairs it with decidability as the hallmark of a definition. Hilbert's early Kroneckerian leanings and his notebook remarks on the finitude of irrationals are partly known to historians (Rowe, Corry, Sieg), so this is a notable but not revolutionary unpublished detail.",
+  "checkable": [
+   {
+    "sympy": "limit(Sum(1/(n/x+k),(k,1,n)).doit().subs(x,2), n, oo) - log(3)",
+    "asserts": "The Riemann sum with x=2 converges to log(1+x)=log 3 (expected 0)."
+   },
+   {
+    "sympy": "simplify(Sum(1/(m+k),(k,1,n)).doit() - (harmonic(m+n)-harmonic(m)))",
+    "asserts": "Σ_{k=1}^n 1/(m+k) = λ(m+n) − λ(m) with λ = harmonic numbers (expected 0)."
+   },
+   {
+    "sympy": "limit(harmonic(n*y)-harmonic(n), n, oo)",
+    "asserts": "lim (λ(ny) − λ(n)) = log(y) for y > 0."
+   },
+   {
+    "sympy": "N(harmonic(3*10**6)-harmonic(10**6) - log(3))",
+    "asserts": "Numerical check: H_{3·10^6} − H_{10^6} ≈ log 3, with error ~ 3e-7."
+   },
+   {
+    "sympy": "N(Sum(1/(floor(10**4/Rational(1,2))+k),(k,1,10**4)).doit() - log(Rational(3,2)))",
+    "asserts": "Replacing n/x by its floor (x=1/2, n=10^4) still approximates log(1+x)=log(3/2), with error O(1/n)."
+   }
+  ],
+  "transcription_corrections": [
+   "Integral limits: lower limit 1, upper limit 1+x, written over a struck-out earlier upper limit. The '{+1+x+}' rendering should simply be ∫_1^{1+x} dx/x.",
+   "In the third line the struck-out material before λ([n/x]+n) is an illegible deleted attempt. The final symbol is λ (harmonic sum), possibly written like a script 'l'/'Λ'.",
+   "In 'l y = ... lim (λ(ny) − λ(n))' the second λ has a struck-out subscript or letter. The deleted characters after 'ly =' are illegible cancellations.",
+   "'Wenn eine Rechnungsgesetz' should grammatically be 'ein Rechnungsgesetz'. The underlined word is 'Rechnungsgesetz', double-underlined in the manuscript.",
+   "'lediglich' is underlined and carries the footnote mark *).",
+   "On the next page, 'Zeichnungsgesetz' is very likely a misreading of 'Rechnungsgesetz'."
+  ]
+ }
+}

@@ -1,0 +1,55 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c111",
+ "label": "54v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000112/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the existence proof for the definite integral of a continuous function, given as a preliminary in Riemann's treatment of trigonometric series. The previous page sets up the Riemann sums. Take a = x_0 < x_1 < ... < x_{n-1} < x_n = b and points x_{k-1} < xi_k < x_k. The sum is S = sum_k (x_k - x_{k-1}) f(xi_k). For a fixed delta, let M = M(delta) be the largest and m = m(delta) the smallest value S can take over all partitions whose intervals are all shorter than delta and over all choices of the xi_k. Then m <= S <= M.\n\n(1) Monotonicity. Suppose delta is decreased. Every admissible partition for the smaller delta was already admissible for the larger one. So the set of attainable values of S shrinks. Hence the largest value M cannot increase and the smallest value m cannot decrease. This excludes the alternative raised at the top of the page, in which the values of S would not settle down.\n\n(2) M - m -> 0. Let M be realised by the partition x'_k with points xi'_k:\nM = (x'_1 - a) f(xi'_1) + (x'_2 - x'_1) f(xi'_2) + ... + (b - x'_{n-1}) f(xi'_n).\nLet m be realised by the partition x''_k with points xi''_k:\nm = (x''_1 - a) f(xi''_1) + ...\n\n(3) Common refinement. Merge all x' and x'' and order them by size; call them v_1 < v_2 < ... < v_p. Each difference x'_k - x'_{k-1} is then replaced by a sum of consecutive differences v_j - v_{j-1}, namely the x'' falling between x'_{k-1} and x'_k. The tag f(xi'_k) is repeated on each piece, so several consecutive xi' coincide. This gives\nM = (v_1 - a) f(xi'_1) + (v_2 - v_1) f(xi'_2) + ... ,\nand in the same way\nm = (v_1 - a) f(xi''_1) + (v_2 - v_1) f(xi''_2) + ... ,\nwith the tags re-indexed by refined interval.\n\n(4) Subtracting term by term:\nM - m = (v_1 - a)(f(xi'_1) - f(xi''_1)) + (v_2 - v_1)(f(xi'_2) - f(xi''_2)) + ... + (b - v_p)(f(xi'_{p+1}) - f(xi''_{p+1})).\n\n(5) Estimate. In the first partition, xi'_k lies in the same interval as v_{k-1} and v_k. That interval is shorter than delta, so xi'_k differs from each of them by at most delta. The same holds for xi''_k in the second partition. Hence |xi'_k - xi''_k| <= 2 delta. Let d be the largest change of f when x changes by at most 2 delta. Then every difference f(xi'_k) - f(xi''_k) < d.\n\n(6) Implied conclusion (mine; it lies off the page). M - m < d (b - a), and d -> 0 as delta -> 0 by continuity. Since M decreases, m increases and M - m -> 0, both converge to a common limit, the integral (the area).\n\nThe next page applies this to the Dirichlet-kernel proof of convergence of Fourier series.",
+  "errors": [
+   "The argument assumes the largest and smallest values M, m are actually attained by some partition and tag choice. In general they are only a supremum and infimum (mesh < delta is an open condition). The proof is easily repaired with near-extremal sums or with an epsilon.",
+   "The final step needs d(2 delta) -> 0, i.e. uniform continuity on [a,b]. The continuity definition on the previous page is pointwise in form, and uniform continuity is used tacitly without proof, as in Cauchy (1823). It was first proved by Heine (1872).",
+   "There is an edge bookkeeping slip: the last term is written (b - v_p) with tags indexed p, but there are p+1 refined intervals. This is notational only.",
+   "Minor: the indexing xi'_k versus the refined index (repeated tags) is only described verbally. This is acceptable."
+  ],
+  "results": [
+   {
+    "what": "Existence of the definite integral of a continuous function as the limit of sums sum (x_k - x_{k-1}) f(xi_k) as the mesh tends to 0, via the sup/inf of the sums over partitions of mesh < delta, monotonicity in delta, common refinement, and the bound M - m <= (b-a) * oscillation over 2 delta.",
+    "modern_name": "Existence of the Riemann integral for continuous functions (Cauchy-sum / Darboux upper-lower bound via common refinement and uniform continuity)",
+    "usually_credited_to": "Cauchy (Résumé des leçons, 1823) for continuous functions; Riemann (Habilitationsschrift 1854) for the general integral concept; Darboux (1875) for upper/lower sums; Heine (1872) for uniform continuity",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Monotonicity of the extremal values of Riemann sums as the mesh bound delta decreases (admissible sets are nested).",
+    "modern_name": "Monotone convergence of upper/lower envelopes of Riemann sums (limsup/liminf over the mesh)",
+    "usually_credited_to": "Implicit in Cauchy; made explicit by Darboux 1875",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a standard lecture-style proof of the existence of the integral for continuous functions, essentially Cauchy's 1823 argument. It is used as preliminary material for Riemann's Fourier-series lectures, whose content is known from his published work and the Hattendorff lecture edition. The sup/inf-over-mesh framing has a mild Darboux flavour, but it is not beyond what Riemann is known to have done.",
+  "checkable": [
+   {
+    "sympy": "n=symbols('n',positive=True,integer=True); k=symbols('k',integer=True); simplify(summation((1/n)*((k/n)**2-((k-1)/n)**2),(k,1,n)))",
+    "asserts": "For f=x**2 on [0,1] with a uniform partition, the upper minus lower sum equals 1/n, which tends to 0 (an instance of M - m -> 0)."
+   },
+   {
+    "sympy": "x=symbols('x'); d=symbols('d',positive=True); simplify((x+2*d)**2-x**2 - (4*d*x+4*d**2))",
+    "asserts": "The 2*delta oscillation of x**2 near x is 4*d*x+4*d**2, which is bounded on [0,1] by 4d+4d^2 -> 0. This is the modulus d(2 delta) used in the bound M - m <= (b-a) d."
+   },
+   {
+    "sympy": "a,v1,v2,b,F=symbols('a v1 v2 b F'); simplify((v1-a)*F+(v2-v1)*F+(b-v2)*F-(b-a)*F)",
+    "asserts": "Refining an interval and repeating its tag value leaves the Riemann sum unchanged (common-refinement step)."
+   }
+  ],
+  "transcription_corrections": [
+   "'wird also höchstens um 1/2 M' should most likely read 'wird also höchstens = M' (the largest value is at most M), i.e. 'can therefore not increase'.",
+   "'daß S den kleinsten Werth M an nicht' should be 'den größten Werth M annimmt' (M is the largest value); the sentence is mostly struck through.",
+   "The opening line likely discusses whether the individual values of S approach one another, versus the alternative that they do not ('...sich um endlich mehr nähern').",
+   "'Es nun zu beweisen' should be 'Um nun zu beweisen'.",
+   "'die größte Änderung der f(x) welche dann wird x um 2δ' should read roughly 'welche stattfindet, wenn x um 2δ geändert wird'."
+  ]
+ }
+}

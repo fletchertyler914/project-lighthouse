@@ -1,0 +1,71 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c124",
+ "label": "119",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000125/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page solves, in closed form, the least-squares problem for three linear equations a_i x + b_i y + m_i = e_i in two unknowns, minimizing Sigma = sum e_i^2. This page recasts those rules ('Die obigen Vorschriften für die Ausgleichung können auch so dargestellt werden') for a geodetic problem: adjusting the point of intersection of three rays (overdetermined forward intersection). Each ray i (i = 0, 1, 2, written unprimed, ', '') leaves a known station (a_i, b_i) in direction t_i, with theta_i = tan t_i.\n\n(1) Y_i = b_i + theta_i (X - a_i). X is a provisional abscissa, and Y_i is the ordinate of ray i at that abscissa. The sought point is x = X + xi, y (my notation for the decomposition). On ray i, y = Y_i + theta_i xi.\n\n(2) rho_i = (X - a_i)/cos^2 t_i. Since d(tan t) = dt/cos^2 t, a change dt_i of the direction (in radians) moves ray i at abscissa X by rho_i dt_i. To first order, neglecting xi·dt (my step), the error equation is y - theta_i xi - Y_i = rho_i dt_i, i.e. dt_i = (-theta_i/rho_i) xi + (1/rho_i) y - Y_i/rho_i. One minimizes sum dt_i^2.\n\nMatching with the previous page (my step): coefficient of y = 1/rho_i, theta_prev = -theta_i, n_i = -Y_i, N = -Delta. This gives f_i = -l_i, h = -M and g = -phi.\n\n(3) l_i = rho_i (theta_k - theta_j), cyclic: l = rho(theta''-theta'), l' = rho'(theta-theta''), l'' = rho''(theta'-theta). The vector l spans the orthogonal complement of the two design columns. Indeed sum l_i/rho_i = 0 and sum theta_i l_i/rho_i = 0.\n\n(4) m_i = rho_i l_i.\n\n(5) -M = (theta''-theta')(Y-Delta) + (theta-theta'')(Y'-Delta) + (theta'-theta)(Y''-Delta). Delta is arbitrary because the coefficients sum to zero. One takes Delta equal to one of Y, Y', Y'' to shorten the numbers.\n\n(6) phi = M/(l^2 + l'^2 + l''^2).\n\n(9) dt_i = phi l_i, the least-squares residual of each direction. The factor 206265 converts radians to arcseconds. It is the projection of the vector (-Y_i/rho_i) onto l.\n\n(7) Yfrak_i = Y_i + m_i phi. (8) y = Yfrak_i + theta_i xi for each i. Two of these three equations give xi and y; the third is a check. This follows from y - theta_i xi - Y_i = rho_i dt_i = rho_i l_i phi = m_i phi.\n\n(10) sum dt_i^2 = 206265^2 phi M, since phi^2 sum l^2 = phi M. This corresponds to Sigma = g h on the previous page.\n\nThe starred formulas 1, 2, 3, 4, 7, 9 each hold for all three rays.",
+  "errors": [
+   "No substantive errors. All formulas follow from the previous page's general solution under the substitution theta_prev=-theta, n=-Y, N=-Delta, f=-l, g=-phi, h=-M.",
+   "Formula 8's last member reads theta''x in the hand; it should be theta''xi (a slip of writing, or the xi is written cursively).",
+   "The linearization neglects the second-order term xi*dt (and the variation of rho with xi); this is acceptable for the stated purpose but left implicit.",
+   "'cos t^2' means cos^2 t; the convention that theta = tan t, i.e. t measured from the X-axis, is implicit."
+  ],
+  "results": [
+   {
+    "what": "Closed-form least-squares solution for three observation equations in two unknowns via the null vector l (cyclic differences), with residuals dt_i = phi*l_i and sum of squares phi*M",
+    "modern_name": "Least-squares adjustment via condition equation / projection onto the orthogonal complement of the design matrix (3x2 case)",
+    "usually_credited_to": "Gauss (least squares, 1809/1821-23); Legendre 1805",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Application to the overdetermined intersection of three rays, adjusting directions in arcseconds (206265 factor) with linearization d(tan t)=dt/cos^2 t",
+    "modern_name": "Adjustment of forward intersection (Vorwärtseinschneiden) with three directions; observation-equation adjustment of directions",
+    "usually_credited_to": "Gauss and the Hanoverian geodetic tradition (Gauss, Gerling, Bessel)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine specialization of least squares to a three-ray intersection, the kind of computational recipe Gauss used throughout his geodetic work. It is elegant (an explicit null-space vector, independence from Delta) but not novel relative to what is known of him. The surrounding pages (library accessions of 1853) suggest a late working note.",
+  "checkable": [
+   {
+    "sympy": "simplify((th3-th2) + (th1-th3) + (th2-th1))",
+    "asserts": "Coefficients in formula 5 sum to 0, so Delta is arbitrary (gives 0)"
+   },
+   {
+    "sympy": "simplify(th1*(th3-th2) + th2*(th1-th3) + th3*(th2-th1))",
+    "asserts": "sum theta_i*l_i/rho_i = 0, so l is orthogonal to the xi-column (gives 0)"
+   },
+   {
+    "sympy": "A=Matrix([[-th1/r1,1/r1],[-th2/r2,1/r2],[-th3/r3,1/r3]]); l=Matrix([r1*(th3-th2),r2*(th1-th3),r3*(th2-th1)]); simplify(A.T*l)",
+    "asserts": "l spans the null space of A^T (gives zero vector)"
+   },
+   {
+    "sympy": "A=Matrix([[-th1/r1,1/r1],[-th2/r2,1/r2],[-th3/r3,1/r3]]); c=Matrix([-Y1/r1,-Y2/r2,-Y3/r3]); sol=(A.T*A).inv()*A.T*(-c); e=A*sol+c; l=Matrix([r1*(th3-th2),r2*(th1-th3),r3*(th2-th1)]); M=-((th3-th2)*Y1+(th1-th3)*Y2+(th2-th1)*Y3); phi=M/(l.dot(l)); simplify(e-phi*l)",
+    "asserts": "Least-squares residuals dt_i equal phi*l_i (formula 9 without the 206265 factor); gives zero vector"
+   },
+   {
+    "sympy": "A=Matrix([[-th1/r1,1/r1],[-th2/r2,1/r2],[-th3/r3,1/r3]]); c=Matrix([-Y1/r1,-Y2/r2,-Y3/r3]); sol=(A.T*A).inv()*A.T*(-c); xi,y=sol; simplify(y-(Y1+r1**2*(th3-th2)*(-((th3-th2)*Y1+(th1-th3)*Y2+(th2-th1)*Y3))/((r1*(th3-th2))**2+(r2*(th1-th3))**2+(r3*(th2-th1))**2)+th1*xi))",
+    "asserts": "Formula 7/8: y = Y + m*phi + theta*xi with m = rho*l (gives 0)"
+   },
+   {
+    "sympy": "l=Matrix([r1*(th3-th2),r2*(th1-th3),r3*(th2-th1)]); M=symbols('M'); phi=M/l.dot(l); simplify((phi*l).dot(phi*l)-phi*M)",
+    "asserts": "Formula 10: sum dt^2 = phi*M (radian units); gives 0"
+   },
+   {
+    "sympy": "simplify(diff(tan(t),t)-1/cos(t)**2)",
+    "asserts": "Basis of rho = (X-a)/cos^2 t: d(tan t)/dt = 1/cos^2 t (gives 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Formula 8 last term: 'theta''x' should be read/understood as theta''xi.",
+   "Formula 5 is written '-M =' (the sign belongs to M on the left side); the equals sign looks heavily written but means '='.",
+   "Formula 2: 'cos t^2' = cos^2 t.",
+   "Formula 5, second term: the image reads (Y'-Delta); a punctuation-like mark sits between Y' and Delta but it is (Y' - Delta).",
+   "Pencil 'Bö' at the bottom right is a later (archival?) mark, not part of the mathematics."
+  ]
+ }
+}

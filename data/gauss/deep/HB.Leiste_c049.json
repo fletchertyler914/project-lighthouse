@@ -1,0 +1,54 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c049",
+ "label": "6v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000050/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page, 'Beweis des La Grangischen Lehrsatzes'): x is defined implicitly by x = t + u*xi(x), with xi = xi(x). phi(x) is regarded as a function of the two independent variables t and u. Parentheses (d./d.) denote partial derivatives. Two relations were already derived. (1) phi_u = xi*phi_t, valid for every function of x; with phi = xi it gives xi_u = xi*xi_t. (A) phi_tu = xi_t*phi_t + xi*phi_tt. (2) phi_uu = d/dt( xi^2 * phi_t ).\n\nThis page:\n\nStep 1. Differentiate (2) with respect to u: phi_uuu = d^2/(dt du) [ xi^2 phi_t ].\n\nStep 2. Gauss notes that the order of the t- and u-differentiations may be exchanged. So phi_uuu = d/dt [ d/du( xi^2 phi_t ) ] = d/dt [ xi^2 phi_tu + 2 xi phi_t xi_u ].\n\nStep 3. Substitute (A) for phi_tu and xi_u = xi*xi_t:\n- xi^2 (xi_t phi_t + xi phi_tt) + 2 xi^2 xi_t phi_t = xi^3 phi_tt + 3 xi^2 xi_t phi_t.\n- Hence phi_uuu = d/dt [ xi^3 phi_tt + 3 xi^2 xi_t phi_t ].\n\nStep 4. The bracket is recognised as d/dt( xi^3 phi_t ), so phi_uuu = d^2/dt^2 ( xi^3 phi_t ), which is (3).\n\nStep 5. 'Ganz eben so' (in just the same way): phi_uuuu = d^3/dt^3 ( xi^4 phi_t ), 'u.s.w.' (and so on). In general d^n phi/du^n = d^(n-1)/dt^(n-1) ( xi^n * dphi/dt ).\n\n[My completion of the induction Gauss leaves implicit:] d/du( xi^n phi_t ) = n xi^(n-1) xi_u phi_t + xi^n phi_tu. This equals (n+1) xi^n xi_t phi_t + xi^(n+1) phi_tt, which is d/dt( xi^(n+1) phi_t ).\n\n[Purpose, implicit:] At u = 0 we have x = t, so Taylor expansion in u gives Lagrange's series: phi(x) = phi(t) + sum_{n>=1} u^n/n! * d^(n-1)/dt^(n-1) [ xi(t)^n phi'(t) ]. This is the 'Lagrangian theorem' named in the heading.",
+  "errors": [
+   "Notational slip: the line 'd^3phi x/du^3 = ∂( xi^3 (d^2phi x/dt^2) + 3 xi xi dxi/dt dphi x/dt )' omits the denominator dt after the operator ∂. The meaning, d/dt of the bracket, is clear from context.",
+   "Mixed notation in the final formula: ∂^3 in the numerator against dt^3 in the denominator. This is cosmetic.",
+   "The general n-th case is asserted ('ganz eben so', 'u.s.w.') without the induction step being written out. The step is valid, as checked in the reconstruction.",
+   "No mathematical error on this page. The slip on the previous page (2 xi xi_t written without the factor phi_t) is silently corrected here: the term 2 xi phi_t xi_u is used correctly."
+  ],
+  "results": [
+   {
+    "what": "Third and fourth (and general n-th) u-derivatives of phi(x), where x = t + u*xi(x): d^n phi/du^n = d^(n-1)/dt^(n-1)( xi^n dphi/dt ). Derived by exchanging the order of mixed partial differentiation and using phi_u = xi*phi_t.",
+    "modern_name": "Lagrange inversion theorem (Lagrange–Bürmann series), proved via the partial-differential-equation method",
+    "usually_credited_to": "Theorem: Lagrange (1770). This PDE-based proof: Laplace (1777/1780). It was later standard in textbooks such as Lacroix's Traité.",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a student-style rederivation of the standard Laplace proof of Lagrange's inversion series, written in a notebook interleaved with a printed elementary arithmetic text. The method and result were textbook material by Gauss's youth. It is mildly interesting only as evidence of his early reading.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; x,u=symbols('x u'); xi=Function('xi'); phi=Function('phi'); den=1-u*diff(xi(x),x); Dt=lambda F: diff(F,x)/den; Du=lambda F: diff(F,u)+diff(F,x)*xi(x)/den; simplify(Du(Du(Du(phi(x)))) - Dt(Dt(xi(x)**3*Dt(phi(x)))))",
+    "asserts": "Equation (3): phi_uuu = d^2/dt^2(xi^3 phi_t) for x = t + u xi(x). Implicit differentiation gives x_t = 1/(1-u xi'), x_u = xi/(1-u xi'). The expression should simplify to 0."
+   },
+   {
+    "sympy": "simplify(Du(Du(Du(Du(phi(x))))) - Dt(Dt(Dt(xi(x)**4*Dt(phi(x))))))",
+    "asserts": "The fourth-order formula: phi_uuuu = d^3/dt^3(xi^4 phi_t). Should be 0, using the same definitions as above."
+   },
+   {
+    "sympy": "simplify(Du(xi(x)**3*Dt(phi(x))) - Dt(xi(x)**4*Dt(phi(x))))",
+    "asserts": "The induction step d/du(xi^n phi_t) = d/dt(xi^(n+1) phi_t), shown here for n = 3. Should be 0."
+   },
+   {
+    "sympy": "t=symbols('t'); [diff(exp(n*t),t,n-1).subs(t,0) for n in range(1,6)] == [1,2,9,64,625]",
+    "asserts": "Example of the resulting Lagrange series: for x = u*e^x (xi = exp, phi = id, t = 0) the coefficients are n^(n-1)/n!."
+   },
+   {
+    "sympy": "series(-LambertW(-u),u,0,6) - sum(n**(n-1)*u**n/factorial(n) for n in range(1,6))",
+    "asserts": "The Lagrange series for x = u e^x matches the Lambert W expansion: the difference is O(u^6)."
+   }
+  ],
+  "transcription_corrections": [
+   "The '[-...-]' before 'Da es aber' is an ink blot or smudged, struck-out word. It is illegible and has no mathematical content.",
+   "In the line after 'substituirt', the image shows '∂ ( xi^3 (d^2 phi x/dt^2) + 3 xi xi dxi/dt dphi x/dt )' without '/dt'. The transcription is faithful; the missing denominator is Gauss's omission.",
+   "The derivative in the last line is written by Gauss with a plain 'd' (dt^3) in the denominator but ∂^3 in the numerator. The transcription reproduces this correctly."
+  ]
+ }
+}

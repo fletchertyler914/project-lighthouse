@@ -1,0 +1,66 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c025",
+ "label": "12v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000026/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page). A system (y_1,...,y_n) of multivalued functions has monodromy at a branch point a given by a linear substitution (A): y -> A y under a positive loop around a. Choose a substitution (alpha), z = alpha·y, that diagonalises (A). Under the loop each z_i acquires the factor lambda_i, and the lambda_i are assumed pairwise distinct. Then z_i·(x-a)^(-mu_i) is single-valued near a, with mu_i ≡ log(lambda_i)/(2*pi*i) (mod 1). No component is infinite of infinite order, so each series breaks off on the side of falling powers. mu_i is taken as the lowest exponent actually present, so z_i·(x-a)^(-mu_i) is finite and nonzero at a.\n\nThis page, part 1.\n(i) The lambda_i are fixed by (A), which is common to the class. Hence for two systems of the same class the corresponding exponents mu_i differ only by integers.\n(ii) The exponents can therefore be used to distinguish, or at least group, the systems within one class.\n(iii) Once the exponents are known, it suffices to give the diagonalising substitution (alpha) instead of (A), because (alpha) together with the mu's determines lambda_i = exp(2*pi*i*mu_i).\n(iv) Riemann introduces the characterising symbol Q( a b ... g ; (alpha) (beta) ... (theta) ; mu_1 nu_1 ... rho_1 ; ... ; mu_n nu_n ... rho_n | x ). Column j holds the branch point, its diagonalising substitution and its n exponents. This is the n-dimensional generalisation of his 1857 P-symbol.\n\nMarginal note. Every system can be regarded as a special case of infinitely many others in which some or all of the corresponding exponents are smaller. Reason (my gloss): mu_i was defined as the lowest exponent occurring, so one may formally declare any mu_i - m, with m a positive integer, as the 'exponent' and simply have vanishing leading coefficients.\n\nThis page, part 2. Theorem: any n+1 systems y^(0), ..., y^(n) of the same class satisfy a linear homogeneous relation sum_k a_k(x) y^(k) = 0, holding componentwise, with polynomial coefficients a_k.\n- Proof start: the n equations sum_k a_k y_i^(k) = 0 (i = 1..n) are n homogeneous linear equations in the n+1 unknowns a_0..a_n.\n- By Cramer's rule, a_k is proportional to the n×n determinant D_k obtained from the n×(n+1) matrix (y_i^(k)) by deleting column k.\n- Strictly, the factor is (-1)^k D_k; Riemann suppresses the sign.\n\nContinuation (next page), sketched for orientation. Each D_k = Sum ± y_1^(1)...y_n^(n) acquires the factor Det(A) around a. One writes D_k = Det(alpha)·Sum ± z..., and the lowest exponent at a is ≥ mu-bar, the minimum over permutations of mu_1^(s1)+...+mu_n^(sn); similarly nu-bar, ..., rho-bar at the other points. Then D·prod (x-c)^(-c-bar) is single-valued and finite in the finite plane, with polynomial growth at infinity, hence a polynomial. So the ratios a_k/a_0 = ±D_k/D_0 can be taken as polynomials after clearing a common multivalued factor. This is Riemann's analogue of Gauss's contiguous relations.",
+  "errors": [
+   "Slip in the last displayed equation: 'a_2 y_n^(1)' should read 'a_1 y_n^(1)' (present in the manuscript, not just the transcription).",
+   "The coefficients a_k are proportional to the minors with alternating signs, (-1)^k D_k, not to the minors themselves; Riemann omits the sign. This is harmless for the argument but literally imprecise.",
+   "Implicit assumption: the minors D_k are not all identically zero. Otherwise the relation is trivial or degenerate, and the argument on the next page explicitly needs a non-identically-vanishing determinant.",
+   "Statement (iii) tacitly assumes the lambda_i are pairwise distinct, so that (alpha) is determined up to scaling and ordering. This was assumed on the previous page."
+  ],
+  "results": [
+   {
+    "what": "Exponents at a branch point are congruent mod 1 within a monodromy class, and their use to sort systems in the class",
+    "modern_name": "Local exponents of a Fuchsian system; integer-shift (Schlesinger-type) transformations within a monodromy class",
+    "usually_credited_to": "Riemann 1857 (Nachlass, published in Werke 1876); later Fuchs, Schlesinger",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Characteristic symbol Q(a..g; (alpha)..(theta); exponents | x) for a system of n functions",
+    "modern_name": "Generalised Riemann P-symbol / Riemann scheme for rank-n Fuchsian systems with monodromy data",
+    "usually_credited_to": "Riemann (P-function 1857; this Q-symbol in 'Zwei allgemeine Lehrsätze...', Werke 1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Any n+1 systems of the same class satisfy a linear relation with polynomial coefficients; proof via Cramer's rule",
+    "modern_name": "Riemann's theorem on contiguous functions (generalised Gauss contiguity relations)",
+    "usually_credited_to": "Riemann ('Zwei allgemeine Lehrsätze über lineare Differentialgleichungen mit algebraischen Coefficienten', 1857, publ. 1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is a draft of Riemann's Nachlass paper 'Zwei allgemeine Lehrsätze über lineare Differentialgleichungen mit algebraischen Coefficienten', published in his Werke (1876). The Q-symbol and the contiguity theorem are already attributed to him; the draft only adds minor wording and the marginal remark.",
+  "checkable": [
+   {
+    "sympy": "x,a,mu=symbols('x a mu'); simplify(exp(2*pi*I*mu) - exp(log(exp(2*pi*I*mu))))==0",
+    "asserts": "(x-a)^mu acquires the factor exp(2*pi*i*mu) under one positive loop, so mu = log(lambda)/(2*pi*i) gives the multiplier lambda."
+   },
+   {
+    "sympy": "Y=Matrix(2,3,symbols('y0:6')); a=[(-1)**k*Y[:, [j for j in range(3) if j!=k]].det() for k in range(3)]; simplify(Y*Matrix(a))==zeros(2,1)",
+    "asserts": "Cramer: for n=2, coefficients a_k = (-1)^k·(minor deleting column k) solve the n homogeneous equations in n+1 unknowns."
+   },
+   {
+    "sympy": "Y=Matrix(3,4,symbols('y0:12')); a=[(-1)**k*Y[:, [j for j in range(4) if j!=k]].det() for k in range(4)]; expand(Y*Matrix(a))==zeros(3,1)",
+    "asserts": "The same Cramer identity for n=3, with alternating signs required."
+   },
+   {
+    "sympy": "A=Matrix(2,2,symbols('p q r s')); Y=Matrix(2,2,symbols('u v w t')); simplify((A*Y).det()-A.det()*Y.det())==0",
+    "asserts": "A determinant of solution columns acquires the factor Det(A) under the monodromy substitution (used on the next page)."
+   }
+  ],
+  "transcription_corrections": [
+   "Last displayed equation: the manuscript has 'a_2 y_n^(1)' (an author slip for a_1); keep it as written but flag it.",
+   "Marginal note, last line: 'andere[?] [?] sind' likely reads 'kleiner sind' or 'niedriger sind' (the exponents are some or all smaller); the published Werke text has 'kleiner'.",
+   "'mit [-?-] ganzen Functionen': a struck-out word (possibly a start of 'Coeff...' or 'lauter') precedes 'ganzen'.",
+   "'die analogen Bedeutun[gen] zu haben sollen' should read 'die analogen Bedeutungen haben sollen'; the manuscript reads 'gu haben sollen' with no 'zu'.",
+   "Within the Q-symbol the exponent rows are written mu_1 nu_1 ... rho_1 (the transcription's varrho is fine)."
+  ]
+ }
+}

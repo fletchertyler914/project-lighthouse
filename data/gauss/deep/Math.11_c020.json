@@ -1,0 +1,64 @@
+{
+ "bundle": "Math.11",
+ "page": "c020",
+ "label": "12r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376629:00000021/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is not mathematical. It is a meteorological register, apparently Gauss's Göttingen observations, for 1 July to about 27 September 1808 (continued on the next folio).\n\nLayout of the table:\n- Each day has three barometer readings, presumably morning, midday and evening. They are given in Paris lines above 27 Paris inches; the 1 July entry is written in full as 27 in 10.3 lines.\n- Each day also has three thermometer readings. The scale is probably Réaumur; the July maxima of 26–27 degrees would be about 33–34 °C, consistent with the known heat of July 1808.\n- The heading reads 'Barometer auf 15° Wärme red.', meaning the barometer readings are reduced to 15° of temperature.\n\nThe reduction rule is noted in the right margin. It is the standard correction for the thermal expansion of mercury: reduced reading = observed reading + k·(15° − c), where c is the temperature of the attached thermometer.\n- At a height of 28 in 0 lines, k = 0.078 lines per degree.\n- At 27 in 6 lines, k = 0.075 lines per degree.\n- The same coefficients are restated in sixteenths of a line: 0.078·16 = 1.248 and 0.075·16 = 1.200.\n- The implied relative expansion is about 0.078/336 ≈ 2.32·10^-4 and 0.075/330 ≈ 2.27·10^-4 per degree. That is roughly 1/4300–1/4400 per degree Réaumur, close to the accepted cubic expansion of mercury, about 1/4330 per °R.\n- The sign is correct: above 15° the mercury is expanded, so the correction is negative.\n\nBelow each month Gauss writes the monthly mean of each barometer column, i.e. (sum of the 31 daily values)/31, in lines above 27 inches:\n- July: 8.368, 8.396, 8.300.\n- August: 7.500, 7.274, 7.587.\n\nMarginal notes:\n- At 20 July, a word read as 'Seeuhr'.\n- At 22 July and 6 August, a symbol followed by '6^u N.M.' and '10^u NM'. These are times in the afternoon (Nachmittag), possibly marking a phenomenon such as a thunderstorm or a lunar phase; the reading is unsure.\n\nThere is no derivation beyond the linear temperature reduction and the arithmetic means.",
+  "errors": [
+   "The marginal coefficients are slightly mutually inconsistent. Scaling 0.078 lines from 336 lines to 330 lines gives about 0.0766, not 0.075. This is a negligible rounding or table-source difference.",
+   "Recomputing the monthly means from the readings as transcribed gives mixed agreement:\n- August column 3: sum 235.1, mean 7.584 against the written 7.587. Agreement.\n- July column 2: mean 8.390 against the written 8.396. Agreement.\n- August columns 1 and 2: each sum is exactly 1.0 line higher than Gauss's mean × 31 (7.532 vs 7.500; 7.306 vs 7.274). This suggests a single misread digit or a one-line slip in each column, e.g. Aug 5 or Aug 19.\n- July column 1: the readings give 8.687, written 8.368. Notably the digits 6, 8, 7 versus 3, 6, 8 suggest a possible copying slip.\n- July column 3: the readings give 8.558, written 8.300; the image shows this figure overwritten.\n- These two July discrepancies are too large to be rounding. Either Gauss's sums are wrong or individual daily readings differ from the transcription. This is unresolved without a closer look at the image."
+  ],
+  "results": [
+   {
+    "what": "Linear reduction of barometer readings to a standard temperature of 15°, with coefficients 0.078 and 0.075 lines per degree at heights of 28 in 0 lines and 27 in 6 lines, also stated in sixteenths of a line.",
+    "modern_name": "Temperature (thermal-expansion) correction of a mercury barometer",
+    "usually_credited_to": "Standard 18th-century practice (Deluc, and others)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Monthly arithmetic means of the morning, midday and evening barometer readings for July and August 1808.",
+    "modern_name": "Monthly mean pressure (climatological averaging)",
+    "usually_credited_to": "Routine meteorological practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine weather log with a standard mercury-temperature correction and arithmetic means. It has no mathematical content of note. Gauss's meteorological record-keeping at Göttingen is known.",
+  "checkable": [
+   {
+    "sympy": "Eq(Rational(78,1000)*16, Rational(1248,1000))",
+    "asserts": "0.078 lines = 1.248 sixteenths of a line"
+   },
+   {
+    "sympy": "Eq(Rational(75,1000)*16, Rational(12,10))",
+    "asserts": "0.075 lines = 1.200 sixteenths of a line"
+   },
+   {
+    "sympy": "N(Rational(78,1000)/336), N(Rational(75,1000)/330)",
+    "asserts": "Implied relative expansion of mercury per degree, about 2.3e-4 (about 1/4330 per degree Réaumur)"
+   },
+   {
+    "sympy": "N(sum([Rational(x,10) for x in [65,77,89,91,67,75,80,72,47,56,64,75,72,65,66,67,68,78,93,92,99,100,90,89,82,63,62,75,90,77,65]])/31)",
+    "asserts": "August third-column barometer mean is 7.584, matching the written 7.587"
+   },
+   {
+    "sympy": "N(sum([Rational(x,10) for x in [95,81,73,68,65,98,106,96,94,106,112,117,104,88,88,94,91,89,85,73,67,76,80,80,72,78,75,55,53,73,69]])/31)",
+    "asserts": "July second-column mean is 8.390, matching the written 8.396"
+   },
+   {
+    "sympy": "N(sum([Rational(x,10) for x in [103,88,75,74,69,88,112,102,89,106,115,119,111,95,88,93,92,97,92,81,73,76,85,80,74,80,84,56,52,69,75]])/31)",
+    "asserts": "July first-column mean from the transcribed readings is 8.687, not the written 8.368 (discrepancy)"
+   }
+  ],
+  "transcription_corrections": [
+   "The folio number is '(12)' with '13' struck through, as transcribed.",
+   "The July mean row is written \"8'368 | 8 396 | 8.300\"; the third figure appears overwritten, so it is uncertain.",
+   "The Sept 27 row is cut off at the bottom edge. The readings '8,0 | 4,8 | 4,3 | 8,9 | 11,0 | 4,0' are partly guesswork; the first barometer value may be 9.0 and the barometer column may contain overwritten figures (e.g. 8,8/4,8).",
+   "The marginal symbol at 22 July and 6 August is unclear, possibly a thunderstorm or astronomical sign; 'N.M.' means Nachmittag (afternoon)."
+  ]
+ }
+}

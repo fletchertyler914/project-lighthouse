@@ -1,0 +1,58 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c011",
+ "label": "6v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000012/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is not a working sheet. It is a fair copy of part of §1 (the historical introduction) of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1853/54, published posthumously by Dedekind in 1867). It contains no derivation, only a historical narrative with embedded formulas. In modern terms it says:\n\n(1) Context from the previous page. The vibrating string obeys y_tt = α² y_xx with y(0,t) = y(l,t) = 0. D. Bernoulli proposed the superposition\n    y = Σ_n a_n sin(nπx/l) cos(nπα(t − β_n)/l).\n\n(2) Euler's reply (Mém. Acad. Berlin 1753, p. 196ff.) makes two points.\n  (a) Against d'Alembert, Euler maintains that the initial function f(x) may be 'ganz willkürlich' (completely arbitrary) on [−l, l] (footnote: p. 214).\n  (b) Euler observes (arts. III–X) that Bernoulli's solution is general if and only if the trigonometric series can represent the ordinate of a completely arbitrary curve between abscissae 0 and l. The series in question are\n    S(x) = a_1 sin(πx/l) + a_2 sin(2πx/l) + …\n    C(x) = b_0/2 + b_1 cos(πx/l) + b_2 cos(2πx/l) + …\n  Implicit step (mine): at t = 0, Bernoulli's formula gives y(x,0) = Σ a_n cos(nπαβ_n/l) sin(nπx/l). So generality amounts to the claim that every admissible f on (0, l) has a sine expansion. Equivalently, after odd extension, a full Fourier expansion on (−l, l). The initial velocity leads to the same question.\n  Riemann then explains why Euler rejected this. At the time it was taken for granted that a transformation valid for an analytic expression holds for all values of the variables, apart from special cases. A non-periodic algebraic or analytic curve therefore seemed impossible to represent by a periodic series, and Euler decided the question against Bernoulli.\n\n(3) Lagrange. The Euler–d'Alembert dispute remained unsettled. This prompted Lagrange (Misc. Taurinensia I, 1759, 'Recherches sur la nature et la propagation du son') to treat a massless string loaded with n equal, equally spaced masses and then let n → ∞. This sentence continues on the next page; Lagrange reached Euler's results.\n\nThe only mathematics on the page is the statement that the generality of the normal-mode solution is equivalent to the Fourier representability of arbitrary functions. That is standard and correct.",
+  "errors": [
+   "No mathematical errors on the page.",
+   "Minor imprecision, not a slip: the cosine series C(x) is not needed for the fixed-end string. The sine series alone on (0, l) suffices. The combination sine + cosine corresponds to an arbitrary function on (−l, l), which matches Euler's (−l, l) remark. Riemann is paraphrasing Euler rather than deriving anything.",
+   "Historical framing: Riemann's claim that 'no one then doubted' that analytic transformations hold universally is an interpretive judgment, not a verifiable fact. It is nonetheless the standard reading, largely originating with this very text."
+  ],
+  "results": [
+   {
+    "what": "Generality of Bernoulli's superposition solution of the string equation is equivalent to representability of an arbitrary function on (0, l) by a trigonometric series.",
+    "modern_name": "Normal-mode / Fourier series solution of the wave equation; completeness of the sine system on (0, l)",
+    "usually_credited_to": "Euler (1753) for the observation; D. Bernoulli (1753) for the superposition; Fourier (1807/1822) for the general expansion",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical account of the vibrating-string controversy (d'Alembert, Euler, D. Bernoulli, Lagrange) as the origin of the question of trigonometric representability of arbitrary functions.",
+    "modern_name": "Vibrating string controversy; historical introduction to Riemann's Habilitationsschrift",
+    "usually_credited_to": "Riemann (1854, publ. 1867) for this classic historical account",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a manuscript copy of the published historical section of Riemann's 1854 Habilitationsschrift on trigonometric series. It is well known, and its content is historical narrative with standard formulas.",
+  "checkable": [
+   {
+    "sympy": "x,t,l,alpha=symbols('x t l alpha',positive=True); n=symbols('n',integer=True,positive=True); y=sin(n*pi*x/l)*cos(n*pi*alpha*t/l); simplify(diff(y,t,2)-alpha**2*diff(y,x,2))==0",
+    "asserts": "Taylor's mode y = sin(nπx/l)cos(nπαt/l) satisfies y_tt = α² y_xx."
+   },
+   {
+    "sympy": "x,t,l,alpha,beta=symbols('x t l alpha beta',positive=True); n=symbols('n',integer=True,positive=True); y=sin(n*pi*x/l)*cos(n*pi*alpha*(t-beta)/l); (simplify(y.subs(x,0)), simplify(y.subs(x,l)))==(0,0)",
+    "asserts": "Bernoulli's phase-shifted modes vanish at both ends x = 0 and x = l."
+   },
+   {
+    "sympy": "x,l=symbols('x l',positive=True); integrate(sin(2*pi*x/l)*sin(3*pi*x/l),(x,0,l))==0 and simplify(integrate(sin(2*pi*x/l)**2,(x,0,l))-l/2)==0",
+    "asserts": "Orthogonality of the sines on (0, l), which underlies the coefficient formula a_n = (2/l)∫_0^l f(x) sin(nπx/l) dx."
+   },
+   {
+    "sympy": "x=symbols('x'); n=symbols('n',integer=True,positive=True); simplify(2*integrate(x*sin(n*pi*x),(x,0,1)) - 2*(-1)**(n+1)/(n*pi))==0",
+    "asserts": "A non-periodic algebraic curve, f(x) = x on (0, 1), has the sine coefficients 2(-1)^(n+1)/(nπ). This is a counterexample to the view Riemann attributes to Euler, that such curves cannot be represented."
+   }
+  ],
+  "transcription_corrections": [
+   "Top-left numerals '6.' and '8.' are folio and page numbers (folio 6, manuscript page 8), not text.",
+   "Left-margin fragments '1) Mé', '2/.', 'eff', 'd'u' are bleed-through or cut-off text from the adjacent leaf. They are not part of this page's footnotes.",
+   "The image reads 'dann allgemein sei und zwar nur dann allgemein sei' across a line break. The transcription is essentially correct. The published version condenses this to 'dann und nur dann allgemein sei'.",
+   "In the image the two series are written on separate lines (sine series, then '½ b_0 + b_1 cos xπ/l + …'), as in the transcription. The published text joins them with '+' into one series.",
+   "Footnote 4 continues on the next page as 'Recherches sur la nature et la propagation du son.'"
+  ]
+ }
+}

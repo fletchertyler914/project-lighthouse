@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.Aufsaetze1813",
+ "page": "c040",
+ "label": "33",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354043:00000041/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): there are linear observation equations V = a x + b y + c z + … + m = 0, V' = 0, … with unit mean error. The normal-equation forms are ξ = Σ aV, η = Σ bV, ζ = Σ cV, …. Eliminating gives x − α = Aξ + Bη + Cζ + …, where α is the least-squares value of x. (A, B, C, …) is the first row of the inverse normal matrix Q = N^{-1}, so A is the weight coefficient of x and its mean error is √A.\n\nThis page: what a newly added equation does to the value and precision of the unknowns. This is a rank-one update of a least-squares solution.\n\n1. Setup. A linear function u = r x + s y + t z + … + l is given (the defining line is crossed out but used). Expressed through the normal forms, u = ϱξ + ση + τζ + … + λ.\n   - (ϱ, σ, τ, …) = Q (r, s, t, …)^T. In particular ϱ = rA + sB + tC + … (Gauss uses this at the end).\n   - λ = r α + s β + … + l is the least-squares value of u.\n   - Its mean error is √(rϱ + sσ + tτ + …) = √L, with L = r^T Q r.\n\n2. Problem. A new observation u = 0 with unit mean error is added. What is the new most probable value of x?\n\n3. New normal forms. ξ' = ξ + r u, η' = η + s u, ζ' = ζ + t u, …\n   Hence ϱξ' + ση' + τζ' + … = (ϱξ + ση + …) + u(rϱ + sσ + …) = (u − λ) + uL = u(1 + L) − λ.\n   So u = (ϱξ' + ση' + … + λ)/(1 + L).\n\n4. Identity in x. Substituting ξ = ξ' − r u, etc. gives\n   x − α = Aξ' + Bη' + Cζ' + … − (rA + sB + tC + …) u\n         = Aξ' + Bη' + … − [ϱ/(1 + L)] (ϱξ' + ση' + … + λ).\n\n5. New estimate. The new least-squares solution satisfies ξ' = η' = ζ' = … = 0. Therefore x_new = α − ϱλ/(1 + L).\n\n6. New precision. The coefficient of ξ' in the expression for x is the new weight coefficient: A' = A − ϱ·ϱ/(1 + L). The new mean error is √(A − ϱϱ/(1 + L)).\n\nIn modern terms: Q' = (N + r r^T)^{-1} = Q − Q r r^T Q/(1 + r^T Q r), which is the Sherman–Morrison formula. The estimate update x_new = x̂ − Q r (r^T x̂ + l)/(1 + r^T Q r) is the recursive least-squares (Kalman-type) update. The page treats only the component x.",
+  "errors": [
+   "No mathematical errors. All steps check, including the sign in ϱξ'+ση'+… = u(1+L) − λ and the use of the symmetry of Q to identify rA+sB+tC+… with ϱ.",
+   "Minor presentational point: the definition u = rx+sy+tz+…+l is struck through, but it is still needed to make sense of ξ' = ξ + r u and of r, s, t."
+  ],
+  "results": [
+   {
+    "what": "Update of the least-squares estimate of an unknown when one new unit-weight observation equation u=0 is added: x_new = α − ϱλ/(1+L), with ϱ = (Q r)_x, λ the current LS value of u, L = r^T Q r its weight coefficient",
+    "modern_name": "Recursive least squares update / rank-one update of the normal-equation solution",
+    "usually_credited_to": "Gauss, Theoria combinationis observationum, pars posterior (1823), arts. 35–36 (later rediscovered by Plackett 1950; Kalman 1960 in filter form)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Update of the weight coefficient (variance) of x: A' = A − ϱ²/(1+L)",
+    "modern_name": "Sherman–Morrison formula for the inverse of N + r r^T (diagonal entry)",
+    "usually_credited_to": "Sherman & Morrison (1949/1950); but the least-squares form is in Gauss 1823",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Mean error of a linear function u of the unknowns: √(r^T Q r) = √(rϱ+sσ+tτ+…)",
+    "modern_name": "Variance propagation for a linear functional of LS estimates",
+    "usually_credited_to": "Gauss (Theoria combinationis, 1821/1823)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript draft of material Gauss published himself. Theoria combinationis observationum, pars posterior (1823), treats exactly the change in the values and weights of the unknowns when a new equation is added. The page is a nice early private derivation of the rank-one / recursive least-squares update. It is not new to the historical record and is already credited to Gauss.",
+  "checkable": [
+   {
+    "sympy": "n11,n12,n22,r1,r2=symbols('n11 n12 n22 r1 r2'); N=Matrix([[n11,n12],[n12,n22]]); Q=N.inv(); r=Matrix([r1,r2]); rho=Q*r; L=(r.T*Q*r)[0]; simplify((N+r*r.T).inv()[0,0]-(Q[0,0]-rho[0]**2/(1+L)))",
+    "asserts": "New weight coefficient of x is A - ϱϱ/(1+L) (Sherman–Morrison diagonal entry); the result should simplify to 0"
+   },
+   {
+    "sympy": "n11,n12,n22,r1,r2,b1,b2,l=symbols('n11 n12 n22 r1 r2 b1 b2 l'); N=Matrix([[n11,n12],[n12,n22]]); Q=N.inv(); b=Matrix([b1,b2]); r=Matrix([r1,r2]); alpha=-Q*b; lam=(r.T*alpha)[0]+l; rho=Q*r; L=(r.T*Q*r)[0]; xnew=-(N+r*r.T).inv()*(b+r*l); simplify(xnew[0]-(alpha[0]-rho[0]*lam/(1+L)))",
+    "asserts": "New least-squares value of x equals α − ϱλ/(1+L), where the normal forms are ξ = N x + b and the new equation is u = r·x + l = 0; should simplify to 0"
+   },
+   {
+    "sympy": "n11,n12,n22,r1,r2=symbols('n11 n12 n22 r1 r2'); N=Matrix([[n11,n12],[n12,n22]]); Q=N.inv(); r=Matrix([r1,r2]); simplify((Q*r)[0]-(r1*Q[0,0]+r2*Q[0,1]))",
+    "asserts": "ϱ = rA + sB + … with (A, B) the first row of the symmetric inverse normal matrix; should simplify to 0"
+   },
+   {
+    "sympy": "n11,n12,n22,r1,r2=symbols('n11 n12 n22 r1 r2'); N=Matrix([[n11,n12],[n12,n22]]); Q=N.inv(); r=Matrix([r1,r2]); rho=Q*r; simplify(r1*rho[0]+r2*rho[1]-(r.T*Q*r)[0])",
+    "asserts": "L = rϱ + sσ + … equals r^T Q r, the variance of u; should simplify to 0"
+   }
+  ],
+  "transcription_corrections": [
+   "In the large fraction the numerator reads 'rA+sB+tC+etc.', as in the starred line; the first letter looks like 'x' in the image but is r.",
+   "The line 'Da nun der wahrscheinlichste Werth von x aus den Gleichungen ξ'=0, η'=0, ζ'=0' contains overwritten/blotted characters in the image ('ξη' is a correction to η').",
+   "In the mean-error formula the factor after the fraction is ϱ, written over another letter: √(A − (rA+sB+tC+etc.)/(1+L)·ϱ).",
+   "The crossed-out line 'u = rx+sy+tz+etc.+l' should be treated as defining u, despite the deletion.",
+   "'mit dem mittlern fehler = √A, [-hingegen der-] {+vorgegeben sei ferner+} Werth [-einer-] function': the interlinear insertion is 'vorgegeben sei ferner'."
+  ]
+ }
+}

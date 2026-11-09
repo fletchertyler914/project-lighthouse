@@ -1,0 +1,64 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c215",
+ "label": "108v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000216/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 108v carries no independent writing. Everything visible is faint, mirror-reversed show-through of the ink on the recto, folio 108 (the 'previous page'). The reversed layout matches the recto line for line:\n- the top formula 1/(8aπ^3)(∫)^6 … f(λ,μ,ν);\n- the polar substitutions α=ρcosϑ, β=ρsinϑcosφ, γ=ρsinϑsinφ, which appear at the right because the image is reversed;\n- χ(at)=(2/π)∫∫ sinρr sin atρ χ(r) dr dρ;\n- the small figure;\n- the triple integral ∫_0^∞∫_0^{2π}∫_0^π;\n- the line elements ∂ρ, ρ∂ϑ, ρsinϑ∂φ;\n- the spherical-triangle figure and c(cosϑ'cosϑ+sinϑsinϑ'cos(φ−φ'))=c cosγ;\n- c=ρ√((x−λ)²+(y−μ)²+(z−ν)²);\n- ∫∫ψ(c cosγ)sinγ;\n- 2π∫_0^π ψ(c cosγ) sinγ dγ = (2π/c)(Ψ(c)−Ψ(−c));\n- the formula 1/(8aπ³)∭ …/√(…);\n- λ=x+r cosϑ, μ=y+r sinϑcosφ, ν=z+r sinϑsinφ.\n\nThe only mathematics is therefore that of the recto. It is a derivation of Poisson's formula for the 3-D wave equation u_tt = a²Δu with u(·,0)=0 and u_t(·,0)=f.\n\nStep 1 (Fourier integral). Riemann writes the solution as\nu = 1/(8aπ³) ∫_{R³}∫_{R³} [sin(a|k|t)/|k|] cos(k·(x−λ)) f(λ) dk dλ.\n\nStep 2 (spherical coordinates in k). Put k=ρ(cosϑ, sinϑcosφ, sinϑsinφ), with volume element ρ²sinϑ dρ dϑ dφ. The polar axis is rotated to the direction of x−λ, using the spherical cosine law cosγ = cosϑcosϑ' + sinϑsinϑ'cos(φ−φ').\n\nStep 3 (angular integral). With Ψ'=ψ,\n2π∫_0^π ψ(c cosγ) sinγ dγ = (2π/c)(Ψ(c)−Ψ(−c)).\nFor ψ=cos this gives 4π sin(c)/c, where c=ρR and R=|x−λ|.\n\nStep 4 (result of the k-integration). The k-integral becomes (4π/R)∫_0^∞ sin(ρR) sin(atρ) dρ. Hence\nu = 1/(8aπ³) ∭ (4π/R)∫_0^∞ sinρR sin atρ dρ f dλ.\n\nStep 5 (spherical coordinates in λ). Put λ=x+r·ω. The element r² dr dω combines with 1/r to leave a factor r, giving\nu = 1/(2aπ²)∫∫_0^∞∫_0^∞ sinρr sin atρ · r f(x+rω) dρ dr dω.\n\nStep 6 (Fourier sine inversion). Use the Fourier sine-integral theorem χ(at) = (2/π)∫_0^∞∫_0^∞ sinρr sin atρ χ(r) dr dρ, with χ(r) = r f(x+rω).\nOur addition: this gives u = (t/4π)∫_{S²} f(x+atω) dω, which is Poisson's (1819) spherical-mean formula. The final step is not visible even on the recto as transcribed.",
+  "errors": [
+   "No errors on this page itself: it contains only show-through.",
+   "On the recto the steps are correct. Constants check: 4π/(8aπ³) = 1/(2aπ²), and (1/(2aπ²))·(π/2)·at = t/(4π). The angular identity is correct with Ψ' = ψ.",
+   "The interchange of integrals and the use of the divergent ∫ sinρR sinρat dρ (a delta function) are formal, but standard for the period via Fourier's integral theorem."
+  ],
+  "results": [
+   {
+    "what": "Fourier-integral solution of the 3-D wave equation reduced, via spherical means, to t times the mean of f over the sphere of radius at",
+    "modern_name": "Poisson's (Kirchhoff's) formula for the wave equation in R^3",
+    "usually_credited_to": "Poisson 1819 (Kirchhoff 1882 for the general retarded form)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "2π∫_0^π ψ(c cosγ) sinγ dγ = (2π/c)(Ψ(c)−Ψ(−c))",
+    "modern_name": "Funk–Hecke-type reduction of a zonal spherical integral (here an elementary substitution)",
+    "usually_credited_to": "classical (Poisson/Laplace era)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "χ(x) = (2/π)∫_0^∞∫_0^∞ sin(ρr) sin(ρx) χ(r) dr dρ",
+    "modern_name": "Fourier sine integral inversion theorem",
+    "usually_credited_to": "Fourier 1822",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is blank apart from mirror-image bleed-through of folio 108r. The underlying content is the textbook derivation of Poisson's wave formula, which Riemann also lectured on (Riemann–Hattendorff, Partielle Differentialgleichungen).",
+  "checkable": [
+   {
+    "sympy": "c=symbols('c',positive=True); g=symbols('gamma'); simplify(2*pi*integrate(cos(c*cos(g))*sin(g),(g,0,pi)) - 4*pi*sin(c)/c)",
+    "asserts": "The angular integral of cos(c cosγ) over the sphere equals 4π sin(c)/c; expected result 0."
+   },
+   {
+    "sympy": "c=symbols('c',positive=True); g=symbols('gamma'); simplify(2*pi*integrate(exp(c*cos(g))*sin(g),(g,0,pi)) - 2*pi/c*(exp(c)-exp(-c)))",
+    "asserts": "An instance of 2π∫ψ(c cosγ)sinγ dγ = (2π/c)(Ψ(c)−Ψ(−c)) with ψ = Ψ = exp; expected result 0."
+   },
+   {
+    "sympy": "a=symbols('a',positive=True); simplify(4*pi/(8*a*pi**3) - 1/(2*a*pi**2))",
+    "asserts": "Consistency of the constant 1/(2aπ²) on the recto; expected result 0."
+   },
+   {
+    "sympy": "a,t=symbols('a t',positive=True); simplify(1/(2*a*pi**2)*pi/2*a*t - t/(4*pi))",
+    "asserts": "The final constant gives Poisson's t/(4π) times the solid-angle integral; expected result 0."
+   }
+  ],
+  "transcription_corrections": [
+   "The page carries no original writing. All marks are mirror-reversed show-through of folio 108r and should not be transcribed as separate content.",
+   "The variables are λ, μ, ν (not α, β, γ) for the source point; α, β, γ are the Fourier variables.",
+   "The Fourier-integral line reads χ(at) = (2/π)∫∫ …, not χ(x) = (1/π)…",
+   "The angular formula reads 2π∫_0^π ψ(c cosγ) sinγ dγ = (2π/c)(Ψ(c)−Ψ(−c)), with ψ, not f."
+  ]
+ }
+}

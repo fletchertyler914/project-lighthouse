@@ -1,0 +1,68 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c268",
+ "label": "259",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000269/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two parts.\n\nGeometric setting (my reading). Let p = A^2 + B^2 be a prime, alpha = A + Bi. The equation 2AX + 2BY = A^2 + B^2 is the perpendicular bisector of the segment from 0 to alpha. Gauss looks at lattice abscissae or ordinates along a stretch of this line. For each one he records a sign epsilon = (-1)^(X+[Y]) or (-1)^([X]+Y), where [.] is the integer part (floor).\n\nThe ranges in both examples are consistent with one rule (my inference): the stretch runs from the midpoint (A/2, B/2) of 0-alpha to the centre ((A-B)/2, (A+B)/2) of the square with vertices 0, alpha, i*alpha, (1+i)*alpha. Equivalently, X runs over the open interval between (A-B)/2 and A/2, and Y over the open interval between B/2 and (A+B)/2.\n\nPart I.\n- The previous (lost) page apparently used the 'first method': sum of (-1)^(X+[Y]) over integer X.\n- Here Gauss gives the 'second method': write 2AX = AA + BB - 2BY, run over integer Y, and set epsilon = +1 if [X]+Y is even, -1 if odd. He states that the sum of epsilon has the same meaning as before.\n- Example p = 97 = 9^2 + 4^2 (A=9, B=4), so 18X = 97 - 8Y.\n  - Y=3: X = 73/18, [X]=4, sum 7, epsilon = -1.\n  - Y=4: X = 65/18, [X]=3, sum 7, epsilon = -1.\n  - Y=5: X = 57/18, [X]=3, sum 8, epsilon = +1.\n  - Y=6: X = 49/18, [X]=2, sum 8, epsilon = +1.\n  - Sum of epsilon = 0.\n- My check with the first method: X in {3,4} gives Y = 43/8 (sign +1) and Y = 25/8 (sign -1). The sum is 0, so the two methods agree here, as claimed.\n- Here 9+4i ≡ 1 mod (2+2i).\n\nPart II.\n- For primes alpha ≡ 3 mod (2+2i), the first method (sum of ±(X+[Y])) stays valid unchanged. The second must be corrected by -1:\n  sum (-1)^(X+[Y]) = sum (-1)^([X]+Y) - 1.\n- Example 193 = 7^2 + 12^2 with A=7, B=12, so 14X + 24Y = 193. Note 7+12i - 3 = (2+2i)(4+2i), so 7+12i ≡ 3 mod (2+2i).\n- First method, X = 3, 2, 1, 0, -1, -2:\n  - 24Y = 151, 165, 179, 193, 207, 221.\n  - [Y] = 6, 6, 7, 8, 8, 9.\n  - epsilon = -1, +1, +1, +1, -1, -1.\n  - Sum = 0.\n- Second method, Y = 7, 8, 9:\n  - 14X = 25, 1, -23.\n  - [X] = 1, 0, -2.\n  - epsilon = +1, +1, -1.\n  - Sum = +1; adding the correction -1 gives 0, in agreement.\n\nPurpose. These are evidently Gauss's lattice-point (Gauss-lemma / Eisenstein-type) evaluations of a sign sum attached to a Gaussian prime, almost certainly in his biquadratic-residue researches. The 'meaning' of the sum of epsilon was explained on the previous, unseen page.",
+  "errors": [
+   "No arithmetic errors: every floor value and sign in both tables checks.",
+   "The correction rule (-1 for alpha ≡ 3 mod 2+2i) is only illustrated by one example here, not proved on this page.",
+   "The summation ranges are not stated explicitly on the page; the midpoint-to-square-centre range given in the reconstruction is my inference from the examples."
+  ],
+  "results": [
+   {
+    "what": "Sign sum sum (-1)^(X+[Y]) over lattice abscissae of the perpendicular bisector 2AX+2BY=A^2+B^2 of 0 and alpha=A+Bi. It can equivalently be computed by summing over ordinates as sum (-1)^([X]+Y).",
+    "modern_name": "Lattice-point / Gauss-lemma type count for a Gaussian prime (Eisenstein-style lattice proof ingredient for quartic residuacity)",
+    "usually_credited_to": "Gauss (biquadratic residues, 1820s papers and Nachlass); Eisenstein's lattice-point proofs (1844)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Switching the order of counting (over X vs over Y) leaves the sum unchanged for alpha ≡ 1 mod (2+2i), but requires a correction of -1 when alpha ≡ 3 mod (2+2i).",
+    "modern_name": "Reciprocity-type exchange of summation in lattice-point counting (boundary correction depending on alpha mod (1+i)^3)",
+    "usually_credited_to": "Gauss / Eisenstein",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's lattice-point methods for biquadratic residues are documented in the Nachlass and Werke II. This page is a worked-example detail (a parity correction depending on the residue mod 2+2i), not a new major result.",
+  "checkable": [
+   {
+    "sympy": "sum((-1)**(int(floor(Rational(97-8*Y,18)))+Y) for Y in range(3,7)) == 0",
+    "asserts": "Second-method sum for p=97 is 0."
+   },
+   {
+    "sympy": "sum((-1)**(X+int(floor(Rational(97-18*X,8)))) for X in range(3,5)) == 0",
+    "asserts": "First-method sum for p=97 is also 0, so the methods agree for 9+4i ≡ 1 mod (2+2i)."
+   },
+   {
+    "sympy": "sum((-1)**(X+int(floor(Rational(193-14*X,24)))) for X in range(-2,4)) == 0",
+    "asserts": "First-method sum for 193 is 0."
+   },
+   {
+    "sympy": "sum((-1)**(int(floor(Rational(193-24*Y,14)))+Y) for Y in range(7,10)) - 1 == 0",
+    "asserts": "Second-method sum for 193 is +1, and with the correction -1 it equals the first."
+   },
+   {
+    "sympy": "simplify((7+12*I-3)/(2+2*I)) == 4+2*I",
+    "asserts": "7+12i ≡ 3 mod (2+2i)."
+   },
+   {
+    "sympy": "simplify((9+4*I-1)/(2+2*I)) == 3-I",
+    "asserts": "9+4i ≡ 1 mod (2+2i)."
+   },
+   {
+    "sympy": "9**2+4**2 == 97 and 7**2+12**2 == 193",
+    "asserts": "Decompositions of the example primes."
+   }
+  ],
+  "transcription_corrections": [
+   "'mod (24+2i)' should read 'mod (2+2i)'. The modulus is (1+i)^3 = 2+2i, the standard primary-normalisation modulus for Gaussian integers; 193 ↔ 7+12i is ≡ 3 mod (2+2i).",
+   "In Part II the struck word 'Resultat' is replaced; read: 'bleibt die erste Methode aus Σ±(X+[Y]) ungeändert gültig, dem Resultat der zweiten Methode muss aber noch −1 hinzugefügt ...'.",
+   "The first two table rows for 193 are as transcribed. The column sum is marked with a Σ, and the right-hand table's '+1' is a subtotal before 'Hinzuzufügen −1'."
+  ]
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "bundle": "Math.12",
+ "page": "c035",
+ "label": "16v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376631:00000036/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous and next pages): Gauss is evaluating a 'Decident', which is in effect a biquadratic character, by a lattice-point count in the Gaussian integers. On the previous page the multiples of p° are taken modulo a Gaussian integer of norm 8633 = 89·97. One can check that 52+77i = (8+5i)(9+4i), with 89 = 8²+5² and 97 = 9²+4². For each p° the 'Intensor' λ is recorded; it lies in {0,1,2,3} and acts as an exponent of i, i.e. which quarter the point falls in. The 'Theil des Decident' terms ±λ are then summed row by row, one row for each fixed Y°, giving 'Partialsummen'. The next page introduces the change of variables Dx = αX − 6Y, Dy = 6X + αY (the '6' is probably 𝔟 misread) and works examples.\n\nArticle 3. Fix an integer row Y° (take Y° even). In that row X runs from the boundary value X* to X**. The corresponding complex point p = x+iy runs continuously from p* to p**. The Gaussian integer part [p] changes only in jumps, each time x or y crosses an integer. Let these jump points be X* < X' < X'' < … < X^μ ≤ X**, with corresponding p', p'', …. Write λ* and λ** for the Intensors at the two ends. On the k-th segment the Intensor is constant:\n- on (X*, X'] it is λ*;\n- on (X', X''] it is λ*+δ';\n- and so on, up to λ*+δ'+…+δ^μ = λ** on the last segment.\n\nThe margin notes settle the endpoint conventions:\n- x increases along the segment, so an integer x** is counted at X^μ.\n- y increases when 𝔟 > 0 (then y** is counted) and decreases when 𝔟 < 0 (then y* is counted).\n\nThe partial sum of the row is Σ (−1)^{X°} λ([p(X°)]) over the integers X° in the row. It therefore equals\n Σ_k λ_k (g_k − h_k),\nwhere g_k and h_k count the even and odd integers X° in the k-th segment. Gauss writes this as λ*(g−h) + (λ*+δ')(g'−h') + … + λ**(g^μ−h^μ). For odd Y° the signs are reversed.\n\nArticle 4. Put f(t) = [t/2 − 1/2] − [t/2] (my notation). Then f(t) = −1 if [t] is even and f(t) = 0 if [t] is odd; this is the ε of the next page.\n\nStep (mine): Σ_{n ≤ N} (−1)^n equals −1 for N odd and 0 for N even. Hence the number of even integers minus the number of odd integers in (a,b] is f(a) − f(b).\n\nSubstituting and regrouping by summation by parts (Abel summation), the partial sum becomes\n λ* f(X*) + δ' f(X') + δ'' f(X'') + … + δ^μ f(X^μ) − λ** f(X**).\nThis is exactly Gauss's display. Because the jumps now enter only through the products δ·f(X), the next page remarks that the jump points no longer need to be sorted.",
+  "errors": [
+   "In the line for δ' the second bracket is written as a curly brace, {½X'}. This is a pen slip for the integer-part bracket [½X'], as in every other line.",
+   "g, h are defined only for the first segment, from X* to X'. The analogous g', h', … for the later segments, and the half-open convention (a,b] that makes Article 4 exact, are left implicit. Gauss handles the endpoints only through the marginal notes about counting x**, y** and y*.",
+   "The equality λ*+δ'+…+δ^μ = λ** appears to have a struck-through '='. The equality holds exactly only if λ is taken as a fixed representative in 0..3, so that δ ∈ {±1, ±3}. Otherwise it holds only mod 4. Either way the regrouped formula is unaffected, since it uses λ** directly.",
+   "Otherwise the derivation is correct."
+  ],
+  "results": [
+   {
+    "what": "The partial sum over a row of the sign-weighted Intensors is expressed through the jump points of the Gaussian integer part along the row.",
+    "modern_name": "Piecewise-constant decomposition of a lattice-point sum (counting argument behind a Gauss-lemma-type evaluation of the biquadratic residue character)",
+    "usually_credited_to": "Gauss for the biquadratic lemma (Nachlass); lattice-point methods in reciprocity are associated with Gauss (third proof, 1808) and Eisenstein (1844).",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "The count of even minus odd integers in (a,b] equals f(a) − f(b), with f(t) = [t/2−1/2] − [t/2], and f(t) = −1 or 0 according as [t] is even or odd.",
+    "modern_name": "Floor-function identity for alternating counts",
+    "usually_credited_to": "folklore",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Regrouping Σ λ_k (f(X_k) − f(X_{k+1})) into λ* f(X*) + Σ δ_k f(X_k) − λ** f(X**).",
+    "modern_name": "Abel summation (summation by parts)",
+    "usually_credited_to": "Abel (1826)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "This is a careful, unpublished working-out of the lattice-point machinery for Gauss's own biquadratic Gauss-lemma approach. It is technically interesting, but it belongs to a research line known to be his from the Nachlass (Werke II/X and later studies). The individual steps (floor identities, summation by parts) are elementary.",
+  "checkable": [
+   {
+    "sympy": "all((floor(Rational(t,4)/2-Rational(1,2))-floor(Rational(t,4)/2)) == (-1 if floor(Rational(t,4))%2==0 else 0) for t in range(-40,40))",
+    "asserts": "[t/2−1/2] − [t/2] equals −1 when [t] is even and 0 when [t] is odd (checked on a grid of t)."
+   },
+   {
+    "sympy": "f=lambda t: floor(t/2-Rational(1,2))-floor(t/2); all(sum((-1)**n for n in range(floor(a)+1, floor(b)+1)) == f(a)-f(b) for a in [Rational(k,3) for k in range(-15,15)] for b in [Rational(k,3) for k in range(-15,15)] if b>=a)",
+    "asserts": "The number of even minus odd integers in (a,b] equals f(a) − f(b)."
+   },
+   {
+    "sympy": "expand(l0*(f0-f1)+(l0+d1)*(f1-f2)+(l0+d1+d2)*(f2-f3) - (l0*f0+d1*f1+d2*f2-(l0+d1+d2)*f3))",
+    "asserts": "Abel regrouping of Article 4 for μ=2 (gives 0)."
+   },
+   {
+    "sympy": "expand((8+5*I)*(9+4*I))",
+    "asserts": "Equals 52+77*I, a Gaussian integer of norm 8633 = 89*97 (moduli on the previous page)."
+   },
+   {
+    "sympy": "expand(I*(77+52*I))",
+    "asserts": "Equals −52+77*I, the first entry of the previous page's table."
+   }
+  ],
+  "transcription_corrections": [
+   "In the second line of Article 4, read '[½X']' rather than '{½X'}'; the curly brace is a slip in the manuscript.",
+   "In the next-page formulas, 'Dx = αX − 6Y' and 'Dy = 6X + αY': the '6' is very probably 𝔟 (Fraktur b), the letter used on this page.",
+   "The fragment 'denen die Werthe von p' is a repetition: 'und denen' at the end of the line is resumed as 'denen die Werthe von p … entsprechen'.",
+   "The marginal 'falls' belongs to the struck-through line ('so wird die Partialsumme diese seyn'), not to the new text."
+  ]
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "bundle": "Math.1",
+ "page": "c026",
+ "label": "14r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000027/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is the bottom block of a large grid. The columns are the consecutive primes 661 to 827, repeated at top and bottom. The left-margin row labels are the six largest primes below 1000: 953, 971, 977, 983, 991 and 997. The upper blocks of the grid and the rows 953 and 971 are empty.\n\nIn rows 977 to 997 a small circle is drawn in cell (p, q). Checking every cell against the Legendre symbol shows what a circle means: it is drawn exactly when the column prime q is a quadratic residue mod the row prime p, i.e. (q/p) = +1 (my inference).\n\nThe distinction from (p/q) only matters for p ≡ 3 mod 4. For p = 983 and q = 683 we have (683/983) = -1 but (983/683) = +1, and there is no circle. So the symbol is (q/p).\n\nPen strokes join circles in neighbouring columns of the same row, or neighbouring rows of the same column. These lines carry no arithmetic content and act as a visual aid for patterns.\n\nThe entries, with my verification (by quadratic reciprocity: (q/p) = (p mod q / q) when p ≡ 1 mod 4 or q ≡ 1 mod 4; otherwise a minus sign is added):\n\n- p = 997 (≡ 1 mod 4). The residues among the columns are 673, 683, 691, 701, 727, 733, 739, 743, 751, 761, 769, 773, 823. This matches the page exactly. Sample: (673/997) = (324/673) = +1, since 324 = 18².\n- p = 991 (≡ 3 mod 4). The residues are 673, 691, 719, 733, 739, 751, 761, 773, 797, 809, 821, 827. This matches exactly.\n- p = 983 (≡ 3 mod 4). The residues are 673, 677, 691, 709, 719, 733, 739, 743, 751, 757, 773, 809, 823, 827. This matches exactly.\n- p = 977 (≡ 1 mod 4). The residues are 701, 709, 733, 739, 787, 811, 821, 823. The page additionally marks 719, and there is also a faint dotted link with a faint circle through column 727.\n\nThe page is one sheet of a table of quadratic characters of primes (column q, row p > q). It is the large-scale analogue of the small table in Disquisitiones Arithmeticae (Table II). The previous and next sheets continue the columns 509–659 and 829–997 with the same rows. The table is being filled from the bottom (largest moduli) upward and is unfinished: rows 953 and 971 and all upper blocks are blank. Such a table serves the empirical study of quadratic residues and reciprocity, and the distribution of residues and non-residues.",
+  "errors": [
+   "Row 977, column 719: a circle is drawn, but 719 is a quadratic NON-residue mod 977. Check: (719/977) = (977/719) = (258/719) = (2/719)(3/719)(43/719) = (+1)(+1)(-1) = -1. The faint dotted connector and faint circle through column 727 in the same row also mark a non-residue: (727/977) = (250/727) = (2/727)(5/727) = -1. Possibly this was a struck or partially erased entry.",
+   "All other 48 marks and all blanks in rows 977, 983, 991 and 997 agree with the Legendre symbol.",
+   "Rows 953 and 971 (and the upper blocks) are empty although they should contain about 12 residues each. The table is incomplete rather than wrong there. A stray vertical stroke in column 673 runs up toward row 953."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic characters: for each prime p in {977, 983, 991, 997} and each prime q in [661, 827], a mark iff q is a quadratic residue mod p",
+    "modern_name": "Table of Legendre symbols (q/p) / quadratic residue table for prime moduli",
+    "usually_credited_to": "Tables of this kind go back to Legendre and Gauss (Disquisitiones Arithmeticae 1801, Table II for p < 100); larger tables were made by Jacobi (Canon arithmeticus, 1839) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a computational table of quadratic residues, which is exactly the kind of numerical work Gauss is known to have done in connection with reciprocity. The only point of interest is its scale (primes near 1000) and one erroneous entry; there is no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "[q for q in primerange(661, 828) if legendre_symbol(q, 997) == 1] == [673, 683, 691, 701, 727, 733, 739, 743, 751, 761, 769, 773, 823]",
+    "asserts": "Row 997 marks are exactly the column primes that are QR mod 997"
+   },
+   {
+    "sympy": "[q for q in primerange(661, 828) if legendre_symbol(q, 991) == 1] == [673, 691, 719, 733, 739, 751, 761, 773, 797, 809, 821, 827]",
+    "asserts": "Row 991 marks are exactly the QRs mod 991"
+   },
+   {
+    "sympy": "[q for q in primerange(661, 828) if legendre_symbol(q, 983) == 1] == [673, 677, 691, 709, 719, 733, 739, 743, 751, 757, 773, 809, 823, 827]",
+    "asserts": "Row 983 marks are exactly the QRs mod 983"
+   },
+   {
+    "sympy": "[q for q in primerange(661, 828) if legendre_symbol(q, 977) == 1] == [701, 709, 733, 739, 787, 811, 821, 823]",
+    "asserts": "True residue list for row 977 (the page additionally marks 719)"
+   },
+   {
+    "sympy": "legendre_symbol(719, 977) == -1",
+    "asserts": "The mark at (977, 719) is an error"
+   },
+   {
+    "sympy": "legendre_symbol(683, 983) == -1 and legendre_symbol(983, 683) == 1",
+    "asserts": "Shows the table records (q/p), column prime residue mod row prime, not (p/q)"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription of marks is accurate against the image.",
+   "Note a faint dotted connector with a faint small circle in row 977 under column 727 (between 719 and 733). This is not an intended residue mark (727 is a non-residue mod 977).",
+   "Rows 953 and 971 contain no marks; the vertical stroke in column 673 extending up toward row 953 is not an entry."
+  ]
+ }
+}

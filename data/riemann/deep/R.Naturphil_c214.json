@@ -1,0 +1,59 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c214",
+ "label": "108r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000215/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the opening draft of Riemann's natural-philosophy fragment on gravitation by means of an ether flow. It belongs to the material printed in the Nachlass section of the Werke ('Neue mathematische Principien der Naturphilosophie' / 'Gravitation und Licht'). The page contains no derivation yet. It contains an axiomatic restatement of Newton's theory, a physical hypothesis, and the setup of an integral.\n\n(A) First draft, later abandoned. Newton's hypotheses for falling motion and planetary motion:\n(1) Space is infinite and Euclidean. Ponderable bodies change their place only continuously.\n(a) An isolated ponderable point would stay at rest or move uniformly in a straight line (law of inertia).\nRiemann comments: by hypothesis (1) motion is change, so the continuation of motion needs a cause, and that cause can only lie in the point's own state.\n(b) Every deviation from rest or from uniform straight motion follows from a change of state, and a cause must be sought for it.\nTwo restarts of point 2 ('behält, so viel an ihm ist, den Zustand der Ruhe...'; 'In jedem ponderabeln Punkt existirt in jedem') break off.\n\n(B) Second version, headed '3,': 'Die Newton'sche Erklärung ... besteht in der Annahme folgender Ursachen':\n(1) As before: infinite Euclidean space, and bodies that move continuously, x_i(t) continuous.\n(2) Each ponderable point carries, at each instant, a cause determined in magnitude and direction. Margin gloss: 'matter in a determined state of motion'. The measure of this cause is the velocity v_i = dx_i/dt. Margin note: the phenomena to be explained do not require assuming different (inertial) masses of the bodies.\n(3) At each point x of space, at each instant, there is a vector cause g(x,t), the 'accelerating gravitational force'. It imparts the same motion to every ponderable point located there, and this combines vectorially with the motion the point already has. In modern terms: d^2 x_i/dt^2 = g(x_i,t), independent of the body (universality of free fall).\n(4) Each ponderable point j carries a scalar 'absolute gravitational force' m_j. Through it, every point x receives an accelerating force proportional to m_j/|x - x_j|^2, directed toward x_j. These contributions superpose:\ng(x) = -sum_j m_j (x - x_j)/|x - x_j|^3, with the constant absorbed.\n\n(C) Physical hypothesis. Riemann seeks the cause of g in the state of motion of a homogeneous substance (ether) that fills all of infinite space continuously. Its velocity has the direction of g and a magnitude proportional to |g|, so u(x,t) = c g(x,t). The substance is pictured as a 'physical space whose points move in the geometric one'. His programme has two steps:\n- first, find which motions (in its smallest parts) must be ascribed to the substance to explain the phenomena;\n- then, find from which causes these motions can be explained.\n\n(D) Start of a computation. Decompose the region containing ponderable points into elements ds, each with gravitational mass dm. Let r be the distance from an arbitrary point O. The page breaks off here.\n\nWhat follows is my completion of the evident intent; it is not on the page:\n- V(O) = ∫ dm/r and g = grad V.\n- Hence div g = -4π ρ, and div g = 0 outside the masses.\n- So the ether flow u = c grad V is irrotational and incompressible in empty space, with sinks at the ponderable matter. This is the 'sink' picture known from the published fragment.",
+  "errors": [
+   "No mathematical errors; there are no computations on the page, only definitions and hypotheses.",
+   "Point (2) identifies the 'measure of the cause' of continued motion with velocity alone. This is conceptually incomplete as Newtonian momentum, but Riemann deliberately notes that different inertial masses are not needed for these phenomena. Since the acceleration is universal, this is consistent.",
+   "Ether velocity proportional to the gravitational field is a physical hypothesis. Taken literally it is only consistent for a steady field (the time dependence of moving sources is not addressed here)."
+  ],
+  "results": [
+   {
+    "what": "Axiomatic reformulation of Newtonian gravitation: Euclidean space, continuity of motion, inertia, a universal acceleration field acting identically on all bodies, inverse-square superposition with source strengths m_j",
+    "modern_name": "Newtonian field formulation of gravity; universality of free fall (weak equivalence principle)",
+    "usually_credited_to": "Newton (1687); field formulation Laplace/Poisson/Gauss",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Gravitational acceleration explained as the velocity field of a continuous homogeneous ether flowing through space (u proportional to g)",
+    "modern_name": "Ether-flow (sink) model of gravitation; hydrodynamic analogy of potential fields",
+    "usually_credited_to": "Riemann (Nachlass, 'Gravitation und Licht', published in Werke 1876); related to earlier ether-stream ideas (e.g. Fatio, Euler)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Setup of the potential integral over mass elements dm with distance r from a point O",
+    "modern_name": "Newtonian potential V = ∫ dm/r",
+    "usually_credited_to": "Lagrange/Laplace (potential), Green, Gauss",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the known Riemann natural-philosophy fragment (ether flow as the cause of gravity), already printed in substance in the Nachlass section of his Werke. The page has only axioms and a setup, with no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,m=symbols('x y z m',real=True); r=sqrt(x**2+y**2+z**2); V=m/r; simplify(diff(V,x) + m*x/r**3)",
+    "asserts": "The gradient of the potential m/r gives the inverse-square attraction -m x/r^3 (expected 0)."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z',real=True); r=sqrt(x**2+y**2+z**2); simplify(diff(1/r,x,2)+diff(1/r,y,2)+diff(1/r,z,2))",
+    "asserts": "1/r is harmonic away from the source, so the ether flow u ∝ grad V is incompressible outside the masses (expected 0)."
+   },
+   {
+    "sympy": "R,th,ph=symbols('R theta phi',positive=True); integrate(integrate((1/R**2)*R**2*sin(th),(th,0,pi)),(ph,0,2*pi))",
+    "asserts": "The flux of an inverse-square field of unit source through any sphere is 4*pi, so the matter acts as a sink of constant strength (Gauss)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'ponderable Körper welche in ihm {+nur+} stetig ihren Ort verändern': the interlinear insertion is 'nur', placed above 'stetig'. This matches the later version 'ihren Ort nur stetig verändern'.",
+   "In point 3 the struck word before 'kraft' reads as 'Schwer' (giving 'beschleunigende Schwerkraft' corrected to '(beschleunigende ...kraft)'). The struck fragment after 'ponderabeln' is likely 'Kör' (start of 'Körper') rather than 'Kr'.",
+   "Last lines: the inserted phrase reads 'Schwerkraft des Elements ds durch dm'. The struck material includes 'Grösse der in diesem' and 'Entfernung dieses Elements von einem festen oder'. Overall the transcription is substantially correct."
+  ]
+ }
+}

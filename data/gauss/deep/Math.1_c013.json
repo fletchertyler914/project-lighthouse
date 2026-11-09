@@ -1,0 +1,51 @@
+{
+ "bundle": "Math.1",
+ "page": "c013",
+ "label": "[7v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000014/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table with no derivations. It is one sheet of a large tabulation of the quadratic character of primes with respect to prime moduli.\n\nLayout:\n- The rows are the primes p from 191 to 433, arranged in six blocks of seven: 191–227, 229–263, 269–307, 311–349, 353–389 and 397–433.\n- The columns are the 24 primes q from 829 to 997, arranged in four blocks of six separated by heavy rules after 863, 911 and 953.\n- A small circle at (p, q) marks that the column prime q is a quadratic residue modulo the row prime p, i.e. the Legendre symbol (q/p) = +1. No circle means q is a non-residue.\n- Circles in adjacent cells of the same row or column are joined by strokes. This produces the chains and rectangles seen on the page. It appears to be a visual aid for reading and checking the table; it carries no extra arithmetic content.\n\nWhere the page sits:\n- The previous sheet (f.7r, red no. 13) has the same rows and the column primes 661–827.\n- The next sheet (f.8, red no. 15) starts a new arrangement: rows are moduli 439, 443, ... and columns are the small primes 2–89.\n- So the whole is a systematic table of quadratic residues among primes up to about 1000.\n\nHow the convention was fixed (my verification, by quadratic reciprocity):\n- Row 191 has circles at 829 and 839 and none at 853.\n- (829/191) = (65/191) = (5/191)(13/191) = 1·1 = +1.\n- (839/191) = (75/191) = (3/191) = +1.\n- (853/191) = (89/191) = (13/89) = (11/13) = −1.\n- By contrast (191/839) = −1. So the circle records q (mod p), not p (mod q).\n\nRow 193, also checked:\n- Circled: 839, 853, 857, 881, 911, 919, 929, 937, all with (q/193) = +1. For example 853 ≡ 81 = 9² (mod 193), and 919 ≡ 147 = 3·7².\n- Uncircled: 829, 907, with (829/193) = (57/193) = −1 and (907/193) = (135/193) = −1.\n\nOn the next page, the modulus 439 marks 2 (439 ≡ 7 mod 8, so 2 is a residue) but not 3 ((3/439) = −1). This confirms that circles mean residues throughout.\n\nThe table's evident purpose is empirical material on the distribution of quadratic residues and on reciprocity. It extends far beyond the published Table II of the Disquisitiones Arithmeticae.",
+  "errors": [
+   "No errors detected in the entries spot-checked (rows 191 and 193 against several columns). The page was not checked exhaustively."
+  ],
+  "results": [
+   {
+    "what": "Table of the quadratic character (q/p) for primes p = 191..433 and q = 829..997, with residues marked by circles",
+    "modern_name": "Table of Legendre symbols / quadratic residue table",
+    "usually_credited_to": "Gauss (Disquisitiones Arithmeticae 1801, Table II for small moduli); extensive residue tables are known from his Nachlass",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a computational residue table of a kind Gauss is well known to have compiled extensively, as preparation for and evidence about quadratic reciprocity. The strokes joining adjacent circles are a curious visual device, but the content is routine tabulation.",
+  "checkable": [
+   {
+    "sympy": "legendre_symbol(829,191)==1 and legendre_symbol(839,191)==1 and legendre_symbol(853,191)==-1 and legendre_symbol(881,191)==1",
+    "asserts": "Row 191: circles at 829, 839 and 881; no circle at 853"
+   },
+   {
+    "sympy": "all(legendre_symbol(q,193)==1 for q in [839,853,857,881,911,919,929,937])",
+    "asserts": "Row 193: these circled column primes are quadratic residues mod 193"
+   },
+   {
+    "sympy": "legendre_symbol(829,193)==-1 and legendre_symbol(907,193)==-1",
+    "asserts": "Row 193: the uncircled columns 829 and 907 are non-residues"
+   },
+   {
+    "sympy": "legendre_symbol(191,839)==-1",
+    "asserts": "Shows the circle encodes (q/p), not (p/q): 191 is a non-residue mod 839 although 839 is circled in row 191"
+   },
+   {
+    "sympy": "[[q for q in primerange(829,998) if legendre_symbol(q,p)==1] for p in primerange(191,434)]",
+    "asserts": "Generates the full intended content of the page (circled columns for each row), for comparison with the image"
+   }
+  ],
+  "transcription_corrections": [
+   "The body is a table of quadratic residues: a circle at (row p, column q) means legendre_symbol(q,p)=+1. The joining strokes are only a visual aid.",
+   "Partial readings confirmed by computation: row 191 includes 829, 839, 881 (not 853); row 193 includes 839, 853, 857, 881, 911, 919, 929, 937, ... (not 829, 907).",
+   "The '14' at top left is a circled sheet number; the red crayon '14' in the centre is a later foliation."
+  ]
+ }
+}

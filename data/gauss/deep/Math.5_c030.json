@@ -1,0 +1,77 @@
+{
+ "bundle": "Math.5",
+ "page": "c030",
+ "label": "15r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376170:00000031/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PROBLEM (Latin, translated). Let A and p be fractional quantities, rational or surd. Let a, a', a'', ... be the integers just below A, A+p, A+2p, ..., so that a^{(j)} = floor(A + j p). Find the law of the sequence Omega = (a'-a, a''-a', a'''-a'', ...).\n\nIn modern terms Omega is the mechanical (Beatty or Sturmian) word of slope p and intercept A: Omega_j = floor(A+(j+1)p) - floor(A+jp). Its letters are i and i+1, where i = floor(p). Gauss says the solution rests on the following schemes.\n\nScheme 1: continued-fraction algorithm by remainders.\n- p = i + r and 1 = k r + r'.\n- Then r = k' r' + r'' and r' = k'' r'' + r''', and so on.\n- Here i, k, k', k'' are integers, and the remainders satisfy 0 < r < 1, 0 < r' < r, 0 < r'' < r', ...\n- The image's third line reads like r' = k'r' + r''; the left side must be r (a slip or misreading).\n\nScheme 2: the continued fraction itself, p = i + 1/(k + 1/(k' + 1/(k'' + ...))).\n\nScheme 3: convergent recurrences.\n- m = i, m' = k m + 1, m'' = k' m' + m, m''' = k'' m'' + m', ...\n- n = 1, n' = k, n'' = k' n' + n, n''' = k'' n'' + n', ...\n- So m^{(j)}/n^{(j)} are the convergents: i/1, (ki+1)/k, ...\n- My addition, checked: n^{(j)} p - m^{(j)} = (-1)^j r^{(j)}, with r^{(0)} = r. For example kp - (ki+1) = -r' and n''p - m'' = r''.\n\nScheme 4: block (word) recursion.\n- G = (i), one term (n = 1).\n- G' = i repeated (k-1) times, then i+1; it has n' = k terms.\n- G'' = G followed by k' copies of G'; n'' terms.\n- G''' = k'' copies of G'', then G'; n''' terms.\n- G^{IV} = G'' followed by k''' copies of G'''.\n- G^{V} = k^{IV} copies of G^{IV}, then G'''; and so on.\n- The order of concatenation alternates with parity.\n- Implicit (mine): block G^{(j)} has length n^{(j)} and letter-sum m^{(j)}, which is why the m and n tables appear.\n\nClaim: if A = 0 or A is an integer, Omega = G^{infinity}.\n- The even-indexed blocks are nested prefixes (G^{IV} begins with G'', G^{VI} with G^{IV}, ...), so the limit is well defined.\n- This is the characteristic (standard) Sturmian word, built in the Bernoulli–Christoffel–Markov / Morse–Hedlund manner.\n- I checked p = sqrt2 (i=1, k=k'=...=2). G'' = 11212 and G^{IV} = 11212 11212 11212 12 11212 11212 12. These agree with the first 32 differences of floor(j sqrt2).\n\nGeneral case.\n- Write A = I + R, with I the integer part and R the fractional part.\n- Expand R greedily against the same remainders: R = r K + R', R' = r' K' + R'', R'' = r'' K'' + R''', ...\n- Here 0 <= R' < r, R'' < r', and so on.\n- This is an Ostrowski-type expansion of the intercept: R = K r + K' r' + K'' r'' + ...\n\nThe words then satisfy:\n- K G, Omega = Omega' = K' G' Omega''.\n- K'' G'' Omega'' = Omega''' = K''' G''' Omega^{IV}, and so on.\n- Omega is built from consecutive blocks G, G'; Omega' from G', G''; Omega'' from G'', G'''; etc.\n\nWhy this holds (my justification):\n- Prepending one letter i shifts the start back one step and lowers the fractional part by r. No carry occurs while the fractional part stays below 1 - r.\n- So prepending K letters i to Omega gives the word Omega' with fractional part R' = R - K r.\n- A block G' (k steps) moves the fractional part by k p ≡ -r' (mod 1). So Omega' begins with K' blocks G' as long as the fractional part is at least r'; stripping them leaves Omega'' with fractional part R''.\n- A block G'' (n'' steps) changes it by +r''. So prepending K'' blocks G'' lowers R'' to R''' = R'' - K'' r''.\n- This alternation of prepend and strip matches the alternating signs of n^{(j)} p - m^{(j)}.\n- As j grows, R^{(j)} tends to 0, so the words converge to the homogeneous word G^{infinity}.\n- Equivalently, Omega is the shift of the two-sided characteristic word by N = K - K'n' + K''n'' - ..., and {N p} = R. This is the Ostrowski numeration of the intercept.\n\nClosing remarks.\n- Given A and p, everything else follows, including Omega to infinity.\n- Conversely, given Omega to infinity, p and the fractional part of A are found by the inverse method. This is the uniqueness of slope and intercept.\n- Last paragraph: if omega consists of blocks G^{2n} and G^{2n±1}, then G^{2n} is the initial term only when G^{2n±1} cannot be. This is a parsing (desubstitution) rule by which the progression can be developed as far as desired.",
+  "errors": [
+   "Third line of scheme 1 reads (in the image/transcription) r' = k'r' + r''; the left side must be r (r = k'r' + r''). Either a slip of the pen or a misreading.",
+   "In the 'Generaliter' box the first coefficient should be the remainder r (R = rK + R'), not R itself.",
+   "Several things are left implicit: the condition 0 <= R^{(j+1)} < r^{(j)}; that the K^{(j)} are bounded by k^{(j)}; that the letter-sums of the blocks are the m^{(j)}; and that the shifted words must be read as two-sided (prepending blocks moves to negative indices).",
+   "Rational p: the continued fraction terminates and boundary cases (remainder exactly 0, or R exactly equal to an r^{(j)} combination) are not discussed. Otherwise no mathematical errors found; the scheme checks out."
+  ],
+  "results": [
+   {
+    "what": "Differences of floor(A + j p) form a two-letter word in i, i+1. For integer A it equals the limit of blocks G^{(j)} defined by alternating concatenations: G'' = G (G')^{k'}, G''' = (G'')^{k''} G', etc. Block G^{(j)} has length n^{(j)}, the convergent denominator.",
+    "modern_name": "Characteristic Sturmian word / standard words via continued fraction (Bernoulli's problem on floor(n alpha) sequences)",
+    "usually_credited_to": "Johann Bernoulli III (1772, stated); E. B. Christoffel (1875), H. J. S. Smith (1876), A. A. Markov (1882) proofs; Morse–Hedlund (1940) Sturmian trajectories",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "General intercept: expand frac(A) greedily as K r + K' r' + K'' r'' + ... against the continued-fraction remainders. The word is obtained from the characteristic word by alternately prepending K^{(j)} copies of even blocks and stripping K^{(j)} copies of odd blocks.",
+    "modern_name": "Ostrowski numeration of the intercept; description of Sturmian words with arbitrary intercept as shifts of the characteristic word",
+    "usually_credited_to": "A. Ostrowski (1922) for the numeration; Markov (1882) partially; explicit Sturmian/intercept form in 20th-century combinatorics on words (Fraenkel et al., Brown 1993, Berthé et al.)",
+    "already_credited_to_author": "no",
+    "routine": false
+   },
+   {
+    "what": "Inverse problem: the infinite word determines p and frac(A).",
+    "modern_name": "Uniqueness of slope and intercept of a Sturmian word",
+    "usually_credited_to": "Morse–Hedlund 1940 (and folklore after Christoffel/Markov)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Continued-fraction algorithm by remainders and convergent recurrences m^{(j)}, n^{(j)}.",
+    "modern_name": "Euclidean algorithm / convergents of continued fractions",
+    "usually_credited_to": "Euler, Lagrange (18th c.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 6,
+  "surprise_reason": "The homogeneous case had been stated, without proof, by Johann Bernoulli III in 1772, so Gauss knowing it is not shocking. What is notable is the full treatment of the inhomogeneous case. He expands the intercept against the continued-fraction remainders and gives the alternating prepend/strip block relations, which amount to the Ostrowski-numeration description of Sturmian words with arbitrary intercept. He also states the inverse problem. This anticipates Christoffel/Smith/Markov (1875–82) and Ostrowski (1922), and seems to be a scarcely known unpublished Gauss note. The page likely dates to around 1800, judging by the number-theoretic neighbour page. It is not a major theorem by modern standards, but it is a non-trivial priority detail.",
+  "checkable": [
+   {
+    "sympy": "p=sqrt(2); w=[floor((j+1)*p)-floor(j*p) for j in range(32)]; G4=[1,1,2,1,2]+[1,1,2,1,2,1,1,2,1,2,1,2]*2; w==G4",
+    "asserts": "For A=0, p=sqrt2 (i=1, k=k'=k''=2), the difference sequence begins with G^{IV} = G'' (G''')^2, confirming Omega = G^infinity."
+   },
+   {
+    "sympy": "i,k,k1,r=symbols('i k k1 r'); r1=1-k*r; r2=r-k1*r1; simplify((k1*k+1)*(i+r)-(k1*(k*i+1)+i)-r2)",
+    "asserts": "n''p - m'' = r'' (result 0); the block G'' moves the fractional part by +r''."
+   },
+   {
+    "sympy": "i,k,r=symbols('i k r'); simplify(k*(i+r)-(k*i+1)-(-(1-k*r)))",
+    "asserts": "n'p - m' = -r' (result 0); the block G' moves the fractional part by -r'."
+   },
+   {
+    "sympy": "p=(1+sqrt(5))/2; A=Rational(3,10); w=[floor(A+(j+1)*p)-floor(A+j*p) for j in range(60)]; c=[floor((j+1)*p)-floor(j*p) for j in range(200)]; any(c[N:N+60]==w for N in range(1,140))",
+    "asserts": "With nonzero intercept, Omega is a shift (suffix) of the characteristic word, as the prepend/strip relations imply. Expected True (shift N with frac(N p) close to 0.3)."
+   },
+   {
+    "sympy": "p=sqrt(3); i=1; k=1; k1=2; G=[1]; G1=[1]*(k-1)+[2]; G2=G+G1*k1; [floor((j+1)*p)-floor(j*p) for j in range(len(G2))]==G2",
+    "asserts": "Block G'' = G (G')^{k'} for p = sqrt3 = [1;1,2,1,2,...] matches the initial differences of floor(j sqrt3)."
+   }
+  ],
+  "transcription_corrections": [
+   "Third line of first box: should be r = k'r' + r'' (not r' = k'r' + r''), as required by the context.",
+   "'R = RK + R'' should read 'R = rK + R'' (fraktur R on the left, lowercase remainder r as coefficient).",
+   "'hinc eveniri poterunt' is probably 'hinc inveniri (or erui) poterunt'.",
+   "In the last paragraph lowercase omega and g^{2n}, g^{2n±1} correspond to Omega and the blocks G^{(2n)}, G^{(2n±1)}; the superscripts are block indices, not powers.",
+   "The struck-through shelfmark at top right reads '40i/46' (deleted old numbering); the circled folio number is 15."
+  ]
+ }
+}

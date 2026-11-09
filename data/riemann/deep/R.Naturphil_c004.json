@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c004",
+ "label": "3r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000005/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio continues the previous page. That page restates the motion law as Gauss's principle of least constraint: at each instant the accelerations minimise Z = Σ m_i a_i^2 − 2 Σ X_i·a_i. Here a_i = d²x_i/dt², and the y and z components are understood. For central pair forces, X_i = ∂P/∂x_i with P = Σ_{i<i'} F_{ii'}(r_{ii'}) and F' = f, where f is the repulsive force. So P is minus the potential energy U. Riemann multiplies Z by dt²/4. This does not move the minimiser.\n\nStep 1 (top of this page). The claim is that (dt²/4)Z differs from W = (1/4) Σ m_i [(d(dx_i/dt))² + (d(dy_i/dt))² + (d(dz_i/dt))²] − P_{t+dt} only by a quantity independent of the accelerations.\n\nMy filling of the implicit step:\n- d(dx/dt) = a dt, so (dt²/4) Σ m a² = (1/4) Σ m (dv)².\n- x(t+dt) = x + v dt + a dt²/2 + O(dt³).\n- Hence P_{t+dt} = P(x + v dt) + Σ ∂P/∂x · a dt²/2 + O(dt³). The gradient at x + v dt and at x differ only at O(dt), contributing O(dt³).\n- So −(dt²/2) Σ X a = −P_{t+dt} + P(x + v dt) + O(dt³).\n- P(x + v dt) depends only on the given positions and velocities at t. So (dt²/4)Z = W + const + O(dt³).\n\nStep 2 (restatement). Given positions and velocities at t, the positions at t+dt are those that make W as small as possible. Equivalently, in my notation with x̃ = x + v dt and U = −P, one minimises Σ m |x_{t+dt} − x̃|²/dt² + U(x_{t+dt}). Its stationarity condition 2m(x − x̃)/dt² = −∇U is exactly m a = −∇U, with a = 2(x − x̃)/dt².\n\nStep 3 (natural-philosophical reading). There is a 'Streben' to make W minimal. Riemann explains this as the combined result of separate 'Actionen', each striving to minimise one term. He postulates that conflicting strivings balance so that the sum of the quantities each action strives to keep small becomes a minimum.\n\nStep 4 (decomposition). Assume commensurable masses, m_i = k_i μ with integers k_i. Then W is a sum over all equal mass-particles μ of (μ/4)|dv|², plus −P_{t+dt}. Riemann invokes Gauss and takes |dv|² as the measure of the deviation of a particle's state of motion at t+dt from that at t. The total action then splits into two parts:\n- for each particle μ, an action minimising this deviation, i.e. an inertial striving to preserve its state of motion;\n- one further action that keeps the force-function term small.\n\nStep 5 (parenthesis, continued on the next page). In the language of conservation of vis viva (Helmholtz) and of Coriolis's 'travail', the quantity an attraction or repulsion strives to minimise is the sum of the Spannkräfte, i.e. the potential energy −P. Its decrease under a real displacement is the work done.",
+  "errors": [
+   "Sign slip: the minimised expression contains −P_{t+dt}, so the second action keeps −P (the potential energy, the 'Spannkräfte') small, not 'die Grösse P' as written. The next page correctly speaks of keeping the terms of −Σ F_{ii'} small.",
+   "The equivalence with Gauss's principle holds only to second order in dt, up to O(dt³) terms from evaluating ∂P at x instead of x + v dt. Riemann leaves this implicit; it is harmless for the infinitesimal argument.",
+   "Attributing the measure |dv|² 'mit Gauss' is loose. Gauss's constraint measures deviation from the unconstrained (free) motion, Σ m (a − F/m)², not deviation from the previous state of motion. Riemann's quantity is an analogue obtained after absorbing the force term into P_{t+dt}.",
+   "The decomposition into equal particles μ requires commensurable masses. Riemann assumes this explicitly; passing to general masses needs a limiting argument that is not given.",
+   "The previous page carries a marginal 'Ungiltig[?]', suggesting Riemann himself had doubts about part of this passage."
+  ],
+  "results": [
+   {
+    "what": "Rewriting Gauss's least-constraint function, for forces with a force function P, as the per-step functional (1/4)Σ m (dv)² − P(x_{t+dt}) minimised over positions at t+dt",
+    "modern_name": "Gauss's principle of least constraint in discrete-time (incremental potential / variational time-step) form",
+    "usually_credited_to": "Gauss 1829 for the principle. Optimisation-based time-stepping (minimising kinetic deviation plus potential per step) is usually associated with 20th-century numerical mechanics, e.g. incremental potentials and variational integrators.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Interpretation of the minimum principle as a balance of separate strivings: inertia as a striving to preserve the state of motion, plus pairwise force actions",
+    "modern_name": "Natural-philosophical reformulation of Newtonian mechanics via a minimum principle",
+    "usually_credited_to": "Riemann, in his Naturphilosophie fragments published posthumously in the Gesammelte Werke (1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Identification of the minimised potential term with Helmholtz's 'Spannkräfte' and of its decrease with Coriolis's 'travail'",
+    "modern_name": "Potential energy and the work–energy relation",
+    "usually_credited_to": "Coriolis 1829; Helmholtz 1847",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This passage belongs to Riemann's Naturphilosophie fragments, which were printed in the Werke and are discussed in the secondary literature on his natural philosophy. The mathematics is an elementary second-order expansion of Gauss's principle. The one modern-looking feature is the discrete-step incremental-potential form, but it is an analogue, not a numerical method.",
+  "checkable": [
+   {
+    "sympy": "m,dt,x,v,a,X=symbols('m dt x v a X'); Pfun=Function('P'); expr=Rational(1,4)*m*(a*dt)**2 - Pfun(x+v*dt+a*dt**2/2); diff(series(expr,dt,0,3).removeO(),a)",
+    "asserts": "To order dt², the a-dependence of W is (m/2)a dt² − P'(x) dt²/2, i.e. dt²/4 times the a-derivative of the Gauss function m a² − 2 P'(x) a."
+   },
+   {
+    "sympy": "m,dt,x,v,a=symbols('m dt x v a'); Pfun=Function('P'); W=Rational(1,4)*m*(a*dt)**2 - Pfun(x+v*dt+a*dt**2/2); Z=(m*a**2-2*Pfun(x).diff(x)*a)*dt**2/4; simplify(series(W-Z,dt,0,3).removeO().diff(a))",
+    "asserts": "W − (dt²/4)Z is independent of the acceleration a up to O(dt³) (the result is 0)."
+   },
+   {
+    "sympy": "m,dt,xn,xt,c=symbols('m dt xn xt c'); U=c*xn**2/2; solve(diff(m*(xn-xt)**2/dt**2+U,xn),xn)",
+    "asserts": "Minimising m|x−x̃|²/dt² + U(x) gives 2m(x−x̃)/dt² = −U'(x), i.e. m a = −∇U with a = 2(x−x̃)/dt² (harmonic test case)."
+   },
+   {
+    "sympy": "x1,x2,y1,y2,z1,z2=symbols('x1 x2 y1 y2 z1 z2'); F=Function('F'); r=sqrt((x1-x2)**2+(y1-y2)**2+(z1-z2)**2); simplify(diff(F(r),x1) - Subs(diff(F(symbols('s')),symbols('s')),symbols('s'),r).doit()*(x1-x2)/r)",
+    "asserts": "X_1 = ∂F(r)/∂x_1 = f(r)(x1−x2)/r with f = F', a repulsion of magnitude f along the line of centres (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'Diese [-Action-] {+Streben+}': the image shows 'Action' with 'Streben' written above as an interlinear alternative. The first edit was also an interlinear insertion ('Streben' over 'Bestrebung').",
+   "The whole clause 'dass die Summe der Grössen, welche die einzelnen Actionen möglichst klein zu erhalten streben' (beginning 'einander widerstreitende Bestrebungen sich so ausgleichen') is underlined in the original. 'ein Minimum' is written above 'möglichst klein', which is not struck through.",
+   "In the first formula the indices are written as subscript 'ι' (rendered as x_ι, y_ι, z_ι, possibly also read as x_1). The intended meaning is the summation index ι over points."
+  ]
+ }
+}

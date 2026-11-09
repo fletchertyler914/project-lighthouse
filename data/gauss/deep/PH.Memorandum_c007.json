@@ -1,0 +1,71 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c007",
+ "label": "[6]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. The previous page notes that 'the threads of the clamping screws on the mural quadrant are 0.63 mm apart'. This page uses that value. It is a practical computation for re-adjusting the plane of the Göttingen mural quadrant. The quadrant is attached to the wall at three screws a, b, c. The sketch shows the wall with the quadrant's quarter-circle outline (dotted) and the three screw positions.\n\n(1) Screw coordinates. The 'm' over the table means metres (a unit, not the variable m used later). The coordinates in the wall plane are (x horizontal, y vertical):\n- a = (0.070, 0.3015)\n- b = (0.070, 1.6669)\n- c = (1.895, 0.5360)\n- An extra x-value of about 2.0354 (one digit is overwritten) is probably the abscissa of some other reference point.\n\n(2) Error model of a meridian instrument (Tobias Mayer's formula). Write A for the inclination and B for minus the azimuth deviation of the instrument plane, z for the zenith distance (= phi - delta), and phi for the latitude of Göttingen, 51°32'.\n- Corr = A cos z + B sin z (the factor sec delta is left implicit).\n- Expanding cos(phi - delta) and sin(phi - delta) gives Bessel's normal form Corr = m tan(delta) + n sec(delta) + p, where n is the collimation.\n- My derivation: p = A cos(phi) + B sin(phi) and m = A sin(phi) - B cos(phi).\n- Inverting with cos(phi) = 0.622 and sin(phi) = 0.783 gives exactly the page's relations: A = 0.622 p + 0.783 m and B = -0.783 p - 0.622 m.\n- So from the observed clock constants m and p, Gauss recovers the plane's inclination A and azimuth error (-B), both in seconds of time.\n\n(3) Converting angle errors into screw turns. The screw displacement perpendicular to the wall is z = -(B/8.663) x - (A/8.663) y (here z is a displacement, not the zenith distance).\n- Turning a tilt of A seconds of time over a lever arm of d metres into turns of a 0.63 mm thread gives A * 15/206265 * 1000 d / 0.63 = A d / 8.663.\n- Check: 206265 * 0.63 / 15000 = 8.6631. This identification of the constant 8.663 is mine, but it fits the previous page exactly.\n\n(4) Keeping screw a fixed:\n- z_b - z_a = -A (1.6669 - 0.3015)/8.663 = -0.1576 A (Gauss writes -0.1575 A).\n- z_c - z_a = -[A (0.5360 - 0.3015) + B (1.895 - 0.070)]/8.663 = -0.0271 A - 0.2106 B.\n\n(5) Numerical case: A = +15.14 s and B = +10.67 s.\n- b: -0.1576 * 15.14 = -2.386, written -2.39 turns.\n- c: -0.0271 * 15.14 - 0.2106 * 10.67 = -2.657, written -2.66 turns.\n- My back-solving from these A, B gives p ≈ -78.6 s and m ≈ +81.7 s.\n\n(6) The unrelated note 'Hambg 32.24.36' and 'Hohenhorn(?) 112.44.15' looks like azimuths or directions (deg.min.sec), probably geodetic or meridian-mark data connected with the Hamburg/Schumacher link.",
+  "errors": [
+   "The coefficient for b should be 1.3654/8.663 = 0.15761, i.e. 0.1576 rather than 0.1575. This is a rounding slip only: -2.39 matches 0.1576 better than 0.1575, which would give -2.385.",
+   "'Corr = A cos z + B sin z' omits the sec(delta) factor needed for the equality with m tan(delta) + n sec(delta) + p (or Corr means the correction times cos(delta)). This is a notational shortcut, not an error.",
+   "The relation between A, B and m, p is not a rotation: the matrix [[0.622, 0.783], [-0.783, -0.622]] has determinant cos^2(phi) - sin^2(phi) ... wait, actually it is sin^2(phi) - cos^2(phi) up to sign. This follows from the sign convention B = -azimuth and is consistent; no error."
+  ],
+  "results": [
+   {
+    "what": "Transit-time correction of a meridian instrument as a function of inclination, azimuth and collimation, rewritten as m tan(delta) + n sec(delta) + p, with conversion between (A, B) and (m, p) using the latitude of Göttingen.",
+    "modern_name": "Tobias Mayer's formula / Bessel's form of the transit-instrument reduction",
+    "usually_credited_to": "Tobias Mayer (c. 1756-1770); Bessel's m, n, c form (1820s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Converting angular adjustment errors (in seconds of time) into turns of 0.63 mm clamping screws at three support points of a mural quadrant, via the plane z = -(B x + A y)/8.663.",
+    "modern_name": "Three-point (kinematic) leveling and adjustment of an instrument plane",
+    "usually_credited_to": "standard observatory practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine observatory adjustment work: Mayer/Bessel instrument constants converted into screw turns for the Göttingen mural quadrant. The only point of interest is local documentation of Gauss's practical instrument handling (about 1818). It contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "abs(206265*0.63/15000 - 8.663) < 0.001",
+    "asserts": "The constant 8.663 equals the lever conversion for seconds of time into turns of a 0.63 mm screw with coordinates in metres."
+   },
+   {
+    "sympy": "abs((1.6669-0.3015)/8.663 - 0.1576) < 0.0001",
+    "asserts": "The A-coefficient for screw b relative to a is about 0.1576 (Gauss wrote 0.1575)."
+   },
+   {
+    "sympy": "abs((0.5360-0.3015)/8.663 - 0.0271) < 0.0001 and abs((1.895-0.070)/8.663 - 0.2106) < 0.0001",
+    "asserts": "The coefficients for screw c are 0.0271 A and 0.2106 B."
+   },
+   {
+    "sympy": "abs(-0.1576*15.14 - (-2.39)) < 0.005",
+    "asserts": "The displacement of screw b is -2.39 turns."
+   },
+   {
+    "sympy": "abs(-0.0271*15.14 - 0.2106*10.67 - (-2.66)) < 0.005",
+    "asserts": "The displacement of screw c is -2.66 turns."
+   },
+   {
+    "sympy": "abs(cos(rad(51+32/60.)) - 0.622) < 0.001 and abs(sin(rad(51+32/60.)) - 0.783) < 0.001",
+    "asserts": "The coefficients 0.622 and 0.783 are the cosine and sine of the latitude of Göttingen."
+   },
+   {
+    "sympy": "simplify((i*cos(phi-d)+k*sin(phi-d))/cos(d) - ((i*sin(phi)-k*cos(phi))*tan(d) + i*cos(phi)+k*sin(phi))) == 0",
+    "asserts": "Mayer's formula expands to m tan(delta) + p with m = i sin(phi) - k cos(phi) and p = i cos(phi) + k sin(phi); inverting gives A = i = 0.622 p + 0.783 m and B = -k = -0.783 p - 0.622 m."
+   }
+  ],
+  "transcription_corrections": [
+   "The 'm' above the coordinate table is the unit metres, not a variable.",
+   "The sketch is the wall with the outline of the mural quadrant (dotted quarter-circle) and the three screw positions a, b, c, not a room plan.",
+   "c's x-coordinate reads 1.895 (an overwritten digit); 1.895 is confirmed by the coefficient 0.2106 = 1.825/8.663.",
+   "The x-row value has an overwritten digit (2.0354 or 2.0354 corrected to 2.0?54); its reading is uncertain.",
+   "'Hohenkirchen' is more likely 'Hohenhorn' (a trig point in Schumacher's Holstein triangulation, near Hamburg); the reading is uncertain.",
+   "The struck-out fragments near the A, B relations are smudged/blotted ink (e.g. '...A =', 'm tg...'), not content."
+  ]
+ }
+}

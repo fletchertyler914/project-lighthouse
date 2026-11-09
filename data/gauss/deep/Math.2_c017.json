@@ -1,0 +1,66 @@
+{
+ "bundle": "Math.2",
+ "page": "c017",
+ "label": "[8v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376167:00000018/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has no derivations. It is a pure table, continuing the previous page (467, 479, 487) and the next (997, 991). Each block opens with a prime p (marked with an overbar), then a '+', then an increasing list of integers a with 1 ≤ a ≤ p−1.\n\nWhat the lists are. Spot checks with quadratic reciprocity show that each list is the set of quadratic residues mod p, i.e. the a with Legendre symbol (a/p) = +1. The '+' marks the residue class.\n\n(1) p = 491 ≡ 3 mod 8, so 2 is a non-residue.\n- 3 is a residue: (3/491) = −(491/3) = −(2/3) = +1.\n- 5 is a residue: (5/491) = (1/5) = +1.\n- 7 is a non-residue: (7/491) = −(1/7) = −1.\n- 11 is a residue: (11/491) = −(7/11) = +1.\n- 31 is a residue: (31/491) = −(26/31) = +1.\nThe list accordingly begins 1, 3, 4, 5, 9, 11, …. The list ends at 489 = −2. Since −1 and 2 are both non-residues, −2 is a residue, as listed.\n\n(2) p = 499 ≡ 3 mod 8.\n- 2 and 3 are non-residues.\n- Hence 6 is a residue, and the list begins 1, 4, 5, 6, 9, ….\n- The struck-out 28 = 4·7 is correctly removed, because (7/499) = −1.\n- The interlinear insertion 195 = 3·5·13 is correct: (−1)(+1)(−1) = +1.\n\n(3) p = 503 ≡ 7 mod 8.\n- 2, 3 and 7 are residues; 5 is a non-residue.\n- Hence the list begins 1, 2, 3, 4, 6, 7, 8, 9, 11, ….\n- The list ends at 498 = −5, a residue because both −1 and 5 are non-residues.\n\nLength of the lists. All three primes are ≡ 3 mod 4, so a and p−a have opposite characters. Gauss therefore had to list residues across the whole range 1…p−1, giving (p−1)/2 entries: 245, 249 and 251. On the next page, for 997 ≡ 1 mod 4, the list stops at 496 < p/2, as symmetry allows.\n\nCorrections in the manuscript. I verified the following by hand:\n- In the 491 block, a struck-out stretch after 199 is replaced by 203, 204, 205, 206, 208. Of 200–208, those are exactly the residues.\n- In the 491 block, the insertion 257 is a residue.\n- In the 503 block, the insertions 384, 387, 429 and 462, 463, 465 are residues. 464 = 16·29 is correctly absent, since (29/503) = (10/29) = −1.\n\nPurpose. This is a manuscript table of quadratic residues for primes near 500 (and near 1000 on the next page). It is a computational aid of the kind Gauss used throughout the Disquisitiones Arithmeticae; compare Table II and art. 99 there.\n\nA possible use (my conjecture, not stated on the page): the run of consecutive primes ≡ 3 mod 4 (467, 479, 487, 491, 499, 503) would suit counting residues below p/2. That count gives the class number of discriminant −p via h(−p) = (R − N)/(2 − (2/p)).",
+  "errors": [
+   "No errors detected in the entries checked: about 40 individual residues verified by reciprocity, all three list endpoints, and all of Gauss's own deletions and insertions.",
+   "The struck-out 28 in the 499 list was a genuine slip (28 is a non-residue), and Gauss corrected it himself.",
+   "The struck-out passages in the 491 list (after 199, near 257) and in the 503 list (after 458) were likewise corrected by Gauss with the correct residues."
+  ],
+  "results": [
+   {
+    "what": "Complete lists of quadratic residues mod 491, 499 and 503 (the a in 1..p−1 with (a/p) = 1)",
+    "modern_name": "Table of quadratic residues / Legendre symbol table",
+    "usually_credited_to": "Standard computational tables (Gauss, Disquisitiones 1801, Table II; later Jacobi's Canon Arithmeticus 1839 and others)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine hand-computed table of quadratic residues. Gauss is well known to have compiled such tables (Disquisitiones, Table II), and the page holds no theoretical content.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [legendre_symbol(a,491) for a in (1,3,4,5,9,11,12,13,14,15,16,17,20,25,27,31,33,36,37,38,39,41,42,43,44,45,46,48,49,51,52,55,56,58,60,61,64,65)] == [1]*38",
+    "asserts": "The first line of the 491 list consists of quadratic residues mod 491."
+   },
+   {
+    "sympy": "len([a for a in range(1,491) if legendre_symbol(a,491)==1]) == 245",
+    "asserts": "The 491 list should contain (p−1)/2 = 245 entries."
+   },
+   {
+    "sympy": "[a for a in range(200,209) if legendre_symbol(a,491)==1] == [203,204,205,206,208]",
+    "asserts": "Gauss's interlinear correction 203.204.205.206.208 is exactly the set of residues between 200 and 208 mod 491."
+   },
+   {
+    "sympy": "legendre_symbol(257,491)==1 and legendre_symbol(28,499)==-1 and legendre_symbol(195,499)==1",
+    "asserts": "The insertion 257 (mod 491) is correct; the struck-out 28 and the inserted 195 (mod 499) are correctly handled."
+   },
+   {
+    "sympy": "[a for a in range(458,467) if legendre_symbol(a,503)==1] == [462,463,465,466]",
+    "asserts": "The corrected passage 458 … 462.463.465.466 in the 503 list is correct (459–461 and 464 are non-residues)."
+   },
+   {
+    "sympy": "all(legendre_symbol(a,503)==1 for a in (384,387,429,488,493,498)) and legendre_symbol(5,503)==-1",
+    "asserts": "The insertions and the final entries of the 503 list are residues, and 5 is a non-residue."
+   },
+   {
+    "sympy": "[a for a in range(1,12) if legendre_symbol(a,499)==1] == [1,4,5,6,9]",
+    "asserts": "The 499 list begins 1.4.5.6.9 (next entry 14)."
+   },
+   {
+    "sympy": "R=sum(1 for a in range(1,246) if legendre_symbol(a,491)==1); N=245-R; (R-N) % (2-legendre_symbol(2,491)) == 0",
+    "asserts": "Possible use of the table: the excess of residues over non-residues below p/2 is divisible by 3 = 2 − (2/491), as the class-number formula h(−p) = (R−N)/(2−(2/p)) requires."
+   }
+  ],
+  "transcription_corrections": [
+   "491 list, line 4: the struck-out block after 199 is replaced by the superscript '203.204.205.206.208'. These are exactly the residues in 200–208 mod 491, so the transcription's insertion is correct.",
+   "499 list: the struck-out item after 26 is indeed 28. It is correctly deleted as a non-residue mod 499.",
+   "499 list: the blotted entry between 166 and 169 reads 167, which is a residue mod 499.",
+   "503 list: the smudged sequence '340.343.344.346' is consistent with the residue character mod 503 (340 = 4·5·17 and 343 = 7^3 are residues)."
+  ]
+ }
+}

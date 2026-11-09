@@ -1,0 +1,63 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c112",
+ "label": "55r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000113/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This folio is a draft of §3 of Riemann's Habilitationsschrift, \"Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe\" (1854, published 1867). That section reviews the history of the subject and summarizes Dirichlet's 1829 convergence proof. The printed text follows this draft almost word for word.\n\n(a) The task is to show that the n-th partial sum of the Fourier series tends to f(x) as n → ∞. The partial sum is S_n(x) = (1/2π)∫_{-π}^{π} f(α) dα + Σ_{k=1}^n (a_k cos kx + b_k sin kx). Riemann abbreviates the trigonometric terms as '+∫…sin x + ∫…cos x'. Using 1/2 + Σ_{k=1}^n cos k t = sin((2n+1)t/2) / (2 sin(t/2)), this sum equals the Dirichlet-kernel integral\n S_n(x) = (1/2π)∫_{-π}^{π} f(α) · sin((2n+1)(x−α)/2) / sin((x−α)/2) dα.\n\n(b) Dirichlet's proof rests on two lemmas. The hypothesis on φ is that it does not change infinitely often from increasing to decreasing between the limits; the printed version says φ is monotone there.\n- Lemma 1: if 0 < c ≤ π/2, then ∫_0^c φ(β) sin((2n+1)β)/sin β dβ → (π/2) φ(0) as n → ∞. Here φ(0) should be read as φ(+0).\n- Lemma 2: if 0 < b < c ≤ π/2, then ∫_b^c φ(β) sin((2n+1)β)/sin β dβ → 0.\n\n(c) The following step is implicit; this reconstruction is mine. Substitute α = x ± 2β. On each side of x this gives integrals (1/π)∫_0^{π/2} f(x ± 2β) sin((2n+1)β)/sin β dβ. If f has finitely many maxima and minima, split the range into finitely many monotone pieces. The piece next to β = 0 tends, by Lemma 1, to (1/π)(π/2) f(x±0) = f(x±0)/2. All other pieces tend to 0 by Lemma 2.\n\n(d) Conclusion: every 2π-periodic function that is (1) integrable throughout and (2) has only finitely many maxima and minima is represented by its Fourier series. The printed version adds a third condition: at jumps the function equals the mean of its one-sided limits. Here that condition is implicit in the limit [f(x+0) + f(x−0)]/2.\n\nLeft margin: a fragmentary, partly struck remark. It speaks of splitting the series into a finite part Vn and an infinite remainder R that stays below a given quantity for every x. It then argues that the change of R under any change of x is also small. This concerns the continuity of a uniformly convergent series of continuous functions, perhaps relevant to integrating or comparing series. It is too fragmentary to reconstruct fully.",
+  "errors": [
+   "In Lemma 2 the integrand is written sin((2n+1)/2·β)/sin β. This is inconsistent with Lemma 1 and with the substitution α = x ± 2β. It should read sin((2n+1)β)/sin β, as in the printed version.",
+   "'φ0' in Lemma 1 should be the right-hand limit φ(+0).",
+   "The hypothesis on φ is stated loosely: 'not infinitely often switching between increasing and decreasing'. For the lemmas as Dirichlet proves them, φ must be monotone, or piecewise monotone and bounded, on the interval. The final printed text corrects this to monotonicity. This is not a mathematical error in the overall argument.",
+   "The first displayed line is shorthand. The '∫ sin x + ∫ cos x' terms stand for Σ (1/π)∫ f(α) sin kα dα · sin kx and the corresponding cosine terms."
+  ],
+  "results": [
+   {
+    "what": "Partial Fourier sum expressed as a Dirichlet-kernel integral",
+    "modern_name": "Dirichlet kernel representation of S_n f",
+    "usually_credited_to": "Dirichlet 1829 (Fourier earlier in effect)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Two lemmas: the limit of ∫_0^c φ(β) sin((2n+1)β)/sin β dβ is (π/2)φ(+0), and the limit of ∫_b^c … is 0, for monotone φ",
+    "modern_name": "Dirichlet integral lemmas (localization / Riemann–Lebesgue-type lemma for monotone functions)",
+    "usually_credited_to": "Dirichlet 1829",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Convergence of the Fourier series to [f(x+0)+f(x−0)]/2 for integrable functions with finitely many extrema",
+    "modern_name": "Dirichlet's theorem (Dirichlet conditions)",
+    "usually_credited_to": "Dirichlet 1829",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of Riemann's published historical review (Habilitationsschrift §3) of Dirichlet's proof. Its content is entirely Dirichlet's, and the wording matches the printed text closely.",
+  "checkable": [
+   {
+    "sympy": "simplify((Rational(1,2)+Sum(cos(k*t),(k,1,3)).doit()) - sin(7*t/2)/(2*sin(t/2)))",
+    "asserts": "Dirichlet kernel identity for n=3; the expression should simplify to 0"
+   },
+   {
+    "sympy": "integrate(expand_trig(sin(7*b)/sin(b)).simplify(),(b,0,pi/2))",
+    "asserts": "∫_0^{π/2} sin((2n+1)β)/sin β dβ = π/2 for n=3; the result should be pi/2"
+   },
+   {
+    "sympy": "integrate((1+2*Sum(cos(2*k*b),(k,1,5)).doit()),(b,0,pi/2))",
+    "asserts": "Because sin(11β)/sin β = 1 + 2Σ_{k=1}^5 cos 2kβ, the integral equals π/2"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: read 'Es musste nämlich gezeigt werden, dass die endliche Reihe' (the printed text has 'musste'); 'Summe der n ersten Glieder der Reihe' is struck.",
+   "The second formula line reads '1/(2π)∫_{-π}^{π} f(α) dα + ∫…sin x + ∫…cos x', a shorthand for the Fourier partial sum, not literal integrals of sin x and cos x.",
+   "In Lemma 1 the integral is ∫_0^c φβ sin(2n+1)β / sin β ∂β, and the limit is (π/2)φ(0).",
+   "In Lemma 2 the manuscript indeed has sin((2n+1)/2)β over sin β; this is a slip by Riemann, not a transcription error.",
+   "'nicht unendlich viele Maxima und Minima besitzt' and the interlinear 'nicht unendlich oft vom Zunehmen zum Abnehmen oder vom Abnehmen zum Zunehmen übergeht' are alternative formulations of the same hypothesis, one overwriting the other.",
+   "In the conclusion, 'jeder periodischen [Function]' is followed by 'welche', with 'durch eine trigonometrische Reihe' struck."
+  ]
+ }
+}

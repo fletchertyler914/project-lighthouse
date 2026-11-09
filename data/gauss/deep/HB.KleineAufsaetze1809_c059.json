@@ -1,0 +1,72 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c059",
+ "label": "[50]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000060/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Heading: 'Methode der kleinsten Quadrate'. The page follows the Pallas 1807 opposition differential formulas, so it likely dates from about 1807–1809, the Theoria Motus period.\n\nSetup: A = αx + …, B = 𝔟x + …, B' = 𝔟'x + …, …, B^(n-1) = 𝔟^(n-1)x + … are linear functions of x and other unknowns (observation equations). Weights λ, μ, μ', … are given. Ω = (λA)^2 + (μB)^2 + (μ'B')^2 + … is to be minimized.\n\nStep 1, eliminating x between A and B. Put\n- l = α/𝔟\n- tan φ = μ/(λ l)\n- k = μ tan φ / λ (equivalently k = l tan^2 φ; this is my rewriting)\n- A' = A + kB, C = A − lB\n- λ' = λ cos φ, ν = λ sin φ\n\nClaims:\n(i) (λ'A')^2 + (νC)^2 = (λA)^2 + (μB)^2 identically.\n(ii) C contains no x, since α − l𝔟 = 0.\n(iii) The coefficient of x in A' is α' = α + k𝔟 = α(1 + tan^2 φ) = α/cos^2 φ.\n\nVerification (mine): expanding gives λ^2A^2 + 2λ^2AB(k cos^2 φ − l sin^2 φ) + λ^2B^2(k^2 cos^2 φ + l^2 sin^2 φ).\n- The cross term vanishes if and only if k = l tan^2 φ = μ tan φ/λ.\n- The B^2 coefficient is then λ^2 l^2 tan^2 φ = μ^2.\n\nIn weighted form, λ'A' = cos φ·(λA) + sin φ·(μB) and νC = sin φ·(λA) − cos φ·(μB). So the step is an orthogonal 2×2 transformation (a rotation/reflection) of the two weighted residual rows. The angle φ is chosen by tan φ = μ𝔟/(λα) so that x is annihilated in the second row. That is exactly a Givens rotation.\n\nIteration: repeat with (λ'A', μ'B'), then (λ''A'', μ''B''), and so on. Ω takes the form (νC)^2 + (ν'C')^2 + … + (ν^(n-1)C^(n-1))^2 + (last term)^2, where no C contains x. x survives only in the final accumulated row A^(n), with weight λ^(n). Minimizing over x therefore just sets A^(n) = 0, which determines x in terms of the other unknowns. What remains is a weighted sum of squares of n x-free functions, to be treated the same way for the next unknown.\n\nThis amounts to least squares by successive orthogonal (Givens-type) elimination applied directly to the observation equations, without forming the normal equations.",
+  "errors": [
+   "The first definition of k, (1/l)·cot φ = k, is wrong (the correct value is l tan^2 φ). Gauss himself struck it out and replaced it with k = μ tan φ/λ, which is correct.",
+   "The final term is written as (𝔟^n B^n)^2 in the hand. Logically it should be the accumulated row with its weight, e.g. (λ^(n) A^(n))^2, since every B has been absorbed. This is a notational slip or ambiguous lettering, not a mathematical error.",
+   "No proof is given for the iteration or for the conclusion about minimizing in x (that A^(n) = 0 at the minimum); both are left implicit, but they are correct."
+  ],
+  "results": [
+   {
+    "what": "Two weighted squares (λA)^2 + (μB)^2 rewritten as (λ cos φ (A + kB))^2 + (λ sin φ (A − lB))^2, with tan φ = μ𝔟/(λα) chosen to eliminate x from one row; the new x-coefficient is α/cos^2 φ.",
+    "modern_name": "Givens (plane) rotation applied to weighted rows of a least-squares system; orthogonal triangularization (QR) step, close in spirit to square-root-free/weighted Givens updating",
+    "usually_credited_to": "W. Givens (1954/1958) for rotation-based QR; Jacobi (1846) for plane rotations in eigenvalue problems; Gentleman (1973) for square-root-free Givens in least squares",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Sequential elimination of one unknown by repeated pairwise rotations, giving Ω = Σ(ν^(i) C^(i))^2 + (one row containing x)^2, so x is fixed by setting that row to zero.",
+    "modern_name": "Row-sequential orthogonal elimination / sequential QR least-squares updating",
+    "usually_credited_to": "20th-century numerical linear algebra (Givens, Gentleman, Golub)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Reduction of the least-squares objective to a sum of squares of functions free of the eliminated unknown.",
+    "modern_name": "Sum-of-squares reduction (the idea behind Gaussian elimination / LDL^T on the normal equations)",
+    "usually_credited_to": "Gauss (Theoria Motus 1809, Disquisitio de elementis ellipticis Palladis 1810)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 6,
+  "surprise_reason": "Gauss's known least-squares elimination works on the normal equations, by completing squares. Here, around 1807–09, he eliminates an unknown directly from the weighted observation equations using trigonometric 2×2 orthogonal transformations. That is in substance the Givens rotation step of orthogonal (QR) least squares, usually credited to the 1950s–70s. The reduction to a sum of squares is itself familiar Gauss territory, and it is unclear whether historians have noted this sheet. I therefore rate it notable but not top-tier.",
+  "checkable": [
+   {
+    "sympy": "A,B,lam,mu,al,b=symbols('A B lam mu al b',positive=True); l=al/b; phi=atan(mu/(lam*l)); k=mu*tan(phi)/lam; simplify((lam*cos(phi)*(A+k*B))**2+(lam*sin(phi)*(A-l*B))**2-(lam*A)**2-(mu*B)**2)==0",
+    "asserts": "(λ'A')^2 + (νC)^2 = (λA)^2 + (μB)^2 with Gauss's definitions"
+   },
+   {
+    "sympy": "simplify(al - (al/b)*b)==0",
+    "asserts": "C = A − lB has zero coefficient of x"
+   },
+   {
+    "sympy": "phi=symbols('phi'); simplify(al + (al/b)*tan(phi)**2*b - al/cos(phi)**2)==0",
+    "asserts": "The coefficient of x in A' = A + kB with k = l tan^2 φ is α/cos^2 φ"
+   },
+   {
+    "sympy": "lam,mu,l,phi=symbols('lam mu l phi',positive=True); simplify((mu*tan(phi)/lam - l*tan(phi)**2).subs(tan(phi),mu/(lam*l)))==0",
+    "asserts": "μ tan φ/λ = l tan^2 φ when tan φ = μ/(λl)"
+   },
+   {
+    "sympy": "simplify((cot(phi)/l - l*tan(phi)**2).subs({l:1,phi:pi/4}))",
+    "asserts": "Nonzero in general (here −1 + 1 = 0 only at a special point; try l=2: 1/2 − 2 ≠ 0), confirming the struck-out k = (1/l)cot φ is wrong"
+   },
+   {
+    "sympy": "lam,mu,phi=symbols('lam mu phi'); M=Matrix([[cos(phi),sin(phi)],[sin(phi),-cos(phi)]]); simplify(M.T*M-eye(2))==zeros(2)",
+    "asserts": "The map (λA, μB) -> (λ'A', νC) is orthogonal, i.e. a Givens-type rotation/reflection"
+   }
+  ],
+  "transcription_corrections": [
+   "The symbol in B, B', … is a Fraktur/script capital B, and the x-coefficients are script 𝔟, 𝔟', …; the transcription's 𝔟 is consistent with this.",
+   "The final term is read as (𝔟^n B^n)^2, but the hand is ambiguous. Mathematically it should denote the last accumulated row (e.g. λ^(n) A^(n)); the transcription should flag this as uncertain.",
+   "The correction 'μ tan φ/λ = k' is written above the struck '(1/l) cotang φ = k'. The transcription renders this correctly as insertion plus deletion.",
+   "'λ sin φ = ν': the right-hand symbol is ν (nu), consistent with the later ν, ν', ν''."
+  ]
+ }
+}

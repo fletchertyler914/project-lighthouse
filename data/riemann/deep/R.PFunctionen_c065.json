@@ -1,0 +1,59 @@
+{
+ "bundle": "R.PFunctionen",
+ "page": "c065",
+ "label": "33v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206214:00000066/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is not by Riemann and contains no derivation. It is the middle sheet (the verso continuation) of a letter dated Dresden, 12 Aug. 1891, from Erwin Papperitz to a 'Herr Professor'. The recipient is very probably Heinrich Weber, who was then preparing the 2nd edition of Riemann's Werke (1892) and asking about the literature on integral representations of Riemann's P-functions. The letter was filed with Riemann's P-function papers.\n\nContent of the page, paraphrased:\n\n(1) Thomae's normalization. Papperitz continues the sentence from the previous page: Thomae's normalization of the integrals does not yet represent what Riemann had in mind. As far as Papperitz remembers, Thomae only wants the first coefficient in the series expansion of each function branch to equal 1. In modern terms, near a singular point x0 each branch is (x-x0)^rho (1 + c1 (x-x0) + ...), and the leading coefficient is normalized to 1. Papperitz says he therefore expressed himself cautiously on this point in his historical essay.\n\n(2) Pochhammer's double loop. Pochhammer ('Ueber ein Integral mit doppeltem Umlauf', Math. Ann. 35, 1890) gives a form of the integration path that can always be used. Two singular points a and b are each encircled once in the positive and once in the negative sense, following the sketch. In modern notation this is the Pochhammer contour, i.e. the commutator loop [a,b] = a b a^{-1} b^{-1}. Because the multiplier picked up by the integrand around the loops cancels, the path is closed on the Riemann surface of the integrand. The integral therefore converges for all exponents, so no Re > 0 conditions are needed. For the Euler integral this gives (my addition, standard): ∮_P t^(α-1)(1-t)^(β-1) dt = (1-e^{2πiα})(1-e^{2πiβ}) B(α,β). In formulas (53) and (54) of Pochhammer's paper, the 6 fundamental integrals of the hypergeometric differential equation are built this way: two branches at each of 0, 1 and ∞, obtained as double-loop integrals of the Euler kernel u^(b-1)(1-u)^(c-b-1)(1-xu)^(-a) between pairs of singular points.\n\n(3) Klein's normalization. Klein ('Ueber die Normirung der linearen Differentialgleichungen zweiter Ordnung', Math. Ann. 38, 1891) uses homogeneous variables together with this integral representation. This yields a normalization of the hypergeometric (P-)functions distinguished by its simple properties, against which Thomae's normalization appears purely arbitrary.\n\n(4) Closing. Papperitz hopes he has met the wish expressed in the recipient's letter by pointing to the two papers. The letter is concluded on the next page.\n\nNo computation, formula or derivation appears on the page; the only mathematical content is the sketch of the double-loop contour.",
+  "errors": [
+   "No mathematical errors; the page contains no derivations. The bibliographic references (Pochhammer, Math. Ann. 35; Klein, Math. Ann. 38) are consistent with the published papers. Papperitz's characterisation of Thomae's normalization is explicitly hedged ('soviel ich mich erinnere') and should not be taken as authoritative."
+  ],
+  "results": [
+   {
+    "what": "Double-loop integration path encircling two singular points a, b once positively and once negatively, so that integral representations of hypergeometric functions exist for arbitrary exponents",
+    "modern_name": "Pochhammer contour (Pochhammer double loop integral)",
+    "usually_credited_to": "Leo Pochhammer, Math. Ann. 35 (1890); a related loop idea goes back to Jordan",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Six fundamental integrals of the hypergeometric differential equation built from double-loop integrals (Pochhammer's formulas (53), (54))",
+    "modern_name": "Euler-type integral representations of Kummer's 6 local solutions via Pochhammer contours",
+    "usually_credited_to": "Pochhammer 1890 (local solutions themselves: Kummer 1836)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Normalization of branches of the P-function using homogeneous variables and the integral representation",
+    "modern_name": "Klein's normalization of second-order linear ODE solutions / hypergeometric functions",
+    "usually_credited_to": "Felix Klein, Math. Ann. 38 (1891)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Normalization making the leading coefficient of each branch's local expansion equal to 1",
+    "modern_name": "Normalization of Frobenius-type local solutions",
+    "usually_credited_to": "J. Thomae (1870s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is not Riemann's work but an 1891 letter by Erwin Papperitz, almost certainly to Heinrich Weber during the editing of Riemann's Werke. It surveys well-known published literature (Thomae, Pochhammer 1890, Klein 1891). It is of modest archival interest for the editorial history of Riemann's P-function papers but contains no new mathematics attributable to Riemann.",
+  "checkable": [
+   {
+    "sympy": "alpha, beta = Rational(1,3), Rational(1,4); simplify((1-exp(2*pi*I*alpha))*(1-exp(2*pi*I*beta))*gamma(alpha)*gamma(beta)/gamma(alpha+beta) - (1-exp(2*pi*I*alpha))*(1-exp(2*pi*I*beta))*beta_fn(alpha,beta)) == 0  # with beta_fn = sympy.beta",
+    "asserts": "Standard value of the Pochhammer contour integral of t^(alpha-1)(1-t)^(beta-1): (1-e^{2 pi i alpha})(1-e^{2 pi i beta}) B(alpha,beta). Here B(alpha,beta) = Gamma(alpha)Gamma(beta)/Gamma(alpha+beta); this is consistency only, the contour integral itself needs numerical checking."
+   },
+   {
+    "sympy": "a,b,c,x,u=symbols('a b c x u'); f=u**(b-1)*(1-u)**(c-b-1)*(1-x*u)**(-a); L=lambda y: x*(1-x)*diff(y,x,2)+(c-(a+b+1)*x)*diff(y,x)-a*b*y; simplify(L(f) - diff(-b*u**b*(1-u)**(c-b)*(1-x*u)**(-a-1)*(-a)/(-b)*0 + (-a)*u**b*(1-u)**(c-b)*(1-x*u)**(-a-1),u))",
+    "asserts": "The hypergeometric operator applied to the Euler kernel is an exact u-derivative of u^b (1-u)^(c-b) (1-xu)^(-a-1) times a constant (-a). Up to sign conventions, this is why integrals over closed (e.g. Pochhammer) contours solve the hypergeometric equation; the expected simplified result is 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'jedes Functionszweiges': the manuscript reads 'jeder functionszweiges' / 'jedes functionszweiges' with lowercase 'f' (orthographic only).",
+   "The figure shows two marked points a and b inside a double-loop curve with direction arrows (Pochhammer double loop), consistent with the placeholder."
+  ]
+ }
+}

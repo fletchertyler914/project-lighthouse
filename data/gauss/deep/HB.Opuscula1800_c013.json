@@ -1,0 +1,56 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c013",
+ "label": "8",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000014/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is part of Gauss's c.1799–1800 treatment of the arithmetic-geometric mean (AGM). The previous page gives numerical examples with the sequences extended in both directions. Forward: a' = (a+b)/2, b' = sqrt(ab). Backward ('a, ''a, …): 'a = a + sqrt(a^2-b^2), 'b = a - sqrt(a^2-b^2). For example a=1, b=0.8 gives 'a=1.6, 'b=0.4, and indeed (1.6+0.4)/2=1 and sqrt(1.6*0.4)=0.8. The examples include M(1,0.8)=0.8972114321… and M(sqrt2,1)=1.19814023473559220744.\n\nArt. 4 (homogeneity). Let I, II be the sequences (…,''a,'a,a,a',a'',…) and (…,'b,b,b',…). Let III, IV be sequences c, d built the same way. Suppose a:b = c:d, equivalently a:c = b:d = 1:n, so c=na and d=nb. Both the arithmetic and geometric means are homogeneous of degree 1. So by induction in both directions, c^(k)=n a^(k) and d^(k)=n b^(k) for all k. Gauss lists c'=na', c''=na'', c'''=na''', 'c=n'a, d^v=n b^v, ^v d = n ^v b. Passing to the limit gives M(na,nb)=n M(a,b). Hence M(a,b) = a M(1,b/a) = b M(a/b,1).\n\nArt. 5 (Problem). Expand M(1+x,1) in powers of x.\nSolution: since M(1,1)=1, put M(1+x,1) = 1 + h'x + h''x^2 + h'''x^3 + … with constant coefficients. Substitute x = 2t+t^2, so that 1+x = (1+t)^2.\n- One AGM step on ((1+t)^2, 1) gives arithmetic mean 1+t+t^2/2 and geometric mean 1+t.\n- Hence M(1+x,1) = M(1+t+t^2/2, 1+t) = (1+t) M(1 + (t^2/2)/(1+t), 1), using Art. 4.\n- Expanding both sides with the assumed series gives the functional equation\n  1 + h'(2t+t^2) + h''(2t+t^2)^2 + h'''(2t+t^2)^3 + … = (1+t)[1 + Σ h^(k) (t^2/(2(1+t)))^k],\n  i.e. 1 + t + h' t^2/2 + h'' (t^4/4)/(1+t) + h''' (t^6/8)/(1+t)^2 + ….\n\nThe next page compares coefficients of powers of t. This yields a triangular system, for example 2h'=1 and 4h''+h' = h'/2. The result is h' = 1/2, h'' = -1/16, h''' = 1/32, h^iv = -21/1024, h^v = 31/2048, h^vi = -195/16384. Gauss notes the coefficients show no obvious law. He then turns to M(1+x,1-x), whose expansion is 1 - x^2/4 - 5x^4/64 - 11x^6/256 …. This is the reciprocal of 2K(x)/π.",
+  "errors": [
+   "No mathematical errors on this page. The AGM step, the homogeneity reduction and the resulting functional equation are all correct.",
+   "Minor: Gauss writes the general term after (1+t) has been distributed, so the denominators are (1+t)^(k-1). This is consistent and correct.",
+   "Homogeneity is asserted for the backward-extended terms too. That holds because 'a = a + sqrt(a^2-b^2) is also degree-1 homogeneous. He does not say this explicitly ('facile deducitur'), but it is correct."
+  ],
+  "results": [
+   {
+    "what": "M(na,nb)=nM(a,b), hence M(a,b)=aM(1,b/a)=bM(a/b,1), shown for the two-sided AGM sequences",
+    "modern_name": "Homogeneity of the arithmetic-geometric mean",
+    "usually_credited_to": "Gauss (also implicit in Lagrange)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Power series of M(1+x,1) found by undetermined coefficients from the functional equation M((1+t)^2,1) = (1+t) M(1 + t^2/(2(1+t)), 1)",
+    "modern_name": "Taylor expansion of the AGM via its duplication/Landen-type functional equation",
+    "usually_credited_to": "Gauss (Nachlass on the AGM, printed in Werke III)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is Gauss's well-known AGM manuscript material (c.1799–1800), published from the Nachlass by Schering in Werke III. The homogeneity property and the series setup are elementary and are known to be his.",
+  "checkable": [
+   {
+    "sympy": "t=symbols('t'); simplify(((2*t+t**2+1)+1)/2 - (1+t+t**2/2)) == 0 and simplify(sqrt(expand((1+t)**2)) - (1+t)) == 0",
+    "asserts": "One AGM step on (1+x,1) with x=2t+t^2 (t>0) gives the pair (1+t+t^2/2, 1+t)."
+   },
+   {
+    "sympy": "t=symbols('t'); S=lambda x: 1+x/2-x**2/16+x**3/32-Rational(21,1024)*x**4+Rational(31,2048)*x**5-Rational(195,16384)*x**6; series(S(2*t+t**2)-(1+t)*S(t**2/(2*(1+t))),t,0,7)",
+    "asserts": "The coefficients found on the next page satisfy the functional equation of Art. 5 through order t^6, so the difference is O(t^7)."
+   },
+   {
+    "sympy": "x=symbols('x'); series(1/(2*elliptic_k(x**2)/pi),x,0,7)",
+    "asserts": "M(1+x,1-x) = π/(2K(k=x)) = 1 - x**2/4 - 5*x**4/64 - 11*x**6/256 + O(x**8), consistent with the next page's series (sympy's elliptic_k takes the parameter m=k^2)."
+   },
+   {
+    "sympy": "N(pi/(2*elliptic_k(1-Rational(4,5)**2)),25)",
+    "asserts": "M(1,0.8)=0.8972114321150…, matching Example 3 on the previous page."
+   }
+  ],
+  "transcription_corrections": [
+   "'d^{v} = n[-b-]b^{v}' should read 'd^{v} = n b^{v}'. A letter is crossed out or overwritten after n; the intended reading is n b^v.",
+   "'{}^{v}d = {}^{v}bn' should read '{}^{v}d = {}^{v}b\\,n', i.e. n times ^v b.",
+   "The phrase reads 'similiter relatiue ad a, b, c, d siti ac sitos'. The transcription has this correctly."
+  ]
+ }
+}

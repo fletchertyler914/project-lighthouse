@@ -1,0 +1,64 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c204",
+ "label": "101r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000205/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 101r is a single self-contained statement with no proof. Previous and next pages are blank or missing.\n\nSetting. Consider the algebraic curve (Riemann surface) T defined by s^m = (z-a_1)^{m_1}(z-a_2)^{m_2}...(z-a_r)^{m_r}. The a_i are distinct and the m_i are integers with 0 < m_i < m.\n\nNotation. Put k_alpha = gcd(m, m_alpha) for alpha = 1..r. Put k_0 = gcd(m, m_1+...+m_r).\n\nClaim. The number of mutually independent periods of an abelian integral ∫F(z,s)dz, with F rational, of the first or second kind is N = (m-1)(r-1) - sum_{alpha=0}^{r} (k_alpha - 1). In modern terms N = 2p, where p is the genus of T.\n\nDerivation (supplied by me; Riemann gives none). T is an m-sheeted cyclic cover of the z-sphere. The deck transformation is s -> zeta s with zeta = e^{2πi/m}.\n\nOver z = a_alpha, locally s ~ (z-a_alpha)^{m_alpha/m}. So the m sheets join into k_alpha = gcd(m, m_alpha) cycles, each of length m/k_alpha. Each such branch point therefore contributes (m/k_alpha - 1) * k_alpha = m - k_alpha to the total branching number w of Riemann's 1857 paper.\n\nAt z = ∞, s ~ z^{(m_1+...+m_r)/m}. The same reasoning gives k_0 cycles there, contributing m - k_0.\n\nHence w = sum_{alpha=0}^{r} (m - k_alpha) = (r+1)m - sum_{alpha} k_alpha.\n\nRiemann's formula p = w/2 - n + 1, with n = m sheets, gives 2p = w - 2m + 2 = (r-1)m + 2 - sum_{alpha=0}^{r} k_alpha. Since sum_{alpha=0}^{r} k_alpha = sum_{alpha} (k_alpha - 1) + (r+1), this becomes 2p = (r-1)(m-1) - sum_{alpha=0}^{r} (k_alpha - 1).\n\nThis is exactly Riemann's expression. By his 1857 theory, integrals of the first and second kind have 2p independent periods, namely the moduli of periodicity along the 2p cross-cuts. That is the stated count.",
+  "errors": [
+   "Implicit hypothesis: the formula holds only if the curve is irreducible, i.e. gcd(m, m_1, ..., m_r) = 1. If d = gcd(m, m_1, ..., m_r) > 1, the curve splits into d components. The total number of periods (the sum of 2p over the components) is then the stated expression plus 2(d-1). Riemann does not state this condition, though it is presumably tacit.",
+   "Also tacit: the a_i are distinct. Without this the factors would merge.",
+   "No proof is given; the statement is otherwise correct."
+  ],
+  "results": [
+   {
+    "what": "Number of independent periods (2p) of integrals of the 1st/2nd kind on the curve s^m = prod (z-a_i)^{m_i}: (m-1)(r-1) - sum_{alpha=0}^{r}(gcd(m,m_alpha)-1), with alpha=0 the point at infinity (exponent sum m_1+...+m_r).",
+    "modern_name": "Genus formula for cyclic (superelliptic) covers of P^1, an application of the Riemann–Hurwitz formula",
+    "usually_credited_to": "Follows from Riemann's p = w/2 - n + 1 (1857). The general Riemann–Hurwitz formula is due to Hurwitz (1891). The explicit genus of cyclic covers appears in later 19th-century literature on 'Abelian integrals of cyclic curves' and in modern superelliptic-curve texts.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Integrals of the first and second kind have exactly 2p independent periods.",
+    "modern_name": "Rank of the period lattice / dimension of H^1_dR of a compact Riemann surface equals 2g",
+    "usually_credited_to": "Riemann (1857, Theorie der Abelschen Functionen)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a correct, clean specialization of Riemann's own genus formula to cyclic covers, including the careful gcd treatment of the point at infinity. It is well within what Riemann had in 1857 and is routine for a specialist. The explicit general formula for this curve family is a mildly notable unpublished detail, but not unexpected.",
+  "checkable": [
+   {
+    "sympy": "from sympy import gcd\nN=lambda m,ms: (m-1)*(len(ms)-1)-(gcd(m,sum(ms))-1)-sum(gcd(m,x)-1 for x in ms)\nassert all(N(2,[1]*(2*n+1))==2*n for n in range(1,8))",
+    "asserts": "Hyperelliptic y^2 = poly of odd degree 2n+1 gives 2p = 2n."
+   },
+   {
+    "sympy": "assert all(N(2,[1]*(2*n+2))==2*n for n in range(1,8))",
+    "asserts": "Hyperelliptic y^2 = poly of even degree 2n+2 gives 2p = 2n."
+   },
+   {
+    "sympy": "assert N(3,[1,1,1])==2",
+    "asserts": "s^3 = cubic (Fermat-type cubic) has genus 1."
+   },
+   {
+    "sympy": "assert N(4,[1,1,1,1])==6",
+    "asserts": "s^4 = quartic (smooth plane quartic, Fermat type) has genus 3."
+   },
+   {
+    "sympy": "assert all(N(m,[1]*m)==(m-1)*(m-2) for m in range(2,10))",
+    "asserts": "The Fermat curve s^m = degree-m polynomial has 2p = (m-1)(m-2), i.e. the plane-curve genus formula."
+   },
+   {
+    "sympy": "from sympy import symbols, gcd, simplify\n# Riemann-Hurwitz check: w = sum (m-k_alpha); 2p = w - 2m + 2\nm=6; ms=[1,2,3,5]; ks=[gcd(m,sum(ms))]+[gcd(m,x) for x in ms]\nassert sum(m-k for k in ks)-2*m+2 == N(m,ms)",
+    "asserts": "Riemann's expression agrees with p = w/2 - n + 1 for a sample cyclic cover."
+   }
+  ],
+  "transcription_corrections": [
+   "The struck-out word before 'ist k_alpha' is illegible. It may be 'bezgl.' or the start of 'bezeichnet'; the reading should remain marked uncertain.",
+   "The sum of subtracted terms runs over alpha = 0, 1, ..., r: (k_0-1) - (k_1-1) - ... - (k_r-1). This is correctly transcribed.",
+   "'grösste gem. Factor' = grösster gemeinschaftlicher Factor (gcd); the transcription is acceptable."
+  ]
+ }
+}

@@ -1,0 +1,63 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c157",
+ "label": "[152]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000158/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The page sits among Gauss's 1819 Göttingen meridian observations. The facing page (next folio) lists clock corrections for 'Fundamentalsterne am M.T.', Aug–Sept 1819. The previous page holds a long linear interpolation table. This page is a purely numerical auxiliary table against zenith distance z. The page gives no explanation; what follows is my interpretation, not Gauss's text.\n\n(a) Main table (columns 2–3), z = 0° to 80°. Gauss tabulates log α(z), falling from 1.76014 at z=0 to 1.74481 at z=80°.\n- 10^1.76014 = 57.56\" and 10^1.74481 = 55.57\".\n- This matches the coefficient in a Bessel-type refraction law r = α(z)·tan z.\n- The mean refraction coefficient is about 57–58\" near the zenith and shrinks toward the horizon. At 45°, α = 10^1.75961 ≈ 57.49\", the classical ~57.5\".\n- Steps: arguments are single degrees from 0° to 76° (rows for equal values are omitted at the top: 0, 3, 4, 8, 9, 11, 12, 14, ...), then 20' steps to 79°0'. A separate small block refines 79°0'–80°0' in 10' steps, repeating the 79°0' line 1.74734 / 1.0357.\n- The third column starts at 45° (1.0018 written under the 45° entry) and rises to 1.0420 at 80°. It is most plausibly an exponent of the Bessel type, A or λ in r = α tan z · B^A · T^λ, applied to the barometer or temperature factor. Such an exponent is 1 near the zenith and grows at large z.\n- Gauss probably adopted or derived this from Bessel's Fundamenta Astronomiae (1818) refraction theory for reducing the new 1819 meridian-circle observations. The exact source and the constants used cannot be determined from the page.\n\n(b) First column (0°–45°). It runs 1.76014 → 1.76064, i.e. it increases with z. It is visibly cancelled by a vertical stroke through the digits. Its departures from 1.76014 (+50 units at 45°) are nearly the mirror image of those in the retained column (−53 at 45°). This suggests the z-dependent correction was first applied with the wrong sign, then struck out and recomputed with the correct sign (my inference).\n\nNo derivation is written. The page is the tabulated output of a computation done elsewhere.",
+  "errors": [
+   "The first column (0°–45°, increasing log α) is struck through by Gauss himself. It is almost exactly the mirror image of the retained column, consistent with a sign error in the zenith-distance correction that Gauss caught and corrected.",
+   "Minor irregularities in the differences of the retained log α column (in units of 1e-5):\n- Around 44°–46° the differences run 4, 5, 4, 4, 5. This suggests 1.75961 at 45° may be off by one unit (≈1.75962).\n- In the 20' block, the differences run 39, 41, 46, 48, 53, 56, 57, 68, 71. The 57 followed by 68 is uneven, so 1.74873 at 78°20' is suspicious (a smooth value would be about 1.74868).",
+   "In the exponent column, the step 1.0264 → 1.0281 (77°20' → 77°40') is 17, after steps of 11, 11, 12. The local smoothness is imperfect, though possibly correct if the function's slope changes there.",
+   "None of these is certain without knowing the underlying formula."
+  ],
+  "results": [
+   {
+    "what": "Table of log of the refraction coefficient α(z) (r = α tan z) for z = 0°–80°, with an auxiliary exponent (≈1.002 → 1.042) for the meteorological factor",
+    "modern_name": "Astronomical refraction table (Bessel-type mean refraction with exponents A, λ)",
+    "usually_credited_to": "F. W. Bessel, Fundamenta Astronomiae (1818) and Tabulae Regiomontanae (1830); refraction theory also due to Laplace and Kramp",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Discarded column with the correction of opposite sign",
+    "modern_name": "Computational slip, self-corrected",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine numerical refraction table, very likely computed from or after Bessel's 1818 theory, for reducing the 1819 meridian observations. Gauss is well known to have computed such auxiliary tables. Nothing here is mathematically new.",
+  "checkable": [
+   {
+    "sympy": "N(10**1.76014)",
+    "asserts": "≈57.56 arcsec: plausible refraction coefficient α at the zenith"
+   },
+   {
+    "sympy": "N(10**1.75961)",
+    "asserts": "≈57.49 arcsec: refraction at z=45° (tan 45°=1), the classical mean value ~57.5\""
+   },
+   {
+    "sympy": "N(10**1.74481*tan(rad(80)))",
+    "asserts": "≈315 arcsec ≈ 5'15\": mean refraction at z=80°, consistent with standard tables (~5'15\"–5'20\")"
+   },
+   {
+    "sympy": "[1.76064-1.76014, 1.76014-1.75961]",
+    "asserts": "Deviations of the cancelled and retained columns at 45° are ≈ equal and opposite (0.00050 vs 0.00053), supporting the sign-error interpretation"
+   },
+   {
+    "sympy": "diff = [1.75039-1.74986, 1.74986-1.74930, 1.74930-1.74873, 1.74873-1.74805, 1.74805-1.74734]",
+    "asserts": "First differences in the 20' block (0.00053, 0.00056, 0.00057, 0.00068, 0.00071) show an irregularity at 78°20'"
+   }
+  ],
+  "transcription_corrections": [
+   "The whole first column (0°–45°, 1.76014 → 1.76064) is struck through with a vertical stroke in the image; the transcription does not mark it as cancelled.",
+   "The value 1.0018 is written beneath the 45° entry of the second column (the exponent for 45°); it is not a standalone line.",
+   "In the third block, the lines after 78.0 read 78°20' and 78°40' (only '20' and '40' are written).",
+   "At 11° in the second column, the numeral '11' is overwritten and the value 1.76012 is retouched; similarly 1.76013 at 8° and 1.76011 at 14° (shown as 1.7601● with an ink blot) are rewritten or overwritten.",
+   "The marginal text belongs to the facing page; its header reads 'Fundamentalsterne' (see next page), not 'Jun'."
+  ]
+ }
+}

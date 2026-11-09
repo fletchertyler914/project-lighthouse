@@ -1,0 +1,62 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c103",
+ "label": "94",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000104/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem (heading 'Allgemeine Umkehrung der Reihen', general reversion of series). Given p^m = Q := q^n + a q^{n+ν} + b q^{n+2ν} + c q^{n+3ν} + ... = q^n(1 + a q^ν + b q^{2ν} + ...), express q^θ as a series in powers of p.\n\nStep 1 (substitution). Put x = q^ν, f(x) = (1 + a x + b x^2 + c x^3 + ...)^{-ν/n}, u = p^{νm/n}. Raising p^m = q^n(1+ax+...) to the power ν/n gives p^{mν/n} = x(1+ax+...)^{ν/n}. So x = u f(x), and the target is q^θ = x^{θ/ν} = u^{θ/ν} f(x)^{θ/ν}. In Gauss's notation 'fx^λ' means (f(x))^λ.\n\nStep 2 (Lagrange's theorem). Embed the equation in x = t + u f(x) and expand in u. Gauss writes\nf(x)^λ = f(t)^λ + λu/(λ+1)·d f(t)^{λ+1}/dt + λu^2/((λ+2)·2!)·d^2 f(t)^{λ+2}/dt^2 + λu^3/((λ+3)·3!)·d^3 f(t)^{λ+3}/dt^3 + ...\nThis holds with t = 0 after differentiation, i.e. for x = u f(x).\nJustification (mine). By Lagrange, [u^k] H(x) = (1/k)[t^{k-1}] H'(t) f(t)^k. Take H = f^λ, so H' f^k = λ f^{λ+k-1} f' = λ/(λ+k)·(f^{λ+k})'. Hence [u^k] f(x)^λ = λ/(λ+k)·[t^k] f(t)^{λ+k}.\nGauss restates this in coefficient form:\nf(x)^λ = Σ_k λu^k/(λ+k) · Coeff_{t^k} f(t)^{λ+k}.\n\nStep 3 (change of variable). The dummy t may be replaced by q^ν. Then f(q^ν) = (Q/q^n)^{-ν/n} = q^ν Q^{-ν/n}, so f(q^ν)^{λ+k} = q^{ν(λ+k)} Q^{-(λ+k)ν/n}. Its coefficient of q^{kν} equals the coefficient of q^{-νλ} in Q^{-(λ+k)ν/n}. Hence\nf(x)^λ = Σ_k λu^k/(λ+k) · Coeff_{q^{-νλ}} Q^{-(λ+k)ν/n}.\n\nStep 4. Set λ = θ/ν and multiply by u^{θ/ν}:\nq^θ = Σ_k θ/(θ+kν) · u^{(θ+kν)/ν} · Coeff_{q^{-θ}} Q^{-(θ+kν)/n}, with u^{(θ+kν)/ν} = p^{m(θ+kν)/n}.\nThe next page restates this as [p^μ] q^θ = (θm)/(μn) · Coeff_{q^{-θ}} Q^{-μ/m}, where μ = m(θ+kν)/n. This is a coefficient-extraction ('residue') form of the Lagrange–Bürmann inversion formula, valid for fractional leading exponents.\n\nCheck of normalization (mine). For Q = q^n the formula gives q^θ = p^{θm/n}, as it should.",
+  "errors": [
+   "In the first bracketed q^ν-form (second line), the third term is written with prefactor λu/(λ+1). It should be λu²/(λ+2), as in the lines before and after.",
+   "In the last displayed line, the exponent of Q in the third term appears as -(θ+2ν)/ν. It should be -(θ+2ν)/n, which is how the next page has it.",
+   "The term 'Coeff q^0' (first term of the q^ν-form) is correct only because f(q^ν)^λ = q^{νλ}Q^{-λν/n}. This shift of exponents is implicit, not a slip.",
+   "Lagrange's series is stated without the qualification about convergence or formal-power-series validity. It is also only valid as written at t=0 (as Gauss notes), not for general t. These are minor and not errors in the formal sense."
+  ],
+  "results": [
+   {
+    "what": "Expansion of f(x)^λ, where x = u f(x), as Σ λ u^k/(λ+k) [t^k] f(t)^{λ+k}",
+    "modern_name": "Lagrange inversion theorem / Lagrange–Bürmann formula (power form)",
+    "usually_credited_to": "Lagrange (1770); Bürmann (1796/99)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Reversion of p^m = q^n(1 + a q^ν + ...) giving the coefficient of p^μ in q^θ as (θm/(μn))·[q^{-θ}] Q^{-μ/m}",
+    "modern_name": "Coefficient-extraction (residue) form of Lagrange inversion; generalized series reversion with fractional exponents",
+    "usually_credited_to": "Jacobi (Crelle 6, 1830, 'De resolutione aequationum per series infinitas'); Cauchy (residue form, 1826)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Using Lagrange inversion was standard by 1800, so that part is routine for Gauss. The neat 'coefficient of q^{-θ} in Q^{-μ/m}' form, and its 'pars absoluta' variant on the next page, anticipates Jacobi's 1830 residue-type formulation. If the page dates near 1809, as the bundle name suggests, this is a mildly notable unpublished anticipation. It is not a major new result.",
+  "checkable": [
+   {
+    "sympy": "x,u,t=symbols('x u t'); lam=Rational(1,3); a,b=symbols('a b'); f=lambda z:(1+a*z+b*z**2)**Rational(-1,2); k=3; lhs_coeff = series((solve_series:=None) or 0, u); # see next entries",
+    "asserts": "Placeholder intentionally avoided; use the concrete checks below."
+   },
+   {
+    "sympy": "t,a,b=symbols('t a b'); lam,k=Rational(2,3),3; ff=(1+a*t+b*t**2)**Rational(-1,2); X=sum(Rational(1,j)*series(ff**j,t,0,j).removeO().coeff(t,j-1)*symbols('u')**j for j in range(1,6)); u=symbols('u'); lhs=series((X/u)**lam if False else (1+a*X+b*X**2)**(-lam/2),u,0,k+1).removeO().coeff(u,k); rhs=lam/(lam+k)*series(ff**(lam+k),t,0,k+1).removeO().coeff(t,k); simplify(lhs-rhs)",
+    "asserts": "For x = u f(x) with f = (1+at+bt^2)^(-1/2), [u^k] f(x)^λ = λ/(λ+k)·[t^k] f(t)^{λ+k} (Gauss's coefficient form of Lagrange's theorem). Should simplify to 0."
+   },
+   {
+    "sympy": "p,q,a,b=symbols('p q a b'); # m=n=2, nu=1: p**2=q**2*(1+a*q+b*q**2) so p=q*sqrt(1+a*q+b*q**2); qs=p-a/2*p**2+(5*a**2/8-b/2)*p**3; simplify(series((qs*sqrt(1+a*qs+b*qs**2)).expand(),p,0,4).removeO()-p)",
+    "asserts": "The reversion q = p - (a/2)p^2 + (5a^2/8 - b/2)p^3 + ... is correct for p^2 = q^2(1+aq+bq^2). Result should be 0."
+   },
+   {
+    "sympy": "q,a,b=symbols('q a b'); theta,k=1,2; simplify(Rational(theta,theta+k)*series((1+a*q+b*q**2)**Rational(-(theta+k),2),q,0,k+1).removeO().coeff(q,k) - (Rational(5,8)*a**2-b/2))",
+    "asserts": "Gauss's formula with m=n=2, ν=1, θ=1 gives [p^3] q = θ/(θ+2)·[q^{-1}] Q^{-3/2} = (1/3)[q^2](1+aq+bq^2)^{-3/2}, which equals 5a^2/8 - b/2. Should be 0."
+   },
+   {
+    "sympy": "q,a=symbols('q a'); theta,nu,n,m,k=Rational(1,2),1,3,2,2; mu=Rational(m,n)*(theta+k*nu); coeffG=theta*m/(mu*n)*series((1+a*q)**(-mu/m*n/n*Rational(n,1)/n),q,0,3).removeO().coeff(q,k); coeffG",
+    "asserts": "Instance of the next-page restatement [p^μ] q^θ = θm/(μn)·[q^{-θ}] Q^{-μ/m}. Here [q^{-θ}] Q^{-μ/m} = [q^{kν}](1+aq+...)^{-nμ/m... } reduces to [q^k](1+a q)^{-(θ+kν)/n}. Compare with a direct reversion of p^2 = q^3(1+aq)."
+   }
+  ],
+  "transcription_corrections": [
+   "Second bracketed line: the image indeed shows the prefactor λu/(λ+1) (Gauss's slip); the intended prefactor is λuu/(λ+2).",
+   "Last line: the third term ends with 'Coeff q^{-θ}' (cut off at the page edge), not 'Coeff q'. The exponent of Q is written -(θ+2ν)/ν in the manuscript (a slip for /n).",
+   "Last line first factor: 'u^{θ/ν}' (Gauss overwrote the u), correctly transcribed.",
+   "Header mark is a pencil 'F.' archival mark, not part of the text."
+  ]
+ }
+}

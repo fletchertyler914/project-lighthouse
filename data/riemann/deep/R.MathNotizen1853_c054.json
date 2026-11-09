@@ -1,0 +1,61 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c054",
+ "label": "27r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000055/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): a plane carries a uniformly or arbitrarily distributed 'Agens' (charge) with surface density ρ. A point p lies at perpendicular distance x from the plane. We want the component, parallel to the perpendicular (the x-axis), of the inverse-square force that the plane distribution exerts on p. This component equals F'(x,y) from the previous page, the x-derivative of the potential of the 'first system'. Riemann introduces two families of coordinate lines in the plane. (a) Rays from the foot O of the perpendicular, with polar angle θ and opening dθ. (b) Circles about O whose radius is r = x·tan φ. Here φ is the angle between the x-axis and the line from p to a point of that circle.\n\nStep 1 (area element). In polar coordinates dA = r dθ dr. With r = x tan φ we have dr = x d(tan φ) = x dφ/cos²φ. Hence dA = x tanφ dθ · x d(tanφ) = x² tanφ dθ dφ / cos²φ, up to sign ('wenn man vom Zeichen absieht').\n\nStep 2 (distance). The distance from the element P to p is |Pp| = sqrt(x² + r²) = x sec φ.\n\nStep 3 (force of the element). By the inverse-square law the element acts with magnitude ρ dA / |Pp|² = ρ x² tanφ dθ dφ / (cos²φ · x² sec²φ) = ρ tanφ dφ dθ. The x² cancels and 1/(cos²φ sec²φ) = 1. The result is independent of x.\n\nStep 4 (normal component). The force is directed along Pp, which makes angle φ with the x-axis. Multiplying by cos φ gives dF_x = ρ sinφ dφ dθ.\n\nStep 5 (interpretation). sinφ dφ dθ is the area element of the unit sphere centred at p in spherical coordinates (polar angle φ, azimuth θ). It is therefore the central projection of dA onto that sphere, i.e. the solid-angle element dΩ. So dF_x = ρ dΩ.\n\nThe page ends: 'Hat nun ρ einen constanten Werth, …'. The next page continues: for constant ρ, F_x = ρ·Ω, where Ω is the solid angle under which the figure is seen from p. Points from which the figure subtends equal solid angle therefore have equal normal force component. This leads to the problem of the locus of points from which a disc appears equally large.",
+  "errors": [
+   "No substantive errors. The sign is deliberately ignored, as Riemann states.",
+   "Notation: 'cos φ²' and 'sec φ²' mean cos²φ and sec²φ. 'Entfernung von Pp' means the distance between the plane element P and the point p.",
+   "Implicit and unstated: an attraction constant of 1 (pure 1/r² law), and that φ runs over [0, π/2) so that tanφ ≥ 0 and the radius is positive."
+  ],
+  "results": [
+   {
+    "what": "Area element of the plane in coordinates (θ, φ) with r = x tanφ: dA = x² tanφ/cos²φ dθ dφ, and the force of the element is ρ tanφ dφ dθ, independent of x.",
+    "modern_name": "Change of variables to the 'angular' (central projection) coordinates of a plane",
+    "usually_credited_to": "standard calculus",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "The normal component of the inverse-square attraction of a planar lamina with density ρ on a point equals ρ times the solid-angle element subtended (dF_x = ρ sinφ dφ dθ = ρ dΩ). For constant ρ, F_x = ρΩ.",
+    "modern_name": "Solid-angle theorem for the normal field of a uniform plane sheet; equivalently, the potential of a uniform double layer is proportional to the solid angle (the d/dx of the single-layer potential).",
+    "usually_credited_to": "Classical: Gauss (Allgemeine Lehrsätze 1839/40, solid-angle integral); Ampère/Gauss for magnetic shells; also standard in Green/Poisson-era potential theory",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a clean, elementary derivation of a well-known classical fact: the normal attraction of a uniform plane sheet equals density times solid angle. It belongs to student-level or early work on electrostatic potential (c. 1853). It is nicely executed but standard for the period.",
+  "checkable": [
+   {
+    "sympy": "phi,x=symbols('phi x',positive=True); simplify(x*tan(phi)*diff(x*tan(phi),phi) - x**2*tan(phi)/cos(phi)**2)",
+    "asserts": "r dr/dφ with r = x tanφ equals x² tanφ/cos²φ, i.e. the area element (returns 0)"
+   },
+   {
+    "sympy": "phi,x=symbols('phi x',positive=True); simplify(sqrt(x**2+(x*tan(phi))**2) - x/cos(phi))",
+    "asserts": "The distance from p to the point at radius x tanφ is x secφ (returns 0 for 0<φ<π/2)"
+   },
+   {
+    "sympy": "phi,x=symbols('phi x',positive=True); simplify((x**2*tan(phi)/cos(phi)**2)/(x/cos(phi))**2 - tan(phi))",
+    "asserts": "The force of the element per ρ dθ dφ is tanφ, independent of x (returns 0)"
+   },
+   {
+    "sympy": "phi=symbols('phi'); simplify(tan(phi)*cos(phi)-sin(phi))",
+    "asserts": "The normal component is sinφ dφ dθ, the solid-angle element (returns 0)"
+   },
+   {
+    "sympy": "phi,a,x=symbols('phi a x',positive=True); simplify(2*pi*integrate(sin(phi),(phi,0,atan(a/x))) - 2*pi*(1-x/sqrt(x**2+a**2)))",
+    "asserts": "For a disc of radius a centred on the foot of the perpendicular, Ω = 2π(1 - x/sqrt(x²+a²)), the known on-axis normal field per unit density (returns 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The first formula in the image reads 'x tgφ dϑ · x d tgφ = x² tgφ dϑ dφ / cosφ²'. The machine transcription is essentially correct; the multiplication dot is a blotted mark in the image.",
+   "'Die Entfernung von Pp' is correct: capital P is the plane element and lowercase p is the attracted point.",
+   "'Kreise welche man um den Fußpunkt des Perpendikels beschreibt' is correct.",
+   "The page uses ϑ (theta variant) throughout for the angle, matching θ on the previous page."
+  ]
+ }
+}

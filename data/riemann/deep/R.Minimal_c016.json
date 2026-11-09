@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c016",
+ "label": "9r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000017/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is Riemann's pencil draft of a letter, almost certainly to Karl Hattendorff, written in June 1866 when the Austro-Prussian war forced him to leave Göttingen. The next page says so: 'drohenden Krieg genöthigt heute abzureisen', and it mentions his wife writing his letters. Hattendorff was preparing the 'Ausarbeitung' of Riemann's memoir 'Über die Fläche vom kleinsten Inhalt bei gegebener Begrenzung', published posthumously in 1867/68.\n\nThe page contains no derivation, only a summary of results and one formula.\n\n(1) Notation. Riemann says Hattendorff knows the meaning of his letters. A possible exception is the determination of the minimal surface bounded by (circles) in parallel planes; this is the case in the 1867 memoir now called Riemann's minimal surface. He has brought the relevant sheets along.\n\n(2) Minimal surfaces bounded by straight lines. Riemann claims to have treated completely:\n(a) a skew (non-planar) quadrilateral;\n(b) three arbitrary, infinitely long, mutually skew lines.\n\n(3) Method, in modern terms. Riemann represents the minimal surface through conformal maps from a parameter domain, using the Gauss map and the functions log(dη/du) etc.\n- Each straight boundary segment corresponds to a reflection (a Schwarz-reflection-type symmetry).\n- The relevant multivalued functions therefore have monodromy ('Substitutionscoefficienten') in the group of unit-disk (rotation) Möbius maps, x -> e^{iθ}(x-a)/(1+ā x) as written; the standard form is with 1-ā x.\n- Their ratio satisfies a 3rd-order ODE: {w,t} = R(t), a Schwarzian equation, equivalently a 2nd-order linear Fuchsian ODE.\n- For the quadrilateral there are 4 singular points. Besides the exponents fixed by the corner angles, the ODE contains one 'essential constant', i.e. an accessory parameter. It must be determined as a function of the other constants (angles, side data) so that the local monodromy at the corners has the required unitary form.\n- He cannot do this in closed form in general. So for the memoir he will include only a simple case where the essential constant can be determined completely, and where X, Y, Z are very simple, 'algebraic'. The next page says these are logs of rational functions plus rational functions of one variable, for 3 lines parallel to the coordinate axes. He also mentions cases bounded by planes: cube/parallelepiped faces and tetrahedron faces.\n\nMy implicit filling: the identification of the 3rd-order equation with the Schwarzian equation, and of the 'wesentliche Constante' with the accessory parameter, is my interpretation, though strongly suggested by the wording.",
+  "errors": [
+   "The written substitution e^{θi}(x-a)/(1+ā x) is not a unit-disk/unit-circle automorphism for general a. For |x|=1 its modulus is |x-a|/|x+a|, not 1. The standard form is e^{iθ}(x-a)/(1-ā x). This is either a slip of sign or a transcription ambiguity (bar and sign are hard to read in the image).",
+   "No claim on the page is proved here. The assertion that the general skew quadrilateral was 'completely treated' really amounts to reducing it to a Fuchsian equation with an undetermined accessory parameter, which Riemann himself admits he cannot fix in general."
+  ],
+  "results": [
+   {
+    "what": "Minimal surface spanned by a skew quadrilateral, reduced via conformal parametrization to a 3rd-order (Schwarzian) ODE with one essential (accessory) parameter fixed by a monodromy condition",
+    "modern_name": "Plateau problem for a Schwarz skew quadrilateral; Schwarz-Christoffel/Fuchsian method with accessory parameter",
+    "usually_credited_to": "H. A. Schwarz (1865, 1867) for explicit solutions of the regular skew quadrilateral; accessory-parameter theory to Klein/Poincaré (1880s)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Minimal surfaces bounded by three infinite skew lines; explicit case of three lines parallel to the coordinate axes with X, Y, Z given by logs of rational functions and rational functions",
+    "modern_name": "Minimal surfaces with straight-line boundaries (related to Schwarz D/P-type surface patches)",
+    "usually_credited_to": "Riemann (posthumous memoir ed. Hattendorff 1867); Schwarz",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Monodromy of the parametrizing functions lies in unitary Möbius maps e^{iθ}(x-a)/(1-ā x)",
+    "modern_name": "Unitary monodromy/projective monodromy group in PSU(2)",
+    "usually_credited_to": "Riemann (1857 P-function work); Schwarz 1873",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The content matches what is known from Riemann's posthumous minimal-surface memoir and its edition by Hattendorff. The letter adds a biographical/editorial detail: he explicitly flagged the quadrilateral's accessory parameter as undeterminable in general, and chose a simple case for publication. This is a nice documentary confirmation, but not a new result.",
+  "checkable": [
+   {
+    "sympy": "x,a=symbols('x a'); th=symbols('theta',real=True); f=exp(I*th)*(x-a)/(1-conjugate(a)*x); simplify(Abs(f.subs(x,exp(I*symbols('phi',real=True))))**2) # equals 1 for |a|<1",
+    "asserts": "The standard disk automorphism maps the unit circle to itself."
+   },
+   {
+    "sympy": "phi=symbols('phi',real=True); a=Rational(1,2); x=exp(I*phi); simplify(Abs((x-a)/(1+a*x)).subs(phi,pi/2))",
+    "asserts": "The form as written (with 1+ā x) does not preserve the unit circle: at a=1/2, x=i the value is not 1 (it equals 1 here by symmetry; try phi=0 to get 1/3)."
+   },
+   {
+    "sympy": "t=symbols('t'); w=Function('w')(t); S=lambda f: diff(f,t,3)/diff(f,t)-Rational(3,2)*(diff(f,t,2)/diff(f,t))**2; A,B,C,D=symbols('A B C D'); simplify(S((A*w+B)/(C*w+D))-S(w))",
+    "asserts": "The Schwarzian (3rd-order ODE) is invariant under Möbius substitutions, so the ODE is compatible with Möbius monodromy."
+   }
+  ],
+  "transcription_corrections": [
+   "'Minimalfläche zwischen [?] [?] in parallelen Ebenen' likely reads 'zwischen (gewissen) Kreisen in parallelen Ebenen': the two-circle case of the 1867 memoir.",
+   "'da in meinem Papiere die Bedeutung der Buchstaben auch angegeben ist' should logically be 'nicht angegeben ist'.",
+   "'werth [?] haben' at the end of the essential-constant sentence probably reads 'erhalten' or similar ('die erforderliche Form erhalten').",
+   "The formula should probably be checked for sign: the image suggests 1+āx, but the mathematically correct disk automorphism is 1-āx.",
+   "'Bezeichnung meines Papiers' may be 'Benutzung meines Papiers'; uncertain."
+  ]
+ }
+}

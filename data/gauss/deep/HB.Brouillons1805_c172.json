@@ -1,0 +1,69 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c172",
+ "label": "167",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000173/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 167 continues the table of the previous page (Litt. U), rows 159–243, and the next page (Litt. J), rows 323–400, which ends 'Geendigt den 28 April 1809'. It is one piece of a 401-row table, argument 0–400. The page contains no derivation, only tabulated values. Each row gives an argument n and three numbers x, y, z. I reverse-engineered their meaning from the numbers themselves; the analysis below is mine.\n\n(a) Obliquity. On every row z/y is constant: 2696.526/6212.143 = 0.434073 = 23.884/55.024. So z = y·tan ε with ε ≈ 23°27′52″, the obliquity of about 1809.\n\n(b) Radius. Take R = sqrt(x²+y²+z²). At n=200 (previous page) R = 10167.9 is the maximum. At n=0 it is the minimum. Near n=290 on this page R ≈ 10026.7, and near n=390 R ≈ 9834. So R is the Sun–Earth distance in units of a/10000, with aphelion distance 1+e = 1.01679, i.e. e ≈ 0.0168.\n\n(c) Argument. The argument n is the mean anomaly in centesimal degrees (grads): M = n·0.9° = n·π/200, so the 400 rows cover one anomalistic revolution. The step is 0.9133 days.\n- Checks: y crosses zero (λ = 180°) at n ≈ 291.38, i.e. M = 262.24°. With v = 260.344° this agrees with M ≈ v − 2e sin v.\n- x crosses zero (λ = 90°) at n ≈ 188.9.\n- The angular step is about 0.8705° per row at aphelion and about 0.895° near R = 1.0027. Their ratio 1.028 matches R² scaling (Kepler's second law).\n\n(d) Model. The table is the Sun's geocentric equatorial rectangular coordinates on an unperturbed Kepler ellipse:\n- solve E − e sin E = M;\n- r = 10000(1 − e cos E);\n- tan(v/2) = sqrt((1+e)/(1−e)) tan(E/2);\n- λ = v + Π;\n- x = r cos λ, y = r sin λ cos ε, z = r sin λ sin ε.\nAt n=200, λ = atan2(sqrt(y²+z²), x) = 99.656°, so the solar perigee is Π ≈ 279.66° (= 279°30′ for 1800 plus about 9′ of secular motion: consistent with 1809).\n\n(e) Signs on this page. x is still negative from the previous page (sign changed at n=189). x reaches its extreme −10026.7 at n ≈ 290.4 (autumnal equinox in longitude). y and z change sign between 291 and 292 (marked '−'). Row 244 has |x| = 7534.256, y = +6212.143, z = +2696.526, i.e. λ ≈ 138.0°.\n\n(f) Purpose. This is a reduction tool. It gives the Sun's X, Y, Z for any date by interpolation in mean anomaly, as needed for geocentric places of comets and minor planets (Ceres, Pallas, etc.). This is exactly the 1809 Theoria Motus context.\n\nMy own spot check at n=244: M = 219.6°, E = 218.99°, r = 10130.6 versus tabulated R = 10130.50. Also v ≈ 218.37°, λ ≈ 138.03°, giving x ≈ −7533 and y ≈ 6214. Both agree.",
+  "errors": [
+   "x at row 288 is written 10020.279. First differences around it are 9.361, 7.018, 4.371, 2.020, against a smooth second difference of about −2.44 elsewhere. The smooth value is about 10020.182, while rows 287 and 289 are mutually consistent. This is probably a copying or digit slip of about 0.097 (…279 for …182), or a misreading.",
+   "z at row 309 appears in the image as 1083.966. Both y·tan ε = 2499.496 × 0.434073 = 1084.963 and the z-differences (about +60.13) require 1084.966. The handwritten value seems to have a unit slip, or the digit is ambiguous.",
+   "All other first and second differences checked on this page (x for rows 244–292, y for rows 244–293) are smooth to about 0.001–0.003. The ratio z/y = tan ε holds throughout to about 1e-5."
+  ],
+  "results": [
+   {
+    "what": "Table of the Sun's geocentric equatorial rectangular coordinates (unit a/10000) for ε ≈ 23°27′52″, e ≈ 0.0168, perigee ≈ 279°39′. Argument: mean anomaly in steps of 1 grad (0.9°), 400 steps per revolution; this page covers rows 244–323.",
+    "modern_name": "Solar ephemeris in rectangular equatorial coordinates (X, Y, Z of the Sun) from the two-body Kepler solution",
+    "usually_credited_to": "Solar rectangular coordinates were standard in orbit computation around 1800–1810 (Gauss, Theoria Motus 1809; later the Berliner Jahrbuch and Encke). Solar tables themselves go back to Delambre, Lacaille and others.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of centesimal division (400 grads) of the mean anomaly as the table argument",
+    "modern_name": "Decimal/centesimal angular argument for an interpolation table",
+    "usually_credited_to": "French decimal-angle tables of the 1790s (Borda, Delambre, Prony)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine computational table: solar coordinates for orbit reductions, dated April 1809, matching Gauss's known Theoria Motus and planetoid work. The only mildly notable detail is the grad-based mean-anomaly argument. Nothing here goes mathematically beyond what was standard or known for Gauss.",
+  "checkable": [
+   {
+    "sympy": "abs(2696.526/6212.143 - tan(rad(23.4644))) < 2e-5",
+    "asserts": "z/y equals tan of obliquity ≈ 23°27′52″ (row 244)"
+   },
+   {
+    "sympy": "abs(23.884/55.024 - 2696.526/6212.143) < 3e-4",
+    "asserts": "the ratio z/y is the same constant in row 291 as in row 244"
+   },
+   {
+    "sympy": "e=0.016795; M=244*pi/200; E=nsolve(Symbol('E')-e*sin(Symbol('E'))-M, Symbol('E'), float(M)); r=10000*(1-e*cos(E)); r - sqrt(7534.256**2+6212.143**2+2696.526**2)",
+    "asserts": "the radius at row 244 equals the Keplerian r for mean anomaly 244 grads (difference ≈ 0 to within ~0.1)"
+   },
+   {
+    "sympy": "e=0.016795; M=244*pi/200; Es=Symbol('E'); E=nsolve(Es-e*sin(Es)-M, Es, float(M)); r=10000*(1-e*cos(E)); v=2*atan(sqrt((1+e)/(1-e))*tan(E/2)); lam=v+rad(279.656); eps=rad(23.4644); [N(r*cos(lam)), N(r*sin(lam)*cos(eps)), N(r*sin(lam)*sin(eps))]",
+    "asserts": "should give approximately (-7534.26, 6212.14, 2696.53), i.e. row 244 with x negative"
+   },
+   {
+    "sympy": "(10024.650-10013.261) - 2*(10020.279-10013.261)",
+    "asserts": "the second difference at row 288 is -2.647; the neighbouring second differences are about -2.44, revealing the anomaly in x(288)"
+   },
+   {
+    "sympy": "2499.496*0.434073",
+    "asserts": "≈1084.963, so z(309) should be 1084.966, not 1083.966"
+   },
+   {
+    "sympy": "sqrt(1705.506**2+9194.956**2+3991.285**2)/10000 - 1",
+    "asserts": "≈0.01679, the eccentricity, since row 200 is aphelion"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 309, z column: the image appears to read 1083.966. The arithmetically correct value is 1084.966, and the machine transcription's '1084.966[?]' gives the correct value rather than what is written.",
+   "Row 288, x column: the image reads 10020.279. Note that the value consistent with the differences would be about 10020.18 (possible slip in the manuscript).",
+   "Header: the left columns are argument 'No.' and the first coordinate (indistinct label, possibly 'Mo. nath' / 'mo. noth'; uncertain). 'Litt. V.' is the sheet label, continuing 'Litt. U.' of the previous page. Old folio numbers 217 and 219 are struck through, and 167 is the current folio.",
+   "The x column carries no explicit sign on this page. It continues negative from the previous page (sign change at row 189), whereas y and z are '+' until row 291 and '−' from row 292 on."
+  ]
+ }
+}

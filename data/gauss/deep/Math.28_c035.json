@@ -1,0 +1,73 @@
+{
+ "bundle": "Math.28",
+ "page": "c035",
+ "label": "18r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000036/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Goal: evaluate omega = Int_0^oo (cos ax - cos bx)/x dx. Gauss does this by writing one double integral in two ways, a parameter (Laplace-transform) trick.\n\n(1) Define Omega = Int_0^oo Int_0^oo (cos ax - cos bx) e^{-tx} dt dx, integrating in t first.\n- For fixed x > 0 the indefinite t-integral is Int (cos ax - cos bx) e^{-tx} dt = -(cos ax - cos bx) e^{-tx}/x.\n- From t = 0 to t = oo this gives (cos ax - cos bx)/x. The bound at oo vanishes because x > 0.\n- Hence Omega = omega.\n\n(2) Now reverse the order: Omega = Int_0^oo Int_0^oo (cos ax - cos bx) e^{-tx} dx dt.\n- Gauss's lemma, which he says is verified by differentiation: Int cos(ax) e^{-tx} dx = (a sin ax - t cos ax) e^{-tx}/(a^2 + t^2).\n- Check (mine): the derivative of the right side is [a^2 cos ax + at sin ax - at sin ax + t^2 cos ax] e^{-tx}/(a^2+t^2) = cos(ax) e^{-tx}.\n- So the indefinite x-integral of the difference is {(a sin ax - t cos ax)/(a^2+t^2) - (b sin bx - t cos bx)/(b^2+t^2)} e^{-tx}.\n- For t > 0 this vanishes at x = oo. At x = 0 it equals -t/(a^2+t^2) + t/(b^2+t^2).\n- So the definite x-integral is t/(a^2+t^2) - t/(b^2+t^2). This is the Laplace transform of cos ax minus that of cos bx.\n- Therefore Omega = Int_0^oo [t/(a^2+t^2) - t/(b^2+t^2)] dt.\n- The antiderivative is (1/2) log((a^2+t^2)/(b^2+t^2)). It tends to 0 as t -> oo and equals (1/2) log(a^2/b^2) at t = 0.\n- So Omega = (1/2) log(b^2/a^2).\n\n(3) Conclusion: omega = log(b/a), 'insofar as b and a have the same sign'. In modern form, for real nonzero a, b: Int_0^oo (cos ax - cos bx)/x dx = log|b/a|.\n\nPage context: the next page restates the lemma Int e^{-tx} cos ax dx and adds its companion Int e^{-tx} sin ax dx = (-a cos ax - t sin ax) e^{-tx}/(t^2+a^2).",
+  "errors": [
+   "No computational errors. Every antiderivative and every evaluation at the bounds is correct.",
+   "Unjustified step: equating the two iterated integrals (Fubini/Tonelli) is not justified. The double integral is not absolutely convergent near t = 0 and x = oo. The interchange happens to give the right answer, but it needs an argument such as dominated convergence on Int_epsilon^oo with epsilon -> 0. This was the kind of issue Cauchy raised in 1814 about interchanging orders of integration.",
+   "Imprecise sign condition: because cos is even, the result is log|b|/|a| for any nonzero a, b. The condition 'same sign' only ensures that log(b/a) is real. Nothing is said about a = 0 or b = 0, where the integral diverges.",
+   "The symbol written after the Omega = Int(...) dt line, read by the transcription as '≠', is not an inequality. It is almost certainly a reference or cross mark (like '#')."
+  ],
+  "results": [
+   {
+    "what": "Int_0^oo (cos ax - cos bx)/x dx = log(b/a) for a, b > 0",
+    "modern_name": "Frullani integral (the cosine case of Frullani's theorem: f(0) log(b/a))",
+    "usually_credited_to": "Frullani (1821/1828) for the general theorem; this cosine case was also treated by Cauchy and others in the 1820s",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Evaluating a definite integral by inserting e^{-tx}, writing it as a double integral and reversing the order of integration",
+    "modern_name": "Laplace-transform / Feynman-type parameter trick; interchange of integration order (Fubini)",
+    "usually_credited_to": "Euler and Laplace (late 18th c.); systematized by Cauchy (1814, 1825)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Int cos(ax) e^{-tx} dx = (a sin ax - t cos ax) e^{-tx}/(a^2+t^2), hence Laplace transform of cos ax = t/(t^2+a^2)",
+    "modern_name": "Elementary antiderivative / Laplace transform of cosine",
+    "usually_credited_to": "Euler (18th c.), standard",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a clean, correct but textbook evaluation of a Frullani-type integral by the standard double-integral/interchange trick, which was known to Euler, Laplace and Cauchy. The interchange of order is not justified. Nothing here goes beyond what was routine in the 1810s-1820s.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff((a*sin(a*x)-t*cos(a*x))/(a**2+t**2)*exp(-t*x), x) - cos(a*x)*exp(-t*x))",
+    "asserts": "Gauss's antiderivative of cos(ax)e^{-tx} is correct (difference simplifies to 0)."
+   },
+   {
+    "sympy": "simplify(diff((-a*cos(a*x)-t*sin(a*x))/(a**2+t**2)*exp(-t*x), x) - sin(a*x)*exp(-t*x))",
+    "asserts": "The companion sine antiderivative on the next page is correct (difference simplifies to 0)."
+   },
+   {
+    "sympy": "integrate((cos(a*x)-cos(b*x))*exp(-t*x), (x, 0, oo), conds='none') - (t/(a**2+t**2) - t/(b**2+t**2))",
+    "asserts": "The inner x-integral equals t/(a^2+t^2) - t/(b^2+t^2) for t > 0 (expect 0)."
+   },
+   {
+    "sympy": "integrate(t/(a**2+t**2) - t/(b**2+t**2), (t, 0, oo)).subs({a:2, b:5}) - log(Rational(5,2))",
+    "asserts": "The t-integral gives (1/2) log(b^2/a^2) = log(b/a); expect 0 for a=2, b=5."
+   },
+   {
+    "sympy": "N(Integral((cos(2*x)-cos(5*x))/x, (x, 0, oo))) - N(log(Rational(5,2)))",
+    "asserts": "Numerical check that the original integral equals log(b/a) for a=2, b=5 (approximately 0)."
+   },
+   {
+    "sympy": "integrate((cos(a*x)-cos(b*x))/x, (x, 0, oo), conds='none')",
+    "asserts": "The closed form is log(b/a) (sympy returns log(b) - log(a) or an equivalent) for positive a, b."
+   }
+  ],
+  "transcription_corrections": [
+   "The mark after 'Omega = Int_0^oo (t/(aa+tt) - t/(bb+tt)) dt' is a reference or cross mark (like '#'), not the inequality sign '≠'.",
+   "In the last line the struck-out word before 'omega = log b/a' looks like the start of 'sonach' or 'sondern' ('sond'), not 'und'.",
+   "In the first numerator of the indefinite-integral line the image shows the half-written 'tt' overwritten as 't'; the intended integrand is t/(aa+tt).",
+   "The final condition reads 'insofern b u. a gleiche Zeichen haben' (with 'haben' written below the line); this is correct."
+  ]
+ }
+}

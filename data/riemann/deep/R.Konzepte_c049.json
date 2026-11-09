@@ -1,0 +1,55 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c049",
+ "label": "24v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000050/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of §5 of Riemann's Göttingen doctoral dissertation (1851), 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse'. The previous page introduces a bounded surface T spread over the plane A, possibly with several sheets over the same region. The number of sheets over a point changes by ±1 only when the boundary is crossed. A line l is drawn through the covered region.\n\nSetting on this page. Take a point σ on l (the opening words are uncertain in the image). Near σ there are n sheets on the left bank of l, a_1,…,a_n, and n sheets on the right bank, a'_1,…,a'_n.\n- Above σ, a_i is joined across l to a'_i, for i = 1..n.\n- Below σ, the sheets joined in order to a'_1,…,a'_n are a_{α_1},…,a_{α_n}, where (α_1,…,α_n) is a rearrangement of (1,…,n).\n\nIn modern terms, a small loop around σ induces a permutation π of the sheet indices, with π(i) = α_i (crossing from a_i to a'_i above σ, then back from a'_i to a_{α_i} below σ).\n\nStep 1. A point starting in a_1 enters a'_1 above σ. On returning to the left bank below σ, it arrives in a_{α_1}, which in general differs from a_1. Repeating the circuit in the same sense, the sheet index runs through 1, α_1, α_{α_1}, …. In modern notation this is the sequence i_0 = 1, i_{k+1} = π(i_k).\n\nStep 2. The sequence takes only finitely many (n) values, so some earlier term must eventually recur.\n\nStep 3 (Riemann's key remark). As long as 1 has not recurred, all terms are distinct. Any later term α_μ must be preceded, in immediate succession, by all the earlier terms back to 1. My gloss: since π is a bijection, the predecessor of each term is uniquely determined. So the first repeated term must be 1 itself; the orbit is a pure cycle with no tail.\n\nStep 4. Let 1 recur after m terms (Riemann writes m < n; it should be m ≤ n). Then the remaining terms repeat in the same order with period m. The point returns to its original sheet only after m circuits of σ. These m sheets therefore join at σ into a single connected piece.\n\nStep 5 (definition). Such a point is called a 'Windungspunkt (m−1)ster Ordnung' of the surface T (a branch point of order m−1, ramification index m).\n\nThe lower part of the page carries the draft of a formal heading: 'An die hochpreisliche philosophische Facultät gehorsamstes Gesuch des cand. math. B. Riemann um … der Disputation'. This is a petition to the Göttingen philosophical faculty concerning the doctoral disputation; possibly a request for dispensation from it.",
+  "errors": [
+   "Riemann bounds the length m of the cycle by 'm < n'. The correct bound is m ≤ n, since a single n-cycle (all sheets joined at σ) is possible. This may be a transcription or reading issue (≦ vs <).",
+   "The argument that the first recurring term must be 1 is stated only verbally ('all earlier terms must precede in immediate succession'). It relies on the injectivity of i ↦ α_i, which is implicit but correct.",
+   "No mathematical errors otherwise; the page is a heavily corrected draft with many struck phrases."
+  ],
+  "results": [
+   {
+    "what": "Monodromy around a point of a multi-sheeted covering surface: circling σ permutes the n local sheets; following sheet 1 gives a cycle of length m, which returns to 1 with no pre-period.",
+    "modern_name": "Local monodromy permutation / cycle decomposition of the monodromy at a branch point",
+    "usually_credited_to": "Riemann (Dissertation 1851; Theorie der Abel'schen Functionen 1857); Puiseux 1850 for the analogous cycles of algebraic function branches",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Definition: a point where m sheets join so that one returns to the starting sheet only after m circuits is a winding point of order m−1.",
+    "modern_name": "Branch point (ramification point) of order m−1, ramification index m",
+    "usually_credited_to": "Riemann, Dissertation 1851, §5",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the published §5 of Riemann's 1851 dissertation defining Windungspunkte; the content is well known as his. The only mild interest is the draft argument and the petition text to the faculty on the same sheet, which matter biographically, not mathematically.",
+  "checkable": [
+   {
+    "sympy": "from sympy.combinatorics import Permutation; p=Permutation([2,0,1,4,3]); orb=[0]; x=p(0)\nwhile x!=0: orb.append(x); x=p(x)\nlen(orb)==3",
+    "asserts": "Iterating a permutation from sheet index 0 returns first to 0 itself, after m steps (here m=3, the length of the cycle containing 0)."
+   },
+   {
+    "sympy": "from sympy.combinatorics import Permutation; p=Permutation([1,2,3,4,0]); max(len(c) for c in p.cyclic_form)==p.size",
+    "asserts": "A cycle of length m = n is possible, so the correct bound is m <= n, not m < n."
+   },
+   {
+    "sympy": "from sympy.combinatorics import Permutation; p=Permutation([2,0,1,4,3]); all((p**len(c))(c[0])==c[0] and all((p**k)(c[0])!=c[0] for k in range(1,len(c))) for c in p.cyclic_form)",
+    "asserts": "Each sheet returns to itself after exactly m circuits, where m is the length of its cycle."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'und folgen Punkte σ' is likely '…[ober]halb [eines] solchen Punktes σ' or similar. The word 'folgen' is doubtful.",
+   "The '1/1' tokens are probably insertion or reference marks, not fractions.",
+   "'offenbar < n sein muss' could be '≦ n'. Mathematically it should be ≤ n.",
+   "The closing petition line 'um die Zulassung[?] zu[?] der Disputation' looks in the image more like 'um Dispensation von der Disputation'. This needs verification.",
+   "'gehorsamstes Gesuch' and 'cand. math. B Riemann' are confirmed by the image.",
+   "Line 4: 'Punkt[?]' after 'eintretender' is likely 'Punkt' (the moving point), consistent with the image."
+  ]
+ }
+}

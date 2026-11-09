@@ -1,0 +1,87 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c153",
+ "label": "[148]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000154/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page sets up a table of the temperature factor used to reduce astronomical refraction for air density, and compares it with the corresponding table in Encke's Berliner Astronomisches Jahrbuch. Bessel's refraction theory is the evident framework; that attribution is my inference. The table itself continues on the next page (149).\n\n(1) Gauss writes the function to be tabulated as\n  f(t) = log10[213.333/(205.889 + t)] = 2.32906 − log10(205.889 + t).\nHere t is the air temperature in degrees Réaumur. My interpretation of the constants:\n- 1/213.333 = 0.0046875 per °R. This equals 0.375/80, i.e. Gay-Lussac's expansion coefficient 0.375/100 per °C converted to the Réaumur scale.\n- 205.889 = 213.333 − 7.444, so 205.889 + t = 213.333 + (t − 7.444).\n- Hence f(t) = −log10[1 + (t − 7.444)/213.333]. This is the log of the air-density ratio relative to a normal temperature of 7.444 °R = 9.305 °C, which is Bessel's normal refraction temperature of about 9.31 °C (48.75 °F).\n\n(2) 'Die Tafel in Enckes Jahrbuch hat' log10[227/(219.556 + t)]. Again 227 − 219.556 = 7.444: Encke uses the same normal temperature but a smaller expansion coefficient, 1/227 per °R (about 0.003524 per °C).\n\n(3) Barometer factor:\n- Gauss's version is b/332.669, with b in Paris lines; 332.669 lines ≈ 750.4 mm.\n- Encke's is b/333.244; 333.244 lines ≈ 751.7 mm, which matches Bessel's normal pressure of about 751.5 mm.\n\n(4) 'Was hier 1,76014 ist bei Encke 1,76056[?]': Gauss states that a logarithmic constant is 1.76014 in his system and 1.760x56 in Encke's.\n- This is very probably the log of the refraction constant, since 10^1.76014 ≈ 57.56″, close to Bessel's mean-refraction constant of about 57.5″.\n- The constant had to be re-normalised because the normal barometer and expansion coefficient differ.\n- The page does not show how the difference of 0.00042 arises. It is not simply log10(333.244/332.669) = 0.00075.\n\n(5) The table gives 10^5·f(t) for t = −12.0 to −8.0 in steps of 0.1 °R in the left column. A right column of arguments −8.0 … −4.0 is prepared but empty here; it is filled on p.149, where the table runs on to t = +8.0.\n- The step difference is about 22 per 0.1°, consistent with 0.43429/(205.889 + t)·0.1·10^5.\n\nSpot checks (mine):\n- f(−11) → 3927, f(−10.5) → 3816, f(−8) → 3264.\n- On p.149: f(0) → 1542 and f(+8) → −113.\nAll agree with the manuscript.",
+  "errors": [
+   "t = −12.0: the exact value is 10^5·log10(213.333/193.889) = 4150.5, so 4150 or 4151; the manuscript has 4152. Likewise t = −11.9 is exactly 4128.1, but the manuscript has 4129. These are slips of 1–2 units in the first entries.",
+   "t = −10.7 and −10.6: the values read as 3850 and 3828 break the regular difference of about 22. The correct values are about 3860 and 3838, since f(−10.8) = 3882.5 and f(−10.5) = 3815.8. Either Gauss slipped (wrote 5 for 6, carried 3828 from it) or the faint ink is misread.",
+   "Argument labels near −8.8: the page shows the order −8.9, −8.7, −8.8, −8.6. The tabulated values 3462, 3440, 3418, 3396 correspond to −8.9, −8.8, −8.7, −8.6, so the two labels are transposed and the values are correct.",
+   "The comparison constants 1.76014 vs 1.76056 are stated without derivation; they cannot be checked from this page alone."
+  ],
+  "results": [
+   {
+    "what": "Table of the logarithmic air-temperature (density) factor for refraction, log10[213.333/(205.889+t)], with t in °R. It uses expansion coefficient 0.375/80 per °R and normal temperature 7.444 °R.",
+    "modern_name": "Temperature (density) correction factor in astronomical refraction tables, assuming ideal-gas expansion",
+    "usually_credited_to": "Bessel (Fundamenta Astronomiae 1818, Tabulae Regiomontanae 1830); expansion coefficient from Gay-Lussac/Dalton (1802)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Comparison with Encke's Jahrbuch table, log10[227/(219.556+t)], and with Encke's normal barometer (333.244 vs 332.669 Paris lines) and log constant (1.76056 vs 1.76014).",
+    "modern_name": "Re-normalisation of refraction-table constants",
+    "usually_credited_to": "Encke (Berliner Astronomisches Jahrbuch), following Bessel",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine computational table of the refraction temperature factor, with a comparison of constants against Encke's published table. It is standard 19th-century observatory practice with no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "N(log(213.333, 10), 8)",
+    "asserts": "≈ 2.32906, the constant written at the top of the page"
+   },
+   {
+    "sympy": "N(Rational(3,8)/80 - 1/213.333, 6)",
+    "asserts": "≈ 0: 1/213.333 equals 0.375/80, Gay-Lussac's coefficient per °R"
+   },
+   {
+    "sympy": "N(213.333-205.889), N(227-219.556)",
+    "asserts": "Both equal 7.444: the same normal temperature (7.444 °R ≈ 9.305 °C) in both tables"
+   },
+   {
+    "sympy": "N(10**5*log(213.333/(205.889-12), 10), 6)",
+    "asserts": "≈ 4150.5; the manuscript has 4152 (slip)"
+   },
+   {
+    "sympy": "N(10**5*log(213.333/(205.889-11), 10), 6)",
+    "asserts": "≈ 3927.0, matching the manuscript"
+   },
+   {
+    "sympy": "N(10**5*log(213.333/(205.889-10.7), 10), 6)",
+    "asserts": "≈ 3860; the manuscript reads 3850"
+   },
+   {
+    "sympy": "N(10**5*log(213.333/(205.889-10.6), 10), 6)",
+    "asserts": "≈ 3838; the manuscript reads 3828"
+   },
+   {
+    "sympy": "N(10**5*log(213.333/(205.889-8), 10), 6)",
+    "asserts": "≈ 3264, matching the manuscript"
+   },
+   {
+    "sympy": "N(10**5*log(213.333/205.889, 10), 6)",
+    "asserts": "≈ 1542, matching p.149 at t=0"
+   },
+   {
+    "sympy": "N(10**5*log(213.333/(205.889+8), 10), 6)",
+    "asserts": "≈ -113, matching p.149 at t=+8"
+   },
+   {
+    "sympy": "N(log(Rational(333244,332669), 10), 6)",
+    "asserts": "≈ 0.00075, the log ratio of the two normal barometer heights (not equal to 1.76056-1.76014=0.00042)"
+   }
+  ],
+  "transcription_corrections": [
+   "The first entry is written '4152' without a plus sign; all later entries carry '+'.",
+   "The argument labels between −8.9 and −8.6 appear on the page in the order −8.9, −8.7, −8.8, −8.6. This is a label transposition: the values 3462, 3440, 3418, 3396 belong to −8.9, −8.8, −8.7, −8.6.",
+   "The faint entries at −10.7 and −10.6 ('3850', '3828') should be checked against the image. The arithmetically correct values are 3860 and 3838.",
+   "The barometer denominator 332,669 shows an overwritten first digit ('3' written over '2' or similar).",
+   "In 'ist bei Encke 1,76?56' the fourth digit is blotted; it is probably '0', giving 1,76056."
+  ]
+ }
+}

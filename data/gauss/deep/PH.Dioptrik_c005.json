@@ -1,0 +1,49 @@
+{
+ "bundle": "PH.Dioptrik",
+ "page": "c005",
+ "label": "2v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382418:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the surrounding pages concern an achromatic doublet objective ('Münchows Objectiv'). The data are in Rhenish feet: half-aperture x' = 0.1945, surface radii r = 1.652, r' = 5.8295, r'' = 3.770968, r''' = 6.61655, and h = 0.02, h'' = 0.034725. The note 'h' würde zu 0,0017713 kommen' gives the gap h'. The letters follow the notation of the cited 'Abhandlung', most likely Gauss's 1817 paper on achromatic double objectives.\n\nThis page holds a sketch of a biconvex lens. A vertical line runs from the rim to a small cross at the centre on the axis; this marks the semi-aperture x. Beside it is a short computation of how much thicker the lens is at the centre than at the rim.\n\n(1) A spherical surface of radius r, cut at height x from the axis, has sagitta s = r - sqrt(r^2 - x^2). For a biconvex lens with radii r and r', the axial thickness exceeds the edge thickness by\n  s + s' = [r - sqrt(r^2 - x^2)] + [r' - sqrt(r'^2 - x^2)].\nThe trailing dash after the first line probably means this sum is to be subtracted from the axial thickness, giving the edge thickness h - (s + s'). That reading is my interpretation.\n\n(2) To first order in x^2, sqrt(r^2 - x^2) = r - x^2/(2r) + O(x^4). This gives\n  s + s' ≈ (x^2/2)(1/r + 1/r').\n\nOn the previous page the exact rationalized form x^2/(r + sqrt(r^2 - x^2)) is used for the logarithmic computation. Its log entry 8.27681 equals log(x'^2/2): 2·log 0.1945 = 8.57784, and subtracting log 2 gives 8.27681. So this page is the scratch justification for that step.\n\nNumerically (my computation), with x = 0.1945, r = 1.652, r' = 5.8295:\n- exact sagittae: s ≈ 0.011490 and s' ≈ 0.003245, sum ≈ 0.014735;\n- approximation: 0.014694.\nThe edge thickness of the first lens is then about 0.02 - 0.0147 ≈ 0.0053 ft. This is positive, so the stated aperture is physically realisable. The purpose is a feasibility/thickness check in ray-tracing an achromatic objective.",
+  "errors": [
+   "No errors. The approximation is correctly the leading term of the expansion; its error is of order x^4/(8r^3), here about 4e-5 ft, which is negligible."
+  ],
+  "results": [
+   {
+    "what": "Sagitta of a spherical surface, r - sqrt(r^2-x^2) = x^2/(r+sqrt(r^2-x^2)), and its paraxial approximation x^2/(2r); summed over the two surfaces of a biconvex lens to get centre-minus-edge thickness (x^2/2)(1/r+1/r')",
+    "modern_name": "Sagitta (sag) formula / lens edge-thickness approximation",
+    "usually_credited_to": "Classical (17th-18th century optics; elementary geometry)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Elementary sagitta geometry used as a scratch check on lens thickness in a routine design computation for an achromatic objective. It is fully standard and connected to Gauss's known work on double objectives.",
+  "checkable": [
+   {
+    "sympy": "simplify((r - sqrt(r**2 - x**2)) - x**2/(r + sqrt(r**2 - x**2)))",
+    "asserts": "The exact sagitta equals its rationalized form (result 0), as used on the previous page."
+   },
+   {
+    "sympy": "series(r - sqrt(r**2 - x**2) + rp - sqrt(rp**2 - x**2), x, 0, 4)",
+    "asserts": "The series begins x**2/(2*r) + x**2/(2*rp), i.e. (x^2/2)(1/r+1/r') + O(x^4)."
+   },
+   {
+    "sympy": "N((1.652 - sqrt(1.652**2 - 0.1945**2)) + (5.8295 - sqrt(5.8295**2 - 0.1945**2)))",
+    "asserts": "The exact sagitta sum for the Münchow objective's first lens is ≈ 0.014735 ft."
+   },
+   {
+    "sympy": "N(0.1945**2/2*(1/1.652 + 1/5.8295))",
+    "asserts": "The approximate sagitta sum is ≈ 0.014694 ft."
+   },
+   {
+    "sympy": "N(log(0.1945**2/2, 10) + 10)",
+    "asserts": "This gives ≈ 8.27681, matching the log entry on the previous page (log of x'^2/2)."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is essentially correct. The sketch is a biconvex lens with a line from the rim to the centre on the axis, marked by a small cross; it represents the semi-aperture x. The trailing dash after the first line likely signals subtraction (from the axial thickness)."
+  ]
+ }
+}

@@ -1,0 +1,53 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c095",
+ "label": "61v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000096/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the closing passage of the section in Riemann's draft for 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite' (1860). The previous page finished the Riemann-function representation, eqs. (6) and (7).\n\nNotation. Plane isentropic gas flow is reduced to two quantities p and q (Riemann invariants; in the printed paper they are called r and s). With u the velocity, rho the density, a = sqrt(phi'(rho)) the sound speed and F'(rho) = a/rho, one has p = F(rho) + u and q = F(rho) - u, up to constant factors. They satisfy\n  dp/dt + (u + a) dp/dx = 0,\n  dq/dt + (u - a) dq/dx = 0.\nSo p is carried unchanged along the right-going characteristics dx/dt = u + a, and q along the left-going characteristics dx/dt = u - a.\n\nClaim on the page. Suppose the disturbed region is initially confined to x1 < x < x2. Then after a finite time it splits into two waves travelling in opposite directions. In each wave only one of p, q varies. Outside the waves both are constant, so the gas there is in equilibrium (marginal insertion 'im Gleichgewicht und') and in relative rest.\n\nProof sketch as written:\n- Initial data: (p, q) = (p1, q1) for x < x1; (p2, q2) for x > x2; arbitrary functions of x on (x1, x2).\n- By §3, the region where p varies and the region where q varies move with finite speeds in opposite directions. Both speeds are bounded and of opposite sign relative to the gas, with |u ± a| bounded away from 0 in the appropriate sense.\n- Hence after a finite time the two regions separate.\n- In the p-wave (the right-going one), q equals q2. Its q values arrive along left-going characteristics from the right constant state.\n- In the q-wave (the left-going one), p equals p1, carried along right-going characteristics from the left state.\n- Between the two waves a steadily widening region appears where p and q are constant.\n\nMy completion: the constants in the middle region must be p = p1 and q = q2. Continuity with the p-wave (where q = q2) gives q = q2. Continuity with the q-wave (where p = p1) gives p = p1. This is the classical decomposition of a compactly supported disturbance into two simple waves separated by a new constant state. The argument tacitly assumes the solution stays continuous, i.e. no shock forms before separation. Shocks are treated later in the paper.",
+  "errors": [
+   "The final line, as it appears in the image, gives the constant values in the middle region as 'p1 und q1'. By the page's own statements (q = q2 in the p-wave, p = p1 in the q-wave), the middle constant state must be (p1, q2). Either the second subscript is a slip for q2, or the transcription misreads it. The deletions in that line ('p ~~ist~~ und q ~~ist~~') show Riemann reworked the phrasing there.",
+   "The argument is not wrong but is incomplete: it presupposes a smooth (continuous) solution up to separation. With large initial gradients, compression may produce discontinuities first, and then the region of variability is not simply transported by characteristics. Riemann addresses discontinuities separately later in the paper.",
+   "The claim that the gas is in 'relative rest' in the middle region is correct: p and q constant means u and rho are constant. The middle state's velocity generally differs from both outer velocities."
+  ],
+  "results": [
+   {
+    "what": "A compactly supported initial disturbance in 1D isentropic gas dynamics separates in finite time into two simple waves moving in opposite directions, each carrying variation of only one Riemann invariant, with a new constant state between them",
+    "modern_name": "Decomposition into simple waves / interaction of simple waves; Riemann invariants and characteristic transport; finite domain of dependence",
+    "usually_credited_to": "Bernhard Riemann (1860, 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'); simple waves earlier in Poisson/Earnshaw (1858-60)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Finite propagation speed of regions where p or q varies (referred to §3)",
+    "modern_name": "Finite speed of propagation / domain of dependence for hyperbolic systems",
+    "usually_credited_to": "Riemann 1860 (for this system); general theory later (Hadamard, Courant-Friedrichs-Lewy)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page is a draft of a passage that appears essentially verbatim in Riemann's published 1860 Luftwellen paper. The simple-wave decomposition is well known and credited to him. The only noteworthy point is a possible q1/q2 subscript slip in the draft.",
+  "checkable": [
+   {
+    "sympy": "x,t=symbols('x t'); rho=Function('rho')(x,t); u=Function('u')(x,t); a=Function('a'); F=Function('F'); rho_t=-(u*diff(rho,x)+rho*diff(u,x)); u_t=-(u*diff(u,x)+a(rho)**2/rho*diff(rho,x)); Fp=a(rho)/rho; p_t=Fp*rho_t+u_t; p_x=Fp*diff(rho,x)+diff(u,x); simplify(p_t+(u+a(rho))*p_x)",
+    "asserts": "With F'(rho)=a/rho, p=F(rho)+u satisfies p_t+(u+a)p_x=0 (result 0), i.e. p is constant along right-going characteristics"
+   },
+   {
+    "sympy": "Fp=a(rho)/rho; q_t=Fp*rho_t-u_t; q_x=Fp*diff(rho,x)-diff(u,x); simplify(q_t+(u-a(rho))*q_x)",
+    "asserts": "q=F(rho)-u satisfies q_t+(u-a)q_x=0 (result 0), i.e. q is constant along left-going characteristics"
+   },
+   {
+    "sympy": "g,c0=symbols('gamma c0',positive=True); r=symbols('rho',positive=True); a_=c0*r**((g-1)/2); simplify(diff(2*a_/(g-1),r)-a_/r)",
+    "asserts": "For a polytropic gas a=c0*rho**((gamma-1)/2), F(rho)=2a/(gamma-1) satisfies F'=a/rho (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The insertion '{+im Gleichgewicht und+}' is a marginal note (right margin, with an opening bracket '[im Gleichgewicht und'), meant to be inserted before 'in relativer Ruhe'.",
+   "In 'den Constanten p_2 und q_2' the image shows a stray mark after q_2 (looks like 'q_2x'). It is not part of the text.",
+   "Final line: the image reads 'wo p [deleted word] und q [deleted word] die constanten Werthe p_1 und q_1 haben'. Mathematically this should be p_1 and q_2; see errors. The deleted words are heavily struck and illegible ('ist' is a guess).",
+   "The page carries no derivation formulas, only prose. The next page begins with the folio number 62."
+  ]
+ }
+}

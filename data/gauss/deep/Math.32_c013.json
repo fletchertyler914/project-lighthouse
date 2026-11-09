@@ -1,0 +1,89 @@
+{
+ "bundle": "Math.32",
+ "page": "c013",
+ "label": "7v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382184:00000014/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 7v is a fair-copy list headed 'Praecepta trigonometrica / Trigonometria plana'. It gives the standard formulas for solving a plane triangle with sides a, b, c opposite angles A, B, C, where A+B+C = pi. It is the plane companion to the spherical list on the previous page (7r) and is numbered in parallel with it. There are no derivations on the page, only the stated results. Restated in modern notation, with the justifications (which are mine) appended:\n(1) a sin B = b sin A. This is the law of sines.\n(2) a^2 = b^2 + c^2 - 2bc cos A. This is the law of cosines.\n(3) cot A = b/(a sin C) - cot C. This serves the case of two sides and the included angle (SAS). [Mine: the projection formula gives b = a cos C + c cos A, and the law of sines gives c sin A = a sin C. Dividing the first by a sin C gives b/(a sin C) = cot C + cot A.]\n(4) tan(A + C/2) = ((b+a)/(b-a)) tan(C/2). This is also for SAS; it is the law of tangents in disguise. [Mine: A + C/2 = 90deg + (A-B)/2, so tan(A + C/2) = -cot((A-B)/2) = cot((B-A)/2). The law of tangents gives tan((B-A)/2) = ((b-a)/(b+a)) cot(C/2), so cot((B-A)/2) = ((b+a)/(b-a)) tan(C/2).]\n(5) sin(A/2) = sqrt((a+b-c)(a-b+c)/(4bc)), i.e. sqrt((s-b)(s-c)/(bc)) with s the semiperimeter. This is a half-angle formula for three given sides (SSS).\n(6) cos(A/2) = sqrt((a+b+c)(b+c-a)/(4bc)), i.e. sqrt(s(s-a)/(bc)).\n(7) sin A = sqrt((a+b+c)(a+b-c)(a-b+c)(b+c-a)/(4 b^2 c^2)). [Mine: this is 2 sin(A/2) cos(A/2); it is Heron's formula rewritten via area = (1/2) bc sin A.]\n(8) a = c cos B + sqrt(b^2 - c^2 sin^2 B). This is for two sides and a non-included angle (SSA). [Mine: solve the quadratic a^2 - 2ac cos B + c^2 - b^2 = 0 in a.]\n(9) sin(A+C) = b sin C / c. Since sin(A+C) = sin B, this is again the sine rule; it serves the same SSA case.\nOverall the page is a reference sheet of the standard textbook solution rules for the cases SSS, SAS and SSA.",
+  "errors": [
+   "No genuine errors.",
+   "(8) gives only the + root. The full solution is a = c cos B +/- sqrt(b^2 - c^2 sin^2 B). The ambiguous SSA case (two triangles when c sin B < b < c) is silently omitted. The formula as written is fully correct when b >= c."
+  ],
+  "results": [
+   {
+    "what": "Law of sines and law of cosines (1), (2), (9)",
+    "modern_name": "Law of sines; law of cosines",
+    "usually_credited_to": "Ancient/medieval (Ptolemy, al-Tusi, Viete) in various forms; standard by the 18th century",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "cot A = b/(a sin C) - cot C and tan(A + C/2) = (b+a)/(b-a) tan(C/2) for the SAS case",
+    "modern_name": "Cotangent form of the SAS solution; law of tangents (Regiomontanus/Viete, Fincke)",
+    "usually_credited_to": "Viete / Fincke (16th c.); standard in 18th-century textbooks",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Half-angle formulas and sin A in terms of the sides (5)-(7)",
+    "modern_name": "Half-angle formulas; Heron's formula in trigonometric form",
+    "usually_credited_to": "Heron (area); half-angle rules standard by the 17th-18th c.",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Third side from two sides and a non-included angle (8)",
+    "modern_name": "SSA solution of the cosine law (ambiguous case)",
+    "usually_credited_to": "Standard textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine reference list of classical plane-trigonometry formulas, all well known long before Gauss. It parallels the spherical list on the neighbouring page.",
+  "checkable": [
+   {
+    "sympy": "A,B=symbols('A B',positive=True); C=pi-A-B; a,b,c=sin(A),sin(B),sin(C); simplify(a*sin(B)-b*sin(A))",
+    "asserts": "(1) law of sines; should be 0"
+   },
+   {
+    "sympy": "A,B=symbols('A B',positive=True); C=pi-A-B; a,b,c=sin(A),sin(B),sin(C); simplify(expand_trig(a**2-(b**2+c**2-2*b*c*cos(A))))",
+    "asserts": "(2) law of cosines; should be 0"
+   },
+   {
+    "sympy": "A,B=symbols('A B',positive=True); C=pi-A-B; a,b,c=sin(A),sin(B),sin(C); simplify(expand_trig(cot(A)-(b/(a*sin(C))-cot(C))))",
+    "asserts": "(3) holds; should be 0"
+   },
+   {
+    "sympy": "A,B=symbols('A B',positive=True); C=pi-A-B; a,b,c=sin(A),sin(B),sin(C); simplify(expand_trig(tan(A+C/2)-(b+a)/(b-a)*tan(C/2)))",
+    "asserts": "(4) holds; should be 0"
+   },
+   {
+    "sympy": "A,B=symbols('A B',positive=True); C=pi-A-B; a,b,c=sin(A),sin(B),sin(C); simplify(expand_trig(sin(A/2)**2-(a+b-c)*(a-b+c)/(4*b*c)))",
+    "asserts": "(5) squared; should be 0"
+   },
+   {
+    "sympy": "A,B=symbols('A B',positive=True); C=pi-A-B; a,b,c=sin(A),sin(B),sin(C); simplify(expand_trig(cos(A/2)**2-(a+b+c)*(b+c-a)/(4*b*c)))",
+    "asserts": "(6) squared; should be 0"
+   },
+   {
+    "sympy": "A,B=symbols('A B',positive=True); C=pi-A-B; a,b,c=sin(A),sin(B),sin(C); simplify(expand_trig(sin(A)**2-(a+b+c)*(a+b-c)*(a-b+c)*(b+c-a)/(4*b**2*c**2)))",
+    "asserts": "(7) squared; should be 0"
+   },
+   {
+    "sympy": "a,b,c,B=symbols('a b c B'); expand((a-c*cos(B))**2-(b**2-c**2*sin(B)**2)-(a**2+c**2-2*a*c*cos(B)-b**2)).subs(sin(B)**2,1-cos(B)**2).expand()",
+    "asserts": "(8) is equivalent to the cosine law b^2=a^2+c^2-2ac cos B; should be 0"
+   },
+   {
+    "sympy": "A,B=symbols('A B',positive=True); C=pi-A-B; a,b,c=sin(A),sin(B),sin(C); simplify(sin(A+C)-b*sin(C)/c)",
+    "asserts": "(9) holds; should be 0"
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription matches the image; no substantive corrections needed.",
+   "In (5)-(7), the dots denote multiplication of the parenthesised factors, e.g. (a+b-c)(a-b+c).",
+   "In (8), 'sin B^2' means sin(B)^2."
+  ]
+ }
+}

@@ -1,0 +1,77 @@
+{
+ "bundle": "Math.2",
+ "page": "c019",
+ "label": "[9v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376167:00000020/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has no derivations. It contains two lists of integers, each headed by a prime. They are tables of quadratic residues; they continue the previous page (997, 991) and are continued on the next page (971).\n\n(a) Prime 983, marked with a bar '—'. Since 983 ≡ 3 (mod 4), −1 is a non-residue and the residues are not symmetric about p/2. Gauss therefore lists every n in 1..982 with (n/983) = +1. The list is 1, 2, 3, 4, 6, 7, 8, 9, 12, 14, … and ends at 978. It should contain (983−1)/2 = 491 entries.\n\n(b) Prime 977, marked '+'. Since 977 ≡ 1 (mod 4), −1 is a residue and n and 977−n have the same character. Gauss therefore lists only the residues n ≤ (977−1)/2 = 488. The list is 1, 2, 4, 7, 8, 9, 11, … and ends at 488. It should contain 244 entries.\n\nThe same convention holds on the adjacent pages. For p ≡ 1 (mod 4), marked '+', the list stops at (p−1)/2 (997 stops at 496). For p ≡ 3 (mod 4), marked '—', it runs to p−1 (991 runs to 988, the largest residue below 991).\n\nI spot-checked many entries by quadratic reciprocity; these spot-checks are my additions.\n- For 983: (2/983) = +1 since 983 ≡ 7 (mod 8). (3/983) = +1, (5/983) = −1, (7/983) = +1, (11/983) = −1, (13/983) = −1.\n- 66 = 2·3·11 has symbol −1, which agrees with its deletion at the start of line 2.\n- The insertions 353, 354, 355 are all residues. 347, 348, 351, 352 and 357 are non-residues.\n- In the corrected cluster after 474, the residues are 475 and 477. 478 = 2·239 is a non-residue.\n- Near 878, both 878 and 879 are residues; 875 and 876 are not.\n- Near 893, 895 and 896 are residues; 894, 897, 898 and 899 are not.\n- For 977: (2/977) = +1, (3/977) = −1, (5/977) = −1, (7/977) = +1, (11/977) = +1, (13/977) = −1. Also 78, 237, 404 and 473 are residues, while 79, 96, 97, 234, 235, 236 and 305 are not.\n\nThe probable purpose is a large-scale tabulation of quadratic residues for primes just below 1000, continuing pages for 997 and 991 and followed by 971. Gauss could have used such a table for empirical study of the distribution of residues, or as a working table for computations with quadratic forms or class numbers. The page itself states no purpose.",
+  "errors": [
+   "No arithmetic errors detected in the spot-checks. Gauss's own corrections (deleted 66, inserted 353–355, 492, 501, 512, 879, 237, 404, 473, and the overwritten entries near 475/477 and 895/896) all move the list toward the correct residue set.",
+   "Possible inconsistency in the 983 list around 501/502: 501 is inserted above the line, and a blotted entry follows 496. I did not verify whether 497–500 were handled correctly (497 and 498 are non-residues, as required)."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic residues of the prime 983 (all residues 1..982)",
+    "modern_name": "Table of quadratic residues / Legendre symbol values",
+    "usually_credited_to": "Tables of residues are standard. Gauss published small tables in Disquisitiones Arithmeticae (1801); larger tables came later from Jacobi (Canon arithmeticus, 1839) and others.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Table of quadratic residues ≤ (p−1)/2 of the prime 977, using the symmetry n ↔ p−n valid for p ≡ 1 mod 4",
+    "modern_name": "Half-table of quadratic residues using (−1/p) = +1 for p ≡ 1 (mod 4)",
+    "usually_credited_to": "Standard consequence of Euler/Gauss on (−1/p)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is a pure computational table of quadratic residues for primes near 1000. Gauss is well known to have computed extensive numerical tables, so this is routine, if laborious, material. The only interest is as evidence of the scale of his residue tabulations.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [legendre_symbol(n,983) for n in [2,3,5,7,11,13,66]] == [1,1,-1,1,-1,-1,-1]",
+    "asserts": "Small-prime characters mod 983 agree with the table; 66 is correctly deleted."
+   },
+   {
+    "sympy": "[n for n in range(345,362) if legendre_symbol(n,983)==1] == [346,349,350,353,354,355,356,359,361]",
+    "asserts": "The corrected stretch 346..361 of the 983 list, including the inserted 353, 354, 355."
+   },
+   {
+    "sympy": "[n for n in range(472,480) if legendre_symbol(n,983)==1] == [472,474,475,477]",
+    "asserts": "The entries after 474 are 475 and 477, not 478 and 479 as machine-transcribed."
+   },
+   {
+    "sympy": "[n for n in range(874,882) if legendre_symbol(n,983)==1] == [874,878,879,880,881]",
+    "asserts": "Both 878 and 879 are residues; the inserted 879 is correct."
+   },
+   {
+    "sympy": "[n for n in range(892,904) if legendre_symbol(n,983)==1] == [892,893,895,896,903]",
+    "asserts": "The corrected entries after 893 are 895 and 896."
+   },
+   {
+    "sympy": "len([n for n in range(1,983) if legendre_symbol(n,983)==1]) == 491 and max(n for n in range(1,983) if legendre_symbol(n,983)==1) == 978",
+    "asserts": "The 983 list has 491 entries and its last residue is 978."
+   },
+   {
+    "sympy": "[n for n in range(1,23) if legendre_symbol(n,977)==1] == [1,2,4,7,8,9,11,14,15,16,17,18,22]",
+    "asserts": "The opening of the 977 list is correct."
+   },
+   {
+    "sympy": "len([n for n in range(1,489) if legendre_symbol(n,977)==1]) == 244 and max(n for n in range(1,489) if legendre_symbol(n,977)==1) == 488",
+    "asserts": "The 977 half-list has 244 entries and ends at 488."
+   },
+   {
+    "sympy": "[legendre_symbol(n,977) for n in [78,237,404,473,79,96,97,236]] == [1,1,1,1,-1,-1,-1,-1]",
+    "asserts": "Disputed or inserted entries in the 977 list."
+   }
+  ],
+  "transcription_corrections": [
+   "983 list, after 474: read '475.477' (overwritten digits), not '478.479'. 478 and 479 are non-residues; 475 and 477 are residues.",
+   "983 list, after 893: read '895.896', not '895[?].899[?]'. 899 = 29·31 is a non-residue; 896 = 2^7·7 is a residue.",
+   "983 list: 879 (written above the line) belongs after 878, giving the order 874.878.879.880. The blotted entry after 874 is a deleted non-residue (875 or 876).",
+   "983 list, line 2: the deleted initial entry is 66, a non-residue, correctly struck.",
+   "977 list: '78[?]' is correct; 78 is a residue."
+  ]
+ }
+}

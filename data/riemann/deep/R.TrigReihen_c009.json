@@ -1,0 +1,67 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c009",
+ "label": "5v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the historical introduction (§1) of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published posthumously by Dedekind in 1867). The page continues the account of the vibrating-string controversy.\n\nFrom the previous page: the string satisfies y_tt = α² y_xx with y(0,t) = y(l,t) = 0. d'Alembert's general solution is y = f(x+αt) + φ(x−αt). The boundary conditions give φ(w) = −f(−w) and f(z) = f(2l+z), so y = f(αt+x) − f(αt−x). d'Alembert then looked for analytic expressions that are unchanged when z increases by 2l (the first line of this page completes that sentence).\n\nThe page credits Euler (Mém. Berlin 1748, p. 69) with seeing the problem correctly. The motion is fully determined by the initial shape and the initial velocity of the string. These two may be given by arbitrarily drawn curves, and f can then be obtained by a geometric construction. Riemann restates this in modern form.\n\nAssume y(x,0) = g(x) and y_t(x,0) = h(x) for 0 < x < l.\n(i) Put t = 0 in y = f(αt+x) − f(αt−x). This gives f(x) − f(−x) = g(x).\n(ii) [my step] Differentiate in t: y_t = α f'(αt+x) − α f'(αt−x). At t = 0 this is α[f'(x) − f'(−x)] = h(x).\n(iii) [my step] Since d/dx[f(x) + f(−x)] = f'(x) − f'(−x), integration gives f(x) + f(−x) = (1/α)∫h(x)dx. This holds up to an additive constant, which cancels in y.\n(iv) Solving (i) and (iii): f(x) = ½[g(x) + (1/α)∫_0^x h] + C and f(−x) = ½[(1/α)∫_0^x h − g(x)] + C. This determines f on (−l, l).\n(v) Extend f to all of ℝ by the periodicity f(x) = f(2l+x).\n\nRiemann calls this Euler's determination of f, stated in abstract but now familiar concepts. He then notes that d'Alembert (Mém. Berlin 1750, p. 358) objected at once. In d'Alembert's view his method required y to be expressible analytically in t and x. The footnote begins quoting d'Alembert's French: 'En effet on ne peut ce me semble exprimer y analytiquement d'une manière plus générale, qu'en la supposant une [fonction de t et de x]…'.",
+  "errors": [
+   "No mathematical error. The integration constant in f(x)+f(−x) = (1/α)∫h dx is left implicit. This is harmless: adding a constant to f does not change y.",
+   "Implicit consistency condition: the periodic extension is continuous at ±l only if f(l) = f(−l), which is equivalent to g(l) = 0. This is the boundary condition, assumed tacitly.",
+   "Riemann writes h(x) inside ∫h(x)dx with x as both the variable and the limit. This is loose but standard notation for an antiderivative."
+  ],
+  "results": [
+   {
+    "what": "D'Alembert solution of the fixed-end string, y = f(αt+x) − f(αt−x), with f 2l-periodic",
+    "modern_name": "d'Alembert's formula / method of characteristics for the 1D wave equation",
+    "usually_credited_to": "d'Alembert (1747)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Determination of f from the initial data g and h via f(x)−f(−x)=g, f(x)+f(−x)=(1/α)∫h, followed by periodic extension",
+    "modern_name": "Solution of the initial-boundary value problem by odd 2l-periodic extension (d'Alembert's formula with initial data)",
+    "usually_credited_to": "Euler (1748); modern formulation standard",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical account of the Euler–d'Alembert dispute over arbitrary (non-analytic) functions",
+    "modern_name": "Vibrating string controversy",
+    "usually_credited_to": "historical narrative; Riemann's 1854 Habilitationsschrift is a well-known account of it",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page is part of Riemann's published Habilitationsschrift on trigonometric series (published 1867). It contains a standard historical exposition of d'Alembert's and Euler's solutions of the wave equation, with nothing new.",
+  "checkable": [
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); f=Function('f'); y=f(a*t+x)-f(a*t-x); simplify(diff(y,t,2)-a**2*diff(y,x,2))",
+    "asserts": "y = f(αt+x) − f(αt−x) satisfies the wave equation y_tt = α² y_xx (result 0)"
+   },
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); f=Function('f'); y=f(a*t+x)-f(a*t-x); simplify(y.subs(x,0))",
+    "asserts": "the boundary condition y(0,t) = 0 holds identically"
+   },
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); f=Function('f'); y=f(a*t+x)-f(a*t-x); simplify(y.subs(t,0))",
+    "asserts": "y(x,0) = f(x) − f(−x), i.e. g(x) = f(x) − f(−x)"
+   },
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); f=Function('f'); y=f(a*t+x)-f(a*t-x); simplify(diff(y,t).subs(t,0) - a*diff(f(x)+f(-x),x))",
+    "asserts": "y_t(x,0) = α d/dx[f(x)+f(−x)], so f(x)+f(−x) = (1/α)∫h dx (result 0)"
+   },
+   {
+    "sympy": "x,a,l=symbols('x a l',positive=True); g=sin(pi*x/l); h=sin(2*pi*x/l); H=integrate(h,(x,0,x))/a; F=(g+H)/2; Fm=(H-g)/2; simplify(F-Fm-g), simplify(F+Fm-H)",
+    "asserts": "the solution of the 2×2 system for f(x) and f(−x) reproduces g and (1/α)∫h (both results 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The page number '6.' at the top left of the image is omitted in the transcription.",
+   "In 'allgemein geläufigen Begriffen [-und-] dargestellt' the image shows a struck word. It is likely 'und', but the word before it may also be partly struck; the reading 'Begriffen dargestellt' is intended.",
+   "The second equation's coefficient is hard to read in the image; it could be read as '½' but should be 1/α, consistent with the derivation and the published text. The sign in the first equation is also hard to read and should be '−' (f(x) − f(−x) = g(x))."
+  ]
+ }
+}

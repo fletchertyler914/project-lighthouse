@@ -1,0 +1,62 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c321",
+ "label": "162v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000322/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the opening of Riemann's lecture course on molecular mechanics ('theoria motus moleculorum'). The previous page sets up a system of mass points m_i with coordinates (x_i, y_i, z_i) and equations of motion m_i x_i'' = X_i, etc. The next page goes on to unilateral constraints u >= 0, the principle of virtual velocities and d'Alembert's principle. This page has two parts.\n\n(A) Gauss's principle of least constraint (top half).\n1. Riemann defines\n   M = Σ [ m (x'')^2 − 2 X x'' + m (y'')^2 − 2 Y y'' + m (z'')^2 − 2 Z z'' ],\n   where '' denotes d^2/dt^2.\n   - Implicit, mine: completing the square gives M = Σ m |r'' − F/m|^2 − Σ |F|^2/m.\n   - Since the last sum does not depend on the accelerations, M differs from Gauss's 'Zwang' only by a term independent of the accelerations.\n2. He replaces each acceleration x'' by x'' + δx'', i.e. a varied, kinematically admissible acceleration. He writes out m(x'' + δx'')^2 − 2X(x'' + δx'').\n3. Expanding, the change in M per coordinate is\n   M_1 − M = 2 δx'' (m x'' − X) + m (δx'')^2.\n   - In the free motion, m x'' = X, so the change is Σ m (δx'')^2 >= 0. The actual motion therefore minimizes M.\n   - Implicit, mine: in the constrained case, the linear term Σ (m x'' − X) δx'' is >= 0 for admissible variations, by d'Alembert/virtual-work reasoning. The next page develops exactly this inequality: Σ (m x'' − X) δx_{t+dt} ≷ 0, with conditions δu_{t+dt} <= 0.\n4. He rewrites M as Σ m (x''^2 + y''^2 + z''^2) − 2 Σ (X x'' + Y y'' + Z z'').\n\n(B) 'Nun eine andere Form, die obigen Gleichungen auszudrücken': central forces derived from a force function.\n1. Take two masses m at (x, y, z) and m' at (x', y', z'). The sketch shows m near the origin with an arrow pointing toward m'. They attract with magnitude m m' f(r), where\n   r^2 = (x − x')^2 + (y − y')^2 + (z − z')^2.\n2. Differentiating gives r ∂r/∂x = x − x'.\n3. The x-component of the force on m is\n   m m' f(r) (x' − x)/r = −m m' f(r) ∂r/∂x = m m' ∂F(r)/∂x,\n   where F(r) = ∫ −f(r) dr + const. The y and z components are analogous.\n4. Riemann sets the force function P = Σ Σ m m' F(r), so that X = ∂P/∂x. In indexed form:\n   P = Σ_ι Σ_ι' m_ι m_ι' F_ιι'(r_ιι'),\n   X_ι = ∂P/∂x_ι, Y_ι = ∂P/∂y_ι, Z_ι = ∂P/∂z_ι.\n   - He allows a pair-dependent law F_ιι'.\n   - An earlier attempt with index 1 is crossed out.\n5. Finally he writes Σ (∂P/∂x) x''. This is the term that replaces Σ X x'' in M, so the constraint function becomes Σ m |r''|^2 − 2 Σ ∂P/∂x_ι x_ι''.",
+  "errors": [
+   "The double sum P = ΣΣ m m' F(r), if it runs over all ordered pairs ι ≠ ι', counts each interaction twice. Then ∂P/∂x_ι = 2X_ι. It must be read as a sum over unordered pairs (ι < ι'), or carry a factor 1/2. Riemann leaves this unstated.",
+   "In the second line of the force computation (the y-component), the factor m m' is dropped and the ditto mark replaces (y' − y)/r. It reads '= −f r ∂r/∂y', which should be −m m' f(r) ∂r/∂y. This is a notational slip only.",
+   "The side computation 'd²x/dt² + 2δ d²x/dt²' at the top right is a scratch fragment with no clear role. It looks like an abandoned linearization.",
+   "The minimality argument is not completed on this page. The sign of the linear term under constraints is only taken up on the next page."
+  ],
+  "results": [
+   {
+    "what": "The actual accelerations minimize Σ m(x''^2 + y''^2 + z''^2) − 2Σ(X x'' + Y y'' + Z z'') among admissible accelerations. Varying x'' changes this quantity by 2δx''(m x'' − X) + m(δx'')^2.",
+    "modern_name": "Gauss's principle of least constraint (Prinzip des kleinsten Zwanges)",
+    "usually_credited_to": "C. F. Gauss, 1829",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Pairwise central forces m m' f(r) derive from the force function P = Σ m m' F(r), with F' = −f, so that X_ι = ∂P/∂x_ι.",
+    "modern_name": "Potential (force function) for central pair forces; conservative forces as a gradient",
+    "usually_credited_to": "Lagrange (1773/1788), Laplace, Gauss/Green (potential); Hamilton/Jacobi (force function)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is standard lecture material: Gauss's principle and the force function for central forces, both well established before Riemann. The only mild point of interest is that Riemann chose to open his molecular-mechanics course with Gauss's principle and unilateral constraints, which documents his teaching. There is nothing mathematically new.",
+  "checkable": [
+   {
+    "sympy": "m,a,d,X=symbols('m a d X'); expand(m*(a+d)**2-2*X*(a+d) - (m*a**2-2*X*a)) - (2*d*(m*a-X)+m*d**2)",
+    "asserts": "The change in the constraint function under a → a + δa is 2δa(m a − X) + m δa^2 (result should be 0)."
+   },
+   {
+    "sympy": "m,a,X=symbols('m a X'); simplify(m*a**2-2*X*a - (m*(a-X/m)**2 - X**2/m))",
+    "asserts": "Completing the square: M equals Gauss's Zwang m(a − X/m)^2 minus a term independent of a (result should be 0)."
+   },
+   {
+    "sympy": "x,y,z,xp,yp,zp=symbols('x y z xp yp zp'); r=sqrt((x-xp)**2+(y-yp)**2+(z-zp)**2); simplify(r*diff(r,x)-(x-xp))",
+    "asserts": "r ∂r/∂x = x − x' (result should be 0)."
+   },
+   {
+    "sympy": "x,y,z,xp,yp,zp,m,mp=symbols('x y z xp yp zp m mp'); r=sqrt((x-xp)**2+(y-yp)**2+(z-zp)**2); simplify(diff(m*mp*(-r**-1),x) - m*mp*r**-2*(xp-x)/r)",
+    "asserts": "Test case f = 1/r^2, F = −1/r: m m' ∂F/∂x equals m m' f(r)(x' − x)/r, i.e. attraction toward m' (result should be 0)."
+   },
+   {
+    "sympy": "x1,x2,x3=symbols('x1 x2 x3'); F=Function('F'); P=F(x1-x2)+F(x1-x3)+F(x2-x3); simplify(diff(P,x1) - (Subs(Derivative(F(s),s),s,x1-x2).doit()+Subs(Derivative(F(s),s),s,x1-x3).doit()))",
+    "asserts": "With the sum over unordered pairs, ∂P/∂x_1 gives exactly the force on particle 1 (one-dimensional analogue; result should be 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The line '[-M-] ± [-M_1-] 2δ…' is a crossed-out 'M' followed by '− M_1' (also partly struck). The intended content is M_1 − M = 2δx''(m x'' − X) + m(δx'')^2.",
+   "Second force line: the image reads 'm m' f(r) \" = −f r ∂r/∂y = m m' ∂F(r)/∂y'. The ditto mark stands for (y' − y)/r, and 'f r' is f(r) with m m' omitted.",
+   "The struck line reads approximately 'X = Σ m Σ m' ∂F(r)/∂x' and is fully crossed out. The transcription is acceptable.",
+   "Top line: the term m(d²x/dt²)^2 begins with an extra bracket, '[(m(…)^2 − 2X…)'. The crossed symbol before 'M' on the right is a struck letter, not dots."
+  ]
+ }
+}

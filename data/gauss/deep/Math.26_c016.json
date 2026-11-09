@@ -1,0 +1,66 @@
+{
+ "bundle": "Math.26",
+ "page": "c016",
+ "label": "7r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381839:00000017/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem served. The page reduces the cubic det(xI - M) = x^3 - p x^2 + q x - r, for the ternary form f = Axx+Byy+Czz+2ayz+2bxz+2cxy, to an equivalent form whose xy-coefficient is zero. Here M = [[A,c,b],[c,B,a],[b,a,C]], with\np = A+B+C,\nq = AB+AC+BC-aa-bb-cc,\nr = ABC+2abc-Aaa-Bbb-Ccc.\nThe following page goes on to the principal axes (G, G', G'' and their direction cosines), so this is the eigenvalue problem of a symmetric 3x3 matrix.\n\nSet-up from the previous page (Case IV: none of a, b, c is 0).\n- Define g+hi = sqrt(A-B+2ci). This gives (1) A-B = gg-hh and (2) c = gh.\n- Put A' = A+hh and B' = B-hh. This gives (3) A'-B' = gg+hh = sqrt((A-B)^2+4cc), (4) A'+B' = A+B, and (5) A'B' = AB-cc.\n- So A' and B' are the eigenvalues of the 2x2 block [[A,c],[c,B]].\n- The coefficients can then be written (6) p = A'+B'+C, (7) q = A'B'+A'C+B'C-aa-bb, (8) r = A'B'C+2abc-Aaa-Bbb.\n- Define a'+b'i = (a+bi)(g+hi)/sqrt(gg+hh). The factor (g+hi)/sqrt(gg+hh) = e^{i phi} has tan 2phi = 2c/(A-B), i.e. the angle of the plane rotation that removes the xy term. Taking moduli gives (9) aa+bb = a'a'+b'b'.\n\nThis page.\n1. Square the defining relation: (a+bi)^2 (g+hi)^2/(gg+hh) = (a'+b'i)^2.\n2. Expand: (aa-bb+2abi)(gg-hh+2ghi)/(gg+hh) = a'a'-b'b'+2a'b'i.\n3. Real parts: [(aa-bb)(gg-hh) - 4abgh]/(gg+hh) = a'a'-b'b'.\n4. By (1), (2), (3): (aa-bb)(A-B) - 4abc = (a'a'-b'b')(A'-B').\n5. Add (aa+bb)(A+B) = (a'a'+b'b')(A'+B'), which follows from (4) and (9). The result is 2Aaa+2Bbb-4abc = 2A'a'a'+2B'b'b'.\n6. Halve it (my explicit step): Aaa+Bbb-2abc = A'a'a'+B'b'b'.\n7. Combine with (8): r = A'B'C - A'a'a' - B'b'b'. Gauss labels this (9) a second time.\n8. From (7) and the first (9): (10) q = A'B'+A'C+B'C-a'a'-b'b'.\n9. Conclusion: by (6), (10), (9), p, q, r are unchanged when (A,B,C,a,b,c) is replaced by (A',B',C,a',b',0).\n\nThus Case IV, which is in effect a Jacobi plane rotation done with complex numbers instead of angles, is reduced to the earlier case in which one off-diagonal coefficient vanishes. Dated '1 April' (year not given).",
+  "errors": [
+   "Numbering slip: the new formula for r is labelled (9), which duplicates the earlier (9) aa+bb=a'a'+b'b'. The later citation '(6),(10),(9)' means the new r-formula, while 'Combination von 7 und 9' means the old (9).",
+   "In (7) and (10), the C' in 'A'C'+B'C'' should be plain C, since C is unchanged by the transformation (cf. the conclusion list A', B', C, a', b', 0). Whether this is Gauss's pen or the transcription is unclear.",
+   "'Von dieser Gleichung die obige (8) abzieht' tacitly includes halving the equation before combining it with (8). The phrase is loose, but the result is correct.",
+   "No mathematical errors: every identity checks out, including the overwritten sign (−4abgh, correctly corrected) and gg−hh in the second factor."
+  ],
+  "results": [
+   {
+    "what": "Elimination of the xy cross-term of a ternary quadratic form by a plane rotation. The rotation is encoded as multiplication by (g+hi)/|g+hi| with (g+hi)^2 = A-B+2ci. The new diagonal entries are A' = A+h^2 and B' = B-h^2, and the new off-diagonal pair is a'+b'i.",
+    "modern_name": "Givens/Jacobi rotation (single Jacobi step) for a symmetric 3x3 matrix",
+    "usually_credited_to": "Jacobi (1846) for the iterative method; single principal-axis rotations go back to Euler/Lagrange/Cauchy",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Invariance of the characteristic-polynomial coefficients p, q, r (trace, sum of principal 2x2 minors, determinant) under the substitution (A,B,C,a,b,c) -> (A',B',C,a',b',0).",
+    "modern_name": "Orthogonal invariance of the characteristic polynomial / matrix invariants",
+    "usually_credited_to": "Cauchy (1829) for the symmetric eigenvalue theory; Lagrange earlier",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a careful but routine algebraic verification of an orthogonal reduction, the 2x2 diagonalising rotation, written in complex notation. Gauss's use of complex numbers for plane rotations, citing his biquadratic-residues paper for square roots, is characteristic of him. The resemblance to a Jacobi rotation is mild interest only: here it is a one-off reduction, not an iterative method.",
+  "checkable": [
+   {
+    "sympy": "B,g,h,a,b,C=symbols('B g h a b C',real=True); A=B+g**2-h**2; c=g*h; Ap=A+h**2; Bp=B-h**2; simplify(Ap*Bp-(A*B-c**2))",
+    "asserts": "(5) A'B' = AB - cc given (1),(2) (expect 0)"
+   },
+   {
+    "sympy": "B,g,h=symbols('B g h',real=True); A=B+g**2-h**2; c=g*h; simplify((A+h**2-(B-h**2))**2-((A-B)**2+4*c**2))",
+    "asserts": "(3) A'-B' = gg+hh = sqrt((A-B)^2+4cc) (expect 0)"
+   },
+   {
+    "sympy": "B,g,h,a,b=symbols('B g h a b',real=True); A=B+g**2-h**2; c=g*h; a1=(a*g-b*h)/sqrt(g**2+h**2); b1=(a*h+b*g)/sqrt(g**2+h**2); simplify((A+h**2)*a1**2+(B-h**2)*b1**2-(A*a**2+B*b**2-2*a*b*c))",
+    "asserts": "A'a'a'+B'b'b' = Aaa+Bbb-2abc (expect 0)"
+   },
+   {
+    "sympy": "B,g,h,a,b=symbols('B g h a b',real=True); a1=(a*g-b*h)/sqrt(g**2+h**2); b1=(a*h+b*g)/sqrt(g**2+h**2); simplify(a1**2+b1**2-a**2-b**2)",
+    "asserts": "(9) aa+bb = a'a'+b'b' (expect 0)"
+   },
+   {
+    "sympy": "B,g,h,a,b=symbols('B g h a b',real=True); a1=(a*g-b*h)/sqrt(g**2+h**2); b1=(a*h+b*g)/sqrt(g**2+h**2); simplify(((a**2-b**2)*(g**2-h**2)-4*a*b*g*h)/(g**2+h**2)-(a1**2-b1**2))",
+    "asserts": "Real-part identity on this page (expect 0)"
+   },
+   {
+    "sympy": "B,C,g,h,a,b,x=symbols('B C g h a b x',real=True); A=B+g**2-h**2; c=g*h; a1=(a*g-b*h)/sqrt(g**2+h**2); b1=(a*h+b*g)/sqrt(g**2+h**2); M=Matrix([[A,c,b],[c,B,a],[b,a,C]]); N=Matrix([[A+h**2,0,b1],[0,B-h**2,a1],[b1,a1,C]]); simplify(expand(M.charpoly(x).as_expr()-N.charpoly(x).as_expr()))",
+    "asserts": "The reduced form (A',B',C,a',b',0) has the same characteristic polynomial, i.e. p, q, r are preserved (expect 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "In the second displayed line the second factor is (gg − hh + 2ghi). The sign is blotted in the manuscript, but mathematically it must be minus.",
+   "In the real-part line the term is '− 4abgh' (Gauss overwrote a sign and a letter). The transcription is correct here.",
+   "'die aus (4), (9) sich ergebende Gleichung' is correct: (4) and (9) indeed give (aa+bb)(A+B) = (a'a'+b'b')(A'+B').",
+   "In (10), and in (7) on the previous page, 'A'C'+B'C'' should read A'C+B'C, since C is not primed."
+  ]
+ }
+}

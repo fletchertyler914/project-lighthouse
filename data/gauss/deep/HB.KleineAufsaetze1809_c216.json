@@ -1,0 +1,61 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c216",
+ "label": "207",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000217/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. The previous page (206) deals with the induction between two coaxial wire rings. There Gauss optimises the mean-induction factor log(8R/ρ) − 7/4 for a given supply of wire. This page turns to how one measures induction impulses on a damped galvanometer or magnetometer needle. It ends with a sketch of a rotating commutator.\n\n1. NOTATION (as on the page).\n- μ² is the factor by which a free elongation shrinks from one turning point to the next (half-period), so log(1/μμ) is the logarithmic decrement.\n- Hence the shrink factor over a quarter period (turning point to rest position, or rest position to turning point) is μ.\n- x is the effect of one induction impulse. An impulse given at the passage through the rest position, as velocity, would produce an undamped elongation x. With damping it contributes μx to the next turning point.\n- Elongations are measured from the natural rest position.\n\n2. RECURRENCE (implicit; my reconstruction).\n- Let a_n be the successive turning points; they alternate in side.\n- Then a_{n+1} = −μ² a_n + f_n, where f_n = ±μx if an impulse is applied at the intervening passage through rest, else 0.\n- Homogeneous part: a_n = e(−μ²)^n. This is exactly Gauss's transient column: e, −eμ², +eμ⁴, −eμ⁶, +eμ⁸, −eμ¹⁰, …\n\n3. STEADY PART. The listed coefficients (with signs read from the image) are, with k = x/(1+μ⁴):\n- −μ³k, −μk, +μ³k, +μk, −μ³k, −μk, …\n- This is periodic with period 4 (two full oscillations).\n\nSubstituting into the recurrence gives:\n- f0 = a1 + μ²a0 = −μk(1+μ⁴) = −μx\n- f1 = a2 + μ²a1 = 0\n- f2 = a3 + μ²a2 = +μx\n- f3 = a0 + μ²a3 = 0\n\nSo impulses are applied at every second passage through rest, with alternating sign. Each impulse opposes the current motion: the needle coming from −μ³k is thrown back to −μk, then swings freely to +μ³k, is thrown back to +μk, swings freely to −μ³k, and so on.\n\nThis is the 'Zurückwerfungsmethode' (method of recoil). From the two observed steady elongations one gets:\n- the damping, from their ratio μ²;\n- the impulse, x = (1+μ⁴)·b/μ, where b = μx/(1+μ⁴) is the larger one.\n\nGeneral solution: a_n = steady_n + e(−μ²)^n, exactly as written.\n\n4. COMMUTATOR. 'Rotationscommutatoren mit drei Gleisen': a sketch of three metal tracks (red/brown lines) on which the ends of four wires a, b, c, d slide simultaneously:\n- a runs on the top track;\n- b and c run on the middle track, offset from each other;\n- d runs on the bottom track.\nBlack cuts interrupt conduction. Vertical bars alternately join top–middle and middle–bottom at staggered positions. As the tracks move, the connections among a, b, c, d are periodically made, broken and reversed. This is presumably meant to produce the alternating, intermittent induction impulses of part 1. It is a qualitative device description with no computation.\n\n(Previous page check, p.206: maximising (log x − 7/6)/x gives log x = 13/6. Hence log(8R/ρ) = (3/2)(13/6) = 13/4, log10 = 13/4 × 0.4342945 = 1.41146, and 8R/ρ = 25.79. All correct.)",
+  "errors": [
+   "No mathematical error by Gauss once the signs are read correctly. The steady-state coefficients have period 4 (−μ³, −μ, +μ³, +μ, …), consistent with impulses at alternate passages through rest, alternately signed.",
+   "The heading's 'Wirkung eines Elongationsstosses' presumably means the effect of an induction impulse ('Inductionsstoss'). This is terminology only.",
+   "The model implicitly assumes each impulse is instantaneous and occurs exactly at the passage through rest. It also assumes the quarter-period damping factor is exactly μ, i.e. exponential damping with time measured in half-periods. Both are standard idealisations, left unstated on the page."
+  ],
+  "results": [
+   {
+    "what": "Steady-state and transient elongations of a damped needle receiving alternating impulses at every second passage through rest: a_n = steady 4-periodic sequence ±μ³x/(1+μ⁴), ±μx/(1+μ⁴) plus e(−μ²)^n",
+    "modern_name": "Periodic steady state of a linearly damped oscillator under periodic impulsive forcing; Weber's 'Zurückwerfungsmethode' (method of recoil) in ballistic galvanometry",
+    "usually_credited_to": "Wilhelm Weber (recoil method, published c. 1851–1853 in his electrodynamic resistance measurements); Gauss and Weber jointly for the logarithmic-decrement treatment of damped magnetometers (1830s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Rotating commutator with three tracks and four sliding contacts producing alternating/interrupted connections",
+    "modern_name": "Commutator / pole-changer (Gyrotrop) for induction experiments",
+    "usually_credited_to": "Gauss–Weber Göttingen apparatus tradition; various instrument makers in the 1830s–40s",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The material is closely tied to the Gauss–Weber galvanometric work. The damped-impulse analysis is elementary, and the recoil method is known in Weber's publications. That Gauss had the exact steady-state formulas in his notebook is a minor documentary detail. The page may well already be printed in the electrodynamics Nachlass of Gauss's Werke vol. V, which the next page cites.",
+  "checkable": [
+   {
+    "sympy": "mu,x=symbols('mu x',positive=True); k=x/(1+mu**4); a=[-mu**3*k,-mu*k,mu**3*k,mu*k]; [simplify(a[(i+1)%4]+mu**2*a[i]) for i in range(4)]",
+    "asserts": "The forcing implied by the steady sequence is [-mu*x, 0, mu*x, 0]: impulses of size mu*x at every other passage through rest, alternating in sign."
+   },
+   {
+    "sympy": "mu,e,n=symbols('mu e n'); simplify(e*(-mu**2)**(n+1) + mu**2*e*(-mu**2)**n)",
+    "asserts": "The transient e*(-mu^2)^n solves the homogeneous recurrence a_{n+1} = -mu^2 a_n (result 0)."
+   },
+   {
+    "sympy": "mu,x=symbols('mu x',positive=True); b=mu*x/(1+mu**4); c=mu**3*x/(1+mu**4); simplify(c/b), simplify(b*(1+mu**4)/mu)",
+    "asserts": "The ratio of the two steady elongations is mu**2 (giving the damping), and x is recovered as (1+mu^4)*b/mu."
+   },
+   {
+    "sympy": "X=symbols('X',positive=True); solve(diff((log(X)-Rational(7,6))/X,X),X)",
+    "asserts": "Previous page check: the maximum of (log X - 7/6)/X is at X = exp(13/6), so log(8R/rho) = 13/4."
+   },
+   {
+    "sympy": "N(Rational(13,4)/log(10)), N(exp(Rational(13,4)))",
+    "asserts": "Previous page check: Briggs log 1.41146 and 8R/rho ≈ 25.79."
+   }
+  ],
+  "transcription_corrections": [
+   "Second steady term: the sign is '−' (a blotted minus), not '+'. It should read −μ/(1+μ⁴)·x − eμμ.",
+   "Sixth steady term: the sign is '−' (blotted), not '+'. It should read −μ/(1+μ⁴)·x − eμ¹⁰. This follows from the period-4 pattern −μ³, −μ, +μ³, +μ, which the clearly legible terms 1, 3, 4, 5 force.",
+   "'Elongationsstosses' is as written by Gauss but means Inductionsstoss.",
+   "In the figure, the green circles a, b, c, d mark the four sliding wire ends: a on the top track, b and c on the middle track, d on the bottom track."
+  ]
+ }
+}

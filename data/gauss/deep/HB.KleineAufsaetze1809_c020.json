@@ -1,0 +1,74 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c020",
+ "label": "11",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000021/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a pure numerical table. It is page 11 of a continuous table that begins on earlier pages and continues on p.12. It has two blocks, argument 0.160–0.200 and 0.200–0.240, in steps of 0.001. There is no derivation on the page; what follows identifies the function from the numbers.\n\nEach row reads: A | B | ΔB | C | ΔC.\n\n(1) Column 3 is always column 1 plus column 2, i.e. C = A + B. Example: 0.160 + 0.22836 = 0.38836. Consequently each pair of tabular differences sums to 100 units of 1e-5 (41+59, 38+62, …).\n\n(2) Identifying B (my reconstruction, verified numerically):\nB(A) = log10(1 + 10^(-A)).\n- At A = 0 this gives log10 2 = 0.30103, with slope -1/2. This matches extrapolation from the tabular differences.\n- Recomputed at 8-digit precision, A = 0.170, 0.180, 0.190, 0.196, 0.210, 0.220, 0.230, 0.235, 0.236 and 0.240 give 0.22430, 0.22029, 0.21634, 0.21399 (0.2139944), 0.20860, 0.20481, 0.20108, 0.19923, 0.19887 and 0.19740 — all as written.\n\n(3) It follows that C = A + B = log10(1 + 10^A).\n\nSo this is a 5-place table of Gaussian (addition/subtraction) logarithms. If a and b are numbers with log a − log b = A (a ≥ b), then:\n- log(a + b) = log a + B = log b + C.\n- For differences, the C column is entered inversely: log(a − b) is found by locating log a − log b in the C column.\n\nThe ΔB and ΔC columns are first differences in units of the fifth decimal, for linear interpolation. B is convex and decreasing; |ΔB| falls from 41 to 36 over this range, and ΔC rises correspondingly from 59 to 64.\n\nThe page continues seamlessly from p.10 (which ends at 0.160, 0.22836, 0.38836) into p.12 (which starts at 0.240, 0.19740, 0.43740).\n\nThe structure is: argument A, then B = log(1 + 1/a), then C = A + B, each with its differences. This is exactly the layout of Gauss's published table, 'Tafel zur bequemern Berechnung des Logarithmen der Summe oder Differenz zweier Grössen, welche selbst nur durch ihre Logarithmen gegeben sind' (Monatliche Correspondenz 26, 1812). The page is evidently manuscript material for, or a fair copy of, that table.",
+  "errors": [
+   "No computational errors found. All recomputed spot values agree to the last (5th) place, and every printed difference is consistent with the adjacent tabular values. Borderline rounding cases (e.g. A=0.196, B=0.2139944) are correctly rounded."
+  ],
+  "results": [
+   {
+    "what": "5-place table of B(A)=log10(1+10^-A) and C(A)=A+B=log10(1+10^A) for A=0.160..0.240, with first differences, for computing log(a±b) from log a and log b",
+    "modern_name": "Gaussian logarithms (addition and subtraction logarithms)",
+    "usually_credited_to": "Idea due to Z. Leonelli (Supplément logarithmique, 1802/03); popularized and tabulated by Gauss, Monatliche Correspondenz 1812, hence the name 'Gaussian logarithms'",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are the well-known Gaussian logarithms, which Gauss published in 1812. The page is a working or fair-copy sheet of that table, interesting only for dating (the bundle is labelled 1809) and as evidence of the computation process. No new mathematics.",
+  "checkable": [
+   {
+    "sympy": "N(log(1+10**(-Rational(160,1000)),10),10)",
+    "asserts": "B(0.160) = 0.22836 to 5 places"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(196,1000)),10),10)",
+    "asserts": "B(0.196) ≈ 0.2139944, which rounds to 0.21399 as written"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(200,1000)),10),10)",
+    "asserts": "B(0.200) = 0.21244"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(233,1000)),10),10)",
+    "asserts": "B(0.233) = 0.19997"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(240,1000)),10),10)",
+    "asserts": "B(0.240) = 0.19740"
+   },
+   {
+    "sympy": "simplify(x + log(1+10**(-x),10) - log(1+10**x,10))",
+    "asserts": "Identity C = A + B = log10(1+10^A); should simplify to 0"
+   },
+   {
+    "sympy": "N(log(1+10**Rational(229,1000),10),10)",
+    "asserts": "C(0.229) = 0.43045"
+   },
+   {
+    "sympy": "N(log(2,10),10)",
+    "asserts": "B(0) = log10 2 = 0.30103, consistent with the extrapolated start of the table"
+   },
+   {
+    "sympy": "limit(diff(log(1+10**(-x),10),x),x,0)",
+    "asserts": "dB/dA at A=0 equals -1/2"
+   },
+   {
+    "sympy": "[round(10**5*(N(log(1+10**(-Rational(k,1000)),10))),0) for k in range(160,241)]",
+    "asserts": "Reproduces the entire B column of the page, in units of 1e-5"
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription matches the image. At A=0.183 the B entry is written over a correction in the last digits; the intended value 0.21910 is the correct value.",
+   "At A=0.192 the C entry 0.40756 has an overwritten digit (7); the value 0.40756 is correct (0.192+0.21556).",
+   "At A=0.193–0.195 the third digit of the C column (0.408.., 0.409..) appears retouched; the values 0.40816, 0.40877, 0.40938 are correct.",
+   "At A=0.233 the B entry 0.19997 has an overwritten digit; 0.19997 is correct.",
+   "At A=0.202 the B entry 0.21167 shows a correction in its fourth digit (written 0,21(1)67); 0.21167 is correct.",
+   "The first-column value at A=0.203 has a blotted initial '0'."
+  ]
+ }
+}

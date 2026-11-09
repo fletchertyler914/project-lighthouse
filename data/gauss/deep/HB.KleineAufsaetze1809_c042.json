@@ -1,0 +1,74 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c042",
+ "label": "33",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000043/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a pure numerical table: two blocks of 41 rows each, A = 1.920(0.001)1.960 and A = 1.960(0.001)2.000. Each row has five columns: argument A; quantity B; first difference of B (in units of 1e-5); quantity C; first difference of C (in units of 1e-5).\n\nIdentification (mine, verified numerically): this is a table of Gaussian addition logarithms.\n- B(A) = log10(1 + 10^(-A)), i.e. if A = log10 x then B = log10(1 + 1/x).\n- C = A + B = log10(1 + 10^A) = log10(1 + x).\n- The difference column of B gives B(A) - B(A+0.001), which is 1 or 2.\n- The difference column of C gives C(A+0.001) - C(A) = 100 - (difference of B), hence 99 or 98.\n\nSpot checks:\n- A = 2.000: 10^-2 = 0.01, log10(1.01) = 0.0043214, giving B = 0.00432 and C = 2.00432.\n- A = 1.920: 10^-1.92 = 0.0120226, log10(1.0120226) = 0.0051902, giving 0.00519.\n- A = 1.923: B = 0.0051547, giving 0.00515.\n- A = 1.935: B = 0.0050150 (a borderline rounding case, correctly rounded up to 0.00502).\n- A = 1.936: B = 0.0050035, giving 0.00500.\n- A = 1.953: B = 0.0048126, giving 0.00481.\n- A = 1.985: B = 0.0044725, giving 0.00447 and C = 1.98947.\n\nContext:\n- The previous page continues the same table for A = 1.840–1.920 at step 0.001.\n- The next page switches to step 0.01 for A = 2.00–2.80, where B falls from 0.00432 to 0.00069 (log10(1 + 10^-2.8) = 0.000688).\n\nPurpose: B and C let one obtain log(a ± b) from log a and log b without leaving the logarithmic domain:\n- log(a + b) = log a + B(log a - log b);\n- log(a + b) = log b + C(log a - log b).\nThis is the structure of Gauss's 1812 table (A, B, C columns) published in Zach's Monatliche Correspondenz. The page is evidently part of its manuscript computation or fair copy.\n\nThe visible ink corrections confirm careful checking. Rows 1.923–1.925 in B and C show last digits rewritten (5, 4, 3), and a difference entry was overwritten to 99. The entries 0.00481 (A = 1.953) and 1.98947 (A = 1.985) also have overwritten last digits. All corrected values agree with the true 5-decimal values.",
+  "errors": [
+   "No errors found: every entry I checked is correctly rounded to 5 decimals. This includes borderline cases such as A = 1.935 (B = 0.0050150, entered as 0.00502).",
+   "The difference columns are consistent throughout. Each B-difference equals the change in the tabulated B, and each C-difference equals 100 minus the B-difference.",
+   "Visible overwrites (A = 1.923–1.925, 1.953, 1.985) appear to be corrections to the correct values, not residual errors."
+  ],
+  "results": [
+   {
+    "what": "Table of B(A) = log10(1 + 10^-A) and C(A) = A + B(A) = log10(1 + 10^A) for A = 1.920..2.000, step 0.001, with first differences.",
+    "modern_name": "Gaussian (addition/subtraction) logarithms; in modern terms the function log(1 + 10^x) used in logarithmic number systems (LNS arithmetic).",
+    "usually_credited_to": "Idea due to Z. Leonelli (Supplément logarithmique, 1802/03); the table was published and popularized by Gauss in Monatliche Correspondenz 26 (1812), hence the name 'Gaussian logarithms'.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript sheet of Gauss's well-known 1812 table of addition logarithms (columns A, B, C). Its existence and authorship are standard; only the working details (corrections, layout) are new, and they are of archival rather than mathematical interest.",
+  "checkable": [
+   {
+    "sympy": "round(float(log(1+10**(-2.0),10)),5) == 0.00432",
+    "asserts": "B(2.000) = 0.00432"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-1.92),10)),5) == 0.00519",
+    "asserts": "B(1.920) = 0.00519"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-1.923),10)),5) == 0.00515",
+    "asserts": "Corrected entry B(1.923) = 0.00515"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-1.925),10)),5) == 0.00513",
+    "asserts": "Corrected entry B(1.925) = 0.00513"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-1.935),10)),5) == 0.00502",
+    "asserts": "Borderline rounding at A = 1.935 is correct (true value 0.0050150)"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-1.936),10)),5) == 0.00500",
+    "asserts": "B(1.936) = 0.00500, giving difference 2"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-1.953),10)),5) == 0.00481",
+    "asserts": "Corrected entry B(1.953) = 0.00481"
+   },
+   {
+    "sympy": "round(float(log(1+10**(1.985),10)),5) == 1.98947",
+    "asserts": "C(1.985) = log10(1 + 10^1.985) = 1.98947"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-1.96),10)),5) == 0.00474",
+    "asserts": "B(1.960) = 0.00474, which links the two blocks"
+   },
+   {
+    "sympy": "simplify(log(1+10**A,10) - (A + log(1+10**(-A),10)))",
+    "asserts": "C = A + B identically (expression should simplify to 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Rows 1.923, 1.924, 1.925: the [?] digits are overwritten corrections and read clearly as 0.00515, 0.00514, 0.00513 and 1.92815, 1.92914 (1.93013 unchanged); these are correct values.",
+   "Row 1.923: the C-difference is overwritten (98 corrected to 99); 99 is correct, since B changes 0.00515 to 0.00514.",
+   "Row 1.953: 0.00481 is confirmed (last digit overwritten); row 1.985: C = 1.98947 is confirmed (last digit overwritten).",
+   "Row 1.960 of the first block: B reads 0.00474 (blot over the first zero)."
+  ]
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "bundle": "R.Ellipsoid",
+ "page": "c132",
+ "label": "62r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205083:00000133/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of §1 of Riemann's paper 'Ein Beitrag zu den Untersuchungen über die Bewegung eines gleichartigen flüssigen Ellipsoides' (Abh. Ges. Wiss. Göttingen 9, 1861). Following Dirichlet, each fluid particle moves linearly: x = F·X0, with X0 = (x0/a0, y0/b0, z0/c0)^T and F = [[l,m,n],[l',m',n'],[l'',m'',n'']] (eq. 1, previous page). The body coordinates are ξ = A·x, where A = [[α,β,γ],[α',β',γ'],[α'',β'',γ'']] is orthogonal (eq. 2). D = diag(a,b,c) holds the current semi-axes.\n\nStep 1 (eq. 3). The surface always consists of the same particles. This gives (ξ/a)^2+(η/b)^2+(ζ/c)^2 = |X0|^2. Riemann writes this as an identity in X0; for a linear map, sending the surface onto the surface gives equality of the two quadratic forms by homogeneity. Define B = D^{-1}·A·F, i.e. (ξ/a, η/b, ζ/c)^T = B·X0, with entries α1, β1, γ1, α1', ... . Then |B·X0| = |X0| for all X0, so B is orthogonal. Riemann concludes that B consists of the direction cosines of a second moving frame relative to the fixed axes. [Mine: det B = +1 follows from det F > 0, i.e. incompressibility abc = a0b0c0 and continuity from B = I at t = 0.]\n\nStep 2 (eq. 4). Invert: x = A^T·ξ = A^T·D·B·X0, so F = A^T·D·B. Entrywise, F_ij = Σ_k A_ki·d_k·B_kj. For example:\n- l = aαα1 + bα'α1' + cα''α1''\n- m'' = aγβ1 + bγ'β1' + cγ''β1''\n- and similarly for all nine entries.\n\nIn modern terms this is the singular value decomposition (equivalently the polar decomposition) of the Dirichlet deformation matrix F. The singular values are the semi-axes a, b, c, and the two rotations are the 'two moving coordinate systems'.\n\nStep 3. The configuration is therefore described by (a, b, c, A, B). Interchanging the two frames, A ↔ B, gives B^T·D·A = F^T. So the 3x3 array of l's is transposed: the diagonal entries l, m', n'' are unchanged, and m↔l', n↔l'', n'↔m'' are swapped. This observation underlies Dedekind's reciprocity theorem (adjoint ellipsoids).\n\nStep 4. Announced program: derive from Dirichlet's equations of motion (his §1, eq. 1) the ODEs for a, b, c and for the angular motion of the two frames. The next page begins this by projecting the equations onto the ξ-axes.",
+  "errors": [
+   "In the formula for m'' the factor c is omitted in the manuscript: it reads aγβ1 + bγ'β1' + γ''β1''. The correct form is aγβ1 + bγ'β1' + cγ''β1''. This is a clerical slip; the general pattern F = A^T D B makes the correction certain.",
+   "Orthogonality of B is asserted without spelling out two points: that the surface condition is an identity of quadratic forms (true by linearity and homogeneity), and that det B = +1 (needs continuity or incompressibility). These are minor omissions, not errors.",
+   "Riemann calls the second frame 'ein bewegliches Coordinatensystem der ξ, η, ζ'. This is loose wording: the second frame is not the ξ, η, ζ (principal-axis) frame. Its axes are the rows of B."
+  ],
+  "results": [
+   {
+    "what": "Decomposition of the Dirichlet linear deformation matrix as F = A^T diag(a,b,c) B, with A and B orthogonal (two rotating frames, semi-axes as singular values)",
+    "modern_name": "Singular value decomposition / polar decomposition of the deformation gradient (Riemann's parametrization of Dirichlet-Dedekind-Riemann ellipsoids)",
+    "usually_credited_to": "Riemann 1861 for this use in the ellipsoid problem. The SVD in general is credited to Beltrami 1873 and Jordan 1874 (bilinear forms).",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Interchange of the two frames transposes F (diagonal fixed, off-diagonal entries swapped)",
+    "modern_name": "Dedekind's reciprocity (adjoint ellipsoid) theorem, basis for Riemann-type ellipsoid pairs",
+    "usually_credited_to": "Dedekind 1860 (Crelle 58), used and noted by Riemann 1861",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "B = D^{-1} A F is orthogonal because particles on the surface stay on the surface",
+    "modern_name": "Elementary linear algebra (isometry of quadratic forms)",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is a fair-copy draft of material published by Riemann in 1861. The SVD-type parametrization and the transposition remark are well known to be in his ellipsoid paper. Only the minor slip in m'' is a manuscript detail.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; t1,t2,t3,s1,s2,s3,a,b,c=symbols('t1 t2 t3 s1 s2 s3 a b c'); A=rot_axis3(t1)*rot_axis1(t2)*rot_axis3(t3); B=rot_axis3(s1)*rot_axis1(s2)*rot_axis3(s3); D=diag(a,b,c); F=A.T*D*B; simplify(F[0,0]-(a*A[0,0]*B[0,0]+b*A[1,0]*B[1,0]+c*A[2,0]*B[2,0]))==0",
+    "asserts": "l = aαα1 + bα'α1' + cα''α1'' when F = A^T D B (A rows = (α,β,γ),...; B rows = (α1,β1,γ1),...)."
+   },
+   {
+    "sympy": "simplify(F[2,1]-(a*A[0,2]*B[0,1]+b*A[1,2]*B[1,1]+c*A[2,2]*B[2,1]))==0",
+    "asserts": "m'' = aγβ1 + bγ'β1' + cγ''β1''. The factor c is required, so the manuscript omits it by a slip."
+   },
+   {
+    "sympy": "X=Matrix(symbols('X1 X2 X3')); simplify(((D.inv()*A*F*X).T*(D.inv()*A*F*X))[0]-(X.T*X)[0])==0",
+    "asserts": "With ξ = A F X0, the surface condition ξ²/a²+η²/b²+ζ²/c² = |X0|² holds identically, i.e. B = D^{-1} A F is orthogonal."
+   },
+   {
+    "sympy": "simplify(B.T*D*A - F.T)==zeros(3)",
+    "asserts": "Interchanging the two frames (A↔B) transposes the matrix of l, m, n, ...: diagonal unchanged, m↔l', n↔l'', n'↔m''."
+   },
+   {
+    "sympy": "simplify(F.det()-a*b*c)==0",
+    "asserts": "det F = abc for proper rotations A and B, consistent with incompressibility abc = a0b0c0."
+   }
+  ],
+  "transcription_corrections": [
+   "In m'' the manuscript reads '+ γ''β1''' without the factor c, as the machine transcription has it. This is faithful to the image; the error is Riemann's slip, not the transcriber's.",
+   "In the struck-out passage near 'Wir können ... und [wir] können zugleich', the deletion reads 'wir können' with 'zugleich' inserted above. The transcription essentially agrees.",
+   "'eines beweglichen Coordinatensystems der ξ, η, ζ' is read correctly, but the referent is the second moving frame (rows of B)."
+  ]
+ }
+}

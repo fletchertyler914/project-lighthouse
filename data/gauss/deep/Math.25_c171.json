@@ -1,0 +1,67 @@
+{
+ "bundle": "Math.25",
+ "page": "c171",
+ "label": "85r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000172/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context and title. The heading reads 'Hundert Theoreme über die neuen Transscendenten' (A hundred theorems on the new transcendents). The 'new transcendents' are Gauss's theta-type functions and products. This page lays the algebraic foundation, the finite q-binomial (Gaussian-polynomial) product formula, from which the next page (via a = x^2 and t = y/x^{n-1}) begins to build theta-series/product identities.\n\nStep 1, definition. With n, a, t left indeterminate, Gauss sets\nT = Σ_{k≥0} c_k(n) t^k,\nc_k(n) = Π_{j=0}^{k-1} (a^n − a^j) / Π_{j=1}^{k} (a^j − 1).\n\nModern form [my rewriting]. Since a^n − a^j = a^j (a^{n−j} − 1), we get c_k(n) = a^{k(k−1)/2} · [n choose k]_a, a Gaussian binomial coefficient times a power of a.\n\nStep 2, remarks on termination and polynomiality.\n- If n is a nonnegative integer, the factor a^n − a^n kills every coefficient with k > n. So the series terminates with n+1 terms. Gauss corrected his first 'n Gliedern' to n+1, and 'positive' to 'nicht negative'.\n- Citing his own memoir 'Summatio quarundam serierum singularium' (1808/1811), he notes that all coefficients are then polynomials ('ganze rationale Functionen') in a.\n- For fractional or negative n neither property holds.\n\nStep 3, the functional equation. Multiplying T by (1 + a^n t) gives the same series with n replaced by n+1. Gauss writes T = Θn and states\nΘ(n+1) = (1 + a^n t) Θn.\n\nImplicit check [mine]. Coefficientwise this requires c_k(n+1) = c_k(n) + a^n c_{k−1}(n). This is the q-Pascal rule [n+1,k] = [n,k] + a^{n−k+1}[n,k−1], multiplied by a^{k(k−1)/2}, using C(k,2) − k + 1 = C(k−1,2). It holds identically with a^n treated as a free symbol, so it is valid for indeterminate n.\n\nStep 4, Theorem 1. For n a positive integer:\n1 + (a^n−1)/(a−1) t + (a^n−1)(a^n−a)/((a−1)(a^2−1)) t^2 + … = (1+t)(1+at)(1+a^2 t)…(1+a^{n−1} t).\n\nImplicit step [mine]. Θ0 = 1, because every coefficient with k ≥ 1 contains the factor a^0 − 1 = 0. Induction on the recurrence then gives Θn = Π_{j=0}^{n−1} (1 + a^j t).\n\nIn modern terms this is the finite q-binomial theorem\nΠ_{j=0}^{n−1} (1 + q^j t) = Σ_k q^{C(k,2)} [n,k]_q t^k.",
+  "errors": [
+   "No mathematical errors. Gauss's own corrections are right: there are n+1 terms (not n), and the termination and polynomiality claims hold for nonnegative (not just positive) integers n.",
+   "The theorem is stated for 'ganze positive Zahl'; it also holds trivially for n = 0 (empty product = 1).",
+   "Θ0 = 1 and the induction are left implicit but are immediate."
+  ],
+  "results": [
+   {
+    "what": "Functional equation Θ(n+1) = (1 + a^n t) Θ(n) for the series Σ a^{C(k,2)} [n,k]_a t^k, with n indeterminate.",
+    "modern_name": "q-Pascal recurrence / q-difference equation for the q-binomial series",
+    "usually_credited_to": "Gauss (Summatio, 1808/11); q-Pascal rules are standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Theorem 1: Σ_{k=0}^{n} a^{C(k,2)} [n,k]_a t^k = Π_{j=0}^{n−1} (1 + a^j t).",
+    "modern_name": "Finite q-binomial theorem (Cauchy binomial theorem, Rothe's formula)",
+    "usually_credited_to": "H. A. Rothe (1811), Gauss (Summatio 1808/11, implicitly), Cauchy (1843)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Gaussian binomial coefficients are polynomials in a for nonnegative integer n.",
+    "modern_name": "Polynomiality of Gaussian polynomials",
+    "usually_credited_to": "Gauss (Summatio quarundam serierum singularium, 1808/11)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the opening of Gauss's Nachlass piece 'Hundert Theoreme über die neuen Transscendenten', which I believe is printed in Werke III. The content is the finite q-binomial theorem, built on his own published Summatio memoir, which he cites. It is well known as part of Gauss's work on q-series and theta functions.",
+  "checkable": [
+   {
+    "sympy": "simplify(1 + (a**3-1)/(a-1)*t + (a**3-1)*(a**3-a)/((a-1)*(a**2-1))*t**2 + (a**3-1)*(a**3-a)*(a**3-a**2)/((a-1)*(a**2-1)*(a**3-1))*t**3 - (1+t)*(1+a*t)*(1+a**2*t)) == 0",
+    "asserts": "Theorem 1 for n = 3"
+   },
+   {
+    "sympy": "simplify(sum(prod([(a**4-a**j) for j in range(k)])/prod([(a**(j+1)-1) for j in range(k)])*t**k for k in range(5)) - (1+t)*(1+a*t)*(1+a**2*t)*(1+a**3*t)) == 0",
+    "asserts": "Theorem 1 for n = 4"
+   },
+   {
+    "sympy": "simplify((a*A-1)*(a*A-a)/((a-1)*(a**2-1)) - (A-1)*(A-a)/((a-1)*(a**2-1)) - A*(A-1)/(a-1)) == 0",
+    "asserts": "Coefficient of t^2 in Θ(n+1) = (1 + a^n t) Θ(n), with A = a^n a free symbol (so valid for indeterminate n)"
+   },
+   {
+    "sympy": "simplify((a*A-1)*(a*A-a)*(a*A-a**2)/((a-1)*(a**2-1)*(a**3-1)) - (A-1)*(A-a)*(A-a**2)/((a-1)*(a**2-1)*(a**3-1)) - A*(A-1)*(A-a)/((a-1)*(a**2-1))) == 0",
+    "asserts": "Coefficient of t^3 in the functional equation, with A = a^n"
+   },
+   {
+    "sympy": "simplify(prod([(a**5-a**j) for j in range(3)])/prod([(a**(j+1)-1) for j in range(3)]) - a**3*((a**5-1)*(a**4-1)*(a**3-1))/((a-1)*(a**2-1)*(a**3-1))) == 0",
+    "asserts": "c_k(n) = a^{C(k,2)} [n choose k]_a, checked for n = 5, k = 3"
+   }
+  ],
+  "transcription_corrections": [
+   "The reading 'ganze rationale Functionen von a' fits the image and the mathematics (Gaussian polynomials); the [?] marks can likely be dropped.",
+   "The struck '+' before Θ(n+1) is only a cancelled marginal mark, not part of the formula.",
+   "Gauss inserted '+1' above 'n' (giving 'n+1 Gliedern') and wrote 'nicht negative' over the struck 'positive'; the transcription records both correctly."
+  ]
+ }
+}

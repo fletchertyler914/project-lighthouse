@@ -1,0 +1,69 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c180",
+ "label": "175",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000181/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Gauss's 1832 absolute determination of horizontal magnetic intensity (the 'Intensitas vis magneticae' method). The oscillation period of a needle is measured with two equal weights placed at varying distances r from the axis. This changes the moment of inertia by a known amount, which separates the unknown moment of inertia from m·T.\n\n1. Physical law (heading 'Statisches Moment der magnetischen Kraft'). Gauss writes M + ½ p r² = (ℑm · t² · l)/π². Here M is the needle's own moment of inertia, ½ p r² is the contribution of the weights (p = 103.166 for 'Nadel 1'), t is the period, and ℑm is the product of magnetic moment and terrestrial intensity. The exact meaning of l and of the factor ½ depends on how r is defined; that part is my interpretation. Dividing through gives the linear model A + r² = B t², with A = 2M/p and B proportional to ℑm.\n\n2. Data: r = 60, 160, 260, 360; observed t = 18.1513, 20.2894, 23.8418, 28.2590.\n\n3. Trial values A = 84919 and B = 268.559. For each r he computes the predicted period t = sqrt((A + r²)/B) with logarithms:\n   - first log column: log10(A + r²) = 4.9470365, 5.0434370, 5.1833239, 5.3314658;\n   - log B = 2.4290397;\n   - difference = log t² = 2.5179968, ...;\n   - half = log t = 1.2589984, 1.3071986, 1.3771421, 1.4512135.\n   This gives computed t = 18.1551, 20.2861, 23.8310, 28.2627.\n   The number 7.2699303 at the top is the log-complement of 1/(2B): 10 − log(537.118). It is used for the coefficients below.\n\n4. Linearisation. From t = sqrt((A + r²)/B): dt = dA/(2Bt) − (t/(2B)) dB.\n   - Coefficients of dA, 1/(2Bt): 0.0001025, 0.0000918, 0.0000781, 0.0000659.\n   - Coefficients of dB, −t/(2B): −0.03380, −0.03777, −0.04437, −0.05262.\n   - Residuals (computed − observed): +0.0038, −0.0033, −0.0108, +0.0037.\n\n5. Least-squares normal equations, scaled by 10⁸. Gauss writes:\n   - Σan + Σa² dA + Σab dB: −47.309 + 2.94 dA − 1382 dB = 0;\n   - Σbn + Σab dA + Σb² dB: +28070.3 − 1382 dA + 727971 dB = 0.\n\n6. Solutions.\n   - A first solution, dB = −0.075 and dA = −19, is crossed out. It is exactly what his written normal equations give.\n   - It is replaced by dB = −0.044 and dA = −3, i.e. A ≈ 84916 and B ≈ 268.515.\n\n7. Remaining errors after correction: +0.0050, −0.0019, −0.0090, +0.0058. I recomputed these from n_i + a_i(−3) + b_i(−0.044) and they match. The sum of squares is about 1.45e-4.",
+  "errors": [
+   "Normal-equation coefficients are slightly off. Exact sums (×10⁸) are Σab = −1386.5 (written −1382), Σb² = 730657 (written 727971) and Σan = −51.3 (written −47.309). Σbn = 28063 is essentially correct (written 28070.3).",
+   "Because the system is ill-conditioned (each a_i·b_i equals the same constant −1/(4B²)), these slips produced the first solution dA = −19, dB = −0.075, which Gauss crossed out.",
+   "The corrected values dA = −3, dB = −0.044 are not the exact least-squares optimum, which is about dA = −6.3, dB = −0.050. However, the residual sum of squares is practically identical (≈1.448e-4 for both), so the slip is immaterial."
+  ],
+  "results": [
+   {
+    "what": "Determination of moment of inertia and m·T from oscillation periods with weights at varying distances, via the linear model A + r² = B t²",
+    "modern_name": "Gauss's absolute method of measuring magnetic intensity (oscillation part, moment-of-inertia elimination)",
+    "usually_credited_to": "Gauss, Intensitas vis magneticae terrestris ad mensuram absolutam revocata (1832)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Linearisation dt = dA/(2Bt) − t dB/(2B) and least-squares adjustment of A, B via normal equations",
+    "modern_name": "Gauss–Newton step / linearised least squares",
+    "usually_credited_to": "Gauss (1809/1821–23)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working sheet for Gauss's published 1832 absolute-intensity experiments, applying his own least-squares method. It is a routine computation; its interest is only in documenting the actual numbers and a corrected arithmetic slip.",
+  "checkable": [
+   {
+    "sympy": "N(log(84919+3600,10)-log(268.559,10),10)",
+    "asserts": "≈ 2.5179968 = log t² for r = 60"
+   },
+   {
+    "sympy": "N(sqrt((84919+r**2)/268.559)).subs(r,60)",
+    "asserts": "computed t ≈ 18.1551 (likewise 20.2861, 23.8310, 28.2627 for r = 160, 260, 360)"
+   },
+   {
+    "sympy": "N(10-log(2*268.559,10),10)",
+    "asserts": "≈ 7.2699303, the log-complement of 1/(2B)"
+   },
+   {
+    "sympy": "N(1/(2*268.559*18.1551)), N(-18.1551/(2*268.559))",
+    "asserts": "dA coefficient ≈ 0.0001025 and dB coefficient ≈ −0.03380"
+   },
+   {
+    "sympy": "N(-1/(4*268.559**2)*4*1e8)",
+    "asserts": "Σab×10⁸ ≈ −1386.5 (Gauss wrote −1382)"
+   },
+   {
+    "sympy": "solve([2.94*x-1382*y-47.309, -1382*x+727971*y+28070.3],[x,y])",
+    "asserts": "Gauss's written normal equations give x ≈ −19, y ≈ −0.075 (the crossed-out values)"
+   },
+   {
+    "sympy": "[n+a*(-3)+b*(-0.044) for n,a,b in [(0.0038,1.0255e-4,-0.03380),(-0.0033,9.178e-5,-0.03777),(-0.0108,7.8125e-5,-0.04437),(0.0037,6.5875e-5,-0.05262)]]",
+    "asserts": "≈ [0.0050, −0.0019, −0.0091, 0.0058], the listed errors"
+   }
+  ],
+  "transcription_corrections": [
+   "Second residual should read −0,0033: computed 20.2861 minus observed 20.2894. The listed final error −0,0019 confirms the minus sign.",
+   "'18''1551' is the computed period 18.1551.",
+   "First solution dB = −0,075 and dA = −19 is crossed out and replaced by dB = −0,044 and dA = −3.",
+   "7.2699303 is the logarithm (complement) of 1/(2B), not part of the A column."
+  ]
+ }
+}

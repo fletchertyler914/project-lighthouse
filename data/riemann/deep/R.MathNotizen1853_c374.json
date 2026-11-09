@@ -1,0 +1,54 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c374",
+ "label": "192r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000375/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a heavily corrected draft of a verbal explanation of the bifilar magnetometer (Gauss's 'Bifilarapparat', 1837). It belongs to the Göttingen Gauss–Weber magnetic-observatory context, where Riemann worked as Weber's assistant around 1853–54. The page contains no explicit formulas. The argument in prose, with my modern rendering:\n\n(1) Aim. The instrument measures the variations of the torque that terrestrial magnetism exerts on a magnetized needle. It is not meant for an absolute measurement of intensity. Riemann first wrote 'Um die Intensität ... zu messen' and struck it out in favour of 'Um die Variationen des Drehungsmoments ... zu messen'.\n\n(2) Setup. The needle hangs from two wires (the 'Aufhängungsdraht' pair). The suspension supplies a static 'Directionskraft' that turns the needle out of the magnetic meridian. The needle comes to rest where the two directive torques balance.\n\nModern form (mine). Let ψ be the angle of the needle from the magnetic meridian. Let v be the twist of the bifilar suspension. With wire separations a (top) and b (bottom), wire length h and suspended weight P, the restoring torque is approximately S sin v, where S = P·a·b/(4h). This matches the marginal sketch: a rectangle labelled h with the separations at top and bottom. The magnetic torque is M·H·sin ψ, where M is the needle's moment and H the horizontal intensity. Equilibrium: M H sin ψ = S sin v.\n\n(3) Reading variations. If the magnetic torque changes while the static (gravitational) torque stays the same, the rest position changes. So from observed changes of the needle's position one can determine changes of the magnetic torque.\n\nModern form (mine). Take logarithms: ln(MH) = ln S + ln sin v − ln sin ψ. If the torsion head is fixed, then dv = −dψ. Hence d(MH)/(MH) = −(cot v + cot ψ) dψ. Gauss's standard arrangement puts the needle perpendicular to the meridian (ψ = 90°). Then d(MH)/(MH) = −cot v · dψ, with the sign depending on how the angle is measured.\n\n(4) Separating H from M. The torque is the product of the intensity of terrestrial magnetism and the strength of the needle's magnetism ('es ist das Product beider'). So variations of terrestrial magnetism follow if the needle's magnetism is constant, or its variation is known. In modern terms: d ln(MH) = d ln H + d ln M. The struck-out lines show Riemann wrestling with exactly this condition.\n\n(5) The page breaks off. The last line, 'Um eine [Formel?] der Variationen im Ruhestande', apparently begins the quantitative treatment. The marginal angle sketches (X–Y, Q, two crossing lines) seem to illustrate the angles between the meridian, the needle and the suspension plane.",
+  "errors": [
+   "No mathematical errors: the page contains only qualitative statements, and these are physically correct.",
+   "The draft is incomplete. The quantitative formula for the variations ('im Ruhestande') is announced but not given on this page.",
+   "The bifilar torque formula S = P a b/(4h) is only implicit (my reconstruction from the sketch). It is a small-angle / long-wire approximation of the exact expression."
+  ],
+  "results": [
+   {
+    "what": "Principle of the bifilar magnetometer: the static bifilar torque balances the magnetic torque, and changes in the needle's rest position measure relative variations of M·H (horizontal intensity times needle moment).",
+    "modern_name": "Bifilar magnetometer (variometer for horizontal intensity)",
+    "usually_credited_to": "C. F. Gauss (1837, Resultate aus den Beobachtungen des magnetischen Vereins), with W. Weber",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The observed torque is the product of the Earth's intensity and the needle's magnetic moment, so variations of H can be separated only if M is constant or its variation is known (temperature and induction corrections).",
+    "modern_name": "Relative variometer calibration / correction for the magnet's moment",
+    "usually_credited_to": "Gauss, Weber, Lamont (1830s–40s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is an expository, textbook-level description of Gauss's well-known bifilar magnetometer. It fits Riemann's documented work in Weber's physics laboratory around 1853–54. It is of mild biographical interest but contains no new mathematics or physics.",
+  "checkable": [
+   {
+    "sympy": "psi,v,S=symbols('psi v S',positive=True); MH=S*sin(v)/sin(psi); simplify(diff(log(MH),psi) - diff(log(MH),v) + cot(v) + cot(psi))",
+    "asserts": "With dv = -dpsi (fixed torsion head), d ln(MH)/dpsi = -(cot v + cot psi); the expression should simplify to 0."
+   },
+   {
+    "sympy": "v=symbols('v'); simplify((-cot(v)-cot(pi/2)) + cot(v))",
+    "asserts": "At psi = 90 degrees (needle perpendicular to the meridian), d ln(MH)/dpsi reduces to -cot(v); the expression should give 0."
+   },
+   {
+    "sympy": "P,a,b,h,v=symbols('P a b h v',positive=True); series(P*a*b*sin(v)/(4*sqrt(h**2-(a**2+b**2-2*a*b*cos(v))/4+(a-b)**2/4)),h,oo,2)",
+    "asserts": "The bifilar restoring torque tends to P*a*b*sin(v)/(4h) for long wires; this tests the approximation used in the reconstruction."
+   }
+  ],
+  "transcription_corrections": [
+   "The folio number at upper right reads '192' (matching the folio), not '142'.",
+   "Right-hand insertion, probably: '...also sich ändern, wenn das erdmagnetische Drehungsmoment sich ändert, während das statische unverändert bleibt'.",
+   "Line beginning 'Aus den Variationen': '+ d. Nadel' is probably 'Stellung d. Nadel' (or an abbreviation), with 'der' a correction of 'des Standes'.",
+   "Right-hand insertion near 'Das Drehungsmoment hängt ...': likely 'theils von der Intensität des Erdmagnetismus und theils von der Stärke des Nadelmagnetismus ab'.",
+   "Last line: '+' is probably an abbreviation, e.g. 'Formel' or 'Bestimmung'; 'Ruhezustande' should read 'Ruhestande'."
+  ]
+ }
+}

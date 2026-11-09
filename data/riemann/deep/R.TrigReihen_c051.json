@@ -1,0 +1,61 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c051",
+ "label": "24v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000052/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is §12 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published posthumously by Dedekind in 1867). Here Riemann refines Dirichlet's theory for functions with finitely many maxima and minima that become infinite at finitely many points.\n\n(a) Opening (continuing from the previous page). Dirichlet's proof works for such functions, except at points where f is infinite, once the unnecessary assumption of continuity is dropped. What remains is to decide when the contribution of the neighbourhood of a singular point a to the coefficient integrals (and to the partial-sum integrals) tends to 0 as n -> infinity. Dirichlet showed this only incidentally, under the assumption that f is (absolutely) integrable, and that assumption is not necessary.\n\n(b) Necessary condition from the series. Ω = A0 + A1 + A2 + ..., with A_n = a_n cos nx + b_n sin nx. F(x) = C + C'x + A0 x^2/2 - Σ A_n/n^2 is the function whose 'second derivative' is f. By the earlier Theorems 1 and 2, if A_n -> 0 for every x, then F is finite and continuous and (F(x+α) - 2F(x) + F(x-α))/α -> 0 as α -> 0.\n\nRiemann then writes g(t) = F'(x+t) - F'(x-t). If g has finitely many maxima and minima, it is eventually monotone near t = 0. So g(t) -> L, where L is finite or ±infinity. The step marked mine: ∫_0^α F'(x+t) dt = F(x+α) - F(x) and ∫_0^α F'(x-t) dt = F(x) - F(x-α), so\n(1/α) ∫_0^α g(t) dt = (F(x+α) - 2F(x) + F(x-α))/α.\nAn average of a function tending to L also tends to L. The left side must tend to 0, so L = 0, i.e. F'(x+t) - F'(x-t) -> 0.\n\n(c) Consequence at a singular point a. d/dt[F'(a+t) - F'(a-t)] = f(a+t) + f(a-t). The difference has a limit as t -> 0, so f(a+t) + f(a-t) is (improperly) integrable down to t = 0. This suffices for the cosine part. Near a,\n∫ f(x) cos n(x-a) dx = ∫_0^ε (f(a+t) + f(a-t)) cos(nt) dt.\nThis converges as the excision shrinks, and it tends to 0 as n -> infinity by the Riemann–Lebesgue argument (the integrand is integrable and of one sign near 0).\n\n(d) Sine part. F is finite and continuous, so F' is improperly integrable up to a. F' is eventually monotone, and a monotone integrable function satisfies (x-a)F'(x) -> 0; the justification of this step is mine. Then\nd/dx[(x-a)F'(x)] = (x-a) f(x) + F'(x),\nwhich shows (x-a) f(x) is integrable up to a. Writing f(x) sin n(x-a) = [(x-a) f(x)] · sin n(x-a)/(x-a), with the second factor bounded, gives that ∫ f(x) sin n(x-a) dx can be integrated up to x = a.\n\nThe next page completes the argument. Using Dirichlet's integral with φ = (x-a) f, it obtains the necessary and sufficient condition: t·f(a±t) -> 0 and f(a+t) + f(a-t) integrable at 0.",
+  "errors": [
+   "The bracket of excised integrals is transcribed as (∫_b^{a+ε} + ∫_{a-ε}^c). The published text has (∫_b^{a-ε} + ∫_{a+ε}^c). If the manuscript really reads a+ε / a-ε, it is a slip of the pen; the intended excision of (a-ε, a+ε) is clear.",
+   "The step 'F' integrable and without infinitely many extrema implies (x-a)F'(x) -> 0' is stated without proof. It is true: F' is eventually monotone, and for monotone integrable h, (x-a)h(x) -> 0.",
+   "The claim that convergence of ∫ (f(a+t) + f(a-t)) cos nt dt to 0 follows from integrability of f(a+t) + f(a-t) is the Riemann–Lebesgue lemma for improper integrals. It is valid here because the integrand is eventually of one sign (finitely many extrema), so the improper integral is absolute. This is not stated explicitly.",
+   "The text uses /α where the published Theorem 2 has /(2α); the factor is immaterial."
+  ],
+  "results": [
+   {
+    "what": "If the series terms tend to 0 and F'(x+t) - F'(x-t) is eventually monotone, then F'(x+t) - F'(x-t) -> 0, obtained by averaging the second symmetric difference",
+    "modern_name": "Riemann's second-derivative (Schwarz/Riemann smoothness) argument; Riemann theory of trigonometric series",
+    "usually_credited_to": "Riemann, Habilitationsschrift 1854 (publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Condition at a singularity: f(a+t) + f(a-t) improperly integrable at 0 and (x-a) f(x) integrable, so the cosine and sine coefficient contributions vanish",
+    "modern_name": "Riemann's treatment of improperly integrable singularities, beyond Dirichlet's conditions; Riemann–Lebesgue lemma",
+    "usually_credited_to": "Riemann 1854",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the manuscript of §12 of Riemann's famous Habilitationsschrift, published by Dedekind in 1867 and well known as his. The content matches the published text.",
+  "checkable": [
+   {
+    "sympy": "F=Function('F'); x,a,t=symbols('x a t'); simplify(integrate(diff(F(x+t),x)-diff(F(x-t),x),(t,0,a)).doit())",
+    "asserts": "∫_0^α (F'(x+t) - F'(x-t)) dt = F(x+α) - 2F(x) + F(x-α); test with a concrete F, e.g. F = sin, exp, or x**3"
+   },
+   {
+    "sympy": "x,a=symbols('x a'); simplify(integrate(sin(x+t)-sin(x-t),(t,0,a)) - (-cos(x+a)+2*cos(x)-cos(x-a)))",
+    "asserts": "Concrete instance of the averaging identity with F' = sin, F = -cos; should give 0"
+   },
+   {
+    "sympy": "x,a=symbols('x a'); G=Function('G'); simplify(diff((x-a)*diff(G(x),x),x) - ((x-a)*diff(G(x),x,2)+diff(G(x),x)))",
+    "asserts": "d/dx[(x-a)F'(x)] = (x-a)F''(x) + F'(x); should give 0"
+   },
+   {
+    "sympy": "n=symbols('n',positive=True); limit(integrate(cos(n*t)/sqrt(t),(t,0,1)),n,oo)",
+    "asserts": "Riemann–Lebesgue for an improperly integrable singularity: the cosine integral tends to 0"
+   },
+   {
+    "sympy": "n=symbols('n',positive=True); integrate(sin(n*t)/t,(t,0,oo))",
+    "asserts": "Dirichlet integral equals pi/2, the basis of the next page's φ(a+0) + φ(a-0) argument"
+   }
+  ],
+  "transcription_corrections": [
+   "First word '[?]ige' should read 'thige', completing 'unnö-thige' (unnöthige Voraussetzung) across the page break; the previous page's 'unend-' is likely a misreading of 'unnö-'.",
+   "'doch immer [-f(a-]' : the struck-through 'f(a' is a deletion in the manuscript and is correctly marked.",
+   "Check the integral limits in '(∫_b^{a+ε} + ∫_{a-ε}^c)'; the published version has ∫_b^{a-ε} + ∫_{a+ε}^c."
+  ]
+ }
+}

@@ -1,0 +1,74 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c122",
+ "label": "69v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000123/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a lecture draft, a recapitulation at the start of a class ('Wir haben in der vorigen Stunde ... behandelt'). It almost certainly belongs to Riemann's first course as Privatdozent, on partial differential equations and their physical applications, winter semester 1854/55. The next page carries a letter dated 28 March 1855 that mentions the end of his lectures on the 13th. The material corresponds to the heat-conduction chapter later published by Hattendorff (1869).\n\nProblem recapitulated: a body occupies the half-space bounded by an infinite plane. The temperature depends at each instant only on the distance x from the boundary plane, so it is constant on every plane parallel to the boundary. To determine the temperature from some initial time on, one needs (1) the temperature at every point at the initial time and (2) the boundary temperature at all later times.\n\nCase treated last: zero initial temperature. Find u(x,t) for x>0 such that:\n(1) u_t = a^2 u_xx;\n(2) u = 0 at t = 0;\n(3) u = C(t), an arbitrary function of t, at x = 0.\n\nPreviously solved special case: C(t) = C constant, with\nu = C (2/sqrt(pi)) * Integral_{x/(2a sqrt t)}^{oo} e^{-beta^2} d beta = C erfc(x/(2a sqrt t)).\nThis is the standard similarity solution in eta = x/(2a sqrt t).\n\nThe page then announces the next step: derive from this case the case of a variable boundary temperature. The draft breaks off there.\n\nThe intended continuation (not on the page; my completion) is superposition of step responses, i.e. Duhamel's principle:\nu(x,t) = C(0) erfc(x/(2a sqrt t)) + Integral_0^t C'(tau) erfc(x/(2a sqrt(t-tau))) d tau.\nEquivalently:\nu(x,t) = Integral_0^t C(tau) * x/(2a sqrt(pi) (t-tau)^{3/2}) * exp(-x^2/(4a^2 (t-tau))) d tau.",
+  "errors": [
+   "No mathematical errors. The constant-boundary solution is correct: it satisfies the heat equation, tends to C as x->0+ and to 0 as t->0+ for x>0.",
+   "Minor: the condition 'for t=0, u=0' should be read as holding for x>0. The boundary and initial data are discontinuous at the corner (0,0) when C(0)≠0; this is not discussed.",
+   "Several sentences are grammatically unfinished or overwritten (typical drafting), e.g. 'Wenn die Temperatur ... völlig zu bestimmen' and the final incomplete line."
+  ],
+  "results": [
+   {
+    "what": "Heat equation on a half-line with zero initial data and constant boundary temperature, solved by u = C erfc(x/(2a sqrt t))",
+    "modern_name": "Error-function (similarity) solution of the half-space heat conduction problem",
+    "usually_credited_to": "Fourier/Laplace/Poisson tradition (early 19th c.); standard in Fourier's and Poisson's heat theory",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Plan to obtain the solution for time-varying boundary temperature C(t) from the constant case",
+    "modern_name": "Duhamel's principle (superposition of step responses)",
+    "usually_credited_to": "J.M.C. Duhamel, 1833",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Statement that interior temperature is determined by the initial temperature plus the boundary temperature for all later times",
+    "modern_name": "Well-posedness/uniqueness of the initial-boundary value problem for the heat equation",
+    "usually_credited_to": "Fourier, Poisson (classical); rigorous uniqueness later",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a lecture draft of standard heat-conduction material (erfc solution, Duhamel superposition) that appears in Riemann's published PDE lectures (Hattendorff 1869). Its only interest is dating and documenting his first lecture course (WS 1854/55).",
+  "checkable": [
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); u=erfc(x/(2*a*sqrt(t))); simplify(diff(u,t)-a**2*diff(u,x,2))",
+    "asserts": "erfc(x/(2a sqrt t)) satisfies u_t = a^2 u_xx (result 0)"
+   },
+   {
+    "sympy": "x,t,a,b=symbols('x t a b',positive=True); simplify(2/sqrt(pi)*integrate(exp(-b**2),(b,x/(2*a*sqrt(t)),oo)) - erfc(x/(2*a*sqrt(t))))",
+    "asserts": "Riemann's integral expression equals erfc(x/(2a sqrt t))"
+   },
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); limit(erfc(x/(2*a*sqrt(t))),x,0)",
+    "asserts": "boundary value at x=0 is 1 (so u = C there)"
+   },
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); limit(erfc(x/(2*a*sqrt(t))),t,0,'+')",
+    "asserts": "initial value for x>0 is 0"
+   },
+   {
+    "sympy": "x,s,a=symbols('x s a',positive=True); K=x/(2*a*sqrt(pi)*s**Rational(3,2))*exp(-x**2/(4*a**2*s)); simplify(diff(K,s)-a**2*diff(K,x,2))",
+    "asserts": "the Duhamel kernel (implied next step) solves the heat equation (result 0)"
+   },
+   {
+    "sympy": "x,s,a=symbols('x s a',positive=True); simplify(diff(erfc(x/(2*a*sqrt(s))),s) - x/(2*a*sqrt(pi)*s**Rational(3,2))*exp(-x**2/(4*a**2*s)))",
+    "asserts": "the Duhamel kernel is the time derivative of the step response erfc (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The first equation is u_t = aa u_xx; the denominator '∂t' is written over an earlier symbol.",
+   "Lines 'zweitens für t=0 | u=0' and 'drittens für x=0 | in der Grenzfläche u = C(t)' are set off by a vertical stroke; 'und' after the PDE is struck out.",
+   "'diese Function C(t) einer Constante[?] gleich[?] gefunden' is likely 'diese Function C(t) einer Constanten gleich ist, gefunden' (i.e. for the case C(t) = constant).",
+   "The insertion above 'Entfernung ... von der Grenzebene' is probably 'x'.",
+   "In 'Wir haben nun zuletzt den Fall behandelt, wo die ... Anfangs überall = 0 war', 'war' is an interlinear insertion replacing the struck clause about the boundary temperature.",
+   "The final word 'Lange[?]' is uncertain and is underlined/struck; it may be a heading or catchword, not part of the text."
+  ]
+ }
+}

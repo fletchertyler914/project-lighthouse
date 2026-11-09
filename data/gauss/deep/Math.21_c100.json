@@ -1,0 +1,46 @@
+{
+ "bundle": "Math.21",
+ "page": "c100",
+ "label": "49r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000101/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Only a heading, 'pro 9 (unicum)', and a figure are on this page. There is no computation. The figure is a large array of small pencil circles on squared paper, covering the whole width of the sheet, which has a vertical fold near x≈655 px. A square, about 8 grid cells on a side, is outlined in the left-centre around one block of the array.\n\nWhat the figure shows (my measurements from the image, approximate):\n(a) Every grid row carries points, and the rows are spaced exactly one grid cell apart (about 22.7 px).\n(b) Within a row, the points recur every 8 cells (about 185 px). Down a column the pattern also recurs every 8 rows (rows at y≈179 and y≈362 have points at x≈239, 425, 607, 792). So the drawing is a doubly periodic tiling of the plane by one block, with one point per row and per column in each block.\n(c) Reading one period, with row r = 0..7 counted from the top (y≈179) and column c measured from x≈100, the occupied columns look like (6,2,1,5,3,0,4,7). This reading is uncertain.\n(d) The outlined square appears to be one fundamental block of this tiling.\n\nThe heading points to the n-queens problem with n = 9. 'Unicum' means 'the unique one': presumably the unique arrangement, up to symmetry, with some special property for n = 9. Two things support this:\n- The next leaf (fol. 49v/50) shows twelve 8×8 boards with eight dots each, one per row and column. These are evidently the 12 essentially distinct solutions of the eight-queens problem, with cross-references such as '5 (4,6)' and '12 (8,6)'.\n- Gauss's 1850 correspondence with Schumacher on the queens problem.\n\nRepeating a board periodically over the plane is the natural way to study 'regular' or toroidal (modular) solutions. In a toroidal solution the queens sit at c ≡ a·r + b (mod n), and the periodic picture lets one see at a glance which diagonals are hit.\n\nWhat I cannot settle from the image (my inference, flagged as such):\n- The precise property that makes the n = 9 pattern a 'unicum'.\n- Whether the period really is 8 cells, or 9 lattice lines counted inclusively. The outlined box spans about 8 cells, i.e. 9 grid lines.\n- With my reading, the block is not a valid queens arrangement: rows 1 and 2 hold points at columns 2 and 1, which are diagonal neighbours. Either my column reading is off by a cell, the figure is a deliberate study of a non-modular or reflected arrangement, or the figure concerns a related placement problem. No toroidal 9-queens solution exists, since gcd(9,6) ≠ 1. So any 9-periodic picture must contain diagonal coincidences somewhere in the plane, which may be exactly what Gauss was examining.",
+  "errors": [
+   "No computation or text claim is present that could be in error. My own reading of the point pattern (period 8, permutation (6,2,1,5,3,0,4,7)) is not a non-attacking queens arrangement. This is most likely a measurement/reading uncertainty on my part, or a deliberately 'bad' pattern, rather than a slip by Gauss."
+  ],
+  "results": [
+   {
+    "what": "Doubly periodic (tiled) drawing of a one-point-per-row-and-column arrangement, headed 'for 9 (unique)'; context is the n-queens problem (following leaf lists the 12 fundamental 8-queens solutions).",
+    "modern_name": "n-queens problem; periodic/toroidal (modular) queen placements; classification of solutions up to the dihedral symmetry group",
+    "usually_credited_to": "Eight queens: Max Bezzel (1848), Franz Nauck (1850, all 92 solutions). Toroidal/modular solutions exist iff gcd(n,6)=1: Pólya (1918). Systematic n-queens counts: Günther, Glaisher (1874), later authors.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's interest in the queens problem in 1850 (letters to Schumacher) is well documented, as is the history of his attempts at counting (Campbell 1977). This sheet is a figure-only working note: apparently a periodic tiling used to study 9×9 arrangements. It adds a minor unpublished detail, his use of periodic plane tilings and attention to n = 9. If it showed he grasped the toroidal criterion gcd(n,6)=1 before Pólya, that would be more notable, but nothing on the page establishes this.",
+  "checkable": [
+   {
+    "sympy": "from itertools import permutations; sum(1 for p in permutations(range(8)) if len({p[i]+i for i in range(8)})==8 and len({p[i]-i for i in range(8)})==8) == 92",
+    "asserts": "The eight-queens problem has 92 solutions (whose 12 essentially distinct classes appear on the next leaf)."
+   },
+   {
+    "sympy": "from itertools import permutations; sum(1 for p in permutations(range(9)) if len({p[i]+i for i in range(9)})==9 and len({p[i]-i for i in range(9)})==9) == 352",
+    "asserts": "The nine-queens problem has 352 solutions (46 up to symmetry), relevant to the 'pro 9' heading."
+   },
+   {
+    "sympy": "all(not (len({(a*i)%9 for i in range(9)})==9 and len({((a+1)*i)%9 for i in range(9)})==9 and len({((a-1)*i)%9 for i in range(9)})==9) for a in range(9))",
+    "asserts": "No linear modular (toroidal) solution c = a*r mod 9 exists for n = 9, consistent with Pólya's criterion gcd(n,6)=1."
+   },
+   {
+    "sympy": "p=[6,2,1,5,3,0,4,7]; (len({p[i]+i for i in range(8)})==8 and len({p[i]-i for i in range(8)})==8) == False",
+    "asserts": "The period-8 pattern as I read it from the image is not a non-attacking queens arrangement (diagonal coincidences), flagging uncertainty in the reading."
+   }
+  ],
+  "transcription_corrections": [
+   "Heading reads 'pro 9 (unicum)' as transcribed. The folio number '49' is circled at top right.",
+   "The diagram is not a simple regular lattice. It is a doubly periodic repetition, period about 8 grid cells in both directions, of a block with one point per row and per column. It extends across the whole sheet and across the vertical fold. The outlined square, about 8×8 cells, marks one fundamental block."
+  ]
+ }
+}

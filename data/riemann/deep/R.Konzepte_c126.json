@@ -1,0 +1,62 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c126",
+ "label": "61r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000127/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the proof of Theorem 3 in Art. 10 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published 1867).\n\nSetting (from the published paper, my addition): Omega = sum A_n with A_n -> 0, and F(x) = C + C'x + A_0 x^2/2 - sum_{n>=1} A_n/n^2. Let lambda be a function with lambda, lambda' vanishing at the endpoints b, c, and lambda'' piecewise monotone. The claim is that mu^2 * int_b^c F(x) cos(mu(x-a)) lambda(x) dx -> 0 as mu -> infinity.\n\nProof sketch, my reconstruction:\n- Expand F termwise.\n- Each product cos(nx)cos(mu(x-a)) splits into cosines of (mu +/- n)(x-a) + const.\n- Integrating twice by parts gives int lambda(x) cos((mu+/-n)x + ...) dx = -(mu+/-n)^{-2} int lambda''(x) cos(...) dx.\n- So the n-th term has the form A_n * mu^2/(n^2 (mu-n)^2) * int_b^c lambda''(x) cos((mu-n)(x-a)+...) dx, with n running over all integers (negative n giving mu+|n|).\n\nTop of page:\n- Set aside the finitely many terms with -c' < n < c'' and mu-c''' < n < mu+c^IV. Each of these becomes infinitely small as mu grows.\n- The series of the remaining terms is smaller than the sum S(mu) = sum' mu^2/((mu-n)^2 n^2), multiplied by the largest value of the integral int_b^c (...) lambda''(x) dx, and by sup |A_n| over the remaining n, which tends to 0.\n- So it suffices that S(mu) stays bounded.\n\nMain step:\n- Put f(x) = 1/(x^2(1-x)^2). Then S(mu) = (1/mu) * sum' (1/mu) f(n/mu), since (1-n/mu)^2 (n/mu)^2 = (mu-n)^2 n^2/mu^4.\n- Claim: for c's > 1, S(mu) < (1/mu) int f(x) dx over (-inf, -(c'-1)/mu], [(c''-1)/mu, 1-(c'''-1)/mu], [1+(c^IV-1)/mu, inf).\n- Reason: cut the real line, starting at 0, into intervals of length 1/mu. Replace f on each interval by its smallest value. This gives a lower Darboux sum, which is at most the integral.\n- f has no local maximum: it increases on (-inf,0), decreases on (0,1/2), increases on (1/2,1) and decreases on (1,inf). So the minimum on each cell is attained at an endpoint grid point (except the cell containing 1/2, which only adds a nonnegative amount).\n- Hence every value (1/mu) f(n/mu) with n in the retained range appears among these lower-sum terms.\n- The shift by one cell (c-1 instead of c) accounts for the cell adjoining each excluded block. This needs c > 1 so that the singularities 0 and 1 stay outside.\n\nNext page (completion):\n- Partial fractions: f = 1/x^2 + 1/(1-x)^2 + 2/x + 2/(1-x).\n- Antiderivative: -1/x + 1/(1-x) + 2 log|x| - 2 log|1-x|.\n- Over the given limits, (1/mu) times this is about 1/(c'-1) + 1/(c''-1) + 1/(c'''-1) + 1/(c^IV-1) + O(log(mu)/mu), which is bounded in mu.\n- Hence the remaining series tends to 0.",
+  "errors": [
+   "No mathematical errors on this page. The scaling identity, the integral comparison and the exclusion limits (c-1)/mu are all correct.",
+   "Slight gap in the justification 'da die Function nirgend ein Maximum hat': f has an interior minimum at x=1/2, where the cell minimum is not at a grid point. This only makes the lower sum larger, so the inequality still holds; Riemann does not comment on it.",
+   "The bound requires c', c'', c''', c^IV > 1 (stated). The c's need not be integers; the argument still works."
+  ],
+  "results": [
+   {
+    "what": "Boundedness, uniformly in mu, of sum over integers n (excluding n near 0 and near mu) of mu^2/((mu-n)^2 n^2), proved by comparing it with (1/mu) * int dx/(x^2(1-x)^2) via lower Riemann sums of a function without interior maxima",
+    "modern_name": "Integral comparison (integral test) for lattice sums; a step in the proof of Riemann's third lemma (localization) for trigonometric series with coefficients tending to 0",
+    "usually_credited_to": "Riemann, Habilitationsschrift 1854 (publ. 1867), Art. 10",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Termwise double integration by parts giving the factor 1/(mu +/- n)^2 times int lambda'' cos, and splitting off the finitely many critical terms near n=0 and n=mu",
+    "modern_name": "Riemann localization principle / Riemann's Lemma 3 on second-order formal integrals",
+    "usually_credited_to": "Riemann 1854",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the published Art. 10 of Riemann's Habilitationsschrift on trigonometric series; the same sum and comparison integral appear in the published text. It gives only minor insight into how the proof was drafted.",
+  "checkable": [
+   {
+    "sympy": "simplify((1/mu)*((1/mu)/((1-n/mu)**2*(n/mu)**2)) - mu**2/((mu-n)**2*n**2))",
+    "asserts": "Rescaling identity: mu^2/((mu-n)^2 n^2) equals (1/mu)*(1/mu)/((1-n/mu)^2 (n/mu)^2); result should be 0"
+   },
+   {
+    "sympy": "simplify(apart(1/(x**2*(1-x)**2), x) - (1/x**2 + 1/(1-x)**2 + 2/x + 2/(1-x)))",
+    "asserts": "Partial fraction decomposition used on the next page; result should be 0"
+   },
+   {
+    "sympy": "simplify(diff(-1/x + 1/(1-x) + 2*log(x) - 2*log(1-x), x) - 1/(x**2*(1-x)**2))",
+    "asserts": "The antiderivative on the next page is correct; result should be 0"
+   },
+   {
+    "sympy": "solve(diff(1/(x**2*(1-x)**2), x), x)",
+    "asserts": "The only critical point of f = 1/(x^2(1-x)^2) is x = 1/2, a minimum, so f has no local maximum"
+   },
+   {
+    "sympy": "N(Sum(mu**2/((mu-n)**2*n**2), (n, 2, mu-2)).subs(mu, 1000) + Sum(mu**2/((mu-n)**2*n**2), (n, mu+2, oo)).subs(mu, 1000) + Sum(mu**2/((mu+n)**2*n**2), (n, 2, oo)).subs(mu, 1000))",
+    "asserts": "The truncated sum stays bounded (about 2*(pi^2/6 - 1) + small terms) for large mu, consistent with Riemann's bound"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'verknüpft[?] mit dem grössten Werthe von ∫_c^c λ_{μ±x} λ''x ∂x' should probably read 'multiplicirt mit dem grössten Werthe von ∫_b^c (…)_{μ±n} λ''(x) ∂x'. The lower limit is likely b and the subscript is μ±n, not μ±x.",
+   "'Beachtet[?]' at the start of the crossed-out line is uncertain; the sense is 'the series of the remaining terms is smaller than this sum multiplied by…', i.e. '[-übrigen-]' was struck and then reinstated in the sense of the argument.",
+   "'Summen[?]' is likely 'Summe' (singular), referring to Σ μ²/((μ−n)²n²) with the following 'multiplicirt'.",
+   "'durch den Integralgliedes[?]' is unclear; the meaning is 'replaces the function in each interval by its smallest value'.",
+   "In the displayed sum the superscript is μ² (mu squared) and the denominator is (μ−n)² n²; the middle expression is (1/μ) Σ (1/μ)/((1−n/μ)²(n/μ)²), as transcribed."
+  ]
+ }
+}

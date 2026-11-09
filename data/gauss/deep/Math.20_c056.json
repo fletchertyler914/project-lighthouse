@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.20",
+ "page": "c056",
+ "label": "28r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000057/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "LAYOUT. The page has two parts.\n\nTable. The left side is a table with 25 equidistant arguments θ = 0°, 7°30', 15°, …, 180° (step 7.5°, i.e. half of a 48-point division of the circle). Against each θ stand four 7-decimal ordinates, called here F1(θ), F2(θ), F3(θ), F4(θ):\n- F1 rises from 2.0863825 to 4.4208363.\n- F2 rises from 0.5952987 to 1.1285758.\n- F3 falls from 0.2899531 to 0.1061941.\n- F4 falls from 1.9228841 to 1.2770094.\nAll four are smooth and flat at both ends, so they are even, 360°-periodic functions of θ.\n\nCoefficients. The right side gives numbers labelled (0)–(24). (0) = 1.6573844. The rest are in units of the 7th decimal, so (1) = +0.3083332, (2) = −0.0531409, and so on.\n\nIDENTIFICATION (my verification). These are the coefficients of the half-range cosine expansion of column F4:\n  F4(θ) = Σ_{k=0}^{24} c_k cos kθ,\nobtained by trigonometric interpolation on the 48-point grid. The standard discrete formulas are (my reconstruction):\n- c_0 = (1/24)[ (f_0 + f_24)/2 + Σ_{j=1}^{23} f_j ].\n- c_k = (1/12)[ (f_0 + (−1)^k f_24)/2 + Σ_{j=1}^{23} f_j cos(7.5° k j) ] for 1 ≤ k ≤ 23.\n- c_24 carries half that weight (the Nyquist term).\nThese are exactly the formulas of Gauss's Theoria interpolationis methodo nova tractata.\n\nNUMERICAL CHECKS (mine).\n(a) Mean term. The sum of the 23 interior F4 values is 38.1772787. Half the end values gives 1.59994675. The total is 39.77722545, and divided by 24 this is 1.6573844, which is exactly (0).\n(b) θ = 0. Σ c_k = 1.9228840 (+0.00000002 from orders 15–24), against the tabulated 1.9228841.\n(c) θ = 180°. Σ (−1)^k c_k = 1.2770092 from orders 0–14. Orders 15–24 add +2.02e−7, giving 1.2770094, which equals the tabulated value exactly. This confirms the readings (16) = +0.29 and (24) = +0.60.\n\nCONVERGENCE. The coefficients decay geometrically. Successive ratios are 5.8, 4.0, 3.45, 3.17, 3.0, 2.9, 2.82, 2.77, 2.74, 2.7, so |c_{k+1}/c_k| tends to about 0.37. This is the behaviour of an analytic periodic function such as (1 − 2α cos θ + α²)^(−s) with α ≈ 0.37, the typical form of perturbation-theory (Laplace-coefficient-like) quantities.\n\nNOISE. Orders 15–24 (−0.71, +0.29, +0.08, …, +0.60, in units of 1e−7) are not geometric. They are rounding and aliasing noise from 7-decimal ordinates; the true values are below 0.4e−7. Gauss nevertheless carried them through, and they reproduce the end ordinates exactly.\n\nUNRESOLVED.\n- The meaning of F1–F3 and their link to F4 could not be determined. Simple guesses all fail: power laws, logarithms, a Keplerian r(v), or a circular distance A − B cos θ. The same is true of the note ∛(1.4471580)/a at top right; ∛1.4471580 ≈ 1.13112.\n- The context (\"Conf. p. 25\", mutually dependent columns, a geometric decay ratio near 0.36 ≈ 1/2.77) suggests perturbation computations, for example of an asteroid such as Pallas or Ceres. Other possibilities are ring-attraction work in the style of the Determinatio attractionis (1818) or Pallas work. This is unverified.\n- The reverse page is bleed-through of the same table.",
+  "errors": [
+   "No arithmetic error detected in the Fourier coefficients: c_0 reproduces exactly, and the series reproduces F4 at θ = 0 to within 1e−7 and at θ = 180° exactly.",
+   "Coefficients (15)–(24) are not significant. They are rounding noise of the 7-decimal ordinates and are not true harmonic content; e.g. (15) = −0.71 breaks the geometric decay, which predicts about −0.4. Gauss did not mark them as such, but keeping them makes the interpolation reproduce the end values exactly.",
+   "Several column-2 entries are overwritten corrections (at 7°30', 37°30', 60°, 135°, 142°30', 150°, 157°30', 165°, 180°), so those digits are less certain. The relationship of columns 1–3 to column 4 could not be verified."
+  ],
+  "results": [
+   {
+    "what": "Half-range trigonometric interpolation / discrete cosine analysis of a tabulated even periodic function from 25 ordinates (48 points per period), giving 25 cosine coefficients",
+    "modern_name": "Discrete cosine transform (DCT-I) / discrete Fourier analysis, trigonometric interpolation",
+    "usually_credited_to": "Clairaut and Lagrange (18th c.) for trigonometric interpolation; Gauss's Theoria interpolationis (written c.1805, published posthumously 1866), which includes FFT-type ideas",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Tabulation of auxiliary functions at 7°30' steps, probably for perturbation-type computations (Laplace-coefficient-like expansion with ratio ≈0.37)",
+    "modern_name": "Numerical harmonic analysis of perturbation functions",
+    "usually_credited_to": "Laplace, Lagrange; Gauss's own Pallas and secular-perturbation work",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine numerical working sheet: a 48-point cosine analysis of a tabulated function, which is exactly Gauss's well-known trigonometric interpolation method used in his perturbation computations. It is computationally accurate but contains nothing conceptually new.",
+  "checkable": [
+   {
+    "sympy": "Rational(1,24)*((Rational(19228841,10**7)+Rational(12770094,10**7))/2 + sum([Rational(x,10**7) for x in [19213942,19169226,19094649,18990140,18855602,18690931,18496043,18270886,18015477,17729980,17414748,17070467,16698308,16300158,15878938,15439075,14987128,14532542,14088554,13672972,13308279,13020285,12834457]])) - Rational(16573844,10**7)",
+    "asserts": "The mean coefficient (0) equals the trapezoidal mean of column 4 (result ≈ 0 to 1e-7)"
+   },
+   {
+    "sympy": "c=[16573844,3083332,-531409,132344,-38375,12102,-4025,1390,-493,178,-65,24,-10,4,-1,-0.71,0.29,0.08,0.06,0.41,0.12,-0.47,0.04,-0.22,0.60]; sum(c)/10**7 - 1.9228841",
+    "asserts": "The cosine series at θ=0 reproduces F4(0)=1.9228841 (difference ~1e-7 or less)"
+   },
+   {
+    "sympy": "c=[16573844,3083332,-531409,132344,-38375,12102,-4025,1390,-493,178,-65,24,-10,4,-1,-0.71,0.29,0.08,0.06,0.41,0.12,-0.47,0.04,-0.22,0.60]; sum([(-1)**k*c[k] for k in range(25)])/10**7 - 1.2770094",
+    "asserts": "The cosine series at θ=180° reproduces F4(180°)=1.2770094"
+   },
+   {
+    "sympy": "f=[19228841,19213942,19169226,19094649,18990140,18855602,18690931,18496043,18270886,18015477,17729980,17414748,17070467,16698308,16300158,15878938,15439075,14987128,14532542,14088554,13672972,13308279,13020285,12834457,12770094]; N(Rational(1,12)*((f[0]-f[24])/2 + sum([f[j]*cos(pi*j/24) for j in range(1,24)])))",
+    "asserts": "Coefficient (1) ≈ 3083332 (units 1e-7), from the discrete cosine formula"
+   },
+   {
+    "sympy": "c=[16573844,3083332,-531409,132344,-38375,12102,-4025,1390,-493,178,-65,24,-10,4,-1,-0.71,0.29,0.08,0.06,0.41,0.12,-0.47,0.04,-0.22,0.60]; N(sum([c[k]*cos(k*pi/2) for k in range(25)])/10**7) - 2.7886322*0 - 1.7070467",
+    "asserts": "The series at θ=90° reproduces F4(90°)=1.7070467"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 4 argument: '2200' is overwritten to '22.30' (22°30'), as the transcription indicates.",
+   "Coefficients (1)–(14) are in units of 1e−7 (e.g. (1) = +0.3083332); only (0) is written with full decimals.",
+   "(16) reads +0,29 and (24) reads +0,60 (the doubled '+' is a slip). Both readings are confirmed numerically by the exact reproduction of F4(180°)=1.2770094.",
+   "Several column-2 values carry overwritten digits (e.g. 0.5963086, 0.6208267, 0.6618793, 0.9601333, 1.0005587, 1.0395692, 1.0747924, 1.1032965, 1.1285758); the transcription follows the corrected readings.",
+   "The next-page transcription is mirror bleed-through of this same table, not independent content."
+  ]
+ }
+}

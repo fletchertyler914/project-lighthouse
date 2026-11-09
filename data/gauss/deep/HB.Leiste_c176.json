@@ -1,0 +1,83 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c176",
+ "label": "75",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000177/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a printed textbook page in Fraktur type, not a Gauss autograph. It comes from Christian Leiste's arithmetic and algebra textbook (hence the bundle name 'HB.Leiste'), apparently Gauss's own copy. Gauss's only possible contributions are the faint marginal pencil marks and small handwritten corrections.\n\n§162 (Zusatz, corollary). This applies the preceding formula for an infinite geometric series with first term a and ratio q = b/c < 1: the sum is S = a/(1 - q).\n- Example: 6/10 + 6/100 + 6/1000 + ... has a = 6/10 and q = 1/10.\n- So S = (6/10) : (9/10) = 6/9 = 2/3.\n\nGeneral rule for purely periodic decimals, by shifting the decimal point:\n1) S = 0.aaa... gives 10S = a.aaa..., so 10S - S = 9S = a and S = a/9.\n2) S = 0.abab... (here 'ab' means the two-digit block, not a product) gives 100S = ab.abab..., so 99S = ab and S = ab/99.\n3) S = 0.abcabc... gives 1000S - S = 999S = abc, so S = abc/999.\n\nWorked examples:\n- 0.111... = 1/9.\n- 0.1818... gives 100S = 18.1818..., so S = 18/99 = 2/11.\n- 0.296296... gives 1000S = 296.296..., so S = 296/999 = 8/27.\n\n§163 (Aufgabe, problem): find the value of capital a after n years at compound interest.\n- Let the interest rate be r = b/c (b is the yearly interest on capital c). The interest on a is ab/c.\n- After year 1: A = a + ab/c = (1 + b/c)a = ((c+b)/c)a.\n- After year 2: B = A(1 + b/c) = ((c+b)/c)^2 a.\n- By induction (left implicit in the text), after n years the value is ((c+b)/c)^n a.\n- Taking logarithms: log = n·log((c+b)/c) + log a.\n\nNumerical example: a = 5000 Reichstaler, b/c = 4/100 = 1/25, n = 10.\n- Then (c+b)/c = 26/25.\n- log10(26/25) = log 26 - log 25 = 0.0170333.\n- Continued on the next page: 10·0.0170333 + log 5000 = 0.170333 + 3.6989700 = 3.8693030, which is log 7401.21.\n\nMarginalia: on the left margin there is faint pencil writing (something like fractions '3/4 ... +') that is illegible. On the right edge there is a paper tab. In the formula for A, a handwritten mark corrects or strikes a denominator.",
+  "errors": [
+   "No mathematical errors on this page. 2/3, 2/11, 8/27 and log10(1.04) = 0.0170333 are all correct.",
+   "The notation 'ab', 'abc' means digit concatenation (10a+b, 100a+10b+c), not a product. This is an ambiguity of notation only.",
+   "Some examples (e.g. '0,11111 = S', '18,1818 = 100 S') omit the ellipsis that marks an infinite repetition. This is typographical sloppiness.",
+   "On the following page, '10 l. 26/25 = 0,0170333' should read 0,170333. The subsequent sum 3,8693030 uses the correct value. The exact result 5000·1.04^10 = 7401.2214 is consistent with 7401.21 to logarithm-table accuracy.",
+   "In the expression for the 3rd year the printed 'a' carries a stray accent mark (a'). This is a printing or handwritten artifact."
+  ],
+  "results": [
+   {
+    "what": "Sum of an infinite geometric series a/(1-q), applied to 0.666...",
+    "modern_name": "geometric series sum",
+    "usually_credited_to": "classical (Archimedes/Viète; standard 17th–18th c. textbooks)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Conversion of purely periodic decimals to fractions: period/(10^k - 1)",
+    "modern_name": "repeating decimal to fraction conversion",
+    "usually_credited_to": "Wallis (1685) and 18th-century textbook tradition; Gauss later studied periodic decimals in depth (Disquisitiones), but not this routine rule",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Compound interest a(1+r)^n, computed via logarithms",
+    "modern_name": "compound interest formula",
+    "usually_credited_to": "classical (Stevin, Jacob Bernoulli etc.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed elementary textbook page (Leiste) covering geometric series, repeating decimals and compound interest. It contains nothing original by Gauss beyond illegible marginal marks.",
+  "checkable": [
+   {
+    "sympy": "Eq(Rational(6,10)/(1-Rational(1,10)), Rational(2,3))",
+    "asserts": "6/10+6/100+... = 2/3"
+   },
+   {
+    "sympy": "Eq(summation(Rational(6,10)*Rational(1,10)**k,(k,0,oo)), Rational(2,3))",
+    "asserts": "the geometric series sums to 2/3"
+   },
+   {
+    "sympy": "Eq(Rational(18,99), Rational(2,11))",
+    "asserts": "0.1818... = 2/11"
+   },
+   {
+    "sympy": "Eq(Rational(296,999), Rational(8,27))",
+    "asserts": "0.296296... = 8/27"
+   },
+   {
+    "sympy": "Eq(summation(18*Rational(1,100)**k,(k,1,oo)), Rational(2,11))",
+    "asserts": "the repeating decimal 0.(18) equals 2/11"
+   },
+   {
+    "sympy": "Abs(N(log(Rational(26,25),10)) - 0.0170333) < 1e-7",
+    "asserts": "log10(26/25) = 0.0170333"
+   },
+   {
+    "sympy": "Abs(N(5000*Rational(26,25)**10) - 7401.22) < 0.01",
+    "asserts": "5000 at 4% compound for 10 years is about 7401.22"
+   },
+   {
+    "sympy": "Eq(simplify((1+r)*((1+r)*a) - (1+r)**2*a), 0)",
+    "asserts": "two years of compounding gives (1+r)^2 a"
+   }
+  ],
+  "transcription_corrections": [
+   "This page is printed Fraktur text (Leiste's textbook), not Gauss's handwriting.",
+   "In 'A ÷ Ab/c' the printed symbol is '+' (it renders like ÷).",
+   "'(c+b)/c)^3 a'' carries a stray mark on a. It should be read as a.",
+   "In '(c+b)/(c)a = A' for year 1, the denominator carries a handwritten correction or strike mark.",
+   "Left-margin pencil marginalia are illegible (possibly fractions like '3/4 ... +'). The machine reading '2/3 - 3/4 +' is uncertain."
+  ]
+ }
+}

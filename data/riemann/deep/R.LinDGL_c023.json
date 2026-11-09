@@ -1,0 +1,67 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c023",
+ "label": "11v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000024/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to Riemann's 1857 manuscript on linear ODEs with algebraic coefficients. It corresponds to the posthumously published 'Zwei allgemeine Lehrsätze über lineare Differentialgleichungen mit algebraischen Coefficienten' (Werke, 1876). A system Q of n branches y=(y_1,...,y_n) is considered, with branch points a,b,...,g. A positive loop around each branch point acts by a linear substitution (monodromy matrix) A,B,...,G, with G...BA = identity.\n\nStep 1 (end of the previous page and the top of this one). Riemann cites a theorem 'often used by Jacobi'. In general a substitution splits into three substitutions: the last is the inverse of the first, and the middle one has all off-diagonal coefficients equal to 0, so it only multiplies each quantity by a factor. In modern terms: generically A = α Λ α^{-1}, with Λ = diag(λ_1,...,λ_n). This is diagonalization by a similarity transformation.\n\nStep 2. The λ_i are the n roots of an equation of degree n determined completely by A. In modern terms this is the characteristic equation det(A - λ I) = 0.\n\nStep 3. If this equation has repeated roots, the middle factor would need a somewhat modified form. This is an implicit reference to non-diagonalizable (Jordan-block) cases. For simplicity Riemann provisionally excludes this case for all of A,...,G.\n\nStep 4 (non-uniqueness). α can be replaced by α·diag(c_1,...,c_n) with arbitrary nonzero c_i. Riemann adds that this form contains all possible α, as the equations determining α show. In modern terms: the columns of α are eigenvectors, which are unique up to scale when the eigenvalues are distinct. The tacit additional freedom is a reordering of the λ_i, which Riemann does not mention.\n\nStep 5 (application to the local solutions). Under a positive loop of x around a, the values of y pass from p = (p_1,...,p_n) to A p. Put z = α^{-1} y. Then the values of z pass from α^{-1} p to α^{-1} A p = Λ α^{-1} p. Step filled in by me: α^{-1} A = α^{-1} α Λ α^{-1} = Λ α^{-1}. Hence z_i goes to λ_i z_i: each z_i is multiplicatively multivalued around a with factor λ_i.\n\nWhat this serves: the next page uses z_i(x-a)^{-μ_i}, with μ_i = log λ_i/(2πi), to obtain single-valued functions. These give the local exponents at a, so this page prepares the exponent analysis of Riemann's monodromy approach.",
+  "errors": [
+   "No mathematical errors.",
+   "Tacit omission: when the eigenvalues are distinct, α is determined up to right multiplication by a diagonal matrix and also up to a permutation of the λ_i (column reordering). Riemann mentions only the diagonal freedom, which is harmless once the λ_i are labelled.",
+   "The phrase 'allgemein zu reden' (generically) correctly hedges the claim. Diagonalizability can fail only when there are repeated roots, and Riemann explicitly excludes that case."
+  ],
+  "results": [
+   {
+    "what": "Decomposition of a monodromy substitution as A = α diag(λ_i) α^{-1}, with the λ_i the roots of a degree-n equation determined by A",
+    "modern_name": "Diagonalization of a matrix by similarity; eigenvalues as roots of the characteristic polynomial",
+    "usually_credited_to": "Cauchy (1829), Jacobi (quadratic forms / substitutions, 1830s–40s); full normal form by Weierstrass (1868) and Jordan (1870)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Uniqueness of the diagonalizing matrix up to right multiplication by a diagonal matrix when the eigenvalues are distinct",
+    "modern_name": "Eigenvectors are unique up to scale for simple eigenvalues",
+    "usually_credited_to": "standard linear algebra (19th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Change of basis z = α^{-1} y to solutions that are multiplied by λ_i under a loop around a singular point",
+    "modern_name": "Local monodromy eigenbasis / diagonalization of local monodromy (precursor of Fuchs's local theory and characteristic exponents)",
+    "usually_credited_to": "Riemann (1857, published 1876); Fuchs (1866) in published form",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of Riemann's 1857 manuscript, which was published in his Werke (1876) as 'Zwei allgemeine Lehrsätze über lineare Differentialgleichungen'. The diagonalization of monodromy and the passage to multiplicatively multivalued z_i are known parts of his monodromy approach. The linear algebra itself is routine and explicitly attributed by Riemann to Jacobi.",
+  "checkable": [
+   {
+    "sympy": "A=Matrix([[2,1],[1,3]]); P,D=A.diagonalize(); simplify(P*D*P.inv()-A)==zeros(2,2)",
+    "asserts": "A matrix with distinct eigenvalues factors as α Λ α^{-1}."
+   },
+   {
+    "sympy": "A=Matrix([[2,1],[1,3]]); lam=symbols('lam'); set(solve((A-lam*eye(2)).det(),lam))==set(A.eigenvals().keys())",
+    "asserts": "The diagonal entries λ_i are exactly the roots of the degree-n characteristic equation det(A-λI)=0."
+   },
+   {
+    "sympy": "A=Matrix([[2,1],[1,3]]); P,D=A.diagonalize(); c1,c2=symbols('c1 c2',nonzero=True); C=diag(c1,c2); simplify((P*C)*D*(P*C).inv()-A)==zeros(2,2)",
+    "asserts": "α can be replaced by α·diag(c_1,...,c_n) without changing the decomposition."
+   },
+   {
+    "sympy": "A=Matrix([[2,1],[1,3]]); P,D=A.diagonalize(); p1,p2=symbols('p1 p2'); p=Matrix([p1,p2]); simplify(P.inv()*A*p - D*P.inv()*p)==zeros(2,1)",
+    "asserts": "α^{-1}(A)(p) = Λ α^{-1}(p), i.e. z = α^{-1}y passes to (λ_1 z_1, ..., λ_n z_n)."
+   },
+   {
+    "sympy": "Matrix([[1,1],[0,1]]).is_diagonalizable()==False",
+    "asserts": "Repeated eigenvalues can prevent diagonal form, which justifies Riemann's exclusion of equal roots."
+   }
+  ],
+  "transcription_corrections": [
+   "'die Werthe der Functionen (y_1,...,y_n) und (p_1,...,p_n) in (A)(p) über' should almost certainly read '... (y_1,...,y_n) aus (p_1,...,p_n) in (A)(p) über'. The handwritten word appears to be 'aus', and the logic (values pass from p to A p) requires it.",
+   "The marginal note '[erhält]' in the right column is level with line 2 ('jede Größe einen Factor erlangt'). It is likely an alternative wording 'erhält' for 'erlangt' there, not a separate remark.",
+   "The struck-out fragment after 'aus (α)^{-1}(p) in' reads '(α)^{-1}(A)(p)'. It was deleted and rewritten as a displayed equation on the next line; the transcription correctly marks it as deleted."
+  ]
+ }
+}

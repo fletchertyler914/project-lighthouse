@@ -1,0 +1,65 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c032",
+ "label": "16r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000033/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 16r is the title page and introduction of Riemann's fragment 'Zwei allgemeine Sätze über lineare Differentialgleichungen mit algebraischen Coefficienten' ('Two general theorems on linear differential equations with algebraic coefficients'). It is dated to about 1857 and was printed posthumously in the Gesammelte Werke (1876, Nachlass). The page contains no computations. It makes four preparatory claims, restated below in modern terms.\n\n(1) Basis of solutions. Let L y = y^(n) + p_1(x) y^(n-1) + ... + p_n(x) y = 0. Every solution has the form y = c_1 y_1 + ... + c_n y_n with constant c_i, where y_1, ..., y_n are linearly independent solutions (a fundamental system).\n\n(2) Rational coefficients. Suppose the p_i are rational in x. Solutions are then in general many-valued analytic functions.\n- Cut the x-sphere along a suitable 'Liniensystem' (system of lines) joining the singular points.\n- On the cut plane one can choose n single-valued functions Y_1, ..., Y_n (a fundamental system continued within the slit domain). These are necessarily discontinuous across the cuts.\n- Every branch of every solution is then a constant linear combination of Y_1, ..., Y_n. Note that a different branch only changes the constants, by a monodromy matrix.\n\n(3) Algebraic coefficients. Suppose the p_i are rational functions R_i(x, s), where s is a μ-valued algebraic function of x, i.e. F(x, s) = 0 with deg_s F = μ.\n- To each branch s_k (k = 1, ..., μ) belongs a separate equation L_k, whose coefficients are R_i(x, s_k).\n- Each L_k has its own group of n independent particular solutions, single-valued on the cut plane.\n- Hence any branch of a solution is a linear expression in at most μn single-valued functions. It always involves only the n functions belonging to one group, namely the group of the branch of s currently in use.\n- Riemann concludes that the theorems to follow therefore cover all linear ODEs with algebraic coefficients. The idea: the setting of single-valued functions with linear branching, treated on the next page, is general enough.\n- The next page (16v) begins exactly that setting. It takes n functions y_1, ..., y_n that are single-valued away from the branch points a, b, ..., g. A positive loop around a point acts by constant matrices (A), (B), ..., (G), subject to the relation (G)...(B)(A) = 1. This is the monodromy representation.\n\n(4) Inhomogeneous equations. A faint, apparently deleted sentence states that every inhomogeneous linear ODE can easily be turned into a homogeneous one of the next higher order.\n- The standard device (my completion, since the sentence breaks off): if L y = f with f not identically 0, then d/dx( (L y)/f ) = 0 is homogeneous of order n+1.\n- Its solution space consists of the solutions of L y = c f, for constant c.",
+  "errors": [
+   "No mathematical errors. Claim (2) holds in the generic sense intended ('allgemein zu reden'): a fundamental system can be continued single-valuedly in the cut plane. Claim (3) is correct as a description. Strictly, the μ groups are fundamental systems for the μ conjugate equations, and one passes between them when the branch of s changes.",
+   "The final sentence is incomplete (a dependent 'Da'-clause with no main clause) and appears to have been deleted or erased (written in lighter ink)."
+  ],
+  "results": [
+   {
+    "what": "Every solution of an n-th order linear homogeneous ODE is a constant linear combination of n independent solutions.",
+    "modern_name": "Fundamental system / n-dimensional solution space",
+    "usually_credited_to": "Lagrange, d'Alembert, Cauchy (classical)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "With rational coefficients, solution branches are constant linear combinations of n functions that are single-valued on the plane cut along a line system.",
+    "modern_name": "Fundamental system on a slit domain; monodromy (solutions transform by constant matrices under analytic continuation)",
+    "usually_credited_to": "Riemann (1857 P-function paper and this Nachlass fragment); Fuchs (1865-66)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Algebraic coefficients rational in x and a μ-valued algebraic s: there is one group of n solutions per branch of s, so at most μn single-valued functions are needed, but only n of one group appear at a time.",
+    "modern_name": "Linear ODE over an algebraic function field / on a Riemann surface, reduced to monodromy data on the x-sphere",
+    "usually_credited_to": "Riemann (this fragment, published in Werke 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "An inhomogeneous linear ODE can be converted into a homogeneous one of order n+1.",
+    "modern_name": "Homogenization: d/dx(Ly/f) = 0",
+    "usually_credited_to": "Classical (18th-19th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the published, well-known introduction to Riemann's 1857 fragment on linear ODEs with algebraic coefficients, the source of the Riemann–Hilbert/monodromy problem. It is printed in his Gesammelte Werke and contains only standard preparatory remarks.",
+  "checkable": [
+   {
+    "sympy": "x=symbols('x'); y=Function('y'); p=Function('p'); f=Function('f'); L=diff(y(x),x)+p(x)*y(x); H=diff(L/f(x),x); simplify(expand(H*f(x)**2) - (f(x)*diff(L,x) - L*diff(f(x),x)))==0",
+    "asserts": "d/dx((y'+p y)/f) = 0 is equivalent (for f != 0) to the second-order homogeneous equation f*(y''+p'y+p y') - f'*(y'+p y) = 0."
+   },
+   {
+    "sympy": "x=symbols('x'); C=symbols('C'); yy=x/2+C*x**3; f=x; L=diff(yy,x)-2*yy/x; simplify(diff(L/f,x))==0",
+    "asserts": "Concrete check of homogenization for y' - 2y/x = f with f = x: the general solution y = x/2 + C x^3 satisfies L y = -x/2 = c*f with c = -1/2, so d/dx(Ly/f) = 0."
+   },
+   {
+    "sympy": "x=symbols('x'); simplify(diff(sqrt(x),x) - sqrt(x)/(2*x))==0",
+    "asserts": "Example of a solution whose branches differ by a constant factor (monodromy -1 around 0): sqrt(x) solves y' = y/(2x)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 4: 'unabhängig Veränderlichen' should probably read 'unabhängigen Veränderlichen' (as written it is an abbreviated ending).",
+   "The last two lines ('Da sich jede nicht homogene ... verwandeln lässt.') are in much fainter ink and appear deleted/erased. The sentence is incomplete.",
+   "The '16' at upper right is the folio/archival number, not part of the text."
+  ]
+ }
+}

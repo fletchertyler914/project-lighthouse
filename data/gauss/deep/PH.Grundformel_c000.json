@@ -1,0 +1,60 @@
+{
+ "bundle": "PH.Grundformel",
+ "page": "c000",
+ "label": "1r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382435:00000001/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Purpose: the page (dated 18 Feb 1836) gives a shorter derivation of the most general infinitesimal displacement of a rigid body. The next page needs this to state the equilibrium conditions of a rigid body carrying positive and negative magnetic masses under the reaction of a current element (Rheophor), via the principle of virtual velocities.\n\nSetup: Let (x,y,z) and (x+dx, y+dy, z+dz) be two arbitrary, infinitely close points of the body. Rigidity requires that the variation of the squared line element vanish for all dx, dy, dz:\n  delta(dx^2+dy^2+dz^2) = 0.\nWrite the virtual displacement as delta x = lambda*xi, delta y = lambda*eta, delta z = lambda*zeta. Here lambda is a constant infinitesimal factor and xi, eta, zeta are functions of position. Gauss writes the factor as both alpha and lambda.\n\nStep 1. Since delta commutes with d:\n  delta(dx^2+dy^2+dz^2) = 2*lambda*(dx*dxi + dy*deta + dz*dzeta).\nExpanding with dxi = xi_x dx + xi_y dy + xi_z dz (and similarly for eta, zeta) gives\n  2*lambda*[ xi_x dx^2 + eta_y dy^2 + zeta_z dz^2 + (xi_y+eta_x) dx dy + (xi_z+zeta_x) dx dz + (eta_z+zeta_y) dy dz ].\n\nStep 2. This quadratic form must vanish identically in dx, dy, dz, so all six coefficients vanish:\n  1) xi_x = 0\n  2) eta_y = 0\n  3) zeta_z = 0\n  4) xi_y = -eta_x =: r\n  5) -xi_z = zeta_x =: q\n  6) eta_z = -zeta_y =: p\nThese are the Killing equations of Euclidean 3-space, equivalently vanishing linearized strain.\n\nStep 3. Show p, q, r are constant.\n- From (6) and (4): p_x = eta_xz = (eta_x)_z = -r_z = -xi_yz.\n- From (6) and (5) (a partly cancelled line): p_x = -zeta_xy = -(zeta_x)_y = -q_y = +xi_yz.\n- Hence p_x = -p_x, so p_x = 0. Likewise q_y = 0 and r_z = 0.\n- Also p_y = eta_zy = (eta_y)_z = 0 by (2) (the side line marked '2)'), and p_z = -zeta_yz = -(zeta_z)_y = 0 by (3).\n- By symmetry ('&c.') all first derivatives of p, q, r vanish, so p, q, r are constants.\n\nStep 4. Integrate. From xi_x = 0, xi_y = r, xi_z = -q we get xi = a + r y - q z. Similarly:\n  eta = b + p z - r x\n  zeta = c + q x - p y.\nThat is, (xi,eta,zeta) = (a,b,c) + omega x (x,y,z) with omega = (p,q,r): an infinitesimal translation plus an infinitesimal rotation.\n\nUse on the next page [my inference]: inserting this into the virtual-work condition, the integral of (X xi + Y eta + Z zeta) dm must vanish for all a, b, c, p, q, r. This gives the six equilibrium conditions: total force zero and total moment zero.",
+  "errors": [
+   "Notational inconsistency: the displacement is introduced as lambda*xi, lambda*eta, lambda*zeta (the first symbol in the manuscript looks like alpha), but the factor 2*alpha is used in the next line; alpha and lambda denote the same constant infinitesimal.",
+   "d and the partial-derivative symbol are used interchangeably throughout (e.g. d xi/dx vs partial xi/partial x); this is harmless.",
+   "In the final formula for xi the sign before qz is obscured by an ink blot. From (5), xi_z = -q, so the correct sign is minus (xi = a + r y - q z), which is consistent with the rest.",
+   "A line computing p_x via (6),(5) is partly struck through, but its content (p_x = -q_y = +xi_yz) is correct and is needed for the conclusion p_x = 0. Together with p_x = -xi_yz from (6),(4), the argument is complete.",
+   "No substantive mathematical errors."
+  ],
+  "results": [
+   {
+    "what": "Rigidity condition delta(ds^2)=0 for all directions yields xi_x=eta_y=zeta_z=0 and xi_y+eta_x = xi_z+zeta_x = eta_z+zeta_y = 0",
+    "modern_name": "Killing equations in Euclidean space / vanishing of the infinitesimal strain tensor",
+    "usually_credited_to": "Cauchy (strain tensor, 1820s); Killing (1892) for general Killing equations; the rigid-body case is classical (Euler, Lagrange)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Integration via the mixed-derivative argument showing p,q,r constant, giving xi = a+ry-qz, eta = b+pz-rx, zeta = c+qx-py",
+    "modern_name": "Infinitesimal isometries of R^3 = translations plus infinitesimal rotations (Euclidean Lie algebra e(3)); zero strain implies rigid displacement",
+    "usually_credited_to": "Classical: Euler/Lagrange (Mecanique analytique) for virtual displacements of rigid bodies; Cauchy/Saint-Venant in elasticity",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a clean, self-contained version of a classical derivation of the general virtual displacement of a rigid body, used as a lemma for equilibrium conditions in Gauss's 1836 electromagnetism notes. The marginal 'V p.623' suggests it may already appear in Werke V. The method is elegant (an early instance of Killing-equation reasoning), but the result itself is standard.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,a,b,c,p,q,r=symbols('x y z a b c p q r'); xi=a+r*y-q*z; eta=b+p*z-r*x; zeta=c+q*x-p*y; [diff(xi,x), diff(eta,y), diff(zeta,z), simplify(diff(xi,y)+diff(eta,x)), simplify(diff(xi,z)+diff(zeta,x)), simplify(diff(eta,z)+diff(zeta,y))]",
+    "asserts": "All six expressions are 0: the final displacement satisfies equations 1)-6)."
+   },
+   {
+    "sympy": "dx,dy,dz=symbols('dx dy dz'); dxi=diff(xi,x)*dx+diff(xi,y)*dy+diff(xi,z)*dz; deta=diff(eta,x)*dx+diff(eta,y)*dy+diff(eta,z)*dz; dzeta=diff(zeta,x)*dx+diff(zeta,y)*dy+diff(zeta,z)*dz; expand(dx*dxi+dy*deta+dz*dzeta)",
+    "asserts": "Equals 0: the variation of ds^2 vanishes identically for this displacement."
+   },
+   {
+    "sympy": "X,Y,Z=symbols('X Y Z'); F=Function; XI=F('xi')(X,Y,Z); ETA=F('eta')(X,Y,Z); ZETA=F('zeta')(X,Y,Z); dX,dY,dZ=symbols('dX dY dZ'); Q=expand(dX*(diff(XI,X)*dX+diff(XI,Y)*dY+diff(XI,Z)*dZ)+dY*(diff(ETA,X)*dX+diff(ETA,Y)*dY+diff(ETA,Z)*dZ)+dZ*(diff(ZETA,X)*dX+diff(ZETA,Y)*dY+diff(ZETA,Z)*dZ)); Poly(Q,dX,dY,dZ).coeff_monomial(dX*dY)",
+    "asserts": "The coefficient of dX*dY is xi_Y + eta_X, matching the expansion on the page."
+   },
+   {
+    "sympy": "f=Function('xi')(x,y,z); pz=diff(f,y,z); simplify(-pz - pz)",
+    "asserts": "Illustrates the key step: p_x = -xi_yz (from (6),(4)) and p_x = +xi_yz (from (6),(5)), so 2*p_x = 0."
+   }
+  ],
+  "transcription_corrections": [
+   "In 'Zur Abkürzung bezeichnen wir δx, δy, δz mit λξ, λη, λζ' the first factor in the manuscript looks like α (αξ), followed by λη, λζ; this is consistent with the later 2α.",
+   "The side note labelled '2)' is a marginal computation p_y = ∂∂η/∂y∂z = ∂(∂η/∂y)/∂z = 0, using equation 2); it is not a second equation 2).",
+   "The cancelled passage reads roughly 'dq/dy = -∂p/∂x; dp/dx = -∂∂ζ/∂x∂y = +ddξ/dydz' and is struck through with a curved line. Its content is nonetheless used.",
+   "Final line for ξ: the sign before qz is covered by an ink blot; the correct reading is ξ = a + ry − qz.",
+   "'Ebenso wird' is written as 'Ebensowird' in the manuscript."
+  ]
+ }
+}

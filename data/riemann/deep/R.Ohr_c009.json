@@ -1,0 +1,46 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c009",
+ "label": "5v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page continues §III of Riemann's posthumously published fragment 'Mechanik des Ohres' (ed. Henle, Zeitschrift für rationelle Medicin, 1867; reprinted in his Gesammelte Werke). The aim is to argue that the middle-ear apparatus needs correction mechanisms for thermal expansion. Section IV then begins the geometric analysis of how the ossicles must reposition on cooling.\n\n(a) The law from p. 9. Let T_B be brain temperature, T_a the external temperature and T(x) the steady temperature at point x. The law is\n  T(x) - T_B = phi(x) (T_a - T_B),\nwith phi depending only on position (0 <= phi <= 1).\nJustification (filled in by me): write u = T - T_B. With constant conductivity k and specific heat, the steady state satisfies a linear equation k Δu + (terms linear in u) = 0. The boundary conditions are u = 0 where the brain or arterial blood fixes the temperature, and Newton's cooling law -k du/dn = h (u - (T_a - T_B)) on the skin. All data are linear and homogeneous in (T_a - T_B), so u scales with T_a - T_B.\n\n(b) Application to the tympanic cavity. The temperature difference between cavity and brain cannot be measured. Riemann argues it is noticeable (phi_cavity not small) because:\n- the cavity communicates with outside air via the ear canal and the Eustachian tube;\n- its blood supply is of a particular kind.\nThe petrous pyramid contains the carotid canal, so phi_pyramid ≈ 0. A cavity cooler than its wall therefore requires the mucous lining to be a poor conductor and radiator of heat. The other surrounding bones contain sinuses, large arteries and veins, and are insulated by mucosa and periosteum. So they too have small phi, i.e. are noticeably warmer than the cavity.\n\n(c) Consequence. If T_B - T_a is multiplied by λ (the example given is λ = 2), the change at x is\n  ΔT(x) = phi(x)(λ - 1)(T_a - T_B).\nThis change is noticeable for the cavity air and the ossicles suspended in it, and tiny for the walls. The ossicles therefore contract by roughly α L ΔT_cavity relative to essentially unchanged walls. Riemann says nothing more can be concluded, given that the thermal properties of the tissues are unknown.\n\n(d) §IV begins the kinematics. The incus–tympanic joint (short process of the incus against the cavity wall) is the most fixed point. Cooling shortens every distance within a rigid body, including the distance from this joint surface to the incudo-stapedial joint. The sentence about the malleus is completed on p. 11 (the upper end of the manubrium is the least movable part), leading to the conclusion that the angle at the incudo-malleal joint opens slightly.",
+  "errors": [
+   "No mathematical error. The proportionality law holds only if the heat sources are either fixed-temperature (Dirichlet) regions or linear in T - T_B, e.g. perfusion terms. A metabolic heat source independent of T would add a term not proportional to T_a - T_B. Riemann acknowledges the law holds only 'nahe' (approximately) and under the stated constancy assumptions.",
+   "'auf das Doppelte' is a numerical illustration of the common ratio, not a derived value.",
+   "The inference that the lining is a poor conductor and radiator is qualitative and rests on the unmeasured premise that the cavity is noticeably cooler than the brain."
+  ],
+  "results": [
+   {
+    "what": "Steady-state body temperature deviation from brain temperature is proportional to (external - brain) temperature, by linearity of heat conduction with Newton's cooling law",
+    "modern_name": "Linearity/superposition of the steady heat equation with Robin (Newton cooling) boundary conditions",
+    "usually_credited_to": "Fourier (1822) for the theory; Newton for the cooling law",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Qualitative argument that ossicles cool and contract relative to the tympanic walls, requiring thermal compensation in the ossicular chain",
+    "modern_name": "Thermal compensation in middle-ear mechanics (physiological speculation)",
+    "usually_credited_to": "Riemann, 'Mechanik des Ohres' (posthumous, 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a page of Riemann's known, published fragment 'Mechanik des Ohres' (Henle's journal 1867, Gesammelte Werke). The mathematics is a routine linearity argument for steady heat conduction.",
+  "checkable": [
+   {
+    "sympy": "x,k,h,L,Ta,TB=symbols('x k h L Ta TB',positive=True); u=(Ta-TB)*h*x/(k+h*L); simplify([diff(u,x,2), u.subs(x,0), simplify(k*diff(u,x).subs(x,L)+h*(u.subs(x,L)-(Ta-TB)))])",
+    "asserts": "A 1-D slab with brain end held at T_B and a Newton-cooled outer end has u = T - T_B proportional to (Ta - TB): u'' = 0, u(0) = 0, Robin condition satisfied."
+   },
+   {
+    "sympy": "phi,lam,d=symbols('phi lam d'); simplify(phi*lam*d - phi*d - phi*(lam-1)*d)",
+    "asserts": "When T_B - T_a is scaled by λ, the temperature change at a point is phi(λ-1)(T_a - T_B): large where phi is large (cavity), small where phi ≈ 0 (bones)."
+   }
+  ],
+  "transcription_corrections": [
+   "Transcription matches the image; no corrections needed (the 'das' at the end of the last line is partly clipped but correct)."
+  ]
+ }
+}

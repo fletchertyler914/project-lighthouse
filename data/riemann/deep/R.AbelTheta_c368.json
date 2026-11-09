@@ -1,0 +1,65 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c368",
+ "label": "182r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000369/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a working draft of §17 of Riemann's 'Theorie der Abel'schen Functionen' (Crelle 54, 1857). It defines the p-variable theta function by its functional equations and derives its Fourier series. The page then begins to set up the cut Riemann surface and the normalized periods.\n\n(1) Characterising properties. The surviving top line, and the first line of the published §17, imply the following properties of ϑ(v1,…,vp). These are stated on the preceding (lost or deleted) lines and are filled in by me:\n- ϑ(v + πi e_ν) = ϑ(v).\n- ϑ(v + a_{·ν}) = exp(−2v_ν − a_{νν}) ϑ(v), where a_{·ν} = (a_{1ν},…,a_{pν}).\n- ϑ is everywhere finite, i.e. entire.\nRiemann's claim: these properties determine ϑ up to a constant factor.\n\n(2) Fourier expansion. ϑ is single-valued and has period πi in each v_μ. It is therefore a single-valued function of e^{2v_1},…,e^{2v_p}, holomorphic on (C*)^p. Hence it has a Laurent (Fourier) expansion\nϑ = Σ_{m∈Z^p} A_m exp(2 Σ_μ v_μ m_μ),\nwith coefficients A_m independent of v.\n\n(3) Recurrence. Substitute into the second functional equation (the step is mine):\n- The left side becomes Σ A_m exp(2m·v + 2Σ_μ a_{μν} m_μ).\n- The right side becomes Σ A_m exp(2(m − e_ν)·v − a_{νν}) = Σ A_{m+e_ν} exp(2m·v − a_{νν}).\n- Comparing coefficients gives A_{m+e_ν} = A_m exp(2Σ_μ a_{μν} m_μ + a_{νν}), exactly as on the page.\n\n(4) Solving the recurrence. With a symmetric matrix (a_{μμ'}) one gets\nA_m = A · exp(Σ_μ Σ_{μ'} a_{μμ'} m_μ m_{μ'}).\nThe check: Q(m + e_ν) − Q(m) = 2Σ_μ a_{μν} m_μ + a_{νν}. So ϑ(v) = A Σ_m exp(Q(m) + 2m·v), which is the Riemann theta series. Riemann then remarks that one may take these two properties as the definition of ϑ.\n\n(5) Geometric setting (partly illegible). Let s be an algebraic function of z. The (2p+1)-fold connected surface T is cut by cross-cuts into a simply connected surface T′. The boundary falls into pairs of cuts a_1…a_p and b_1…b_p. The everywhere-finite integrals u_μ are normalized so that:\n- the modulus of periodicity of u_μ at a_μ is πi;\n- its modulus at the other a-cuts is 0;\n- its modulus at b_{μ'} is denoted a_{μ,μ'}.\nThen a_{μμ'} = a_{μ'μ}, which is proved on the next page via the contour integral ∫ w dw′ around ∂T′. Finally, the real part of the quadratic form Σ a_{μμ'} m_μ m_{μ'} must be negative (definite). This is what makes the series converge; in the published paper it is proved from ∫|dw|² > 0.",
+  "errors": [
+   "No mathematical errors in the legible derivation. The recurrence and its solution are correct provided (a_{μμ'}) is symmetric. That symmetry is tacitly assumed here and is justified only on the next page.",
+   "The uniqueness claim ('bis auf einen constanten Factor bestimmt') is justified by the recurrence: every A_m is fixed by A_0. Convergence, and hence existence, needs Re(Q) negative definite. That condition is noted at the bottom of the page but not proved here.",
+   "Riemann writes the quadratic form with a doubly indexed sum over μ, μ'. The page writes an ambiguous exponent 'Σ_μ 2 a_{μ,ν} m_μ + a_{ν,ν}', which is consistent with the derivation."
+  ],
+  "results": [
+   {
+    "what": "Characterisation of the p-variable theta function by quasi-periodicity plus holomorphy, unique up to a constant",
+    "modern_name": "Riemann theta function / theta functional equations (sections of the principal polarization on an abelian variety)",
+    "usually_credited_to": "Riemann 1857 (Jacobi and Göpel/Rosenhain for p=1,2)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Fourier coefficient recurrence A_{m+e_ν} = A_m exp(2Σ a_{μν} m_μ + a_{νν}), giving the series Σ exp(Q(m) + 2m·v)",
+    "modern_name": "Derivation of the Riemann theta series from functional equations",
+    "usually_credited_to": "Riemann 1857 (§17 of Theorie der Abel'schen Functionen)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Normalized period matrix (πi on a-cycles, a_{μμ'} on b-cycles) is symmetric with negative definite real part",
+    "modern_name": "Riemann bilinear relations / Siegel upper half-space condition",
+    "usually_credited_to": "Riemann 1857",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of material published by Riemann in 1857 (§17 and §20 of the Abelian functions paper). It is well known as his. Interest lies only in seeing the order of composition: theta defined via functional equations before the surface setup.",
+  "checkable": [
+   {
+    "sympy": "m1,m2,a11,a12,a22=symbols('m1 m2 a11 a12 a22'); Q=lambda x,y: a11*x**2+2*a12*x*y+a22*y**2; simplify(Q(m1+1,m2)-Q(m1,m2)-(2*a11*m1+2*a12*m2+a11))",
+    "asserts": "The quadratic-form coefficients satisfy the recurrence for ν=1 (result should be 0)."
+   },
+   {
+    "sympy": "simplify(Q(m1,m2+1)-Q(m1,m2)-(2*a12*m1+2*a22*m2+a22))",
+    "asserts": "The recurrence holds for ν=2 (result should be 0)."
+   },
+   {
+    "sympy": "v1,v2=symbols('v1 v2'); term=lambda x,y,w1,w2: exp(Q(x,y)+2*(x*w1+y*w2)); simplify(term(m1,m2,v1+a11,v2+a12) - exp(-2*v1-a11)*term(m1+1,m2,v1,v2))",
+    "asserts": "Shifting v by the column (a11,a12) maps term m to term m+e1 times exp(-2v1-a11), i.e. the theta functional equation (result should be 0)."
+   },
+   {
+    "sympy": "simplify(term(m1,m2,v1+pi*I,v2)/term(m1,m2,v1,v2) - exp(2*pi*I*m1))",
+    "asserts": "Each term is πi-periodic in v1, since exp(2πi m1)=1 for integer m1."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 is likely: 'ϑ(v) ist für jeden endlichen Werth der v eindeutige und stetige Function von e^{2v_1},…,e^{2v_p} und folglich … in eine Reihe von der Form … entwickelbar'.",
+   "Read 'mit einem von den Größen v unabhängigen Coefficienten A entwickelbar'.",
+   "The recurrence exponent is 'Σ_μ 2 a_{μ,ν} m_μ + a_{ν,ν}', with no extra factor.",
+   "The line 'Ich bezeichne nun durch b_1, b_2…' is better read as 'Ich betrachte nun … eine veränderliche Größe z und eine algebraische Function s dieser Größe'.",
+   "The final line reads '…muss … der reelle Theil der Function (Σ) a_{μ,μ'} m_μ m_{μ'} … wesentlich negativ sein'."
+  ]
+ }
+}

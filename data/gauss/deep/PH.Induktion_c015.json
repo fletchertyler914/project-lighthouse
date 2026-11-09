@@ -1,0 +1,87 @@
+{
+ "bundle": "PH.Induktion",
+ "page": "c015",
+ "label": "8v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382427:00000016/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous and next pages): Göttingen observatory, Tuesday 8 March 1836. These are observations of a freely swinging magnetometer needle to determine its logarithmic decrement (Decr. log.) with the induction circuit open ('offen') and closed ('geschlossen'/'geschl. Kette'). This page continues the series from oscillation 47 to 91; the next page continues it from 94 to 137.\n\nColumns on each row: oscillation number n; clock time of a passage (10h m' s''); amplitude A_n in scale divisions (the arc read on the scale); and log10 A_n to 5 decimals.\n\nThe times show a constant period. Successive differences are about 42.25 to 42.45 s. Over the 12-oscillation gaps the averages are (23'38.3''-15'10.3'')/12 = 508.0/12 = 42.33 s and (40'34.55''-32'6.4'')/12 = 42.35 s. So T ≈ 42.33 s. Gauss does not compute T on this page.\n\nMethod (my explicit statement of what the numbers do):\n(1) Group the logarithms in blocks of five consecutive oscillations n0-2 ... n0+2. Take the arithmetic mean M(n0), which stands for log A at the central oscillation n0.\n(2) Pair two blocks whose centres are 16 oscillations apart. The logarithmic decrement per oscillation (Briggsian logarithms, in units of 1e-5) is λ = [M(n0) - M(n0+16)]/16.\n\nOpen circuit, n = 47-51 and 63-67:\n- log A values: 2.94000, 2.93879, 2.93777, 2.93679, 2.93553. Mean = 14.68888/5 = 2.937776, written 2.93777.\n- 2.92215, 2.92106, 2.92005, 2.91890, 2.91787. Mean = 14.60003/5 = 2.920006, written 2.92001.\n- λ_open = (2.93777 - 2.92001)/16 = 0.01776/16 = 0.001110, i.e. 'D.L. = 111.0'.\n- This agrees with the earlier open-circuit value 110.0 on the previous page and 116.50 on the next.\n\nCircuit closed after n = 67 ('geschlossen'), n = 71-75 and 87-91:\n- 2.89927, 2.89290, 2.88601, 2.87947, 2.87297. Mean = 14.43062/5 = 2.886124, written 2.88612.\n- 2.79414, 2.78682, 2.78050, 2.77452, 2.76794. Mean = 13.90392/5 = 2.780784, written 2.78078.\n- λ_closed = (2.88612 - 2.78078)/16 = 0.10534/16 = 0.0065838, i.e. 658.4. The transcription has 'Decr. log. 638.4'.\n- The closed-circuit values on the neighbouring pages are 652.9 and 657.7.\n\nPhysical meaning (my gloss):\n- Amplitudes decay geometrically, A_n = A_0·10^(-λn).\n- With the circuit open, λ ≈ 0.00111 comes from air resistance and similar losses.\n- Closing the circuit around the needle lets the induced currents damp the motion. That raises λ about six-fold, to ≈0.0066.\n- The induction part of the damping is λ_closed - λ_open ≈ 0.00547 per oscillation.\n- Alternating open and closed blocks (this page and the next) checks that the open-circuit damping stays stable, giving 110, 111, 116.5.\n\nThe right half of the image is the cut-off margin of the facing page. Its full content (n = 94-137) is the next page.",
+  "errors": [
+   "Row 64: log10(833.85) = 2.92109, but Gauss wrote 2.92106. The value 2.92106 fits an amplitude of 833.80, so either the amplitude was misread/miswritten by 0.05 or the log is slightly off. The block mean 2.92001 is unaffected (2.920012 vs 2.920006).",
+   "Row 65: the amplitude was first written 829.65 (copying the next row) and corrected to 831.85. The logarithm 2.92005 belongs to the corrected value, so the correction is right.",
+   "Block means are truncated rather than rounded in places (2.937776 written 2.93777). This is negligible.",
+   "Decrement for the closed circuit: (2.88612 - 2.78078)/16 = 658.4 (in 1e-5), not 638.4. Either the transcription misreads the handwritten 5 as 3, or Gauss slipped. The neighbouring closed-circuit values 652.9 and 657.7 support 658.4.",
+   "All other logarithms check to within 1 unit in the 5th decimal."
+  ],
+  "results": [
+   {
+    "what": "Logarithmic decrement of a damped magnetometer oscillation, from means of five consecutive log-amplitudes at blocks 16 oscillations apart",
+    "modern_name": "logarithmic decrement / exponential damping estimate (block-averaged least-squares-like estimator)",
+    "usually_credited_to": "Gauss (Intensitas vis magneticae, 1832; Resultate des magnetischen Vereins) and Weber",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Comparison of damping with the induction circuit open vs closed: electromagnetic (eddy/induced-current) damping raises λ from ~0.00111 to ~0.0066 per oscillation",
+    "modern_name": "electromagnetic induction damping (later Weber's 'Dämpfer'; damping as a measure of circuit resistance)",
+    "usually_credited_to": "Gauss and Wilhelm Weber, Göttingen 1830s; Weber's later absolute-resistance work (1850s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are routine laboratory data from the Gauss–Weber magnetism and induction program of 1836: logarithms of amplitudes, block means and decrement differences. The induction-damping experiments and the decrement method are well known as theirs. This is a raw observing sheet with no new theory.",
+  "checkable": [
+   {
+    "sympy": "[round(log(a,10).evalf(),5) for a in [870.95,868.55,866.5,864.55,862.05]]",
+    "asserts": "Gives 2.94000, 2.93879, 2.93777, 2.93679, 2.93553"
+   },
+   {
+    "sympy": "round(log(833.85,10).evalf(),5)",
+    "asserts": "Equals 2.92109, not Gauss's 2.92106 (log10(833.80) ≈ 2.92106)"
+   },
+   {
+    "sympy": "[round(log(a,10).evalf(),5) for a in [835.9,831.85,829.65,827.7]]",
+    "asserts": "Gives 2.92215, 2.92005, 2.91890, 2.91787 (the corrected amplitude 831.85 fits)"
+   },
+   {
+    "sympy": "(2.94000+2.93879+2.93777+2.93679+2.93553)/5",
+    "asserts": "≈ 2.937776 (written 2.93777)"
+   },
+   {
+    "sympy": "(2.92215+2.92106+2.92005+2.91890+2.91787)/5",
+    "asserts": "≈ 2.920006 (written 2.92001)"
+   },
+   {
+    "sympy": "(2.93777-2.92001)/16*10**5",
+    "asserts": "= 111.0, the open-circuit D.L."
+   },
+   {
+    "sympy": "[round(log(a,10).evalf(),5) for a in [793.0,781.45,769.15,757.65,746.4,622.5,612.1,603.25,595.0,586.05]]",
+    "asserts": "Gives 2.89927, 2.89290, 2.88601, 2.87947, 2.87297, 2.79414, 2.78682, 2.78050, 2.77452, 2.76794 (last ≈ 2.767935)"
+   },
+   {
+    "sympy": "(2.89927+2.89290+2.88601+2.87947+2.87297)/5",
+    "asserts": "≈ 2.886124 (written 2.88612)"
+   },
+   {
+    "sympy": "(2.79414+2.78682+2.78050+2.77452+2.76794)/5",
+    "asserts": "≈ 2.780784 (written 2.78078)"
+   },
+   {
+    "sympy": "(2.88612-2.78078)/16*10**5",
+    "asserts": "= 658.375 ≈ 658.4, the closed-circuit decrement (not 638.4)"
+   },
+   {
+    "sympy": "((23*60+38.3)-(15*60+10.3))/12",
+    "asserts": "Oscillation period ≈ 42.33 s"
+   }
+  ],
+  "transcription_corrections": [
+   "The header 'ott.' above the time column is most likely 'off.' = offen (open circuit), matching 'offen' on the facing page.",
+   "The closed-circuit decrement 'Decr. log. 638.4' should probably read 658.4, which agrees with the computation (2.88612-2.78078)/16.",
+   "Row 89 time: '41 59.1' means 10h 41' 59.1'' (the minute is repeated in the MS); rows 90 and 91 are 42' and 43'.",
+   "Row numbers 63/64 are written over other digits (overwritten numbering), but the intended values are 63 and 64."
+  ]
+ }
+}

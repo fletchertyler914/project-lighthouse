@@ -1,0 +1,66 @@
+{
+ "bundle": "Math.26",
+ "page": "c005",
+ "label": "2v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381839:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "IMPORTANT: Folio 2v carries no new writing of its own. Everything visible is mirror-reversed show-through (or offset) of the ink on folio 2r, the 'previous page'. The pieces that match are: 'Entfernung', 'a', 'c', the triangle sketch with alpha and beta, the pentagon ABCDE with diagonals, 'geht durch die Punkte', the list of points, and the block of linear relations ending in 'Correspondirende'. Read correctly, the content is identical to 2r, so the reconstruction below is of that shared content.\n\n(1) Sketches. The first is a triangle ABC with transversal markings +alpha (near B) and -beta (near A). The second is a pentagon A, B, C, D, E with diagonals. The note 'geht durch die Punkte' (passes through the points) lists points on the sidelines as linear combinations of the vertices, for example alpha C - (1-alpha) B, (alpha-1) B + alpha C, (gamma-1) A, gamma B, epsilon A. This is a Menelaus-type set-up: points on the sides given by vertex weights, and a line through them.\n\n(2) Algebra. Points are treated as vectors, with affine (weight-sum-preserving) relations. In every relation below the coefficients on each side have equal sums.\n\n(i) (ps-qr) A = p(q+s) c - q(p+r) b, so A lies on line bc.\n\n(ii) (q+s-ps+qr) A + q(q+s-ps+qr) C = (1+q)(q+s-ps+qr) d. This is A + qC = (1+q) d, so d lies on AC.\n\n(iii) (q+qr-qs) A + q(q+s-ps+qr) C = q(1+q+r-ps+qr) e, so e lies on AC.\n\n(iv) Subtracting (iii) from (ii) eliminates C: s(1-p+q) A = (1+q)(q+s-ps+qr) d - q(1+q+r-ps+qr) e.\n\n(v) Multiply (i) by s(1-p+q) and (iv) by (ps-qr), then subtract to eliminate A:\n0 = ps(q+s)(1-p+q) c - qs(p+r)(1-p+q) b - (ps-qr)(1+q)(q+s-ps+qr) d + (ps-qr) q (1+q+r-ps+qr) e.\nThis is a linear dependence among the four points b, c, d, e with zero coefficient sum.\n\n(vi) 'Correspondirende': the corresponding relation for the capital points is 0 = sC - rB - D + (1+r-s) E. Its coefficients sum to zero, so it is a legitimate affine relation.\n\nContext: the next leaf is headed 'Newtons Kegelschnitts Construction'. That suggests these relations belong to a pentagon / projective-correspondence set-up, i.e. Newton's organic construction of a conic through five points, worked in barycentric/vector form.",
+  "errors": [
+   "No slip found in the chain as written on 2r. Each relation preserves coefficient sums. (ii) minus (iii) gives exactly s(1-p+q)A. The elimination of A in (v) is exact.",
+   "The machine transcription of THIS page is unreliable because it is read from mirrored show-through. It writes p where q belongs in (ii)-(iv): '(1+p)', 'p(q+s-ps+qr)C', '1+p+r'. It also has the wrong sign in 's(1-p-q)'. With those readings the coefficient sums no longer match, whereas the 2r readings are consistent."
+  ],
+  "results": [
+   {
+    "what": "Collinearity and linear-dependence relations among points of a pentagon/triangle configuration, expressed as weighted vector (barycentric) combinations, with elimination to obtain a relation among four points.",
+    "modern_name": "Barycentric/vector coordinates; Menelaus-type collinearity conditions; linear elimination",
+    "usually_credited_to": "Barycentric calculus: Moebius (1827). Menelaus theorem: antiquity.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Auxiliary computations apparently for Newton's construction of a conic through five points (context from the next leaf).",
+    "modern_name": "Newton's organic construction / projective generation of conics",
+    "usually_credited_to": "Newton (Principia, Arithmetica Universalis)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page has no independent content: it is mirrored show-through of folio 2r. The underlying algebra is routine affine elimination with barycentric weights.",
+  "checkable": [
+   {
+    "sympy": "expand((1+q)*(q+s-p*s+q*r) - q*(1+q+r-p*s+q*r) - s*(1-p+q))",
+    "asserts": "Equals 0: the weight sums in relation (iv) agree, i.e. (ii)-(iii) gives s(1-p+q)A."
+   },
+   {
+    "sympy": "expand((q+s-p*s+q*r) - (q+q*r-q*s) - s*(1-p+q))",
+    "asserts": "Equals 0: the A-coefficient difference of (ii) and (iii) is s(1-p+q)."
+   },
+   {
+    "sympy": "expand((q+q*r-q*s) + q*(q+s-p*s+q*r) - q*(1+q+r-p*s+q*r))",
+    "asserts": "Equals 0: relation (iii) preserves the weight sum."
+   },
+   {
+    "sympy": "expand(p*(q+s) - q*(p+r) - (p*s-q*r))",
+    "asserts": "Equals 0: relation (i) preserves the weight sum."
+   },
+   {
+    "sympy": "A=(p*(q+s)*c-q*(p+r)*b)/(p*s-q*r); d=(A+q*C)/(1+q); e=((q+q*r-q*s)*A+q*(q+s-p*s+q*r)*C)/(q*(1+q+r-p*s+q*r)); simplify(p*s*(q+s)*(1-p+q)*c - q*s*(p+r)*(1-p+q)*b - (p*s-q*r)*(1+q)*(q+s-p*s+q*r)*d + (p*s-q*r)*q*(1+q+r-p*s+q*r)*e)",
+    "asserts": "Equals 0: the final four-point relation (v) follows from (i)-(iii)."
+   },
+   {
+    "sympy": "expand(s - r - 1 + (1+r-s))",
+    "asserts": "Equals 0: the 'Correspondirende' relation 0 = sC - rB - D + (1+r-s)E has zero weight sum."
+   }
+  ],
+  "transcription_corrections": [
+   "The whole page is mirror-image show-through of folio 2r. It should be catalogued as blank verso, or as a duplicate of 2r, rather than as new content.",
+   "In relation (ii) read 'q(q+s-ps+qr)C' and '(1+q)(q+s-ps+qr)d', not p.",
+   "In relation (iii) read '(q+qr-qs)A + q(q+s-ps+qr)C = q(1+q+r-ps+qr)e'.",
+   "In relation (iv) read 's(1-p+q)A = (1+q)(q+s-ps+qr)d - q(1+q+r-ps+qr)e', not 's(1-p-q)' or '(1+p)'.",
+   "In the final elimination read '(1-p+q)' throughout and '(1+q)', '(1+q+r-ps+qr)'.",
+   "The second header letter is 'e' as on 2r ('Entfernung a e'). On the mirrored page it appears as 'c'."
+  ]
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "bundle": "600_3",
+ "page": "c049",
+ "label": "[46]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000050/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has three separate notes.\n\n(1) Lines of curvature and strain lines. Hilbert draws an analogy between surface theory and continuum mechanics.\n- A deformation (Verzerrung) of a continuum is a point transformation. Its principal axes of strain (the eigen-directions of the symmetric strain tensor) give the strain lines (Verzerrungslinien).\n- The analogous transformation for a surface S is the Gauss map N: S -> S^2. It sends each point to the point of the unit sphere with parallel normal.\n- Its differential dN_p = -W_p is the shape operator (Weingarten map). W_p is self-adjoint with respect to the first fundamental form. Its eigenvalues are the principal curvatures k1, k2 and its eigenvectors are the principal directions.\n- Hence an infinitesimal circle of radius r on S goes, to first order, to an ellipse on S^2 with semi-axes r|k1|, r|k2| along the images of the principal directions. This is the analogue of the strain ellipse.\n- Integral curves of the principal directions are the lines of curvature. They correspond to the strain lines, i.e. the integral curves of the principal strain directions.\n- Hilbert phrases it in the inverse direction: a circle on the sphere goes to an ellipse. In that direction the semi-axes are the principal radii of curvature 1/k_i. 'Hauptkrümmungen' must then be read loosely as 'principal curvatures (radii)'.\n\n(2) Fast-moving rest point in a slowly moving continuum. Claim: velocities and accelerations of the material points can be arbitrarily small, yet the rest point moves enormously fast. (The rest point is the place where the velocity vanishes.)\n- Example: a 1-D continuum whose points move by dx/dt = eps*x - t, with eps very small and x = a at t = 0 labelling the particles.\n- My solution of the ODE: x(t;a) = t/eps + 1/eps^2 + (a - 1/eps^2) e^{eps t}.\n- The rest point is where the velocity field v(x,t) = eps*x - t vanishes: X(t) = t/eps.\n- Differentiating eps*X - t = 0 gives eps dX/dt = 1, so the rest point moves with speed dX/dt = 1/eps. This is huge for small eps.\n- Point made: the rest point is a pattern, not a material point. Its velocity has nothing to do with material velocities. In general, for v = f(x,t), X' = -f_t/f_x, which is large when f_x is small.\n\n(3) Klein's coffee-spoon problem: generation of vortices in an ideal fluid.\n- Move a plane wall uniformly through a fluid at rest at infinity. The motion is then irrotational (potential flow), so no vortices exist.\n- Withdraw the wall suddenly. The fluid on the two sides has opposite tangential velocities, so the initial state is irrotational but carries a surface of discontinuity (a vortex sheet).\n- From such a state vortices arise. On the next page the plane is regarded as a free surface into which the fluid flows together. In modern terms the sheet rolls up into concentrated vortices.\n- Hilbert's remark simply restates Klein's resolution of how vortices can appear in a frictionless fluid despite Helmholtz's theorems: the vorticity was present all along, concentrated in the tangential discontinuity.",
+  "errors": [
+   "Example (2) does not fully support the stated claim that velocities AND accelerations are arbitrarily small. For v = eps*x - t, the material acceleration is Dv/Dt = v_t + v*v_x = -1 + eps*v, which equals -1 at the rest point, i.e. O(1), not small. Only the velocity gradient eps is small. A field such as v = eps^2 (x - t/eps) would give rest-point speed 1/eps with acceleration -eps there. So the claim is true, but the example as written fails the acceleration part.",
+   "The velocities eps*x - t are small only near the rest point, not uniformly in space or time. This is unstated.",
+   "Minor direction slip in (1): mapping a circle on the sphere to the surface gives an ellipse with semi-axes proportional to the principal radii 1/k_i, not the curvatures k_i. The curvatures are the axes for the map surface -> sphere."
+  ],
+  "results": [
+   {
+    "what": "Gauss map differential (shape operator) as analogue of a strain transformation; lines of curvature correspond to principal strain lines; infinitesimal circle maps to ellipse with axes given by principal curvatures",
+    "modern_name": "Weingarten map / shape operator; Dupin-type indicatrix; strain ellipse analogy",
+    "usually_credited_to": "Gauss (1827), Rodrigues (1815), Dupin (1813); strain ellipse/principal strains Cauchy (1820s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Rest point (zero of velocity field) can move arbitrarily fast while material velocities are small; example dx/dt = eps*x - t, rest-point speed 1/eps",
+    "modern_name": "Stagnation point / pattern velocity vs. material velocity (Eulerian vs Lagrangian kinematics)",
+    "usually_credited_to": "folklore of continuum kinematics",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Vortex generation in ideal fluid by suddenly withdrawing a uniformly moved plate: irrotational initial state with tangential discontinuity (vortex sheet) produces vortices",
+    "modern_name": "Klein's coffee-spoon experiment; vortex sheet roll-up",
+    "usually_credited_to": "F. Klein, 'Über die Bildung von Wirbeln in reibungslosen Flüssigkeiten', Z. Math. Phys. 58 (1910); vortex sheets Helmholtz 1858/1868",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are notebook remarks. The surface-theory/elasticity analogy is classical, and the rest-point example is an elementary kinematic observation (with a flawed acceleration claim). The vortex note explicitly reports Klein's 1910 coffee-spoon problem, which helps date the page to c. 1910 but adds nothing beyond Klein.",
+  "checkable": [
+   {
+    "sympy": "t,a,eps=symbols('t a eps',positive=True); x=t/eps+1/eps**2+(a-1/eps**2)*exp(eps*t); simplify(diff(x,t)-(eps*x-t))",
+    "asserts": "The given x(t;a) solves dx/dt = eps*x - t (result 0)."
+   },
+   {
+    "sympy": "t,a,eps=symbols('t a eps',positive=True); x=t/eps+1/eps**2+(a-1/eps**2)*exp(eps*t); simplify(x.subs(t,0)-a)",
+    "asserts": "Initial condition x = a at t = 0 holds (result 0)."
+   },
+   {
+    "sympy": "x,t,eps=symbols('x t eps'); X=solve(eps*x-t,x)[0]; diff(X,t)",
+    "asserts": "Rest point X(t)=t/eps moves with speed 1/eps."
+   },
+   {
+    "sympy": "x,t,eps=symbols('x t eps'); v=eps*x-t; simplify((diff(v,t)+v*diff(v,x)).subs(x,t/eps))",
+    "asserts": "Material acceleration at the rest point equals -1 (not small), contradicting the 'accelerations small' part for this example."
+   },
+   {
+    "sympy": "x,y,k1,k2=symbols('x y k1 k2'); z=(k1*x**2+k2*y**2)/2; N=Matrix([-diff(z,x),-diff(z,y),1]); J=N[:2,:].jacobian([x,y]).subs({x:0,y:0}); J.eigenvals()",
+    "asserts": "At the origin the Gauss map differential has eigenvalues -k1, -k2, the principal curvatures, so a small circle maps to an ellipse with axes proportional to |k1|, |k2|."
+   }
+  ],
+  "transcription_corrections": [
+   "Equation line: the image reads roughly 'Ruhepunkt: eps x - t = 0 d.h. eps dx/dt = 1' with an intervening struck-out symbol. The '[-...-]' between dx/dt and '= 1' is a deletion, not a missing term.",
+   "'Geschwindigkeit der Ruhepunktes' is probably 'der Ruhepunkte' or 'des Ruhepunktes' in the image.",
+   "'linearer Continuum' should be read as 'lineares Continuum' (Hilbert's slip).",
+   "First word: 'Den' is written over a deleted 'Den'/'Der', so the correction mark is cosmetic."
+  ]
+ }
+}

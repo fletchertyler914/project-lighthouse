@@ -1,0 +1,81 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c156",
+ "label": "79r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000157/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two 7-place tables, each argued at 0°, 6°, ..., 90°, with full difference schemes.\n\nTABLE 1, with column 1 = f(θ).\n- Values: f(0) = 0.3826834 = sin(π/8) and f(90°) = 1/2.\n- Identification (mine, verified at every row): f(θ)·cos θ = sin(22.5°·(1 − (θ/90°)^2)).\n  - Spot checks: θ=30° gives sin 20°; θ=60° gives sin 12.5°; θ=6° gives sin 22.4°.\n  - In radians: f(θ) = sin(π/8 − θ^2/(2π)) / cos θ.\n  - At θ = π/2 the quotient is 0/0, and the limit is 1/2, which is the tabulated value.\n- Link to the Riemann–Siegel formula. Put θ = 2π(p − 1/2), i.e. p = 1/2 + θ/360°. Then\n  f = cos(2π(p^2 − p − 1/16)) / cos(2πp) = Ψ(p).\n  This is the leading coefficient C0(p) of the Riemann–Siegel remainder, in the form Siegel (1932) extracted from Riemann's Nachlass.\n  - Ψ is even about p = 1/2.\n  - The table covers p ∈ [1/2, 3/4], hence by symmetry [1/4, 3/4], in steps of 1/60.\n- The remaining columns are the difference table: Δ1, Δ2, then Δ3 and Δ4 in units of 1e-7.\n  - The 0° row uses evenness, f(−6°) = f(6°). That is why the 6° row shows Δ2 = 2·0.0004860 = 0.0009720.\n  - It is also why the 12° row shows Δ3 = 19 and Δ4 = 38 = 2·19.\n  - Fourth differences run steadily at about 32–41 and then fall to about 18–26 near 90°. This is a smoothness/accuracy check of the computation.\n\nTABLE 2, with column 1 = g(θ).\n- Values: g(0) = 0 and g(90°) = 1/2.\n- Identification (mine, verified at every row): g(θ) = f(θ)·sin θ = tan θ · sin(π/8 − θ^2/(2π)).\n  - For example g(30°) = f(30°)/2 and g(6°)/f(6°) = sin 6°.\n  - Thus (f cos θ, f sin θ) are the Cartesian components of the point with polar coordinates (Ψ, θ).\n  - Equivalently, g = −Ψ(p)·sin 2πp.\n- The purpose of g is not stated (perhaps auxiliary for interpolation or a curve plot; my conjecture).\n- Its difference table is also complete.\n  - The second differences are entered as positive numbers although they are negative (the function is concave).\n  - The 6° row has Δ2 = 0 and the 12° row has Δ4 = 0, by oddness, g(−θ) = −g(θ).\n\nAll differences in both tables check exactly, except one slip in the 84° line of Table 1 (see errors).",
+  "errors": [
+   "Table 1, 84° row: the value reads 0.4840117, but the true value is 0.4840112. The differences actually used (Δ1 = 0.0146633, then 0.0159889 at 90°, Δ2 = 0.0012814, 0.0013256) correspond to 0.4840111, which sums to 0.5000000 at 90°. So either the 84° entry is a copying slip (7 for 1), or the image shows an ambiguous digit. With 0.4840117, the true first differences would have been 0.0146639 and 0.0159883.",
+   "No other arithmetic errors: all first through fourth differences in both tables check to the last unit, and the tabulated values agree with sin(π/8−θ^2/(2π))/cos θ and its product with sin θ to about ±1e-7.",
+   "Minor notational point: in Table 2 the second differences (negative) are recorded without sign, so the Δ3 and Δ4 columns are of the absolute values."
+  ],
+  "results": [
+   {
+    "what": "7-place table with full difference scheme of Ψ(p)=cos(2π(p²−p−1/16))/cos(2πp), written as sin(π/8−θ²/2π)/cos θ with θ=2π(p−1/2), for p from 1/2 to 3/4 in steps of 1/60",
+    "modern_name": "Riemann–Siegel coefficient C0(p) (Ψ(p)) of the Riemann–Siegel formula",
+    "usually_credited_to": "Riemann (Nachlass), published and analysed by C. L. Siegel 1932; Ψ tables later by Titchmarsh/Comrie, Haselgrove, and others",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Companion table g = Ψ·sin θ = −Ψ(p) sin 2πp with difference scheme, exploiting oddness at θ=0",
+    "modern_name": "auxiliary (polar component) table of the Riemann–Siegel coefficient",
+    "usually_credited_to": "unsure",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of parity (even and odd extension) to start difference tables at the origin, and fourth differences as an accuracy check",
+    "modern_name": "finite-difference table checking (standard 19th-century tabulation practice)",
+    "usually_credited_to": "standard practice (Newton, Briggs, Gauss era)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The function Ψ(p) is already known, through Siegel 1932, to come from Riemann's Nachlass, and Riemann is known to have done numerical zeta computations. A carefully differenced 7-place numerical table of Ψ in his hand is a notable unpublished computational detail that confirms he worked it out numerically. It is not a new theoretical result.",
+  "checkable": [
+   {
+    "sympy": "N(sin(pi/8 - (pi/30)**2/(2*pi))/cos(pi/30), 10)",
+    "asserts": "f(6°) = 0.3831694"
+   },
+   {
+    "sympy": "N(sin(pi/8 - (pi/6)**2/(2*pi))/cos(pi/6), 10)",
+    "asserts": "f(30°) = 0.3949309 (and f cos30° = sin 20°)"
+   },
+   {
+    "sympy": "N(sin(pi/8 - (7*pi/15)**2/(2*pi))/cos(7*pi/15), 10)",
+    "asserts": "f(84°) = 0.4840112, not 0.4840117"
+   },
+   {
+    "sympy": "limit(sin(pi/8 - t**2/(2*pi))/cos(t), t, pi/2)",
+    "asserts": "f(90°) = 1/2"
+   },
+   {
+    "sympy": "simplify(cos(2*pi*(p**2-p-Rational(1,16)))/cos(2*pi*p) - sin(pi/8 - 2*pi*(p-Rational(1,2))**2)/cos(2*pi*(p-Rational(1,2))))",
+    "asserts": "the tabulated f equals the Riemann–Siegel Ψ(p) with θ = 2π(p−1/2) (should simplify to 0)"
+   },
+   {
+    "sympy": "N(tan(pi/30)*sin(pi/8 - (pi/30)**2/(2*pi)), 10)",
+    "asserts": "g(6°) = 0.0400521"
+   },
+   {
+    "sympy": "N(tan(4*pi/15)*sin(pi/8 - (4*pi/15)**2/(2*pi)), 10)",
+    "asserts": "g(48°) = 0.3079892"
+   },
+   {
+    "sympy": "N(tan(7*pi/15)*sin(pi/8 - (7*pi/15)**2/(2*pi)), 10)",
+    "asserts": "g(84°) = 0.4813597"
+   }
+  ],
+  "transcription_corrections": [
+   "Table 1, 90° row: the first difference is 0,0159889 (as in the image), not 0,0159883.",
+   "Table 1, 12° row: the third difference is '+19' (the '1+' is a plus sign), followed by 38.",
+   "Table 1, 84° row: the value appears as 0,4840117, but internal consistency and the formula give 0,4840111/2. The last digit may be a slip or misreading.",
+   "Table 1, 84° row: Δ2 is 0,0012814, with an overwritten digit; this is consistent with the differences.",
+   "Table 2, 90° row: the first difference is written 0,0186403(0); the value is 0.0186403."
+  ]
+ }
+}

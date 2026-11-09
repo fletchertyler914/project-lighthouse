@@ -1,0 +1,53 @@
+{
+ "bundle": "R.Modulfunctionen",
+ "page": "c043",
+ "label": "21v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3223711:00000044/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page continues from the previous one, where Riemann sets up a proof of Abel's limit theorem. It is a lemma he needs to evaluate the boundary values (r -> 1) of power series. On the previous page these are the series arising from 'formula 65' at x = 2*pi*m/n. In the published Werke this material belongs to the 'Fragmente über die Grenzfälle der elliptischen Modulfunctionen'.\n\nSetup from the previous page:\n- The series sum_k a_k converges. So for every eps > 0 there is an n such that, for all m > n, the tail partial sums eps_m := a_{n+1} + ... + a_m satisfy |eps_m| < eps.\n- f(r) = sum_k a_k r^k for 0 < r < 1.\n- Summation by parts (Abel summation) gives a_m = eps_m - eps_{m-1}, with eps_n := 0. Hence f(r) = P_n(r) + sum_{m>n} eps_m (r^m - r^{m+1}), where P_n(r) = a_0 + a_1 r + ... + a_n r^n.\n- [My remark: the rearrangement is legitimate because the eps_m are bounded and r < 1, so eps_m r^{m+1} -> 0.]\n\nThis page:\n(1) Since |eps_m| < eps and every difference r^m - r^{m+1} > 0 for 0 < r < 1, the higher-degree part satisfies |sum_{m>n} eps_m (r^m - r^{m+1})| <= eps * sum_{m>n} (r^m - r^{m+1}) = eps * r^{n+1} < eps. The sum telescopes.\n(2) The part of degree <= n, P_n(r), is an 'algebraic function' of r (here a polynomial). As r -> 1 it approaches S_n = a_0 + ... + a_n as closely as desired.\n(3) Hence, as r -> 1, the difference between f(r) and the value S of the series a_0 + a_1 + ... falls below any given quantity. That is, lim_{r->1^-} f(r) = sum a_k. This is Abel's limit theorem.\n\n[Implicit step, mine: |f(r) - S| <= |P_n(r) - S_n| + |sum_{m>n} eps_m (r^m - r^{m+1})| + |S - S_n|. The last term equals |lim_m eps_m| <= eps. So the bound is < 3 eps for r close enough to 1.]\n\nHistorical remark on the page: 'From this theorem, which Dirichlet pointed out (1852 Sept. 14), after the preceding had already been written, should be attributed to Abel, one easily deduces ...' The sentence breaks off with dots. This dates the manuscript to September 1852, during Dirichlet's visit to Göttingen.",
+  "errors": [
+   "Riemann does not explicitly bound the term S - S_n (the tail of the series itself). It is <= eps in absolute value by the same hypothesis, so the conclusion is correct; the omission is a minor gap of exposition.",
+   "The strict '<' in the first inequality is fine for a finite comparison. For the infinite sum one should strictly write '<=' for the eps-bound before the final '< eps r^{n+1}'. This is immaterial.",
+   "Calling P_n(r) an 'algebraic function' is correct but loose: it is a polynomial, and its continuity at r = 1 is what is used."
+  ],
+  "results": [
+   {
+    "what": "If sum a_k converges, then lim_{r->1^-} sum a_k r^k = sum a_k, proved by Abel summation (partial summation) with the tail partial sums bounded by eps.",
+    "modern_name": "Abel's limit theorem (Abel's theorem on power series)",
+    "usually_credited_to": "N. H. Abel, 1826 (Crelle's Journal, 1, binomial series paper)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Dated attribution note: Dirichlet told Riemann on 14 Sept 1852 that the theorem is due to Abel. This documents Riemann's independent rediscovery and dates the manuscript.",
+    "modern_name": "Historical note (Dirichlet's 1852 Göttingen visit)",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a standard textbook proof of Abel's limit theorem, explicitly acknowledged on the page as Abel's. The only items of interest are biographical: the precise date (14 Sept 1852) and Dirichlet's remark. These are consistent with Dirichlet's known 1852 visit to Göttingen, and the fragment was edited by Dedekind in the Werke, so the dating is likely already known.",
+  "checkable": [
+   {
+    "sympy": "n,m=symbols('n m',integer=True,positive=True); r=symbols('r',positive=True); simplify(summation(r**m - r**(m+1),(m,n+1,oo)).subs(r,Rational(1,2)) - Rational(1,2)**(n+1))",
+    "asserts": "The telescoping sum sum_{m>n}(r^m - r^{m+1}) equals r^{n+1} for 0<r<1 (checked at r=1/2); should give 0."
+   },
+   {
+    "sympy": "k=symbols('k',integer=True,nonnegative=True); r=symbols('r'); limit(log(1+r)/r, r, 1, '-') - log(2)",
+    "asserts": "Example of Abel's theorem: sum (-1)^k r^k/(k+1) = log(1+r)/r tends to sum (-1)^k/(k+1) = log 2 as r->1^-; should give 0."
+   },
+   {
+    "sympy": "k=symbols('k',integer=True,nonnegative=True); summation((-1)**k/(k+1),(k,0,oo)) - log(2)",
+    "asserts": "The boundary series converges to log 2, matching the radial limit above; should give 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'approprinquando' should read 'appropinquando'. The phrase 'appropinquando r unitati' is a marginal insertion written in the right column, keyed to the line 'quam constat ... summae'; a short word is struck out there.",
+   "'a{+l+}gebraica' is simply 'algebraica', with the 'l' possibly added above the line.",
+   "'Cl^o Abel' = 'Clarissimo Abel', and 'Cl^us Dirichlet' = 'Clarissimus Dirichlet'. The struck word before the date is 'modo'.",
+   "The archival number at the right reads '433/28' or possibly '439/28'; the third digit is uncertain."
+  ]
+ }
+}

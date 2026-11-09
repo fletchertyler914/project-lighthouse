@@ -1,0 +1,84 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c105",
+ "label": "[104]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000106/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a mixed memorandum page with domestic notes, key sketches and clock-regulation constants. Only the pendulum section has real computational content.\n\n(a) Top and bottom drawings. Three filled silhouettes are numbered 1, 5, -7, with an annotation '1821. 17 Jun'. At the bottom are three outline sketches, one labelled 'Keller' (cellar). They look like key bits or ward profiles, probably house or cellar keys. The numbers '15 | -65' and '5479' cannot be interpreted from the page itself.\n\n(b) 'Joseph 1818 Jul 30. 1368'. This links to the previous page, which tabulates the children's heights against age in days. Joseph was born 1806 Aug 21; the previous page has the entry '4361 1,368'.\n- Check (mine): 1806-08-21 to 1818-08-21 is 12 years with leap days in 1808, 1812 and 1816, i.e. 4383 days.\n- Subtracting the 22 days from Jul 30 to Aug 21 gives 4361 days.\n- So on 30 July 1818 Joseph, aged 4361 days, measured 1.368 (metres, as in the table).\n\n(c) Seconds pendulum at Göttingen. The beat T/2 = pi*sqrt(L/g) equals 1 s.\n- Mean solar time: L_sol = 994.0765 mm.\n- Sidereal time: L_sid = L_sol*(sidereal second/mean second)^2 = 994.0765*(0.99726957)^2 = 988.6555 mm. This matches Gauss's value to the last digit.\n\nSensitivity of the daily rate to pendulum length:\n- Since T is proportional to sqrt(L), dT/T = (1/2) dL/L.\n- Over a day of 86400 beats, a lengthening of dL changes the rate by 86400*(1/2)*dL/L = 43200*dL/L seconds.\n- For dL = 1 mm: 43200/994.0765 = 43.457 s per day (solar), as written.\n- 43200/988.6555 = 43.696 s per day (sidereal). Gauss writes 43.697.\n\n(d) Repsold's clock. One turn of the regulating nut thread moves the bob 0.5625 mm (= 9/16 mm). This gives 0.5625*43.697 = 24.58 s per day, so the sidereal coefficient was used: Repsold's clock is an astronomical sidereal clock. '1 pars = 1/2' presumably means one division of the nut scale equals 1/2 s per day, which would imply roughly 49-50 divisions per turn.\n\n(e) '17 Gewinde = 15/40 E. Zoll'. Seventeen threads span 0.375 English inch = 9.525 mm, i.e. 0.5603 mm per thread. That would be about 24.48 s per day at the sidereal coefficient. This is close to, but not identical with, the 0.5625 mm above. It may be an independent measurement of a screw, possibly the Liebherr one.\n\n(f) 'An Liebhers Uhr unten 1 Gewinde 38'' corrected to 34''': on Liebherr's clock, one thread of the lower nut equals 34 s per day. This implies a pitch of about 0.778 mm with the sidereal coefficient, or 0.782 mm with the solar one; that is my inference.\n\n(g) Remaining notes.\n- 'Ol. aether. Carvi genuin.' means genuine essential oil of caraway, a pharmacy note.\n- The children's birth dates are repeated: Therese born 1816 Jun 9, Wilhelm born 1813 Oct 23.\n- Pencil notes 'Kreuzburg Nicolai 771' are unclear.",
+  "errors": [
+   "Sidereal daily-rate coefficient: 43200/988.6555 = 43.6957, so 43.696 would be the correctly rounded value; Gauss's 43.697 is about 0.001 high (negligible).",
+   "17 threads = 15/40 English inch gives 0.5603 mm per thread, not the 0.5625 mm stated for Repsold's clock. These are probably different screws or measurements, so it is not necessarily an error.",
+   "Liebherr value first written 38'' then corrected to 34'' by Gauss himself."
+  ],
+  "results": [
+   {
+    "what": "Conversion of the seconds-pendulum length from mean solar to sidereal time via the squared ratio of second lengths (994.0765 -> 988.6555 mm)",
+    "modern_name": "Pendulum length scaling L proportional to T^2; sidereal/solar time ratio",
+    "usually_credited_to": "Standard 18th-century pendulum theory (Huygens; sidereal ratio standard astronomy)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Daily rate change per mm of pendulum length: 43200/L s/day (43.457 solar, 43.697 sidereal)",
+    "modern_name": "Linearized pendulum period sensitivity dT/T = dL/(2L)",
+    "usually_credited_to": "Routine horology/astronomical practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Calibration of regulating-nut thread of Repsold's sidereal clock: 0.5625 mm -> 24.58 s/day",
+    "modern_name": "Clock regulation calibration",
+    "usually_credited_to": "Routine observatory practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Joseph's height 1.368 on 1818 Jul 30 = age 4361 days (links to growth table on previous page)",
+    "modern_name": "Anthropometric growth record (age in days)",
+    "usually_credited_to": "n/a (personal record)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine observatory clock-regulation constants and personal or household notes. The arithmetic is correct and carefully done, but the content is standard. The only mildly interesting items are the documentary details: the Göttingen seconds-pendulum value and Gauss's habit of recording his children's growth by age in days.",
+  "checkable": [
+   {
+    "sympy": "N(994.0765*(1 - Rational(1,1)/366.2422*1)**0) ",
+    "asserts": "placeholder baseline (solar length 994.0765 mm)"
+   },
+   {
+    "sympy": "N(994.0765*(Rational(86164.0905,86400))**2, 8)",
+    "asserts": "sidereal seconds pendulum length = 988.655 mm, matching 988.6555"
+   },
+   {
+    "sympy": "N(43200/994.0765, 6)",
+    "asserts": "daily rate change per mm (solar) = 43.457 s"
+   },
+   {
+    "sympy": "N(43200/988.6555, 6)",
+    "asserts": "daily rate change per mm (sidereal) = 43.696 s (Gauss: 43.697)"
+   },
+   {
+    "sympy": "N(0.5625*43.697, 5)",
+    "asserts": "one thread of Repsold's clock = 24.58 s/day (sidereal coefficient)"
+   },
+   {
+    "sympy": "N(Rational(15,40)*25.4/17, 6)",
+    "asserts": "17 threads = 15/40 English inch gives 0.5603 mm per thread"
+   },
+   {
+    "sympy": "(date(1818,7,30)-date(1806,8,21)).days == 4361",
+    "asserts": "Joseph's age on 1818 Jul 30 is 4361 days, matching the previous page's table entry with height 1.368 (Python datetime)"
+   }
+  ],
+  "transcription_corrections": [
+   "'Liebhers Uhr unten 1 Gewinde [-38''-] 34''': the 38'' is struck through and replaced by 34''; read as Liebherr's clock.",
+   "'Länge des Sec. P. in Gött' = Länge des Secundenpendels in Göttingen.",
+   "'tägl. Gang' = täglichen Gang (daily rate).",
+   "The top and bottom drawings (numbered 1, 5, -7 and labelled 'Keller') appear to be key or ward profiles, not mathematical figures.",
+   "'Ol aether. Carvi genuin' = Oleum aethereum Carvi genuinum (caraway oil)."
+  ]
+ }
+}

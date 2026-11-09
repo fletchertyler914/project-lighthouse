@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c095",
+ "label": "49v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000096/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is §2 (end) and the start of §3 of Riemann's 1861 Paris prize essay ('Commentatio mathematica…', received 1 July 1861). Section 1 on the previous page sets up equation (I), the heat equation in an inhomogeneous anisotropic body: sum_i d/dx_i ( sum_i' a_{i,i'} du/dx_i' ) = h du/dt.\n\n§2 (cont.). The a_{i,i'}(x) are the resultant conductivities. h(x) is the heat capacity per unit volume (specific heat times density). Both are arbitrary given functions of x1, x2, x3. Riemann makes two assumptions:\n(i) Conductivity is the same in opposite directions, so a_{i,i'} = a_{i',i} (the matrix a is symmetric).\n(ii) Heat flows from hotter to colder places, so the ternary quadratic form (a11, a22, a33; a23, a31, a12) must be positive definite. This is written in Gauss's notation for ternary forms. In modern terms: the flux is q = -a grad u, and the condition q·grad u < 0 for grad u ≠ 0 means grad u^T a grad u > 0.\n\n§3. Goal: rewrite (I) in arbitrary new independent variables s1, s2, s3.\n\nMethod (variational). Equation (I) is necessary and sufficient for the following: for arbitrary infinitesimal variation δu, the expression\n(A) δ ∫∫∫ sum a_{ii'} u_{x_i} u_{x_i'} dx + ∫∫∫ 2h u_t δu dx\ntaken over the body depends only on the values of δu on the boundary.\n\nImplicit step (mine): by symmetry of a,\nδ∫ a_{ii'} u_i u_i' = 2∫ a_{ii'} u_i' (δu)_{x_i}.\nIntegrating by parts gives\n2∮ (a grad u)·n δu dS − 2∫ div(a grad u) δu dx.\nSo (A) equals\n2∮ (a grad u)·n δu dS − 2∫ [div(a grad u) − h u_t] δu dx.\nThe volume term vanishes for all δu iff (I) holds. (Note that u_t is not varied.)\n\nChange of variables. By the chain rule, u_{x_i} = sum_mu u_{s_mu} ∂s_mu/∂x_i, and dx1dx2dx3 = ds1ds2ds3 / J, where J = Σ± ∂s1/∂x1 ∂s2/∂x2 ∂s3/∂x3 = det(∂s/∂x). Hence (A) becomes\n(B) δ ∫∫∫ sum b_{mu nu} u_{s_mu} u_{s_nu} ds + ∫∫∫ 2k u_t δu ds,\nwith\nb_{mu nu} = (sum_{i,i'} a_{ii'} ∂s_mu/∂x_i ∂s_nu/∂x_i') / J,\nk = h / J.\nIn matrix form, b = S a S^T / J with S = ∂s/∂x. That is, a and h transform as a contravariant tensor density and a scalar density.\n\nBecause the boundary-only property is coordinate-free, the transformed equation is the Euler–Lagrange equation of (B):\nsum_mu ∂/∂s_mu ( sum_nu b_{mu nu} u_{s_nu} ) = k u_t.\nThis is the same form as (I).\n\nThe page ends by introducing the determinants A, B of forms (1) a and (2) b, and their adjugate forms (α), (β), which are defined on the next page. There Riemann derives:\n- A = B J;\n- β = (∂x/∂s)^T α (∂x/∂s), i.e. sum α dx dx = sum β ds ds;\n- h/A = k/B.\nThis reduces the problem to the equivalence of the quadratic differential form sum α_{ii'} dx_i dx_i' (the metric (a^{-1})·det a), which is later treated by Gauss's surface-theory method.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "Implicitly the Jacobian J is assumed positive (orientation-preserving change of variables); otherwise |J| should appear in dx = ds/|J|, and in b and k.",
+   "The equivalence 'equation (I) iff (A) depends only on boundary values of δu' is asserted without the integration-by-parts argument. It is standard and correct, given sufficient smoothness and symmetry of a.",
+   "Minor inconsistency in the source context: equation (I) on the previous page (as transcribed) has 'b' on the right-hand side, while this page calls the coefficient h."
+  ],
+  "results": [
+   {
+    "what": "Anisotropic inhomogeneous heat equation div(a grad u) = h u_t, with symmetric, positive-definite conductivity matrix justified physically (reciprocity; heat flows hot to cold)",
+    "modern_name": "Anisotropic heat conduction with symmetric positive-definite conductivity tensor",
+    "usually_credited_to": "Duhamel (1828/1832), Lamé, Stokes (1851, symmetry discussion)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Characterization of the PDE as the condition that the first variation of the energy-type integral plus the time term depends only on boundary values",
+    "modern_name": "Variational (weak/Euler–Lagrange) formulation; Dirichlet-type integral",
+    "usually_credited_to": "Euler–Lagrange; Gauss/Green/Dirichlet for Dirichlet integral",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Transformation law b = S a S^T / det S, k = h/det S of the coefficients under arbitrary curvilinear coordinates, obtained by transforming the variational integral",
+    "modern_name": "Transformation of a contravariant 2-tensor density / Laplace–Beltrami operator in curvilinear coordinates",
+    "usually_credited_to": "Jacobi (1832/1834, transformation of Laplace equation via variational integral), Lamé (curvilinear coordinates); this essay itself (Riemann 1861, publ. 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the opening of Riemann's well-known 1861 Paris prize essay, published in his Gesammelte Werke (1876). The page contains only the standard setup: symmetric positive-definite conductivity, the variational characterization, and the transformation law of the coefficients. The famous content (curvature tensor, equivalence of quadratic forms) comes later.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; a11,a12,a13,a22,a23,a33=symbols('a11 a12 a13 a22 a23 a33'); a=Matrix([[a11,a12,a13],[a12,a22,a23],[a13,a23,a33]]); S=Matrix(3,3,symbols('s0:9')); J=S.det(); b=S*a*S.T/J; simplify(b.det()-a.det()/J)==0",
+    "asserts": "Determinant relation A = B*J (B = A/J) for b = S a S^T / J"
+   },
+   {
+    "sympy": "from sympy import *; a11,a12,a13,a22,a23,a33=symbols('a11 a12 a13 a22 a23 a33'); a=Matrix([[a11,a12,a13],[a12,a22,a23],[a13,a23,a33]]); S=Matrix(3,3,symbols('s0:9')); J=S.det(); b=S*a*S.T/J; T=S.inv(); simplify(b.adjugate()-T.T*a.adjugate()*T)==zeros(3)",
+    "asserts": "Adjugate forms transform covariantly: beta = (dx/ds)^T alpha (dx/ds), so sum alpha dx dx = sum beta ds ds"
+   },
+   {
+    "sympy": "from sympy import *; a11,a12,a13,a22,a23,a33,h=symbols('a11 a12 a13 a22 a23 a33 h'); a=Matrix([[a11,a12,a13],[a12,a22,a23],[a13,a23,a33]]); S=Matrix(3,3,symbols('s0:9')); J=S.det(); b=S*a*S.T/J; k=h/J; simplify(h/a.det()-k/b.det())==0",
+    "asserts": "h/A = k/B"
+   },
+   {
+    "sympy": "from sympy import *; x,y,z=symbols('x y z'); u=Function('u')(x,y,z); A=Matrix(3,3,lambda i,j: Function('a%d%d'%(min(i,j),max(i,j)))(x,y,z)); g=Matrix([u.diff(v) for v in (x,y,z)]); L=(g.T*A*g)[0]; EL=euler_equations(L,u,(x,y,z))[0].lhs; div=sum(((A*g)[i]).diff(v) for i,v in enumerate((x,y,z))); simplify(EL+2*div)==0",
+    "asserts": "The Euler–Lagrange expression of sum a_ij u_i u_j is -2 div(a grad u), so (A) has boundary-only variation iff div(a grad u) = h u_t"
+   }
+  ],
+  "transcription_corrections": [
+   "In (A) and (B) the variation δ applies only to the first triple integral; the second integral already contains δu explicitly (transcription is consistent with the image).",
+   "Previous page's equation (I) right-hand side should read h ∂u/∂t (this page names the coefficient h), not b ∂u/∂t.",
+   "The forms (a11, a22, a33; a23, a31, a12) are written in Gauss's two-row notation for ternary quadratic forms, not as matrices; a 2x3 'pmatrix' rendering could mislead."
+  ]
+ }
+}

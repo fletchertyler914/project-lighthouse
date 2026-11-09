@@ -1,0 +1,72 @@
+{
+ "bundle": "PH.Induktion",
+ "page": "c007",
+ "label": "4v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382427:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This is bundle PH.Induktion. The previous page holds magnetometer scale readings (around 500 divisions) taken every 7 s from 11h34'0\" to 11h37'9\", with a second column of smoothed values. It also has a table of times from 9'12\" to 36'41\" with a count, a phase angle and an amplitude (1.58, 1.70, 2.78, 2.86, 2.75, 2.73, 2.64, 2.68). It carries the remark 'for the oscillation of 14\" better 13\"68'. On this page Gauss summarizes the readings of an instrument in the Physikalisches Cabinet ('Phys. C.') as a constant plus two superposed harmonic oscillations, fitted in three stretches of the run: beginning, middle and end.\n\nModel (modern notation, t in seconds counted from 11h9'5\"):\n x(t) = a0 + A cos(alpha + n t) + B cos(beta + N t).\nThe frequencies are fixed in advance:\n- 7n = 90 deg, so n = 12.857 deg/s and the period is 360/n = 28 s. This is the needle oscillation with a half-period ('Schwingungsdauer' in Gauss's convention) of 14 s. Sampling every 7 s therefore gives exactly four samples per period, quarter-period spacing.\n- 7N = 30 deg 3' 12\" (the 3 is overwritten), so N = 4.2934 deg/s and the period is 2520/30.0533 = 83.85 s (half-period about 41.9 s). This is a second, slower periodic component.\n\nFitted values:\n(a) Beginning: a0 = 501.50, A = 1.46, alpha = 172 deg, B = 3.00, beta = 184 deg. The image writes '1,46 cos 172 deg + nt' without parentheses; the parentheses are meant.\n(b) End, epoch 11h36'20\": a0 = 500.55 (digits overwritten), A = 2.83, alpha = 44 deg, B = 2.40, beta = 3 deg 35'.\n(c) Middle, epoch 11h18'29\": A = 2.52, alpha = 25 deg 51'. B = 2.77 (overwritten). For beta, 29 deg 14' is struck out and replaced by 83.3 (likely 83 deg 3' or 83.3 deg). No constant is given.\n\nWhat is being done [my interpretation]. The coefficients would be obtained by trigonometric (harmonic) analysis of the equally spaced readings. With 7n = 90 deg, means over 4 consecutive readings annihilate the n-term. This leaves a0 + N-term, which is what the smoothed second column on the previous page appears to approximate. Differences of readings half a period apart isolate the n-term.\n- The amplitude of the 28-s component grows during the run: 1.46, then 2.52, then 2.83. This agrees with the amplitude column of the previous page's table (1.58, rising to about 2.7).\n- The phases alpha are referred to the common origin 11h9'5\". If the assumed n is slightly wrong, alpha drifts linearly with t [my check]. From start to middle (Delta t about 564 s) alpha changes by 214 deg (mod 360), about 0.38 deg/s. From middle to end (Delta t = 1071 s) it changes by 378 deg, about 0.35 deg/s.\n- These two rates are roughly consistent and imply a true n of about 13.2 deg/s, a period of about 27.2 s and a half-period of about 13.6 s. This matches Gauss's own correction on the previous page ('besser 13\"68', i.e. n = 180/13.68 = 13.16 deg/s).\n- The N-term phases (184, 83.3, 3.6 deg) do not drift at a consistent rate, so that component is less well determined.\n\nPurpose. The likely purpose is to separate the free oscillation of the needle from a second periodic motion (probably induced or forced, given the bundle title) in an induction experiment, and to follow amplitude and phase through the run.",
+  "errors": [
+   "Missing parentheses in the first term: written '1,46 cos 172 deg + nt', meaning 1.46 cos(172 deg + nt).",
+   "The assumed n (7n = 90 deg, 14-s half-period) is slightly too small. The phase drift between the three fits (about 0.35-0.38 deg/s) shows the true half-period is about 13.6-13.7 s, as Gauss himself notes on the previous page (13\"68). The quoted alpha values are therefore not constants of motion but absorb a linear drift.",
+   "Several corrections and overwrites: the 7N minutes digit, the end constant 500.55, the middle amplitude 2.77, and the middle beta changed from 29 deg 14' to 83.3. They indicate revised computations; the final values cannot be verified without the full data.",
+   "The N-term phases are not mutually consistent under a constant frequency. Either N or the fitted beta values are imprecise, or the second component is not strictly periodic."
+  ],
+  "results": [
+   {
+    "what": "Representation of equally spaced magnetometer readings as a constant plus two sinusoids of prescribed frequencies, with amplitudes and phases determined at the beginning, middle and end of the run.",
+    "modern_name": "Harmonic analysis / least-squares or trigonometric fitting of a two-frequency sinusoidal model (discrete Fourier analysis with quarter-period sampling)",
+    "usually_credited_to": "Trigonometric interpolation: Lagrange, Euler, Clairaut; Gauss (Theoria interpolationis, c.1805); Fourier (1807/1822)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Determination of oscillation periods (28 s for the needle, corrected to about 27.4 s; second component about 83.9 s) from phase drift across separated observation windows.",
+    "modern_name": "Frequency refinement via phase drift (period determination by coincidence or phase comparison)",
+    "usually_credited_to": "Standard practice in Gauss-Weber magnetometry (1830s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine data reduction from Gauss's Göttingen magnetic and induction experiments of the 1830s: harmonic fitting of magnetometer oscillations with fixed frequencies. Gauss's use of trigonometric interpolation and his magnetometer methods are well documented; nothing here goes beyond known practice.",
+  "checkable": [
+   {
+    "sympy": "Eq(360/(Rational(90,7)), 28)",
+    "asserts": "7n = 90 deg gives a period of 28 s for the n-term (half-period 14 s)."
+   },
+   {
+    "sympy": "N(7*360/(30 + Rational(3,60) + Rational(12,3600)))",
+    "asserts": "7N = 30 deg 3' 12\" gives a period of about 83.85 s for the N-term."
+   },
+   {
+    "sympy": "Eq((11*3600+18*60+29) - (11*3600+9*60+5), 564)",
+    "asserts": "The middle epoch 11h18'29\" is t = 564 s from the origin 11h9'5\"."
+   },
+   {
+    "sympy": "Eq((11*3600+36*60+20) - (11*3600+9*60+5), 1635)",
+    "asserts": "The end epoch 11h36'20\" is t = 1635 s from the origin."
+   },
+   {
+    "sympy": "N(Mod(25 + Rational(51,60) - 172, 360)/564), N((Mod(44 - (25 + Rational(51,60)), 360) + 360)/1071)",
+    "asserts": "The phase drift rates of the n-term (about 0.38 and 0.35 deg/s) are roughly consistent, implying a true n of about 13.2 deg/s."
+   },
+   {
+    "sympy": "N(180/13.68), N(7*180/13.68)",
+    "asserts": "Gauss's corrected half-period 13.68 s gives n = 13.158 deg/s and 7n of about 92.1 deg instead of 90 deg."
+   },
+   {
+    "sympy": "N(360/(Rational(90,7) + 0.36))",
+    "asserts": "A drift of about 0.36 deg/s implies a full period of about 27.2 s, consistent with the 13.68-s half-period correction."
+   }
+  ],
+  "transcription_corrections": [
+   "'1,46 cos 172 deg + nt' should be read as 1.46 cos(172 deg + nt). The parentheses are omitted in the original, not by the transcriber.",
+   "In '7N = 30 deg [-3-]' 12\"' the minutes digit is overwritten; it reads as 3, i.e. 7N = 30 deg 3' 12\".",
+   "'25.51' in the middle n-term means 25 deg 51'.",
+   "Middle N-term: 29 deg 14' is struck out and 83.3 written beneath it (83 deg 3' or 83.3 deg). The transcription's '{+83.3+} + Nt' should read cos(83.3 + Nt).",
+   "The middle time '11h 18 29'' is 11h18'29\" (the 29, overwritten, are seconds).",
+   "The end constant is 500.55 with overwritten digits; the amplitude in the middle N-term is 2.77 (second digit overwritten)."
+  ]
+ }
+}

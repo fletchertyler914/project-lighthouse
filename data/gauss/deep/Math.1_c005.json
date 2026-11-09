@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.1",
+ "page": "c005",
+ "label": "[3v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio [3v] is sheet (6) of a 7-sheet table; the red crayon numeral is 6. The previous sheet (5) covers the primes 509–659 and the next sheet (7) covers 829–997, so the whole series runs over the primes up to 997.\n\n**Layout.** The columns are the 24 primes p = 661, 673, …, 827, written at both top and bottom. The rows are the 41 odd primes q = 3, 5, 7, …, 181, grouped in blocks of seven by ruled lines. A small circle at (q, p) marks the cell; nothing else is written in the body.\n\n**What a circle means.** Spot-checks show that a circle stands exactly where the column prime p is a quadratic residue modulo the row prime q, i.e. Legendre symbol (p/q) = +1.\n- Row 3: circles at 661, 673, 691, 709, 727, 733, 739, 751, 757, 769, 787, 811, 823. These are exactly the p ≡ 1 (mod 3) in the range.\n- Row 5: circles at 661, 691, 701, 709, 719, 739, 751, 761, 769, 809, 811, 821. These are exactly the p ≡ ±1 (mod 5).\n- Row 13: circles at 673, 677, 701, 719, 727, 751, 757, 797, 809, 823. These are exactly the p whose residue mod 13 lies in {1, 3, 4, 9, 10, 12}.\n- Row 19, run of seven: 691, 701, 709, 719, 727, 733, 739 have residues 7, 17, 6, 16, 5, 11, 17 mod 19, all quadratic residues. The next prime, 743 ≡ 2, is a non-residue and the run stops there.\n- Column 661: 7, 13, 19, 23 are empty and 11, 17, 29, 31, 41 are circled. This agrees with (661/q).\n\n**Which way round the symbol is read.** This only matters when p ≡ q ≡ 3 (mod 4). The test cases decide it in favour of (p/q):\n- (q, p) = (3, 683): (683/3) = −1 but (3/683) = +1. The cell is empty.\n- (7, 683): (683/7) = +1 but (7/683) = −1. The cell has a circle.\n\nBy reciprocity the table therefore gives (q/p) after a sign flip when p ≡ q ≡ 3 (mod 4). Equivalently, each row marks which primes fall into the quadratic-residue classes mod q.\n\n**The connecting lines.** Horizontally or vertically adjacent circled cells are joined by line segments. This turns the residue pattern into connected chains and rectangles. It is evidently a visual reading or checking aid, or a way of looking at runs of residues, and not a computation.\n\n**Purpose.** Such a table serves the exclusion method for factoring and for representations by forms (Disquisitiones arts. 329ff). It is an extended counterpart of Table II of the Disquisitiones, carried here to primes below 1000 against moduli up to 181. Nothing is derived on the page; it is a computed table.",
+  "errors": [
+   "No errors found in the cells spot-checked: rows 3, 5, 7, 11, 13 and 19; column 661 rows 3–41; cells (3,683), (7,683), (7,691), (7,719). A full cell-by-cell verification was not performed from the image."
+  ],
+  "results": [
+   {
+    "what": "Table of the quadratic character (p/q) for primes 661 ≤ p ≤ 827 against odd primes 3 ≤ q ≤ 181. A circle marks p as a quadratic residue mod q. Part of a 7-sheet table covering all primes below 1000.",
+    "modern_name": "Table of Legendre symbols / quadratic residue table",
+    "usually_credited_to": "Gauss (Disquisitiones Arithmeticae 1801, Table II, smaller range); Legendre; later large tables by Jacobi (Canon arithmeticus) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Graphical joining of orthogonally adjacent residue entries into chains and blocks, to visualise runs of residues across consecutive primes and consecutive moduli",
+    "modern_name": "visual pattern display of residue distribution (no standard name)",
+    "usually_credited_to": "unsure",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss is well known to have computed extensive quadratic-residue tables for factoring and for checking reciprocity. This is a routine computational table; the connecting-line device is a curiosity, not a result.",
+  "checkable": [
+   {
+    "sympy": "all(legendre_symbol(p,3)==(1 if p in [661,673,691,709,727,733,739,751,757,769,787,811,823] else -1) for p in [661,673,677,683,691,701,709,719,727,733,739,743,751,757,761,769,773,787,797,809,811,821,823,827])",
+    "asserts": "Row 3 circles are exactly the p ≡ 1 mod 3"
+   },
+   {
+    "sympy": "all(legendre_symbol(p,5)==(1 if p in [661,691,701,709,719,739,751,761,769,809,811,821] else -1) for p in [661,673,677,683,691,701,709,719,727,733,739,743,751,757,761,769,773,787,797,809,811,821,823,827])",
+    "asserts": "Row 5 circles are exactly the p ≡ ±1 mod 5"
+   },
+   {
+    "sympy": "[legendre_symbol(p,19) for p in [691,701,709,719,727,733,739,743]] == [1,1,1,1,1,1,1,-1]",
+    "asserts": "Row 19 has a run of seven residues ending before 743"
+   },
+   {
+    "sympy": "(legendre_symbol(683,3), legendre_symbol(3,683), legendre_symbol(683,7), legendre_symbol(7,683)) == (-1,1,1,-1)",
+    "asserts": "The table records (p/q), not (q/p): cell (3,683) empty, cell (7,683) circled"
+   },
+   {
+    "sympy": "[legendre_symbol(p,13) for p in [673,677,701,719,727,751,757,797,809,823]] == [1]*10",
+    "asserts": "Row 13 circled entries are residues mod 13"
+   },
+   {
+    "sympy": "[legendre_symbol(661,q) for q in [7,11,13,17,19,23,29,31,41]] == [-1,1,-1,1,-1,-1,1,1,1]",
+    "asserts": "Column 661 pattern for rows 7–41"
+   }
+  ],
+  "transcription_corrections": [
+   "The row label '13' is smudged in the image (it appears as ':') but is 13.",
+   "The circles mean 'p is a quadratic residue mod q', i.e. (p/q) = +1. Lines join adjacent circled cells. Example of the pattern: row 3 is circled at 661, 673, 691, 709, 727, 733, 739, 751, 757, 769, 787, 811, 823.",
+   "The sheet number '(6)' at top left is circled ink; '6' in red crayon appears in the middle of the page."
+  ]
+ }
+}

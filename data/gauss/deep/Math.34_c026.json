@@ -1,0 +1,70 @@
+{
+ "bundle": "Math.34",
+ "page": "c026",
+ "label": "11r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382187:00000027/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a short theoretical and practical note headed 'Verticalstellung einer geraden Linie' (making a straight line vertical). It continues the levelling notes of the previous page. That page treats a suspended level with suspension line AB and geometric axis GH, and derives (3) CQ = (x cos phi + y sin phi) cos u. The practical aim here is to set an instrument axis vertical, for example a theodolite or heliotrope axis on a stand with foot screws.\n\n(a) Definition. In a non-horizontal plane P, the lines of steepest slope (Abdachungslinien, modern 'Falllinien') are the lines of P perpendicular to the horizontal lines of P. In modern terms, let z be the vertical unit vector and n_P the normal of P. The horizontal direction of P is h_P = n_P x z, which is nonzero because P is not horizontal. A line with direction v in P is a steepest-slope line iff v . h_P = 0. Equivalently, v is parallel to the projection of z onto P.\n\n(b) Proposition 1. If A (direction v) is vertical, then A is a steepest-slope line in every plane through it. Proof (mine): every plane through a vertical line is vertical, hence non-horizontal. With v parallel to z we get v . (n_P x z) = 0 trivially.\n\n(c) Proposition 2 (converse). If A is a steepest-slope line in more than one plane through it, then A is vertical. Proof (mine, the page states it without proof): let P1 and P2 be distinct non-horizontal planes through A, with horizontal directions h1 and h2. Then v is perpendicular to h1 and to h2. If h1 were parallel to h2, that direction would lie in both planes, hence along their intersection A. But that contradicts v being perpendicular to h1. So h1 and h2 are independent horizontal vectors spanning the horizontal plane. Hence v is perpendicular to the horizontal plane, i.e. v is vertical.\n\n(d) Practical rule. Choose the two test planes so that one is parallel to the vertical plane through two foot tips (foot screws) of the stand, and the other is normal to it. This is the standard procedure for levelling an instrument: level along the line of two foot screws, then at right angles. Each adjustment then acts mainly in one of the two planes.\n\n(e) Below a rule: 'For the lateral (Seiten-) adjustment of a level, the formula is to be applied.' This presumably means formula (3) of the previous page, relating the reading CQ to the components x, y and the tilt u. Then a mnemonic: the bubble seeks 'the preceding [end]' when the level hangs, and flees it when the level stands. The referent of 'das Vorangehende' is not determinable from this page alone. Plausibly it is the end that leads in a reversal or rotation, since a suspended level and a standing level sit on opposite sides of the axis, so the sense of the bubble's displacement is reversed. This interpretation is mine and uncertain.",
+  "errors": [
+   "No mathematical errors. Proposition 2 is stated without proof. It tacitly requires the planes to be non-horizontal (built into the definition) and distinct. The proof is easy and is supplied in the reconstruction.",
+   "The final bubble rule is too elliptic to check without knowing what 'das Vorangehende' refers to."
+  ],
+  "results": [
+   {
+    "what": "Definition of lines of steepest slope in an inclined plane as the lines perpendicular to that plane's horizontals",
+    "modern_name": "Line of steepest descent / fall line (Falllinie) of a plane",
+    "usually_credited_to": "Classical descriptive geometry / topography (18th century, e.g. Monge school); no single originator",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "A line is vertical iff it is a steepest-slope line in two distinct planes through it",
+    "modern_name": "Elementary criterion: a vector orthogonal to two independent horizontal vectors is vertical",
+    "usually_credited_to": "Folklore of elementary solid geometry / instrument adjustment",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Levelling an instrument axis using two levels, or two level positions, parallel and perpendicular to the line through two foot screws",
+    "modern_name": "Standard theodolite levelling procedure (two-screw / third-screw method)",
+    "usually_credited_to": "19th-century geodetic instrument practice (Reichenbach, Ertel etc.); standard textbook procedure",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Rule that the sense of bubble motion is reversed for a suspended versus a standing level",
+    "modern_name": "Sign convention for hanging (suspended) versus standing (riding) levels",
+    "usually_credited_to": "Instrument practice; no specific attribution",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Elementary solid geometry and standard instrument-adjustment practice. It fits Gauss's well-documented geodetic work of the 1820s (Hanover survey), where he dealt extensively with instruments and levels. Nothing here is non-standard.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; t=symbols('t',real=True); z=Matrix([0,0,1]); n=Matrix([cos(t),sin(t),0]); h=n.cross(z); simplify(z.dot(h))==0",
+    "asserts": "A vertical line v=z is perpendicular to the horizontal direction h=n x z of every (vertical) plane through it, so it is a steepest-slope line there (Proposition 1)."
+   },
+   {
+    "sympy": "from sympy import *; a,b,c=symbols('a b c'); v=Matrix([a,b,c]); h1=Matrix([1,0,0]); h2=Matrix([0,1,0]); solve([v.dot(h1),v.dot(h2)],[a,b])",
+    "asserts": "A direction orthogonal to two independent horizontal directions has a=b=0, i.e. it is vertical (Proposition 2, taking the two planes parallel and normal to the foot-screw line)."
+   },
+   {
+    "sympy": "from sympy import *; p,q,r,s,t=symbols('p q r s t',real=True); z=Matrix([0,0,1]); v=Matrix([p,q,r]); n1=Matrix([s,t,0]).cross(v); n2=Matrix([t,-s,1]).cross(v); h1=n1.cross(z); h2=n2.cross(z); simplify(h1.cross(h2))",
+    "asserts": "For generic planes through a given line v, the horizontal directions h1 and h2 are generically non-parallel (nonzero cross product), so the two-plane condition forces v vertical."
+   },
+   {
+    "sympy": "from sympy import *; p,q,r=symbols('p q r',real=True); z=Matrix([0,0,1]); v=Matrix([p,q,r]); n=Matrix([1,0,0]).cross(v); h=n.cross(z); factor(v.dot(h))",
+    "asserts": "Computes the steepest-slope condition v.(n x z) for a specific plane through v; its vanishing locus shows that one plane alone does not force verticality."
+   }
+  ],
+  "transcription_corrections": [
+   "The inserted word 'Seiten-' belongs before 'Berichtigung': read 'Für die Seiten-Berichtigung einer Libelle ist die Formel anzuwenden' (not 'Für Die Berichtigung').",
+   "In 'Die gerade Linie A ist vertical' the manuscript spelling looks like 'vertical/verticul'; the reading 'vertical' is correct.",
+   "The final word of that paragraph is 'ist.' (with a blot), not 'ist' followed by a separate mark.",
+   "The 'next page' transcription is mirror-image show-through of this same page ('Abstandslinien' = 'Abdachungslinien', 'Man erhält' = 'Man wählt', 'gerade[?], parallel' = 'gehenden parallel'). It is not independent content."
+  ]
+ }
+}

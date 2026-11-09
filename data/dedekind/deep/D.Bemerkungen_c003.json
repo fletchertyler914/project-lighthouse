@@ -1,0 +1,61 @@
+{
+ "bundle": "D.Bemerkungen",
+ "page": "c003",
+ "label": "1v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234986:00000004/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "There is no derivation by Dedekind on this page. It is a verbatim excerpt, in his hand, from the Jahrbuch über die Fortschritte der Mathematik, Bd. 6 (1874), pp. 117–124. That is the review signed Ke. (Korkine) / Wn. (Wangerin) of G. Zolotarev's 'Théorie des nombres entiers complexes, avec une application au calcul intégral' (St. Petersburg 1874). The excerpt continues from fol. 1r. The next sheet is a library receipt dated 20 July 1880 for Bougaiev's review of the same work in the Bulletin des Sciences mathématiques. So the excerpt was most likely made around 1880. That is after Dedekind's own 1878 paper 'Über den Zusammenhang zwischen der Theorie der Ideale und der Theorie der höheren Congruenzen'.\n\nContent of the excerpt, in modern terms:\n\n(a) Chapter 2 of Zolotarev treats units. The main results are Dirichlet's unit theorem, with some results of Kummer and Kronecker. The proofs use Hermite's bound on the minima of positive definite quadratic forms.\n\n(b) Chapter 3 gives Zolotarev's theory of ideal numbers.\n- Let F(x) = x^n + a_1 x^{n-1} + ... + a_n in Z[x], monic, with root x_0.\n- Zolotarev considers the 'complex integers' xi_0 + xi_1 x_0 + ... + xi_{n-1} x_0^{n-1} with xi_i in Z, i.e. the order Z[x_0]. The reviewer reports this as the general form of such integers ('nach dem Verfasser').\n- A rational prime p counts as prime in this domain if F is irreducible mod p.\n- Otherwise one writes F(x) = V^m V_1^{m_1} ... V_s^{m_s} + p F_1(x). Here V_i are distinct monic polynomials irreducible mod p, m_i ≥ 1, and F_1 is in Z[x].\n- For simplicity Zolotarev assumes that F_1 is divisible mod p by none of the V_i. Dedekind underlined this passage.\n- If the assumption fails, the equation can be transformed, for a given p, so that it holds. The text breaks off as the reviewer reports that the author reserves the details of this transformation (continued on the next folio).\n\nModern reading (my gloss): the underlined condition is a sufficient form of Dedekind's criterion. Write F̄ for F reduced mod p. Then p does not divide the index [O_K : Z[x_0]] iff gcd(F̄_1, ∏_{m_i ≥ 2} V̄_i) = 1. Under that condition the Kummer–Dedekind theorem gives pO_K = ∏ (p, V_i(x_0))^{m_i}. Zolotarev's 'transformation' amounts to replacing x_0 by another generator whose index is prime to p. Such a generator does not always exist (common index divisors, e.g. Dedekind's 1878 cubic example), so the transformation cannot work in full generality. The underlining shows Dedekind's attention to exactly the point where Zolotarev's method coincides with, and is limited by, his own 1878 analysis.",
+  "errors": [
+   "Not Dedekind's error but the reviewer's/Zolotarev's: the claim that every algebraic integer depending on x_0 has the form xi_0 + ... + xi_{n-1} x_0^{n-1} is false in general. It holds only when Z[x_0] is the full ring of integers. Example: (1+sqrt5)/2 is not in Z[sqrt5].",
+   "F must be tacitly irreducible over Q for the statements to make sense; the excerpt does not say so.",
+   "Zolotarev's condition (F_1 divisible by none of the V_i mod p) is stronger than necessary. Only the V_i with m_i ≥ 2 matter, since for m_i = 1 the condition on V_i is irrelevant to the index.",
+   "The claim that the equation can always be transformed so that the assumption holds is false in general. Common inessential index divisors exist, e.g. 2 for Dedekind's cubic x^3 - x^2 - 2x - 8. This failure was shown by Dedekind in 1878."
+  ],
+  "results": [
+   {
+    "what": "Excerpt reporting that a rational prime p remains prime in Z[x_0] when F is irreducible mod p",
+    "modern_name": "Inert primes via factorization mod p (Kummer–Dedekind theorem, special case)",
+    "usually_credited_to": "Kummer (cyclotomic case), Dedekind 1878, Zolotarev 1874",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Decomposition F = ∏ V_i^{m_i} + p F_1 with the condition that F_1 is not divisible by the V_i mod p (underlined by Dedekind)",
+    "modern_name": "Dedekind's criterion for p not dividing the index [O_K : Z[θ]]; Kummer–Dedekind factorization theorem",
+    "usually_credited_to": "Dedekind 1878 (criterion named after him); Zolotarev 1874 used the sufficient condition",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Mention of the unit theorem proved via Hermite's bound on minima of quadratic forms",
+    "modern_name": "Dirichlet unit theorem; Hermite constant bound",
+    "usually_credited_to": "Dirichlet 1846; Hermite 1850",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is a reading excerpt of a published review of Zolotarev, not original mathematics. It is of mild historical interest only: it documents Dedekind's close reading (c. 1880) of Zolotarev's approach. He underlined precisely the hypothesis corresponding to his own index criterion. This fits the known Dedekind–Zolotarev relationship.",
+  "checkable": [
+   {
+    "sympy": "from sympy import symbols, factor_list, Poly, expand; x=symbols('x'); F=x**2-5; V=x+1; F1=expand((F-V**2)/2); Poly(F1,x,modulus=2).rem(Poly(V,x,modulus=2)).is_zero",
+    "asserts": "For F = x^2-5 and p = 2, F_1 is divisible by V = x+1 mod 2, so Zolotarev's condition fails; consistent with [O : Z[sqrt5]] = 2. Expected True."
+   },
+   {
+    "sympy": "from sympy import symbols, Poly, expand; x=symbols('x'); F=x**2+1; V=x+1; F1=expand((F-V**2)/2); Poly(F1,x,modulus=2).rem(Poly(V,x,modulus=2)).is_zero",
+    "asserts": "For F = x^2+1 and p = 2, F_1 = -x is not divisible by x+1 mod 2, so the condition holds and Z[i] is 2-maximal. Expected False."
+   },
+   {
+    "sympy": "from sympy import symbols, factor_list; x=symbols('x'); factor_list(x**3-x**2-2*x-8, modulus=2)",
+    "asserts": "Dedekind's cubic splits mod 2 into three linear factors, x*(x+1)**2 mod 2 reduction aside. Since F_2 has only two linear polynomials, 2 is a common index divisor for every generator, so no transformation can make Zolotarev's assumption hold at p = 2."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is essentially accurate.",
+   "The fragment 'Dea' at the top right and the line-initial fragments on the right edge ('der', 'bel', 'ste', ...) belong to the adjacent folio, not to this page.",
+   "'Lejeune-Dirichlet' is written 'Lejeune–Dirichlet' with a dash; the manuscript spelling 'Lejeune' is correct.",
+   "The underlining in the manuscript runs from 'Um die Theorie in ihrer einfachsten Gestalt darzustellen' to 'Annahme erfüllt ist'. The transcription does not record it."
+  ]
+ }
+}

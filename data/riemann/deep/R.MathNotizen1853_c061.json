@@ -1,0 +1,64 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c061",
+ "label": "30v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000062/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (prev. page + this page). A plane circular plate (disk) of radius a, centre c, with diameter AB in a meridian plane, carries an 'Agens' (charge or attracting mass). Riemann wants to locate the level surfaces (equipotentials) of its potential in the half-space above it. Work in a meridian plane with axis z and radial coordinate x, so A=(-a,0), B=(a,0), c=(0,0). Take a point p=(x0,y0) with y0>0.\n\n(1) Uniform distribution (previous page). Riemann splits the plate into sectors as seen from p. The 'Kegelaxe' is the axis of the cone with vertex p and the plate rim as base; it meets the plate at p'. For each sector, the line through the midpoint between the sector's two endpoints sweeps out a circle with diameter cp'. So the line of action of the total resultant meets the plate inside that circle. Sectors can be paired symmetrically about cp'. Hence the resultant meets the plate at a point of the segment cp'. Its direction therefore lies between the line pc and the line pp'.\n\n(2) Top of this page: comparison curves. Through a given axis point (0,h) draw two curves.\n- A circle about c of radius h. Its normals all pass through c.\n- The ellipse with foci A and B through (0,h): x^2/(a^2+h^2) + y^2/h^2 = 1. Its normal at any point is the bisector of the angle between the focal radii pA and pB. The normal meets AB at the point p'_1 (my addition: it divides AB in the ratio pA:pB, i.e. x = e^2 x0 with e^2 = a^2/(a^2+h^2)). In his figure this point is identified with the cone-axis point.\n\nThe force direction at every point lies between the normals of these two curve families. Since the level line is orthogonal to the force, the meridian section of the level surface through (0,h) lies between the circle and the ellipse. A slope-comparison argument for first-order ODEs, implicit in the text, makes this precise. In space: the level surface lies between the hemisphere of radius h about c and the oblate spheroid whose focal circle is the plate rim.\n\n(3) Actual distribution on 'our second system'. It is not uniform: the density grows toward the rim. Riemann claims that the above bounds remain valid as long as this growth does not exceed a certain ratio. Weighting the rim more pulls the resultant toward the line pp' (the ellipse normal) and away from pc. So the level surface lies closer to the spheroid than to the sphere.\n\n(4) Pencil addition, later and lighter hand: 'That this growth in reality does not exceed this ratio shall still be proved quickly here.' The proof is not on this page; the next page contains nothing usable.",
+  "errors": [
+   "No outright error. The comparison step (direction field between two normal fields implies the level curve lies between the curves through the same axis point) is asserted without proof, but it is a valid ODE comparison argument.",
+   "The 'certain ratio' of growth is never specified. For the exact equilibrium density of a conducting disk, sigma proportional to 1/sqrt(a^2-r^2), the equipotentials are exactly the confocal oblate spheroids. So the conductor case is the limiting case in which the outer bound is attained, not a case strictly between the bounds. Riemann seems unaware of, or does not use, this exact solution.",
+   "The identification of the cone-axis point p' (previous page) with the ellipse-normal foot p'_1 is used implicitly. The cone-axis claim from the sector argument is only heuristic as written."
+  ],
+  "results": [
+   {
+    "what": "Normal of an ellipse bisects the angle between focal radii; normal foot on the major axis at x = e^2 x0",
+    "modern_name": "Reflection/bisector property of the ellipse",
+    "usually_credited_to": "Apollonius (classical)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Bounding the equipotential of a uniformly loaded disk between a sphere and the oblate spheroid with focal circle at the rim, via the resultant's direction",
+    "modern_name": "Comparison argument for level sets of a potential / direction-field comparison",
+    "usually_credited_to": "standard potential-theory technique (19th c.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "For rim-increasing density, level surfaces approach the confocal oblate spheroid",
+    "modern_name": "Equipotentials of a charged conducting disk are confocal oblate spheroids (exact limiting case)",
+    "usually_credited_to": "Green (1828); Laplace/Ivory/Chasles for ellipsoids",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Elementary qualitative bounds on equipotentials of a disk. The exact solution (confocal spheroids for the conducting disk) was already known from Green 1828, and Riemann does not even reach it here. These are routine working notes, probably connected with his electrical work around 1853-55, e.g. Nobili rings.",
+  "checkable": [
+   {
+    "sympy": "a,h,x0=symbols('a h x0',positive=True); al=sqrt(a**2+h**2); e=a/al; y0=h*sqrt(1-x0**2/al**2); xn=x0-(x0/al**2)*y0/(y0/h**2); simplify(xn - e**2*x0)",
+    "asserts": "The normal to x^2/(a^2+h^2)+y^2/h^2=1 at (x0,y0) meets the x-axis at x=e^2*x0 (should give 0)."
+   },
+   {
+    "sympy": "simplify((a*e*x0/al + a)/(a - a*e*x0/al) - (al+e*x0)/(al-e*x0))",
+    "asserts": "That foot point divides AB in the ratio of the focal distances pA:pB = (al+e x0):(al-e x0), i.e. the normal is the angle bisector (should give 0)."
+   },
+   {
+    "sympy": "r=symbols('r',positive=True); simplify(integrate(2*pi*r/(sqrt(a**2-r**2)*sqrt(r**2+h**2)),(r,0,a)) - 2*pi*atan(a/h))",
+    "asserts": "On the axis, the potential of disk density 1/sqrt(a^2-r^2) is 2*pi*atan(a/h). With h the semi-minor axis of the confocal spheroid, this is consistent with that spheroid being an exact equipotential (should give 0)."
+   },
+   {
+    "sympy": "simplify(integrate(2*pi*r/sqrt(r**2+h**2),(r,0,a)) - 2*pi*(sqrt(a**2+h**2)-h))",
+    "asserts": "Axial potential of a uniform disk, for comparing it with the spheroidal case (should give 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'als der Geraden $p_1$[?] nähern' should read 'als der Geraden pc nähern' (line from p to the centre c).",
+   "Line 4: the struck words appear to be 'und durch', with 'und' written above, i.e. '[-und durch-] {+und+} die durch denselben Axenpunkt'.",
+   "The final paragraph ('Daß dieses Wachsen aber in Wahrheit ... bewiesen werden.') is a later addition in pencil or lighter ink and should be marked as such.",
+   "The struck word at the end of line 1 may be 'zweit' rather than 'zwar'."
+  ]
+ }
+}

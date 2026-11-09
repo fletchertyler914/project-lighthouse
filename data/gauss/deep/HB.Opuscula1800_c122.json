@@ -1,0 +1,62 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c122",
+ "label": "117",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000123/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous pages adjust a planar intersection ('Schnitte', i.e. Vorwärtseinschneiden, example Hamburg / Horneburg / Stade -> Estebrügge). A new point 0 is fixed by rays from three known points 1, 2, 3. 'Ray i0' has azimuth t_i and length r_i (Gauss writes the ray and its length simply as 10, 20, 30).\n\n(1) Basis of the preceding method. Linearise the direction of ray i about an approximate position. A displacement (x, y) of point 0 changes the azimuth by (sin t_i x - cos t_i y)/r_i in radians, up to sign convention. So the observation equations in angular units are\ne_i = (sin t_i*x - cos t_i*y)/r_i + m_i, for i = 1, 2, 3.\nThere are three equations and two unknowns. The least-squares residual vector is therefore orthogonal to the column space, i.e. proportional to the left null vector lambda with sum_i lambda_i (sin t_i, -cos t_i)/r_i = 0.\nThe identity sin(t3-t2)(sin t1, cos t1) + sin(t1-t3)(sin t2, cos t2) + sin(t2-t1)(sin t3, cos t3) = 0 gives\nlambda_i = r_i sin(t_k - t_j), cyclically.\nThis is Gauss's statement: the corrections are proportional to 10*sin(30-20), 20*sin(10-30), 30*sin(20-10). (The step via the null vector is my filling-in.)\nIt is the same quantity as l = r*(theta''-theta')/cos t on the previous page, since theta = tan t, so theta'' - theta' = sin(t''-t')/(cos t' cos t'').\nThe next page writes this out generally: residuals e_i = f_i g with f proportional to the cross-differences of the slopes theta, and Sigma = g h.\n\n(2) Goal. Get the same proportionality when one or more of the rays is replaced by an angle measured at the new point 0 (a resection-type observation).\n\n(3) Auxiliary lemma (Hilfssatz).\n- Setup: triangle ABC, angles A, B, C, sides a = BC, b = CA, c = AB. Choose a fictitious point D so that azimuth(DA) = az(AB) + az(AC) - az(BC) and |DA| = bc/a.\n- Claim: for A' near A, az(DA') = [az(A'C) - az(A'B)] + (2 az(AB) - az(BC)) to first order. At A' = A the right side reduces to az(AB) + az(AC) - az(BC), so it is consistent.\n- Equivalently: d(azimuth of A seen from D) = d(angle BAC counted from B to C) as A moves infinitesimally.\n\nVerification (mine):\n- The gradient with respect to A of az(A->C) has magnitude 1/b and is perpendicular to AC; likewise for B with 1/c.\n- The gradient of the angle is their difference, of magnitude sqrt(1/b^2 + 1/c^2 - 2cosA/(bc)) = a/(bc).\n- Rotated by 90 degrees, it is parallel to c*u_C - b*u_B. This is the vector C - B = b*u_C - c*u_B reflected in the bisector of A. That reflection is the tangent to the circumcircle at A, with azimuth az(AB) + az(AC) - az(BC).\n- The azimuth seen from D has gradient at A of magnitude 1/|DA|, perpendicular to DA. Matching the two gives DA along the tangent and |DA| = bc/a.\n- Geometrically: the level curve of the angle is the circumcircle, so DA must be tangent to it.\n\nUse: a measured angle at the new point can be treated as a fictitious direction observed from D, with 'length' bc/a. The three-ray proportionality r_i sin(t_k - t_j) then carries over unchanged.",
+  "errors": [
+   "No substantive error. Both the direction rule az(DA) = AB + AC - BC and the identity are valid only modulo 180 degrees and up to the orientation/sign convention for azimuths. Gauss fixes the latter by counting the angle from B to C.",
+   "The written formula '(A'C - A'B) + (2AB - BC)' contains an ink correction. The intended reading is confirmed by setting A' = A, which gives AB + AC - BC."
+  ],
+  "results": [
+   {
+    "what": "In least-squares adjustment of a point fixed by three rays, the angular corrections are proportional to r_i sin(t_k - t_j), cyclically.",
+    "modern_name": "Least-squares adjustment of forward intersection (residuals spanning the left null space / condition-equation form for a 3-ray intersection)",
+    "usually_credited_to": "Gauss (least squares, geodetic adjustment practice, 1820s); later textbook geodesy (Gerling, Jordan)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Replacing a measured angle BAC at the new point by an equivalent direction from a fictitious point D on the tangent to the circumcircle at A, at distance bc/a. Its azimuth differential equals the angle differential.",
+    "modern_name": "Gradient of an angle observation / reduction of resection angles to equivalent intersection rays (fictitious station method)",
+    "usually_credited_to": "Geodetic textbook tradition (Hansen, Gerling, Jordan; 19th c.); specific device unsure",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Closed-form least-squares solution for 3 equations in 2 unknowns: e_i = f_i g, Sigma = g h (next page)",
+    "modern_name": "Least-squares residuals via the left null vector (minimum-norm residual for one redundancy)",
+    "usually_credited_to": "Gauss",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is Gauss's practical geodetic adjustment work (Hannover triangulation era), which is well documented. The fictitious-point lemma converting an angle into an equivalent direction is a neat, correct, little-known device, but not a major result credited to someone later.",
+  "checkable": [
+   {
+    "sympy": "simplify(sin(t3-t2)*sin(t1)+sin(t1-t3)*sin(t2)+sin(t2-t1)*sin(t3))",
+    "asserts": "First component of the null-vector identity; should be 0"
+   },
+   {
+    "sympy": "simplify(sin(t3-t2)*cos(t1)+sin(t1-t3)*cos(t2)+sin(t2-t1)*cos(t3))",
+    "asserts": "Second component; should be 0, so r_i*sin(t_k-t_j) is the left null vector of rows (sin t_i, -cos t_i)/r_i"
+   },
+   {
+    "sympy": "f=atan2(yc-y,xc-x)-atan2(yb-y,xb-x); simplify(diff(f,x)**2+diff(f,y)**2 - ((xc-xb)**2+(yc-yb)**2)/(((xc-x)**2+(yc-y)**2)*((xb-x)**2+(yb-y)**2)))",
+    "asserts": "The gradient of angle BAC at A has magnitude a/(b*c), so the fictitious distance DA = bc/a; should be 0"
+   },
+   {
+    "sympy": "x,y,xb,yb,xc,yc=symbols('x y xb yb xc yc',real=True); f=atan2(yc-y,xc-x)-atan2(yb-y,xb-x); g=Matrix([diff(f,x),diff(f,y)]); t=Matrix([(xc-x)/((xc-x)**2+(yc-y)**2)-(xb-x)/((xb-x)**2+(yb-y)**2),(yc-y)/((xc-x)**2+(yc-y)**2)-(yb-y)/((xb-x)**2+(yb-y)**2)]); simplify(g.dot(t))",
+    "asserts": "The gradient of the angle is perpendicular to u_C/b - u_B/c (direction of the tangent at A, i.e. of DA); should be 0"
+   }
+  ],
+  "transcription_corrections": [
+   "'(A'[-C-]AB)' should read '(A'C - A'B)': angle at A' from B to C, consistent with the A' = A check.",
+   "Line 'Es seien A, B, C' is written 'Es sein A, B, C' in the manuscript (Gauss's spelling).",
+   "'ein anderes un-endlich naher Punkt' is as written (grammatical slip for 'unendlich naher Punkt')."
+  ]
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c487",
+ "label": "247v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000488/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a numerical worksheet done with base-10 logarithms (the convention of adding 10 to negative characteristics). It evaluates two small coefficients, A and B, that are proportional to sin 2θ for an angle θ = 67°16'. The page does not say what problem this serves. My conjecture: 67°16' fits the magnetic inclination (dip) at Göttingen in the 1850s. That would fit the 'Nordpol oben' observation lists and the log/δ error estimates on the previous page. There, small corrections typically take the form ½ sin 2θ times a logarithmic difference, with M = log10 e converting between common and natural logarithms.\n\nLeft column (first attempt, result in degrees):\n- θ = 67°16', so 2θ = 134°32'.\n- 'log sin 2θ' is entered as 9.84592. The machine transcription reads this as 'sin 27'; the symbol is really 2θ.\n- log(π/180) = 8.2418773.\n- log M = 9.6377843, where M = log10 e = 0.4342945. Its cologarithm, 0.3622156, appears on the previous page.\n- Sum: 8.2418773 + 9.6377843 + 9.84592 = 7.7255816 (mod 10), i.e. log[(π/180)·M·sin 2θ].\n- 9.6989700 = log(1/2).\n- log A = 7.7255816 + 9.6377843 = 7.3633659. So A = (π/180)·M²·sin 2θ = 0.0023087°.\n- log B = 7.7255816 + 9.6989700 = 7.4245516. So B = ½(π/180)·M·sin 2θ = 0.0026580°.\n- In minutes of arc: A = 0.0023087·60 = 0.13852' and B = 0.0026580·60 = 0.15948'. The entries '0,138 52' and '0,159 48'' are these values.\n- The scribbles '20 − 2 18/1' and '12/12' are unclear.\n\nRight column (recomputation directly in arc minutes, with corrected sine):\n- log sin 2θ = 9.85299. This is correct: sin 134°32' = sin 45°28' = 0.71284.\n- The factor π/180 is replaced by π/3, i.e. (π/180)·60, so the results come out in minutes. The crossed-out 8.2418773 is the old log(π/180).\n- log π = 0.4971499 and log(1/3) = 9.5228786. The heading reads π/30, but the characteristic used corresponds to π/3.\n- Sum: 0.4971499 + 9.5228786 + 9.6377843 + 9.85299 = 9.5108028 = log[(π/3)·M·sin 2θ].\n- log A = 9.5108028 + 9.6377843 = 9.1485871, so A = 0.14079'.\n- log B = 9.5108028 + 9.6989700 = 9.2097728, so B = 0.1621'.\n- Finally both are divided by 16: 0.14079/16 = 0.00880 and 0.1621/16 = 0.01013. The purpose of the factor 16 is not evident.\n- The ratio of the two columns, 0.14079/0.13852 = 1.0164 = 10^0.00707, is exactly the sine correction.\n- In both columns B/A = 1/(2M) = 1.1513.",
+  "errors": [
+   "Left column: log sin 2θ is written 9.84592, which is log sin 44°32'. The correct value is log sin 134°32' = log cos 44°32' = log sin 45°28' = 9.85299. Riemann apparently took sin(2θ − 90°) instead of cos(2θ − 90°). He corrected this himself in the right column, so the left-column A and B (0.0023087°, 0.0026580°) are about 1.6% too small.",
+   "Right column heading reads log π/30, but the logarithm used (0.4971499 + 9.5228786) is that of π/3, which is the correct factor for minutes of arc. This is a notational slip only.",
+   "All arithmetic additions of logarithms and the antilogarithms are otherwise correct to the 7th place."
+  ],
+  "results": [
+   {
+    "what": "Evaluation of coefficients A = (π/180)·M²·sin 2θ and B = ½(π/180)·M·sin 2θ (M = log10 e) for θ = 67°16', in degrees and in arc minutes, by logarithm tables",
+    "modern_name": "Numerical evaluation of linearized error/correction coefficients (propagation of logarithmic errors to an angle, e.g. dθ = ½ sin2θ·d ln(Z/H) for magnetic inclination)",
+    "usually_credited_to": "Standard 19th-century geodetic/geomagnetic practice (Gauss, Weber)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Purely routine logarithmic arithmetic with a self-corrected table look-up slip. No mathematical result is involved; it is only of interest as evidence of Riemann's practical, probably geomagnetic, computations around 1853.",
+  "checkable": [
+   {
+    "sympy": "N(log(sin(rad(134+Rational(32,60))),10)+10, 8)",
+    "asserts": "log sin 134°32' = 9.85299 (right column value correct)"
+   },
+   {
+    "sympy": "N(log(sin(rad(44+Rational(32,60))),10)+10, 8)",
+    "asserts": "9.84592 equals log sin 44°32' (source of the left-column slip)"
+   },
+   {
+    "sympy": "N(log(pi/180,10)+10, 9)",
+    "asserts": "log(pi/180) = 8.2418774"
+   },
+   {
+    "sympy": "N(log(log(E,10),10)+10, 9)",
+    "asserts": "log M = 9.6377843 with M = log10 e"
+   },
+   {
+    "sympy": "N((pi/180)*log(E,10)**2*sin(rad(134+Rational(32,60))), 6)",
+    "asserts": "Corrected A in degrees ≈ 0.0023465 (Riemann's left column 0.0023087 used the wrong sine)"
+   },
+   {
+    "sympy": "N((pi/3)*log(E,10)**2*sin(rad(134+Rational(32,60))), 6)",
+    "asserts": "A in arc minutes ≈ 0.14079"
+   },
+   {
+    "sympy": "N((pi/3)*Rational(1,2)*log(E,10)*sin(rad(134+Rational(32,60))), 6)",
+    "asserts": "B in arc minutes ≈ 0.16214"
+   },
+   {
+    "sympy": "N(0.14079/16, 4), N(0.16214/16, 4)",
+    "asserts": "0.00880 and 0.01013 are A/16 and B/16"
+   },
+   {
+    "sympy": "N(1/(2*log(E,10)), 6)",
+    "asserts": "B/A = 1/(2M) ≈ 1.15129"
+   }
+  ],
+  "transcription_corrections": [
+   "'log sin 27' and 'sin 27' should read 'log sin 2ϑ' (2θ = 134°32').",
+   "'0,[-1-]138,52'' and '0,[-1-]159,48'' are 0,13852' and 0,15948' (A and B converted to minutes, with a digit struck through).",
+   "Right column 'log π/30' functions as log π/3 (0.4971499 + 9.5228786).",
+   "'log A = 9,1485871' and 'log B = 9,2097728' are correctly read; the final column 0,00880 / 0,14079 / 0,1621 / 0,01013 pairs A/16, A, B, B/16."
+  ]
+ }
+}

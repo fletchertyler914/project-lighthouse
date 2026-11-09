@@ -1,0 +1,70 @@
+{
+ "bundle": "R.Aether",
+ "page": "c037",
+ "label": "19v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234777:00000038/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the whole page is struck through with vertical wavy cancellation strokes. The verso follows a draft of the Habilitation lecture 'Hypothesen der Geometrie' (1853/54). The page is an early, abandoned sketch of Riemann's aether theory of gravitation and light, the programme later printed from the Nachlass as 'Gravitation und Licht' and 'Neue mathematische Principien der Naturphilosophie' (Werke, 1876).\n\n(A) First set of assumptions ('1) Annahmen').\n- A space-filling substance (the aether, 'Stoff') moves with a velocity u(x,t).\n- u is proportional in magnitude, and equal in direction, to the gravitational force: u = k F.\n- Consequences ('Folgerungen'): the quantity of substance flowing per unit time into the region occupied by a ponderable body equals that body's mass, and the density of the substance stays constant everywhere at all times.\n- In modern terms the substance is incompressible, div u = 0 outside matter. Each ponderable body is a sink of strength proportional to its mass: the flux of u through a closed surface around the body is -c M.\n\n(B) Second set ('2) Annahmen').\n- The quantity (density) of the substance is everywhere constant.\n- Into a ponderable body flows as much (per unit time) as its mass amounts to.\n- The velocity components parallel to the rectangular axes are the partial derivatives of one function V (reference '(29)', presumably to an equation elsewhere): u = grad V, i.e. the flow is irrotational with a velocity potential.\n- Then (my completion, certain from the content): div u = -c rho gives Laplace V = -c rho, the Poisson equation. In empty space Laplace V = 0.\n- Boundary condition at the limit (at infinity): V = 0 and V dV/dp = 0, with p the outward normal or radial distance.\n- This is exactly the condition that kills the surface term in Green's identity: int |grad V|^2 dtau = surface integral of V dV/dn minus int V Laplace V dtau. That identity yields uniqueness of V given rho, so the flow is determined by the masses.\n- For a single mass, the flux through a sphere is 4 pi r^2 |u| = c M, so |u| = c M/(4 pi r^2), directed inward. This is the Newtonian inverse-square law.\n- 'Folg.': the motion so determined is the one that, by hypothesis, causes the motions of ponderable bodies, i.e. gravitation.\n\n(C) 'Die Erklärung der Lichterscheinungen'.\n- The cause underlying light is a form of motion of the same substance, with these properties:\n  1. The vibrations are perpendicular to the direction of propagation (transversality).\n  2. The propagation speed is the same for all forms of motion (all colours or frequencies in vacuum).\n- The page breaks off; the cancelled words 'dieselbe' and 'constant' show the wording of point 2 was still being worked out.",
+  "errors": [
+   "'Density constant everywhere at all times' is presented as a consequence ('Folgerungen'). It is really an additional assumption (incompressibility) needed to turn the sink hypothesis into div u = 0 outside matter.",
+   "Irrotationality (existence of the potential whose derivatives are the velocity components) is assumed rather than derived. Div u alone does not determine u without curl u = 0 and boundary conditions; Riemann does supply the latter.",
+   "Making the gravitational force proportional to the aether velocity itself, rather than to pressure or an acceleration effect, is a crude first hypothesis. Riemann's later version ties gravity to the flow differently. Here it is consistent only as a kinematic restatement of Newton's field. It is not a dynamical explanation, and it does not explain why the force acts on bodies.",
+   "Physical issue, not a math error: continuous absorption of aether by matter requires the absorbed substance to vanish or go elsewhere. The page does not address this; Riemann's 1853 note addresses it by transfer into another world.",
+   "The page is cancelled by the author, so the statements are provisional."
+  ],
+  "results": [
+   {
+    "what": "Gravitation modelled as incompressible flow of aether into ponderable bodies acting as sinks of strength proportional to mass; this yields the inverse-square law",
+    "modern_name": "sink/absorption (aether-flow) theory of gravitation; hydrodynamic analogy of gravity",
+    "usually_credited_to": "Riemann (Nachlass fragment 'Gravitation und Licht', pub. 1876); similar ideas in Euler, Challis, Bjerknes, later Yarkovsky",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Velocity potential with Poisson equation and decay conditions V=0, V dV/dp=0 at infinity, ensuring uniqueness via Green's identity",
+    "modern_name": "potential flow / Poisson equation with Dirichlet-energy uniqueness argument",
+    "usually_credited_to": "Green (1828), Gauss (1840), Dirichlet",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Light as transverse vibrations of the same medium with frequency-independent speed",
+    "modern_name": "Fresnel transverse-wave theory of light",
+    "usually_credited_to": "Fresnel/Young (1817-1821)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a cancelled early draft of Riemann's well-known aether programme, published from the Nachlass in the 1876 Werke as 'Gravitation und Licht' and 'Neue mathematische Principien der Naturphilosophie'. The mathematics is standard potential theory. The only mild interest is the explicit boundary condition V dV/dp = 0, which shows Riemann was thinking of the Green/Dirichlet uniqueness argument, and the physical placement of the draft next to the Habilitation draft.",
+  "checkable": [
+   {
+    "sympy": "r=symbols('r',positive=True); M,c=symbols('M c',positive=True); u=-c*M/(4*pi*r**2); simplify(diff(r**2*u,r)/r**2)==0",
+    "asserts": "The radial inflow field of a point sink is divergence-free for r>0 (incompressible outside matter)."
+   },
+   {
+    "sympy": "simplify(4*pi*r**2*(c*M/(4*pi*r**2)) - c*M)==0",
+    "asserts": "The flux of the inward flow through any sphere equals c*M (inflow proportional to mass)."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z',real=True); V=1/sqrt(x**2+y**2+z**2); simplify(diff(V,x,2)+diff(V,y,2)+diff(V,z,2))==0",
+    "asserts": "The potential 1/r is harmonic away from the origin, so velocity = grad V satisfies div u = 0 there."
+   },
+   {
+    "sympy": "limit((1/r)*diff(1/r,r)*4*pi*r**2, r, oo)==0",
+    "asserts": "The surface term V dV/dp over a large sphere vanishes for V ~ 1/r, matching Riemann's boundary condition and giving uniqueness via Green's identity."
+   }
+  ],
+  "transcription_corrections": [
+   "The entire page is cancelled by wavy vertical strokes; the transcription does not note this.",
+   "'1) Annahme' and '2) Annahme' read as 'Annahmen' (plural).",
+   "'Die Geschwindigkeit der Nachbar[?] der Kraft' more plausibly reads 'Die Geschwindigkeit des Stoffes [ist] der Kraft nach Grösse proportional und gleicher Richtung'; uncertain.",
+   "'Die Menge der Masse' is likely 'Die Menge des Stoffes'; similarly the interlinear insertion reads 'des Stoffs' / 'die Menge des', not 'der Masse'.",
+   "'In einem ponderabelen Körper strömt so viel {+in+} den Körperraum' is likely 'In einen ponderabelen Körper strömt so viel aus dem Körperraume als dessen Masse beträgt'.",
+   "'die Geschw. parallel der letzteren' should probably read 'die Geschw. parallel den rechtwinkligen Axen sind die Differentialquotienten einer Function (29)'.",
+   "'? in der Grenze ist v=0 und v dv/dp=0' is probably 'im unendlich fernen [Raume] ist V=0 und V dV/dp=0'; the second v is likely the potential (capital V).",
+   "The cancelled line at the bottom after point 2 contains 'dieselbe' and 'constant' (both struck), confirming the transcription's reading."
+  ]
+ }
+}

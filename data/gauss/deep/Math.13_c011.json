@@ -1,0 +1,52 @@
+{
+ "bundle": "Math.13",
+ "page": "c011",
+ "label": "5v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376633:00000012/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the next page (6) treats Gaussian-integer moduli m = 5+12i (norm 169), M = 9+10i (norm 181) and mu = 165+58i (norm 30589 = 169*181). It uses linear changes of variables between lattice coordinates and tabulates residues. This page, headed 'IV', is evidently a fourth case of a related lattice computation.\n\nOn this page Gauss lists the points where one straight segment, parametrized by eta, crosses the integer grid lines X = const and Y = const.\n\nImplicit parametrization (fitted by me from the entries; it reproduces every entry exactly):\n  x = 3/2 - 2*eta,\n  y = 1 + 3*eta,\n  X = -5/2 + 6*eta,\n  Y = -3 - 5*eta,\n  with 0 < eta < 1/2.\nAt eta = 0 the point is (x,y,X,Y) = (3/2, 1, -5/2, -3). At eta = 1/2 it is (1/2, 5/2, 1/2, -11/2).\n\nTable 1, crossings of the integer lines X = -2, -1, 0. Solving X = n gives eta = (2n+5)/12, so the denominator 12 clears fractions.\n- X=-2: 12eta=1, 12x=16, 12y=15, 12Y=-41.\n- X=-1: 12eta=3, 12x=12, 12y=21, 12Y=-51.\n- X=0: 12eta=5, 12x=8, 12y=27, 12Y=-61.\nThe header '12x + 8omega' and the appended '+8omega' in that column are not explained by the parametrization. They are possibly an additional term from a complex form of the coordinate; their meaning is unclear to me.\nEach crossing receives a sign epsilon = -1. The sum is -3; the sum over the starred rows (X=-2, -1) is -2, written '(-2)'.\n\nTable 2, crossings of the integer lines Y = -4, -5. Solving Y = n gives eta = -(n+3)/5, i.e. 10*eta = -2n-6.\n- The line Y = -3 (eta = 0, the endpoint of the segment) is struck out, correctly excluded.\n- Y=-4: 10eta=2, 10x=11, 10y=16, 10X=-13.\n- Y=-5: 10eta=4, 10x=7, 10y=22, 10X=-1.\nEach has epsilon = -1. The sum is -2; the starred row (Y=-4) gives '(-1)'.\n\nThe two tables describe one and the same line, since x and y have identical expressions in both. In total the open segment crosses 3 vertical and 2 horizontal grid lines, so the total sign sum is -5, of which -3 comes from the starred crossings.\n\nThis is the familiar device of determining a sign or character by counting signed crossings of a segment with lattice lines, in the spirit of Gauss's/Eisenstein's lattice-point proofs of reciprocity. Here it apparently serves biquadratic residue computations with the Gaussian moduli of the next page. The precise rule assigning epsilon and the asterisks is not stated on the page.",
+  "errors": [
+   "No arithmetic errors found: all entries agree with the single linear parametrization x=3/2-2eta, y=1+3eta, X=-5/2+6eta, Y=-3-5eta.",
+   "The '+8omega' term in the third column of Table 1 is unexplained by that parametrization; its meaning is unclear (possibly a slip in the header, or an extra complex component)."
+  ],
+  "results": [
+   {
+    "what": "Enumeration of the intersections of a line segment with integer grid lines (X = const and Y = const), with signs epsilon attached and summed; the struck-out endpoint is correctly excluded.",
+    "modern_name": "Lattice-point / grid-crossing counting (Eisenstein-type geometric evaluation of a Legendre/biquadratic character symbol)",
+    "usually_credited_to": "Gauss (third proof of QR, 1808, lattice counting) and Eisenstein (1844 geometric proof); for biquadratic reciprocity, Eisenstein 1844",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "A small numerical worksheet of lattice-line crossings, part of Gauss's known (largely unpublished) work on biquadratic residues with Gaussian integers. The method is a known Gauss/Eisenstein technique and nothing new is stated explicitly.",
+  "checkable": [
+   {
+    "sympy": "[(Rational(3,2)-2*e, 1+3*e, Rational(-5,2)+6*e, -3-5*e) for e in [Rational(1,12),Rational(3,12),Rational(5,12)]] == [(Rational(16,12),Rational(15,12),-2,Rational(-41,12)),(Rational(12,12),Rational(21,12),-1,Rational(-51,12)),(Rational(8,12),Rational(27,12),0,Rational(-61,12))]",
+    "asserts": "Table 1 rows (X integer) lie on the reconstructed line"
+   },
+   {
+    "sympy": "[(Rational(3,2)-2*e, 1+3*e, Rational(-5,2)+6*e, -3-5*e) for e in [Rational(2,10),Rational(4,10)]] == [(Rational(11,10),Rational(16,10),Rational(-13,10),-4),(Rational(7,10),Rational(22,10),Rational(-1,10),-5)]",
+    "asserts": "Table 2 rows (Y integer) lie on the same line"
+   },
+   {
+    "sympy": "[n for n in range(-10,10) if Rational(-5,2) < n < Rational(1,2)] == [-2,-1,0]",
+    "asserts": "for 0<eta<1/2 exactly the integer X-lines -2,-1,0 are crossed"
+   },
+   {
+    "sympy": "[n for n in range(-10,10) if Rational(-11,2) < n < -3] == [-5,-4]",
+    "asserts": "exactly the integer Y-lines -4,-5 are crossed (Y=-3 is the excluded endpoint)"
+   },
+   {
+    "sympy": "(5**2+12**2)*(9**2+10**2) == 165**2+58**2 == 30589",
+    "asserts": "context from next page: N(mu)=N(m)N(M)"
+   }
+  ],
+  "transcription_corrections": [
+   "The struck entry in Table 2 is the row Y = -3 (crossed out), not a separate line '-3'; it is correctly excluded as the endpoint eta=0.",
+   "Table 2 epsilon entries appear as '-1' written over or struck; read as -1 each, consistent with the sum -2.",
+   "Table 1 first row 12eta: '+1' is written over a blot."
+  ]
+ }
+}

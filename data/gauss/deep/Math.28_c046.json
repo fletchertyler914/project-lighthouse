@@ -1,0 +1,58 @@
+{
+ "bundle": "Math.28",
+ "page": "c046",
+ "label": "23v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000047/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page states, without proof, the two-dimensional Green representation formula for harmonic functions (logarithmic potential). It also defines every symbol.\n\nStatement (modern notation). Let S be a closed curve with arc element ds, bounding a plane region D. Let u(x,y) be continuous at least in the interior of D and satisfy Laplace's equation u_xx + u_yy = 0 there. Let P be a point of the region and u0 = u(P). Let r be the distance from the line element ds to P. Let p denote the normal to ds directed into the interior, with the integration taken over the whole periphery. Then\n\n  ∮_S ( u ∂(log r)/∂p − log r ∂u/∂p ) ds = −2π u0.\n\nDerivation (implicit; supplied by me). Apply Green's second identity on D minus a small disc of radius ε about P, with v = log r. Δv = 0 away from P.\n- With the outward normal n: ∫∫(uΔv − vΔu) dA = ∮(u ∂v/∂n − v ∂u/∂n) ds.\n- The small circle contributes −(1/ε)·u·ε·2π → −2πu0 on the inner boundary, plus a term ε log ε → 0. Equivalently, Δ log r = 2πδ_P.\n- This gives ∮(u ∂log r/∂n − log r ∂u/∂n) ds = 2π u0.\n- Since ∂/∂p = −∂/∂n for the inward normal, the stated formula with −2π u0 follows.\n\nSanity check (mine). Take S a circle of radius R centred at P. Then ∂log r/∂p = −1/R. The second term vanishes because ∮∂u/∂p ds = 0. The formula reduces to −∫_0^{2π} u dθ = −2π u0, i.e. Gauss's mean-value theorem.\n\nPurpose and context. The previous page derives the Cauchy-type formula A = (1/2π)∫ x X/(x−a) dθ on a circle. This page gives the real-variable (potential-theoretic) analogue: a harmonic function is determined at interior points by its boundary values and normal derivatives.\n\nOn the sheet's provenance. An archivist's note at the bottom, in a different hand and different ink, says the sheet was taken from a book in Gauss's library: Laplace, Mécanique céleste, 'Deuxième Supplément'. The formula and notation are word-for-word those of Riemann's 1851 Göttingen dissertation ('Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse', art. 10). That work likewise uses p for the inward normal and states ∫(u ∂log r/∂p − log r ∂u/∂p) ds = −2π u0. The handwriting also resembles Riemann's more than Gauss's. Gauss was the examiner of that dissertation. This sheet may therefore be a Riemann note, or a note on Riemann's work, kept by Gauss (uncertain).",
+  "errors": [
+   "No mathematical error. The sign −2π u0 is correct for p = inward normal; with the outward normal it would be +2π u0.",
+   "Hypotheses are slightly loose by modern standards. Continuity of u in the interior alone is not enough: u must be C^1 up to the boundary for ∂u/∂p on S to make sense. P must lie strictly inside D.",
+   "No proof is given on the page; the result is merely stated with definitions."
+  ],
+  "results": [
+   {
+    "what": "For harmonic u in a plane region bounded by closed curve S and interior point P: ∮(u ∂log r/∂p − log r ∂u/∂p) ds = −2π u(P), with p the inward normal.",
+    "modern_name": "Green's representation formula (Green's third identity) in 2D for harmonic functions, logarithmic kernel",
+    "usually_credited_to": "G. Green (1828, 3D Newtonian version); the 2D logarithmic form is standard in the mid-19th century and appears in exactly this notation in Riemann's dissertation (1851, art. 10)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Special case for a circle centred at P: the value at the centre equals the boundary mean.",
+    "modern_name": "Mean value property of harmonic functions",
+    "usually_credited_to": "Gauss (1840, Allgemeine Lehrsätze, 3D version)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The formula is the standard 2D Green representation. Gauss had the equivalent 3D theory in his 1839/40 'Allgemeine Lehrsätze', and Green had it in 1828. The page reproduces verbatim the statement and notation of Riemann's 1851 dissertation, art. 10, and may well be in Riemann's hand. Either way it is nothing new for Gauss.",
+  "checkable": [
+   {
+    "sympy": "a=Rational(1,3); th=symbols('theta'); Integral(cos(th)*(-(1-a*cos(th))/(1-2*a*cos(th)+a**2)) + Rational(1,2)*log(1-2*a*cos(th)+a**2)*cos(th), (th,0,2*pi)).evalf() - (-2*pi*a).evalf()",
+    "asserts": "Test of the formula on the unit circle with u = x and P = (a,0), inward normal; the result should be ≈ 0, i.e. the boundary integral equals −2π u0 = −2πa."
+   },
+   {
+    "sympy": "R,th=symbols('R theta',positive=True); x0,y0=symbols('x0 y0'); u=lambda x,y: x**2-y**2+3*x*y; X=x0+R*cos(th); Y=y0+R*sin(th); simplify(integrate(expand(u(X,Y))*(-1/R)*R,(th,0,2*pi)) + 2*pi*u(x0,y0))",
+    "asserts": "Circle centred at P: the first term gives −∫u dθ = −2π u0 (should simplify to 0)."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); simplify(diff(log(sqrt(x**2+y**2)),x,2)+diff(log(sqrt(x**2+y**2)),y,2))",
+    "asserts": "log r is harmonic away from P (result 0)."
+   },
+   {
+    "sympy": "th=symbols('theta'); a=Rational(1,3); Integral(log(1-2*a*cos(th)+a**2)*cos(th),(th,0,2*pi)).evalf() + (2*pi*a).evalf()",
+    "asserts": "Auxiliary identity ∫_0^{2π} log(1−2a cosθ+a²) cosθ dθ = −2πa for |a|<1 (result ≈ 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: the 'u' between 'bedeutet' and 'ds' appears struck out or blotted; read 'Hier bedeutet ds das Element einer geschlossenen Linie' (consistent with the machine transcription's [-u-]).",
+   "u0 line: the original read 'in P einem Puncte im innern des Raumes'. 'im innern das' is struck and 'des' (written 'es' superscript over the struck 'das') is inserted, giving 'einem Puncte des Raumes'.",
+   "'p jedesmal die Normale' — the struck word is more likely 'jedesmal'/'jedenfalls'; the sense is unchanged: p = normal to ds directed inward ('nach Innen gerichtet').",
+   "The bottom note '[Entnommen aus Gauss-Bibliothek Nr. ... Laplace, Deuxième Supplément' is a later archival annotation in pencil/another hand, not part of the mathematical text. The library number is left blank.",
+   "Hand: the main text may be Riemann's rather than Gauss's (style, and identical wording to Riemann's 1851 dissertation art. 10); this should be checked against palaeographic comparison."
+  ]
+ }
+}

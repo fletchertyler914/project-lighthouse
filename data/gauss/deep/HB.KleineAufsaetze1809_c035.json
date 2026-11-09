@@ -1,0 +1,49 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c035",
+ "label": "26",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000036/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a pure numerical table with no derivation written out. It continues page 25 and runs into page 27, which covers A = 1.440 to 1.520. Each half-column has five columns: argument A, function value B, first difference of B (in units of 1e-5), the sum C = A + B, and the first difference of C (in units of 1e-5). The arguments run from A = 1.360 to 1.400 on the left and 1.400 to 1.440 on the right, in steps of 0.001.\n\nIdentification (my reconstruction, checked numerically): B(A) = log10(1 + 10^(-A)), rounded to 5 decimals.\n- A = 1.360: 10^-1.36 = 0.0436516 and ln(1.0436516) = 0.0427257, so B = 0.018556, giving 0.01856 as tabled.\n- A = 1.380: 10^-1.38 = 0.0416869, so B = 0.017737, giving 0.01774.\n- A = 1.400: 10^-1.4 = 0.0398107, so B = 0.016954, giving 0.01695.\n- A = 1.420: 10^-1.42 = 0.0380189, so B = 0.0162053, giving 0.01621. This is a near-borderline case, rounded correctly.\n- A = 1.440: 10^-1.44 = 0.0363078, so B = 0.015489, giving 0.01549.\n\nThe third column is C = A + B = log10(1 + 10^A). These are Gaussian addition logarithms: if A = log a - log b with a > b, then log(a + b) = log a + B(A) = log b + C(A).\n\nThe differences are exactly what a table-maker needs for linear interpolation. Since dB/dA = -1/(1 + 10^A), which is about -0.038 to -0.035 here, the B-differences are 4, with an occasional 5 at the top. Toward 1.44 they alternate 3 and 4. The C-differences are correspondingly 1000 minus the B-difference, i.e. 96 or 97 (95 where the B-difference is 5).\n\nNo other computation appears. The purpose is a 5-place table for finding the logarithm of a sum or difference without leaving logarithms. This is the form Gauss published in 1812 in Zach's Monatliche Correspondenz: arguments A, B, C with differences.",
+  "errors": [
+   "No arithmetic errors found.",
+   "Every row satisfies C = A + B exactly.",
+   "Every B-difference and C-difference is consistent with the tabled values, with B-difference + C-difference = 100 in units of 1e-5 for each step of 0.001.",
+   "Spot checks of B against log10(1 + 10^-A) (A = 1.360, 1.380, 1.400, 1.420, 1.440) all agree to the last digit, including the near-half case at A = 1.420 (0.0162053, giving 0.01621)."
+  ],
+  "results": [
+   {
+    "what": "5-place table of B(A) = log10(1 + 10^-A) and C(A) = A + B = log10(1 + 10^A) for A = 1.360 to 1.440, with first differences",
+    "modern_name": "Gaussian logarithms (addition/subtraction logarithms, Zech-type logarithms)",
+    "usually_credited_to": "Idea due to Z. Leonelli (1802/1803). Popularised by Gauss's 5-place table published in Monatliche Correspondenz in 1812 (Werke III).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a manuscript or fair copy of the table of addition logarithms that Gauss published in 1812 and that is named after him. It is well-known, routine tabulation work.",
+  "checkable": [
+   {
+    "sympy": "[ (A, round(float(log(1+10**(-Rational(A,1000)),10)),5)) for A in range(1360,1441) ]",
+    "asserts": "Reproduces column B on this page, e.g. 0.01856 at 1.360, 0.01695 at 1.400, 0.01549 at 1.440."
+   },
+   {
+    "sympy": "round(float(log(1+10**(-Rational(142,100)),10)),5) == 0.01621",
+    "asserts": "The near-borderline entry at A = 1.420 is correctly rounded."
+   },
+   {
+    "sympy": "Abs(log(1+10**Rational(-136,100),10) + Rational(136,100) - log(1+10**Rational(136,100),10)) < 1e-12",
+    "asserts": "The third column C = A + B equals log10(1 + 10^A)."
+   },
+   {
+    "sympy": "N(diff(log(1+10**(-x),10),x).subs(x,1.4)*0.001*10**5)",
+    "asserts": "The expected B-difference near A = 1.4 is about -3.8 units of 1e-5, matching the tabled differences of 3 and 4."
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription matches the image. All values, differences and sums check out.",
+   "Minor: some digits in the image are overwritten or corrected (e.g. 1,39102 and 1,44391), but the transcribed readings are the arithmetically consistent ones."
+  ]
+ }
+}

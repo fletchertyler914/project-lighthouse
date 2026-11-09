@@ -1,0 +1,74 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c042",
+ "label": "22r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000043/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page opens a French translation of Riemann's 1859 Monatsberichte paper 'Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse'. The title is 'Sur le nombre des nombres premiers inférieurs à une limite donnée. Extrait des Comptes rendus mensuels de l'Académie des Sciences de Berlin. Communication de M. Riemann, correspondant de l'Académie.' The text follows the German original sentence by sentence; 'lieu analytique' on the next page renders 'Grössengebiet'. The page carries the folio number 22 and the pencil archival label 'Riemann 3'.\n\n(1) Euler product. For p over the primes and n over the positive integers, prod_p 1/(1-p^{-s}) = sum_n n^{-s}. Riemann (translated) defines zeta(s) as the function of the complex variable s equal to both expressions wherever they converge. Both converge only for Re s > 1, but an expression valid for all s can be found.\n\n(2) Gamma integral. In Gauss's notation Pi(s-1) = Gamma(s). Substituting y = nx in the Euler integral gives int_0^oo e^{-nx} x^{s-1} dx = Gamma(s)/n^s, valid for Re s > 0 and n > 0.\n\n(3) Integral representation. Sum (2) over n >= 1 and use sum_n e^{-nx} = e^{-x}/(1-e^{-x}) = 1/(e^x-1) for x > 0. This gives Gamma(s) zeta(s) = int_0^oo x^{s-1}/(e^x-1) dx for Re s > 1. [Mine: the interchange of sum and integral is justified by monotone convergence, or absolute convergence, since every term is positive for real s > 1.]\n\n(4) Set-up of the Hankel-type contour integral. The text introduces I(s) = int (-x)^{s-1}/(e^x-1) dx, taken from +oo to +oo positively around a region that contains 0 but no other singularity (x = 2 pi i k, k != 0). The sentence continues on the next page. There I(s) = (e^{-pi i s} - e^{pi i s}) int_0^oo x^{s-1}/(e^x-1) dx, with log(-x) real for negative x. Hence 2 sin(pi s) Gamma(s) zeta(s) = i I(s), which gives the continuation of zeta to all s except s = 1.\n\nWhat the page serves: the analytic continuation of zeta, as the first step of the explicit formula for pi(x). The previous page contains German draft material for the later part of the same paper (the f(x) = Li(x) - sum Li(x^rho) + ... computation).",
+  "errors": [
+   "No mathematical errors. Formulas (2) and (3) are correct as stated: (2) for Re s > 0, (3) for Re s > 1. The page does not state the condition Re s > 1 for the sum-integral interchange in (3), but the preceding sentence restricts convergence to Re s > 1, as in the 1859 original.",
+   "Minor orthographic and grammatical points only: 'on conclud' (for 'conclut'), 'depuis +oo jusqu'à +oo'. These are faithful to the German 'von +oo bis +oo'."
+  ],
+  "results": [
+   {
+    "what": "prod_p (1-p^{-s})^{-1} = sum_n n^{-s} for Re s > 1",
+    "modern_name": "Euler product formula",
+    "usually_credited_to": "Euler (1737)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Definition of zeta(s) as a function of a complex variable s, convergent for Re s > 1",
+    "modern_name": "Riemann zeta function",
+    "usually_credited_to": "Riemann (1859)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Gamma(s) zeta(s) = int_0^oo x^{s-1}/(e^x-1) dx",
+    "modern_name": "Mellin-transform (Bose-type) integral representation of zeta",
+    "usually_credited_to": "Abel/Chebyshev-era known; used by Riemann 1859",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Contour integral of (-x)^{s-1}/(e^x-1) from +oo around 0 back to +oo, giving the analytic continuation",
+    "modern_name": "Hankel contour representation of zeta",
+    "usually_credited_to": "Riemann (1859); Hankel (1864) for Gamma",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a French translation, possibly a contemporary copy, of the opening of Riemann's published 1859 paper. The mathematics is entirely well known and already credited to him. Its only interest is archival: who made the translation, when, and whether the hand is Riemann's. That is a minor bibliographic question, not a mathematical surprise.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(exp(-n*x)*x**(s-1),(x,0,oo),conds='none') - gamma(s)/n**s)",
+    "asserts": "The Euler Gamma integral int_0^oo e^{-nx} x^{s-1} dx = Gamma(s)/n^s (expected 0)."
+   },
+   {
+    "sympy": "N(Integral(x**2/(exp(x)-1),(x,0,oo))) - N(gamma(3)*zeta(3))",
+    "asserts": "Gamma(s) zeta(s) = int_0^oo x^{s-1}/(e^x-1) dx at s = 3 (expected approx 0)."
+   },
+   {
+    "sympy": "N(Integral(x**(Rational(3,2))/(exp(x)-1),(x,0,oo))) - N(gamma(Rational(5,2))*zeta(Rational(5,2)))",
+    "asserts": "The same representation at a non-integer s = 5/2 (expected approx 0)."
+   },
+   {
+    "sympy": "N(Mul(*[1/(1-Integer(p)**-2) for p in primerange(2,100000)])) - N(pi**2/6)",
+    "asserts": "The Euler product at s = 2 approximates zeta(2) = pi^2/6 (expected small)."
+   },
+   {
+    "sympy": "simplify(summation(exp(-n*x),(n,1,oo)) - 1/(exp(x)-1))",
+    "asserts": "The geometric series sum_{n>=1} e^{-nx} = 1/(e^x-1) for x > 0, the step from (2) to (3)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'j'ai pris pour point de départ la remarque': in the image 'j'ai' appears inserted or overwritten, and the article reads 'a'/'la remarque' (handwriting ambiguous). The meaning 'la remarque' is clear.",
+   "'tous les nombres [-entiers.-] [-Je designe-] premiers': correct. In the image 'entiers.' and 'Je designe' are struck through.",
+   "'de {+ces+} expressions': the image shows 'ces' written over a struck word (probably 'des'). Fine as given.",
+   "'Sciences de Berlin' and 'Comptes rendus mensuels' are read correctly. The '22' in the right margin is the folio number. 'Riemann 3' is a later pencil archival label, not part of the text."
+  ]
+ }
+}

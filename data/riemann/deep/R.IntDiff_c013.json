@@ -1,0 +1,74 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c013",
+ "label": "6v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000014/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio belongs to Riemann's student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (1847, printed posthumously in the Werke, 1876, as no. XIX). There he expands x^mu (or a function times x^{-mu}) in a two-sided series sum_alpha c_alpha (x-b)^alpha, with alpha running in unit steps to +/- infinity. The previous page splits the series at index alpha into a descending part p x^{-mu} = c_alpha (x-b)^alpha x^{-mu} + c_{alpha-1}(x-b)^{alpha-1} x^{-mu} + ... and an ascending part p' x^{-mu} = c_{alpha+1}(x-b)^{alpha+1} x^{-mu} + .... Each part satisfies a first-order differential equation and therefore equals +/- integral X x^{-mu-1} dx + K_i. After substituting x = b/y the integrand becomes c_alpha (mu-alpha) b^{alpha-mu} y^{mu-alpha-1}(1-y)^alpha. For mu > alpha > -1 the right-hand sides vanish at y=0 and y=1. So the parts should equal the integrals taken from 0 to y and from 1 to y respectively, provided everything is continuous between these limits.\n\nThis page settles that continuity question.\n(1) Divergent terms. One might object that the condition fails when single terms of a series grow without bound. Riemann replies that the terms can cancel. Unbounded terms only show that the sum cannot be found by actual termwise addition, not that the series has no determinate value. He refers back to his earlier stance on assigning values to series.\n(2) Continuity via integrals. Since the series cannot be summed directly, the continuity or discontinuity of p x^{-mu} and p' x^{-mu} can only be learned from the integrals equal to them.\n(3) Criterion. An expression can only become discontinuous where its differential becomes infinite. In modern terms: an antiderivative F(y) = integral f is continuous wherever f is bounded or integrable.\n(4) The integrand. Riemann writes it as (1-y)^{mu-alpha-1} y^alpha. This is finite for 0 <= y <= 1 when both exponents mu-alpha-1 and alpha are >= 0. So the integrals vary continuously.\n(5) Singular endpoints. Considering the improper ('singular') integrals at y=1 and y=0 shows that continuity persists as long as both exponents stay > -1. This sentence is completed on the next page. My restatement: integral_0^1 y^{a}(1-y)^{c} dy converges iff a > -1 and c > -1, i.e. mu > alpha > -1.\n(6) Consequence (next page). The two-sided series equals c_alpha b^{alpha-mu} (mu-alpha) B(alpha+1, mu-alpha) = c_alpha b^{alpha-mu} Pi(alpha) Pi(mu-alpha)/Pi(mu), using Gauss's Pi(n) = Gamma(n+1).\n\nFootnote (to be placed under the text). If the integrals are treated before substituting y = b/x, they become discontinuous at x = 0. Even in that form one sees easily that the integration constants must be the same for positive and negative x. The reason (continued on the next page) is that the integral varies continuously as x passes from +infinity to -infinity, i.e. through infinity rather than through 0.",
+  "errors": [
+   "Notational inconsistency with the previous page. There the integrand after substitution is y^{mu-alpha-1}(1-y)^alpha, which is correct for x = b/y. Here Riemann writes (1-y)^{mu-alpha-1} y^alpha, with the exponents swapped. The swap is harmless for the argument, since y -> 1-y exchanges them and the convergence condition is symmetric, and the next page again uses the form (b-y)^{mu-alpha-1} y^alpha.",
+   "'For all finite values of y' is too loose. For non-integer exponents (1-y)^{mu-alpha-1} y^alpha is real and finite only on [0,1] (the relevant range). Strictly, 'positive' should read 'nonnegative'.",
+   "'An expression can only become discontinuous if its differential becomes infinite' is a heuristic 1840s principle. It is fine for an indefinite integral of a locally bounded integrand, but not a general truth about functions.",
+   "The claim that divergent component series still have a 'determinate value' rests on Riemann's (pre-rigorous) earlier stance on summing series. The logical step 'continuity of the series = continuity of the integral' presupposes the identity it is meant to establish. This is circular in a modern sense, though typical of the time."
+  ],
+  "results": [
+   {
+    "what": "Continuity of the parts of a two-sided binomial-type series is decided via the equal Beta-type integrals; convergence of integral_0^1 y^{mu-alpha-1}(1-y)^alpha dy iff mu > alpha > -1",
+    "modern_name": "Convergence of the Euler Beta integral B(alpha+1, mu-alpha); continuity of an indefinite integral with integrable integrand",
+    "usually_credited_to": "Euler (Beta integral), Legendre/Gauss; convergence conditions standard by the early 19th century",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of the integral representation to sum the two-sided generalized binomial series sum_alpha b^{mu-alpha}(x-b)^alpha / (Pi(mu-alpha) Pi(alpha)) = x^mu/Pi(mu), completed on the next page",
+    "modern_name": "Two-sided (bilateral) binomial / Taylor series in Riemann's fractional calculus; Riemann's generalized Taylor series",
+    "usually_credited_to": "Riemann (1847 essay, published 1876); related bilateral binomial expansions later by Hardy and others",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Footnote: integration constants for x>0 and x<0 coincide because the integral varies continuously as x passes through infinity",
+    "modern_name": "Continuation of an antiderivative through the point at infinity (projective / Moebius substitution x = b/y)",
+    "usually_credited_to": "Riemann (in this essay)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of Riemann's well-known 1847 student essay on generalized integration and differentiation, printed in his collected Werke (1876). The material (Beta-integral convergence, continuity via integrals) is routine and already attributed to him. Only small manuscript details, such as the exponent swap and the 'note under the text' instruction, are new.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(b/y, y)*((b/y - b)**a*(b/y)**(-mu-1)) - (-b**(a-mu)*(1-y)**a*y**(mu-a-1)))  # with b,y positive, 0<y<1",
+    "asserts": "The substitution x=b/y turns (x-b)^a x^{-mu-1} dx into -b^{a-mu}(1-y)^a y^{mu-a-1} dy (the previous page's form; this page has the exponents swapped)."
+   },
+   {
+    "sympy": "integrate(y**(Rational(5,2)-Rational(1,3)-1)*(1-y)**Rational(1,3), (y,0,1)) - gamma(Rational(1,3)+1)*gamma(Rational(5,2)-Rational(1,3))/gamma(Rational(5,2)+1)",
+    "asserts": "integral_0^1 y^{mu-alpha-1}(1-y)^alpha dy = Pi(alpha)Pi(mu-alpha-1)/Pi(mu)... i.e. Gamma(alpha+1)Gamma(mu-alpha)/Gamma(mu+1) for mu=5/2, alpha=1/3; should be 0."
+   },
+   {
+    "sympy": "integrate((1-y)**(mu-a-1)*y**a,(y,0,1)).subs({mu:Rational(7,3),a:Rational(1,2)}) - integrate(y**(mu-a-1)*(1-y)**a,(y,0,1)).subs({mu:Rational(7,3),a:Rational(1,2)})",
+    "asserts": "The two orderings of exponents (this page vs previous page) give the same Beta integral; should be 0."
+   },
+   {
+    "sympy": "integrate(y**(-Rational(1,2))*(1-y)**(-Rational(1,2)), (y,0,1)) - pi",
+    "asserts": "The integral still converges with exponents in (-1,0), here giving B(1/2,1/2)=pi, illustrating 'as long as the exponents stay > -1'."
+   },
+   {
+    "sympy": "integrate(y**(-1)*(1-y)**Rational(1,2), (y,0,1))",
+    "asserts": "Diverges (oo) when an exponent equals -1, so the condition alpha > -1, mu > alpha is sharp."
+   },
+   {
+    "sympy": "simplify(Sum(b**(mu-k)*(x-b)**k/(gamma(mu-k+1)*gamma(k+1)),(k,0,oo)).subs({mu:3}).doit() - x**3/gamma(4))",
+    "asserts": "For integer mu the generalized series reduces to the ordinary binomial expansion x^mu/Pi(mu) = sum b^{mu-k}(x-b)^k/(Pi(mu-k)Pi(k)), the result completed on the next page; should be 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'der Reihen p x^{-μ} und p x^{-μ}': the second should be p' x^{-μ} (primed), matching the previous page.",
+   "Footnote line: the manuscript has struck-through 'sieht man' and a struck second 'aber'. The intended reading is 'Man sieht aber auch unter dieser Form leicht, dass die ihnen zugehörigen Constanten für positive und negative [Werthe von x dieselben Werthe haben müssten]'.",
+   "The exponents in '(1-y)^{μ-α-1} y^{α}' are correctly read from the image, but they differ from the previous page's y^{μ-α-1}(1-y)^{α} (an author's inconsistency, not a transcription error).",
+   "The page number '10' at top left is a later foliation or pagination mark, not part of the text.",
+   "The red '*)' in the margin and the bracketed footnote with 'Als Note unter den Text' are an editorial instruction to set the passage as a footnote."
+  ]
+ }
+}

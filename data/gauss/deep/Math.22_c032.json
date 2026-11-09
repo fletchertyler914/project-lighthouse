@@ -1,0 +1,59 @@
+{
+ "bundle": "Math.22",
+ "page": "c032",
+ "label": "17r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000033/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem: given the implicit relation x = t + u f(x), expand an arbitrary function phi(x) as a power series in u with coefficients depending on t. This is Lagrange's theorem, written \"Lagranges Lehrsatz\" on the page.\n\n(1) Fundamental equation. Differentiate x = t + u f(x) implicitly:\n- dx/du = f(x)/(1 - u f'(x))\n- dx/dt = 1/(1 - u f'(x))\nHence dx/du = f(x) dx/dt. By the chain rule, for any function psi:\n d psi(x)/du = f(x) * d psi(x)/dt.\nThe page states this as known (\"Die Grundgleichung gibt allgemein\"). Gauss does not show the implicit differentiation; I have supplied it.\n\n(2) Auxiliary functions. Define phi_k(x) = ∫ f(x)^k phi'(x) dx for k = 0, 1, 2, 3, ..., with phi_0 = phi. Then phi_k'(x) = f^k phi'.\n\n(3) Applying the fundamental equation to phi_k gives\n d phi_k(x)/du = f^k phi' * dx/du = f^(k+1) phi' * dx/dt = d phi_(k+1)(x)/dt.\nThis is the middle column of the page.\n\n(4) Iterate, using the fact that d/du and d/dt commute (step implicit on the page; supplied by me):\n d^2 phi/du^2 = d/du (d phi_1/dt) = d/dt (d phi_1/du) = d^2 phi_2/dt^2.\nBy induction, d^n phi(x)/du^n = d^n phi_n(x)/dt^n. This is the third column.\n\n(5) Coefficients. Write the expansion\n phi(x) = phi(t) + u F_(0)(t) + u^2/2! F_(1)(t) + ... + u^n/n! F_(n-1)(t) + ...\nDifferentiating n times in u gives\n d^n phi/du^n = F_(n-1)(t) + u F_(n)(t) + (u^2/2) F_(n+1)(t) + ...\nThis equals d^n phi_n(x)/dt^n. Now expand phi_n(x) = phi_n(t) + u G(t) + (u^2/2) G_1(t) + ... and differentiate n times in t. Comparing the u^0 terms gives\n F_(n-1)(t) = d^n phi_n(t)/dt^n = d^(n-1)[f(t)^n phi'(t)]/dt^(n-1),\nsince phi_n'(t) = f(t)^n phi'(t). The page ends this with W.Z.B.W. (Q.E.D.).\n\n(6) Result:\n phi(x) = phi(t) + u f(t) phi'(t) + (u^2/2) d[f^2 phi']/dt + (u^3/6) d^2[f^3 phi']/dt^2 + ...\nThis is the Lagrange–Bürmann form of the inversion series.\n\nRelation to the previous page: it carries out the same induction in fuller prose, with X = f(x). Its relation (6) there is the analogue of steps (3)–(4) here.",
+  "errors": [
+   "No mathematical errors. The argument is the standard formal proof.",
+   "Implicit and unjustified (by modern standards): the derivation of dx/du = f(x) dx/dt is not shown; interchanging d/du and d/dt is assumed; convergence of the series is not discussed.",
+   "The integration constants in phi_k are irrelevant, because only derivatives of order at least 1 of phi_k (k ≥ 1) enter. This is not remarked on the page.",
+   "Notational inconsistencies: the primes phi_, phi_,, phi_,,, switch to the subscript phi_n. The indexing F, F_, F_,, versus F_(n-1) is consistent only if F = F_(0).",
+   "A crossed-out 'dt' in the first row of the middle column has been corrected to 'dt'. It may originally have been miswritten as 'du'."
+  ],
+  "results": [
+   {
+    "what": "Expansion of phi(x), where x = t + u f(x): phi(x) = phi(t) + sum_{n≥1} u^n/n! d^(n-1)/dt^(n-1)[f(t)^n phi'(t)]",
+    "modern_name": "Lagrange inversion theorem (Lagrange–Bürmann formula)",
+    "usually_credited_to": "J.-L. Lagrange (1770); generalized by H. Bürmann (1796)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Proof via the PDE dψ(x)/du = f(x) dψ(x)/dt and auxiliary functions phi_k with phi_k' = f^k phi', giving d^n phi/du^n = d^n phi_n/dt^n",
+    "modern_name": "Laplace's proof of Lagrange's series (partial-differential-equation method)",
+    "usually_credited_to": "P.-S. Laplace (1777–1780; Théorie analytique des probabilités, 1812)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the textbook Laplace-style proof of Lagrange's theorem, well known and standard by Gauss's time. Lagrange's series was routine for Gauss (Kepler's equation in Theoria Motus). The sheet reads like a clean study note or exercise, not new mathematics.",
+  "checkable": [
+   {
+    "sympy": "x,u,t=symbols('x u t'); f=Function('f'); G=x-t-u*f(x); dxdu=-diff(G,u)/diff(G,x); dxdt=-diff(G,t)/diff(G,x); simplify(dxdu-f(x)*dxdt)==0",
+    "asserts": "Fundamental equation: dx/du = f(x) dx/dt for x = t + u f(x)."
+   },
+   {
+    "sympy": "u,t=symbols('u t'); x=(1-sqrt(1-4*u*t))/(2*u); s=series(x,u,0,4).removeO(); L=t+sum(u**n/factorial(n)*diff(t**(2*n),t,n-1) for n in range(1,4)); simplify(expand(s-L))==0",
+    "asserts": "Lagrange series with f(x)=x**2, phi(x)=x matches the explicit root of x = t + u x^2 up to u^3."
+   },
+   {
+    "sympy": "u,t=symbols('u t'); X=t+u*sin(t)+u**2/2*diff(sin(t)**2,t)+u**3/6*diff(sin(t)**3,t,2); simplify(series(X-t-u*sin(X),u,0,4).removeO())==0",
+    "asserts": "For Kepler's equation x = t + u sin x, the truncated Lagrange series satisfies the equation through order u^3."
+   },
+   {
+    "sympy": "u,t=symbols('u t'); X=t+u*sin(t)+u**2/2*diff(sin(t)**2,t)+u**3/6*diff(sin(t)**3,t,2)+u**4/24*diff(sin(t)**4,t,3); phi=lambda z: exp(z); P=exp(t)+sum(u**n/factorial(n)*diff(sin(t)**n*exp(t),t,n-1) for n in range(1,4)); simplify(series(phi(X)-P,u,0,4).removeO())==0",
+    "asserts": "General phi case: phi(x) = phi(t) + sum u^n/n! d^(n-1)[f^n phi']/dt^(n-1), checked with phi=exp and f=sin to order u^3."
+   }
+  ],
+  "transcription_corrections": [
+   "Third column, second line: the image reads d^2 phi x/du^2 = d^2 phi_,, x/dt^2 (the superscript on dt looks like 'ν' but means 2). The transcription is correct in substance.",
+   "After '= ∂^n phi_n x/dt^n.' there is a struck-out symbol (a crossed-out '=' or scribble) before '= ∂^n[phi_n t + uGt + ½uu G_, t + ..]/∂t^n'. The transcription's [-...-] is appropriate.",
+   "In the middle column, first row, the denominator 'dt' on the right is written over a correction, as noted above.",
+   "'WZBW' on the page is written without periods ('W.Z.B.W' in the transcription)."
+  ]
+ }
+}

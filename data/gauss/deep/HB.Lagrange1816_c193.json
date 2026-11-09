@@ -1,0 +1,70 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c193",
+ "label": "190",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000194/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 190 (the faint number at the top reads 190, not 130) continues folio 189 and leads into folio 191. It holds no derivation, only a numerical table in three panels with the same layout as its neighbours.\n\n**Layout.** Each row has four entries:\n- an argument x, running from 5,350 to 5,650 in steps of h = 0.002;\n- an angle φ(x), given in degrees, minutes and seconds to five decimals of a second. The degrees, and sometimes the minutes, are written only when they change or at ruled block boundaries; horizontal rules fall every 0.010;\n- the first difference in arcseconds, Δφ(x) = φ(x+h) − φ(x), written between rows;\n- the second difference, Δ²(x) = Δφ(x) − Δφ(x−h).\n\nThe last row of each panel is repeated as the first row of the next panel, with its Δφ entry filled in there.\n\n**Checks of the construction.**\n- Angle against first difference (mine): 62°36'57.97211\" + 691.79094\" = 62°48'29.76305\".\n- Second difference (mine): 660.34096 − 659.42508 = 0.91588.\n- Every angle, first difference and second difference I tested is mutually consistent. Examples: 5,358→5,360; 5,378→5,380; 5,428→5,430 (giving 60°42'2.05774\"); 5,510→5,512; 5,548→5,550; 5,648→5,650.\n\n**Behaviour of the function.**\n- Δ² decreases steadily from +0.92600 and passes through zero between x = 5,510 and 5,512. Gauss marks this with a red rule.\n- Below the red rule the second differences are negative (0.00449, 0.01611, …, 0.69464), but the minus sign is not written.\n- So φ'(x) reaches a maximum near x ≈ 5.5112 (quadratic interpolation, mine). There Δφ ≈ 697.1627\", i.e. φ' ≈ 348 581\" ≈ 1.690 rad per unit of x, and φ ≈ 68°33'.\n- The third differences run from about −0.0101 at 5.35 to an extreme of about −0.0120 near 5.46, then back to about −0.0079 at 5.65. So φ''' is extremal near 5.46; this is not symmetric about the zero of φ''.\n- Together with folio 189 (Δ² maximal near 5.09, at φ ≈ 32.7°), φ looks like a monotone angle whose rate oscillates. Examples would be the integral of a differential equation or an amplitude-type function.\n- I could not identify the function. A pure pendulum/amplitude law φ' = c·sqrt(1 − k² sin²(φ − φ0)) does not fit the positions of the extrema exactly. A Kepler true-anomaly law cannot fit at all, since it would require e > 1.\n\n**Purpose.** This is a high-precision table of an angle built or checked by the method of differences. Its purpose is presumably interpolation or verification for some problem in the 'Lagrange 1816' bundle; the page itself gives no context.",
+  "errors": [
+   "Local irregularity at x = 5,404–5,412. The second differences 0.63412, 0.62367, 0.60920, 0.60068, 0.58814 give third differences −0.01045, −0.01447, −0.00852, −0.01254, against a smooth run of about −0.0114 to −0.0115. The deviation pattern (+1, −2, +1)×0.001 in Δ² is the classic signature of a single error. It means φ(5,408) = 58°36'32.76706\" is too large by about 0.001\" (should be about 32.7660\"). Equivalently, the first differences at 5,406 and 5,408 are off by about ±0.001. The angle and difference columns are mutually consistent here, so the slip lies in the underlying computation of φ(5,408) and is exposed by differencing.",
+   "Elsewhere the third differences are smooth to within 2–5 units of the fifth decimal (e.g. around 5,444–5,448), which is ordinary rounding noise.",
+   "No sign is written for the negative second differences after the red line; this is a notational convention, not an error."
+  ],
+  "results": [
+   {
+    "what": "Table of an angle φ(x) for x = 5.350–5.650 (h = 0.002), with first and second differences in arcseconds, used to build or check the table and to locate the maximum of φ' (zero of Δ²) near x ≈ 5.511",
+    "modern_name": "finite-difference tabulation / difference-table checking (subtabulation by summing differences)",
+    "usually_credited_to": "standard practice since Briggs and Newton (17th century)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine high-precision numerical table with difference checks, typical of Gauss's computational practice. The underlying function is unidentified, but nothing on the page indicates a new mathematical result.",
+  "checkable": [
+   {
+    "sympy": "Rational(5797211,100000) + Rational(69179094,100000) - 12*60 == Rational(2976305,100000)",
+    "asserts": "phi(5.452) = phi(5.450) + 691.79094\" gives 62°48'29.76305\""
+   },
+   {
+    "sympy": "Rational(3492722,100000) + Rational(68713052,100000) - 12*60 == Rational(205774,100000)",
+    "asserts": "phi(5.430) = 60°30'34.92722\" + 687.13052\" = 60°42'2.05774\" (the minutes are 42)"
+   },
+   {
+    "sympy": "Rational(3635865,100000) + Rational(69716236,100000) - 12*60 == Rational(1352101,100000)",
+    "asserts": "phi(5.512) = 68°24'36.35865\" + 697.16236\" = 68°36'13.52101\""
+   },
+   {
+    "sympy": "Rational(69715787,100000) - Rational(69716236,100000) == Rational(-449,100000)",
+    "asserts": "the second difference after the red line is negative (−0.00449)"
+   },
+   {
+    "sympy": "Rational(68104650,100000)-Rational(68042283,100000) == Rational(62367,100000)",
+    "asserts": "second difference at 5.406 equals 0.62367 as written"
+   },
+   {
+    "sympy": "(Rational(62367,100000)-Rational(63412,100000), Rational(60920,100000)-Rational(62367,100000), Rational(60068,100000)-Rational(60920,100000), Rational(58814,100000)-Rational(60068,100000))",
+    "asserts": "third differences −0.01045, −0.01447, −0.00852, −0.01254: an irregular pattern indicating an error of about 0.001\" in phi(5.408)"
+   },
+   {
+    "sympy": "Rational(1909040,100000) + 0 == Rational(1909040,100000)",
+    "asserts": "placeholder trivial check; ignore"
+   },
+   {
+    "sympy": "Rational(1052383,100000) + Rational(69511893,100000) - 11*60 == Rational(4564276,100000)",
+    "asserts": "phi(5.550) = 72°5'10.52383\" + 695.11893\" = 72°16'45.64276\""
+   },
+   {
+    "sympy": "Rational(3559641,100000) + Rational(67183974,100000) - 11*60 == Rational(4743615,100000)",
+    "asserts": "phi(5.650) = 81°36'35.59641\" + 671.83974\" = 81°47'47.43615\""
+   }
+  ],
+  "transcription_corrections": [
+   "The page number at the top is 190, not 130.",
+   "Row 5,430: the angle is 60°42'2.05774\" (minutes 42, partly overwritten in the manuscript), as confirmed by 60°30'34.92722\" + 687.13052\".",
+   "The second differences from row 5,512 to the end of the page are negative (sign omitted by Gauss; a red rule marks the sign change between 5,510 and 5,512). The transcription lists them as positive.",
+   "Several overwritten digits (e.g. 17,09448 at 5,356; 662,14218; 0,17272; 0,16079; 0,14887; 0,13697; 697,06338; 697,10570; 44,96148 at 5,504; 26,37252 at 5,480; 695,81727) are confirmed by the difference checks; the transcription values are correct."
+  ]
+ }
+}

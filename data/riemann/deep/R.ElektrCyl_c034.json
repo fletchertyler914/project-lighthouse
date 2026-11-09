@@ -1,0 +1,69 @@
+{
+ "bundle": "R.ElektrCyl",
+ "page": "c034",
+ "label": "16r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173043:00000035/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page and the bundle title): z is a function of the complex variable g (Riemann writes ∂ for d). In the electrostatics-of-cylinders problem, z maps a region bounded by circular arcs, and z is determined only up to a Moebius map z -> (az+b)/(cz+d). The previous page showed that under this map dz -> (ad-bc)/(cz+d)^2 dz. Consequently 1/sqrt(z') and z/sqrt(z') transform linearly.\n\n(1) Definitions: y = (dz/dg)^(-1/2) and y1 = z (dz/dg)^(-1/2).\n\n(2) Transformation law. Under z -> (az+b)/(cz+d), the pair (y, y1) goes over into linear combinations of itself, each divided by sqrt(ad-bc). Riemann writes 'y -> cy + dy1' and 'y1 -> ay + by1', with the factor 1/sqrt(ad-bc) noted alongside. From the previous page the correct form is:\n- y -> (c y1 + d y)/sqrt(ad-bc)\n- y1 -> (a y1 + b y)/sqrt(ad-bc)\n\nSo the 2-dimensional space spanned by y and y1 is invariant under the Moebius group. Hence y and y1 can be taken as a fundamental system of a second-order linear ODE whose coefficients do not depend on the choice of a, b, c, d.\n\n(3) Wronskian. With y1 = z y we get y1' = z' y + z y'. Therefore y y1' - y1 y' = y^2 z' = 1, since y^2 = 1/z'. (Riemann first writes the Wronskian, then 'y^2 dz/dg = 1'.)\n\n(4) Ansatz: y'' + p y' + q y = 0 and y1'' + p y1' + q y1 = 0. 'Dann drueckt man p und q [aus]': express p and q through z.\n\n(5) The Wronskian is constant (= 1). Differentiating gives y y1'' - y1 y'' = 0, and Abel's relation W' = -pW then gives p = 0 (implicit; my inference). The relation y y1'' - y1 y'' = 0 yields y1''/y1 = y''/y. This common value is -q, which Riemann apparently begins to name with the final mark.\n\n(6) Implicit completion (mine): y''/y = (3/4)(z''/z')^2 - (1/2) z'''/z' = -(1/2){z, g}, where {z, g} is the Schwarzian derivative. So the ODE is y'' + (1/2){z,g} y = 0, and z = y1/y is a ratio of two of its solutions.\n\nThe next page continues: Z''/Z is an algebraic function of g. That is the key structural fact: for a circular-arc polygon map the Schwarzian is algebraic (rational), so the mapping problem reduces to a linear second-order ODE. This is the method of Riemann's posthumous 'Gleichgewicht der Electricitaet auf Cylindern mit kreisfoermigem Querschnitt und parallelen Axen'.",
+  "errors": [
+   "Transformation lines: Riemann writes 'y -> cy + dy1, y1 -> ay + by1'. Consistent with the previous page (1/sqrt(z') -> (c z/sqrt(z') + d/sqrt(z'))/sqrt(ad-bc)), it should be y -> (c y1 + d y)/sqrt(ad-bc) and y1 -> (a y1 + b y)/sqrt(ad-bc). The roles of y and y1 are swapped, a harmless slip or relabeling.",
+   "Line 'y d^2y1/dg^2 - y d^2y/dg^2 = 0': the second factor must be y1, i.e. y y1'' - y1 y'' = 0, as the following line y1''/y1 = y''/y confirms.",
+   "The step p = 0 (from the constant Wronskian via Abel's formula) is not written out but is needed for the conclusion. The cross-multiplied relation gives y1''/y1 = y''/y = -q only when p = 0."
+  ],
+  "results": [
+   {
+    "what": "y = z'^(-1/2) and y1 = z z'^(-1/2) span a space mapped linearly into itself (with factor (ad-bc)^(-1/2)) by Moebius maps of z.",
+    "modern_name": "Projective/Moebius covariance of (z')^(-1/2), i.e. weight -1/2 densities, as solutions of the uniformizing ODE",
+    "usually_credited_to": "Schwarz (1873), Riemann's hypergeometric work (1857) in spirit",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Wronskian y y1' - y1 y' = y^2 z' = 1.",
+    "modern_name": "Wronskian identity / Abel's identity",
+    "usually_credited_to": "Abel, Liouville (1820s-1830s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The ratio z = y1/y of solutions of y'' + q y = 0 satisfies y''/y = -(1/2){z,g}, so q = (1/2) times the Schwarzian derivative; the mapping problem reduces to a linear 2nd-order ODE with algebraic coefficient.",
+    "modern_name": "Schwarzian derivative and its relation to the linear ODE whose solution ratio is z (Schwarz-Christoffel / circular-polygon mapping)",
+    "usually_credited_to": "Kummer (1836), Schwarz (1873), name by Cayley (1880)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is the working of the method in Riemann's posthumously published paper on the equilibrium of electricity on cylinders with circular cross-sections (Werke, 1876). Historians (e.g. Gray) already note that Riemann anticipated Schwarz's use of the Schwarzian ODE for circular-arc polygons. The page is a routine-for-him draft of known material.",
+  "checkable": [
+   {
+    "sympy": "g=symbols('g'); z=Function('z')(g); y=1/sqrt(diff(z,g)); y1=z*y; simplify(y*diff(y1,g)-y1*diff(y,g))",
+    "asserts": "Wronskian equals 1."
+   },
+   {
+    "sympy": "g=symbols('g'); z=Function('z')(g); y=1/sqrt(diff(z,g)); y1=z*y; simplify(diff(y1,g,2)/y1 - diff(y,g,2)/y)",
+    "asserts": "y1''/y1 = y''/y (i.e. both solve y''+q y=0 with p=0)."
+   },
+   {
+    "sympy": "g=symbols('g'); z=Function('z')(g); zp=diff(z,g); y=1/sqrt(zp); S=diff(z,g,3)/zp-Rational(3,2)*(diff(z,g,2)/zp)**2; simplify(diff(y,g,2)/y + S/2)",
+    "asserts": "y''/y = -(1/2) * Schwarzian {z,g}."
+   },
+   {
+    "sympy": "g,a,b,c,d=symbols('g a b c d'); z=Function('z')(g); w=(a*z+b)/(c*z+d); simplify(1/sqrt(diff(w,g)) - (c*z+d)/sqrt((a*d-b*c)*diff(z,g)))",
+    "asserts": "Transformation law: (w')^(-1/2) = (c*y1 + d*y)/sqrt(ad-bc), up to branch of square root."
+   },
+   {
+    "sympy": "g,a,b,c,d=symbols('g a b c d'); z=Function('z')(g); w=(a*z+b)/(c*z+d); simplify(w/sqrt(diff(w,g)) - (a*z+b)/sqrt((a*d-b*c)*diff(z,g)))",
+    "asserts": "w*(w')^(-1/2) = (a*y1 + b*y)/sqrt(ad-bc), up to branch."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2-3: the manuscript reads 'y ∓ cy + dy1' and 'y1 ∓ ay + by1', with sqrt(ad-bc) and 1/sqrt(ad-bc) written to the right as factors. The transcription is right about what is written, but the mathematically intended form is (c y1 + d y)/sqrt(ad-bc), etc.",
+   "The top-right marginal items '∂^2' and a scrawled 'd^2y/dg^2' are doodles/false starts, not part of the derivation.",
+   "The line transcribed 'y d^2y1/dg^2 - y d^2y/dg^2 = 0' has an extra mark (looks like 'E') near the second y; the intended second factor is y1 (y y1'' - y1 y'' = 0).",
+   "The final line is y1''/y1 = y''/y followed by a scrawled symbol (possibly the start of '= -q' or a name for the common value), not a question mark.",
+   "German line: plausibly 'Dann drueckt man p und q [aus]', i.e. then one expresses p and q (in terms of z)."
+  ]
+ }
+}

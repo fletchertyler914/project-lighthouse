@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c093",
+ "label": "60v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000094/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the draft of §3 of Riemann's 1860 memoir 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite', for the isothermal (Boyle) case, pressure = a^2 rho.\n\nSetup from the previous page:\n- Riemann invariants: 4ap = u + a log rho and 4aq = u - a log rho. Hence u = 2a(p+q) and log rho = 2(p-q).\n- p is constant along dx/dt = u+a, and q is constant along dx/dt = u-a.\n- Hodograph (Legendre-type) potential w(p,q): (1) dw = (x-(u+a)t) dp + (x-(u-a)t) dq.\n\n(A) Locating where p = p' meets q = q'. Where p and q are genuinely variable, comparing coefficients in (1) gives (4) x-(u+a)t = w_p and (5) x-(u-a)t = w_q, evaluated at (p',q'). Subtracting gives t = (w_q - w_p)/(2a) (mine). Then x follows from (4), with u = 2a(p'+q').\n\n(B) Degenerate regions.\n- If p equals p' on a whole interval (marginal addition: 'and consequently dp = 0'), the dp-coefficient in (1) is not determined, so (4) is lost.\n- (4) then holds only at the boundaries of that region. It gives the x-interval at fixed t, or the time interval at fixed x, during which p = p'.\n- Inside the region, u and rho (the transcription reads 'q'; it must be rho, the unknowns) follow from (2) with p = p' together with (5). In modern terms this is a simple (Riemann) wave.\n- The case q = q' constant is symmetric.\n- If both p and q are constant, u and rho take the constant values given by (2) and (3), between limits fixed by (4) and (5). This is a constant state.\n\n(C) Integrating for w_p and w_q.\n- §2 (1) is the linear constant-coefficient equation w_pq = w_p - w_q (my derivation: w_q - w_p = 2at; using x_q = (u+a)t_q, x_p = (u-a)t_p and u_p = u_q = 2a gives w_pq = -2at). Equivalently: w_p - w_pq = w_q and w_q + w_pq = w_p, exactly the substitutions named at the bottom of the page.\n- Because the coefficients are constant, differentiating the equation in p or q shows that w_p and w_q satisfy the same equation.\n- Hence Riemann's representation formula of §2 (5),(6), which expresses w at (p',q') through the Riemann function v and a line integral over the initial curve, applies with w replaced by w_p and by w_q.\n- Using form (6) for w_p and form (5) for w_q, and simplifying with the substitutions above, gives formulas (6) and (7) on the next page. Their integrands are expressed through w_p and w_q only, i.e. through initial data.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "The phrase 'u und q als Functionen von x und t' must mean u and rho: q is the constant p-partner variable determined by (5), while the unknowns are u and rho. This is a reading or writing slip.",
+   "Minor imprecision: 'wenn diese Werthe nicht etwa innerhalb einer endlichen Strecke stattfinden' covers the simple-wave degeneracy. Multivaluedness of w (p, q taking the same value repeatedly) is deferred to the next page."
+  ],
+  "results": [
+   {
+    "what": "Hodograph potential w(p,q) with x-(u+a)t = w_p and x-(u-a)t = w_q, linearizing 1D isentropic/isothermal gas dynamics",
+    "modern_name": "Hodograph transformation / Legendre transform in Riemann invariants",
+    "usually_credited_to": "Riemann 1860 (also Earnshaw 1860 for simple waves)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Regions where one invariant is constant (u, rho from (2) and (5)); constant states where both are constant",
+    "modern_name": "Simple waves (Riemann waves) and constant states",
+    "usually_credited_to": "Riemann 1860; Earnshaw 1860; Poisson 1808 for special case",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Linear PDE w_pq = w_p - w_q; derivatives satisfy same equation; Riemann representation formula applied to w_p, w_q",
+    "modern_name": "Riemann's method (Riemann function) for linear hyperbolic equations, constant-coefficient telegraph-type equation",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of §3 of Riemann's published 1860 Luftwellen paper. Hodograph, simple waves and the Riemann-function method are all well known as his. Only minor draft wording differs.",
+  "checkable": [
+   {
+    "sympy": "a,p,q=symbols('a p q',positive=True); u=2*a*(p+q); rho=exp(2*(p-q)); simplify(4*a*p-(u+a*log(rho))), simplify(4*a*q-(u-a*log(rho)))",
+    "asserts": "u=2a(p+q), log rho=2(p-q) invert the invariants (2),(3); both expressions are 0"
+   },
+   {
+    "sympy": "a,p,q=symbols('a p q'); t=Function('t')(p,q); x=Function('x')(p,q); u=2*a*(p+q); wp=x-(u+a)*t; wq=x-(u-a)*t; e=diff(wp,q)-(wp-wq); simplify(e.subs(Derivative(x,q),(u+a)*diff(t,q)))",
+    "asserts": "w_pq = w_p - w_q given the characteristic relation x_q = (u+a) t_q (result 0)"
+   },
+   {
+    "sympy": "a,p,q=symbols('a p q'); t=Function('t')(p,q); x=Function('x')(p,q); u=2*a*(p+q); wp=x-(u+a)*t; wq=x-(u-a)*t; simplify((diff(wp,q)-diff(wq,p)).subs({Derivative(x,q):(u+a)*diff(t,q),Derivative(x,p):(u-a)*diff(t,p)}))",
+    "asserts": "dw in (1) is exact (result 0)"
+   },
+   {
+    "sympy": "p,q,p0,q0=symbols('p q p0 q0'); v=exp((p-p0)-(q-q0))*besselj(0,2*sqrt((p-p0)*(q-q0))); simplify(diff(v,p,q)+diff(v,p)-diff(v,q))",
+    "asserts": "Riemann function for the adjoint of w_pq - w_p + w_q = 0 (result 0)"
+   },
+   {
+    "sympy": "p,q=symbols('p q'); W=Function('W')(p,q); L=lambda f: diff(f,p,q)-diff(f,p)+diff(f,q); simplify(diff(L(W),p)-L(diff(W,p)))",
+    "asserts": "w_p satisfies the same PDE as w (constant coefficients; result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "'bestimmen sich u und q als Functionen von x und t' should read 'u und ϱ' (rho).",
+   "'für die Function w die Function[?]' reads 'die Functionen ∂w/∂p und ∂w/∂q' (plural)."
+  ]
+ }
+}

@@ -1,0 +1,92 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c218",
+ "label": "48r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000219/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has three separate computations. Read together they compute, to about 25 decimals, the first two steps of an arithmetic–geometric mean (AGM) by natural logarithms.\n\n(A) Left column: √13 by the written digit-by-digit square-root method.\n- 13 − 36² ⇒ remainder; bring down digit pairs. Trial divisors are 2·(root so far) with a trial digit appended: 72055, 72110512, 721110…, and so on.\n- Example step: 36055² = 1299963025, and 1300000000 − 1299963025 = 36975, which is on the page.\n- After about half the digits, the lower part switches to shortened division by the fixed divisor 72111… (lines 721116, 72111, 64900, …).\n- The result is written at the top: √13 = 3,605551275463989293119235. No use of √13 elsewhere on the page is evident.\n\n(B) Upper right: computing ln a₁ for a₁ = 0,3 + √0,05 = (3+√5)/10 ≈ 0,5236068.\n- 10⁵/a₁ ≈ 190983.0056. The nearest integer factors as 190983 = 249·767 = 3·83·13·59.\n- So 249·767·a₁ = 99999.99705… = 10⁵(1 − δ) with δ ≈ 2.945·10⁻⁸ (inferred).\n- Line 1: ln(10⁵(1−δ)) = 5 ln10 + ln(1−δ) = 11,51292 54355 17070 32193 50136.\n- Line 2: ln 249 = 5,51745 28964 64707 61487 07175.\n- Line 3 (line 1 − line 2): ln(767·a₁) = 5,99547 25390 52362 70706 42961.\n- Line 4: ln 767 = 6,64248 68013 67256 18666 95378.\n- Line 3 − line 4: ln a₁ = −0,64701 42623 14893 47960 52417, labelled '= log(0,3+√0,05)'. Here 'log' means the natural logarithm.\n- The method is to make a near-power-of-10 product from small primes, so that tabulated logs of primes plus a tiny series correction give the log to 25 places.\n\n(C) Lower right, with the note at lower left: computing ln b₁ for b₁ = √(0,6·√0,2) = ⁴√(36/500) = 0,072^{1/4}.\n- ln 500 = 6,21460 80984 22191 74263 67422.\n- ln 36 = 3,58351 89384 56110 00162 49547.\n- Difference: ln(500/36) = 2,63108 91599 66081 74101 17875.\n- Divided by 4: −ln b₁ = 0,65777 22899 91520 43525 2946(9).\n- Below it is written 0,64701… = −ln a₁. The bottom line 0,65239 32761 53206 95742 90943 is their arithmetic mean, (−ln a₁ − ln b₁)/2, i.e. −ln√(a₁b₁).\n\nInterpretation:\n- Start from a₀ = 0,6 = 3/5 and b₀ = √0,2 = 1/√5.\n- Then a₁ = (a₀+b₀)/2 = 0,3 + √0,05 and b₁ = √(a₀b₀) = √(0,6√0,2).\n- So the page computes b₂ = √(a₁b₁) by logarithms: b₂ = e^{−0,65239…} ≈ 0,52081.\n- This is the AGM of 3/5 and 1/√5, equivalently of 3 and √5 scaled by 1/5. The corresponding modulus is k′ = √5/3, k = 2/3.\n- The next page continues with radical forms (√180 − 13, √(331 − 148√5), 0,83281…), which looks like an attempt to express later AGM terms in closed radical form.",
+  "errors": [
+   "√13 is written as 3,605551275463989293119235. The true value is 3,6055512754639892931192212…, so the last two written digits (…235 vs …221) are wrong, an error of about 1.4e-23. This probably comes from the shortened-division tail of the extraction.",
+   "Everything else checks to all written places: ln249, ln767, the subtraction to ln a₁, ln500 − ln36, the division by 4 (the last digit is rounded), and the arithmetic mean."
+  ],
+  "results": [
+   {
+    "what": "√13 to ~24 decimals by digit-by-digit extraction with shortened division at the end",
+    "modern_name": "longhand square-root algorithm",
+    "usually_credited_to": "traditional",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "ln((3+√5)/10) to 25 decimals via 190983·(3+√5)/10 ≈ 10^5, with 190983 = 3·83·13·59",
+    "modern_name": "computing logarithms by factoring a nearby smooth integer (Briggs/Wolfram-style table-based method)",
+    "usually_credited_to": "standard 17th–18th c. table-making practice (Briggs, Wolfram/Vega)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "First AGM step for a₀ = 3/5, b₀ = 1/√5: a₁ = 0.3 + √0.05, b₁ = ⁴√0.072, and log of b₂ = √(a₁b₁) computed to 25 decimals",
+    "modern_name": "arithmetic–geometric mean (high-precision numerical evaluation)",
+    "usually_credited_to": "Lagrange/Legendre; systematically Gauss (1791/1799 onwards)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are high-precision numerics of an AGM computation and logarithm work, both well-documented Gaussian activities. The particular starting pair (3/5, 1/√5) is a minor unpublished detail, not a new result.",
+  "checkable": [
+   {
+    "sympy": "N(sqrt(13), 30)",
+    "asserts": "gives 3.60555127546398929311922126747 (Gauss's last digits 35 should be 21)"
+   },
+   {
+    "sympy": "factorint(190983) == {3:1, 83:1, 13:1, 59:1}",
+    "asserts": "190983 = 249·767 = 3·83·13·59"
+   },
+   {
+    "sympy": "N(190983*(3+sqrt(5))/10, 15)",
+    "asserts": "≈ 99999.9970547, i.e. close to 10^5"
+   },
+   {
+    "sympy": "N(log(190983*(3+sqrt(5))/10), 30)",
+    "asserts": "≈ 11.5129254355170703219350136"
+   },
+   {
+    "sympy": "N(log(249), 30)",
+    "asserts": "= 5.5174528964647076148707175..."
+   },
+   {
+    "sympy": "N(log(767), 30)",
+    "asserts": "= 6.6424868013672561866695378..."
+   },
+   {
+    "sympy": "N(log((3+sqrt(5))/10), 30)",
+    "asserts": "= -0.6470142623148934796052417..."
+   },
+   {
+    "sympy": "N(log(500)-log(36), 30)",
+    "asserts": "= 2.6310891599660817410117875..."
+   },
+   {
+    "sympy": "simplify(Rational(3,10)+sqrt(Rational(1,20)) - (Rational(3,5)+sqrt(Rational(1,5)))/2) == 0",
+    "asserts": "a₁ is the arithmetic mean of 3/5 and √(1/5)"
+   },
+   {
+    "sympy": "simplify(sqrt(Rational(3,5)*sqrt(Rational(1,5)))**4 - Rational(36,500)) == 0",
+    "asserts": "√(0.6√0.2) = (36/500)^(1/4)"
+   },
+   {
+    "sympy": "N(-(log((3+sqrt(5))/10)+log(Rational(36,500))/4)/2, 30)",
+    "asserts": "= 0.6523932761532069574290943..., i.e. -ln√(a₁b₁)"
+   }
+  ],
+  "transcription_corrections": [
+   "The first log line reads '11,51292 54355 …' (decimal comma after 11), and the next line '5,51745 …'.",
+   "The result line is −0,64701 42623 14893 47960 52417. The dash before it is a minus sign (ln a₁ < 0), giving log(0,3+√0,05) = −0,64701….",
+   "The lower-left note reads √(0,6√0,2) = ⁴√(36/500); the '#' is a stroke or cancellation mark.",
+   "The digit ending the right-hand list is '…29469', a rounded value of the exact …2946875.",
+   "'(48)' is a folio stamp, and 'Vid. pag. 48' is a cross-reference, not a computation."
+  ]
+ }
+}

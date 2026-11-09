@@ -1,0 +1,78 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c086",
+ "label": "81",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000087/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Göttingen observatory, 19 May 1818. Polaris is observed near upper culmination on two horizontal threads of a meridian instrument ('Polestern an beiden Fäden obere Culm.'). Each circle reading is the mean of the 3 microscopes ('Immer Mittel aus allen 3 Mikroskopen'). The aim is the angular distance between the two horizontal threads ('Abstand der Fäden'), presumably needed to reduce the Polaris latitude observations on the next page.\n\n(1) Clock times. Culmination is taken at T0 = 0h55m45s. The clock times are entered as written; the hour angles t are my computation.\nThread A:\n- 0h28m38s, t = -27m07s\n- 0h37m44s, t = -18m01s\n- 1h14m48s, t = +19m03s\n- 1h22m06s, t = +26m21s\nThread B:\n- 0h33m44s, t = -22m01s\n- 0h40m21s, t = -15m24s\n- 1h12m44s, t = +16m59s\n- 1h17m45s, t = +22m00s\nThe hour angles are converted to arc at 15 deg per hour.\n\n(2) Reduction formula (bottom left). Gauss writes delta = 88°20'6\" (declination of Polaris) and log sin(2 delta) = log sin(176°40'12\") = 8.76408. He subtracts log sin 1\" = 4.68557, giving the constant 4.07851 = log(sin 2delta / sin 1\").\nHe then lists log sin^2(t/2) for each hour angle:\n- Thread A: 7.54354, 7.18870, 7.23711, 7.51866\n- Thread B: 7.36294, 7.05245, 7.13742, 7.36209\nHe adds the constant to each. The reduction to the meridian is\nRed = sin(2delta) sin^2(t/2) / sin 1\" (in arcseconds).\nDerivation (mine, implicit on the page): the horizontal thread at polar distance p = 90° - delta is a great circle tangent to the star's diurnal parallel at the meridian. Its pole Q lies on the meridian at polar distance 90° - p on the far side of the pole. Then cos(SQ) = sin p cos p (1 - cos t), so the star's offset d from the thread satisfies sin d = sin 2p sin^2(t/2). This is independent of latitude.\nResulting reductions:\n- Thread A: 41.88, 18.50, 20.68, 39.55\n- Thread B: 27.63, 13.52, 16.44, 27.58\n\n(3) Reduced readings: reading + Red.\nThread A:\n- 43.60 + 41.88 = 85.48 (1'25\"48)\n- 67.33 + 18.50 = 85.83\n- 61.93 + 20.68 = 82.61\n- 42.73 + 39.55 = 82.28\nThe written mean is 1'24\"10.\nThread B:\n- 35.50 + 27.63 = 63.13\n- 50.10 + 13.52 = 63.62\n- 46.23 + 16.44 = 62.67 (written 62.65)\n- 34.80 + 27.58 = 62.38\nThe mean is 1'2\"94.\n\n(4) Thread distance: 84.10 - 62.94 = 21.16\", hence 'Also Abstand der Fäden 21\"16'.",
+  "errors": [
+   "Mean of thread A: (85.48+85.83+82.61+82.28)/4 = 84.05\", not the written 84.10\". This is a slip of 0.05\"; alternatively one of the entries was misread.",
+   "Thread B line 3: 46.23 + 16.44 = 62.67, but 62.65 is written. With 62.67 the mean is 62.95\".",
+   "Consequently the thread distance should be about 21.10-21.11\" instead of 21.16\". The effect is negligible, about 0.05\".",
+   "log sin^2(t/2) for t = 22m01s (0h33m44s) computes to 7.36276, not 7.36294. This changes Red by only 0.01\".",
+   "For t = 27m07s, 7.54359 is computed against 7.54354 written. This is negligible."
+  ],
+  "results": [
+   {
+    "what": "Reduction of a circumpolar star's off-meridian observation on a horizontal thread to the meridian: Red = sin(2 delta) sin^2(t/2)/sin 1\", independent of latitude",
+    "modern_name": "Reduction to the meridian (curvature of the diurnal path) for Polaris on a horizontal wire",
+    "usually_credited_to": "Standard practice of 18th/19th-century meridian astronomy (Bessel, Gauss and contemporaries; textbooks such as Brünnow, Chauvenet)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Determination of the angular separation of two horizontal threads (21.16\") from Polaris passages near upper culmination",
+    "modern_name": "Calibration of the micrometer/reticle wire intervals with a slow polar star",
+    "usually_credited_to": "Routine observatory practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine observing-book calculation: a standard meridian reduction for Polaris and an instrument constant (thread distance), with small arithmetic slips. It is of interest only as documentation of Gauss's 1818 observing practice at Göttingen.",
+  "checkable": [
+   {
+    "sympy": "log(sin(2*(88+20/60+6/3600)*pi/180),10) + 10",
+    "asserts": "≈ 8.76408, log sin(2δ) for δ = 88°20'6\""
+   },
+   {
+    "sympy": "8.76408 - (log(sin(pi/180/3600),10)+10)",
+    "asserts": "≈ 4.07851, the constant log(sin 2δ / sin1\")"
+   },
+   {
+    "sympy": "log(sin((18+1/60)/2*15*pi/180/60)**2,10)+10",
+    "asserts": "≈ 7.18870, log sin^2(t/2) for t = 18m01s"
+   },
+   {
+    "sympy": "10**(4.07851+7.54354-10)",
+    "asserts": "≈ 41.88\", the reduction for the first observation"
+   },
+   {
+    "sympy": "10**(4.07851+7.36209-10)",
+    "asserts": "≈ 27.58\", the reduction for t = 22m00s"
+   },
+   {
+    "sympy": "(85.48+85.83+82.61+82.28)/4",
+    "asserts": "= 84.05, not 84.10 as written"
+   },
+   {
+    "sympy": "(63.13+63.62+62.65+62.38)/4",
+    "asserts": "= 62.945, matching the written 1'2\"94"
+   },
+   {
+    "sympy": "84.10-62.94",
+    "asserts": "= 21.16, the written thread distance"
+   },
+   {
+    "sympy": "log(sin((22+1/60)/2*15*pi/180/60)**2,10)+10",
+    "asserts": "≈ 7.36276, versus 7.36294 written (small slip)"
+   }
+  ],
+  "transcription_corrections": [
+   "The thread-B time '40 21' should read 0h40m21s and '12.44' / '17.45' should read 1h12m44s / 1h17m45s. The hour marks are implicit, as in the thread-A block.",
+   "88°20'6\" is the declination δ of Polaris used in the reduction constant log sin 2δ = 8.76408.",
+   "The machine transcription's alignment in the first block is misleading: the bracket mean 1'24\"10 belongs to the whole first group and 1'2\"94 to the second group."
+  ]
+ }
+}

@@ -1,0 +1,51 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c022",
+ "label": "10r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000023/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a fair copy of part of the historical Section 1 of Riemann's Habilitationsschrift 'Ueber die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1853/54, published posthumously by Dedekind in 1867). It is prose history. The only mathematics is a quoted formula of Lagrange.\n\nHistorical argument on the page:\n(a) Fourier, in his first heat memoir presented to the Paris Academy (21 Dec 1807; reported in Bulletin des sciences par la Société philomathique, Tome I, p. 112), first asserted that a completely arbitrary, even graphically given, function can be expressed by a trigonometric series.\n(b) The aged Lagrange found this so unexpected that he opposed it decisively. On Dirichlet's oral information, a document about this is said to survive in the archive of the Paris Academy.\n(c) Even so, Poisson, wherever he uses trigonometric series for arbitrary functions (e.g. Traité de mécanique No. 323, p. 638), refers to a passage of Lagrange on vibrating strings as the source of this mode of representation.\n(d) Riemann attributes this claim to the rivalry between Fourier and Poisson; the Bulletin report on Fourier's memoir was written by Poisson. To refute the claim he returns to Lagrange's paper, because nothing on the Academy episode was published.\n\nThe formula quoted from Misc. Taur. III, Pars math., p. 261:\n y = 2(∫Y sin(πX) dX) sin(πx) + 2(∫Y sin(2πX) dX) sin(2πx) + ... + 2(∫Y sin(nπX) dX) sin(nπx),\n'de sorte que, lorsque x = X, on aura y = Y'.\nRiemann remarks that it looks exactly like the Fourier sine series. The next page explains that this appearance is only due to Lagrange writing ∫dX where today one writes ΣΔX.\n\nModern reading [mine, consistent with the next page]: let X_j = j/(n+1), j = 1..n, with ΔX = 1/(n+1). Define\n a_k = (2/(n+1)) Σ_{j=1}^n Y_j sin(kπj/(n+1)).\nThen the finite sine sum y(x) = Σ_{k=1}^n a_k sin(kπx) satisfies y(X_m) = Y_m for m = 1..n.\n\nWhy this holds: the discrete orthogonality relation\n Σ_{k=1}^n sin(kπj/(n+1)) sin(kπm/(n+1)) = ((n+1)/2) δ_{jm}.\nThis is trigonometric interpolation, i.e. the inverse discrete sine transform (DST-I). The DST-I matrix S_{jk} = sin(πjk/(n+1)) satisfies S² = ((n+1)/2) I.\n\nLetting n → ∞ formally gives Fourier's coefficient formula a_k = 2∫_0^1 f(X) sin(kπX) dX. Lagrange did not take this step, which is Riemann's point continued on the next page.",
+  "errors": [
+   "No mathematical errors on the page. Lagrange's formula is correct only as a discrete interpolation formula, with ∫dX read as Σ ΔX at the nodes X = j/(n+1); Riemann himself makes this point on the following page.",
+   "Historical caveat: the claim that a document recording Lagrange's opposition survives in the Academy archive rests only on Dirichlet's oral report, as Riemann's footnote says. Riemann's attribution of Poisson's citation to rivalry is his interpretation."
+  ],
+  "results": [
+   {
+    "what": "Lagrange's finite sine-sum interpolation formula: y = Σ_{k=1}^n 2(Σ_j Y_j sin(kπX_j) ΔX) sin(kπx), which reproduces Y at the nodes X_j = j/(n+1).",
+    "modern_name": "Trigonometric interpolation / discrete sine transform (DST-I) with its orthogonality relation",
+    "usually_credited_to": "Lagrange (Misc. Taur. III, 1762-65); closely related work by Euler and Clairaut",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical account: Fourier's 1807 claim, Lagrange's opposition, Poisson's attribution of the method to Lagrange, and its refutation via the discrete nature of Lagrange's formula.",
+    "modern_name": "History of Fourier series in Riemann's Habilitationsschrift, Section 1",
+    "usually_credited_to": "Riemann, Habilitationsschrift 1854 (published 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a copy of the well-known published historical introduction of Riemann's 1854 Habilitationsschrift on trigonometric series. The content, including the Dirichlet footnote and the Lagrange quotation, appears in the printed text.",
+  "checkable": [
+   {
+    "sympy": "n=6; all(sum(sin(k*pi*j/(n+1))*sin(k*pi*m/(n+1)) for k in range(1,n+1)).simplify() == (Rational(n+1,2) if j==m else 0) for j in range(1,n+1) for m in range(1,n+1))",
+    "asserts": "Discrete orthogonality of sines at the nodes j/(n+1), which makes Lagrange's formula interpolate exactly (checked for n=6)."
+   },
+   {
+    "sympy": "n=5; Y=symbols('Y1:6'); a=[Rational(2,n+1)*sum(Y[j-1]*sin(k*pi*j/(n+1)) for j in range(1,n+1)) for k in range(1,n+1)]; [simplify(sum(a[k-1]*sin(k*pi*m/(n+1)) for k in range(1,n+1)) - Y[m-1]) for m in range(1,n+1)]",
+    "asserts": "With ∫dX read as ΣΔX, ΔX = 1/(n+1), Lagrange's y(X_m) equals Y_m for every node (expected output: list of zeros)."
+   },
+   {
+    "sympy": "k=symbols('k',integer=True,positive=True); integrate(sin(k*pi*x)*sin(k*pi*x),(x,0,1))",
+    "asserts": "Equals 1/2; this is the continuous normalization behind the factor 2 in the n→∞ Fourier limit."
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription agrees well with the image; no substantive corrections are needed.",
+   "The page carries a folio number '11.' at top right and a pencil '10' in the right margin; neither appears in the transcription.",
+   "In the formula, the final term is written '2∫Y sin nXπ dX sin nxπ' without the '×' that appears in the earlier terms; the transcription renders this correctly."
+  ]
+ }
+}

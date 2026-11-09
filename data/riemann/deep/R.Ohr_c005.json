@@ -1,0 +1,59 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c005",
+ "label": "3v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is p. 6 of Riemann's posthumously printed 'Mechanik des Ohres' (Henle & Pfeufer's Zeitschrift für rationelle Medicin, 3. R., Bd. 29, 1867; Gesammelte Werke). The page belongs to §2 'Paukenhöhle' (tympanic cavity). It continues a sentence from p. 5: the middle-ear apparatus transmits the timbre (Klang) faithfully if it transmits the air-pressure change at every instant, enlarged in a constant ratio, to the labyrinth fluid.\n\nModern restatement.\n(1) Let p_a(t) be the air pressure at the eardrum and p_l(t) the pressure of the labyrinth fluid. The ideal of faithful transmission is p_l(t) = k*p_a(t) + const with k constant, so p_l'(t) = k*p_a'(t). Riemann calls it harmless ('unverfänglich') to take this as the purpose of the apparatus. The proviso is that one must also determine from the ear's actual performance how far experience entitles, i.e. forces, us to assume the purpose is really fulfilled. This is his methodological principle from p. 5.\n\n(2) Mathematical expression for timbre. The curve v(t) = dp/dt determines the sound wave completely except for its direction of propagation. It therefore fixes both intensity and timbre. Riemann then takes K(t) = log v(t), or preferably K(t) = log v(t)^2, which avoids the log of negative values.\n- Under a change of intensity v -> c*v, K changes to K + log c^2.\n- That is only a vertical translation, so the shape of the K-curve is independent of intensity (and direction) and still determines the timbre.\n- He names it the 'Klangcurve' (timbre curve). In modern terms: the shape of the log-magnitude of the pressure-rate signal, i.e. the waveform modulo amplitude scaling. [My gloss: equivalently the waveform as a point of projective space, or of the scale-quotient.]\n\n(3) Application. If the apparatus worked perfectly, the timbre curves of labyrinth fluid and air would coincide. From the ear's fine discrimination of timbre (e.g. small differences in pronunciation), Riemann infers that the timbre curve is changed very little. Hence the ratio p_l'(t)/p_a'(t) stays very nearly constant during one sound.\n\n(4) A slow variation k = k(t) is compatible with this, and even likely. It would merely make the ear's estimate of loudness variable, which experience does not forbid. The reason: a slowly varying factor adds a slowly varying term log k(t)^2 to K, which over the duration of one sound is approximately a shift. He admits that judging fineness of timbre perception, and mapping it to curve differences, remains subjective.\n\n(5) Outlook. Timbre differences also serve to estimate the distance of the source. Their mechanical cause, the change of the timbre curve during propagation in air, can be determined by calculation. This is an implicit reference to his own theory of finite-amplitude (nonlinear) propagation, 1860, where waveforms steepen and change shape with distance. On p. 7 the topic is dropped; he only demands that the apparatus cause no gross distortion.",
+  "errors": [
+   "Minor gap: log(v^2) discards the sign of dp/dt pointwise, so the Klangcurve determines |dp/dt| only up to a factor. The claim that it determines the timbre 'vollständig' needs the tacit assumption that the signs can be recovered: e.g. v continuous with simple zeros, where the sign flips at each point where K goes to -infinity. Then v is fixed up to a global factor ±c. Under that genericity assumption the claim is correct.",
+   "The statement that dp/dt determines the wave 'bis auf ihre Richtung' tacitly assumes a plane progressive wave, where pressure determines particle velocity up to the propagation direction. This is fine as physics, but it is not stated.",
+   "Using dp/dt rather than p merely removes the static (atmospheric) offset; this is consistent with the transmission law p_l = k p_a + const. No error."
+  ],
+  "results": [
+   {
+    "what": "Definition of the 'Klangcurve' K(t)=log((dp/dt)^2): a representation of a sound signal whose shape is invariant under amplitude scaling (scaling becomes a vertical shift), used as the mathematical carrier of timbre",
+    "modern_name": "log-magnitude / dB representation of a waveform; waveform modulo gain (scale-invariant signal shape)",
+    "usually_credited_to": "Log-amplitude representations are generic (Weber–Fechner context, later decibel conventions 1920s). The specific construction here is Riemann's, in 'Mechanik des Ohres' (posthumous 1867).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Criterion for faithful middle-ear transmission: the pressure ratio labyrinth/air is nearly constant during a sound, with slow variation allowed (affecting only loudness estimation)",
+    "modern_name": "linear time-invariant (distortion-free) transmission; slowly varying gain / acoustic-reflex-like gain control",
+    "usually_credited_to": "Middle-ear impedance-transformer ideas go back to Helmholtz (1868) and earlier; this formulation is Riemann's 'Mechanik des Ohres'.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Remark that timbre change with distance arises from the change of the waveform during propagation in air, computable by calculation",
+    "modern_name": "nonlinear acoustic propagation / waveform steepening (Riemann invariants, 1860)",
+    "usually_credited_to": "Riemann 1860 (Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite); Earnshaw 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of Riemann's known (posthumously published, in the Werke) essay 'Mechanik des Ohres'. The Klangcurve idea and the constant-ratio criterion are documented there. The mathematics is elementary (log turns scaling into a shift).",
+  "checkable": [
+   {
+    "sympy": "simplify(expand_log(log((c*v)**2) - log(v**2), force=True) - 2*log(c)) == 0",
+    "asserts": "Scaling the pressure rate by c only shifts the Klangcurve log(v^2) by the constant 2*log(c), so its shape is intensity-independent."
+   },
+   {
+    "sympy": "t,k,p0=symbols('t k p0'); p=Function('p'); simplify(diff(k*p(t)+p0,t)/diff(p(t),t) - k) == 0",
+    "asserts": "If the labyrinth pressure is k*p_air + const with constant k, the ratio of pressure rates is the constant k (ideal transmission)."
+   },
+   {
+    "sympy": "t=symbols('t'); k=Function('k'); v=Function('v'); simplify(expand_log(log((k(t)*v(t))**2),force=True) - log(v(t)**2) - 2*log(k(t))) == 0",
+    "asserts": "A time-varying transmission factor k(t) adds the term 2*log(k(t)) to the Klangcurve; if k varies slowly this is approximately a shift during one sound (affects only loudness)."
+   }
+  ],
+  "transcription_corrections": [
+   "Transcription matches the image essentially verbatim; the letter-spaced emphasis ('in constantem Verhältniss vergrössert', 'während eines Schalles sehr nahe constant') is typographic emphasis, not a reading issue.",
+   "'Veränderlichkeit' in line 'nur eine Veränderlichkeit des Ohrs' has an ink blot over 'k' in the image; reading is correct.",
+   "Pencil margin note reads '321/91' (archival/inventory number), not part of the text."
+  ]
+ }
+}

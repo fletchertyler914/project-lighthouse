@@ -1,0 +1,53 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c057",
+ "label": "26v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000058/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the page is a draft, in Riemann's usual terminology (dT = area element, ds = boundary arc element, p = inward normal), of the variational argument for the Dirichlet principle. It is not connected to the elasticity/strain computation on the previous page or to the integral evaluations on the next page. The sheet is written in two rotated halves and much of the text is faint.\n\n(1) Setting (left half, top). Let u be a function on a plane region T, and let u' be an admissible variation that vanishes on the boundary ('vom Rande gleich 0'). Riemann compares the Dirichlet integral of u + u' with that of u:\n  ∫[(∂(u+u')/∂x)^2 + (∂(u+u')/∂y)^2] dT = ∫[(u_x)^2 + (u_y)^2] dT + 2Ω + ∫[(u'_x)^2 + (u'_y)^2] dT,\nwhere the 'Ergänzung' (cross term) is\n  Ω = ∫(u_x u'_x + u_y u'_y) dT.\nThe aim is to show Ω = 0 when u is the minimizer, or when u is harmonic.\n\n(2) A 'Lehrsatz' (the heading is struck through): integration by parts. The integral of u_x u'_x + u_y u'_y over the surface piece equals\n  -∫u'(u_xx + u_yy) dT - ∫u' (∂u/∂p) ds,\nwith p the inward normal. [My filling: this follows from ∫(∂X/∂x + ∂Y/∂y) dT = -∫(X cos(p,x) + Y cos(p,y)) ds, applied to X = u'u_x and Y = u'u_y. This is exactly the sign convention of Riemann's dissertation, §7.]\n\n(3) Consequences.\n  • Since u' = 0 on the boundary, the line integral ∫u'(∂u/∂p) ds vanishes. Then Ω = -∫u' Δu dT.\n  • If Ω is to vanish for every admissible u', then Δu = 0 in the interior. Riemann remarks ('Offenbar ...') that otherwise one could choose u' with the same sign as Δu where Δu ≠ 0, and with u' = 0 elsewhere. That would make Ω nonzero, and a small multiple of such a u' would lower the integral.\n  • Conversely, if u_xx + u_yy = 0 (right half: '... ∂²u/∂x² + ∂²u/∂y² ... = 0'), then Ω = 0 and\n    Dirichlet integral of (u + u') = Dirichlet integral of u + ∫[(u'_x)^2 + (u'_y)^2] dT ≥ Dirichlet integral of u.\n  • Equality holds only if u' is constant, and hence u' = 0 because of the boundary values. So the harmonic function with the prescribed boundary values gives the 'Minimum', and it is unique.\n\nThe right half repeats this. It states that the function giving Ω (the integral) its smallest value satisfies Laplace's equation. It writes the boundary term +∫(∂u/∂p) u' ds = 0 and the remaining positive integral ∫[(u'_x)^2 + (u'_y)^2] dT, and closes with the word 'Minimum'.\n\nThis is the same argument as Riemann's Inaugural-Dissertation (1851), §§16–18, and Theorie der Abel'schen Functionen (1857), §3.",
+  "errors": [
+   "No mathematical error is detectable. The sign -∫u'(∂u/∂p) ds is correct for p the inward normal, which is Riemann's convention.",
+   "As in all of Riemann's versions, the existence of a minimizer is tacitly assumed. This is Weierstrass's later objection. The page shows only that a harmonic function minimizes (and is unique), and that a minimizer must be harmonic.",
+   "The page is a working draft: the 'Lehrsatz' heading and several lines are struck through, and the 'Offenbar...' argument for Δu = 0 is only sketched."
+  ],
+  "results": [
+   {
+    "what": "Integration-by-parts formula ∫∇u·∇u' dT = -∫u'Δu dT - ∫u' ∂u/∂p ds (p inward normal)",
+    "modern_name": "Green's first identity",
+    "usually_credited_to": "George Green (1828); also Gauss and Ostrogradsky",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Vanishing of the cross term for harmonic u and boundary-vanishing variation u', giving D(u+u') = D(u) + D(u') ≥ D(u), with minimizer characterized by Laplace's equation",
+    "modern_name": "Dirichlet principle (first variation / Euler–Lagrange equation of the Dirichlet energy; uniqueness of the harmonic minimizer)",
+    "usually_credited_to": "Green (1833), W. Thomson (1847), Dirichlet (lectures); named and used by Riemann (1851, 1857)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the Dirichlet-principle argument that Riemann published in his 1851 dissertation and his 1857 Abelian functions paper. It has the same notation (dT, ds, inward normal p) and the same steps. It is of mild interest only as a manuscript variant.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y'); u=x**2-y**2; v=sin(pi*x)*sin(pi*y); simplify(integrate(diff(u,x)*diff(v,x)+diff(u,y)*diff(v,y),(x,0,1),(y,0,1)))",
+    "asserts": "The cross term Ω is 0 for a harmonic u and a variation u' vanishing on the boundary of the unit square."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); u=x**3+x*y**2; v=x*y*(1-x)*(1-y); simplify(integrate(diff(u,x)*diff(v,x)+diff(u,y)*diff(v,y),(x,0,1),(y,0,1)) + integrate(v*(diff(u,x,2)+diff(u,y,2)),(x,0,1),(y,0,1)))",
+    "asserts": "Green's first identity: ∫∇u·∇u' dT = -∫u'Δu dT when u' = 0 on the boundary, so the result should be 0."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); u=x**2-y**2; v=sin(pi*x)*sin(pi*y); D=lambda f: integrate(diff(f,x)**2+diff(f,y)**2,(x,0,1),(y,0,1)); simplify(D(u+v)-D(u)-D(v))",
+    "asserts": "The energy splits as D(u+u') = D(u) + D(u') when u is harmonic and u' vanishes on the boundary, so the result should be 0."
+   }
+  ],
+  "transcription_corrections": [
+   "The final formula on the left half is probably 'und ∫((∂u'/∂x)^2 + (∂u'/∂y)^2) dT + ∫(∂u/∂p) u' ds' (or the expanded energy of u + u'), not ∂u'/∂x · ∂u'/∂x with a missing dT.",
+   "p denotes the inward normal (Riemann's convention). This explains the minus sign in -∫(∂u/∂p) u' ds.",
+   "The right half begins approximately 'Die Function u, für welche ... einen kleinsten Werth ... genügt ... ∂²u/∂x² + ∂²u/∂y² = 0'. Many lines marked '...' there are faint text, not blank.",
+   "The struck-through heading on the left half is 'Lehrsatz' (crossed out). The following paragraph is the integration-by-parts theorem."
+  ]
+ }
+}

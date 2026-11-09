@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c045",
+ "label": "36v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000046/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This is a draft of §3 of Riemann's 1860 paper 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite', specialised to Boyle's law (isothermal gas, p_pressure = a^2 ρ, constant sound speed a). The page is a short transitional paragraph.\n\nVariables and characteristic form (implicit, mine). The isothermal Euler equations are ρ_t + (ρu)_x = 0 and u_t + u u_x + a^2 ρ_x/ρ = 0. They take the characteristic form (∂_t + (u+a)∂_x)(u + a log ρ) = 0 and (∂_t + (u−a)∂_x)(u − a log ρ) = 0.\n\nRiemann's equation (2) normalises the Riemann invariants as\n p = (u + a log ρ)/(4a), q = (u − a log ρ)/(4a).\nHence:\n- u = 2a(p+q), which is the 'α = 2a(p+q)' of the previous page;\n- log ρ = 2(p − q).\nSo p is carried with speed u+a and q with speed u−a.\n\nHodograph step. Take p, q as independent variables.\n- p = const along dx/dt = u+a gives x_q = (u+a) t_q.\n- q = const along dx/dt = u−a gives x_p = (u−a) t_p.\n- Using u_p = u_q = 2a, these give ∂_q[x−(u+a)t] = ∂_p[x−(u−a)t] (both equal x_q − (u+a)t_q − 2a t = −2a t, resp. x_p − (u−a)t_p − 2a t = −2a t).\n- So the form [x−(u+a)t]dp + [x−(u−a)t]dq is exact: it equals dw. That is equation (1) of the page, equivalent to (4), (5) of the previous page: w_p = x−(u+a)t, w_q = x−(u−a)t.\n\nLinear equation for w (mine; Riemann writes it on the next page). Subtracting gives w_q − w_p = 2a t. Since w_pq = −2a t, it follows that w_pq − w_p + w_q = 0. This is a linear hyperbolic equation with constant coefficients.\n\nStatement of the page. Once w(p,q) has been determined 'on a direct way' (by Riemann's integration method of §2, i.e. via the Riemann function v), one recovers u and ρ as functions of x and t:\n1. Solve w_p(p,q) = x−(u+a)t and w_q(p,q) = x−(u−a)t, together with (2), for p, q in terms of x, t.\n2. Then u = 2a(p+q) and ρ = e^{2(p−q)}.\nThe cross-reference '(Art./§1. (2) u. (6))' points to these defining relations in §1.\n\nThe last sentence announces the next task: 'It now remains to develop more closely the dependence of p and q on x and t.' The following page carries this out with the Riemann-function representation of w_p and w_q, using t = 0 data where w_p = w_q = x.\n\nRight-margin fragments ('1. Z…, 1. A…, 1., 2, 3') belong to a different, cut-off sheet or outline.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "The normalisation with the factor 4a in (2) is unusual but internally consistent: it gives u = 2a(p+q) and log ρ = 2(p−q), matching the previous and next pages and the equation w_pq − w_p + w_q = 0.",
+   "The phrase 'findet man u und ρ ... aus den Gleichungen' presupposes that the implicit system is locally invertible (Jacobian ≠ 0). This fails at shocks or where characteristics cross; Riemann discusses that elsewhere, not here."
+  ],
+  "results": [
+   {
+    "what": "Riemann invariants for isothermal gas dynamics: p,q = (u ± a log ρ)/(4a), transported with speeds u ± a",
+    "modern_name": "Riemann invariants / characteristic form of the isentropic (isothermal) Euler equations",
+    "usually_credited_to": "Riemann 1860 (with Earnshaw 1858 for simple waves)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Exchange of dependent and independent variables: x−(u+a)t = w_p, x−(u−a)t = w_q, with the exact differential dw",
+    "modern_name": "Hodograph transformation (linearisation of 2x2 hyperbolic systems)",
+    "usually_credited_to": "Riemann 1860 (also Earnshaw/Stokes in special forms)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Recovery of u(x,t), ρ(x,t) from w(p,q) by inverting w_p, w_q",
+    "modern_name": "Inverse hodograph map",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft passage of Riemann's published 1860 Luftwellen paper (Riemann invariants plus hodograph transformation, isothermal case). Everything here is known and attributed to him.",
+  "checkable": [
+   {
+    "sympy": "a,p,q=symbols('a p q',positive=True); u=2*a*(p+q); logrho=2*(p-q); simplify((u+a*logrho)/(4*a)-p), simplify((u-a*logrho)/(4*a)-q)",
+    "asserts": "Equation (2) is equivalent to u=2a(p+q), log ρ=2(p−q); both expressions simplify to 0."
+   },
+   {
+    "sympy": "x,t,a=symbols('x t a'); rho=Function('rho')(x,t); u=Function('u')(x,t); R=u+a*log(rho); rt=-diff(rho*u,x); ut=-u*diff(u,x)-a**2*diff(rho,x)/rho; simplify(diff(u,x)*0+ut+a*rt/rho+(u+a)*diff(R,x))",
+    "asserts": "Using the isothermal Euler equations, R_t + (u+a)R_x = 0 for R = u + a log ρ, i.e. 4a p is transported with speed u+a (expression simplifies to 0)."
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); t=Function('t')(p,q); w=Function('w')(p,q); eq=Eq(diff(w,q)-diff(w,p),2*a*t); simplify(diff(w,p,q) - (diff(w,p)-diff(w,q)))",
+    "asserts": "Given w_p = x−(u+a)t, w_q = x−(u−a)t with u=2a(p+q) and x_q=(u+a)t_q, one has w_pq = −2a t = w_p − w_q, i.e. w_pq − w_p + w_q = 0 (verify by substituting w_pq = −2a t and w_q − w_p = 2a t)."
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); x=Function('x')(p,q); t=Function('t')(p,q); u=2*a*(p+q); A=x-(u+a)*t; B=x-(u-a)*t; simplify((diff(A,q)-diff(B,p)).subs({diff(x,q):(u+a)*diff(t,q), diff(x,p):(u-a)*diff(t,p)}))",
+    "asserts": "Exactness of (x−(u+a)t)dp + (x−(u−a)t)dq under the characteristic relations; the result is 0, so dw in equation (1) exists."
+   }
+  ],
+  "transcription_corrections": [
+   "The reference reads '(§1. (2) u. (6))' (paragraph sign, partly overwritten) rather than '(Art. 1. (2) u. (6))'.",
+   "In (1) the overlined groups are u+a and u−a, i.e. x − (u+a)t and x − (u−a)t; the transcription is correct in substance.",
+   "The inserted phrase above the second line likely reads 'auf directem Wege'; the struck words following 'mit Hülfe der' are illegible.",
+   "In the last paragraph the insertions read roughly 'Art' and 'unserer Bedingung[?]/Bedeutung[?]'; the sense is 'the manner of dependence of the quantities p and q on x and t'.",
+   "The right-margin fragments ('1. Z', '1. A', '1.', '2', '3') belong to an adjacent, cut-off sheet and are not part of this text."
+  ]
+ }
+}

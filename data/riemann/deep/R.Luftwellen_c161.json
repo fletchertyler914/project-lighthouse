@@ -1,0 +1,49 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c161",
+ "label": "93v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000162/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: bundle 'Luftwellen', i.e. Riemann's work on plane air waves of finite amplitude (1860). Here u is the velocity, a is the sound speed, and m (probably a mass/Lagrangian coordinate) and η are independent variables. p and q are auxiliary functions whose definition is not on this page.\n\n(1) The page opens with a system of two second-order equations:\n  4a p_{mη} + p_m p_η − q_m q_η + 2((u−a)/a) q_m p_η = 0,\n  4a q_{mη} + p_m p_η − q_m q_η + 2((u+a)/a) q_m p_η = 0.\nThe image and the following lines show that the second equation contains p_m p_η, not p_m q_η.\n\n(2) Substitution. The marginal word is probably 'ersetzt' ('replaced'). Riemann puts π = p_η and χ = q_η. For fixed η this gives a linear first-order system of ODEs in m:\n  4a π_m = −(p_m + 2((u−a)/a) q_m) π + q_m χ,\n  4a χ_m = −(p_m + 2((u+a)/a) q_m) π + q_m χ.\nHe writes the equation for a second solution (π', χ'), giving only the π' equation explicitly.\n\n(3) Wronskian. He forms the determinant W = πχ' − χπ' of two solutions. He tabulates which combinations appear with which coefficients:\n- The pair π'π_m − ππ'_m comes with coefficient −q_m.\n- The pair χπ'_m − χ'π_m comes with coefficient p_m + 2((u−a)/a) q_m.\n- Similarly for the χ-equation.\nThe 4a below each group marks the factor multiplying the derivatives.\n\n(4) Result. Combining these:\n  4a ∂log(πχ' − χπ')/∂m = (π_m χ' − χ π'_m + π χ'_m − π' χ_m)/W = −(p_m + 2((u−a)/a) q_m) + q_m.\nThis is the Abel–Liouville identity: d log W/dm equals the trace of the coefficient matrix, here (1/4a)[−p_m − 2((u−a)/a) q_m + q_m].\n\n(5) Final rewriting. Riemann then writes this as −2(a_m + (u/a) q_m). That step uses a relation between p, q and a that is not on the page. Expanding, −p_m − 2(u/a) q_m + 3q_m = −2a_m − 2(u/a) q_m requires p_m − 3q_m = 2a_m, i.e. p − 3q = 2a + f(η) (my inference).\n\nPurpose (my interpretation): this gives an integrating factor / closed-form expression for the Wronskian of the linearised system in m. W = C(η)·exp(−(1/2)∫(a_m + (u/a) q_m)/a dm), which helps reduce the system to quadratures along one family of coordinate lines.",
+  "errors": [
+   "The Abel–Liouville step is correct: 4a W_m/W = −(p_m + 2(u−a)/a q_m) + q_m.",
+   "The last equality, = −2(a_m + (u/a) q_m), cannot be checked from this page. It is valid only if p_m − 3q_m = 2a_m, which presumably follows from definitions of p and q made elsewhere. If the symbol read as ∂a/∂m is really something else (e.g. ∂u/∂m), the needed relation changes.",
+   "The equation for χ' is not written out, and the right-hand χ-equation lacks '=0'. These are omissions, not errors."
+  ],
+  "results": [
+   {
+    "what": "The η-derivatives (π, χ) = (p_η, q_η) of the second-order system satisfy a linear first-order ODE system in m.",
+    "modern_name": "Reduction of a hyperbolic system to a linear ODE system along characteristic/coordinate lines",
+    "usually_credited_to": "standard technique (Euler, Laplace, Riemann 1860 in gas dynamics)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "The logarithmic derivative of the Wronskian πχ' − χπ' equals the trace of the coefficient matrix.",
+    "modern_name": "Abel–Liouville (Abel–Jacobi–Liouville) formula",
+    "usually_credited_to": "Abel (1827), Liouville (1838), Jacobi",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine application of the Abel–Liouville Wronskian formula inside Riemann's known research on finite-amplitude air waves. It is a working computation, not a new result.",
+  "checkable": [
+   {
+    "sympy": "m=symbols('m'); a,p,q,u,P1,X1,P2,X2=[Function(n)(m) for n in ['a','p','q','u','P1','X1','P2','X2']]; c1=diff(p,m)+2*(u-a)/a*diff(q,m); c2=diff(p,m)+2*(u+a)/a*diff(q,m); rhsP=lambda P,X: (-c1*P+diff(q,m)*X)/(4*a); rhsX=lambda P,X: (-c2*P+diff(q,m)*X)/(4*a); W=P1*X2-X1*P2; Wm=rhsP(P1,X1)*X2+P1*rhsX(P2,X2)-rhsX(P1,X1)*P2-X1*rhsP(P2,X2); simplify(4*a*Wm - (-c1+diff(q,m))*W)",
+    "asserts": "Equals 0: 4a W_m = (−p_m − 2(u−a)/a q_m + q_m) W for any two solutions of the linear system."
+   },
+   {
+    "sympy": "m=symbols('m'); a,p,q,u=[Function(n)(m) for n in 'apqu']; expr=-(diff(p,m)+2*(u-a)/a*diff(q,m))+diff(q,m)+2*(diff(a,m)+u/a*diff(q,m)); simplify(expr - (2*diff(a,m)-diff(p,m)+3*diff(q,m)))",
+    "asserts": "Equals 0: Riemann's final equality holds iff p_m − 3q_m = 2a_m."
+   }
+  ],
+  "transcription_corrections": [
+   "Second equation: the term is ∂p/∂m·∂p/∂η, not ∂p/∂m·∂q/∂η (this agrees with the substituted χ-equation).",
+   "The marginal word read as 'Ansatz[?]' is more likely 'ersetzt' ('replaced').",
+   "In the final fraction the numerator reads ∂π/∂m χ' − χ ∂π'/∂m + π ∂χ'/∂m − π' ∂χ/∂m. The last term is π'·∂χ/∂m with corrections, not '[−π−]χ' ∂χ/∂m'.",
+   "The first displayed term in the final line is 4a ∂log(πχ' − χπ')/∂m, as transcribed. The last factor appears to read −2(∂a/∂m + (u/a)∂q/∂m)."
+  ]
+ }
+}

@@ -1,0 +1,79 @@
+{
+ "bundle": "PH.Grundformel",
+ "page": "c017",
+ "label": "9v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382435:00000018/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is not a derivation. It is a printed numerical table, the continuation of the title leaf 'Tafel zur Auflösung der Lambert'schen Gleichung' on fol. 9r. It covers eta = 0.00 to 0.32 at step 0.01. Each function is printed with its first differences (between the lines) and its second differences (centred on each row). The next leaf continues log mu up to eta = 0.94. The setting is the parabolic case of Lambert's theorem, i.e. Euler's 1744 equation, as used in Olbers' method for comet orbits.\n\n(1) Constants (my identification). log k_G = 8.2355814, where k_G = 0.01720209895 is the Gaussian gravitational constant.\n- 8.5366114 = 8.2355814 + 0.3010300 = log(2 k_G).\n- 8.3860964 = 8.2355814 + 0.1505150 = log(sqrt(2) k_G).\n\n(2) Scaled time. eta = 2 k_G t / (r+r')^(3/2).\n- Put x = s/(r+r'), where s is the chord.\n- Euler's parabolic equation 6 k_G t = (r+r'+s)^(3/2) - (r+r'-s)^(3/2) (lower sign) then reads 3 eta = (1+x)^(3/2) - (1-x)^(3/2).\n\n(3) mu. mu is defined by x = mu eta, so the chord (called k in the printed footer) is k = s = mu eta (r+r') = [8.5366114] t mu / (r+r')^(1/2). This is the footer formula.\n- Series (mine): eta = x - x^3/24 - x^5/128 - ...\n- Inverting: x = eta + eta^3/24 + 5 eta^5/384 + ...\n- Hence ln mu = eta^2/24 + 7 eta^4/576 + ...\n- The upper limit x = 1 (s = r+r') gives eta = sqrt(8)/3 and mu = 3/sqrt(8). These match the closing values on the next page, confirming the parabola.\n\n(4) nu. Triangle = (1/2) r r' sin(v'-v); sector = (1/2) k_G t sqrt(p) with p = 2q. Hence nu = sqrt(2) k_G t sqrt(q) / (r r' sin(v'-v)) = sector/triangle. This is Gauss's ratio y (Theoria Motus) specialised to the parabola.\n- It depends only on eta, because sqrt(r r') cos(f/2) = (1/2) sqrt((r+r')^2 - s^2).\n- Symmetric check (mine): put tan(v/2) = ±a. Then y = (1 + a^2/3)/(1 - a^2) and x = 2a/(1+a^2).\n- So nu ≈ 1 + eta^2/3 for small eta.\n\n(5) Use. Given t, r, r': compute eta, read off log mu and log nu. This gives the chord, needed in Olbers' iteration. It also gives the sector/triangle ratio, from which q follows via nu = [8.3860964] t sqrt(q) / (r r' sin(v'-v)).\n\nNumerical checks I made (mine).\n- Exact log nu at eta = 0.30 is 0.0138721, as in the table.\n- At eta = 0.10 it is 0.0014574 vs the table's 0.0014573 (within one unit).\n- All first and second differences of both columns agree with the tabulated values.\n- The printed second difference on row eta is centred at eta: at eta = 0 it is 2 x 18 = 36 by evenness, and for nu 2 x 145 = 290.",
+  "errors": [
+   "Possible last-place errors in log mu for small eta (units of 1e-7). The series ln mu = eta^2/24 + 7 eta^4/576, which is very accurate here, gives the following: 0.03 -> 0.0000163 (table 0.0000162); 0.04 -> 0.0000290 (0.0000289); 0.05 -> 0.0000453 (0.0000452); 0.08 -> 0.0001160 (0.0001161); 0.09 -> 0.0001469 (0.0001470); 0.10 -> 0.0001815 (0.0001816). The pattern looks like a table built up from rounded differences (smoothed second differences 0.36/0.37 starting from first difference 18), so errors of up to one unit in the last place have accumulated. This should be re-verified numerically.",
+   "The log nu column checks to within one unit at the points tested and is internally consistent in its differences. No errors were found there."
+  ],
+  "results": [
+   {
+    "what": "Table of log mu(eta), where the chord s = mu * eta * (r+r') solves Euler's parabolic equation 3 eta = (1+x)^(3/2) - (1-x)^(3/2), with eta = 2 k t/(r+r')^(3/2).",
+    "modern_name": "Inversion of Euler's (parabolic Lambert) equation, i.e. a chord-from-time table for Olbers' method",
+    "usually_credited_to": "Euler (1744) for the equation; Lambert (1761) for the general theorem; Olbers (1797) and Encke for tables of this type",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Table of log nu(eta), where nu = sector/triangle for the parabola, nu = sqrt(2) k t sqrt(q)/(r r' sin(v'-v)).",
+    "modern_name": "Gauss's sector-to-triangle ratio y, parabolic case",
+    "usually_credited_to": "Gauss (Theoria Motus 1809) for the ratio y; Encke and others for parabolic tables",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a printed auxiliary table for the parabolic Lambert/Euler equation and the parabolic sector/triangle ratio. Both are standard tools of early 19th-century comet orbit computation, and the table is probably by Encke or the Olbers tradition rather than Gauss's own work. Its only interest is as evidence of Gauss's working materials.",
+  "checkable": [
+   {
+    "sympy": "N(log(2*0.01720209895,10),10)  # ~ -1.4633886 i.e. 8.5366114-10",
+    "asserts": "8.5366114 is log10(2k) for the Gaussian constant"
+   },
+   {
+    "sympy": "N(log(sqrt(2)*0.01720209895,10),10)  # ~ -1.6139036 i.e. 8.3860964-10",
+    "asserts": "8.3860964 is log10(sqrt(2) k)"
+   },
+   {
+    "sympy": "x=symbols('x'); series(((1+x)**Rational(3,2)-(1-x)**Rational(3,2))/3, x, 0, 7)",
+    "asserts": "eta = x - x**3/24 - x**5/128 + O(x**7)"
+   },
+   {
+    "sympy": "e=symbols('e'); X=e+e**3/24+Rational(5,384)*e**5; series(((1+X)**Rational(3,2)-(1-X)**Rational(3,2))/3 - e, e, 0, 7)",
+    "asserts": "Inverse series x = eta + eta**3/24 + 5*eta**5/384 (result is O(e**7))"
+   },
+   {
+    "sympy": "e=symbols('e'); series(log(1+e**2/24+Rational(5,384)*e**4), e, 0, 6)",
+    "asserts": "ln mu = eta**2/24 + 7*eta**4/576 + O(eta**6)"
+   },
+   {
+    "sympy": "x=nsolve(((1+x)**1.5-(1-x)**1.5)/3-0.3, x, 0.3); log(x/0.3,10)",
+    "asserts": "log mu(0.30) ≈ 0.0016733"
+   },
+   {
+    "sympy": "x=nsolve(((1+x)**1.5-(1-x)**1.5)/3-0.1, x, 0.1); log(x/0.1,10)",
+    "asserts": "log mu(0.10) ≈ 0.0001815 (table prints 0.0001816)"
+   },
+   {
+    "sympy": "x=nsolve(((1+x)**1.5-(1-x)**1.5)/3-0.3, x, 0.3); a=(1-sqrt(1-x**2))/x; log((1+a**2/3)/(1-a**2),10)",
+    "asserts": "log nu(0.30) ≈ 0.0138721, as tabulated"
+   },
+   {
+    "sympy": "simplify(Rational(3,2)*(2*sqrt(2)/3) - sqrt(2)); N(log(3/sqrt(8),10))",
+    "asserts": "x=1 gives eta=sqrt(8)/3 and log mu = log(3/sqrt 8) = 0.0255763 (closing values on next page)"
+   },
+   {
+    "sympy": "a=symbols('a',positive=True); simplify(sin(4*atan(a)) - 4*a*(1-a**2)/(1+a**2)**2)",
+    "asserts": "Identity used in the symmetric sector/triangle check y=(1+a**2/3)/(1-a**2)"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 0,11 of log mu: '21.99' should read '21 99' (the dot is a print blemish). The value is 0.0002199.",
+   "Row 0,26 of log mu: the image shows a smudged/overprinted digit in '124 83'. The value 124 83 is confirmed by the differences (960 and 1001).",
+   "The second-difference columns (e.g. '0 36', '2 90') are printed on the rows of the arguments and are centred at those arguments. The first differences are printed between the rows. The transcription layout is otherwise faithful."
+  ]
+ }
+}

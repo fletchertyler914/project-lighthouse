@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c051",
+ "label": "27v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000052/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Riemann's 1861 Paris prize essay on heat conduction (the 'Commentatio mathematica'; the letter to Élie de Beaumont on the next page confirms this). The problem is to find all anisotropic heat equations Λu = ∂u/∂t in which a solution u depends only on t and two spatial variables α, β. The defining system F = 0 is split into Λu = u_t and m−1 further equations Δu = 0. The previous page treated the case where the reduced equation has the form Σ a_ν ∂^ν u/∂α^ν = 0 (eq. (1)).\n\n(a) Top of page, continuing the case m = 2. The reduced equation u_ααα + r u_αα + s u_α = 0 gives u = a p + b q + c, where a, b, c are functions of (β, t) and p, q are functions of (α, β). Riemann then takes q as the new independent variable α, so u = a p + α b + c, and only p depends on both α and β. Substituting into Δu = 0 and Λu = u_t determines the coefficient forms easily. He does not pursue this, because the case cannot occur in homogeneous bodies.\n\n(b) The remaining case is where one of the equations into which F = 0 splits is of form (1) of second order: r ∂²u/∂α² + s ∂u/∂α = 0. Then u = a p + b, with a, b functions of (β, t) and p a function of (α, β); here p_α = exp(−∫ s/r dα) [my gloss]. Taking p as the new variable α gives u = aα + b, and the equation becomes ∂²u/∂α² = 0.\n\n(c) Summary for m = 2 (F = 0 split into Δu = 0 and Λu = u_t). One of three things holds:\n- a struck-out commutation-type alternative (ΔΛ = ΛΔ?); or\n- u is a finite sum Σ f(t) e^{λt}, with λ constant and f a polynomial; or\n- u = φ(β,t) χ(α,β) + α φ1(β,t) + φ2(β,t).\n\n(d) For m = 3: either u is a finite sum Σ f(t) e^{λt}, or u = φ(β,t) α + φ1(β,t).\n\n(e) For m = 4. Besides Λu = u_t there are three linear equations among u_αα, u_αβ, u_ββ, u_α, u_β. Two cases:\n- They yield a first-order relation r u_α + s u_β = 0. Then, by choice of variables, u depends on a single spatial variable.\n- Or all second derivatives are expressible through u_α and u_β. Then Λu, Λ²u, Λ³u (= u_t, u_tt, u_ttt) lie in a 2-dimensional span. Hence a u_ttt + b u_tt + c u_t = 0, so u = p e^{λt} + q e^{μt} + r, or u = (p + q t) e^{λt} + r.\n\nBy the previous page's argument λ and μ are constants. Take p as α and substitute into Λu = u_t, i.e. Λp = λp, Λq = μq, Λr = 0 (in the repeated case Λp = λp + q, Λq = λq) [my expansion]. One finds that q cannot be a function of α alone unless λ = μ. So p and q can serve as independent variables, and r = const.\n\nConclusion for m = 4: u is either a function of one variable (and t), or u = α e^{λt} + β e^{μt} + const, or u = (α + β t) e^{λt} + const, with μ = 0 allowed.\n\nThe next page then builds the differential equations and the metric Σ β ds ds from these forms. It reduces the remaining question to when Σ β ds ds can be transformed into Σ a dx dx, which is the equivalence problem of quadratic differential forms.",
+  "errors": [
+   "The constancy r = const is asserted without argument. From Λu = u_t one only gets Λr = 0, so an additional use of the other equations or of the coordinate choice is needed.",
+   "The claim that q cannot depend on α alone unless λ = μ is stated without computation. This is plausible but not shown.",
+   "The m = 2 summary contains a struck, unclear alternative ('ΔΛ = ΘΔ' or similar), so the trichotomy is incompletely stated.",
+   "In (a), q is renamed α. This silently assumes q_α ≠ 0 (genuine dependence on α)."
+  ],
+  "results": [
+   {
+    "what": "Classification of the possible forms of solutions u(α, β, t) of an anisotropic heat equation depending on only two spatial variables, according to the number m of equations in the split system",
+    "modern_name": "Separation-of-variables / reduction classification for linear parabolic PDE (cf. symmetry reduction)",
+    "usually_credited_to": "Riemann's 1861 Paris prize essay (Commentatio), unpublished in his lifetime; printed in Werke 1876",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Solutions of a u_ttt + b u_tt + c u_t = 0 are p e^{λt} + q e^{μt} + r or (p + q t) e^{λt} + r",
+    "modern_name": "Linear constant-coefficient ODE, characteristic roots",
+    "usually_credited_to": "Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reduction of r u_αα + s u_α = 0 to u_αα = 0 by change of variable",
+    "modern_name": "Integrating factor / change of independent variable",
+    "usually_credited_to": "classical (Euler, Lagrange)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a draft of the known Paris prize essay on heat conduction. The case analysis for solutions depending on two variables is an unpublished-draft detail beyond the printed Commentatio, but it is elementary and consistent with what is known of that work.",
+  "checkable": [
+   {
+    "sympy": "al,r,s,A,B=symbols('al r s A B'); P=integrate(exp(-s/r*al),al); u=A*P+B; simplify(r*diff(u,al,2)+s*diff(u,al))==0",
+    "asserts": "u = a p + b with p_α = exp(-∫s/r) solves r u_αα + s u_α = 0 (constant r, s test case)"
+   },
+   {
+    "sympy": "t,l,m,p,q,c=symbols('t l m p q c'); u=p*exp(l*t)+q*exp(m*t)+c; simplify(diff(u,t,3)-(l+m)*diff(u,t,2)+l*m*diff(u,t))==0",
+    "asserts": "p e^{λt} + q e^{μt} + r satisfies a third-order ODE with characteristic roots λ, μ, 0"
+   },
+   {
+    "sympy": "t,l,p,q,c=symbols('t l p q c'); u=(p+q*t)*exp(l*t)+c; simplify(diff(u,t,3)-2*l*diff(u,t,2)+l**2*diff(u,t))==0",
+    "asserts": "Repeated-root case (p + q t) e^{λt} + r"
+   },
+   {
+    "sympy": "a,b,t,al=symbols('a b t al'); u=a*al+b; diff(u,al,2)==0",
+    "asserts": "After the substitution, u = aα + b gives u_αα = 0"
+   }
+  ],
+  "transcription_corrections": [
+   "The equation of form (1) appears in the image as r ∂²u/∂α² + s ∂u/∂α = 0, not r ∂u/∂α + s ∂u/∂β = 0.",
+   "'prodibit ∂u/∂α = 0' should read ∂²u/∂α² = 0, with 'u = aα + b' struck out before it.",
+   "The m = 3 line reads 'Si m=3 functionem aut esse e numero finito terminorum formae f(t)e^{λt} conflatam'; the last word is 'conflatam', not 'constantem'.",
+   "Near the end, 'u aut est functio unius tantum variabilis' carries the interlinear insertion 'ipsius t & ...', partly illegible.",
+   "In the m = 4 alternative, the struck text 'per ∂u/∂α, ∂u/∂β exprimi possunt' is replaced by '... ∂u/∂α, ∂u/∂β obi emerget'."
+  ]
+ }
+}

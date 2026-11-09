@@ -1,0 +1,66 @@
+{
+ "bundle": "Math.28",
+ "page": "c044",
+ "label": "22v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000045/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from f.22r): the heading is 'Taylor's theorem following Cauchy's treatment'. Z = Z(z) with z = r(cos θ + i sin θ) = r e^{iθ}. Z and dZ/dz are assumed continuous for R0 ≤ r ≤ R'. Define 2π S(r) = ∫_0^{2π} Z dθ, with r held fixed. On 22r Gauss shows 2π dS/dr = ∫ (dZ/dz)(∂z/∂r) dθ. Since ∂z/∂r = z/r and ∂z/∂θ = iz, we get ∂z/∂r = (1/(ir)) ∂z/∂θ. Hence 2π dS/dr = (const/r) ∫_0^{2π} ∂Z/∂θ dθ = (const/r)[Z]_0^{2π} = 0, because Z is single-valued and periodic in θ.\n\nThis page:\n(end of 2) The differentiation is valid wherever the principles of the differential calculus hold, so certainly for R0 ≤ r ≤ R'. Therefore S is independent of r on [R0, R'].\n\n(3) Suppose continuity of Z and dZ/dz holds for all r ≤ R', i.e. one may take R0 = 0. Then S is constant on [0, R'], so it equals its value at r = 0. [Implicit, mine: at r = 0, z = 0 for every θ, so S(0) = Z(0).] This is the mean value property (1/2π)∫_0^{2π} f(r e^{iθ}) dθ = f(0) for 0 ≤ r ≤ R'.\n\n(4) Let f be a definite function with property (3). Let x = r e^{iθ} be variable with r ≤ R', and let a be a fixed quantity. Put X = f(x), A = f(a). Then Ω(x) = x(X − A)/(x − a) is again a function satisfying the same condition for r ≤ R'. [Implicit: the singularity at x = a is removable, with Ω(a) = a f'(a).] Applying (3) to Ω gives ∫_0^{2π} x(X − A)/(x − a) dθ = 2π Ω(0) = 0. [Implicit, mine: Ω(0) = 0 because of the factor x.]\n\nWhat the page serves (from f.23r): it yields ∫ xX/(x−a) dθ = A ∫ x/(x−a) dθ. The right-hand integral is 0 for |a| > r and 2π for |a| < r. This gives Cauchy's integral formula A = (1/2π)∫_0^{2π} x X/(x−a) dθ. Expanding 1/(x−a) in powers of a/x then yields the Taylor series, which is the stated goal.",
+  "errors": [
+   "Previous page (22r): ∂z/∂r = (1/(ir)) ∂z/∂θ = −(i/r) ∂z/∂θ, but Gauss writes +(i/r). This is a sign slip with no effect, since the integral vanishes anyway.",
+   "The claim that Ω 'satisfies the same condition' is unjustified as stated. Continuity of dΩ/dx at x = a requires more than continuity of f' (e.g. existence and continuity of f'', or analyticity), and the value Ω(a) = a f'(a) must be supplied by definition. Gauss glosses over the removable singularity.",
+   "The step from S = const to S = Z(0) (value at r = 0) is left implicit. It is fine, but the r-derivative argument at r = 0 itself (division by r) needs a limiting argument. Continuity of S at r = 0 covers this.",
+   "22r says 'Grenzen R und R'' where R0 is meant (minor notational inconsistency)."
+  ],
+  "results": [
+   {
+    "what": "Mean value of Z over a circle is independent of the radius, proved by differentiating under the integral with respect to r. Hence (1/2π)∫ f(re^{iθ}) dθ = f(0).",
+    "modern_name": "Gauss mean value theorem for holomorphic functions / Cauchy's integral theorem for circles (radial-derivative proof)",
+    "usually_credited_to": "Cauchy (Turin memoir 1831; Exercices d'analyse 1840s); mean value property often attributed to Gauss (1840, for harmonic functions)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Applying the mean value result to Ω = x(f(x) − f(a))/(x − a) to obtain ∫ xX/(x−a) dθ = A ∫ x/(x−a) dθ, leading to Cauchy's integral formula on a circle.",
+    "modern_name": "Cauchy integral formula (circle case) / Cauchy's proof of Taylor's theorem in the complex domain",
+    "usually_credited_to": "Cauchy, 1831",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss explicitly titles this 'Taylor's theorem after Cauchy's treatment'. It is a study note reproducing Cauchy's 1831 proof, not original work. Gauss's own priority for the complex integral theorem (letter to Bessel, 1811) is already well known.",
+  "checkable": [
+   {
+    "sympy": "z=r*exp(I*t); simplify(diff(z,r) - (-I/r)*diff(z,t))",
+    "asserts": "∂z/∂r = −(i/r)∂z/∂θ (should be 0); corrects the sign on 22r."
+   },
+   {
+    "sympy": "N(Integral(exp(2*exp(I*t)),(t,0,2*pi)) - 2*pi)",
+    "asserts": "Mean value property for f = exp, r = 2: ∫ f(re^{iθ}) dθ = 2π f(0) (should be ≈ 0)."
+   },
+   {
+    "sympy": "x=exp(I*t); a=Rational(1,2); N(Integral(x*(exp(x)-exp(a))/(x-a),(t,0,2*pi)))",
+    "asserts": "∫_0^{2π} x(X−A)/(x−a) dθ = 0 for f = exp, r = 1, a = 1/2 (should be ≈ 0)."
+   },
+   {
+    "sympy": "x=3*exp(I*t); a=Rational(1,2); N(Integral(x*(exp(x)-exp(a))/(x-a),(t,0,2*pi)))",
+    "asserts": "Same with a inside a circle of radius 3: still 0."
+   },
+   {
+    "sympy": "limit(x*(exp(x)-exp(a))/(x-a), x, a)",
+    "asserts": "Removable singularity: Ω(a) = a f'(a) = a*exp(a)."
+   },
+   {
+    "sympy": "x=exp(I*t); a=Rational(1,2); N(Integral(x*exp(x)/(x-a),(t,0,2*pi))/(2*pi) - exp(a))",
+    "asserts": "Resulting Cauchy formula (next page): A = (1/2π)∫ xX/(x−a) dθ for |a| < r (should be ≈ 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'wo r < R'': the crossed-out text is 'w[o] r < R'' (or similar). The interlinear insertion above reads roughly 'be...t durch' ('begränzt durch R''?), not clearly 'bestimmt wenn r < R''; reading uncertain.",
+   "'für [-R =-] r = 0': the deleted portion is largely obscured by an ink blot; reading of what was deleted is uncertain.",
+   "Final integral: the differential appears as '·∂θ' (Gauss's ∂ form), consistent with the next page, rather than 'dθ'.",
+   "Marginal word 'bestimmte' is in the left margin, intended for insertion before 'Function' (correctly placed in transcription)."
+  ]
+ }
+}

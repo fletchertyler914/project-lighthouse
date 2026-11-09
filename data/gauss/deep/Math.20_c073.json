@@ -1,0 +1,61 @@
+{
+ "bundle": "Math.20",
+ "page": "c073",
+ "label": "37r/36v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000074/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 37r/36v contains no text or computation, only pen sketches. The interpretation below is mine and rests on the neighbouring pages.\n\nContext. On the previous and next pages Gauss computes the complex roots of a fifth-degree polynomial f (written fx on the next page, T on the previous one). He works with logarithms of modulus and argument, applies Newton corrections ('Correction', f'x, (1/20)f'x), and records a 'reelle Wurzel +3.2020...' and a 'letzte Wurzel +0.0028825+2.59861 i'.\n\nAlso on the previous page he expands log T about a point t:\nlog T(t+θ) = log T + (T'/T)θ + ((T T'' − T'^2)/(2T^2))θ^2 + ...\nHe then requires that the quadratic term '(T''/T)θθ soll keinen reellen Theil haben' (should have no real part). With log10|T''/T| = 0.15301 and arg(T''/T) = 50°28'18\", this gives\narg θ = (90° − 50°28'18\")/2 = 19°45'51\", or that value plus 90° = 109°45'51\".\nBoth values are on the previous page. At a point where T' ≈ 0, these are the two orthogonal directions along which |T| is stationary to second order. They are the tangents of the level curve |T| = const crossing itself at a saddle point.\n\nThe sketches on this page fit that analysis.\n\n(1) Left figure: modulus level curves (lemniscates |f(z)| = c) of the quintic.\n- Two small figure-eight curves each have a cross (zero) in each lobe. Each double point is a critical point of f, i.e. a zero of f'.\n- Around them runs a larger curve. It passes through a further double point and continues into an outer loop around a fifth cross, the fifth zero.\n- An outermost oval encloses the lower structure.\n- The count fits: 4 + 1 = 5 zeros, and 4 = n − 1 saddle points (the four double points) for n = 5.\n\n(2) Middle figure: a figure-eight with a cross in its upper lobe, cut at its double point by a horizontal line. This is probably a single saddle, with the line a reference axis or one of the two orthogonal crossing directions just computed. It shows the local cross-shaped structure of the level curve through a saddle.\n\n(3) Large oval at right, with zigzags along the upper and right boundary, and lower oval with a zigzag of about 5 teeth along its lower edge. This is plausibly a large circle |z| = R on which Re f or arg f oscillates. In Gauss's 1799 proof, the curves Re f = 0 and Im f = 0 cross a large circle in 2n points each, alternating. Here the teeth would count the oscillations (n = 5). This reading is conjectural.\n\nNo formulas are written on the page.",
+  "errors": [
+   "No computations on this page, so nothing to check here. In the context (previous page) the direction calculation (90° − 50°28'18\")/2 = 19°45'51\" is arithmetically correct, and 19°45'51\" + 90° = 109°45'51\" is right."
+  ],
+  "results": [
+   {
+    "what": "Qualitative sketch of the level curves |f(z)| = const of a quintic. Figure-eight self-intersections sit at critical points (zeros of f'), and each lobe contains one zero.",
+    "modern_name": "Polynomial lemniscates / topology of the modulus surface (Morse theory of |p|, saddle points at zeros of p')",
+    "usually_credited_to": "Modulus-surface ideas go back to Argand/Cauchy (minimum-modulus principle). Systematic topology of lemniscate configurations is 20th century (e.g. Walsh; Catanese–Paluszny 1991).",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Directions of the level curve through a saddle, found from the requirement that (T''/T)θ^2 be purely imaginary. This gives two orthogonal directions (previous page; sketched here as a crossing).",
+    "modern_name": "Local saddle-point structure of an analytic function (steepest-descent / level-curve directions)",
+    "usually_credited_to": "Saddle-point method: Riemann 1863 (posthumous), Debye 1909. Local structure of |f| near a critical point is standard 19th-century complex analysis.",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Oscillation (zigzag) marks along a large closed curve, likely counting sign changes of Re/Im f or the winding of arg f, n = 5.",
+    "modern_name": "Argument principle / winding number on a large circle (as in the 1799 FTA proof)",
+    "usually_credited_to": "Gauss 1799 (curves Re = 0, Im = 0); Cauchy for the argument principle",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "These are qualitative sketches tied to a numerical root computation. Gauss's geometric thinking about Re f = 0 and Im f = 0 curves is well known from 1799. What is mildly notable is a picture of the modulus level curves with saddle points at zeros of f', combined with the explicit computation of level-curve directions at a saddle on the previous page. That anticipates saddle-point and lemniscate-topology reasoning, but it is unpublished sketching rather than a stated result.",
+  "checkable": [
+   {
+    "sympy": "Eq((90 - (50 + 28/60 + 18/3600))/2, 19 + 45/60 + 51/3600)",
+    "asserts": "The direction angle 19°45'51\" equals (90° − arg(T''/T))/2 with arg(T''/T) = 50°28'18\"."
+   },
+   {
+    "sympy": "simplify(re(exp(I*pi*Rational(50*3600+28*60+18,180*3600)) * exp(2*I*pi*Rational(19*3600+45*60+51,180*3600))))",
+    "asserts": "Equals 0 (exactly, since 50°28'18\" + 2·19°45'51\" = 90°): the quadratic term (T''/T)θ^2 has no real part in this direction."
+   },
+   {
+    "sympy": "simplify(re(exp(I*pi*Rational(50*3600+28*60+18,180*3600)) * exp(2*I*pi*Rational(109*3600+45*60+51,180*3600))))",
+    "asserts": "Equals 0 (exactly, total angle 270°): the second direction 109°45'51\", orthogonal to the first, also makes the quadratic term purely imaginary."
+   },
+   {
+    "sympy": "z=symbols('z'); p=(z-1)*(z+1)*(z-2*I)*(z+2*I)*(z-3); degree(diff(p,z),z)==4",
+    "asserts": "A quintic has n − 1 = 4 critical points, consistent with the four figure-eight double points sketched for five zeros."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription 'drawings only' is correct. Counting the crosses in the left nested figure gives five (two in each small figure-eight plus one in the outer loop to the right), matching the degree-5 polynomial on the neighbouring pages.",
+   "The lower oval's zigzag shows roughly 5 teeth, consistent with n = 5.",
+   "Folio number: '(37)' circled, with '38' struck through, as transcribed."
+  ]
+ }
+}

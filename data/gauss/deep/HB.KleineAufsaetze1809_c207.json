@@ -1,0 +1,62 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c207",
+ "label": "198",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000208/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: on the previous page Gauss writes Ampère's force between two current elements. He drops complete differentials (which do not contribute for closed circuits) and adds a further admissible term so that the expression becomes symmetric in the two elements. He obtains the x-component\n\n[x(-ξξ'+ηη'+ζζ') - y(ξη'+ηξ') - z(ξζ'+ζξ')] / (2r^3).\n\nHe then 'explains' this by an additional force on moving electricity that depends on the relative velocity (α,β,γ):\n\nF_x = -[x(α²+β²+γ²) - 2α(xα+yβ+zγ)] / (2r^3).\n\nIn vector form this is F = -(v² r - 2(r·v) v)/(2r^3) = (v²/(2r²))·(2(r̂·v̂)v̂ - r̂).\n\nThe parenthesis is the mirror image of the unit vector r̂ in the line of the relative velocity. Page 198 restates this vector result geometrically, twice.\n\n(1) First formulation, top of page, with a small figure with points a, b, e, E. 'Here we now manage with one single additional force.'\n- The force acts at e in the direction eb, with strength (v²/k²)·eE. Here eE stands for the ordinary static (rest) force between e and E; 'eE positiv' fixes its sign convention.\n- ea is the direction of the relative velocity v.\n- The direction eb is fixed by the angle condition ∠aeb = 180° − ∠aeE.\n- So eb makes with ea the same angle as the prolongation of Ee beyond e, but on the other side of ea. That is, eb is the mirror image of the direction E→e in the line ea. The figure shows exactly this: E lies below e, a is up-left, and the dotted line eb lies just beyond ea.\n\n(2) Second formulation, dated Aug. 23, 'still simpler and fully general'.\n- Suppose an electrical element E is pulled by another element along EA with force p while the two are at relative rest.\n- If they move relative to each other, with direction EB (relative to E) and speed v, a second force is added.\n- Its magnitude is p v²/k². Its direction is EC, where EA, EB, EC lie in one plane and EB lies midway between EA and EC.\n- In modern notation, with n̂ the unit vector of the static force and û the unit vector of the relative velocity:\n  F_total = p n̂ + (p v²/k²)·R_û(n̂), where R_û(n̂) = 2(n̂·û)û − n̂ is the reflection of n̂ in the line of û.\n- For p = ee'/r² this is exactly the previous page's term, with the constant 1/2 absorbed into 1/k² (k a velocity constant).\n\nDecomposition (my addition): the radial component is (p v²/k²)·cos 2θ, where θ is the angle between n̂ and û. The component perpendicular to n̂ in the plane is (p v²/k²)·sin 2θ.\n\nWhy this works (my addition): for neutral current elements (positive and negative charges moving), only the cross terms of v² survive in the sum. These bilinear terms reproduce the symmetrized Ampère expression of the previous page.\n\nThis is part of Gauss's 1835 search for a fundamental velocity-dependent law between charges from which Ampère's law follows. It precedes Weber's 1846 law.",
+  "errors": [
+   "No mathematical error. The vector identity behind the reflection rule checks out, and so does the derivation of the relative-velocity force from the symmetrized Ampère term.",
+   "Sign conventions are not stated explicitly. In formulation (1), eb is the mirror of the direction E→e, i.e. of the repulsive direction. 'eE positiv' seems to fix attraction as positive. Formulation (2) reflects EA, the actual static-force direction. The two agree only if the sign conventions for p and eE are chosen consistently; the page does not settle this, but the general statement (2) is self-consistent.",
+   "A factor 1/2 on the previous page is silently absorbed into the constant 1/k²."
+  ],
+  "results": [
+   {
+    "what": "Velocity-dependent law between electric elements: the extra force has magnitude p v²/k², directed along the mirror image of the static force direction in the line of relative motion (F = p[n̂ + (v²/k²)(2(n̂·û)û − n̂)])",
+    "modern_name": "Gauss's (1835, unpublished) fundamental electrodynamic force law; a velocity-dependent action-at-a-distance law, precursor of Weber's law",
+    "usually_credited_to": "C. F. Gauss, Nachlass of 1835, printed in Werke V (1867); Weber's 1846 law is the published counterpart",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Reduction of Ampère's force (modulo complete differentials, symmetrized) to a force quadratic in relative velocity, −(v² r − 2(r·v)v)/(2r³)",
+    "modern_name": "Derivation of Ampère's law from a velocity-dependent charge–charge force",
+    "usually_credited_to": "Gauss (1835, unpublished); Weber (1846, published)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's 1835 velocity-dependent electrodynamic law is well known from his Nachlass, printed in Werke V. This page gives a neat geometric (reflection) formulation of that known work, not a new result.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,a,b,c=symbols('x y z a b c',real=True); r=Matrix([x,y,z]); v=Matrix([a,b,c]); R=sqrt(x**2+y**2+z**2); V=sqrt(a**2+b**2+c**2); simplify(-(v.dot(v)*r-2*r.dot(v)*v)/(2*R**3) - (V**2/(2*R**2))*(2*(r.dot(v)/(R*V))*v/V - r/R))",
+    "asserts": "Previous-page force equals (v²/2r²) times the reflection of r̂ in v̂ (result is the zero vector)."
+   },
+   {
+    "sympy": "n1,n2,u1,u2=symbols('n1 n2 u1 u2',real=True); n=Matrix([n1,n2]); u=Matrix([u1,u2]); C=2*n.dot(u)*u-n; simplify((C.dot(C)-1).subs({n2:sqrt(1-n1**2),u2:sqrt(1-u1**2)}))",
+    "asserts": "The reflected direction EC is again a unit vector."
+   },
+   {
+    "sympy": "simplify((C.dot(u)-n.dot(u)).subs({n2:sqrt(1-n1**2),u2:sqrt(1-u1**2)}))",
+    "asserts": "EB bisects EA and EC: angle(EC,EB) = angle(EA,EB) (result 0)."
+   },
+   {
+    "sympy": "t=symbols('t'); n=Matrix([1,0]); u=Matrix([cos(t),sin(t)]); C=2*n.dot(u)*u-n; simplify(C - Matrix([cos(2*t),sin(2*t)]))",
+    "asserts": "The extra force has radial component cos 2θ and transverse component sin 2θ (result is the zero vector)."
+   },
+   {
+    "sympy": "x,y,z,X,Y,Z,Xp,Yp,Zp=symbols('x y z xi eta zeta xip etap zetap'); al,be,ga=X-Xp,Y-Yp,Z-Zp; f=-(x*(al**2+be**2+ga**2)-2*al*(x*al+y*be+z*ga)); cross=expand(f-f.subs({Xp:0,Yp:0,Zp:0})-f.subs({X:0,Y:0,Z:0})); simplify(cross-2*(x*(-X*Xp+Y*Yp+Z*Zp)-y*(X*Yp+Y*Xp)-z*(X*Zp+Z*Xp)))",
+    "asserts": "The bilinear cross term of the velocity-squared force reproduces Gauss's symmetrized Ampère x-component, up to factor 2 (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'die nach eb mit der Stärke vv/kk eE wirkt' — correct reading. In the image 'eE' is written after the fraction, so the strength is (vv/kk)·eE.",
+   "'aeb = 180° − aeE' — correct; in the image the b carries an extra mark.",
+   "The words '[-vermöge der bekannten-]' are underlined/struck through in the manuscript, consistent with deletion.",
+   "'Planum' is correctly read; 'Allgemein' is written with capital A.",
+   "Figure labels: in the upper figure a and b are arrowheads, e and E are small circles, and eb is dotted. In the lower figure EA is a solid arrow, EB a solid line and EC a dotted arrow."
+  ]
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "bundle": "R.Aether",
+ "page": "c014",
+ "label": "8r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234777:00000015/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): Riemann models the light-ether as an incompressible medium. Its velocity field is v = (η1', η2', η3') at spatial points η = (η1, η2, η3). For light alone each component satisfies the wave equation, together with incompressibility. The page continues an ether theory closely related to the Nachlass fragment 'Gravitation und Licht' printed in Riemann's Werke.\n\nStep 1 (superposition hypothesis, 'zu Anfang gemachte Voraussetzung'). The actual velocity v is the resultant (sum) v = a + b of two fields.\n(i) The gravitational part a satisfies div a = 0 and curl a = 0, written componentwise as ∂a2/∂η3 − ∂a3/∂η2 = 0 and its two companions. It is solenoidal and irrotational. Locally a = grad V with ΔV = 0. This is my gloss, but it is confirmed on the next page: ∂V/∂η_i = η_i', ΔV = 0.\n(ii) The light part b satisfies div b = 0 and □ b = 0, where □ := c²(∂1² + ∂2² + ∂3²) − ∂t² acts componentwise.\n\nStep 2. The actual field v = a + b therefore satisfies:\n- div v = 0;\n- □ (curl v)_k = 0 for k = 1, 2, 3.\nThe proof is 'leicht, wenn man die Operationen ausführt' [proof filled in by me]. □ commutes with curl. So □ curl v = □ curl a + curl □ b = □ 0 + curl 0 = 0.\n\nStep 3 (reformulation). Since □ commutes with curl, □ curl v = 0 is equivalent to curl(□ v) = 0. Hence (locally, on a simply connected region) □ v = X := grad U, i.e. dU = X1 dη1 + X2 dη2 + X3 dη3.\n\nStep 4 (variational form). The system div v = 0, □ v = grad U is restated as div v = 0 together with ∫ (X1 δη1' + X2 δη2' + X3 δη3') dη1 dη2 dη3 = 0 for all variations δv with div δv = 0.\nThe next page justifies this with a Lagrange multiplier λ. Integrating by parts gives ∫ λ div δv = −∫ grad λ · δv. Hence X = grad λ, i.e. dλ = X·dη. This is the classical fact that a field orthogonal (in L²) to all divergence-free fields is a gradient (Helmholtz/Weyl decomposition).\n\nPurpose. The page derives a single field equation for the combined gravity-plus-light motion of the ether. On the next page this leads to X = ∂t² grad V, so U is tied to ∂t² V.",
+  "errors": [
+   "Only the direction 'decomposition ⇒ equations' is actually shown. The converse (every v with div v = 0 and □ curl v = 0 splits as a + b) is asserted implicitly without proof. It does hold up to gauge/constant issues: ΔU = div □ v = □ div v = 0, so one can take V harmonic with −∂t² V = U.",
+   "Passing from curl(□v) = 0 to □v = grad U tacitly assumes a simply connected domain.",
+   "In the manuscript the last of the four light equations appears to read '(cc(...)+∂t²)η3' = 0'. The sign of ∂t² is a slip; it should be −∂t², as in the other equations.",
+   "In the final integral the manuscript writes 'X3 δx3'' (or dx3') instead of δη3', a slip of the pen.",
+   "(Next page, for context.) With a = grad V and ΔV = 0 one gets □a = −∂t² a. So X = □v should equal −∂t² η' rather than +∂t² η' as written there; this is a sign issue, not on this page."
+  ],
+  "results": [
+   {
+    "what": "The ether velocity is split into an irrotational, solenoidal (harmonic-gradient) gravitational part plus a solenoidal part satisfying the wave equation (light). The combined field equations are div v = 0 and □ curl v = 0.",
+    "modern_name": "Helmholtz-type decomposition of a velocity field; wave equation for vorticity",
+    "usually_credited_to": "Stokes (1849), Helmholtz (1858) for decomposition; the ether model itself is Riemann's (Werke, 'Gravitation und Licht', publ. 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "□ curl v = 0 is equivalent to □ v = grad U.",
+    "modern_name": "Commutation of the d'Alembertian with curl; Poincaré lemma (curl-free ⇒ gradient)",
+    "usually_credited_to": "classical (18th–19th c.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Variational formulation: ∫ X·δv = 0 for all divergence-free δv implies X = grad λ, via a Lagrange multiplier.",
+    "modern_name": "Orthogonality of gradients and solenoidal fields (Helmholtz–Weyl decomposition); Lagrange multiplier for incompressibility (pressure)",
+    "usually_credited_to": "Lagrange (Mécanique analytique, 1788) for multiplier/pressure; Weyl (1940) for the L² decomposition",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is part of Riemann's known speculative ether theory of gravitation and light, published in substance from the Nachlass in the Werke. The vector-analytic steps (superposition, commuting □ with curl, multiplier argument) are routine for the period.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,t,c=symbols('x y z t c'); V=(x**2-y**2)*t**2; a=[diff(V,x),diff(V,y),diff(V,z)]; b=[0,sin(x-c*t),0]; v=[a[i]+b[i] for i in range(3)]; simplify(diff(v[0],x)+diff(v[1],y)+diff(v[2],z))",
+    "asserts": "div v = 0 for v = grad V (V spatially harmonic) plus a transverse plane wave (expected 0)."
+   },
+   {
+    "sympy": "box=lambda f: c**2*(diff(f,x,2)+diff(f,y,2)+diff(f,z,2))-diff(f,t,2); curl=[diff(v[2],y)-diff(v[1],z), diff(v[0],z)-diff(v[2],x), diff(v[1],x)-diff(v[0],y)]; [simplify(box(w)) for w in curl]",
+    "asserts": "□ applied to each component of curl v vanishes (expected [0,0,0])."
+   },
+   {
+    "sympy": "X=[simplify(box(w)) for w in v]; [simplify(diff(X[2],y)-diff(X[1],z)), simplify(diff(X[0],z)-diff(X[2],x)), simplify(diff(X[1],x)-diff(X[0],y))]",
+    "asserts": "X = □v is curl-free, so X = grad U (expected [0,0,0])."
+   },
+   {
+    "sympy": "simplify(X[0] - (-diff(a[0],t,2)))",
+    "asserts": "For the gravitational part, □a = −∂t² a (expected 0); shows the sign of X relative to ∂t²η' used on the next page."
+   },
+   {
+    "sympy": "lam=Function('lam')(x,y,z); d=[Function('d%d'%i)(x,y,z) for i in range(3)]; simplify(diff(lam*d[0],x)+diff(lam*d[1],y)+diff(lam*d[2],z) - (lam*(diff(d[0],x)+diff(d[1],y)+diff(d[2],z)) + diff(lam,x)*d[0]+diff(lam,y)*d[1]+diff(lam,z)*d[2]))",
+    "asserts": "Product rule behind the integration by parts λ div δv = div(λ δv) − grad λ·δv (expected 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2-3: 'resultirt also die Geschwindigkeit η1',η2',η3' als Resultante' – the image reads roughly 'einer Resultante'/'als Resultante'; meaning: the actual velocity is the resultant of two component velocities.",
+   "Fourth light equation: the image shows '+∂t²' (apparent slip) rather than '−∂t²' in (cc(...)±∂t²)η3' = 0.",
+   "In dU = X1 dη1 + X2 dη2 + X3 dη3, the X2 is written over a correction in the manuscript.",
+   "Final integral: the manuscript has 'X3 δx3'' (slip) where δη3' is meant; the variations are written with a δ/∂-like symbol."
+  ]
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c013",
+ "label": "7v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000014/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a printed (proof) page of Riemann's posthumous essay 'Mechanik des Ohres' (published 1867 by Henle, Zeitschrift für rationelle Medicin), with a few handwritten marks. The previous page argues that the tensor tympani must hold the stapes against the oval-window membrane at a fixed working pressure. It adds that the eardrum's tension must stay high enough that only a small part of the incoming wave's mechanical energy is lost to the air in the tympanic cavity. This page justifies that claim. It does so qualitatively, with no formulas on the page.\n\n(A) Membrane in free air struck by a sound wave. Riemann says three effects arise: membrane vibration, a reflected wave and a transmitted ('gebrochene') wave. How the wave's energy is split among them depends on the membrane's tension.\n- Small tension: vibration and reflection are weak, and the wave passes almost unchanged.\n- Large tension: membrane excursions are small compared with the air-particle excursions in the incident wave. The membrane then imparts only small motions to the air behind it, so it changes the rear pressure only slightly. Almost the whole pressure change on the front side is taken up by the membrane's elastic tension. In free air a reflected wave also arises.\n\nModern reconstruction (mine, not on the page). Treat the membrane as a locally reacting partition with stiffness K and mass m per unit area. Air on both sides has impedance Z = rho*c, and time dependence is exp(i*w*t).\n- Continuity of velocity: (p_i - p_r)/Z = v = p_t/Z.\n- Equation of motion: p_i + p_r - p_t = z_m*v, with z_m = K/(i*w) + i*w*m.\n- Solving gives v = 2*p_i/(2Z + z_m) and p_t/p_i = 2Z/(2Z + z_m).\n- The energy transmission coefficient is |2Z/(2Z + z_m)|^2.\n- As K, m -> 0 this tends to 1 (wave passes unchanged).\n- As K -> infinity it tends to 0. Then p_r -> p_i, so the pressure difference across the membrane is about 2*p_i: the whole front-side pressure change is borne by the membrane's elastic force.\n\nThis matches Riemann's verbal statements and serves his goal. A stiff (stiffness-controlled) eardrum loses little energy to the middle-ear air, so the energy goes into the ossicular chain instead.\n\n(B) Second paragraph: ossicular kinematics. It begins with 'also', which suggests a preceding argument not visible on this page. The position of the lenticular process relative to the oval window cannot stay fixed. However, rotation of the incus about its suspension point ('Paukengelenk') can make the lenticular process move only parallel to the long axis of the oval window. Then a rotation of the stapes about the centre of the incudostapedial joint surface is needed only in that one direction to keep the footplate in place.\n\nThe stapedius muscle supplies a voluntary rotation only in that direction, not in the perpendicular one. Riemann therefore conjectures that the perpendicular control is unnecessary because the joint knob is held permanently at the same height. This is a kinematic-constraint (degrees-of-freedom) argument.\n\n(C) Section VI: statics of the malleus. The tensor tympani tendon's pull is partly balanced by the attachment of the manubrium in the eardrum and of the eardrum in the sulcus tympanicus. Citing v. Tröltsch and Gerlach, the drum's attachment to the manubrium reaches only slightly above the tendon's insertion point. Moreover, the upper end of that attachment lies higher than the ends of the sulcus.\n\nHence the sulcus attachment alone cannot balance the muscle. Equilibrium of the malleus requires an equal and opposite torque acting on the part above the insertion point, opposing the moment on the handle below. The next page continues with candidate sources of this torque.",
+  "errors": [
+   "No mathematical errors. The argument is qualitative and consistent with the modern impedance treatment of a stiffness-controlled partition.",
+   "The paragraph beginning 'Die Lage des Linsenbeines ... kann also nicht unverändert bleiben' follows abruptly after the membrane discussion. Its premise ('also') is not stated on this page, which suggests an omission or reordering in the printed text. It is not a logical error by Riemann as such.",
+   "'Gebrochene' (refracted) for the transmitted wave is loose terminology at normal incidence, but the meaning is clear."
+  ],
+  "results": [
+   {
+    "what": "Qualitative energy partition of a sound wave hitting a tensioned membrane: low tension gives near-total transmission; high tension gives small transmission, strong reflection, and the pressure difference taken up by membrane elasticity",
+    "modern_name": "Transmission/reflection through a stiffness-controlled partition (acoustic impedance mismatch, mass/stiffness law)",
+    "usually_credited_to": "Standard acoustics; formalized by Rayleigh (Theory of Sound, 1877-78) and earlier wave-optics/acoustics analogies (Poisson, Green, Stokes)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Kinematic argument that incus rotation keeps the lenticular process moving only along the long axis of the oval window, so that the stapedius controls the only needed degree of freedom",
+    "modern_name": "Ossicular chain kinematics / degree-of-freedom constraint argument",
+    "usually_credited_to": "Helmholtz (Die Mechanik der Gehörknöchelchen, 1868) and Riemann's posthumous 'Mechanik des Ohres' (1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Torque balance of the malleus: the sulcus attachment of the eardrum cannot by itself balance the tensor tympani, so a counter-moment above the insertion point is needed",
+    "modern_name": "Static moment equilibrium of the malleus",
+    "usually_credited_to": "Riemann, Mechanik des Ohres (1867); related discussion in Helmholtz 1868",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a page of Riemann's known, published posthumous essay 'Mechanik des Ohres'. The acoustic reasoning is qualitative and standard. It is already attributed to him and has been discussed (e.g. in relation to Helmholtz).",
+  "checkable": [
+   {
+    "sympy": "Z,K,m,w,p=symbols('Z K m w p',positive=True); zm=K/(I*w)+I*w*m; v=2*p/(2*Z+zm); simplify((p-(p-Z*v))/Z - v)==0",
+    "asserts": "Velocity continuity holds on the front side with p_r = p_i - Z*v (consistency of the solution)."
+   },
+   {
+    "sympy": "Z,K,m,w=symbols('Z K m w',positive=True); t=2*Z/(2*Z+K/(I*w)+I*w*m); limit(limit(Abs(t)**2,K,0),m,0)==1",
+    "asserts": "With vanishing tension (and mass) the wave is transmitted unchanged."
+   },
+   {
+    "sympy": "Z,K,m,w=symbols('Z K m w',positive=True); t=2*Z/(2*Z+K/(I*w)+I*w*m); limit(Abs(t)**2,K,oo)==0",
+    "asserts": "With very high tension almost no energy is transmitted to the rear air."
+   },
+   {
+    "sympy": "Z,K,w=symbols('Z K w',positive=True); r=1-2*Z/(2*Z+K/(I*w)); limit(r,K,oo)==1",
+    "asserts": "In the high-stiffness limit the reflected pressure equals the incident pressure, so the pressure difference across the membrane is about 2*p_i (borne by membrane tension)."
+   },
+   {
+    "sympy": "Z,K,w=symbols('Z K w',positive=True); t=2*Z/(2*Z+K/(I*w)); simplify(Abs(t)**2 - 1/(1+(K/(2*Z*w))**2))==0",
+    "asserts": "Energy transmission coefficient of a massless stiffness-controlled membrane is 1/(1+(K/(2 Z w))^2)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'auf diese 3 Wirkungen': the printed numeral '3' carries a handwritten correction mark, and the left margin has a pencil note reading 'drei' (instruction to spell out the number). It is not an inserted '3'.",
+   "In 'und es geht die Schallwelle', the 'd' of 'und' carries a handwritten mark; the text otherwise matches the image.",
+   "The page is a printed proof (page number 14), not a manuscript; the rest of the transcription matches the image."
+  ]
+ }
+}

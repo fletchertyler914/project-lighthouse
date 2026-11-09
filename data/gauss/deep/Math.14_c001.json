@@ -1,0 +1,65 @@
+{
+ "bundle": "Math.14",
+ "page": "c001",
+ "label": "1v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376636:00000002/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Below, coordinates are read off the image in grid units, with x to the right, y downward, and the origin at the upper-left black vertex A. The cross spacing is about 57.4 px. The reading of the drawing's purpose is mine.\n\nBlack triangle\n- Vertices, each marked by a small circle:\n  - A = (0,0), at pixel (95,203);\n  - B = (14.5, 7.5), at about (928,627), the centre of a grid square;\n  - C = (7, 22), at about (506,1455).\n- Written as complex numbers, C - A = 7+22i, which is exactly the heading on the page.\n- B - A = 14.5+7.5i = (7+22i)(1-i)/2.\n- So the black triangle is T = {0, m, m(1-i)/2} with m = 7+22i.\n- It is an isosceles right triangle with hypotenuse 0..m and its right angle at m(1-i)/2. Both legs have length |m|/sqrt(2), and (1-i) is perpendicular to (1+i).\n- If y is read upward instead, the same figure is {0, m, m(1+i)/2} with m = 7-22i. Gauss's label suggests he used y downward, or the conjugate; this does not matter.\n- T is one quarter of the residue square {0, m, (1±i)m, ±im} of area N(m) = 533. It consists of two adjacent corners plus the centre of that square.\n- The small sketch at upper right shows exactly this: a tilted square with lines from two adjacent corners to the centre. The previous page (folio 1r) draws the full tilted residue square.\n- Rotations by i about the centre carry T to the other three quarters. So T is a fundamental domain for the action of the units {1, i, -1, -i} on residues mod m.\n- Its area is N/4 = 133.25, matching the (N-1)/4 = 133 elements of a 'quarter system' of residues. This is the Gaussian-integer analogue of the half-system 1..(p-1)/2 in Gauss's lemma.\n\nThe lattice\n- Lattice points are drawn alternately as crosses '+' and dots, in a checkerboard pattern.\n- This apparently separates the classes mod (1+i): crosses are where (x - x_A) + (y - y_A) is even.\n- C = A + m lies on a dot, since 7+22 is odd, i.e. m is not divisible by 1+i.\n\nRed triangle\n- Its vertices are marked with a circled cross: (1,0), (15.5, 7.5) and (8, 22).\n- It is the black triangle translated by +1, i.e. T+1.\n- The small numbers written along the edges (black: 5, 3, 1 on the upper side; red: 1 2 2 3 4 5 6 on the left and 6 4 2 on the right; black: 2 2 6 near the lower right) seem to number or count the lattice points in the strips where T and T+1 differ.\n- Two extra circled marks lie near (15,7) and just below C.\n\nModulus\n- m = 7+22i = (3+2i)(5+4i), with N = 13·41 = 533, so m is not a Gaussian prime.\n- 3+2i also appears on folio 1r. This suggests Gauss was testing a lattice-point (Gauss-lemma / Eisenstein-type) count of a biquadratic character for a composite modulus.\n- No computation is written out on the page. The exact quantity being counted is not certain.",
+  "errors": [
+   "No computational errors can be checked, because the page is a drawing with tally marks.",
+   "The geometry is accurate: B and C fall on the predicted points m(1-i)/2 and m to within drawing precision, and the red triangle is an exact unit translate.",
+   "The heading 7+22i matches the drawing only if y increases downward (otherwise it is 7-22i). This is an orientation convention, not an error."
+  ],
+  "results": [
+   {
+    "what": "Quarter of the residue square mod a Gaussian integer m, i.e. the triangle 0, m, m(1±i)/2, drawn on the lattice as a fundamental domain for multiplication by units (a quarter system of residues).",
+    "modern_name": "Fundamental domain for Z[i]/(m) modulo units; biquadratic analogue of the half-system in Gauss's lemma",
+    "usually_credited_to": "Gauss (Theoria residuorum biquadraticorum II, 1832, for quarter systems); lattice-point proofs later by Eisenstein",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Comparison of the lattice points in T and in its translate T+1, with crosses and dots distinguishing classes mod (1+i), apparently as a lattice-point count toward a biquadratic character for m = (3+2i)(5+4i).",
+    "modern_name": "Lattice-point counting proof of a Gauss-lemma-type criterion for the quartic residue symbol (Jacobi-type symbol for a composite modulus)",
+    "usually_credited_to": "Eisenstein (1844) for geometric/lattice proofs in quartic reciprocity; Gauss's Nachlass contains related material",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's lattice-geometric treatment of biquadratic residues and quarter systems is known from his 1832 paper and the Nachlass. This page adds a concrete worked figure, apparently for a composite modulus, but contains no explicit new result.",
+  "checkable": [
+   {
+    "sympy": "expand((7+22*I)*(1-I)/2) == Rational(29,2)+Rational(15,2)*I",
+    "asserts": "The right-angle vertex B - A = (14.5, 7.5) equals m(1-i)/2 for m = 7+22i."
+   },
+   {
+    "sympy": "expand((3+2*I)*(5+4*I)) == 7+22*I",
+    "asserts": "The modulus factors as (3+2i)(5+4i)."
+   },
+   {
+    "sympy": "7**2+22**2 == 533 and factorint(533) == {13:1, 41:1}",
+    "asserts": "The norm is 533 = 13*41."
+   },
+   {
+    "sympy": "simplify(abs((7+22*I)*(1-I)/2) - abs((7+22*I) - (7+22*I)*(1-I)/2)) == 0",
+    "asserts": "The triangle is isosceles at the vertex m(1-i)/2."
+   },
+   {
+    "sympy": "re(((7+22*I)*(1-I)/2) * conjugate((7+22*I)*(1+I)/2)) == 0",
+    "asserts": "The two legs from the right-angle vertex are perpendicular."
+   },
+   {
+    "sympy": "Rational(1,2)*abs(Matrix([[0,0,1],[7,22,1],[Rational(29,2),Rational(15,2),1]]).det()) == Rational(533,4)",
+    "asserts": "The triangle has area N(m)/4 = 133.25, consistent with a quarter system of (533-1)/4 = 133 residues."
+   }
+  ],
+  "transcription_corrections": [
+   "The heading is '7+22i' (written vertically at upper right); it equals the vector from the upper-left black vertex to the bottom black vertex.",
+   "The black triangle's vertices are 0, m(1-i)/2, m with m = 7+22i (y downward). The red triangle is its translate by +1, not an independent triangle.",
+   "The upper-right sketch is a tilted square with two lines from adjacent corners to the centre, i.e. the quarter-triangle inside the residue square, rather than a 'square with inscribed triangle' in general.",
+   "The edge numbers are uncertain. The upper black side reads 5, 3, 1 (red ink near the black line); the left red side shows 1 2 2 3 4 5 6 with interspersed small letters/numerals; the right red side reads roughly 6, 4, 2."
+  ]
+ }
+}

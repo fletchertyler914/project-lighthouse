@@ -1,0 +1,58 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c104",
+ "label": "52r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000105/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. The sheet is a receipted hotel bill: Hôtel de Russie, Hannover, proprietor Julius Meese, made out to Herr Dr. Riemann aus Göttingen for 17–18 April 1855. Riemann later reused the blank space for pencil calculations, written both upright and upside down. The next folio shows the purpose. It treats the Lamé-type equation in ellipsoidal coordinates, ∂²u/∂e² = (g²λ²+aλ+b)u, with dλ/de = Θ(λ)^{1/2} and Θ a cubic. It also tries a Laplace-integral representation u = ∫ e^{-xs} v ds. The g²λ² term marks a Helmholtz/wave-type separated equation (an ellipsoidal wave equation) with a parameter g.\n\nUPRIGHT PENCIL DERIVATION.\n(1) Riemann writes v² + ∂v/∂e = g²ψ(λ)². With v = u_e/u (my insertion) this is the Riccati form of u_ee = g²ψ(λ)² u. Here ψ(λ)² plays the role of (g²λ²+aλ+b)/g², so ψ(λ) ≈ λ for large g.\n(2) He splits off the leading term for large g: v = gψ(λ) + v₁.\n(3) Substituting gives v² = g²ψ² + 2gψv₁ + v₁². Also ∂v/∂e = gψ'(λ)λ_e + ∂v₁/∂e. The g²ψ² terms cancel, leaving 2gψ(λ)v₁ + v₁² + ∂v₁/∂e + gψ'(λ)∂λ/∂e (= 0, which he leaves implicit).\n(4) Keeping only the O(g) terms gives v₁ = −½ (ψ'(λ)/ψ(λ)) ∂λ/∂e, i.e. v₁ = −½ d/de log ψ(λ). The neglected terms v₁² + v₁' are O(1).\n(5) Implicit consequence (mine): u ≈ ψ(λ)^{-1/2} exp(g∫ψ(λ) de). This is the leading Liouville–Green/WKB approximation for large g. Successive corrections v₂, v₃, … would follow by iterating the same step, giving an asymptotic series in 1/g.\n\nUPSIDE-DOWN PENCIL. Largely illegible. Visible are:\n- logarithmic expressions (log g, log q, π);\n- an integral of the form ∫ e^{xu}(…)du, consistent with the Laplace-transform approach on the next page;\n- a series Σ (−1)^n q^n …/(…);\n- small geometric sketches with numerical labels.\nNothing reliably reconstructible.\n\nBILL ARITHMETIC. The items are 14+15+7+10+5+6+10+4 = 71 ggr. At 24 Gutegroschen per Thaler this is 2 Th 23 ggr, matching the stated total.",
+  "errors": [
+   "Line 3 lacks '= 0'; it is clearly meant as an equation.",
+   "Step 4 is written as an equality but is only the leading-order asymptotic solution. Dropping v₁² + ∂v₁/∂e is justified only for large g. It is an approximation, not an exact solution of the Riccati equation.",
+   "No arithmetic errors detected in the hotel bill total (71 ggr = 2 Th 23 ggr)."
+  ],
+  "results": [
+   {
+    "what": "Riccati reduction v = u'/u and large-parameter splitting v = gψ + v₁, giving the first correction v₁ = −½ ψ'/ψ · λ_e, i.e. u ~ ψ^{-1/2} exp(g∫ψ de)",
+    "modern_name": "Liouville–Green (WKB) approximation for a second-order ODE with large parameter, in Riccati form",
+    "usually_credited_to": "Carlini (1817), Liouville and Green (1837); later Jeffreys (1924), Wentzel–Kramers–Brillouin (1926)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Application to the separated (Lamé/ellipsoidal-wave type) equation u_ee = (g²λ²+aλ+b)u with dλ/de = √Θ(λ)",
+    "modern_name": "Asymptotics of ellipsoidal wave functions / Lamé equation for large parameter",
+    "usually_credited_to": "Later work on ellipsoidal and spheroidal wave functions (e.g. Möglich, Strutt, Arscott, 20th century)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The technique itself (Liouville–Green) was known by 1837, so the method is not new. Still, a dated (April 1855) unpublished instance of Riemann applying a systematic large-parameter Riccati/WKB expansion to an ellipsoidal wave-type Lamé equation is a notable detail. It fits his later known asymptotic work (saddle point, Riemann–Siegel) and is not, to my knowledge, documented.",
+  "checkable": [
+   {
+    "sympy": "g,e=symbols('g e'); lam=Function('lam')(e); psi=Function('psi'); v1=Function('v1')(e); v=g*psi(lam)+v1; expand(v**2+diff(v,e)-g**2*psi(lam)**2 - (2*g*psi(lam)*v1+v1**2+diff(v1,e)+g*diff(psi(lam),e)))",
+    "asserts": "Substituting v = gψ(λ)+v₁ into v²+v' = g²ψ² yields exactly 2gψv₁+v₁²+v₁'+gψ'(λ)λ_e (difference simplifies to 0)."
+   },
+   {
+    "sympy": "g,e=symbols('g e'); lam=Function('lam')(e); psi=Function('psi'); v1=-Rational(1,2)*diff(psi(lam),e)/psi(lam); simplify(2*g*psi(lam)*v1+g*diff(psi(lam),e))",
+    "asserts": "The choice v₁ = −½ψ'λ_e/ψ cancels all O(g) terms (result 0)."
+   },
+   {
+    "sympy": "e,g=symbols('e g'); P=Function('P')(e); u=P**Rational(-1,2)*exp(g*Integral(P,e)); simplify((diff(u,e)/u) - (g*P - Rational(1,2)*diff(P,e)/P))",
+    "asserts": "u = ψ^{-1/2}exp(g∫ψ) has logarithmic derivative gψ + v₁ (result 0)."
+   },
+   {
+    "sympy": "14+15+7+10+5+6+10+4 == 2*24+23",
+    "asserts": "Bill items sum to 71 Gutegroschen = 2 Thaler 23 ggr."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3 of the upright formulas should end with '= 0' (implicit in manuscript).",
+   "'Rhwein' is the abbreviation for Rheinwein; 'Forster' is the Pfalz wine (Forster); 'Th' is the Thaler sign.",
+   "'1 Portkaffee[?]' is uncertain; the image suggests '1 Portion Kaffee' or similar with a further item ('Brod'?). '1 Mittag[?]' is probably 'Mittagessen'.",
+   "The upper-right annotation after 'Julius Meese' is uncertain ('Schafgraben[?]'), likely a printed or handwritten address and not mathematics.",
+   "Folio number 52 appears at upper right margin; date reads 'Hannover 1855' with April 17–18 entries."
+  ]
+ }
+}

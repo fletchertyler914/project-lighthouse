@@ -1,0 +1,69 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c013",
+ "label": "[8]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000014/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. On the previous page Gauss derived series (5), cos of the n-fold arc Y in terms of the cosine of the simple arc y:\nY = cos(n t) = 2^(n-1) y^n - n 2^(n-3) y^(n-2) + n(n-3)/2 * 2^(n-5) y^(n-4) - n(n-4)(n-5)/6 * 2^(n-7) y^(n-6) + ...\nIn general form (my notation), Y = sum_k (-1)^k n/(n-k) C(n-k,k) 2^(n-2k-1) y^(n-2k), with y = cos t. The series stops at the term in y^0 (n even) or y^1 (n odd). In modern terms this is cos(n t) = T_n(cos t), with T_n the Chebyshev polynomial.\n\nArt. 8 (Zusatz). Let x = sin B. Then x = cos(B - 90°), so (5) with t = B - 90° gives cos n(B-90°) = T_n(x). Since cos n(B-90°) = cos(nB - n·90°), it depends on n mod 4:\n- n ≡ 0: cos nB\n- n ≡ 1: sin nB\n- n ≡ 2: -cos nB\n- n ≡ 3: -sin nB\n\nHence the same polynomial in x = sin B gives:\n- for even n: (-1)^(n/2) cos nB = T_n(sin B);\n- for odd n: (-1)^((n-1)/2) sin nB = T_n(sin B).\n\nGauss remarks that these expressions coincide with his earlier series (1), (2). Those are presumably the classical Newton/Viète-type expansions of cos nB and sin nB in powers of sin B, written in ascending powers. The present ones are written in descending powers, i.e. the terms appear in reversed order.\n\nArt. 9. Differentiate (5) with respect to the angle t (implicit step, mine):\n- d/dt cos nt = -n sin nt;\n- d/dt T_n(cos t) = -sin t · T_n'(cos t).\nHence sin nt = sin t · T_n'(cos t)/n = sin t · U_{n-1}(cos t). This is the sine of the multiple angle as a polynomial in the cosine of the simple angle, times the single factor sin t.\n\nNow apply the substitution of art. 8, t = B - 90°. Then sin t = -cos B, and sin n(B-90°) = sin(nB - n·90°) takes the values sin nB, -cos nB, -sin nB, cos nB for n ≡ 0, 1, 2, 3 (mod 4). So:\n- for even n, sin nB = (-1)^(n/2+1) cos B · U_{n-1}(sin B);\n- for odd n, cos nB = (-1)^((n+1)/2) cos B · U_{n-1}(sin B).\n\nThus sin nB (n even) and cos nB (n odd) are expressed through sin B, with cos B as a single factor. Gauss states these agree with his earlier series (3), (4).\n\nPurpose: a systematic, unified derivation of all the classical multiple-angle expansions from the single 'fourth problem' series (5) (part of a sheet titled 'Litt. B').",
+  "errors": [
+   "No mathematical errors. The mod-4 table is correct: cos(nB - n·90°) = cos nB, sin nB, -cos nB, -sin nB for n ≡ 0, 1, 2, 3.",
+   "Art. 9 omits the sign changes from sin(B-90°) = -cos B and from the mod-4 cycle of sin(nB - n·90°). These are left implicit ('eben so'), but are easily supplied and correct.",
+   "Notational slip: the closing parenthesis is missing in 'cos(B-90°'."
+  ],
+  "results": [
+   {
+    "what": "cos nt expressed as polynomial in cos t (series (5)), reused via t = B - 90° to give cos nB (n even) / sin nB (n odd) as polynomials in sin B",
+    "modern_name": "Chebyshev polynomials T_n; multiple-angle formulas; T_n(sin B) = ±cos nB or ±sin nB",
+    "usually_credited_to": "Viète (c.1590s), Newton (1676), Jacob Bernoulli, Euler, Lagrange; Chebyshev polynomials as such Chebyshev 1854",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Differentiating the cos-series to get sin nt = sin t · (polynomial in cos t), then the same substitution for sin nB (n even) / cos nB (n odd) in sin B with factor cos B",
+    "modern_name": "Chebyshev polynomials of the second kind U_{n-1} = T_n'/n",
+    "usually_credited_to": "Euler / Lagrange (18th century); U_n named after Chebyshev",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Standard 18th-century multiple-angle expansions, derived neatly but routinely. Only the organized unification via the B - 90° substitution and differentiation is a small expository detail.",
+  "checkable": [
+   {
+    "sympy": "simplify(expand_trig(cos(5*(B - pi/2)) - sin(5*B)))",
+    "asserts": "n≡1 mod 4: cos n(B-90°) = sin nB (result 0)"
+   },
+   {
+    "sympy": "simplify(expand_trig(chebyshevt(6, sin(B)) + cos(6*B)))",
+    "asserts": "n=6≡2: T_6(sin B) = -cos 6B (result 0)"
+   },
+   {
+    "sympy": "simplify(expand_trig(chebyshevt(7, sin(B)) + sin(7*B)))",
+    "asserts": "n=7≡3: T_7(sin B) = -sin 7B (result 0)"
+   },
+   {
+    "sympy": "expand(sum((-1)**k*Rational(6,6-k)*binomial(6-k,k)*2**(6-2*k-1)*y**(6-2*k) for k in range(4)) - chebyshevt(6,y))",
+    "asserts": "series (5) for n=6 equals T_6 (result 0)"
+   },
+   {
+    "sympy": "simplify(expand_trig(sin(5*t) - sin(t)*diff(chebyshevt(5,y),y).subs(y,cos(t))/5))",
+    "asserts": "art. 9: sin nt = sin t · T_n'(cos t)/n (result 0)"
+   },
+   {
+    "sympy": "simplify(expand_trig(sin(4*B) + cos(B)*chebyshevu(3, sin(B))))",
+    "asserts": "n=4: sin 4B = -cos B · U_3(sin B) (result 0)"
+   },
+   {
+    "sympy": "simplify(expand_trig(cos(3*B) + cos(B)*chebyshevu(2, sin(B))))",
+    "asserts": "n=3: cos 3B = -cos B · U_2(sin B) (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: the image reads 'x = cos(B-90°' with a missing closing parenthesis (the small mark after x is not an exponent); likewise 'cos n(B-90°)'.",
+   "'je nachem' is written above the struck-out 'je nachem' (interlinear rewrite): correct as transcribed.",
+   "'umgekehrter': the image shows a struck/overwritten prefix, so the intended reading is 'umgekehrter' (possibly corrected from 'verkehrter').",
+   "Art. 8 table: the ':' before 'cos nB' in row 0 is a stray dot, not part of the formula."
+  ]
+ }
+}

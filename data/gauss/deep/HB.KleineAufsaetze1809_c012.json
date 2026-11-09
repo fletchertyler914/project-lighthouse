@@ -1,0 +1,60 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c012",
+ "label": "3",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "WHAT THE TABLE IS (my identification; the page has no text). Folio 3 continues the table of folios 2 and 4. It lists three 4-digit quantities x, y, z, with their signs in the column heads, against an integer argument running 160–240 here (80–320 over the three folios). The numbers fit the geocentric rectangular equatorial coordinates of the Sun, in units of 0.0001 of the mean Earth–Sun distance. The argument is the Sun's mean anomaly M in centesimal degrees (gon, 400 to the circle); equivalently, time in units of 1/400 anomalistic year.\n\nEvidence:\n(a) The ratio z/y is constant, about 0.4341, which is tan ε with ε ≈ 23°28' (the obliquity c.1809). Examples: 9325·0.4341 = 4048.0; 8411·0.4341 = 3651.2; 6627·0.4341 = 2876.8.\n(b) The radius sqrt(x²+y²+z²) peaks at M = 200: sqrt(1706²+9195²+3991²) ≈ 10168, i.e. R = 1+e with e ≈ 0.0168. That is aphelion at M = 180°.\n(c) The sign changes fall in the right places. y changes sign between 87 and 88 (vernal equinox, λ = 0). x changes sign between 188 and 189, which is the horizontal stroke on this page (solstice, λ = 90°). y changes sign again near 291.4 on folio 4 (autumnal equinox).\n(d) The quarter intervals are 101.3 and 102.5 units, longer than 100. That is exactly the slow summer motion of the Sun when the argument is mean anomaly in gon.\n\nRECONSTRUCTED COMPUTATION (implicit steps mine):\n1. M (gon) → M° = 0.9·M.\n2. Solve Kepler's equation E − e sin E = M.\n3. Find the true anomaly v from tan(v/2) = sqrt((1+e)/(1−e)) tan(E/2), and R = 1 − e cos E.\n4. Solar longitude λ = Π + v, where Π ≈ 279°39' is the longitude of the Sun's perigee. This is the correct value for the mean equinox of c.1809: 282.94° (2000) − 1.72°/century × 1.91 centuries ≈ 279.65°. Possibly aberration is applied as well.\n5. x = R cos λ, y = R sin λ cos ε, z = R sin λ sin ε.\n\nNumerical checks:\n- M = 100 (90°): v ≈ 91.92°, λ ≈ 11.58°, R ≈ 1.0003. This gives x ≈ .9799, y ≈ .1842, z ≈ .0800, as on folio 2.\n- M = 200: λ ≈ 99.66°, R = 1.0168. This gives x = −0.1706, y = 0.9195, z = 0.3991, exactly as tabulated.\n\nThe interpolated zero of x is at about M = 188.9 gon (true solstice), and y reaches its maximum 9325 there.\n\nPURPOSE (probable): a reusable, year-independent table of solar coordinates for reducing planetary and comet observations to heliocentric positions in orbit determination (cf. Theoria Motus, 1809). Arguing by mean anomaly removes the year; only the slow drift of Π and ε matters. The ± and − in the column heads record the sign regime of x (positive before the stroke at 188/189, negative after).",
+  "errors": [
+   "No genuine computational error found. Differences in all six columns are smooth; second differences are regular to within ±1 unit of rounding.",
+   "Minor irregularities, possibly rounding: right y column 8894, 8851, 8804 (first differences 43, 47); left y column 9296, 9307, 9314 (differences 11, 7). The z values agree with y·0.4341 in both cases, so these are at most 1-unit rounding effects, not slips.",
+   "Entry 201 z has an overwritten last digit. 3981 is confirmed by z = y·tan ε (9170·0.4341 = 3980.7) and by the differences."
+  ],
+  "results": [
+   {
+    "what": "Table of geocentric equatorial rectangular coordinates (x, y, z) of the Sun at 1-gon steps of mean anomaly, to 4 decimals of the AU, using e ≈ 0.0168, perigee longitude ≈ 279°39', obliquity ≈ 23°28'",
+    "modern_name": "Solar ephemeris in rectangular equatorial coordinates (X, Y, Z of the Sun), as later tabulated in nautical and astronomical almanacs",
+    "usually_credited_to": "Standard astronomical practice. Such tables were used in orbit computation c.1800 (Gauss, Olbers, Encke); Berliner Astronomisches Jahrbuch and later almanacs tabulated the Sun's X, Y, Z",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of mean anomaly in centesimal degrees (400-part circle) as argument, making the table independent of year",
+    "modern_name": "Tabulation by anomaly / decimal (grad) angular division",
+    "usually_credited_to": "Decimal division promoted in France in the 1790s (e.g. Borda, Delambre tables)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "A carefully computed auxiliary solar-coordinate table for orbit work is exactly what Gauss is known to have produced around 1809. The only mildly notable features are the centesimal-degree argument by mean anomaly and the 1809-accurate elements; neither is a new mathematical result.",
+  "checkable": [
+   {
+    "sympy": "abs(atan(Rational(4048,9325))*180/pi - 23.468) < 0.02",
+    "asserts": "z/y gives an obliquity of about 23°28' (entry 189)."
+   },
+   {
+    "sympy": "abs(sqrt(1706**2+9195**2+3991**2)/10000.0 - 1.0168) < 0.0003",
+    "asserts": "The radius vector at M = 200 gon equals the aphelion distance 1+e."
+   },
+   {
+    "sympy": "(lambda e,Pi,eps: [ (1+e)*cos(Pi+pi), (1+e)*sin(Pi+pi)*cos(eps), (1+e)*sin(Pi+pi)*sin(eps)])(0.01680, 279.66*pi/180, 23.465*pi/180)",
+    "asserts": "Evaluates numerically to about (-0.1706, 0.9195, 0.3991), the tabulated values at M = 200 gon."
+   },
+   {
+    "sympy": "E=nsolve(Symbol('E')-0.0168*sin(Symbol('E'))-0.9*188.9*pi/180, Symbol('E'), 3); v=2*atan(sqrt(1.0168/0.9832)*tan(E/2)); (279.66*pi/180+v)*180/pi - 360",
+    "asserts": "The zero of x at M ≈ 188.9 gon corresponds to solar longitude ≈ 90° (summer solstice)."
+   },
+   {
+    "sympy": "[abs(round(y*0.4341)-z)<=1 for (y,z) in [(8411,3651),(9325,4048),(9170,3981),(7716,3349),(6627,2877),(8851,3842)]]",
+    "asserts": "z = y·tan ε holds throughout the page to within 1 unit."
+   }
+  ],
+  "transcription_corrections": [
+   "Row 201, z: read 3981. The last digit is overwritten in the manuscript, but 3981 is confirmed by z = y·tan ε and by the differences.",
+   "Row 238, x: 6888 is correct (first differences 113, 112).",
+   "Row 189, x: the value 14 sits just below a horizontal stroke marking the sign change of x (positive above, negative below), and is to be read as −14."
+  ]
+ }
+}

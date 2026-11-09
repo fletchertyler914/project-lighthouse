@@ -1,0 +1,95 @@
+{
+ "bundle": "Math.17",
+ "page": "c012",
+ "label": "6r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376641:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table, not a derivation. For each prime p, written in the left column in descending order (653, 647, 643, 641, 631, 619, 617, 613), Gauss writes the full repeating period of the decimal expansion of 1/p in groups of ten digits. It continues the previous page (701 ... 659) and the next page (607 ... 577).\n\nConventions on the page:\n- The two leading zeros after the decimal point are omitted, so each row starts at the first significant digit. Write 1/p = 0.d1 d2 d3 ... with d1 = d2 = 0. The written string begins at d3.\n- Gauss continues past the end of the period until the beginning '001...' reappears. He underlines that repeated beginning (e.g. '8683001531', '7017001545', '81493001_55', '0015600624', '72900_15847', '27302100_16', '36304700_16', '0163132137' with a dot over the first 0) and then writes '...'.\n- If the written string has N digits (from d3 to d_{N+2}), the period length is the number of digits before the first significant digit recurs.\n\nPeriods reconstructed (my counts, all checked against the image):\n- p=653: 33 groups = 330 digits. The repeat '001531' starts at d327, so the period is 326 = (p-1)/2.\n- p=647: 65 groups = 650 digits. The repeat starts at d647, so the period is 646 = p-1 (10 is a primitive root mod 647).\n- p=643: 11 groups. The repeat starts at d108, so the period is 107 = (p-1)/6.\n- p=641: 4 groups. The repeat starts at d33, so the period is 32 = (p-1)/20. Equivalently 641 | 10^16 + 1.\n- p=631: 32 groups. The repeat starts at d316, so the period is 315 = (p-1)/2.\n- p=619: 62 groups. The repeat starts at d619, so the period is 618 = p-1 (10 is a primitive root).\n- p=617: 9 groups. The repeat starts at d89, so the period is 88 = (p-1)/7.\n- p=613: 6 groups. The repeat starts at d52, so the period is 51 = (p-1)/12.\n\nThese lengths agree with quadratic reciprocity (my check):\n- (10/p) = +1 for 653, 643, 641, 631, 613; the order divides (p-1)/2.\n- (10/p) = -1 for 647, 619, 617; the order does not divide (p-1)/2.\n\nThe computation is presumably long division, i.e. the successive remainders 10^k mod p. When the period is even (647, 619, 653), the midpoint check d_{k+L/2} = 9 - d_k is available, because 10^{L/2} ≡ -1 mod p.\n\nUsing that check for p=647 (my reconstruction):\n- Groups 29, 34 and 33's tail '998454404' match exactly.\n- The correct digits d293..d332 are 7820711073 7248840803 7094281998 2998454404.\n\nPurpose: this is part of Gauss's table for converting common fractions into decimals. With the period of 1/p, and a table of indices/residues, the expansion of any a/p is obtained by cyclically shifting the period of 1/p (Disquisitiones Arithmeticae arts. 312-318). The circled '(6)' and '44/6' are archival foliation.",
+  "errors": [
+   "p=647, 5th line: the written digits are disturbed. A scribbled/overwritten group '78207..1' is followed by '0973724884 0803709428 1298|2998454404'. Midpoint complementation (d_{k+323} = 9 - d_k) gives the true run d293..d332 = 7820711073 7248840803 7094281998 2998454404. So the ten-digit grouping slips on this line, with an apparent stray or corrected '9' and '1298' where '1998' is expected. This may be partly the transcriber's reading of a correction; the line is visibly corrected in the manuscript. Lines before and after are consistent with the complement check.",
+   "No other errors detected in the spot checks: leading digits of every row, all end-repeats and period lengths, and several complement checks for 647."
+  ],
+  "results": [
+   {
+    "what": "Full decimal periods of 1/p for p = 653, 647, 643, 641, 631, 619, 617, 613, with periods 326, 646, 107, 32, 315, 618, 88, 51",
+    "modern_name": "Period of the decimal expansion of 1/p; multiplicative order of 10 mod p (ord_p(10))",
+    "usually_credited_to": "Tables of reciprocal periods: J. H. Lambert, Gauss (Disq. Arith. 1801, art. 312-318, with the table published in Werke II), later Burckhardt, Reuschle, Shanks, Cunningham",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of the half-period complement property (for even period L, d_{k+L/2} = 9 - d_k) as a check",
+    "modern_name": "Midy's theorem",
+    "usually_credited_to": "E. Midy (1836); the property was known earlier, including to Gauss",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a page of Gauss's well-known table of decimal periods of 1/p for primes below 1000. The work is described in Disquisitiones Arithmeticae arts. 312-318, and his tables are printed in Werke II. It is pure computation with no new method or result.",
+  "checkable": [
+   {
+    "sympy": "n_order(10,653)==326",
+    "asserts": "period of 1/653 is 326"
+   },
+   {
+    "sympy": "n_order(10,647)==646",
+    "asserts": "10 is a primitive root mod 647; period 646"
+   },
+   {
+    "sympy": "n_order(10,643)==107",
+    "asserts": "period of 1/643 is 107"
+   },
+   {
+    "sympy": "n_order(10,641)==32",
+    "asserts": "period of 1/641 is 32"
+   },
+   {
+    "sympy": "n_order(10,631)==315",
+    "asserts": "period of 1/631 is 315"
+   },
+   {
+    "sympy": "n_order(10,619)==618",
+    "asserts": "10 is a primitive root mod 619"
+   },
+   {
+    "sympy": "n_order(10,617)==88",
+    "asserts": "period of 1/617 is 88"
+   },
+   {
+    "sympy": "n_order(10,613)==51",
+    "asserts": "period of 1/613 is 51"
+   },
+   {
+    "sympy": "(10**12)//653==1531393568",
+    "asserts": "first significant digits of 1/653"
+   },
+   {
+    "sympy": "(10**42)//641==15600624024960998439937597503900156006",
+    "asserts": "1/641 digits through d42; the period repeats after 32 digits"
+   },
+   {
+    "sympy": "((10**332)//647) % 10**40 == 7820711073724884080370942819982998454404",
+    "asserts": "correct digits d293..d332 of 1/647 (the disturbed line)"
+   },
+   {
+    "sympy": "((10**652)//647) % 10**10 == 7017001545",
+    "asserts": "final group written for 647 (d643..d652)"
+   },
+   {
+    "sympy": "((10**622)//619) % 10**10 == 2730210016",
+    "asserts": "final group written for 619"
+   },
+   {
+    "sympy": "((10**62)//613) % 10**10 == 163132137",
+    "asserts": "final group for 613 is 0163132137"
+   }
+  ],
+  "transcription_corrections": [
+   "647, line 5: '78207[-...-]1[?] 0973724884 0803709428 1298|2998454404' is a corrected/garbled passage. The mathematically correct digits are 7820711073 7248840803 7094281998 2998454404. The '|' and '1298' are probably a correction mark plus a misgrouping, not four extra period digits.",
+   "653, line 1: the '[-#-]' after 4042879019 is a blot or stroke, not a digit.",
+   "Underlines and dots at row ends (e.g. 'ȯ163132137', '8683001531') mark the recurrence of the period's start '001...'. They are not separate digits."
+  ]
+ }
+}

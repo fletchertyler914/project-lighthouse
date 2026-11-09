@@ -1,0 +1,57 @@
+{
+ "bundle": "Math.20",
+ "page": "c034",
+ "label": "17r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000035/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "No formulas or labels by Gauss appear on this folio. It is a single ink figure on squared paper. The other writing is archival: a foliation number '17', a shelf note 'Math. 20', a pencilled number (about '4561/18'), a vertical pencil note about the watermark ('Wasserzeichen ... 1831') with a revision date ('15/3 1909'), and the bottom caption '4960. Figuren zu den Beiträgen z. Theor. algebr. Gleichung'. That caption, by a later archivist or the Werke editors, links the drawing to Gauss's 1849 jubilee paper 'Beiträge zur Theorie der algebraischen Gleichungen', which contains the fourth proof of the fundamental theorem of algebra.\n\nWhat the figure shows (my interpretation; there is nothing to reconstruct as a derivation):\n- It is a curvilinear, apparently orthogonal net drawn over a region bounded by one closed outer curve.\n- There are five singular nodes: four at the sides (two upper, two lower-lateral) and one at the bottom centre.\n- Around each side node there are small nested closed curves, nearly circles, crossed by short radial rays. This is exactly how the level curves |f(z)| = const and arg f(z) = const look near a simple zero of an analytic function f.\n- At the bottom-centre node many more rays converge, roughly twice as many as at the side nodes. That suggests a zero of higher multiplicity, probably double (my inference).\n- In the interior, curves cross transversally at isolated points: the centre, where a figure-eight or lemniscate-like curve and straight vertical and diagonal lines meet, and a point at top centre. These look like saddle points of |f|, i.e. zeros of f', where a level curve of the modulus self-intersects.\n- The outer boundary behaves like a level curve |f| = R for large R, with the arg-curves running out roughly radially (the long lines at the top leave the boundary).\n\nModern reading:\n- The picture is the conformal 'phase–modulus' net of a polynomial f = T + iU, i.e. the equipotential and stream lines of the logarithmic potential log|f| = Σ log|z − a_k| of unit point charges at the roots.\n- With four simple roots and one apparently double root, the degree would be about 6. It would then have five critical points counted with multiplicity: one at the double root and the rest saddles. The visible interior crossing points are consistent with this, but I cannot verify it from the drawing.\n- This connects to Gauss's 1799 and 1849 proofs. Those proofs follow the curves T = 0 and U = 0, which are particular members of the arg-family (arg f ≡ 0 mod π/2). They show these curves must intersect, giving a root.\n- The figure appears to draw the full families, modulus level curves plus orthogonal phase curves, rather than only T = 0 and U = 0. That would be a more 'potential-theoretic' visualization of the same idea.\n\nNo computation is carried out on the page. The previous page (spherical or Lorentz-type identities with p, q, γ, c and a sin A, b sin B) is unrelated.",
+  "errors": [
+   "No mathematical text to check. The figure is a freehand sketch: the curves are only approximately orthogonal and the left–right symmetry is imperfect. This is drafting inaccuracy, not a mathematical error.",
+   "The archival caption attributes the figure to the 1849 'Beiträge'. The printed 1849 paper works with the curves T=0, U=0, whereas this drawing also shows closed modulus-level curves. The attribution may be approximate, or the sketch may be preparatory or illustrative rather than a printed figure."
+  ],
+  "results": [
+   {
+    "what": "Drawing of the orthogonal net of level curves |f|=const and phase curves arg f=const of a (probably degree ~6) polynomial, showing small closed curves around simple zeros, a denser star at an apparent double zero, and self-intersecting modulus curves (lemniscate-type) at saddle points (zeros of f').",
+    "modern_name": "Phase/modulus portrait (conformal level-curve net) of a polynomial; equipotentials and field lines of the logarithmic potential of the roots; 'analytic landscape' contour plot",
+    "usually_credited_to": "The geometric curve method for the fundamental theorem of algebra is credited to Gauss (1799, 1849). Systematic modulus-surface and level-curve pictures of analytic functions are usually associated with later authors (Riemann/Maxwell-style potential pictures; Jahnke–Emde relief plots 1909; modern phase portraits by Wegert).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Implicit structural fact: at a zero of multiplicity m, 2m (or proportionally more) phase lines radiate; at a simple critical point of f, a level curve of |f| crosses itself at right angles.",
+    "modern_name": "Local normal form f ~ c(z-a)^m; saddle points of |f| at zeros of f' (maximum modulus / Gauss–Lucas setting)",
+    "usually_credited_to": "Classical (Gauss 1799/1849 for the curve-counting argument; Cauchy/Riemann for local theory)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a figure belonging to Gauss's known 1849 paper on the fundamental theorem of algebra, which already uses curves defined by the real and imaginary parts of a polynomial. Drawing the full orthogonal modulus/phase net is a natural extension and consistent with Gauss's known work on conformal mapping and potential theory. It is a nice unpublished illustration, not a new result.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); z=x+I*y; f=expand((z-2)*(z+2)*(z-1-2*I)*(z+1-2*I)*(z+3*I)**2); T=re(f); U=im(f); simplify(diff(T,x)*diff(U,x)+diff(T,y)*diff(U,y))",
+    "asserts": "Gradients of T=Re f and U=Im f are orthogonal (result 0) by Cauchy–Riemann, so the curve families are orthogonal. The example polynomial with 4 simple roots and one double root is my illustrative choice, not Gauss's."
+   },
+   {
+    "sympy": "z=symbols('z'); f=(z-2)*(z+2)*(z-1-2*I)*(z+1-2*I)*(z+3*I)**2; degree(gcd(f,diff(f,z)),z)",
+    "asserts": "Returns 1: the double root -3i is also a root of f', so it accounts for one of the 5 critical points of a degree-6 polynomial; the other 4 are saddle points of |f|."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); L=log((x-1)**2+y**2)/2+log((x+1)**2+y**2)/2; simplify(diff(L,x,2)+diff(L,y,2))",
+    "asserts": "Returns 0: log|f| is harmonic away from the roots, so modulus level curves are equipotentials of point charges at the roots."
+   },
+   {
+    "sympy": "z=symbols('z'); solve(diff(expand((z-1)*(z+1)*(z-I)*(z+I)),z),z)",
+    "asserts": "For the symmetric quartic z^4-1 the only critical point is z=0 (triple), where level curves of |f| cross; this illustrates the central crossing point type."
+   }
+  ],
+  "transcription_corrections": [
+   "The upper-middle pencil note reads approximately '4561/18' (possibly '#561/18'); it is an archival/inventory mark, not Gauss's.",
+   "The vertical pencil note is archival ('Wasserzeichen ... 1831' / 'Durchges.(?) 15/3 1909'); the word read as 'Lucca' is uncertain.",
+   "The bottom caption is in a later hand: '4960. Figuren zu den Beiträgen z. Theor. algebr. Gleichung[en]'.",
+   "Small dotted pencil traces at lower right are stray sketch marks, not text.",
+   "A library stamp (Niedersächs. Staats- u. Univ.-Bibliothek Göttingen) is in the centre of the figure."
+  ]
+ }
+}

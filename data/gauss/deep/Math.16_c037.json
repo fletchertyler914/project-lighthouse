@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.16",
+ "page": "c037",
+ "label": "16v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376639:00000038/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: item 4 of a list of theorems and problems on complex numbers, 'Lehrsätze und Aufgaben die complexen Zahlen betreffend'. In this list ρ ('ϱ') is an indeterminate 'cyclic' number, i.e. |ρ|=1, ρ=e^{iφ}. a and b are fixed complex numbers.\n\n(1) Claim. Ω = (aρ+b)/(1−ρ) describes a straight line as ρ runs over the unit circle. (The numerator is aρ+b. The large 'b' overwrites something, but the next line forces aρ+b.)\n\n(2) Rewriting. 2Ω = [(a+b)(1+ρ) − (a−b)(1−ρ)]/(1−ρ). Expanding the numerator (my check) gives 2aρ+2b, so this agrees with (1). Splitting the fraction gives 2Ω = (a+b)(1+ρ)/(1−ρ) − (a−b).\n\n(3) Substitution. Put it = (1+ρ)/(1−ρ). Then 2Ω = (a+b)·it − (a−b). For ρ=e^{iφ} we have (1+ρ)/(1−ρ) = i·cot(φ/2) (my step). So t = cot(φ/2) runs over all real numbers. Hence Ω = −(a−b)/2 + t·(a+b)i/2 is a line through −(a−b)/2 with direction (a+b)i. This is the Möbius image of the unit circle; the circle passes through the pole ρ=1, so the image is a line.\n\n(4) Normalisation. 2Ω/((a+b)i) = t − (a−b)/((a+b)i) = t + i·(a−b)/(a+b). This uses −1/i = i.\n\n(5) Minimum. As t varies over the reals, t+z with z = i(a−b)/(a+b) is a horizontal line. Its point of least modulus is obtained by cancelling the real part of z. What remains is the purely imaginary part of z. Gauss's original wording 'der rein imaginäre Theil' is correct.\n\n(6) Explicit value. Let k = Re((a−b)/(a+b)). Then the imaginary part of i(a−b)/(a+b) is i·k. So at the minimum 2Ω/((a+b)i) = ik, giving Ω = (a+b)i·ik/2 = −k(a+b)/2. This point is the foot of the perpendicular from the origin to the line, and its distance from the origin is |k(a+b)|/2. The final line on the page is smudged; it reads like '= −½ k(a+b)' with some blotted symbols, which agrees with this.\n\nPurpose: show that the bilinear (Möbius) image of the unit circle is a line when the pole lies on the circle. This complements item 1 on the previous page, where a/(b−ρ) gives a circle with explicit centre and radius. The page then locates the nearest point of the line to the origin.",
+  "errors": [
+   "The interlinear correction of 'reelle' to 'imaginär' in 'wodurch also t eine unbestimmte reelle Zahl wird' makes the sentence wrong. t = cot(φ/2) is real; only it is imaginary. The original 'reelle' was correct. The insertions are in a different-looking Latin script and may be a later or editorial hand.",
+   "Likewise the correction of 'rein imaginäre Theil' to 'reelle Theil' is wrong. Minimising |t+z| over real t leaves the purely imaginary part of z = i(a−b)/(a+b). The original wording was correct, and the subsequent use of k = Re((a−b)/(a+b)) is consistent only with the original.",
+   "The final formula is smudged and partly overwritten. The correct value is Ω = −k(a+b)/2; any reading without the minus sign, or with a leftover 't', would be a slip."
+  ],
+  "results": [
+   {
+    "what": "The map ρ ↦ (aρ+b)/(1−ρ), with the pole on the unit circle, sends the unit circle to a straight line. Parametrisation via it = (1+ρ)/(1−ρ), t = cot(φ/2) real.",
+    "modern_name": "Möbius transformations map circles to circles or lines (a circle through the pole goes to a line); Cayley-type transform from circle to line",
+    "usually_credited_to": "Möbius (1850s), with roots in inversion geometry (Steiner, Plücker, 1820s–30s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Point of a line {c + t·d : t real} nearest the origin, computed by dividing by the direction and taking the imaginary part. Result: Ω_min = −(a+b)·Re((a−b)/(a+b))/2.",
+    "modern_name": "Foot of the perpendicular / orthogonal projection in the complex plane",
+    "usually_credited_to": "elementary; no specific attribution",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is elementary complex-plane geometry: a bilinear image of a circle through the pole is a line, plus the nearest point of that line to the origin. Gauss's systematic use of complex numbers for plane geometry is well documented. The page is a tidy exercise in that vein and contains nothing that anticipates a later named result in a non-obvious way.",
+  "checkable": [
+   {
+    "sympy": "expand((a+b)*(1+r) - (a-b)*(1-r) - 2*(a*r+b)) == 0",
+    "asserts": "The numerator identity: the given expression for 2Ω equals 2(aρ+b)/(1−ρ)."
+   },
+   {
+    "sympy": "simplify(((1+exp(I*phi))/(1-exp(I*phi)) - I*cot(phi/2)).rewrite(exp)) == 0",
+    "asserts": "For ρ=e^{iφ}, (1+ρ)/(1−ρ) = i·cot(φ/2), so t is real."
+   },
+   {
+    "sympy": "simplify(((a+b)*I*t - (a-b))/((a+b)*I) - (t + I*(a-b)/(a+b))) == 0",
+    "asserts": "2Ω/((a+b)i) = t + i(a−b)/(a+b)."
+   },
+   {
+    "sympy": "a=2+I; b=1-3*I; w=(a-b)/(a+b); k=re(w); p=-k*(a+b)/2; simplify(im((2*p+(a-b))/((a+b)*I))) == 0",
+    "asserts": "The claimed minimiser Ω = −k(a+b)/2 lies on the line, for a sample a, b."
+   },
+   {
+    "sympy": "a=2+I; b=1-3*I; w=(a-b)/(a+b); k=re(w); p=-k*(a+b)/2; simplify(re(p*conjugate(I*(a+b)))) == 0",
+    "asserts": "The vector from 0 to the minimiser is orthogonal to the line's direction (a+b)i, so it is the foot of the perpendicular."
+   }
+  ],
+  "transcription_corrections": [
+   "The first formula is Ω = (aρ + b)/(1−ρ), not (aρ + bρ)/(1−ρ); the expansion of the next line confirms the numerator aρ+b.",
+   "'Der Modulus' before the displayed formula is struck out; the formula is 2Ω/((a+b)i) = t + ((a−b)/(a+b))·i, where the 'i' has a stray mark (possibly a struck symbol).",
+   "In 'Ist demnach ... k der reelle Theil', the fraction (a−b)/(a+b) before k is blotted or struck; the intended text is 'Ist demnach k der reelle Theil von (a−b)/(a+b)'.",
+   "The final line is smudged and overwritten; mathematically it should read Ω = −½·k(a+b), not '(i/2)(k(a+b))'.",
+   "The interlinear 'imaginär' (over struck 'reelle') and 'reelle' (over struck 'imaginäre') appear in a different Latin script and may be a later hand; both corrections are mathematically wrong."
+  ]
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c020",
+ "label": "[15]  [S. 14 ist inkorrekt]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000021/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the close of Part I of Gauss's Latin treatise on the arithmetic-geometric mean (AGM), 'De origine proprietatibusque generalibus numerorum mediorum arithmetico-geometricorum', c. 1800. The previous page established the following.\n(i) (1/pi) Int_0^pi dphi / sqrt(1 - x^2 cos^2 phi) = y, where 1/y = M(1+x, 1-x) = M(1, sqrt(1-x^2)). Here M is the AGM.\n(ii) The general theorem. Let W = alpha / sqrt(beta - gamma cos^2 phi) be expanded as P + 2Q cos 2phi + 2R cos 4phi + ... . Let v, v' be the extreme values of W. Then 1/P = M(1/v, 1/v'). For gamma > 0 the extremes are alpha/sqrt(beta-gamma) and alpha/sqrt(beta). The case gamma < 0 follows from phi -> 90deg - phi.\n(iii) The claim that the same holds for alpha / sqrt(beta + gamma cos phi), with 1/P = M(sqrt(beta-gamma)/alpha, sqrt(beta+gamma)/alpha).\n\nThis page justifies (iii). Put phi = 2psi. Then cos phi = 2cos^2 psi - 1 [identity supplied by me], so beta + gamma cos phi = (beta - gamma) + 2gamma cos^2 psi. The function therefore takes the form alpha / sqrt(beta' - gamma' cos^2 psi) with beta' = beta - gamma and gamma' = -2gamma. This is exactly the form already treated.\n\nWhy the constant term carries over [my elaboration]:\n- Its cosine series in 2psi, 4psi, ... is the series in phi, 2phi, ..., so the constant terms coincide.\n- The extreme values are unchanged: alpha/sqrt(beta-gamma) and alpha/sqrt(beta+gamma).\n- Hence 1/P = M(sqrt(beta-gamma)/alpha, sqrt(beta+gamma)/alpha).\nIn modern form: (1/pi) Int_0^pi dphi / sqrt(beta + gamma cos phi) = 1 / M(sqrt(beta+gamma), sqrt(beta-gamma)), for |gamma| < beta.\n\nFootnote *). Suppose several expressions alpha / sqrt(beta + gamma cos phi) have the same extreme values. Then their constant terms must be equal, even if all other coefficients differ greatly. This is immediate, since P depends only on the extremes.\n\nClosing remarks (no mathematics):\n- A more general proof 'from more genuine principles' will follow later.\n- Methods equally expeditious will be given for the remaining coefficients Q, R, S, ... .\n- For readers who value truths only by their applications: the rapid evaluation of P, Q, R, S, ... is useful in physical astronomy, i.e. the theory of planetary perturbations.\nThe perturbation link is concrete [my illustration]. Take 1/sqrt(1 - 2a cos phi + a^2), so beta = 1 + a^2 and gamma = -2a. The constant term is then 1/M(1+a, 1-a) = 1/M(1, sqrt(1-a^2)). This is the leading Laplace coefficient (1/2) b_{1/2}^{(0)}(a).",
+  "errors": [
+   "No mathematical errors. The reduction phi = 2psi and the identification of the extreme values are correct.",
+   "Implicit condition: |gamma| < beta (and alpha > 0) is needed for real square roots and a positive AGM. Gauss leaves this unstated.",
+   "Strictly, the sign of gamma only swaps which extreme is the maximum. Since M is symmetric, the formula holds for either sign; Gauss's gamma<0 remark on the previous page covers this."
+  ],
+  "results": [
+   {
+    "what": "Constant term of the Fourier cosine expansion of alpha/sqrt(beta + gamma cos phi): 1/P = M(sqrt(beta-gamma)/alpha, sqrt(beta+gamma)/alpha), via the substitution phi = 2psi reducing it to the cos^2 form",
+    "modern_name": "AGM evaluation of the complete elliptic integral of the first kind, (1/pi) Int_0^pi dphi/sqrt(beta+gamma cos phi) = 1/M(sqrt(beta+gamma), sqrt(beta-gamma))",
+    "usually_credited_to": "Gauss (diary entry of 30 May 1799; this treatise, published posthumously in Werke III, 1866); related transformations by Lagrange and Legendre",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Expressions with equal extreme values have equal constant terms (P depends only on max and min of W)",
+    "modern_name": "Corollary of the AGM formula for the mean value",
+    "usually_credited_to": "Gauss (same text)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Remark that rapid AGM-type evaluation of the cosine coefficients P, Q, R, S serves planetary perturbation theory",
+    "modern_name": "AGM computation of Laplace coefficients b_s^(k)(a), cf. Gauss's 'Determinatio attractionis' (1818)",
+    "usually_credited_to": "Gauss",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page belongs to Gauss's AGM treatise, printed in Werke III (Schering, 1866). The theorem and its extension to beta + gamma cos phi are well known as Gauss's. The page itself only performs a trivial substitution and adds programmatic remarks.",
+  "checkable": [
+   {
+    "sympy": "simplify(cos(2*psi) - (2*cos(psi)**2 - 1))",
+    "asserts": "phi = 2psi turns beta + gamma cos phi into beta - gamma + 2 gamma cos^2 psi (result 0)"
+   },
+   {
+    "sympy": "import mpmath; mpmath.quad(lambda t: 1/mpmath.sqrt(5+3*mpmath.cos(t)), [0, mpmath.pi])/mpmath.pi - 1/mpmath.agm(mpmath.sqrt(8), mpmath.sqrt(2))",
+    "asserts": "Constant term of 1/sqrt(5+3cos phi) equals 1/M(sqrt(beta+gamma), sqrt(beta-gamma)) (approx 0)"
+   },
+   {
+    "sympy": "import mpmath; a=mpmath.mpf('0.6'); mpmath.quad(lambda t: 1/mpmath.sqrt(1-2*a*mpmath.cos(t)+a**2), [0, mpmath.pi])/mpmath.pi - 1/mpmath.agm(1, mpmath.sqrt(1-a**2))",
+    "asserts": "Leading Laplace coefficient (1/2) b_{1/2}^(0)(a) = 1/M(1, sqrt(1-a^2)) (approx 0)"
+   },
+   {
+    "sympy": "import mpmath; b,g=mpmath.mpf(5),mpmath.mpf(3); mpmath.quad(lambda t: 1/mpmath.sqrt(b+g*mpmath.cos(t)), [0, mpmath.pi])/mpmath.pi - 2*mpmath.ellipk(2*g/(b+g))/(mpmath.pi*mpmath.sqrt(b+g))",
+    "asserts": "Same constant term expressed through the complete elliptic integral K with parameter m = 2gamma/(beta+gamma) (approx 0)"
+   },
+   {
+    "sympy": "import mpmath; mpmath.quad(lambda t: 1/mpmath.sqrt(4+1*mpmath.cos(t)), [0, mpmath.pi]) - mpmath.quad(lambda t: 1/mpmath.sqrt(3+2*mpmath.cos(2*t)**2), [0, mpmath.pi])",
+    "asserts": "Footnote: alpha/sqrt(4+cos phi) and alpha/sqrt(3+2cos^2 psi) share extremes (1/sqrt3, 1/sqrt5) and hence constant terms (approx 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Page number '14' (top centre, inked) is the incorrect original pagination; the pencil/red '15.' at top right is the correct folio number.",
+   "The struck word after the first line ('Ceterum', replaced by 'Denique') is correctly read; the second struck word before 'earum pretium' is illegible and may be 'omnino' rather than 'omnia'.",
+   "'praecedd.' in the footnote is an abbreviation of 'praecedentibus'.",
+   "Otherwise the machine transcription matches the image; the formula alpha/sqrt(beta-gamma+2gamma cos psi^2) is read correctly."
+  ]
+ }
+}

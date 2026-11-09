@@ -1,0 +1,67 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c156",
+ "label": "91r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000157/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context, taken from the adjacent folio 91v/92 transcribed as 'next page': Riemann treats spherically symmetric (radial) isothermal gas flow, with p proportional to rho and sound speed a. He writes r' for the radial velocity u and rho for the density. The equations are the Euler equation u_t + u u_r = -a^2 (log rho)_r and the continuity equation (log rho)_t + u (log rho)_r = -u_r - 2u/r.\n\nRiemann variables. He sets u + a log rho = 4ap and u - a log rho = 4aq, so u = 2a(p+q). Adding and subtracting a times the continuity equation to the Euler equation gives:\n- p_t + (u+a) p_r = -u/(2r)\n- q_t + (u-a) q_r = +u/(2r)\n\nShift of variables. He then sets p -> p - (1/2) log r and q -> q + (1/2) log r. That is, the new variables are P = p_old + (1/2) log r and Q = q_old - (1/2) log r. Two things follow (my verification):\n- u is unchanged: u = 2a(P+Q).\n- The source terms become the same simple term for both: P_t + (u+a) P_r = a/(2r) and Q_t + (u-a) Q_r = a/(2r).\n\nThis page. Write p' = dp/dr and q' = dq/dr (partial derivatives in r). Eliminating p_t through dp = p_r dr + p_t dt, and using u+a = (2p+2q+1)a and u-a = (2p+2q-1)a, gives the two Pfaffian equations:\n- omega_1 := -dp + p'(dr - (2p+2q+1) a dt) + (1/2) a dt/r = 0\n- omega_2 := -dq + q'(dr - (2p+2q-1) a dt) + (1/2) a dt/r = 0\n\nRiemann names these forms Sum X dx and Sum X' dx. Here x runs over the variables, presumably r, t, p, q, p', q'.\n\nBilinear covariants. He next writes d(Sum X delta x) - delta(Sum X dx) and the same with X'. These are the bilinear covariants, i.e. the exterior derivatives d omega_i evaluated on two displacements d and delta. The obvious purpose is to examine the integrability / characteristic structure of this Pfaffian system. No computation follows on the page.\n\nThe value of these covariants is my computation, not on the page:\n- d omega_1 = dp' ^ dr - a(2p+2q+1) dp' ^ dt - 2a p' (dp+dq) ^ dt - a/(2r^2) dr ^ dt\n- d omega_2 is the analogous expression with q' and (2p+2q-1).\n\nCrossed-out lines. These read -dp + (1/2) a dt/r = 0 and -dq + (1/2) a dt/r = 0. They give the characteristic (compatibility) relations: along dr = (u+a) dt one has dp = a dt/(2r), and along dr = (u-a) dt one has dq = a dt/(2r). These are the same relations that reappear on the next page.",
+  "errors": [
+   "No mathematical errors found: both Pfaffian equations agree with p_t + (u+a)p_r = a/(2r) and q_t + (u-a)q_r = a/(2r) after the shift p -> p +/- (1/2) log r.",
+   "Notation is loose. p', q' denote partial r-derivatives, not t-derivatives. The second form is labelled only 'Sum X' dx' without the '= 0 ='. The bilinear covariants are set up but not evaluated.",
+   "The struck second line, -dq + (1/2) a dt/r = 0, is valid only along the C- characteristic dr = (u-a) dt. This is implicit and not stated, which is presumably one reason the lines were struck."
+  ],
+  "results": [
+   {
+    "what": "Riemann invariants for spherically symmetric isothermal flow, u +/- a log rho = 4a p, 4a q, with characteristic equations p_t + (u+a)p_r = -u/(2r) and q_t + (u-a)q_r = u/(2r)",
+    "modern_name": "Riemann invariants / characteristic form of the radial isothermal Euler equations",
+    "usually_credited_to": "Riemann 1860 (plane waves); extension to the radial case is standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Shift p -> p + (1/2) log r, q -> q - (1/2) log r, making both characteristic equations have the equal source term a/(2r) while keeping u = 2a(p+q)",
+    "modern_name": "Modified (generalized) Riemann variables for geometric source terms",
+    "usually_credited_to": "folklore / no specific attribution",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Writing the PDE system as Pfaffian forms and forming d(Sum X delta x) - delta(Sum X dx) to study integrability",
+    "modern_name": "Bilinear covariant (exterior derivative) of a Pfaffian form; Pfaff problem",
+    "usually_credited_to": "Lipschitz (1869), Frobenius (1877), Darboux (1882); later Cartan",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The Riemann-invariant work is a direct extension of his own 1860 paper. The mildly notable point is his casual use of the bilinear covariant d omega(delta) - delta omega(d) applied to a Pfaffian system of a nonlinear hyperbolic PDE. That tool is usually associated with Lipschitz and Frobenius after his death. However, it appears only as notation without computation, and similar dd/delta manipulations were in the air (Christoffel, the Pfaff-problem literature).",
+  "checkable": [
+   {
+    "sympy": "r,t,a=symbols('r t a',positive=True); u=Function('u')(r,t); L=Function('L')(r,t); E=diff(u,t)+u*diff(u,r)+a**2*diff(L,r); C=diff(L,t)+u*diff(L,r)+diff(u,r)+2*u/r; p=(u+a*L)/(4*a); simplify(diff(p,t)+(u+a)*diff(p,r)+u/(2*r)-(E+a*C)/(4*a))",
+    "asserts": "p_t + (u+a)p_r + u/(2r) is a combination of the Euler and continuity equations (result 0)"
+   },
+   {
+    "sympy": "q=(u-a*L)/(4*a); simplify(diff(q,t)+(u-a)*diff(q,r)-u/(2*r)-(E-a*C)/(4*a))",
+    "asserts": "q_t + (u-a)q_r - u/(2r) is a combination of the equations (result 0)"
+   },
+   {
+    "sympy": "P=p+log(r)/2; simplify(diff(P,t)+(u+a)*diff(P,r)-a/(2*r)-(E+a*C)/(4*a))",
+    "asserts": "After the shift, P_t + (u+a)P_r = a/(2r) modulo the equations"
+   },
+   {
+    "sympy": "Q=q-log(r)/2; simplify(diff(Q,t)+(u-a)*diff(Q,r)-a/(2*r)-(E-a*C)/(4*a))",
+    "asserts": "After the shift, Q_t + (u-a)Q_r = a/(2r) modulo the equations"
+   },
+   {
+    "sympy": "simplify(2*a*(P+Q)-u)",
+    "asserts": "u = 2a(p+q) also holds in the shifted variables, so u+a = (2p+2q+1)a (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the superscript-like mark after X in 'Sum X dx' is a stray stroke; it reads Sum X dx.",
+   "The struck lines read '-dp + (1/2) a dt/r = 0' and '-dq + (1/2) a dt/r = 0', with r in the denominator. The struck fragment below them is 'dx'.",
+   "The folio number at right is 91."
+  ]
+ }
+}

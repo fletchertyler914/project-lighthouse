@@ -1,0 +1,74 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c010",
+ "label": "6r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a numerical table, not a derivation. The previous page, on ξ, ψ(λ), φ(λ), is unrelated. The table reduces the wire intervals of a 7-wire meridian (transit) instrument to the declinations of a list of fundamental stars.\n\n(1) Header row 'Logg': six common logarithms L_k = 1.6171002, 1.4518972, 1.1437375, 1.1554997, 1.4633374, 1.6196655.\n\n(2) Row '0°': their antilogarithms t_k = 10^{L_k} = 41.40952, 28.30722, 13.92315, 14.30539, 29.06280, 41.65485.\n- These are the equatorial intervals, in seconds of time, between each side wire and the middle wire.\n- There are three wires on each side; the spacing is slightly asymmetric (41.41/28.31/13.92 versus 14.31/29.06/41.65).\n\n(3) For each star with declination δ (about 1850 positions):\n- Column 2 is log cos δ in tabular form, with characteristic 9 meaning −10.\n- Columns 3–8 are L_k − log cos δ = log(t_k sec δ).\n- t_k sec δ is the time the star needs to pass from wire k to the middle wire. This is the standard small-angle form of sin f = sin f_0 sec δ. (Interpretation mine, but the numbers fit exactly.)\n\nWorked example, α Aquarii, δ = −1°1'56.79\" (my verification):\n- log cos δ = −0.0000705, written 9.9999295.\n- 1.6171002 + 0.0000705 = 1.6171707, and similarly for the other wires.\n\nThe stars run in order of increasing |δ|, from α Aquarii (≈1°) to α Lyrae (38°38'57\"). They are standard fundamental (clock) stars of the Berliner Jahrbuch / Bessel type, so the table was probably meant to reduce clock-star transits observed on incomplete wire sets to the middle wire. This was presumably done for observatory work (Göttingen, 1853).\n\nMy spot checks of log cos δ all agree to about 1 unit in the 7th decimal:\n- α Lyrae: 9.8926426 versus 9.8926424 written.\n- α Can. maj. at δ = −16°31'7.15\": 9.8926... no, 9.9816951 versus 9.9816950 written.\n\nAdditions checked:\n- α Ceti 1.6179154\n- α Can. min. 1.6191757 and 1.4539727\n- α Herculis 1.1579161 (corrected digit 9)\n- α Scorpii 1.2022160 (the inserted correction)\n- α Coronae 1.6680429 (with corrected log cos 9.9490573)\n- α Lyrae 1.7270231",
+  "errors": [
+   "α Leonis: complement 0.0107294. Columns 6–8 should be 1.1662291, 1.4740668, 1.6303949. They are written 1.1663291, 1.4741668, 1.6304949, i.e. each 0.0001 too large. Columns 3–5 (1.6278296, 1.4626266, 1.1544669) are correct. The heavy '4' in 1,4741668 may be an attempted correction.",
+   "α Ophiuchi, last column: 1.6196655 + 0.0107075 = 1.6303730. The written value reads like 1,6303130, which is either a slip or an ambiguous 7.",
+   "α Lyrae: the '+' sign on the declination is omitted (trivial).",
+   "α Coronae: the log cos was first written with wrong final digits and corrected to 9.9490573. The corrected value is consistent with the row. Similar visible self-corrections (α Ceti '7', α Herculis '9', α Scorpii 1.2022160, β Tauri 1.5193474) all yield correct values."
+  ],
+  "results": [
+   {
+    "what": "Reduction of transit-instrument wire intervals to stellar declination: interval(δ) = interval(0)·sec δ, tabulated logarithmically for about 33 fundamental stars and 6 side wires.",
+    "modern_name": "Reduction of wire intervals / reduction to the middle wire (transit instrument)",
+    "usually_credited_to": "Standard 18th–19th-century practical astronomy (Bessel, Gauss-era observatory practice)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Equatorial intervals of a 7-wire instrument: 41.40952, 28.30722, 13.92315 | 14.30539, 29.06280, 41.65485 seconds of time.",
+    "modern_name": "Wire (thread) intervals of a meridian instrument",
+    "usually_credited_to": "Observational determination; instrument-specific",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Purely routine logarithmic computation for practical astronomy. Its mild interest is biographical: it documents that Riemann did observatory-type reduction computations around 1853. It has no mathematical novelty.",
+  "checkable": [
+   {
+    "sympy": "abs(log(41.40952,10) - 1.6171002) < 1e-7",
+    "asserts": "The '0°' row is the antilog of the 'Logg' row (first wire)."
+   },
+   {
+    "sympy": "abs(log(14.30539,10) - 1.1554997) < 1e-7",
+    "asserts": "Antilog check for the fourth wire."
+   },
+   {
+    "sympy": "abs(10 + log(cos(pi/180*(1+1/60+56.79/3600)),10) - 9.9999295) < 2e-7",
+    "asserts": "log cos δ for α Aquarii."
+   },
+   {
+    "sympy": "abs(10 + log(cos(pi/180*(38+38/60+57.09/3600)),10) - 9.8926424) < 3e-7",
+    "asserts": "log cos δ for α Lyrae."
+   },
+   {
+    "sympy": "abs(10 + log(cos(pi/180*(16+31/60+7.15/3600)),10) - 9.9816950) < 2e-7",
+    "asserts": "The illegible arcminutes for α Can. maj. are 31, i.e. δ = −16°31'7.15\"."
+   },
+   {
+    "sympy": "abs(1.6196655 + (10 - 9.8892925) - 1.6303730) < 1e-9",
+    "asserts": "Correct last-column value for α Ophiuchi is 1.6303730."
+   },
+   {
+    "sympy": "abs(1.1554997 + (10 - 9.9892706) - 1.1662291) < 1e-9",
+    "asserts": "Correct value for α Leonis, column 6, is 1.1662291 (manuscript has 1.1663291)."
+   },
+   {
+    "sympy": "abs(1.1437375 + (10 - 9.9858214) - 1.1579161) < 1e-9",
+    "asserts": "The corrected α Herculis entry 1.1579161 is right."
+   }
+  ],
+  "transcription_corrections": [
+   "α Can. maj. declination: the blotted arcminutes are 31, giving −16°31'7.15\" (deduced from log cos 9.9816950).",
+   "α Ophiuchi, last column: probably 1,6303730 (the '1' read in the transcription should be 7, or else it is Riemann's slip).",
+   "α Pegasi, column 3: '1,6309932' (the comma is missing in the image).",
+   "The header first value has an overwritten leading digit; the intended value is 1,6171002."
+  ]
+ }
+}

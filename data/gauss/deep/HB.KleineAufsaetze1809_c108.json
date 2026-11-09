@@ -1,0 +1,75 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c108",
+ "label": "99",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000109/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a worked example of the axis-adjustment and calibration procedure for Gauss's circle instrument, described on the previous page. The instrument has a drum ('Trommel') on the third axis and an alhidade (index arm). The previous page defines B as the alhidade index reading when the line of sight lies in one plane with the second and third axes, and d = A + B as an instrument constant, where A is the drum index reading. The example is dated 3 Dec 1816; the target was the knob on Jäger's garden house. The distance is unknown, so the parallax p remains undetermined.\n\nRaw readings (drum index I, A = 2°35'):\n- h: 178°23'38'' twice.\n- v: 178°22'19'' and 178°22'18''.\n- 180°+V: 358°35'7''.\n- 180°+h': 358°21'17'' and 358°21'16''.\n- 180°+v': 358°24'56'' and 358°24'53''.\n\nAdopted values (means of the repeated readings, minus 180° where needed):\n- h = 178°23'38''\n- v = 178°22'18.5''\n- V = 178°35'7''\n- h' = 178°21'16.5''\n- v' = 178°24'54.5''\n\nObservation model. Gauss writes 'eigentlich sollte seyn' (properly it should be) the following, with B the zero-point, p the parallax, a an axis/index error, b a further axis (inclination) error and c the collimation error:\n- h = B+p+a-b\n- v = B-p-a+b\n- V = B+p+a-b+2c\n- h' = B-p-a-b\n- v' = B+p+a+b\n\nThe four equations h, v, h', v' have only three unknowns (B, p+a, b). Each unknown can therefore be obtained twice, and the two values are averaged:\n- p+a = (h-h')/2 = +1'10.75''; also (v'-v)/2 = +1'18.00''; mean +1'14.375''.\n- b = (v'-h)/2 = +38.25''; also (v-h')/2 = +31.00''; mean +34.625''.\n- B = (h+v)/2 = 178°22'58.25''; also (h'+v')/2 = 178°23'5.50''; mean 178°23'1.875''.\n\nThen, using the means, c = -1/2(B+p+a-b-V) = +5'42.6875''.\n\nFinally d = A+B = 2°35' + 178°23'1.875'' = 180°58'1.875''. The page writes this last symbol so that it is read as 'A'; by the previous page it is the constant d.\n\nMy addition: because the design matrix has columns (1,1,1,1), (+1,-1,-1,+1) and (-1,+1,-1,+1), which are mutually orthogonal, these averaged double determinations are exactly the least-squares estimates. The residual mismatch is the same in every determination: 7.25'' between the two values of p+a, of b, and of B.\n\nThe right margin holds a second set of values: +1'22.4'', +0°57.6'' and +5'47.8''. These are probably from another series (another drum index or another day). I cannot check them from this page.\n\nThe following page uses B to bring the third axis into the plane of the first two.",
+  "errors": [
+   "No arithmetic errors found: all the half-differences, half-sums, means, c and d check exactly.",
+   "The final line is labelled with what reads as 'A', but by the definitions on the previous page the quantity is d = A+B. This is a labelling or reading issue, not an arithmetic one.",
+   "The model equations are given without derivation ('eigentlich sollte seyn'). The signs are only internally consistent; I cannot verify them geometrically from this page alone.",
+   "c is computed from the mean adopted values, not from h directly. Using h directly would give (V-h)/2 = 5'44.5''. The choice is reasonable."
+  ],
+  "results": [
+   {
+    "what": "Determination of instrument constants (zero-point B, collimation c, axis inclination b, parallax/index p+a) by combining readings in reversed positions and averaging the redundant determinations",
+    "modern_name": "Reversal (Umlegung) method for theodolite/transit instrument errors; averaging equivalent to least squares for an orthogonal design",
+    "usually_credited_to": "Standard practice of 18th–19th century practical astronomy and geodesy (Mayer, Bessel, Gauss, etc.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine instrumental calibration arithmetic from Gauss's Göttingen observatory and geodetic work around 1816. That the averages coincide with least-squares estimates is implicit, not stated, and is fully in line with Gauss's known methods.",
+  "checkable": [
+   {
+    "sympy": "h=178*3600+23*60+38; v=178*3600+22*60+Rational(37,2); V=178*3600+35*60+7; hp=178*3600+21*60+Rational(33,2); vp=178*3600+24*60+Rational(109,2); (h-hp)/2 == Rational(28300,400)*1 or (h-hp)/2 == Rational(283,4)",
+    "asserts": "p+a = (h-h')/2 = 70.75'' = 1'10.75''"
+   },
+   {
+    "sympy": "(vp-v)/2 == 78",
+    "asserts": "p+a = (v'-v)/2 = 78'' = 1'18''"
+   },
+   {
+    "sympy": "((h-hp)/2+(vp-v)/2)/2 == Rational(595,8)",
+    "asserts": "mean p+a = 74.375'' = 1'14.375''"
+   },
+   {
+    "sympy": "(vp-h)/2 == Rational(153,4) and (v-hp)/2 == 31",
+    "asserts": "b determinations 38.25'' and 31''"
+   },
+   {
+    "sympy": "((vp-h)/2+(v-hp)/2)/2 == Rational(277,8)",
+    "asserts": "mean b = 34.625''"
+   },
+   {
+    "sympy": "(h+v)/2 == 178*3600+22*60+Rational(233,4) and (hp+vp)/2 == 178*3600+23*60+Rational(11,2)",
+    "asserts": "B determinations 178°22'58.25'' and 178°23'5.5''"
+   },
+   {
+    "sympy": "(h+v+hp+vp)/4 == 178*3600+23*60+Rational(15,8)",
+    "asserts": "mean B = 178°23'1.875''"
+   },
+   {
+    "sympy": "B=(h+v+hp+vp)/4; pa=(h-hp-v+vp)/4; b=(-h+v-hp+vp)/4; -(B+pa-b-V)/2 == 5*60+Rational(5491,8)-5*60*0 - Rational(5491,8) + Rational(2741,8)",
+    "asserts": "c = 342.6875'' = 5'42.6875''"
+   },
+   {
+    "sympy": "2*3600+35*60 + (h+v+hp+vp)/4 == 180*3600+58*60+Rational(15,8)",
+    "asserts": "d = A+B = 180°58'1.875''"
+   },
+   {
+    "sympy": "Matrix([[1,1,-1],[1,-1,1],[1,-1,-1],[1,1,1]]).T*Matrix([[1,1,-1],[1,-1,1],[1,-1,-1],[1,1,1]]) == 4*eye(3)",
+    "asserts": "design for (B, p+a, b) from h,v,h',v' is orthogonal, so the averaged double determinations equal the least-squares solution"
+   }
+  ],
+  "transcription_corrections": [
+   "The last line should probably read 'd = 180°58'1''875' (d = A+B per the previous page) rather than 'A = …'.",
+   "Marginal 'v = B-p-a+b': the minus signs are blotted, apparently corrected over plus signs, in the image.",
+   "The b value '38''25' has its first digit overwritten (3 over another digit); 38.25 is arithmetically correct.",
+   "Marginal values +1'22''4, +0.57.6, +5.47.8 belong to a separate column, apparently a different series."
+  ]
+ }
+}

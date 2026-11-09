@@ -1,0 +1,70 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c130",
+ "label": "64r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000131/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This is a draft of Art. 10 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1854, published 1867). The series is Ω = A_0 + A_1 + A_2 + ..., with A_n = a_n cos nx + b_n sin nx and f periodic of period 2π.\n\n(1) Summary of the preceding articles (localization). If the coefficients of Ω tend to 0, then whether Ω converges at a given x depends only on the behaviour of f in an arbitrarily small neighbourhood of x. The draft first wrote 'die Glieder ... für jeden Werth von x'. The insertion at the top and the margin change this to 'Coefficienten', as in the printed text.\n\n(2) The question is when a_n, b_n → 0. Riemann says this often has to be decided by means other than the integral formulas. One case can be decided directly from the nature of f: f stays bounded throughout and admits integration in Riemann's sense. The marginal heading says the same: the Fourier coefficients tend to 0 if f is bounded and integrable.\n\n(3) Integrability criterion, from Art. 5. Partition [-π,π] into pieces of lengths δ_1, δ_2, .... Let D_s = sup f − inf f on the s-th piece (the oscillation). Then Σ δ_s D_s → 0 as max δ_s → 0.\n\n(4) The coefficients are, up to the factor 1/π, integrals of the form I_n(a) = ∫_{-π}^{π} f(x) sin n(x−a) dx. By periodicity this equals ∫_a^{a+2π} f(x) sin n(x−a) dx.\n- Taking a = 0 gives b_n.\n- Taking na = −π/2 gives a_n.\n\nSplit [a, a+2π] into the n intervals J_s = [a+2πs/n, a+2π(s+1)/n], s = 0..n−1 (n an integer).\n\n(5) Estimate on one interval. On J_s, sin n(x−a) is ≥ 0 on the first half and ≤ 0 on the second. Let M_s, m_s be the sup and inf of f on J_s.\n- Replacing f by M_s on the first half and by m_s on the second increases the integral.\n- Replacing f by m_s on the first half and by M_s on the second decreases it.\n- Over each half, ∫ |sin n(x−a)| dx = 2/n.\n- The bounds are therefore (2/n)(M_s − m_s) and (2/n)(m_s − M_s).\n- Hence |∫_{J_s} f sin n(x−a) dx| ≤ (2/n)(M_s − m_s).\n\n(6) Sum over the intervals. |I_n(a)| ≤ Σ_s (2/n)(M_s − m_s) = (1/π) Σ_s (2π/n) D_s. This is an oscillation sum for the partition of mesh 2π/n. By (3) it tends to 0 as n → ∞; the sentence is completed on the next page. Hence a_n, b_n → 0.\n\nThe interlinear insertion says the same thing: the sum is smaller than a quantity that must become infinitely small with 2π/n.",
+  "errors": [
+   "'kleiner als' should strictly be 'nicht größer als' (≤). Equality can occur, e.g. if f is constant on an interval, where both sides are 0. This is harmless.",
+   "Implicit (my addition): replacing ∫_{-π}^{π} by ∫_a^{a+2π} requires f to be extended 2π-periodically.",
+   "Implicit (my addition): splitting into exactly n intervals of length 2π/n requires n to be an integer, which holds for Fourier coefficients.",
+   "Implicit (my addition): the step 'one obtains (2/n)(M−m)' uses ∫ over each half-period of |sin n(x−a)| = 2/n. Riemann states the result without showing this computation; it is correct.",
+   "No substantive mathematical error."
+  ],
+  "results": [
+   {
+    "what": "Convergence of a trigonometric series with coefficients tending to 0 depends only on the local behaviour of f near the point",
+    "modern_name": "Riemann localization principle",
+    "usually_credited_to": "Riemann (Habilitationsschrift, 1854/1867)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Fourier coefficients of a bounded Riemann-integrable function tend to 0, proved by splitting into half-periods and bounding by oscillation sums",
+    "modern_name": "Riemann–Lebesgue lemma (Riemann-integrable case)",
+    "usually_credited_to": "Riemann 1854 (Riemann-integrable case); Lebesgue 1903 (L^1 case)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Integrability characterized by Σ δ_s D_s → 0 as the mesh tends to 0",
+    "modern_name": "Riemann (Darboux) integrability criterion via oscillation",
+    "usually_credited_to": "Riemann 1854 (Art. 5 of the Habilitationsschrift); Darboux 1875 (upper/lower sums)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of Art. 10 of Riemann's published Habilitationsschrift. The localization principle and the proof of the Riemann–Lebesgue lemma for Riemann-integrable functions are already well known as his. The only novelty is in the drafting variants, e.g. 'Glieder' changed to 'Coefficienten' and 'klar' changed to 'einleuchtend'.",
+  "checkable": [
+   {
+    "sympy": "integrate(sin(n*(x-a)), (x, a + 2*pi*s/n, a + 2*pi*s/n + pi/n)).subs(s, 0).simplify() == 2/n  # with n positive",
+    "asserts": "Over the first half of a period, sin n(x−a) integrates to 2/n."
+   },
+   {
+    "sympy": "integrate(sin(n*(x-a)), (x, a + pi/n, a + 2*pi/n)).simplify() == -2/n",
+    "asserts": "Over the second half it integrates to −2/n."
+   },
+   {
+    "sympy": "simplify(M*integrate(sin(n*(x-a)),(x,a,a+pi/n)) + m*integrate(sin(n*(x-a)),(x,a+pi/n,a+2*pi/n)) - 2*(M-m)/n) == 0",
+    "asserts": "The upper bound obtained by substituting M on the first half and m on the second is (2/n)(M−m)."
+   },
+   {
+    "sympy": "limit(n*integrate(x**2*sin(n*x),(x,-pi,pi)), n, oo)  # with n integer: equals 0",
+    "asserts": "Sanity check: for odd x^2, the sine coefficient vanishes identically for integer n."
+   },
+   {
+    "sympy": "limit(integrate(Abs(x)*cos(n*x),(x,-pi,pi)).subs(n,2*k+1), k, oo) == 0",
+    "asserts": "Example: the coefficients of |x| tend to 0, as the lemma predicts (∫ = −4/n^2 for odd n)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the inserted phrase at the top ('Coefficienten der Reihe Ω zuletzt unendlich klein werden.') is meant to replace 'die Glieder der Reihe Ω für jeden Werth von x zuletzt unendlich klein werden', as in the printed version. It is not an addition to that phrase.",
+   "Line 3: the deleted words before 'denn' are probably a struck 'so' and 'nur'. The intended reading is 'dann die Convergenz der Reihe ... nur abhängt'; the printed text has 'dann'.",
+   "The interlinear insertion after 'größten Schwankung in seinem Intervall' should read roughly 'und ihre Summe ist also kleiner als eine Größe, welche mit 2π/n unendlich klein werden muß'. The transcription's 'u. D.' is likely a misreading of a fragment of this phrase.",
+   "'ec' should be read as 'etc.' ('u.s.w.')."
+  ]
+ }
+}

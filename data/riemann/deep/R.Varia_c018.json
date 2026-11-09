@@ -1,0 +1,56 @@
+{
+ "bundle": "R.Varia",
+ "page": "c018",
+ "label": "10r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173054:00000019/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context and authorship. Folio 10r is not a Riemann autograph. It is page 1 of a short article, 'Beweis der Convergenz der θ-Reihe' (Proof of the convergence of the θ-series), by a later author. The text refers to the 'soon to appear collected edition of Riemann's works' (Weber–Dedekind, 1876), which will contain 'a very elegant proof from Riemann's lectures'. The writer then offers his own proof, 'somewhat more artificial but no less simple and rigorous', which he says he is 'handing over to the public'. So it dates from about 1875–76. The previous folio is an unrelated lecture transcript on Green's identity and potential theory.\n\nTheorem. Let p ≥ 1, let A = (a_ik) be a symmetric complex p×p matrix and u ∈ C^p. Then\n θ(u) = Σ_{n∈Z^p} exp( nᵀAn + 2 nᵀu )\nconverges absolutely ('unbedingt') whenever Re A is negative definite. The text phrases this as: the real part of φ(x) = xᵀAx is a sum of p (and not fewer) negative squares of linear forms.\n\nStep 1 (reduction to the real case). |exp(nᵀAn + 2nᵀu)| = exp(nᵀ(Re A)n + 2nᵀ Re u). Absolute convergence therefore only involves Re A and Re u, so one may assume A and u are real and φ is negative definite.\n\nStep 2 (change of variables). Put u_i = ½ ∂φ/∂v_i = Σ_k a_ki v_k, i.e. u = Av. Since det A ≠ 0 (A is definite), every real u is reached by some v. By symmetry of A [my step]:\n φ(n+v) = nᵀAn + 2nᵀAv + vᵀAv.\nHence nᵀAn + 2nᵀu = φ(n+v) − φ(v), and\n θ = e^{−φ(v)} Σ_n e^{φ(n+v)}.\n\nStep 3 (completing the square). Negative definiteness forces a11 < 0. Then\n φ(x) = (a11x1 + … + a1p xp)² / a11 + φ1(x2,…,xp),\nwhere φ1 is the Schur-complement form with coefficients a_ik − a_1i a_1k / a11 (i, k ≥ 2). φ1 is again negative definite and free of x1.\n\nThe proof concludes on the next page.\n- The inner sum over n1 equals σ = Σ_n e^{a11(n+ν)²}, with ν ∈ [0,1) the fractional part of the shift.\n- σ satisfies 2Σ_{n≥1} e^{a11 n²} < σ < 2Σ_{n≥0} e^{a11 n²}, bounds independent of all other variables.\n- Induction on p then reduces everything to a one-dimensional Gaussian series.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "Symmetry a_ik = a_ki is used implicitly. It is needed for φ(n+v) − φ(v) = nᵀAn + 2nᵀAv and for the completing-square formula.",
+   "The notation φ'(v_i) means the partial derivative ∂φ/∂v_i.",
+   "The phrase 'durch p und nicht weniger negative Quadrate' is a slightly loose definition of negative definiteness (via Sylvester's law of inertia), but it is acceptable.",
+   "The reduction to real A and u silently assumes that the real part of the quadratic form is taken with Re A; this is correct.",
+   "Attribution: the page is not by Riemann. It explicitly refers to Riemann's posthumous collected works as forthcoming, so it is a later author's note (c. 1875–76) filed among the Riemann papers."
+  ],
+  "results": [
+   {
+    "what": "Absolute convergence of the multidimensional theta series when Re of the period matrix quadratic form is negative definite, proved by the substitution u = Av and successive completion of squares, with induction on p.",
+    "modern_name": "Convergence of the Riemann theta function (Siegel upper half-space condition), via Cholesky/LDLᵀ-type reduction of the quadratic form",
+    "usually_credited_to": "Riemann (Theorie der Abel'schen Functionen, 1857; lectures published in Werke 1876); this alternative proof is by an unnamed later author",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Completing the square φ = (a11x1 + … + a1p xp)²/a11 + φ1(x2..xp), with φ1 negative definite",
+    "modern_name": "Lagrange/Gauss reduction of quadratic forms; Schur complement",
+    "usually_credited_to": "Lagrange, Gauss",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is not by Riemann. It is a post-1866 note that refers to the forthcoming Riemann Werke (1876) and gives an alternative, elementary and routine proof of theta-series convergence, a result long credited to Riemann.",
+  "checkable": [
+   {
+    "sympy": "a11,a12,a22,n1,n2,v1,v2=symbols('a11 a12 a22 n1 n2 v1 v2'); phi=lambda x1,x2: a11*x1**2+2*a12*x1*x2+a22*x2**2; u1=a11*v1+a12*v2; u2=a12*v1+a22*v2; simplify(phi(n1+v1,n2+v2)-phi(v1,v2)-(phi(n1,n2)+2*(n1*u1+n2*u2)))",
+    "asserts": "For p=2 with u = Av: φ(n+v) − φ(v) = nᵀAn + 2nᵀu (result 0)."
+   },
+   {
+    "sympy": "x1,x2=symbols('x1 x2'); simplify(a11*x1**2+2*a12*x1*x2+a22*x2**2 - ((a11*x1+a12*x2)**2/a11 + (a22-a12**2/a11)*x2**2))",
+    "asserts": "Completing the square for p=2, with φ1 = (a22 − a12²/a11) x2² (result 0)."
+   },
+   {
+    "sympy": "a=-Rational(1,2); nu=Rational(3,10); s=sum(exp(a*(n+nu)**2) for n in range(-60,61)); lo=2*sum(exp(a*n**2) for n in range(1,61)); hi=2*sum(exp(a*n**2) for n in range(0,61)); N(lo)<N(s)<N(hi)",
+    "asserts": "Numerical check of the bounds 2Σ_{n≥1} e^{a n²} < Σ_n e^{a(n+ν)²} < 2Σ_{n≥0} e^{a n²} used on the next page."
+   }
+  ],
+  "transcription_corrections": [
+   "After 'u_i' there is a struck-out symbol; the formula reads u_i = ½φ'(v_i) = a_{1i}v_1 + a_{2i}v_2 + … + a_{pi}v_p.",
+   "The bracket '[?]' after v_i can be removed; the new variables are v_i (a v-shaped letter), as used in the subsequent formula φ(n_1+v_1, …).",
+   "'nothwendiger Weise' is consistent with the image ('Da nun nothwendiger Weise a_{11} negativ (nicht = 0) ist').",
+   "The page number '1.' (top right) and the archival foliation '10' in the margin are both present; the text is page 1 of a separate essay, not a continuation of the previous folio."
+  ]
+ }
+}

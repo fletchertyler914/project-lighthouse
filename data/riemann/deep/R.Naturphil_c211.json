@@ -1,0 +1,77 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c211",
+ "label": "106v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000212/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to Riemann's natural-philosophy fragment on gravitation and light. It was published posthumously in the Werke (1876) under 'Gravitation und Licht' / 'Neue mathematische Principien der Naturphilosophie'. Riemann models gravity as the motion of a space-filling medium (aether) whose velocity equals the gravitational force.\n\n(0) Setup. Let v = (v1,v2,v3) be the actual velocity of the medium. It splits as v = u + w, where u is the motion causing gravitation and w the motion causing light. Riemann asserts that the equations of motion will show the density stays uniform if it is uniform at one instant, so he sets it to 1. This is effectively an incompressibility statement deferred to later.\n\n(a) Gravitational part.\n\nI. The gravitational force is grad V, the Gauss sign convention: force = +∇V, V = potential function.\n\nMathematical theorem (uniqueness for the Poisson problem). In a bounded region, V is determined (up to an additive constant) under three conditions:\n- V has no discontinuities across surfaces;\n- ΔV dτ is prescribed for every volume element;\n- on the boundary, either V (Dirichlet) or ∂V/∂p is prescribed, where p is the inward normal (Neumann).\n\nRemarks:\n- (1) Neumann compatibility. ∫ΔV dτ over the region must equal -∮ ∂V/∂p ds over its boundary. This is the divergence theorem with the inward normal. Apart from this, the data are arbitrary and all are needed.\n- (2) Singularities. Where ΔV becomes infinite, the product ΔV dτ is replaced by -∮ ∂V/∂p ds over the surface of that element. This is a flux definition of a point or concentrated source, essentially the distributional Laplacian.\n- (3) Unbounded space. If ΔV ≠ 0 only in a bounded region, the boundary condition may be replaced by a decay condition. Namely R·∂V/∂x_i → 0 as R → ∞, with R the distance from a point of that region.\n\nPhysics (Poisson's equation): ΔV dτ = 0 outside ponderable bodies, and ΔV dτ = -4π dm in a mass element dm.\n\nII. Hypothesis: u = ∇V, so dV = u1 dx1 + u2 dx2 + u3 dx3. This yields:\n- (1) curl u = 0, written componentwise as ∂u2/∂x3 - ∂u3/∂x2 = 0, etc.;\n- (2) div u dτ = -4π dm.\n\nConverse (completed on the next page). If u satisfies (1), (2) and either the decay condition R u_i → 0 or the right boundary values, then u equals the gravitational force. Indeed, (1) guarantees a potential U with ∇U = u. Then (2) together with the uniqueness theorem gives U = V + const.\n\nPhysical meaning (my gloss): the medium has unit constant density, yet div u = -4πρ inside matter. So ponderable mass acts as a sink of the aether. This is Riemann's known aether-sink hypothesis.",
+  "errors": [
+   "The qualifier 'abgesehen von einer Constanten' applies only to the Neumann case. With Dirichlet data V is fully determined. This is a minor imprecision in the statement.",
+   "Remark 1 is a necessary compatibility condition. The claim that all other data are then arbitrary is correct only under smoothness assumptions that are left implicit. Fine for the period.",
+   "The density statement ('wie sich ... ergeben wird') is deferred, not proved, on this page. Uniform density together with div u ≠ 0 inside bodies requires the sink interpretation."
+  ],
+  "results": [
+   {
+    "what": "Uniqueness of solutions of Poisson's equation with Dirichlet or Neumann data in a bounded region, no surface discontinuities",
+    "modern_name": "Uniqueness theorem for Dirichlet/Neumann problems (Green's identities)",
+    "usually_credited_to": "Green (1828), Gauss (1839/40), Dirichlet",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Neumann compatibility condition ∫ΔV dτ = -∮∂V/∂p ds (inward normal)",
+    "modern_name": "Gauss divergence theorem / Neumann solvability condition",
+    "usually_credited_to": "Gauss, Green",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Decay condition R∇V → 0 at infinity replacing boundary data",
+    "modern_name": "Condition at infinity for exterior/whole-space Poisson problem (Liouville-type uniqueness)",
+    "usually_credited_to": "Gauss/Dirichlet tradition",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "ΔV = -4πρ with force = ∇V",
+    "modern_name": "Poisson's equation",
+    "usually_credited_to": "Poisson (1813)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Gravitational field identified with the velocity of an incompressible aether, matter acting as sinks (curl u = 0, div u = -4πρ)",
+    "modern_name": "Aether-sink (fluid-flow) model of gravity",
+    "usually_credited_to": "Riemann (fragment published in Werke 1876); related ideas by Challis, Bjerknes, Yarkovsky",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the published 'Gravitation und Licht' natural-philosophy fragment (Werke, 1876). The mathematics is standard potential theory of the period, and the aether-sink hypothesis is already well known as Riemann's.",
+  "checkable": [
+   {
+    "sympy": "x1,x2,x3=symbols('x1 x2 x3'); V=Function('V')(x1,x2,x3); u=[diff(V,x) for x in (x1,x2,x3)]; [simplify(diff(u[1],x3)-diff(u[2],x2)), simplify(diff(u[2],x1)-diff(u[0],x3)), simplify(diff(u[0],x2)-diff(u[1],x1))]",
+    "asserts": "u = grad V implies conditions (1): curl u = 0 (all three expressions are 0)"
+   },
+   {
+    "sympy": "r=sqrt(x1**2+x2**2+x3**2); simplify(sum(diff(1/r,x,2) for x in (x1,x2,x3)))",
+    "asserts": "V = m/r is harmonic away from the mass (result 0)"
+   },
+   {
+    "sympy": "R,th,ph,m=symbols('R theta phi m',positive=True); dVdp=-diff(m/R,R); integrate(integrate(-dVdp*R**2*sin(th),(th,0,pi)),(ph,0,2*pi))",
+    "asserts": "For a point mass, -∮∂V/∂p ds over a sphere (p inward normal, so ∂/∂p = -∂/∂R) equals -4πm, matching remark 2 and ΔV dτ = -4π dm"
+   },
+   {
+    "sympy": "limit(R*diff(m/R,R),R,oo)",
+    "asserts": "The decay condition R·∂V/∂R → 0 holds for the Newtonian potential (limit 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 5: the machine reading 'die[?] diese daher [-= 1 annehmen-] zur Zeit t überall = 1 annehmen' is garbled. The sense is that Riemann takes the density to be everywhere = 1. One phrasing is struck out and rewritten, and 'zur Zeit t' may be a misreading.",
+   "'für unsern Zweck so[?] ausdrücken' – probably 'so ausdrücken' or 'folgendermaßen'; the meaning is unaffected.",
+   "In remark 1 the struck-out fragment is '∫∂V/∂p ds durch'. The intended statement is: ∫ΣΔV dτ through the whole space = -∫∂V/∂p ds over its boundary."
+  ]
+ }
+}

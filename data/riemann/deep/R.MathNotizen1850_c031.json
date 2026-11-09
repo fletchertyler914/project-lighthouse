@@ -1,0 +1,70 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c031",
+ "label": "17r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000032/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two unrelated parts.\n\n(A) Upper text: the variational problem of the elastic plate. It continues the previous page, which proves via the Dirichlet-principle argument that a function minimizing ∫(u_x^2+u_y^2)dxdy is harmonic and is uniquely fixed by its boundary values.\n\nHere Riemann remarks that the vanishing of the first variation of a second-order integral fixes only the interior equation. The terms (∂²u/∂x∂y)² and (∂²u/∂x²)(∂²u/∂y²) can be transformed into one another by integration by parts. Their difference depends only on the values of the function and its derivatives on the boundary.\n\nIn modern form (my filling): u_xx u_yy − u_xy² = ∂_x(u_x u_yy) − ∂_y(u_x u_xy). So ∫∫(u_xx u_yy − u_xy²)dxdy is a pure boundary integral (a null Lagrangian). Adding it with any coefficient (the Poisson-ratio term) to ∫∫(Δu)² leaves the Euler–Lagrange equation ΔΔu = 0 unchanged, but changes the natural boundary conditions.\n\nHe then comments: 'With this equation it has become especially clear how important it is to have a principle by which one can [derive from] ∫(...)dxdy which boundary conditions must hold at every point of the boundary, which the function u must satisfy ... [the equation] according to which an elastic plate vibrates.' This is clearly an allusion to Kirchhoff's 1850 correction of Poisson's three plate boundary conditions to two, obtained from the energy principle.\n\n(B) Lower computation: a Stirling-formula estimate of\nT_m = Π(m−½)² / (Π(m)·(4q)^m),\nwhere Π is Gauss's factorial function, Π(x) = Γ(x+1).\n\nStep 1. log Π(m) ≈ (m+½)log m − m + ½ log 2π. This is Stirling. The marginal '+m log 4q' records the term to be subtracted, and 'm−1' is a scratch note.\n\nStep 2. Apply Stirling at argument m−½: log Π(m−½) ≈ m log(m−½) − (m−½) + ½ log 2π. Hence 2 log Π(m−½) ≈ 2m log(m−½) − 2m + 1 + log 2π.\n\nStep 3 (struck out). An attempt to write the result as −m log(m·4q/(m−½)²) + ½ log m.\n\nStep 4. log T_m ≈ m log[(m−½)²/(4qm)] − m + 1 + ½ log 2π − ½ log m.\n\nFurther simplification (mine): since 2m log(1−1/(2m)) = −1 + O(1/m), this gives log T_m = m log(m/(4q)) − m + ½ log(2π/m) + O(1/m).\n\nThis is the size of the m-th term of a divergent asymptotic series. It decreases until m ≈ 4q, where it is about e^{−4q}, and then grows: the optimal-truncation estimate. Note that Π(m−½)²/(π m!(2z)^m) are exactly the coefficients of the asymptotic expansion of K_0(z), the Bessel function of order 0, with 2z = 4q. The next page contains continued-fraction recursions. So this is plausibly connected with Riemann's work on asymptotic or continued-fraction treatment of hypergeometric/Bessel series. That connection is a conjecture of mine, not stated on the page.",
+  "errors": [
+   "No mathematical errors. Step 2 legitimately applies Stirling's formula at argument m−½, and the final line agrees exactly with 2·(Step 2) − (Step 1) − m log 4q.",
+   "The struck-out line '= −m(log m4q/(m−½)²) + ½ log m' is incomplete: it omits −m + 1 + ½ log 2π and has the wrong sign on ½ log m. Riemann evidently noticed this and replaced it with the correct last line.",
+   "All Stirling steps are asymptotic (error O(1/m)), written with '=' as was customary."
+  ],
+  "results": [
+   {
+    "what": "u_xx u_yy − u_xy² is a divergence, so its integral depends only on boundary data. It affects the natural boundary conditions of the plate energy, not the field equation.",
+    "modern_name": "Null Lagrangian (Hessian determinant as a divergence); natural boundary conditions of the Kirchhoff plate",
+    "usually_credited_to": "G. Kirchhoff (Crelle 40, 1850), correcting Poisson (1829); the problem goes back to Sophie Germain and Lagrange",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Remark on the importance of a variational principle for deriving boundary conditions (elastic plate)",
+    "modern_name": "Derivation of natural boundary conditions from an energy principle",
+    "usually_credited_to": "Kirchhoff 1850",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Stirling asymptotics: log[Γ(m+½)²/(m!(4q)^m)] = m log((m−½)²/(4qm)) − m + 1 + ½ log 2π − ½ log m + o(1)",
+    "modern_name": "Stirling's formula; term-size / optimal truncation estimate of an asymptotic series (cf. K_0 coefficients)",
+    "usually_credited_to": "Stirling/de Moivre (1730); optimal truncation folklore (Cauchy, Stokes)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The plate remark echoes Kirchhoff's well-known 1850 paper, which Riemann would have known as a student. The Stirling estimate is routine. The only mildly interesting point is the documentation of Riemann's study notes on Kirchhoff's plate problem and a term-size estimate tied to his continued-fraction work.",
+  "checkable": [
+   {
+    "sympy": "u=Function('u')(x,y); simplify(diff(u,x,2)*diff(u,y,2)-diff(u,x,y)**2 - (diff(diff(u,x)*diff(u,y,2),x)-diff(diff(u,x)*diff(u,x,y),y)))",
+    "asserts": "Equals 0: the Hessian determinant u_xx u_yy − u_xy² is a divergence (null Lagrangian)."
+   },
+   {
+    "sympy": "limit(loggamma(m+1)-((m+Rational(1,2))*log(m)-m+log(2*pi)/2), m, oo)",
+    "asserts": "Equals 0: Stirling's formula for log Π(m)."
+   },
+   {
+    "sympy": "limit(2*loggamma(m+Rational(1,2)) - (2*m*log(m-Rational(1,2))-2*m+1+log(2*pi)), m, oo)",
+    "asserts": "Equals 0: Riemann's second line, 2 log Π(m−½)."
+   },
+   {
+    "sympy": "limit(2*loggamma(m+Rational(1,2))-loggamma(m+1)-m*log(4*q) - (m*log((m-Rational(1,2))**2/(4*q*m))-m+1+log(2*pi)/2-log(m)/2), m, oo)",
+    "asserts": "Equals 0 (q>0 fixed): Riemann's final asymptotic formula for log T_m."
+   },
+   {
+    "sympy": "limit(m*log((m-Rational(1,2))**2/m) - m*log(m) + 1, m, oo)",
+    "asserts": "Equals 0: the simplification log T_m = m log(m/(4q)) − m + ½ log(2π/m) + o(1)."
+   }
+  ],
+  "transcription_corrections": [
+   "Second display line: '+ m log 4q' and 'm−1' are marginal notes separate from Stirling's formula. Read as: log Πm = (m+½) log m − m + ½ log 2π, with the term m log 4q to be subtracted.",
+   "Third display line: read 2 log Π(m−½) = 2m log(m−½) − 2m + 1 + log 2π. A struck 'log' sits between 'm' and '−2m'.",
+   "The fourth display line is entirely struck: '= −m(log m4q/(m−½)²) + ½ log m'.",
+   "Text near the end: 'die Schätzung nach dem einer elastischen Platte schwingt' should probably read '... die Gleichung, nach der eine elastische Platte schwingt'.",
+   "Third line of the upper text: the factor appears to be (∂²u/∂x∂y)² together with the product (∂²u/∂x²)(∂²u/∂y²) (written via d/d). The sense is that these 'in einander transformiren' differ only by boundary terms.",
+   "'es Unterschied hängt nur von den Werthen der F. u. ihrer Diffquot. an den Grenzen ab' should read 'der Unterschied hängt nur von den Werthen der F[unction] u. ihrer Diffquot[ienten] an den Grenzen ab'."
+  ]
+ }
+}

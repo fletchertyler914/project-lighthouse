@@ -1,0 +1,66 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c022",
+ "label": "13",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000023/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a pure numerical table with no derivations. It continues the table from p.12 and on to p.14. It has two blocks of five columns, x = 0.320…0.360 and x = 0.360…0.400, in steps of 0.001. The columns read A | B | ΔB | C | ΔC.\n\nI identified the functions by recomputing values myself; the page itself states no formula.\n- B = log10(1 + 10^(-A)). For example, A = 0.320: 10^-0.32 = 0.47863, and log10(1.47863) = 0.16985… gives 0.16986. A = 0.400: log10(1 + 0.39811) = 0.14554.\n- C = A + B = log10(1 + 10^A). Every row on the page satisfies C = A + B exactly in the 5th decimal, e.g. 0.392 + 0.14783 = 0.53983.\n- ΔB is the first difference of B in units of the 5th decimal. ΔC is the first difference of C, and ΔB + ΔC = 100 throughout, as it must be when A advances by 0.001 = 100 units.\n\nThis is a table of 'Gaussian' (addition/subtraction) logarithms. Given log a and log b with A = log a − log b, it supplies log(a+b) = log a + B = log b + C without antilogarithms. The A/B/C layout, five places and argument step of 0.001 match Gauss's printed table (Monatliche Correspondenz 26, 1812). This page is evidently a manuscript fair copy or working version of that table, for the range A ∈ [0.32, 0.40].\n\nVisible corrections in the image:\n- The last digit of A in rows 0.386–0.389 is overwritten.\n- The digit in 0.51384 is overwritten.\n- In 0.52150 the third digit is blotted; it must be 1 (0.366 + 0.15550).",
+  "errors": [
+   "No genuine errors found. All C = A + B, and the differences are internally consistent with ΔB + ΔC = 100.",
+   "A = 0.368: the exact value is B = 0.1548950 (by my hand computation), which sits essentially on the rounding boundary. Gauss's 0.15489 / 0.52289 is defensible, but it produces the irregular difference pattern 31, 29 in adjacent rows. Worth confirming at high precision.",
+   "My spot checks agree with the true values to ±1 in the 5th decimal at 0.320, 0.350, 0.360, 0.385 and 0.400."
+  ],
+  "results": [
+   {
+    "what": "5-place table of B(A) = log10(1+10^-A) and C(A) = A + B = log10(1+10^A) for A = 0.320..0.400, with first differences",
+    "modern_name": "Gaussian logarithms (addition logarithms), log-sum-exp in base 10",
+    "usually_credited_to": "Z. Leonelli (idea, 1802/03); C. F. Gauss (influential 5-place table, Monatliche Correspondenz 1812)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript sheet of Gauss's well-known table of addition logarithms, published 1812 in the same A/B/C format. It has documentary interest only and contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "N(log(1+10**(-Rational(32,100)),10),10)  # ~0.169855",
+    "asserts": "B(0.320) = 0.16986 to 5 places"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(36,100)),10),10)",
+    "asserts": "B(0.360) = 0.15731"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(368,1000)),10),12)",
+    "asserts": "B(0.368) ≈ 0.154895, a rounding boundary; Gauss writes 0.15489"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(385,1000)),10),10)",
+    "asserts": "B(0.385) = 0.14986"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(4,10)),10),10)",
+    "asserts": "B(0.400) = 0.14554"
+   },
+   {
+    "sympy": "N(log(1+10**Rational(392,1000),10),10)",
+    "asserts": "C(0.392) = 0.53983 = 0.392 + B(0.392)"
+   },
+   {
+    "sympy": "simplify(x + log(1+10**(-x),10) - log(1+10**x,10))",
+    "asserts": "C = A + B identically, i.e. log(1+10^A) = A + log(1+10^-A)"
+   },
+   {
+    "sympy": "[round(10**5*N(log(1+10**(-Rational(k,1000)),10))) for k in range(320,401)]",
+    "asserts": "reproduces the B column on this page (compare entry by entry)"
+   }
+  ],
+  "transcription_corrections": [
+   "Row A = 0.366: C is 0,52150; the blotted third digit is 1.",
+   "Rows 0.386–0.389: the final digit of A is overwritten/corrected in the manuscript. The values 0,386 … 0,389 are correct.",
+   "Row 0.355: C 0,51384 has an overwritten 3; the reading 0,51384 is correct.",
+   "Row 0.395: the A entry shows a stray mark after the 5 ('0,395'); the value is 0,395."
+  ]
+ }
+}

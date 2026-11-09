@@ -1,0 +1,60 @@
+{
+ "bundle": "Math.28",
+ "page": "c017",
+ "label": "8v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000018/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Overview. The page states and proves a small lemma: a continuously changing quantity cannot have an infinite derivative at every point of a stretch it runs through. Gauss proves it for real variables and then transfers it to complex variables along a path using arc length. The next page is not available, so the application is not visible here. The previous page (fragmentary: y', y'', 'analytischen') suggests he needed it while following the analytic continuation of solutions of a differential equation along a path in the complex plane. That context is my conjecture.\n\n§1 (real case).\n- Hypothesis: y = y(x). As x runs through the real values from a to a+α, y changes continuously from b to b+β, with β ≠ 0 tacitly assumed.\n- Claim: dy/dx cannot be infinite for all these x.\n- Proof: suppose dy/dx = ∞ throughout. Regard x as a function of y. Then dx/dy = 1/(dy/dx) = 0 for every y between b and b+β. So x stays constant while y goes from b to b+β. This contradicts the assumption that x runs from a to a+α.\n- Implicit steps (mine): x is treated as a single-valued function of y. The step 'zero derivative on an interval implies constant' is used, i.e. the mean value theorem.\n\n§2 (corollary).\n- dy/dx can become infinite only for individual values of x, never for a continuous run ('fortschreitender Zug') of values, i.e. never on a whole subinterval.\n- Reason: apply §1 to any subinterval on which y is not constant.\n\n§3 (complex case).\n- Hypothesis: T = T(t), and t runs along a path ('Zug') of complex values from t^0 to t'. Along it T changes continuously from T^0 to T'.\n- Claim: dT/dt cannot be infinite everywhere on this path.\n- Reduction: write t = p + i q and T = P + i Q, so dt = dp + i dq and dT = dP + i dQ.\n- Introduce the real arc lengths s = ∫ sqrt(dp^2 + dq^2) and S = ∫ sqrt(dP^2 + dQ^2), of the path and of its image.\n- Implicit step (mine): when T is complex-differentiable along the path, |dT/dt| = |dT|/|dt| = dS/ds. So dT/dt = ∞ everywhere on the path would mean dS/ds = ∞ everywhere, with S a real continuous function of the real variable s.\n- That is impossible by §1. Note that s and S are both nondecreasing, so the inversion in §1 is legitimate here.",
+  "errors": [
+   "§1 relies on inverting y(x). If y is not monotone, x is not a single-valued function of y, so the argument as written needs a local version (e.g. restricting to a subinterval of monotonicity) or a different proof. It is not a computational error, but it is an unjustified step by modern standards.",
+   "β ≠ 0 (y not constant) and 'x not constant' are tacit. With β = 0 the argument needs restricting to a subinterval where y is non-constant.",
+   "§2 overstates in modern terms. The set where a continuous function has an infinite derivative need not consist of isolated points: it can be dense or even uncountable. Its correct modern size is Lebesgue measure zero. Gauss's claim is right in the sense intended: not on any whole interval.",
+   "§3 tacitly needs |dT/dt| = dS/ds, i.e. T complex-differentiable along the path. It also needs the image of every subarc to have positive length (T not locally constant). Both are implicit.",
+   "'Infinite derivative' is used informally, without distinguishing +∞ and −∞ or one-sided limits. This is standard for the period."
+  ],
+  "results": [
+   {
+    "what": "A continuous function y(x) cannot have dy/dx = ∞ at every point of an interval. Proof by passing to the inverse function, whose derivative would vanish identically.",
+    "modern_name": "Elementary lemma on infinite derivatives; the set where the derivative is infinite contains no interval (sharp form: it has measure zero, Saks/Zygmund-type theorems)",
+    "usually_credited_to": "Folklore of 19th-century analysis; the measure-zero refinement is 20th century (Lusin/Denjoy/Saks)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Transfer to complex functions along a path via the arc-length identity |dT/dt| = dS/ds, which reduces the complex statement to the real one.",
+    "modern_name": "Modulus of the complex derivative as the ratio of arc-length elements (conformality, |f'(z)||dz| = |df|)",
+    "usually_credited_to": "Implicit in Gauss's own work on conformal mapping (1822/1825) and in Cauchy and Riemann",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is an elementary, heuristically argued lemma, probably auxiliary to Gauss's study of continuation of functions along complex paths. The arc-length reduction is neat and fits his known conformal-mapping viewpoint, but there is nothing here that a historian would consider a new or prior result.",
+  "checkable": [
+   {
+    "sympy": "x=symbols('x',real=True); simplify(diff(x**Rational(1,3),x)) == Rational(1,3)*x**Rational(-2,3)",
+    "asserts": "Example: y = x^(1/3) has an infinite derivative only at the single point x = 0, illustrating §2."
+   },
+   {
+    "sympy": "y=symbols('y',positive=True); simplify(1/diff(y**Rational(1,3),y) - diff(y**3,y).subs(y,y**Rational(1,3)))==0",
+    "asserts": "Inverse-derivative relation dx/dy = 1/(dy/dx) used in §1, checked for x = y^3 versus y = x^(1/3) (y > 0)."
+   },
+   {
+    "sympy": "tau=symbols('tau',real=True); p=tau; q=2*tau; T=expand((p+I*q)**3); P=re(T); Q=im(T); simplify(sqrt(diff(P,tau)**2+diff(Q,tau)**2)/sqrt(diff(p,tau)**2+diff(q,tau)**2) - Abs(3*(p+I*q)**2))==0",
+    "asserts": "For an analytic T(t) = t^3 along the path t = τ + 2iτ, dS/ds = |dT/dt|, the identity underlying §3."
+   },
+   {
+    "sympy": "p,q=symbols('p q',real=True); T=exp(p+I*q); P=re(expand_complex(T)); Q=im(expand_complex(T)); simplify(diff(P,p)**2+diff(Q,p)**2 - Abs(exp(p+I*q))**2)==0",
+    "asserts": "Along a horizontal path (dq = 0), dS^2/ds^2 = |dT/dt|^2 for T = e^t."
+   }
+  ],
+  "transcription_corrections": [
+   "The manuscript writes the increment of y with a Greek beta shaped like '6' (b + β); the transcription's 'b+β' is correct in meaning.",
+   "In 'dS/ds' the lower s is written over or corrected in a heavier stroke; the reading ds (lower-case, the path's arc length) is correct.",
+   "The first equation reads 'ds = √(dp²+dq²)'; the sign that looks like '∓' in the image is just '='.",
+   "The insertion 'bleibt' is written above the line after 'constant'; the reading 'x constant bleibt, gegen die Voraussetzung' is correct.",
+   "Item 3 reads 'verändere sich T nach der Stetigkeit von T^0 bis T' gleichfalls nach der Stetigkeit'. The doubled 'nach der Stetigkeit' is in the original and is not a transcription error."
+  ]
+ }
+}

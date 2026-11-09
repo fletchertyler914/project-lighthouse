@@ -1,0 +1,61 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c037",
+ "label": "28",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000038/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a computed table, not a derivation. It continues the table of the previous page (argument 1.440 to 1.520) and the next page (1.600 to 1.680). It has two blocks, each with five columns:\n\n- **A**: the argument, 1.520 to 1.560 on the left and 1.560 to 1.600 on the right, in steps of 0.001.\n- **B**: a decreasing value, 0.01292 down to 0.01077.\n- **ΔB**: the first difference of B in units of 10^-5 (2 or 3).\n- **C = A + B**.\n- **ΔC**: the difference of C in units of 10^-5 (97 or 98).\n\nIdentification of the function (my computation): B(A) = log10(1 + 10^(-A)), rounded to 5 decimals. Spot checks:\n- A=1.520: 10^-1.52 = 0.030200 and log10(1.030200) = 0.012921, giving 0.01292.\n- A=1.560 gives 0.011800, giving 0.01180.\n- A=1.600: 10^-1.6 = 0.0251189 and log10(1.0251189) = 0.010774, giving 0.01077.\n- A=1.524 gives 0.012805, 1.525 gives 0.012776, 1.543 gives 0.012264, 1.544 gives 0.012236, 1.562 gives 0.011746, 1.598 gives 0.010823, and 1.599 gives 0.010799. All agree with the manuscript.\n\nConsequently C = A + B = log10(10^A + 1) = log10(1 + 10^A). This is the classical 'Gaussian logarithm' (addition-logarithm) table in Gauss's own A, B, C arrangement. Given log a and log b with a > b, set A = log a − log b. Then log(a+b) = log a + B(A) = log b + C(A).\n\nThe difference columns are an internal consistency control. Since C(A+h) − C(A) = h + B(A+h) − B(A) with h = 0.001 = 100 units, we have ΔB + ΔC = 100 identically. Every row satisfies this (3+97, 2+98).\n\nThe slope dB/dA = −10^-A/(1+10^-A) ≈ −0.029 to −0.025 here. That explains why the differences shift from mostly 3 to more frequent 2 as A increases.\n\nThe purpose is a manuscript draft or working copy of the table Gauss published in 1812 for computing log(a±b) from log a and log b.",
+  "errors": [
+   "No errors found on this page. Every row satisfies ΔB + ΔC = 100. C equals A + B exactly in every row. Spot-checked B values match log10(1+10^-A) correctly rounded to 5 places."
+  ],
+  "results": [
+   {
+    "what": "Table of B(A)=log10(1+10^-A) and C(A)=A+B=log10(1+10^A) for A=1.520..1.600 at step 0.001, to 5 decimals, with first differences",
+    "modern_name": "Gaussian logarithms (addition/subtraction logarithms, Zech-type logarithms for real numbers)",
+    "usually_credited_to": "Idea due to Z. Leonelli (1802/1803); the standard A/B/C table published by Gauss in 1812 (Monatliche Correspondenz), hence the name 'Gaussian logarithms'",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Difference check ΔB + ΔC = 0.001 (100 units in the last place) used as a control on the computation",
+    "modern_name": "Differencing / consistency check of a mathematical table",
+    "usually_credited_to": "standard tabulation practice (Briggs onward)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working manuscript of Gauss's well-known table of addition logarithms, published in 1812 and universally called Gaussian logarithms. It shows computational practice and accuracy but contains nothing new.",
+  "checkable": [
+   {
+    "sympy": "[round(float(log(1+10**(-Rational(1520+k,1000)),10)),5) for k in range(0,81)]",
+    "asserts": "Reproduces the B column 0.01292 ... 0.01077 for A = 1.520 ... 1.600"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-Rational(152,100)),10)),5) - 0.01292",
+    "asserts": "B(1.520) = 0.01292 (difference is 0)"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-Rational(16,10)),10)),5) - 0.01077",
+    "asserts": "B(1.600) = 0.01077"
+   },
+   {
+    "sympy": "simplify(A + log(1+10**(-A),10) - log(1+10**A,10))",
+    "asserts": "C = A + B equals log10(1+10^A) identically (simplifies to 0 for real A)"
+   },
+   {
+    "sympy": "round(float(Rational(1553,1000)+log(1+10**(-Rational(1553,1000)),10)),5) - 1.56499",
+    "asserts": "C(1.553) = 1.56499 (the row with an ink blot in B)"
+   },
+   {
+    "sympy": "N(diff(log(1+10**(-A),10),A).subs(A,Rational(155,100)))",
+    "asserts": "Slope of B near 1.55 is about -0.0274, i.e. tabular differences of 2-3 units per 0.001"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription of this page agrees with the image and with recomputation. At 1.553 the B value 0,01199 is partly blotted in the image but is correct. At 1.544 the C value 1,55624 has an overwritten digit but is correct.",
+   "For context, not this page: on page 29 the entry for 1.604 transcribed as '1,61478[?]' should be 1,61568 (= 1.604 + 0.01068)."
+  ]
+ }
+}

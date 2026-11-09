@@ -1,0 +1,81 @@
+{
+ "bundle": "Math.17",
+ "page": "c015",
+ "label": "7v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376641:00000016/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table of decimal periods, continuing from the previous page (571, 569, 563, ... 521) and the next page (479, 467, ...). For each prime p (509, 503, 499, 491, 487) Gauss writes the repeating decimal digits of 1/p. He writes them in groups of ten and in rows of seven groups. He starts at the first nonzero digit, so the leading '00' of 0.00... is dropped. He keeps writing until the start of the period visibly recurs, then marks the break with '....'.\n\n(1) p = 509. 1/509 = 0.(001964636542 2396856581 ...).\n- Written digits: 7·70 + 20 = 510.\n- The final group 0216110019 ends with '0019', which is the start of the period again. So the period is 508 = p−1 digits, ending in ...021611.\n- Last-digit check (mine): 509·x ≡ −1 (mod 10) gives x = 1. ✓\n\n(2) p = 503. 1/503 = 0.(001988071570 ...).\n- 510 digits are written. The final group 0019880715 is an exact repeat of the first ten period digits.\n- Period 502 = p−1, ending ...9662027833.\n- Last-digit check: 503·3 = 1509 ≡ 9 (mod 10), so the last digit is 3. ✓\n\n(3) p = 499. 1/499 = 0.(002004008016032064 ...). Because 499 = 500 − 1, the leading digits double: 002, 004, 008, 016, ...\n- 500 digits are written. The final group 2505010020 ends with '0020', the repeat of the start.\n- Period 498, ending ...250501.\n\n(4) p = 491. 1/491 = 0.(002036659877 ...).\n- 490 digits are written. The final group 8329938900 ends with '00', the repeat.\n- Period 490, ending ...83299389.\n- Last-digit check: 491·9 ≡ 9 (mod 10), so the last digit is 9. ✓\n\n(5) p = 487. 1/487 = 0.(002053388090 ...).\n- 490 digits are written. The final group 7577002053 ends with '002053', the repeat.\n- Period 486, ending ...7577.\n- Last-digit check: 487·7 ≡ 9 (mod 10). ✓\n\nIn every case the period length is p−1. So 10 is a primitive root modulo 509, 503, 499, 491 and 487; these are 'full reptend' primes.\n\nMy own consistency checks (implicit, not on the page). For a full period of length p−1, digit k and digit k+(p−1)/2 sum to 9 (Midy's theorem, which follows from 10^{(p−1)/2} ≡ −1 mod p). I applied this to the doubtful places. In each case the complement of the matching earlier digits reproduces the written group exactly:\n- 509: offset 254, used for groups 1964636542, 5579567779 and 4734774066.\n- 503: offset 251, group 5009940357.\n- 499: offset 249, groups 6152304609 and 2184368737.\n- 491: offset 245, the blotted final group 8329938900.\n- 487: offset 243, the tail 7577.\n\nPurpose: this is part of Gauss's large manuscript table converting fractions with prime denominators below 1000 into decimals. It is the computational counterpart of Disquisitiones Arithmeticae arts. 312–318 (periods of decimal fractions and their use with indices/primitive roots). Each prime is written as a single full period; by Gauss's method the periods of a/p are then read off as cyclic shifts.",
+  "errors": [
+   "No arithmetic errors detected. The overwritten or corrected digits in the 509 block (groups 5579567779 and 4734774066) and the blotted start of the last 491 group are consistent with the complementary-half check, so the corrected readings are right."
+  ],
+  "results": [
+   {
+    "what": "Full decimal periods of 1/p for p = 509, 503, 499, 491, 487 (period lengths 508, 502, 498, 490, 486 = p−1)",
+    "modern_name": "Decimal expansion of 1/p; full reptend primes (10 a primitive root mod p); multiplicative order of 10 mod p",
+    "usually_credited_to": "Tables of decimal periods: Gauss (Disquisitiones 1801, table for p<100; Nachlass table up to 1000, printed in Werke II), also Burckhardt, Reuschle, Shanks, Cunningham",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Implicit structure: the second half of each period is the 9's complement of the first half",
+    "modern_name": "Midy's theorem",
+    "usually_credited_to": "E. Midy (1836); known in effect to Gauss",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a page of Gauss's well-known table converting fractions with denominators below 1000 into decimal fractions. The table was published in Werke vol. II and is the extension of the table in the Disquisitiones. It is pure, correct computation with no new theory.",
+  "checkable": [
+   {
+    "sympy": "n_order(10, 509) == 508 and n_order(10, 503) == 502 and n_order(10, 499) == 498 and n_order(10, 491) == 490 and n_order(10, 487) == 486",
+    "asserts": "10 is a primitive root mod each prime on the page, so every period has length p-1"
+   },
+   {
+    "sympy": "str((10**508 - 1)//509).zfill(508)[:12] == '001964636542' and str((10**508 - 1)//509).zfill(508)[-6:] == '021611'",
+    "asserts": "Start and end of the 1/509 period as written"
+   },
+   {
+    "sympy": "str((10**502 - 1)//503).zfill(502)[-10:] == '9662027833'",
+    "asserts": "End of the 1/503 period"
+   },
+   {
+    "sympy": "str((10**498 - 1)//499).zfill(498)[:20] == '00200400801603206412' and str((10**498 - 1)//499).zfill(498)[-6:] == '250501'",
+    "asserts": "Start and end of the 1/499 period"
+   },
+   {
+    "sympy": "str((10**490 - 1)//491).zfill(490)[-8:] == '83299389'",
+    "asserts": "End of the 1/491 period (the blotted last group)"
+   },
+   {
+    "sympy": "str((10**486 - 1)//487).zfill(486)[:12] == '002053388090' and str((10**486 - 1)//487).zfill(486)[-4:] == '7577'",
+    "asserts": "Start and end of the 1/487 period"
+   },
+   {
+    "sympy": "s = str((10**508 - 1)//509).zfill(508); s[312:322] == '5579567779' and s[472:482] == '4734774066'",
+    "asserts": "Confirms the corrected groups in the 509 block"
+   },
+   {
+    "sympy": "s = str((10**502 - 1)//503).zfill(502); s[182:192] == '5009940357'",
+    "asserts": "Confirms the overwritten group in the 503 block"
+   },
+   {
+    "sympy": "s = str((10**498 - 1)//499).zfill(498); s[222:232] == '6152304609' and s[232:242] == '2184368737'",
+    "asserts": "Confirms the unclear groups in row 4 of the 499 block"
+   },
+   {
+    "sympy": "all(int(a)+int(b) == 9 for a, b in zip(str((10**508-1)//509).zfill(508)[:254], str((10**508-1)//509).zfill(508)[254:]))",
+    "asserts": "Midy complement property for 1/509"
+   }
+  ],
+  "transcription_corrections": [
+   "509 block: '5579567779' is correct; the superscript marks are Gauss's own digit corrections, and the [?] can be removed.",
+   "509 block: '4734774066' is correct (an overwritten 4); the [?] can be removed.",
+   "503 block: '5009940357' is correct (overwritten digit); the [?] can be removed.",
+   "499 block row 4: the groups read '6152304609' and '2184368737'. The image shows overwritten or blotted leading digits, but these values are confirmed by the complement check.",
+   "491 block: the ink blot before the last group is a correction; the group is '8329938900'.",
+   "The red pencil strokes across the 499/491 blocks are a later (archival or cancellation) mark, not part of the content."
+  ]
+ }
+}

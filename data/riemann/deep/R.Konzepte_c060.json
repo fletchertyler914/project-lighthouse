@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c060",
+ "label": "28r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000061/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the Green's-theorem section of Riemann's Inauguraldissertation (1851, 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse', the articles on the integral ∫(u ∂u'/∂p − u' ∂u/∂p) ds). The previous page states the result as Lehrsatz IV. This page gives its proof.\n\nSetting: T is a plane surface (possibly multi-sheeted). u and u' satisfy Δu = u_xx + u_yy = 0 and Δu' = 0 in every part of T. The continuity conditions on u, u' and their derivatives may fail only at isolated points or lines. p denotes the normal to the boundary (in the dissertation, the inward normal) and s denotes arc length.\n\nStep 0 (from 'Satz I', cited as 'unserem Satze'). If u and u' are harmonic and suitably continuous on a region R, Green's second identity gives\n∮_{∂R} (u' ∂u/∂p − u ∂u'/∂p) ds = ± ∬_R (u' Δu − u Δu') dx dy = 0.\n\nStep 1. Cut T into two adjacent pieces, T' and T''. T' contains all the discontinuity places; T'' is free of them.\n\nStep 2. Apply Step 0 to T'':\nI(∂T'') := ∮_{∂T''} (u' ∂u/∂p − u ∂u'/∂p) ds = 0.\n\nStep 3. Decompose the boundaries.\n- ∂T'' consists of the parts of ∂T not lying on T', plus the common cut between T' and T''.\n- Along the cut, the normal p points in opposite directions relative to T' and to T''. So the cut contributes −(its contribution to I(∂T')).\n- Where T' reaches the boundary of T, the elements of I(∂T) and I(∂T') coincide and cancel in the difference ('beide Integrale sich gegen einander aufheben').\n- Every remaining element of I(∂T) − I(∂T') corresponds to an element of ∂T''.\nHence I(∂T'') = I(∂T) − I(∂T').\n\nStep 4. Combining with Step 2 gives I(∂T) = I(∂T'): 'Diese beiden Integrale sind daher einander gleich'.\n\nStep 5 (conclusion). T can be any surface piece on which the hypotheses hold. Therefore the value of ∮ (u' ∂u/∂p − u ∂u'/∂p) ds over the boundary of a surface piece stays constant under arbitrary change or enlargement of the piece, provided only that the discontinuity places continue to be enclosed. These are exactly the places where the hypotheses of Satz I fail, and none may be added or removed.\n\nA crossed-out passage first tried to state this directly as 'I over ∂T' = I over ∂T, where T' is any piece of T enclosing all discontinuities'. Riemann then replaced it with the general formulation.\n\nPurpose: this is the deformation (path-independence) principle. It is used afterwards to attach a definite value to each isolated singularity, e.g. the flux ∮ ∂u/∂p ds (case u' = 1), as on the previous page. It also serves the uniqueness theorems on the next page (Satz II/III: a harmonic function vanishing on a part of T vanishes everywhere).",
+  "errors": [
+   "No mathematical error. The argument is the standard cut-and-cancel proof.",
+   "The sign convention differs between pages: the previous page writes u ∂u'/∂p − u' ∂u/∂p, this page u' ∂u/∂p − u ∂u'/∂p. This is harmless, since only vanishing or constancy is asserted.",
+   "Implicit assumptions (standard for the period): the cut between T' and T'' is a piecewise-smooth curve, and T'' meets the regularity hypotheses of Satz I up to its boundary. Riemann does not state this explicitly here.",
+   "The phrase 'beliebige Veränderung u. Erweiterung' needs the proviso, stated on the previous page, that no discontinuity is crossed during the deformation. 'So bald nur die Unstetigkeitsstellen fortbestehen' expresses this only loosely."
+  ],
+  "results": [
+   {
+    "what": "For harmonic u, u' with isolated singularities, the boundary integral ∮(u' ∂u/∂n − u ∂u'/∂n) ds is invariant under deformation of the domain as long as the enclosed singularities are unchanged. Proved by splitting T into a singular part T' and a regular part T'' and cancelling along the common cut.",
+    "modern_name": "Green's second identity / reciprocity, deformation principle (harmonic analogue of Cauchy's integral theorem for multiply connected domains)",
+    "usually_credited_to": "Green (1828), Gauss (1839/40). The Cauchy-theorem analogue is due to Cauchy (1825). This harmonic formulation appears in Riemann's dissertation (1851).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Special case u' = 1: the flux ∮ ∂u/∂p ds around a singularity is independent of the enclosing curve (used on the previous page).",
+    "modern_name": "Flux / logarithmic residue of a harmonic function at an isolated singularity",
+    "usually_credited_to": "Gauss, Green; in Riemann's dissertation, 1851",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of material published in Riemann's 1851 dissertation (the Green-integral articles leading to the deformation theorem). The draft shows how the proof via T = T' ∪ T'' was formulated, which is of minor genetic interest, but the content is standard and already known to be his.",
+  "checkable": [
+   {
+    "sympy": "r,R,th=symbols('r R theta',positive=True); u=log(r); up=Integer(1); simplify(integrate((up*diff(u,r)-u*diff(up,r)).subs(r,R)*R,(th,0,2*pi)))",
+    "asserts": "With u = log r, u' = 1 the boundary integral over a circle of radius R equals 2*pi, independent of R (invariance around the singularity at 0)."
+   },
+   {
+    "sympy": "r,R,th=symbols('r R theta',positive=True); u=cos(th)/r; up=r*cos(th); simplify(integrate((up*diff(u,r)-u*diff(up,r)).subs(r,R)*R,(th,0,2*pi)))",
+    "asserts": "With u = cos(theta)/r (singular at 0) and u' = r cos(theta) the integral equals -2*pi for every R, illustrating constancy under enlargement."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); u=log(x**2+y**2)/2; simplify(diff(u,x,2)+diff(u,y,2))",
+    "asserts": "log r is harmonic away from 0 (result 0)."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); u=x/(x**2+y**2); up=x; simplify(up*(diff(u,x,2)+diff(u,y,2))-u*(diff(up,x,2)+diff(up,y,2)))",
+    "asserts": "The Green integrand u'Δu − uΔu' vanishes for these harmonic functions, so the area term in Step 2 is zero on any region avoiding 0."
+   },
+   {
+    "sympy": "r,R1,R2,th=symbols('r R1 R2 theta',positive=True); u=log(r); up=r*cos(th); f=lambda R: integrate((up*diff(u,r)-u*diff(up,r)).subs(r,R)*R,(th,0,2*pi)); simplify(f(R2)-f(R1))",
+    "asserts": "The difference of the boundary integrals on two concentric circles (the annulus playing the role of T'') is 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 ends with the second Laplace equation, written ∂²u'/∂x² + ∂²u'/∂y² = 0, followed by an added word above the line that looks like 'erfüllen'. The machine reading is plausible.",
+   "'auf unserem Satze gleich 0' — the image reads roughly '... dann auf unserem Satze [gleich crossed out] 0 ist'. It means 'which by our theorem is 0'.",
+   "'als Erweiterung[?] betrachtet werden' — the inserted word above the line is unclear; the sense is 'kann ... betrachtet werden als die Differenz'.",
+   "In the struck-out formula line, 'Grenzbegrenzung' is likely 'ganze Begrenzung' (or 'Grenze ... Begrenzung'); 'die bezogen' should be 'ds bezogen'.",
+   "'ausschließlich[?] sei' at the end of line 3 is more likely 'unterbrochen' or a similar word ('ohne daß ... Stetigkeitsbedingungen in allen ... Punkten und Linien erfüllt sei'). It is hard to read, but the sense is that continuity may fail at isolated points/lines.",
+   "Final lines: 'bei einer beliebigen Veränderung u. Erweiterung derselben constant, so bald nur die Unstetigkeitsstellen ... fortbestehen' — the image supports 'Verengerung und Erweiterung' or 'Veränderung'. The word after 'Unstetigkeitsstellen' (crossed out) is illegible."
+  ]
+ }
+}

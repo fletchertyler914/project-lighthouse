@@ -1,0 +1,102 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c335",
+ "label": "168v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000336/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Notation: Riemann uses Gauss's Pi s = Gamma(s+1) and psi s = d/ds log Pi s = Gamma'(s+1)/Gamma(s+1).\n\nThe page derives Stirling's formula with Binet's integral remainder. It then sketches an analysis of the remainder when the Stirling series is cut off near its smallest term (n = 2 pi s).\n\n(A) Tools.\n- int_0^oo e^{-sx} dx = 1/s.\n- Pi s = Pi(s+1)/(s+1). Iterating gives log Pi s = log Pi(s+n) - sum_{k=1}^n log(s+k). The left side is overwritten on the page.\n- Frullani's integral: log s = int_0^oo (e^{-x} - e^{-sx})/x dx.\n- Summing the geometric series (my step): sum_{k=1}^n e^{-(s+k)x} = e^{-sx}(1 - e^{-nx})/(e^x - 1).\n- Hence log Pi s = log Pi(s+n) - int_0^oo [ n e^{-x}/x - e^{-sx}(1 - e^{-nx})/(x(e^x - 1)) ] dx. The factor n is missing on the page.\n\n(B) Digamma.\n- Differentiating: psi s = -sum_{k=1}^n 1/(s+k) + psi(s+n), with psi(s+n) ~ log(s+n).\n- Using 1/(s+k) = int e^{-(s+k)x} dx and Frullani:\n  psi s = -int e^{-sx}(1 - e^{-nx})/(e^x - 1) dx + int (e^{-x} - e^{-(n+s)x})/x dx\n        = int_0^oo [ e^{-x}/x - e^{-sx}/(e^x - 1) ] dx + int_0^oo e^{-(n+s)x} [ 1/(e^x - 1) - 1/x ] dx.\n- The last term tends to 0 as n -> oo (Riemann strikes it out). What remains is Gauss's integral for the digamma function.\n- Side note on the page: 1/(e^x - 1) + 1/2 = (1/2)(e^x + 1)/(e^x - 1).\n\n(C) Integrating from s = 0 (Pi 0 = 1):\n  log Pi s = int_0^oo [ s e^{-x}/x - (1 - e^{-sx})/(x(e^x - 1)) ] dx.\nBy the same device:\n  s log s - s = int_0^oo [ s e^{-x}/x - (1 - e^{-sx})/x^2 ] dx,\n  (1/2) log s = (1/2) int (e^{-x} - e^{-sx})/x dx.\nSubtracting:\n  log Pi s = s log s - s + int_0^oo { ((e^{-sx} - 1)/x)(1/(e^x - 1) - 1/x + 1/2) - (1/2)(e^{-x} - 1)/x } dx + (1/2) log s\n           = (s + 1/2) log s - s - int_0^oo (dx/x)(1/(e^x - 1) - 1/x + (1/2)e^{-x}) + int_0^oo (e^{-sx}/x)(1/(e^x - 1) - 1/x + 1/2) dx.\nThe constant -int(...) equals (1/2) log 2 pi; Riemann does not evaluate it here. This is Binet's first formula: log Gamma(s+1) = (s + 1/2) log s - s + (1/2) log 2 pi + mu(s).\n\n(D) Remainder analysis (fragmentary).\n- On the next page Riemann expands mu(s) into the divergent Stirling series using zeta(2m). That series' terms are smallest near 2m ~ 2 pi s. He accordingly sets n = 2 pi s.\n- He writes the truncated remainder in a Cauchy/Stieltjes form: int_0^oo (e^{-sx}/x) dx * x^n int f(y) y^{-n} dy/(y - x).\n- Rescaling x -> x/s, y -> y/s gives int (e^{-x}/x) dx int f(y/s) e^{-n log(y/x)} d(y/x)/(y/x - 1).\n- Substituting 1 - y/x = t, which maps y in (0, x) to t in (1, 0), gives int (e^{-x}/x) dx int f((x/s)(1 - t)) e^{-n log(1-t)} dt/t.\n- He then swaps the order of integration: int e^{-n log(1-t)} dt/t int_0^oo e^{-sx} dx / (x(e^{x(1-t)} - 1)).\n- Rescaling t -> t/n and using -n log(1 - t/n) = t + t^2/(2n) + ... gives the integrand e^{t + t^2/(2n)}/(e^{x - xt/n} - 1) dt/t.\n- Its limiting form as n -> oo is e^t/(e^x - 1) dt/t.\n- The intent appears to be the leading asymptotics of the remainder of the Stirling series at optimal truncation. No final result is written.",
+  "errors": [
+   "Line 'log Pi(s+n) = log Pi(s+n) - log(s+1) ... - log(s+n)': the left side should be log Pi s; it is overwritten in the manuscript.",
+   "In 'log Pi s = log Pi(s+n) - int(e^{-x}/x - e^{-sx}(1-e^{-nx})/(x(e^x-1)))dx' the term e^{-x}/x needs a factor n, since it comes from summing n Frullani integrals.",
+   "'psi s = -1/(s+1) - ... - 1/(s+n) + log(s+n)' replaces psi(s+n) by log(s+n). This is valid only as n -> oo, which is how it is used.",
+   "Section D is a sketch: the function f is never specified, and the passage e^{-n log(1-t)} -> e^{t+t^2/(2n)} is an asymptotic expansion after rescaling t -> t/n, not an identity. No conclusion is stated.",
+   "The sign before the constant integral in the last Binet line is ambiguous in the image. The correct sign is minus, which yields +1/2 log 2 pi."
+  ],
+  "results": [
+   {
+    "what": "Frullani integral log s = int_0^oo (e^{-x}-e^{-sx})/x dx",
+    "modern_name": "Frullani integral",
+    "usually_credited_to": "Frullani (1821/28), Cauchy",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "psi s = int_0^oo (e^{-x}/x - e^{-sx}/(e^x-1)) dx, obtained by finite telescoping plus a limit",
+    "modern_name": "Gauss's integral representation of the digamma function",
+    "usually_credited_to": "Gauss (1812)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "log Pi s = int_0^oo (s e^{-x}/x - (1-e^{-sx})/(x(e^x-1))) dx",
+    "modern_name": "integral representation of log Gamma (Malmsten/Legendre type)",
+    "usually_credited_to": "Legendre, Malmsten, Binet (1810s-1840s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "log Pi s = (s+1/2)log s - s + C + int_0^oo e^{-sx}/x (1/(e^x-1) - 1/x + 1/2) dx, with C = -int (1/x)(1/(e^x-1)-1/x+e^{-x}/2) dx (= 1/2 log 2pi)",
+    "modern_name": "Binet's first formula for the Stirling remainder",
+    "usually_credited_to": "Binet (1839)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Integral representation of the remainder of the Stirling series truncated near the smallest term (n = 2 pi s), with a change of variables and a large-n rescaling of the kernel",
+    "modern_name": "optimal truncation / converging-factor analysis of Stirling's series (superasymptotics)",
+    "usually_credited_to": "Stieltjes (1889) for remainder bounds; Airey (1937), Dingle (1973), Berry (1989) for optimal-truncation remainders",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Sections A-C rederive Gauss's digamma integral and Binet's formula, which is routine for the period. The final section shows Riemann deliberately studying the remainder of Stirling's series at optimal truncation (n = 2 pi s, confirmed on the next page by 2 pi s = 2m-2). That is a notable unpublished foreshadowing of later converging-factor and superasymptotic work. However, it is fragmentary and reaches no stated result, so the score stays modest.",
+  "checkable": [
+   {
+    "sympy": "integrate((exp(-x)-exp(-s*x))/x,(x,0,oo),conds='none') - log(s)  # with s positive",
+    "asserts": "Frullani integral equals log s"
+   },
+   {
+    "sympy": "simplify(summation(exp(-(s+k)*x),(k,1,n)) - exp(-s*x)*(1-exp(-n*x))/(exp(x)-1))",
+    "asserts": "Geometric sum used to combine the n logarithms / reciprocals; should be 0"
+   },
+   {
+    "sympy": "N(Integral(exp(-x)/x - exp(-Rational(5,2)*x)/(exp(x)-1),(x,0,oo))) - N(digamma(Rational(7,2)))",
+    "asserts": "psi s = Gamma'(s+1)/Gamma(s+1) equals Gauss's integral (s=5/2); should be ~0"
+   },
+   {
+    "sympy": "N(Integral(3*exp(-x)/x - (1-exp(-3*x))/(x*(exp(x)-1)),(x,0,oo))) - N(log(factorial(3)))",
+    "asserts": "log Pi s integral representation at s=3; should be ~0"
+   },
+   {
+    "sympy": "N(Integral(2*exp(-x)/x - (1-exp(-2*x))/x**2,(x,0,oo))) - N(2*log(2)-2)",
+    "asserts": "s log s - s representation at s=2; should be ~0"
+   },
+   {
+    "sympy": "N(Integral((1/(exp(x)-1)-1/x+exp(-x)/2)/x,(x,0,oo))) + N(log(2*pi)/2)",
+    "asserts": "The constant: -int (1/x)(1/(e^x-1)-1/x+e^{-x}/2) dx = 1/2 log(2 pi); should be ~0"
+   },
+   {
+    "sympy": "N(loggamma(4) - ((3+Rational(1,2))*log(3) - 3 + log(2*pi)/2) - Integral(exp(-3*x)/x*(1/(exp(x)-1)-1/x+Rational(1,2)),(x,0,oo)))",
+    "asserts": "Binet's first formula for Pi(3)=Gamma(4); should be ~0"
+   },
+   {
+    "sympy": "simplify(1/(exp(x)-1)+Rational(1,2) - (exp(x)+1)/(2*(exp(x)-1)))",
+    "asserts": "Side identity on the page; should be 0"
+   },
+   {
+    "sympy": "series(-n*log(1-t/n), n, oo, 3)",
+    "asserts": "-n log(1-t/n) = t + t**2/(2n) + O(1/n**2), the kernel expansion e^{t+t^2/(2n)} in the last line"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3 should read log Pi s = log Pi(s+n) - log(s+1) - ... - log(s+n); the left side in the image is overwritten.",
+   "The line given as 'log Pi(s+n) - log Pi(s+n) - int(...)' should be 'log Pi s = log Pi(s+n) - int_0^oo (e^{-x}/x - (e^{-sx}/x)(1-e^{-nx})/(e^x-1)) dx'. Above the left side is the overwritten 'Pi(s+n)'.",
+   "The struck-out bracket term is '+ int_0^oo e^{-(n+s)x}(1/(e^x-1) - 1/x) dx', with a plus sign.",
+   "The digamma line reads 'psi s = -1/(s+1) - ... - 1/(s+n) + log(s+n)'; the gap in the transcription is an ellipsis.",
+   "In the lower part, 'int f y dy/(y-x)' is a Cauchy/Stieltjes-type integral int f(y) dy/(y-x) over (0,x), multiplied by x^n. It is followed by the substitution 1 - y/x = t with limits (1,0).",
+   "Last integral of the swapped form: denominator is x(e^{x - xt} - 1), i.e. e^{x(1-t)} - 1, with the earlier attempt struck out."
+  ]
+ }
+}

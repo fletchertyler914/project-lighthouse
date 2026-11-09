@@ -1,0 +1,49 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c034",
+ "label": "18r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000035/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is section III of Riemann's posthumous fragment on the mechanics of the ear (Henle's 'Mechanik des Ohres'). The previous page argues that the ossicular apparatus works with better than microscopic precision. It therefore needs correction devices against thermal expansion. The tympanic cavity (Paukenhöhle) must undergo small but real temperature changes. Riemann states an empirical-physical law: once the external temperature T_a has been constant long enough, the deviation of the temperature u(x) at any body point from brain temperature T_B is proportional to T_a - T_B.\n\nThis page justifies that law. It says the law follows from Newton's law of cooling together with the assumption that conductivity k and specific heat c are constant over the relevant temperature range.\n\nModern reconstruction (my filling-in):\n- Heat equation: c*rho*du/dt = div(k grad u), with constant k and c.\n- On the brain-side boundary (or deep core): u = T_B (Dirichlet).\n- On the skin: -k du/dn = h(u - T_a) (Newton's cooling law).\n- In steady state (long constant T_a): div(k grad u) = 0.\n- Put v = u - T_B. Then Laplace(v) = 0, v = 0 on the core boundary, and -k dv/dn = h(v - (T_a - T_B)) on the skin.\n- The problem is linear, and its only datum is the number T_a - T_B. Hence v(x) = phi(x)(T_a - T_B), with phi independent of T_a and 0 <= phi <= 1 by the maximum principle.\n\nRiemann's inference: since u - T_B = phi (T_a - T_B), a change dT_a produces du(x) = phi(x) dT_a. Here phi(x) = (u(x) - T_B)/(T_a - T_B). So the size of the steady temperature deficit of the tympanic cavity relative to the brain determines how strongly its temperature follows changes of external temperature. That is: 'man kann durch dieses Gesetz aus dem Abstande der Temperatur der Paukenhöhle von der Hirntemperatur auf die Temperaturänderungen schließen.'\n\nThe difference itself cannot be measured. Riemann nonetheless argues that a noticeable difference (merklicher Temperaturunterschied) exists, so phi(tympanum) is not negligible. His reasons are:\n- the communication with outside air via the external auditory canal and the Eustachian tube;\n- the manner of the cavity's blood supply.\nThe next page then contrasts the petrous bone (containing the carotid canal, hence near brain temperature) and infers that the mucous lining of the cavity is a poor conductor and radiator.",
+  "errors": [
+   "Not an error but an imprecision: the specific heat plays no role in the steady-state law (only conductivity and the Newton surface coefficient matter). Constant c matters only for linearity of the transient problem.",
+   "Strict proportionality also requires that internal heat sources (metabolism, perfusion) be absent in the region or act linearly in u - T_B, e.g. as exchange with blood at core temperature. Otherwise an inhomogeneous term adds a T_a-independent offset. Riemann hedges with 'nahe', so this is acceptable as an approximation.",
+   "'Communication with outside air through the external auditory canal' is anatomically loose: the tympanic membrane separates canal and cavity, so this is thermal rather than air communication. Only the tuba gives an air connection."
+  ],
+  "results": [
+   {
+    "what": "Steady-state linear heat conduction with Newton cooling boundary implies body temperature deviation from core temperature proportional to ambient deviation, u - T_B = phi(x)(T_a - T_B)",
+    "modern_name": "Linearity/superposition for the steady heat equation with Robin boundary condition; dimensionless temperature profile (cf. later bioheat modelling)",
+    "usually_credited_to": "Fourier (1822) for linear heat conduction; Newton (1701) cooling law; application to body temperature is standard 19th-c. physiology",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Inference: sensitivity of tympanic-cavity temperature to ambient changes equals ratio of its steady deficit from brain temperature to the ambient deficit; argument that ear mechanics needs thermal compensation",
+    "modern_name": "Thermal sensitivity coefficient / qualitative physiological-acoustics argument",
+    "usually_credited_to": "Riemann's posthumous 'Mechanik des Ohres' (ed. Henle, 1867)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a qualitative, standard application of linear heat conduction from Riemann's known posthumous ear-mechanics fragment. It is of physiological interest only, with nothing mathematically novel.",
+  "checkable": [
+   {
+    "sympy": "x,a,b,h,k,Ta,TB=symbols('x a b h k T_a T_B',positive=True); A,B=symbols('A B'); u=A*x+B; sol=solve([u.subs(x,0)-TB, k*diff(u,x).subs(x,b)+h*(u.subs(x,b)-Ta)],[A,B]); simplify((u.subs(sol)-TB)/(Ta-TB))",
+    "asserts": "1D slab with core at x=0 held at T_B and Newton cooling at x=b. (u-T_B)/(T_a-T_B) = h*x/(k+h*b) is independent of T_a, i.e. the proportionality law."
+   },
+   {
+    "sympy": "phi=h*x/(k+h*b); simplify(diff(TB+phi*(Ta-TB),Ta)-phi)",
+    "asserts": "The response of local temperature to an ambient change equals the steady ratio phi, Riemann's inference (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'Man kann [-durchaus-] [-auch-] dieses[?] Gesetz aus dem Abstande' should read 'Man kann durch[aus struck] [auch struck] dieses (corrected from 'dieser') Gesetz aus dem Abstande'. The intended text is 'Man kann durch dieses Gesetz aus dem Abstande ... schließen'.",
+   "In line 3, 'coefficient' after 'Wärmeleitungs' is crossed/underlined in the image. The intended phrase is still 'Wärmeleitungscoefficient'.",
+   "'daß ein {+merk+}[-...-]licher' is right: a struck word was replaced by superscript 'merk', giving 'merklicher'.",
+   "The pencil folio number '18' appears in the right margin, and the page number '9.' is at top right."
+  ]
+ }
+}

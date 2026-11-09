@@ -1,0 +1,75 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c242",
+ "label": "233",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000243/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Heading: 'Geometrische Relationen durch complexe Zahlen' (geometric relations expressed through complex numbers). The page states two circle loci in complex form and gives no derivations. It follows a page on a surveying-type problem: auxiliary quantities g, G, h, H and the equation g sin(2y+b+G) = h sin(b-H). It is plausibly a toolkit for resection or intersection problems.\n\nI. Fixed points M, M' have complex affixes m, m'. The variable point P = z is such that the azimuths of the lines PM' and PM differ by a given amount ∓φ, i.e. arg((m'-z)/(m-z)) = ±φ (mod π). Gauss states that the locus is a circle with\n- centre c = (m e^{iφ} - m' e^{-iφ})/(2i sin φ),\n- radius R = |m'-m|/(2 sin φ).\n\nImplicit verification (mine):\n- c - m = (m-m') e^{-iφ}/(2i sin φ) and c - m' = (m-m') e^{iφ}/(2i sin φ). Both have modulus |m'-m|/(2 sin φ), so M and M' lie on the circle.\n- c - (m+m')/2 = (i/2) cot φ (m'-m). So the centre lies on the perpendicular bisector of MM', at distance (|MM'|/2) cot φ from the midpoint.\n- The central angle on chord MM' is therefore 2φ. By the inscribed-angle theorem the chord subtends φ on one arc and π-φ on the other. Since azimuths of lines are taken mod 180°, this gives the whole circle.\n- The sign ∓ reflects orientation. With counterclockwise arg, points on the major arc on the side of the centre give arg((m'-z)/(m-z)) = +φ. Example: m=-1, m'=1, φ=π/4 gives c=i, R=√2. With geodetic clockwise azimuths the sign flips.\n\nII. M, M', m, m' as before. P = z has distances PM : PM' = k : k'. The locus is the Apollonius circle with\n- centre C = (k'^2 m - k^2 m')/(k'^2 - k^2),\n- radius |k k' (m'-m)/(k'^2 - k^2)|.\n\nImplicit derivation (mine):\n1. Start from k'^2 |z-m|^2 = k^2 |z-m'|^2.\n2. This gives (k'^2-k^2)|z|^2 - 2 Re(z conj(k'^2 m - k^2 m')) + k'^2|m|^2 - k^2|m'|^2 = 0.\n3. Hence the centre is C as above.\n4. R^2 (k'^2-k^2)^2 = |k'^2 m - k^2 m'|^2 - (k'^2-k^2)(k'^2|m|^2 - k^2|m'|^2) = k^2 k'^2 |m-m'|^2.\n\nEquivalently, C - m = k^2 (m-m')/(k'^2-k^2) and C - m' = k'^2 (m-m')/(k'^2-k^2). So C lies on the line MM' outside the segment, and R^2 = |C-m||C-m'|. That is, M and M' are inverse with respect to the circle.",
+  "errors": [
+   "No mathematical errors. Both centres and both radii check out.",
+   "Only an imprecision in I: a fixed signed angle difference gives just one arc. The full circle arises only because azimuths of lines are taken mod 180° (arcs with φ and φ-π), and the '∓' handles orientation.",
+   "In II the degenerate case k = k' (the locus is the perpendicular bisector, centre at infinity) is not mentioned. In I the case φ = 0 (the line MM') is likewise not mentioned."
+  ],
+  "results": [
+   {
+    "what": "Locus of points from which segment MM' is seen under a given angle φ (difference of azimuths). It is a circle with centre (m e^{iφ} - m' e^{-iφ})/(2i sinφ) and radius |m'-m|/(2 sinφ).",
+    "modern_name": "Inscribed angle theorem / circular arc of constant angle (arc capable), in complex-number form",
+    "usually_credited_to": "Euclid (Elements III.20-21) for the geometry; complex-plane formulation in the tradition of Wessel (1799), Argand (1806), Gauss (1831 publicly)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Locus of points whose distances to M, M' are in ratio k:k'. It is a circle with centre (k'^2 m - k^2 m')/(k'^2-k^2) and radius |kk'(m'-m)/(k'^2-k^2)|.",
+    "modern_name": "Circle of Apollonius (complex-form centre and radius)",
+    "usually_credited_to": "Apollonius of Perga (c. 200 BC)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Systematic use of complex affixes of plane points to express geometric loci.",
+    "modern_name": "Complex-number analytic geometry",
+    "usually_credited_to": "Wessel (1799), Argand (1806); Gauss's own advocacy is documented in his 1831 Anzeige, and his private use is known from Nachlass material",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Both loci are classical (inscribed-angle circle, Apollonius circle). Writing them with complex affixes is elegant but straightforward, and Gauss's private use of complex numbers in plane geometry and geodesy is well documented. This is a correct reference sheet, presumably for surveying problems such as resection.",
+  "checkable": [
+   {
+    "sympy": "m, mp = symbols('m mp'); phi = symbols('phi', real=True); c = (m*exp(I*phi) - mp*exp(-I*phi))/(2*I*sin(phi)); simplify((c - m) - (m - mp)*exp(-I*phi)/(2*I*sin(phi)))",
+    "asserts": "Result 0: c - m = (m-m') e^{-iφ}/(2i sinφ), so |c-m| = |m'-m|/(2 sinφ) and M lies on circle I."
+   },
+   {
+    "sympy": "m, mp = symbols('m mp'); phi = symbols('phi', real=True); c = (m*exp(I*phi) - mp*exp(-I*phi))/(2*I*sin(phi)); simplify((c - mp) - (m - mp)*exp(I*phi)/(2*I*sin(phi)))",
+    "asserts": "Result 0: c - m' = (m-m') e^{iφ}/(2i sinφ), so M' also lies on circle I."
+   },
+   {
+    "sympy": "m, mp = symbols('m mp'); phi = symbols('phi', real=True); c = (m*exp(I*phi) - mp*exp(-I*phi))/(2*I*sin(phi)); simplify(c - (m+mp)/2 - I*cot(phi)*(mp-m)/2)",
+    "asserts": "Result 0: the centre is the midpoint plus (i/2)cotφ(m'-m), i.e. on the perpendicular bisector."
+   },
+   {
+    "sympy": "z = I*(1+sqrt(2)); nsimplify(arg((1 - z)/(-1 - z)))",
+    "asserts": "Equals pi/4: for m=-1, m'=1, φ=π/4 (centre i, radius √2), the top point of the circle sees MM' under angle φ."
+   },
+   {
+    "sympy": "z = I + sqrt(2)*exp(I*Rational(2,7)*pi); N(arg((1 - z)/(-1 - z)) - pi/4)",
+    "asserts": "Approximately 0: another point on the major arc also gives angle difference π/4."
+   },
+   {
+    "sympy": "x,y,a,b,c,d,k,kp = symbols('x y a b c d k kp', real=True); Cx = (kp**2*a - k**2*c)/(kp**2-k**2); Cy = (kp**2*b - k**2*d)/(kp**2-k**2); R2 = k**2*kp**2*((c-a)**2+(d-b)**2)/(kp**2-k**2)**2; simplify(expand((kp**2*((x-a)**2+(y-b)**2) - k**2*((x-c)**2+(y-d)**2)) - (kp**2-k**2)*((x-Cx)**2+(y-Cy)**2-R2)))",
+    "asserts": "Result 0: the Apollonius condition k'^2|z-m|^2 = k^2|z-m'|^2 is equivalent to |z-C|^2 = R^2 with Gauss's centre and radius (m=a+ib, m'=c+id)."
+   },
+   {
+    "sympy": "m, mp, k, kp = symbols('m mp k kp'); C = (m*kp**2 - mp*k**2)/(kp**2 - k**2); simplify((C-m)*(C-mp) - (k*kp*(mp-m)/(kp**2-k**2))**2)",
+    "asserts": "Result 0: (C-m)(C-m') = R^2 as complex numbers, i.e. M and M' are inverse points with respect to the Apollonius circle."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is essentially accurate. 'Halbmesser' in I is written with a slight correction in the manuscript but reads 'Halbmesser'.",
+   "In II the original wording 'so dass die' is struck and replaced by 'dessen'. 'PM, PM'' is struck and replaced by the superscript insertion 'von M, M''. The transcription records this correctly.",
+   "The marks 'St' at the top left and bottom right are stamps or annotations, not mathematical content. The left-margin fragments ('sin α cos b', 'H ein so dass', '= h cos H', '= h sin H', 'Die correspon...', '(3) oder (4)', '= h' cos H', '= h' sin H') are bleed or overlap from the facing previous page."
+  ]
+ }
+}

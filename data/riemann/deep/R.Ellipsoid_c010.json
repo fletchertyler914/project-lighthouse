@@ -1,0 +1,76 @@
+{
+ "bundle": "R.Ellipsoid",
+ "page": "c010",
+ "label": "4r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205083:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: bundle 'R.Ellipsoid' holds working papers for Riemann's 1861 memoir 'Ein Beitrag zu den Untersuchungen über die Bewegung eines gleichartigen flüssigen Ellipsoides'. The previous page discusses the behaviour of a quantity H in limiting cases of the axes. This page is a log-table evaluation of the Maclaurin-spheroid rotation function at one specific eccentricity, the one where the Maclaurin sequence becomes dynamically unstable.\n\n(1) Heading line. It reads tau'^2/(eps*pi*rho^4) = 4 * 1/[deleted denominator, apparently cos psi^2], followed by '= -3 sin 2psi + 2psi(2 + cos 2psi)'. This is a normalised square of the rotation quantity. In the memoir eps is density times the attraction constant. The factor 4 suggests tau' is twice an angular velocity, but that is uncertain.\n\nThe bracket is the core of Maclaurin's formula. Put e = sin psi, where psi is the angular eccentricity. Then (my derivation):\n- Omega^2/(pi G rho) = 2 sqrt(1-e^2)(3-2e^2) arcsin(e)/e^3 - 6(1-e^2)/e^2\n- = (cos psi / sin^3 psi) * [2 psi (2 + cos 2psi) - 3 sin 2psi],\n- using 3 - 2 sin^2 psi = 2 + cos 2psi and 3 sin psi cos psi = (3/2) sin 2psi.\nSo the bracket is exactly the transcendental part of Maclaurin's relation.\n\n(2) The numbers (Briggs logs, characteristic 10 suppressed, 'n' = negative number).\n- log cos 2psi = 9.9116739n, so cos 2psi = -0.815969.\n- Hence 2 + cos 2psi = 1.184031, with log 0.0733630.\n- 2psi is in the second quadrant: 2psi = 144.687 degrees, log 2.1604185.\n- 8.2418774 = log(pi/180) - 10 converts degrees to radians.\n- Sum: log[2psi(2 + cos 2psi)] = 0.4756589, so 2psi(2 + cos 2psi) = 2.9897.\n- Right column: log sin 2psi = 9.7619992 (sin 2psi = 0.57807). Adding log 3 = 0.4771213 gives log(3 sin 2psi) = 0.2391205, so 3 sin 2psi = 1.7342.\n- The difference, not written on the page: 2psi(2 + cos 2psi) - 3 sin 2psi = 1.2555.\n\n(3) Bottom numbers.\n- 9.481910 = log cos psi (cos psi = 0.30333).\n- 9.502869 = log cot psi = log cos psi - log sin psi. This implies log sin psi = 9.979041, i.e. sin psi = e = 0.952887.\n- 9.761981 = log 2 + log sin psi + log cos psi = log sin 2psi. This is a cross-check of the 9.7619992 used above.\n\nSo psi = 72.344 degrees and e = sin psi = 0.95289. This is exactly the eccentricity at which the Maclaurin spheroid becomes dynamically (oscillatorily) unstable, the point Riemann identifies in the 1861 memoir.\n\nFinishing the evaluation (my step): Omega^2/(pi G rho) = (cos psi / sin^3 psi) * 1.2555 = 0.3506 * 1.2555 = 0.440. This agrees with the standard tabulated value at the instability point. (Incidentally tan psi = 3.1414, close to pi; this appears to be a coincidence.)",
+  "errors": [
+   "Minor numerical inconsistency: log sin 2psi is entered as 9.7619992 but recomputed as 9.761981 from log 2 + log sin psi + log cos psi. The difference of 1.8e-5 in the log means about 4e-5 relative error. Riemann apparently noticed this, since the bottom line seems to be a check. It is immaterial at the 4-5 figure precision needed.",
+   "The heading's denominator is struck out, so the exact normalisation (factor 4, rho^4, and which trigonometric prefactor) cannot be certified from this page alone. The bracket expression itself is correct."
+  ],
+  "results": [
+   {
+    "what": "Maclaurin rotation formula written with angular eccentricity: Omega^2/(pi G rho) = cos(psi)/sin(psi)^3 * (2 psi (2 + cos 2psi) - 3 sin 2psi), with e = sin psi",
+    "modern_name": "Maclaurin spheroid angular-velocity–eccentricity relation",
+    "usually_credited_to": "Colin Maclaurin (1742); the angular-eccentricity form is standard (e.g. Chandrasekhar, Ellipsoidal Figures of Equilibrium, 1969)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Numerical evaluation at e = sin psi = 0.95289 (psi = 72.34 deg), the onset of dynamical (overstable) instability of Maclaurin spheroids; Omega^2/(pi G rho) ≈ 0.440",
+    "modern_name": "Point of dynamical instability of the Maclaurin sequence (e = 0.952887)",
+    "usually_credited_to": "Riemann (1861); later Bryan (1889), Lebovitz, Chandrasekhar (1960s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine log-table arithmetic supporting a result Riemann published in 1861 (instability of Maclaurin spheroids at e≈0.9529), which is already credited to him. It is of interest only as a glimpse of his computing method.",
+  "checkable": [
+   {
+    "sympy": "e=sin(psi); simplify(2*sqrt(1-e**2)*(3-2*e**2)*asin(e)/e**3 - 6*(1-e**2)/e**2 - cos(psi)/sin(psi)**3*(2*psi*(2+cos(2*psi)) - 3*sin(2*psi))).subs(psi, Rational(1,3)).evalf()",
+    "asserts": "Maclaurin formula equals cos(psi)/sin(psi)^3 times the page's bracket (result should be 0)"
+   },
+   {
+    "sympy": "N(-10**(Float('9.9116739')-10))",
+    "asserts": "cos 2psi = -0.815969"
+   },
+   {
+    "sympy": "N(log(Float('1.184031'),10))",
+    "asserts": "log10(2+cos 2psi) = 0.0733630"
+   },
+   {
+    "sympy": "N(log(pi/180,10)+10)",
+    "asserts": "8.2418774 is log10(pi/180)+10"
+   },
+   {
+    "sympy": "N(2*asin(Float('0.952887'))*180/pi)",
+    "asserts": "2psi ≈ 144.687 degrees, whose log10 is 2.1604185"
+   },
+   {
+    "sympy": "N(log(2*asin(Float('0.952887'))*(2+cos(2*asin(Float('0.952887')))),10))",
+    "asserts": "log10[2psi(2+cos 2psi)] ≈ 0.47566"
+   },
+   {
+    "sympy": "N(log(3*sin(2*asin(Float('0.952887'))),10))",
+    "asserts": "log10(3 sin 2psi) ≈ 0.23912"
+   },
+   {
+    "sympy": "N(log(cos(asin(Float('0.952887'))),10)+10), N(log(cot(asin(Float('0.952887'))),10)+10), N(log(sin(2*asin(Float('0.952887'))),10)+10)",
+    "asserts": "bottom numbers ≈ 9.481910 (log cos psi), 9.502869 (log cot psi), 9.761981 (log sin 2psi)"
+   },
+   {
+    "sympy": "psi=asin(Float('0.952887')); N(cos(psi)/sin(psi)**3*(2*psi*(2+cos(2*psi))-3*sin(2*psi)))",
+    "asserts": "Omega^2/(pi G rho) ≈ 0.440 at the Riemann instability point"
+   }
+  ],
+  "transcription_corrections": [
+   "Bottom row: 9.481910 is log cos psi, 9.502869 is log cot psi, and 9.761981 is log sin 2psi (a recheck of 9.7619992); they are not independent results.",
+   "The struck-out denominator in line 1 is uncertain; 'cos psi^2' is a guess, and the deleted expression may involve sin psi^3 or similar.",
+   "'0,4771213' is log 3 (added to log sin 2psi); the lower 0,2391205 is its sum, not a separate datum.",
+   "'8,2418774' is log(pi/180) (degree-to-radian conversion), and '2,1604185' is log of 2psi in degrees (144.687)."
+  ]
+ }
+}

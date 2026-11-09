@@ -1,0 +1,74 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c303",
+ "label": "153v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000304/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page sets up the calculus of variations as a tool for the mechanics that follows: Jacobi's principle ∫√T·√(2(U+h)) dt on the previous page, and Gauss's principle of least constraint on the next. It is a cleaner rewrite of the previous page, now letting F depend explicitly on x.\n\n(1) Single function, higher derivatives.\n- The functional is W = ∫_a^b F(x, y, y', y'', y''') dx.\n- The comparison curve is y + δy, with δy = hη. Here h is a small constant and η(x) an arbitrary function; this is the Lagrange/Jacobi way of writing a variation.\n- The variation commutes with differentiation: δy' = d(δy)/dx and δy'' = d²(δy)/dx², and so on.\n- First variation: δW = ∫_a^b (F_y δy + F_{y'} δy' + F_{y''} δy'' + F_{y'''} δy''') dx. The last term is left blank on the page; the y''' term is filled in by me.\n- Integration by parts, written as an indefinite formula: ∫ F_{y'} (dδy/dx) dx = F_{y'} δy − ∫ δy (d/dx F_{y'}) dx.\n- Repeating this for the y'' term (twice) and the y''' term (three times) gives δW = ∫_a^b P δy dx + (boundary terms, written '+ ⋯').\n- Here P = F_y − d/dx F_{y'} + d²/dx² F_{y''} − d³/dx³ F_{y'''}. This is the Euler–Poisson expression, and the stationarity condition is P = 0.\n\n(2) Several functions.\n- W = ∫_a^b F(x, y1, y1', y1'', …, y2, y2', y2'', …, y3, y3', …) dx, with independent variations y_i + δy_i.\n- By the same procedure, δW = ∫_a^b (P δy1 + Q δy2 + R δy3) dx. Since the δy_i are arbitrary, P = 0, Q = 0, R = 0.\n\n(3) Holonomic side conditions.\n- The constraints are u(y1, y2, y3) = 0 and v(y1, y2, y3) = 0.\n- Admissible variations must satisfy δu = 0 and δv = 0, where δu = u_{y1} δy1 + u_{y2} δy2 (+ u_{y3} δy3, omitted on the page).\n- Lagrange's multiplier rule: P δy1 + Q δy2 + R δy3 + λ δu + μ δv must vanish for arbitrary δy_i, with λ(x) and μ(x) multipliers.\n- Equivalently, δW + δ∫_a^b λu dx + δ∫_a^b μv dx + ⋯ = 0. Because u = v = 0, the variation of λ and μ contributes nothing, so δ∫λu dx = ∫λ δu dx.\n- The resulting equations are not written but are implied (my completion): P + λ u_{y1} + μ v_{y1} = 0, Q + λ u_{y2} + μ v_{y2} = 0, R + λ u_{y3} + μ v_{y3} = 0.\n\nThis is standard lecture material, probably from Riemann's lectures on mechanics or natural philosophy.",
+  "errors": [
+   "The integration-by-parts formula is written as an indefinite integral; the boundary term F_{y'}δy is not evaluated between a and b. Boundary terms are elsewhere suppressed as '+⋯'. This is acceptable for fixed endpoints but left implicit.",
+   "The first-variation integrand is left incomplete: the F_{y'''} δy''' term is indicated only by a trailing '+'.",
+   "δu is written only with the δy1 and δy2 terms; the u_{y3} δy3 term is omitted, an abbreviation rather than an error.",
+   "The final Euler–Lagrange equations with multipliers (P + λu_{y1} + μv_{y1} = 0, etc.) are not written out.",
+   "No mathematical error in P: the alternating signs of the Euler–Poisson expression are correct here. This corrects the previous page, where the second term was written with ∂/∂y instead of ∂/∂x."
+  ],
+  "results": [
+   {
+    "what": "First variation of ∫F(x,y,…,y''')dx via δy = hη, commuting δ with d/dx, and integration by parts.",
+    "modern_name": "First variation / derivation of the Euler–Lagrange equation",
+    "usually_credited_to": "Euler (1744), Lagrange (1755–1760)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "P = F_y − (F_{y'})' + (F_{y''})'' − (F_{y'''})''' = 0",
+    "modern_name": "Euler–Poisson equation (higher-order Euler–Lagrange equation)",
+    "usually_credited_to": "Euler, Poisson",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Several dependent functions give one equation per function: P = Q = R = 0.",
+    "modern_name": "System of Euler–Lagrange equations",
+    "usually_credited_to": "Euler/Lagrange",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Holonomic constraints u = 0, v = 0 handled by adding ∫λu dx + ∫μv dx with multiplier functions λ(x), μ(x).",
+    "modern_name": "Lagrange multiplier rule for isoholonomic (pointwise) constraints",
+    "usually_credited_to": "Lagrange (Mécanique analytique, 1788)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Entirely standard textbook calculus of variations (Euler–Poisson equation, Lagrange multipliers for holonomic constraints), evidently lecture preparation for mechanics. Nothing here is non-standard or attributable to Riemann as a discovery.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; x=symbols('x'); y=Function('y')(x); F=y.diff(x,3)**2+y**2; euler_equations(F, y, x)",
+    "asserts": "The Euler–Poisson expression gives 2*y - 2*y^(6) = 0, matching P = F_y - (F_y')' + (F_y'')'' - (F_y''')'''."
+   },
+   {
+    "sympy": "from sympy import *; x=symbols('x'); y=Function('y')(x); d=Function('d')(x); a,b,c,e=symbols('a b c e'); F=a*y**2+b*y.diff(x)**2+c*y.diff(x,2)**2+e*y.diff(x,3)**2+x*y*y.diff(x,3); Fy=diff(F,y); F1=diff(F,y.diff(x)); F2=diff(F,y.diff(x,2)); F3=diff(F,y.diff(x,3)); P=Fy-diff(F1,x)+diff(F2,x,2)-diff(F3,x,3); expr=Fy*d+F1*d.diff(x)+F2*d.diff(x,2)+F3*d.diff(x,3)-P*d; B=F1*d+F2*d.diff(x)-diff(F2,x)*d+F3*d.diff(x,2)-diff(F3,x)*d.diff(x)+diff(F3,x,2)*d; simplify(expr-diff(B,x))",
+    "asserts": "The first-variation integrand minus P*δy is an exact derivative of the boundary terms (result 0), with F depending explicitly on x."
+   },
+   {
+    "sympy": "from sympy import *; x=symbols('x'); f=Function('f')(x); g=Function('g')(x); simplify(diff(f*g,x)-(f*diff(g,x)+g*diff(f,x)))",
+    "asserts": "Integration-by-parts identity underlying ∫F_{y'} δy' dx = F_{y'}δy - ∫δy (F_{y'})' dx (result 0)."
+   },
+   {
+    "sympy": "from sympy import *; x=symbols('x'); y1,y2,y3,lam=[Function(n)(x) for n in ['y1','y2','y3','lam']]; F=(y1.diff(x)**2+y2.diff(x)**2+y3.diff(x)**2)/2; u=y1**2+y2**2+y3**2-1; euler_equations(F+lam*u,[y1,y2,y3],x)",
+    "asserts": "The multiplier rule gives P + λ u_{y_i} = 0, i.e. -y_i'' + 2λ y_i = 0 (geodesics on the sphere)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the image shows F(x, y, y', y'', y''') with explicit x; the transcription is correct.",
+   "In δW = ∫(Pδy1 + Qδy2 + Rδy3)dx the third coefficient is written as a script R resembling λ; read it as R.",
+   "Final line: the second multiplier integral appears to read ∫_a^b μ v dx, with μ partly overwritten (it looks like 'A' or 'λ' corrected); the transcription's μ is plausible.",
+   "The struck symbol before 'u = 0 v = 0' is a crossed-out letter (possibly '&' or a Fraktur letter); it is uncertain and has no mathematical content.",
+   "The δu line begins with '=' because it continues δu: δu = (∂u/∂y1)δy1 + (∂u/∂y2)δy2 …"
+  ]
+ }
+}

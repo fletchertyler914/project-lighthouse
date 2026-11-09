@@ -1,0 +1,45 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c158",
+ "label": "79v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000159/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page image is extremely faint pencil, and almost nothing can be read with confidence. The machine transcription is essentially empty: it gives only fragments and '[?]' markers. A step-by-step reconstruction is therefore impossible, and what follows is a description of what is visible plus a context-based guess, clearly marked as such.\n\n(a) Layout. The upper third holds a block of about four long equations. Their right-hand sides contain a factor written as a bracket, roughly (A/(x..) - (B Delta/x..)*x), multiplied by a parenthesized linear combination of elastic constants. A symbol X is defined at the right end of line 4: 'X = ...'. Below that, on the right, a column of about three equations is each of the form (two fractions) * (constant combination) = (difference of two fractions). The middle of the page has two long equations starting at the left margin, of the form '... = X(...) + (...)(...) + ...'. The lower half holds a sequence of equations involving terms written like 'Pi_xx' or 'pi_{xx}' (possibly a stress-component notation), a 'mu Delta' term on the right, and the symbol phi. The last line reads approximately: (A/x.. - B/x.. * x)(const) + (C/x.. - D/x.. * x)(const)*zeta - ... = X(const).\n\n(b) Context (my inference, not read from this page). The previous page, 79r, is a computation in linear isotropic elasticity. It uses the Lame constants lambda and mu, the Laplacian Delta^2, rho = distance (the transcriber's '1/varrho' is 1/r), and the depth coordinate zeta. Coefficients 4(lambda+mu)zeta, 4(lambda+2mu) and 4(lambda+3mu) multiply derivatives of 1/r. That is the structure of Kelvin's point-force solution and of the Boussinesq/Cerruti-type half-space solutions built from it. On 79r Riemann integrates Delta^2 r = 2/r to get (lambda+mu) rho = -4(lambda+mu) zeta d^2 rho/dx^2 + 2(lambda+3mu) d rho/dx, and he introduces chi = x Delta^2 rho - 2 d rho/dx.\n\n(c) Reading this page in that light (inference). The recurring factor that the machine transcription reads as '(lambda+lambda')' is almost certainly one of the combinations (lambda+mu), (lambda+2mu) or (lambda+3mu). The glyph read as '8' after the bracket on the last lines is very probably zeta, matching '(lambda+mu)zeta' on 79r. The page thus most likely continues the same calculation: it determines the component functions (X, phi, and possibly stresses Pi_xx) of a displacement or stress field due to a concentrated force. The likely method is to collect terms in (lambda+mu), (lambda+2mu) and zeta and match them against the boundary condition at the surface.\n\nNo individual derivation step can be restated verbatim from the image.",
+  "errors": [
+   "No step can be checked: the pencil is too faint to read any complete equation.",
+   "The machine transcription's '(lambda+lambda')' is almost certainly a misreading of (lambda+mu) / (lambda+2mu); its '8' following these brackets is probably zeta."
+  ],
+  "results": [
+   {
+    "what": "Continuation (inferred from context) of the construction of the elastic field of a point force: Kelvin-type fundamental solution in terms of r and 1/r, with zeta-dependent terms suggesting a half-space (Boussinesq/Cerruti-type) problem",
+    "modern_name": "Kelvin fundamental solution of the Navier equations; Boussinesq-Cerruti half-space solutions",
+    "usually_credited_to": "W. Thomson (Kelvin) 1848 for the point force in infinite space; Boussinesq 1878-1885 and Cerruti 1882 for the half-space",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is essentially illegible. The surrounding context points to routine (for the period) manipulations of Lame-constant elasticity using Kelvin-type solutions. Nothing verifiably non-standard can be read here. If a full Boussinesq half-space solution could be established on these folios it would be somewhat notable, but this page alone gives no evidence of that.",
+  "checkable": [
+   {
+    "sympy": "x,y,z=symbols('x y z',real=True); r=sqrt(x**2+y**2+z**2); simplify(diff(r,x,2)+diff(r,y,2)+diff(r,z,2)-2/r)==0",
+    "asserts": "Laplacian of r equals 2/r. This is the identity behind 'Delta^2 rho' and 1/rho on the previous page."
+   },
+   {
+    "sympy": "lam,mu=symbols('lambda mu',positive=True); x,y,z=symbols('x y z',real=True); r=sqrt(x**2+y**2+z**2); X=[x,y,z]; u=[(lam+3*mu)*(1 if i==0 else 0)/r+(lam+mu)*X[i]*x/r**3 for i in range(3)]; div=sum(diff(u[i],X[i]) for i in range(3)); [simplify(mu*sum(diff(u[i],v,2) for v in X)+(lam+mu)*diff(div,X[i])) for i in range(3)]==[0,0,0]",
+    "asserts": "Kelvin's point-force displacement (force along x) satisfies the Navier equations away from the origin. The coefficient (lambda+3mu) is the one appearing on folio 79r."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z',real=True); r=sqrt(x**2+y**2+z**2); chi=x*2/r-2*diff(r,x); simplify(diff(chi,x)-(2/r+x*diff(2/r,x)-2*diff(r,x,2)))==0",
+    "asserts": "Consistency of the definition chi = x*Delta^2(rho) - 2*d(rho)/dx with its x-derivative as written on 79r, using rho=r and Delta^2 rho = 2/r."
+   }
+  ],
+  "transcription_corrections": [
+   "The recurring factor '(lambda+lambda')' should probably read (lambda+mu) or (lambda+2mu), matching the Lame-constant notation of 79r.",
+   "The '8' after the bracket in '(lambda+lambda')8 -' is probably the coordinate zeta, i.e. '(lambda+mu) zeta'.",
+   "Several lower-page terms transcribed as '...' appear to be 'Pi_xx'-type symbols (possibly stress components), and a 'mu Delta' term appears on the right of the lower block.",
+   "The page is too faint for a reliable symbol-level transcription. All '[?]' lines should be treated as unread."
+  ]
+ }
+}

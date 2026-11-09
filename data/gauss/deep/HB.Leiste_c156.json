@@ -1,0 +1,71 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c156",
+ "label": "65",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000157/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Nature of the page. This is a printed page (p. 65) of an 18th/early-19th-century German elementary arithmetic/algebra textbook set in Fraktur. It is not a Gauss autograph. The only handwriting is a few faint marginal jottings at lower left, apparently by Gauss.\n\nPrinted text.\n\n(a) End of the preceding section: for terms that differ very little, the arithmetic proportion hardly differs from the geometric one.\n- Take the three terms a, a+1/(2n), a+1/n, so that 2d = 1/n is small. The arithmetic middle term is a + 1/(2n).\n- Continuing the geometric proportion a : (a+1/(2n)) = (a+1/(2n)) : x gives x = (a+1/(2n))^2/a = a + 1/n + 1/(4 a n^2).\n- Since 1/(4 a n^2) is of second order in 1/n, the geometric fourth term is a + 1/n up to a negligible quantity. That is the same as the arithmetic fourth term, from a - (a+1/(2n)) = (a+1/(2n)) - (a+1/n).\n- In modern terms: for close numbers the geometric mean and arithmetic mean agree to first order, sqrt(a(a+h)) = a + h/2 - h^2/(8a) + O(h^3).\n\n(b) §145, definition. A continued proportion is a progression.\n- Arithmetic: a, a+d, a+2d, ...\n- Geometric: a, ae, ae^2, ..., where e is the 'Exponent' (ratio), called the 'Grundzahl' after §42.\n- The terms are numbered 1, 2, 3, ...; a progression is rising or falling according as its terms grow or shrink.\n\n(c) §146, corollary. With a=0, d=1 one gets the natural numbers from 0; with a=1, the natural numbers from 1. The sequence 0, 1, 2, ... (term number minus 1) is the sequence of exponents of e in the geometric progression; the next page continues with n-th term = a e^(n-1).\n\nMarginal jottings. They read roughly '+ mm xx y', '+ l x y' (or '+1 x y'), 'x^2 y', 'x . y'. They belong to the computation on the preceding page, which transforms x z'' + z' + z = 0 by the substitution z = x^m y. My reconstruction of that computation:\n- z' = m x^(m-1) y + x^m y'.\n- z'' = m(m-1) x^(m-2) y + 2m x^(m-1) y' + x^m y''.\n- Then x z'' + z' + z = x^(m+1) y'' + (2m+1) x^m y' + m^2 x^(m-1) y + x^m y.\n- Dividing by x^(m+1): y'' + (2m+1)/x y' + m^2/x^2 y + y/x = 0.\n- With m = -1/2 the first-derivative term drops out: y'' + y/(4x^2) + y/x = 0.\n\nThe margin terms look like the coefficient bookkeeping m^2 y / x^2 and y/x, possibly written after multiplying through by x^2. The underlying equation has the series solution z = Σ (-x)^k/(k!)^2 = J_0(2√x) (previous page: 1 - x + x^2/4 - x^3/36 ...).",
+  "errors": [
+   "No errors in the printed mathematics: (a+1/(2n))^2/a = a + 1/n + 1/(4an^2) is exact.",
+   "The printed text writes arithmetic proportions as 'a - a+1/(2n) = a+1/(2n) - a+1/n' without parentheses (old notation); read as a-(a+1/(2n)) = (a+1/(2n))-(a+1/n).",
+   "The marginal jottings are too fragmentary to check fully; as interpreted, they agree with the correct transformed ODE on the previous page."
+  ],
+  "results": [
+   {
+    "what": "For nearby terms the geometric fourth proportional differs from the arithmetic one only by a second-order term 1/(4an^2)",
+    "modern_name": "First-order agreement of arithmetic and geometric means (Taylor expansion)",
+    "usually_credited_to": "classical textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Definition of arithmetic and geometric progressions, n-th terms a+(n-1)d and a e^(n-1)",
+    "modern_name": "Arithmetic/geometric sequences",
+    "usually_credited_to": "antiquity / standard textbooks",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Marginal: the substitution z = x^m y in x z''+z'+z=0, with m=-1/2 removing the first-derivative term",
+    "modern_name": "Reduction of Bessel-type ODE (J_0(2√x)) to normal form",
+    "usually_credited_to": "Euler and others (18th c.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is a printed elementary textbook page. The only Gauss content is a few marginal scraps of a routine ODE substitution continued from the previous page.",
+  "checkable": [
+   {
+    "sympy": "simplify((a+1/(2*n))**2/a - (a + 1/n + 1/(4*a*n**2)))",
+    "asserts": "Geometric fourth proportional equals a+1/n+1/(4an^2) (result 0)"
+   },
+   {
+    "sympy": "simplify((a - (a+1/(2*n))) - ((a+1/(2*n)) - (a+1/n)))",
+    "asserts": "Arithmetic proportion a, a+1/(2n), a+1/(2n), a+1/n holds (result 0)"
+   },
+   {
+    "sympy": "series(sqrt(a*(a+h)), h, 0, 3)",
+    "asserts": "Geometric mean = a + h/2 - h**2/(8a) + O(h^3), i.e. agrees with the arithmetic mean to first order"
+   },
+   {
+    "sympy": "y=Function('y'); expand((x*diff(x**m*y(x),x,2)+diff(x**m*y(x),x)+x**m*y(x)) - (x**(m+1)*diff(y(x),x,2)+(2*m+1)*x**m*diff(y(x),x)+m**2*x**(m-1)*y(x)+x**m*y(x)))",
+    "asserts": "Substitution z=x^m y in x z''+z'+z gives x^(m+1)y''+(2m+1)x^m y'+m^2 x^(m-1) y + x^m y (result 0)"
+   },
+   {
+    "sympy": "simplify(x*diff(besselj(0,2*sqrt(x)),x,2)+diff(besselj(0,2*sqrt(x)),x)+besselj(0,2*sqrt(x)))",
+    "asserts": "J_0(2√x) solves x z''+z'+z=0 (result 0)"
+   },
+   {
+    "sympy": "series(besselj(0,2*sqrt(x)), x, 0, 4)",
+    "asserts": "Series 1 - x + x**2/4 - x**3/36 + O(x^4), as on the previous page"
+   }
+  ],
+  "transcription_corrections": [
+   "Most of the page is printed Fraktur text, not Gauss's handwriting; only the lower-left margin jottings are manuscript.",
+   "Margin reading is uncertain; plausibly '+ mm xx y' (or m^2 x^(-2) y), '+ 1:x . y' rather than '+ l x y', then 'x^2 y' and 'x . y', matching the terms m^2/x^2 y and 1/x y of the previous page's transformed ODE.",
+   "The printed 'a - a+1/(2n) = ...' should be read with implicit parentheses: a - (a+1/(2n)) = (a+1/(2n)) - (a+1/n)."
+  ]
+ }
+}

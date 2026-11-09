@@ -1,0 +1,91 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c143",
+ "label": "29v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000144/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PART 1 (A, B and their numerical evaluation). Gauss defines two power series in g with parameter mu (Pochhammer symbol (mu)_n = mu(mu+1)...(mu+n-1)):\n\nA = 1 + mu(mu+1)/(2*2) g^2 + mu(mu+1)(mu+2)(mu+3)/(2*2*4*4) g^4 + ... = sum_k (mu)_{2k} g^{2k} / (4^k (k!)^2)\n\nB = mu g/2 + mu(mu+1)(mu+2)/(2*2*4) g^3 + mu(mu+1)...(mu+4)/(2*2*4*4*6) g^5 + ...\n\nUnstated meaning (mine, certain): expand (1 - g sin t)^(-mu) = sum_n (mu)_n g^n sin^n t / n! and use mean(sin^{2k} t) = (2k)!/(4^k (k!)^2) over a full period. This gives:\n- A = (1/2pi) * Integral_0^{2pi} (1 - g sin t)^(-mu) dt = 2F1(mu/2, (mu+1)/2; 1; g^2).\n- B = (1/2pi) * Integral_0^{2pi} sin t (1 - g sin t)^(-mu) dt. Check: for k = 0 the term is mu g * (1/2); for k = 1 it is (mu)_3 g^3 / 3! * 3/8 = (mu)_3 g^3 / 16. Both match.\n\nGauss then puts R = pi/2 (a right angle) and approximates these means by equally spaced sampling, i.e. the trapezoidal rule on the circle.\n\nI. Nodes t = pi/4 + k pi/2, where sin t = ±sin(R/2) = ±1/sqrt2:\n- A ≈ ½(1 - g sin ½R)^(-mu) + ½(1 + g sin ½R)^(-mu).\n- B ≈ ½ sin ½R (1 - g sin ½R)^(-mu) - ½ sin ½R (1 + g sin ½R)^(-mu).\n\nII. Nodes t = pi/8 + k pi/4, where sin t = ±sin(R/4), ±sin(3R/4):\n- A ≈ ¼ sum over ± of [(1 ∓ g sin ¼R)^(-mu) + (1 ∓ g sin ¾R)^(-mu)].\n- B ≈ ¼ sum over ± of ±[sin ¼R (1 ∓ g sin ¼R)^(-mu) + sin ¾R (1 ∓ g sin ¾R)^(-mu)].\n\n'&c. semper propius' means: doubling the nodes again gives ever closer values. An N-point rule is exact for trigonometric polynomials of degree < N, so rule I (4 points) is exact through g^2 and rule II (8 points) through g^6. The convergence is geometric for |g| < 1.\n\nPART 2 (the case mu → 0). G = g^2/(2*2) + 1*2*3/(2*2*4*4) g^4 + 1*2*3*4*5/(2*2*4*4*6*6) g^6 + ... Its coefficients are C(2k,k)/(2k 4^k). So G = (1/2pi) * Integral -ln(1 - g sin t) dt = dA/dmu at mu = 0 (identification mine).\n\nGauss differentiates term by term:\n- dG/dg = ½g + 1*2*3/(2*2*4) g^3 + 1*2*3*4*5/(2*2*4*4*6) g^5 + ...\n- This simplifies to ½g + (1*3)/(2*4) g^3 + (1*3*5)/(2*4*6) g^5 + ... = ((1-g^2)^(-1/2) - 1)/g. (This is also B at mu = 1.)\n\nHence G = Integral [dg/(g sqrt(1-g^2)) - dg/g]. With g = 1/x this becomes Integral [dx/x - dx/sqrt(x^2-1)]. The minus sign from dg = -dx/x^2 is handled correctly. He then writes the result as ln x - ln(x - sqrt(x^2-1)), after first writing sqrt(xx-1) - x and correcting it. He concludes G = ln[1/(1 - sqrt(1-g^2))].\n\nThe correct result is ln x - ln(x + sqrt(x^2-1)) + C. Back in g, and with G(0) = 0, this gives G = ln[2/(1 + sqrt(1-g^2))].\n\nScattered fragments ('= e^{a sqrt-1}', '(1/2a) e^{½ sqrt-1 x sin R/pi}', 'cos ½x', a crossed-out stroke) appear to be abandoned attempts at an exponential or trigonometric representation. They are not developed.",
+  "errors": [
+   "In I, the second line of A is written (1 - g sin ½R)^(-mu) again; it must be (1 + g sin ½R)^(-mu).",
+   "In II, the second line of B is written (1 - g sin ¼R)^(-mu) in its first term; it must be (1 + g sin ¼R)^(-mu).",
+   "The brackets labelled '½B' in I and II actually approximate B itself, not ½B. Lowest order: rule I gives ½ s[(1+mu g s) - (1-mu g s)] = mu g s^2 = mu g/2 with s = 1/sqrt2, which is B's leading term. Rule II likewise gives ½ mu g (s1^2 + s3^2) = mu g/2. So either the prefactor ½ is a slip or B was meant differently.",
+   "Sign slip in the logarithm: Integral dx/sqrt(x^2-1) = ln(x + sqrt(x^2-1)), not ln(x - sqrt(x^2-1)). The stated final G = ln[1/(1 - sqrt(1-g^2))] is wrong: it diverges at g = 0. The correct value is G = ln[2/(1 + sqrt(1-g^2))].",
+   "No integration constant is fixed. The condition G(0) = 0 requires a ln 2 term."
+  ],
+  "results": [
+   {
+    "what": "A = mean over a period of (1 - g sin t)^(-mu), with series sum (mu)_{2k} g^{2k}/(4^k k!^2); B = mean of sin t (1 - g sin t)^(-mu)",
+    "modern_name": "Mean value of a power of (1 - g sin t); the hypergeometric function 2F1(mu/2,(mu+1)/2;1;g^2) (Laplace/Legendre-type coefficient)",
+    "usually_credited_to": "Laplace, Legendre, Euler (expansions in celestial mechanics); hypergeometric form Gauss 1812",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Approximating these periodic means by equally spaced sampling at 4, then 8 points, converging 'semper propius'",
+    "modern_name": "Trapezoidal rule for periodic integrands (spectral/geometric convergence; exact for trigonometric polynomials of degree < N)",
+    "usually_credited_to": "Classical; error analysis Poisson (1820s); the equally spaced trigonometric interpolation technique Gauss (1805, publ. 1866)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Sum ½g + (1*3)/(2*4) g^3 + ... = ((1-g^2)^(-1/2) - 1)/g",
+    "modern_name": "Binomial series of (1-g^2)^(-1/2)",
+    "usually_credited_to": "Newton",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Closed form of G = sum C(2k,k) g^{2k}/(2k 4^k) = mean of -ln(1 - g sin t), via substitution g = 1/x; correct answer ln[2/(1 + sqrt(1-g^2))]",
+    "modern_name": "Mean of log|1 - g sin t| over the circle (Jensen/Poisson-type integral)",
+    "usually_credited_to": "Euler/Poisson (classical integral)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine working: identifying hypergeometric-type series as circle averages and evaluating them by equally spaced (trapezoidal) sampling. This fits Gauss's known methods in perturbation theory and trigonometric interpolation. The closed-form integration is elementary and contains a sign slip.",
+  "checkable": [
+   {
+    "sympy": "simplify(series(hyper([mu/2,(mu+1)/2],[1],g**2),g,0,6).removeO() - (1 + mu*(mu+1)/4*g**2 + mu*(mu+1)*(mu+2)*(mu+3)/64*g**4))",
+    "asserts": "A's series equals 2F1(mu/2,(mu+1)/2;1;g^2) through g^4 (result 0)"
+   },
+   {
+    "sympy": "simplify(integrate(1/(1-g*sin(t)),(t,0,2*pi))/(2*pi) - 1/sqrt(1-g**2))",
+    "asserts": "At mu = 1, A = mean of (1 - g sin t)^(-1) = (1-g^2)^(-1/2), consistent with the series (0 for 0<g<1)"
+   },
+   {
+    "sympy": "series(Rational(1,2)*((1-g/sqrt(2))**(-mu)+(1+g/sqrt(2))**(-mu)) - (1+mu*(mu+1)/4*g**2), g, 0, 4)",
+    "asserts": "Rule I for A is exact through g^2 (difference is O(g^4))"
+   },
+   {
+    "sympy": "series(Rational(1,2)*(1/sqrt(2))*((1-g/sqrt(2))**(-mu)-(1+g/sqrt(2))**(-mu)), g, 0, 3)",
+    "asserts": "The bracket in I gives mu*g/2 + O(g^3), i.e. it approximates B, not ½B"
+   },
+   {
+    "sympy": "series(((1-g**2)**Rational(-1,2)-1)/g, g, 0, 7)",
+    "asserts": "equals g/2 + 3*g**3/8 + 5*g**5/16 + O(g^7), matching dG/dg"
+   },
+   {
+    "sympy": "series(log(2/(1+sqrt(1-g**2))), g, 0, 8)",
+    "asserts": "equals g**2/4 + 3*g**4/32 + 5*g**6/96 + O(g^8), the series G, so this is the correct closed form"
+   },
+   {
+    "sympy": "series(log(1/(1-sqrt(1-g**2))), g, 0, 4)",
+    "asserts": "Gauss's stated result contains -2*log(g) and so is not G (sign error)"
+   },
+   {
+    "sympy": "simplify(diff(log(x)-log(x+sqrt(x**2-1)),x) - (1/x - 1/sqrt(x**2-1)))",
+    "asserts": "The correct antiderivative uses x + sqrt(x^2-1) (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "'gg^4' in the G series should read g^4 (coefficient 1*2*3/(2*2*4*4)).",
+   "'mu...mu^4' means mu(mu+1)(mu+2)(mu+3)(mu+4).",
+   "Second line of A in I is faithfully transcribed as (1 - g sin ½R), but this is Gauss's slip for (1 + g sin ½R).",
+   "Second line of ½B in II reads (1 - g sin ¼R) in the image; this is Gauss's slip for (1 + g sin ¼R).",
+   "'dG/dg' is written with a struck/overwritten G in the image.",
+   "The fragment 'sin R/pi' in the exponent is uncertain; it may be sin(R/pi) or a different expression."
+  ]
+ }
+}

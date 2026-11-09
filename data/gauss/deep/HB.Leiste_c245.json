@@ -1,0 +1,81 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c245",
+ "label": "110",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000246/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is printed text from an arithmetic textbook on indeterminate (Diophantine) problems, continuing p.109. Only the right margin is handwritten, and it is cut off; its full version is on the next page.\n\nPRINTED PROBLEM 4 (taken from Hemeling). A farm woman sells x geese at 10 Mgr, y hens at 6 Mgr, z ducks at 4 Mgr and t pigeons at 2 Mgr. She sells 140 animals in all and takes 26 Rthl 24 Mgr. With 1 Rthl = 36 Mgr (my conversion), the takings are 960 Mgr.\n- The equations are x+y+z+t = 140 and 10x+6y+4z+2t = 960.\n- Halving the second gives 5x+3y+2z+t = 480.\n- Subtracting the first leaves 4x+2y+z = 340, so x = 85 - y/2 - z/4.\n- The author sets y = 2p and z = 4q, giving x = 85 - p - q, so p+q < 85. Then t = 140-x-y-z = 55 + p - 3q (my general form).\n- Case p = q: x = 85-2q, y = 2q, z = 4q, t = 55-4q. Requiring t > 0 gives q ≤ 13, hence 13 solutions in the printed table, q = 1..13.\n- Case p = 2q: x = 85-3q, y = z = 4q, t = 55-5q = 5(11-q). So q ≤ 11, but q = 11 gives t = 0, hence 'eigentlich nur 10 Fälle'.\n- Hemeling's answer (60, 40, 20, 20) is the case p = 2q, q = 5.\n\nMARGINAL NOTES (Gauss's hand). These are a fragment of a calculation of log 10037 by the 'near-product' trick.\n- The factorization is 10037·97·691 + 1 = 672750000 = 225·10^4·299.\n- Hence log 10037 = log 10^4 + log 225 + log 299 - log 97 - log 691 + log(1 - 1/a), with a = 672750000.\n- The correction term uses 1/672.75 = 4/2691 = 2/9 + 9/13 + 2/23 - 1. A partial-fraction split over 2691 = 9·13·23 lets the term be written as repeating decimals.\n- The digit strings '9145 2991…' and '869 565…' are the periodic decimals 107/117 = 2/9 + 9/13 = 0.914529914529… and 2/23 = 0.0869565217391304347826….\n- The cut-off lines 'a pq +, a' qr +, …' belong to the cyclic system of equations on the next page.",
+  "errors": [
+   "The printed parametrization y=2p, z=4q is sufficient but not necessary. The true condition from 4x+2y+z=340 is only 2y+z ≡ 0 (mod 4). It allows y odd with z ≡ 2 (mod 4), e.g. (x,y,z,t) = (84,1,2,53), which is a valid solution that the method misses.",
+   "Treating only p=q and p=2q is illustrative, not exhaustive; the author admits this.",
+   "Whether q=0 or t=0 cases count is handled informally (the '11 oder eigentlich nur 10' remark).",
+   "The printed arithmetic in both cases and in the 13-column table is correct.",
+   "The marginal identities are all exactly correct: 10037·97·691+1 = 672750000 and 2/9+9/13+2/23-1 = 4/2691 = 1/672.75."
+  ],
+  "results": [
+   {
+    "what": "Solving x+y+z+t=140, 10x+6y+4z+2t=960 in positive integers via partial parametrization",
+    "modern_name": "linear Diophantine system / 'hundred fowls' type problem",
+    "usually_credited_to": "ancient (Zhang Qiujian, Alcuin); standard textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Computing log 10037 from 10037·97·691+1 = 225·10^4·299 plus a small correction term",
+    "modern_name": "logarithm computation via near-factorizations (smooth-number approximation)",
+    "usually_credited_to": "classical table-making practice (Briggs, Vlacq, later Gauss/Wolfram era)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Writing 1/672.75 = 4/2691 as 2/9+9/13+2/23-1 to obtain periodic decimals",
+    "modern_name": "partial fraction decomposition / periodic decimal expansion",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is a printed elementary textbook exercise. Gauss's marginal scribbles are a routine numerical logarithm calculation, consistent with his well-known computing habits.",
+  "checkable": [
+   {
+    "sympy": "26*36+24 == 960",
+    "asserts": "26 Rthl 24 Mgr = 960 Mgr"
+   },
+   {
+    "sympy": "(10*60+6*40+4*20+2*20, 60+40+20+20) == (960, 140)",
+    "asserts": "Hemeling's solution satisfies both equations"
+   },
+   {
+    "sympy": "all(10*(85-2*q)+6*2*q+4*4*q+2*(55-4*q)==960 and (85-2*q)+2*q+4*q+(55-4*q)==140 for q in range(1,14))",
+    "asserts": "all 13 tabulated solutions (case p=q) are valid"
+   },
+   {
+    "sympy": "all(10*(85-3*q)+6*4*q+4*4*q+2*(55-5*q)==960 for q in range(1,12))",
+    "asserts": "case p=2q formulas satisfy the money equation"
+   },
+   {
+    "sympy": "(10*84+6*1+4*2+2*53, 84+1+2+53) == (960, 140)",
+    "asserts": "a valid solution with odd y missed by the parametrization"
+   },
+   {
+    "sympy": "10037*97*691+1 == 672750000 == 225*10000*299",
+    "asserts": "marginal factorization identity"
+   },
+   {
+    "sympy": "Rational(2,9)+Rational(9,13)+Rational(2,23)-1 == Rational(4,2691) == 1/Rational(67275,100)",
+    "asserts": "the correction term equals 1/672.75"
+   },
+   {
+    "sympy": "N(Rational(107,117),20), N(Rational(2,23),25)",
+    "asserts": "decimals 0.914529914529… and 0.0869565217391304347826…"
+   }
+  ],
+  "transcription_corrections": [
+   "Margin '869 5651[?]' should read '869 5652…' (the decimal of 2/23 = 0.08695652…), as on the next page.",
+   "Margin '14.299 [?]' is probably 'l299' (log 299) or part of the 225·10000·299 factorization, not a number 14.299.",
+   "Margin '$a' qr$' etc. are cut-off fragments of the next page's equations a pq + bp + c = pqr, a'qr + b'q + c' = qrs, …"
+  ]
+ }
+}

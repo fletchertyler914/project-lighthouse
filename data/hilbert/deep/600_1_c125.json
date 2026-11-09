@@ -1,0 +1,45 @@
+{
+ "bundle": "600_1",
+ "page": "c125",
+ "label": "[116]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000126/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context from the previous page: a linear substitution S is written as x' = A x, with A = (alpha_ik). A second substitution T is written as x'' = B x', with B = (beta_ik). To each substitution Hilbert attaches a bilinear form, written 𝔅 (the 'K' on this page is the same symbol). The form for S is 𝔅(S) = phi = u1*x1' + u2*x2' = u^T A x. The form for T S T^{-1} is 𝔅(TST^{-1}) = sum a_ik omega_i xi_k = x1''*omega1 + x2''*omega2, where x'' is to be expressed in the new variables xi.\n\nOn this page:\n(1) The new variables are tied to the old ones by xi = B x, that is, xi1 = b11 x1 + b12 x2 and xi2 = b21 x1 + b22 x2.\n(2) Question: how is 𝔅(TST^{-1}) obtained from 𝔅(S)? Answer: by a substitution of variables.\n(3) Write 𝔅(TST^{-1}) = omega^T x''. Insert x'' = B x' to get (b11 x1' + b12 x2') omega1 + (b21 x1' + b22 x2') omega2.\n(4) Regroup [my step]: this equals x1'(b11 omega1 + b21 omega2) + x2'(b12 omega1 + b22 omega2).\n(5) Compare with 𝔅(S) = u1 x1' + u2 x2'. In place of u1, u2 one must put b11 omega1 + b21 omega2 and b12 omega1 + b22 omega2. Hence u = B^T omega; the next page states this explicitly.\n(6) Combined effect [my step]: the x-variables transform cogrediently by xi = B x. The u-variables transform contragrediently by u = B^T omega. Then u^T A x = omega^T B A x = omega^T (B A B^{-1}) xi. So the bilinear form of the conjugated substitution is the transformed bilinear form.\n\nPurpose: this reduces the conjugation (similarity) problem for 2x2 substitutions to the invariant theory of a bilinear form in one pair of contragredient variable series. The next page composes a further substitution (gamma) and announces that the invariant theory can be built with an Omega-type differential operator in the beta's.",
+  "errors": [
+   "In the third displayed line the second term is written (beta_2 x_2'') omega_2. It should read (beta_21 x_1' + beta_22 x_2') omega_2. This is a subscript slip (beta_2 for beta_22) and a prime slip (double prime for single prime). The following line uses the correct beta_22.",
+   "Strictly, step (3) inserts x'' = B x' into omega^T x''. The identification with 𝔅(S) then relies on x' being the image of x under S and on xi = B x. Hilbert leaves the matching of 'x in terms of xi' implicit. The argument is correct but tacitly assumes B is invertible."
+  ],
+  "results": [
+   {
+    "what": "The bilinear form attached to a substitution S, under conjugation S -> T S T^{-1}, transforms by a cogredient substitution on x (xi = B x) and a contragredient one on u (u = B^T omega). So invariants of matrices under similarity are invariants of a bilinear form in contragredient variables.",
+    "modern_name": "Correspondence between endomorphisms and bilinear forms on V* x V (tensors of type (1,1)); similarity invariants as invariants of a mixed bilinear form",
+    "usually_credited_to": "Classical: Cayley, Sylvester, Frobenius (1878 bilinear forms), Kronecker; standard 19th-century invariant theory",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine lecture- or study-note computation: the contragredient transformation of the variables of a bilinear form under conjugation of a linear substitution. It was standard by the 1870s-80s.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; a11,a12,a21,a22,b11,b12,b21,b22,w1,w2,xi1,xi2=symbols('a11 a12 a21 a22 b11 b12 b21 b22 w1 w2 xi1 xi2'); A=Matrix([[a11,a12],[a21,a22]]); B=Matrix([[b11,b12],[b21,b22]]); w=Matrix([w1,w2]); xi=Matrix([xi1,xi2]); u=B.T*w; x=B.inv()*xi; simplify((u.T*A*x)[0]-(w.T*B*A*B.inv()*xi)[0])==0",
+    "asserts": "Substituting u = B^T omega and x = B^{-1} xi into u^T A x gives the bilinear form of B A B^{-1}."
+   },
+   {
+    "sympy": "from sympy import *; b11,b12,b21,b22,x1,x2,w1,w2=symbols('b11 b12 b21 b22 x1 x2 w1 w2'); expand((b11*x1+b12*x2)*w1+(b21*x1+b22*x2)*w2 - (x1*(b11*w1+b21*w2)+x2*(b12*w1+b22*w2)))==0",
+    "asserts": "The regrouping that identifies u1 = b11 w1 + b21 w2 and u2 = b12 w1 + b22 w2."
+   },
+   {
+    "sympy": "from sympy import *; A=Matrix(2,2,symbols('a11 a12 a21 a22')); B=Matrix(2,2,symbols('b11 b12 b21 b22')); C=B*A*B.inv(); simplify(C.trace()-A.trace())==0 and simplify(C.det()-A.det())==0",
+    "asserts": "Trace and determinant, the basic invariants sought, are unchanged under the transformation."
+   }
+  ],
+  "transcription_corrections": [
+   "The symbol rendered K on this page is the same script/Fraktur letter as the 𝔅 of the previous page (𝔅(S), 𝔅(TST^{-1})).",
+   "The x's in the defining formulas xi1 = b11 x1 + b12 x2 and xi2 = b21 x1 + b22 x2 carry a small mark above them in the manuscript. It is possibly a prime; the next page writes them without primes.",
+   "In the third display the manuscript itself reads (beta_21 x_1' + beta_2 x_2'') omega_2. The transcription is faithful here, but the mathematically intended expression is beta_22 x_2'.",
+   "The middle term is (beta_11 x_1' + beta_12 x_2') omega_1, with primes on x as in the image."
+  ]
+ }
+}

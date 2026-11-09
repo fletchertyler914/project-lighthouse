@@ -1,0 +1,69 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c107",
+ "label": "[98]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000108/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Gauss describes how to test and adjust the line of sight (Gesichtslinie) of a Borda repeating circle (Bordaischer Kreis). The definitions are on the previous page:\n- 90°−a is the angle between the line of sight and the third axis.\n- 90°−b is the angle between the second axis and the third.\n- 90°−c is the angle between the second axis and the first (vertical) axis.\n- p is the parallax of a terrestrial object due to the offset of the line of sight from the second axis.\n\nThe circle is used in a 'horizontal' position and in 'vertical' positions (graduated face to the right or left). Steps 1–4 (previous page) are:\n- (1) Rough pointing with the circle horizontal.\n- (2) Pointing with the circle vertical, face right.\n- (3) Horizontal again, pointing by foot screw and alidade; reading h.\n- (4) Vertical, pointing by azimuth and alidade; reading v.\n\nSteps 3 and 4 are alternated until the readings become stationary. Eventually the alidade motion alone suffices. Once the differences are only a few arcseconds, one may take the mean of the last observations.\n\nThis page continues:\n- (5) Turn the instrument 180° in azimuth. Point by azimuthal and alidade motion only; the foot screw must not be touched. Reading 180°+V.\n- (6) Circle horizontal; bring the object onto the line of sight by alidade motion and foot screw.\n- (7) Vertical again, face left; point by azimuth and alidade motion. Reading 180°+v'.\n- (8) Repeat operation 6. Reading 180°+h'.\n\nSteps 6/7 are alternated until v' and h' are stationary. Practical conditions:\n- The ball nut and clamps of the drum screw, the azimuth screw and the alidade screw (and, per the footnote, the screw on the third axis holding the drum) must be tightly fastened.\n- The drum screw and the rear telescope are never touched.\n\nTwo further quantities are defined. A is the drum-index reading. B is the alidade-index reading when the line of sight lies in one plane with the second and third axes. Then d = A + B is an instrumental constant.\n\nThe page then begins an example (Beispiel). On 3 December 1816, with unbroken eyepiece, the object was the knob over Jäger's garden house, observed from a room in front of the right window. Since the distance is unknown, p remains undetermined.\n\nThe reduction is on the next page; it is reconstructed here for checking. The observation equations are:\n- h = B + p + a − b\n- v = B − p − a + b\n- V = B + p + a − b + 2c\n- h' = B − p − a − b\n- v' = B + p + a + b\n\nThe unknowns p+a, b, B are each obtained twice: p+a = (h−h')/2 = (v'−v)/2, b = (v'−h)/2 = (v−h')/2, B = (h+v)/2 = (h'+v')/2. Then c = (V − (B+p+a−b))/2.\n\nNumerically, with the readings expressed as seconds beyond 178°: h = 1418, v = 1338.5, V = 2107, h' = 1276.5, v' = 1494.5. This gives:\n- p+a: 70.75'' and 78'', mean 74.375''.\n- b: 38.25'' and 31'', mean 34.625''.\n- B: 178°22'58.25'' and 178°23'5.5'', mean 178°23'1.875''.\n- c = 5'42.6875''.\n- With A = 2°35', d = A+B = 180°58'1.875''. The manuscript labels this value 'A', but it is d.\n\nIn short: a symmetric observation scheme separates the instrument errors and determines them by least-effort averaging, as in a reversal method.",
+  "errors": [
+   "No mathematical errors on this page; it is procedural.",
+   "On the following page, the final line '$A = 180^\\circ 58' 1''875$' should be read as d = A + B, since A = 2°35' was given above. This is a labeling slip.",
+   "The marginal alternative values on the next page (+1'22''4, +0'57''6, +5'47''8) differ from the computed means; they are apparently from a later recomputation or another series and are not explained."
+  ],
+  "results": [
+   {
+    "what": "Procedure for determining the collimation/axis errors (a, b, c, p) of a Borda repeating circle by reversals in horizontal and vertical positions and 180° azimuth rotation, with redundant determinations averaged",
+    "modern_name": "Reversal (Umlegung) method for determining instrumental errors (collimation, axis inclination) of a surveying circle",
+    "usually_credited_to": "General reversal technique is standard 18th–19th c. practice (Borda, Mayer, Bessel); this specific treatment was published by Gauss in 1818 (Zeitschrift für Astronomie)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Definition of the instrumental constant d = A + B (drum index plus alidade index when the line of sight is coplanar with the second and third axes)",
+    "modern_name": "Instrument zero-point/index constant",
+    "usually_credited_to": "Gauss (published 1818)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of instrument-adjustment instructions that Gauss published in more detailed form in 1818, as the archivist's note states. It is routine practical astronomy and geodesy.",
+  "checkable": [
+   {
+    "sympy": "B,p,a,b,c=symbols('B p a b c'); h=B+p+a-b; v=B-p-a+b; hp=B-p-a-b; vp=B+p+a+b; simplify((h-hp)/2-(p+a)), simplify((vp-v)/2-(p+a))",
+    "asserts": "Both expressions for p+a are consistent with the observation model (both differences are 0)"
+   },
+   {
+    "sympy": "simplify((vp-h)/2-b), simplify((v-hp)/2-b), simplify((h+v)/2-B), simplify((hp+vp)/2-B)",
+    "asserts": "The double determinations of b and B are consistent with the model (all 0)"
+   },
+   {
+    "sympy": "V=B+p+a-b+2*c; simplify(-Rational(1,2)*(B+p+a-b-V)-c)",
+    "asserts": "The formula c = -(1/2)(B+p+a-b-V) is correct (result 0)"
+   },
+   {
+    "sympy": "h=1418; v=Rational(2677,2); V=2107; hp=Rational(2553,2); vp=Rational(2989,2); ((h-hp)/2,(vp-v)/2,((h-hp)/2+(vp-v)/2)/2)",
+    "asserts": "p+a = 70.75'', 78'', mean 74.375'' (seconds beyond 178°)"
+   },
+   {
+    "sympy": "((vp-h)/2,(v-hp)/2,((vp-h)/2+(v-hp)/2)/2)",
+    "asserts": "b = 38.25'', 31'', mean 34.625''"
+   },
+   {
+    "sympy": "Bm=((h+v)/2+(hp+vp)/2)/2; (Bm, (V-(Bm+Rational(595,8)-Rational(277,8)))/2)",
+    "asserts": "B = 1381.875'' beyond 178° (178°23'1.875''), and c = 342.6875'' = 5'42.6875''"
+   },
+   {
+    "sympy": "178*3600+Rational(11055,8)+2*3600+35*60 - (180*3600+58*60+Rational(15,8))",
+    "asserts": "d = A + B = 180°58'1.875'' with A = 2°35' (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The first line 'Resultate geben' completes 'bald stehen-[de] Resultate geben' from the previous page.",
+   "'Saal[?]zimmer' is uncertain; the image looks more like 'im Lilla-zimmer' (lilac room).",
+   "The image has 'Gesichtlinie' in step 7, matching the transcription; both spellings (Gesichtslinie/Gesichtlinie) occur on the page.",
+   "'Kugel Mutter und Klemme bei Trommelschraube*)' is correct; the footnote marker refers to the screw on the third axis that holds the drum."
+  ]
+ }
+}

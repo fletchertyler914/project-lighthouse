@@ -1,0 +1,58 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c137",
+ "label": "69v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000138/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two lines and continues the Euler-product computations of the previous page (fol. 69r) and the next page (fol. 70r).\n\nLine 1: Pi(1 - (1/p)^s). The bracket is partly overwritten, but it is clearly the product over primes p of (1 - p^{-s}). This is the reciprocal of the Euler product Pi 1/(1-p^{-s}) = sum n^{-s} = zeta(s) written on fol. 69r. Expanding it by unique factorisation gives\n  Pi_p (1 - p^{-s}) = 1/zeta(s) = sum_{n>=1} mu(n) n^{-s},\nwhere mu(n) = (-1)^k if n is a product of k distinct primes, and mu(n) = 0 if n has a square factor. This expansion is my modern restatement; Riemann writes only the product and then the specialised series.\n\nLine 2: '0 = 1 - 1/2 - 1/3 + 1/5 + 1/6 - 1/7' (sign of the 1/5 term discussed below). This is the case s = 1. Since sum 1/n diverges (zeta(s) ~ 1/(s-1), a fact noted on fol. 69r), the reciprocal product Pi(1 - 1/p) is 0. Expanding formally gives\n  0 = sum mu(n)/n = 1 - 1/2 - 1/3 - 1/5 + 1/6 - 1/7 + 1/10 - 1/11 - 1/13 + 1/14 + 1/15 - ...\nThe term 1/4 is correctly omitted, since mu(4) = 0.\n\nPurpose: the same Moebius sign pattern reappears on the next page as psi(1) - psi(2) - psi(3) - psi(5) + psi(6) - psi(7), and as psi(s) - psi(2s) - psi(3s) - psi(5s) + psi(6s) + psi(10s) + psi(15s) - psi(30s). There it is used to invert log zeta(s) = sum_m (1/m) sum_p p^{-ms} and so recover the prime count from a logarithmic-integral-type function. That inversion is the Moebius-inversion step of Riemann's 1859 paper. This page is a scratch check of the signs of the coefficients mu(n), or of the identity Pi(1 - 1/p) = 0 = sum mu(n)/n.",
+  "errors": [
+   "As transcribed, the 1/5 term carries a plus sign. The correct sign is minus, because mu(5) = -1. In the image the sign before 1/5 looks overwritten (possibly '-' altered to '+'). On the next page Riemann writes the correct sign: psi(1) - psi(2) - psi(3) - psi(5) + psi(6) - psi(7). So either the sign was corrected or it is a momentary slip.",
+   "The step from Pi(1 - 1/p) = 0 to 0 = sum mu(n)/n is purely formal. The series is only conditionally convergent, and its value 0 lies as deep as the prime number theorem (von Mangoldt 1897). Riemann gives no justification, and none was available in 1859."
+  ],
+  "results": [
+   {
+    "what": "Expansion of Pi_p (1 - p^{-s}) = 1/zeta(s) as the Dirichlet series sum mu(n) n^{-s}",
+    "modern_name": "Dirichlet series of the Moebius function / reciprocal of the Euler product",
+    "usually_credited_to": "Euler (1737/1748); Moebius (1832) for the function and the inversion formula",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "sum_{n>=1} mu(n)/n = 0, obtained formally from Pi(1 - 1/p) = 0",
+    "modern_name": "sum mu(n)/n = 0 (equivalent to the prime number theorem)",
+    "usually_credited_to": "Stated by Euler (1748); proved by von Mangoldt (1897), with a simpler proof by Landau (1899)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a formal Euler-style identity that was well known before Riemann. It is plainly preliminary to the Moebius inversion of log zeta(s) / Pi(x), which already appears in his published 1859 paper. There is no proof here, and the formal statement predates him.",
+  "checkable": [
+   {
+    "sympy": "Pi = sympy.pi; s=sympy.symbols('s'); [ (n, sympy.mobius(n)) for n in range(1,8)] == [(1,1),(2,-1),(3,-1),(4,0),(5,-1),(6,1),(7,-1)]",
+    "asserts": "The Moebius coefficients for n = 1..7 are 1, -1, -1, 0, -1, +1, -1, so the 1/5 term should carry a minus sign."
+   },
+   {
+    "sympy": "sum(sympy.Rational(sympy.mobius(n), n) for n in range(1,8)) == sympy.Rational(-1,105)",
+    "asserts": "The correct partial sum 1 - 1/2 - 1/3 - 1/5 + 1/6 - 1/7 equals -1/105."
+   },
+   {
+    "sympy": "1 - sympy.Rational(1,2) - sympy.Rational(1,3) + sympy.Rational(1,5) + sympy.Rational(1,6) - sympy.Rational(1,7) == sympy.Rational(41,105)",
+    "asserts": "With the sign as transcribed, the partial sum is 41/105, far from the correct pattern."
+   },
+   {
+    "sympy": "abs(sum(sympy.mobius(n)/sympy.Float(n) for n in range(1,100001))) < 0.01",
+    "asserts": "Numerical evidence that sum mu(n)/n tends to 0."
+   },
+   {
+    "sympy": "sympy.simplify(sympy.expand((1-2**-s)*(1-3**-s)*(1-5**-s)) - (1-2**-s-3**-s-5**-s+6**-s+10**-s+15**-s-30**-s)) == 0",
+    "asserts": "The truncated product over p = 2, 3, 5 gives exactly the sign pattern used on the next page: psi(s) - psi(2s) - psi(3s) - psi(5s) + psi(6s) + psi(10s) + psi(15s) - psi(30s)."
+   }
+  ],
+  "transcription_corrections": [
+   "The first line is Pi(1 - (1/p)^s), with the exponent s partly overwritten; it is not simply Pi(1 - 1/p) [?].",
+   "The sign before 1/5 appears overwritten in the image. Mathematically it should be '-1/5'; the transcription's '+1/5' may reflect a correction or a slip."
+  ]
+ }
+}

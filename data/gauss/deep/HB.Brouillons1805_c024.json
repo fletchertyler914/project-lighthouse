@@ -1,0 +1,75 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c024",
+ "label": "19",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000025/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous pages): X is a function of x with a power-series expansion. Its values A, B, C, D, … are known at m nodes a, b, c, d, …, and T denotes X(t). Formula W is the Lagrange form of the interpolating polynomial:\n\nT = Σ_k A_k · Π_{j≠k}(t−a_j)/(a_k−a_j).\n\nEquation V is presumably the equivalent statement that the m-th divided difference over the m+1 points a, b, c, …, t vanishes:\n\nA/((a−b)(a−c)…(a−t)) + B/((b−a)(b−c)…(b−t)) + … + T/((t−a)(t−b)…) = 0.\n\nV is exact when X is a polynomial of degree ≤ m−1; Art. 20 gave the correction term otherwise.\n\nArt. 22 (interpolating residuals).\n- Let Σ(t) be any polynomial of degree ≤ m−1, with values 𝔄 = Σ(a), 𝔅 = Σ(b), …, 𝔗 = Σ(t).\n- Then the alternating divided-difference sum vanishes: 𝔄/Π(a−·) + 𝔅/Π(b−·) + … = 0. This holds over the m+1 points including t; over the m nodes alone it would require degree ≤ m−2.\n- V is linear in the values, so V, and hence W, still holds with A−𝔄, B−𝔅, …, T−𝔗 in place of A, B, …, T.\n- Equivalently (my restatement): T = Σ(t) + Σ_k (A_k − Σ(a_k)) L_k(t), where L_k(t) = Π_{j≠k}(t−a_j)/(a_k−a_j).\n- Practical point: if Σ already approximates the data, only small residuals are multiplied by the Lagrange coefficients (t−b)(t−c)…/((a−b)(a−c)…).\n- Special choices:\n  - Σ = constant, e.g. A: the A-term of W drops out.\n  - Σ = A + (t−a)(A−B)/(a−b), the linear interpolant through (a,A) and (b,B): two terms drop out.\n  - And so on (Σ interpolating k of the nodes removes k terms).\n\nArt. 23 (equidistant nodes).\n- Set b = a+δ, c = a+2δ, …, and t−a = uδ.\n- Then t − a_j = (u−j)δ and a_k − a_j = (k−j)δ, so δ cancels and the k-th coefficient is L_k = Π_{j≠k}(u−j)/(k−j):\n  - L_0 = (u−1)(u−2)(u−3)…/((−1)(−2)(−3)…)\n  - L_1 = u(u−2)(u−3)…/(1·(−1)(−2)…)\n  - L_2 = u(u−1)(u−3)…/(2·1·(−1)…)\n  - and so on.\n- If the series for X does not terminate before the x^m term, Art. 20 says the terms depending on the m-th and higher differences are missing. The highest of these is (t−a)(t−b)…μ = u(u−1)…(u−m+1) μ δ^m; this is completed on the next page.\n- That expression is the leading interpolation-error term, used on the next page to choose the optimal stencil (t centred among the nodes).",
+  "errors": [
+   "The identity Σ𝔄/((a−b)(a−c)…)=0 holds for deg Σ ≤ m−1 only if the sum runs over the m+1 points a,b,c,…,t (including the 𝔗-term), as in equation V. Read as a sum over the m nodes only, it would require deg Σ ≤ m−2. Gauss's 'etc.' is presumably meant to include the 𝔗 term, so this is not a real error.",
+   "'Bricht die Reihe für X nicht vor dem Gliede das X enthält ab': the term meant is the one containing x^m (as in Art. 20). This is either a slip of the pen or a misreading.",
+   "No mathematical errors otherwise. The equidistant coefficients and signs are correct."
+  ],
+  "results": [
+   {
+    "what": "Lagrange interpolation is exact for polynomials of degree ≤ m−1, so one may interpolate residuals A−Σ(a) after subtracting an approximating polynomial Σ; choosing Σ to fit k nodes kills k terms.",
+    "modern_name": "Linearity/exactness of Lagrange interpolation; interpolation of residuals (reference-function / correction method)",
+    "usually_credited_to": "Folklore following Waring (1779), Lagrange (1795)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "The sum over m+1 points of f(a_k)/Π_{j≠k}(a_k−a_j) vanishes for deg f ≤ m−1.",
+    "modern_name": "Vanishing of the m-th divided difference of a polynomial of degree < m",
+    "usually_credited_to": "Newton/Euler/Lagrange era; standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Lagrange coefficients for equally spaced nodes in the variable u=(t−a)/δ.",
+    "modern_name": "Equidistant Lagrange interpolation coefficients",
+    "usually_credited_to": "Lagrange; standard tables (later Lagrangian interpolation coefficient tables)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Leading error term u(u−1)…(u−m+1)μδ^m for equidistant interpolation, preparing the optimal-stencil argument.",
+    "modern_name": "Interpolation remainder term (node polynomial × m-th derivative/m!)",
+    "usually_credited_to": "Lagrange/Cauchy (remainder form); Gauss's interpolation work of 1805 (Nachlass, Werke III)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Standard Lagrange-interpolation manipulations from Gauss's known 1805 interpolation studies (cf. 'Theoria interpolationis', Werke III). The residual trick and equidistant coefficients are routine; the stencil-optimality argument on the next page is mildly interesting but elementary.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,t,p0,p1,p2=symbols('a b c t p0 p1 p2'); f=lambda x:p0+p1*x+p2*x**2; N=[a,b,c,t]; simplify(sum(f(n)/prod([n-o for o in N if o!=n]) for n in N))",
+    "asserts": "The alternating divided-difference sum over m+1=4 points vanishes for a polynomial of degree m−1=2 (returns 0)."
+   },
+   {
+    "sympy": "a,b,c,t,p0,p1,p2=symbols('a b c t p0 p1 p2'); f=lambda x:p0+p1*x+p2*x**2; N=[a,b,c]; L=lambda k:prod([(t-o)/(N[k]-o) for o in N if o!=N[k]]); simplify(sum(f(N[k])*L(k) for k in range(3))-f(t))",
+    "asserts": "Formula W reproduces any Σ of degree ≤ m−1 exactly (returns 0), justifying the substitution A→A−𝔄 etc."
+   },
+   {
+    "sympy": "a,d,u=symbols('a delta u'); N=[a+k*d for k in range(4)]; t=a+u*d; simplify(prod([(t-o)/(N[0]-o) for o in N[1:]]) - (u-1)*(u-2)*(u-3)/((-1)*(-2)*(-3)))",
+    "asserts": "The first equidistant Lagrange coefficient equals (u−1)(u−2)(u−3)/((−1)(−2)(−3)) (returns 0)."
+   },
+   {
+    "sympy": "a,d,u=symbols('a delta u'); N=[a+k*d for k in range(4)]; t=a+u*d; simplify(prod([(t-o)/(N[2]-o) for o in N if o!=N[2]]) - u*(u-1)*(u-3)/(2*1*(-1)))",
+    "asserts": "The third equidistant coefficient equals u(u−1)(u−3)/(2·1·(−1)) (returns 0)."
+   },
+   {
+    "sympy": "a,d,u=symbols('a delta u'); m=4; N=[a+k*d for k in range(m)]; t=a+u*d; f=lambda x:x**m; L=lambda k:prod([(t-o)/(N[k]-o) for o in N if o!=N[k]]); simplify(f(t)-sum(f(N[k])*L(k) for k in range(m)) - u*(u-1)*(u-2)*(u-3)*d**m)",
+    "asserts": "For X=x^m (μ=1), the missing highest term is u(u−1)…(u−m+1)μδ^m (returns 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'Werthe von x^0': probably just 'x' (or x with a mark), i.e. the values of x.",
+   "'vor dem Gliede das X enthält' should likely read 'das x^m enthält' (cf. Art. 20).",
+   "'so fehlt … noch die Glieder' (Gauss's grammar; read 'fehlen').",
+   "In the first coefficient of T the leading crossed-out symbol before 'u−1' is a deleted 'u' or μ; the coefficient intended is (u−1)(u−2)(u−3)…/((−1)(−2)(−3)…)."
+  ]
+ }
+}

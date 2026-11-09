@@ -1,0 +1,67 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c120",
+ "label": "115",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000121/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Title: 'Ausgleichung dreier Schnitte' (least-squares adjustment of a three-ray intersection, i.e. forward intersection or Vorwärtseinschneiden with three observed directions). The marginal 'Bö' is unexplained.\n\nSetup. The three stations are P_k=(a_k,b_k), written as complex numbers a+bi. The azimuths t_k are counted so that the ray from P_k is y-b_k = tan(t_k)(x-a_k). Write θ_k = tan t_k. The corrections dt_k are to be found, together with the point (x,y). X is an approximate abscissa and x = X+ξ.\n\nStep 1. Y_k = b_k + θ_k(X-a_k). This is the ordinate of ray k at the approximate abscissa X.\n\nStep 2. r_k = (X-a_k)/cos t_k. This is the distance from P_k to that point on the ray.\n\nLinearisation (my step). If the azimuth changes by dt_k (radians), the ray's ordinate at abscissa x changes by (x-a_k)dt_k/cos^2 t_k = (r_k/cos t_k)dt_k. So each observation gives\n  y = Y_k + θ_k ξ + (r_k/cos t_k) dt_k.\n\nCondition (my step). There are 3 equations and 2 unknowns (y, ξ), hence one condition equation. Take multipliers c = (θ''-θ', θ-θ'', θ'-θ). They satisfy Σc_k = 0 and Σc_kθ_k = 0, which eliminates y and ξ:\n  Σ c_k (r_k/cos t_k) dt_k = -Σ c_k Y_k.\nMinimising Σ dt_k^2 (equal weights) gives dt_k proportional to c_k r_k/cos t_k. Using θ''-θ' = sin(t''-t')/(cos t' cos t''), we get c_k r_k/cos t_k = l_k/(cos t cos t' cos t''), with l_k defined as follows.\n\nStep 3. l = r sin(t''-t'), l' = r' sin(t-t''), l'' = r'' sin(t'-t). Hence dt_k = μ l_k, which is step 7.\n\nStep 4. λ_k = m l_k r_k/cos t_k, where m is an arbitrary scale. Gauss recommends choosing m so that the smallest λ equals 1.\n\nStep 5. The three linear equations y = Y_k + θ_k ξ + λ_k φ are solved for y, ξ, φ (3 equations, 3 unknowns). Comparing with the linearised equation, (r_k/cos t_k)dt_k = λ_k φ with dt_k in radians.\n\nStep 6. μ = 206265 m φ. The factor 206265 is the number of arc seconds per radian.\n\nStep 7. dt_k = μ l_k, giving the corrections in seconds.\n\nVariant. If one starts from an approximate ordinate Y instead, swap a↔b, X↔Y and x↔y, and replace tan and cos by cot and sin:\n- x - a_k = cot t_k (y - b_k),\n- r_k = (Y - b_k)/sin t_k,\n- dx/dt = -(y-b)/sin^2 t, so μ = -206265 m φ.\n\nContext. The next page works a numerical example of exactly this case (Hamburg, Horneburg, Stade → Estebrügge; Hanover survey).",
+  "errors": [
+   "No mathematical errors found. Each step follows from linearising the ray equations and minimising the sum of squared azimuth corrections with equal weights.",
+   "The minimality of Σdt^2 and the use of equal weights are implicit (not stated) on the page.",
+   "On the next page the alternative formula is transcribed as l = r''/cos t (θ''-θ'). Consistency requires r/cos t. The alternative l values differ from the originals by the common factor 1/(cos t cos t' cos t''), which is absorbed in μ and m."
+  ],
+  "results": [
+   {
+    "what": "Least-squares adjustment of a point fixed by three intersecting observed azimuths. The corrections come out proportional to l_k = r_k sin(t_j - t_i), and the solution reduces to a 3x3 linear system in y, ξ, φ.",
+    "modern_name": "Least-squares forward intersection (Vorwärtsschnitt) with condition-equation adjustment; corrections minimising sum of squared direction residuals",
+    "usually_credited_to": "Gauss (least squares, geodetic applications, 1820s Hanover survey); later textbook treatment by Gerling, Jordan and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Variant for steep rays: start from an approximate y and use cot/sin in place of tan/cos, with a sign change in μ.",
+    "modern_name": "Choice of parametrisation to avoid ill-conditioning (steep vs flat rays)",
+    "usually_credited_to": "standard geodetic practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a practical computing scheme from Gauss's Hanover triangulation, applying his own least-squares method to a three-ray intersection. It is elegant and compact, but it is exactly the kind of material known to be his and is standard in geodesy.",
+  "checkable": [
+   {
+    "sympy": "simplify(tan(t2)-tan(t1) - sin(t2-t1)/(cos(t1)*cos(t2)))",
+    "asserts": "θ''-θ' = sin(t''-t')/(cos t' cos t''), linking the condition multipliers to the l_k (should be 0)."
+   },
+   {
+    "sympy": "simplify((tan(t3)-tan(t2)) + (tan(t1)-tan(t3)) + (tan(t2)-tan(t1)))",
+    "asserts": "Multipliers c sum to zero, eliminating y (should be 0)."
+   },
+   {
+    "sympy": "simplify(tan(t1)*(tan(t3)-tan(t2)) + tan(t2)*(tan(t1)-tan(t3)) + tan(t3)*(tan(t2)-tan(t1)))",
+    "asserts": "Σ c_k θ_k = 0, eliminating ξ (should be 0)."
+   },
+   {
+    "sympy": "simplify(diff(b + tan(t)*(x-a), t) - ((x-a)/cos(t))/cos(t))",
+    "asserts": "The ordinate on ray k changes by (r/cos t)·dt with r = (x-a)/cos t (should be 0)."
+   },
+   {
+    "sympy": "simplify(diff(a + cot(t)*(y-b), t) + ((y-b)/sin(t))/sin(t))",
+    "asserts": "In the y-variant the derivative is -(r/sin t) with r = (y-b)/sin t, which explains μ = -206265 m φ (should be 0)."
+   },
+   {
+    "sympy": "N(180*3600/pi)",
+    "asserts": "206265 ≈ arc seconds per radian (206264.8)."
+   },
+   {
+    "sympy": "simplify((r1/cos(t1))*(tan(t3)-tan(t2)) - r1*sin(t3-t2)/(cos(t1)*cos(t2)*cos(t3)))",
+    "asserts": "c_1 r_1/cos t_1 = l_1/(cos t cos t' cos t''), so dt_k ∝ l_k (should be 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'ausser den sich von selbst verstehenden' – the manuscript appears to read 'verstehen' (abbreviated).",
+   "The marginal 'Bö' after the title is uncertain in the image; it may be an abbreviation or initials."
+  ]
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c005",
+ "label": "[4]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. The page is a practical memorandum about the old mural quadrant ('Am Mauerquadranten') of the Göttingen observatory. The Göttingen instrument was a John Bird 6-foot mural quadrant, the one Tobias Mayer used. The previous page lists the dimensions of the new transit instrument and meridian circle and asks how the piers should be bored. The next page gives the screw pitches of the quadrant's clamping screws and of a beam-compass micrometer. So these are workshop measurements, probably for remounting or examining the quadrant.\n\n(1) GEOMETRY OF FOUR MOUNTING POINTS. The sketch shows a point a vertically above b, and points c and d on the horizontal line through b, in the order b, c, d. The angle at b is a right angle. The text below says a is a pin ('Zapfen a', diameter 32 mm) and c, d are holes ('Löcher c,d', diameter 22 mm).\n\nMeasured distances (in metres), presumably taken with the beam compass whose screw is described on the next page, with corrections in a column headed 'correct.':\n- ab = 0.45905, correction -0.38\n- ac = 0.64445, correction +0.48\n- ad = 1.44230, correction -0.51\n- cd = 0.91300, correction +0.48\n\nThe corrections are in millimetres (my inference, confirmed by the arithmetic below). Corrected values:\n- ab' = 0.45867\n- ac' = 0.64493\n- ad' = 1.44179\n- cd' = 0.91348\n\nThe unmeasured horizontal legs follow from the right angle at b (implicit step, mine):\n- bc = sqrt(ac'^2 - ab'^2) = sqrt(0.4159347 - 0.2103782) = sqrt(0.2055565) = 0.453383. Gauss: bc = 0.45338.\n- bd = sqrt(ad'^2 - ab'^2) = sqrt(2.0787584 - 0.2103782) = sqrt(1.8683802) = 1.366887. Gauss: bd = 1.36688, with digits overwritten.\n\nImplicit closure check (mine): bd - bc = 0.913504, against the corrected measured cd' = 0.91348. They agree to about 0.02 mm. This confirms the right-angle/collinearity assumption and the internal consistency of the corrected measurements. With the uncorrected values one would get bc = 0.45232, so the corrections were clearly applied.\n\n(2) RADII OF THE LIMB ('Radius des MK/MQ', probably the mural quadrant). Measured from the centre, in metres:\n- outer edge of limb: 1.8896\n- the 96-part division (two lines): 1.8666 and 1.8649\n- the dot division ('Punctentheilung'): 1.8546\n- the 90-degree division (two lines): 1.8421 and 1.8401\n- inner edge of limb: 1.8166\n- radius for the clamps: 1.8936\n\nThis is the classic Bird arrangement. There is an outer 96-part arc and an inner 90-degree arc, each bounded by two circles, with Bird's dotted division. A radius of about 1.85 m is about 6 feet.\n\n(3) Diameter of pin a: 32 mm. Diameter of holes c, d: 22 mm.\n\n(4) Miscellaneous notes:\n- 'Gerling geb 1784 Jun 29', with '1788?' added above by another hand or later.\n- 'Herschel Collingwood Hawkhurst Kent' is John Herschel's address from 1840 onward. This dates the note to after 1840.",
+  "errors": [
+   "Gauss's bd = 1.36688; the corrected data give 1.366887, which rounds to 1.36689. This is a last-digit rounding difference only.",
+   "There is a closure residual of about 0.02 mm between (bd - bc) and the corrected cd. This is measurement noise, not an error.",
+   "'Gerling geb 1784 Jun 29' is factually wrong. C. L. Gerling was born 10 July 1788. The marginal '1788?' correctly fixes the year, but the day is also wrong."
+  ],
+  "results": [
+   {
+    "what": "Recovering the unmeasured horizontal distances of mounting points from slant distances using the right angle at b, with a closure check against an independently measured distance",
+    "modern_name": "Pythagorean reduction / trilateration with redundancy check",
+    "usually_credited_to": "classical; routine surveying practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Radii of the limb, the 96-part division, the 90-degree division and the dot division of the Bird mural quadrant",
+    "modern_name": "instrument metrology (Bird's double graduation)",
+    "usually_credited_to": "John Bird (instrument design, 1750s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are purely practical metrological notes on an observatory instrument, with elementary Pythagorean computation. There is no mathematical novelty.",
+  "checkable": [
+   {
+    "sympy": "sqrt(Rational('0.64493')**2 - Rational('0.45867')**2).evalf(8)",
+    "asserts": "bc ≈ 0.453383, matching Gauss's 0.45338 (using the mm corrections)"
+   },
+   {
+    "sympy": "sqrt(Rational('1.44179')**2 - Rational('0.45867')**2).evalf(8)",
+    "asserts": "bd ≈ 1.366887, matching Gauss's 1.36688 to rounding"
+   },
+   {
+    "sympy": "(sqrt(Rational('1.44179')**2 - Rational('0.45867')**2) - sqrt(Rational('0.64493')**2 - Rational('0.45867')**2) - Rational('0.91348')).evalf(6)",
+    "asserts": "the closure residual bd - bc - cd is about 2e-5 m (0.02 mm)"
+   },
+   {
+    "sympy": "sqrt(Rational('0.64445')**2 - Rational('0.45905')**2).evalf(8)",
+    "asserts": "uncorrected data give bc ≈ 0.45232, so Gauss used the corrected values"
+   }
+  ],
+  "transcription_corrections": [
+   "ac is written as 0,644.45 (i.e. 0.64445). The correction is '+0,48', with the 4 overwritten.",
+   "bd is written '1,36688' with overwritten digits (originally possibly 1,36588/1,36683).",
+   "The heading 'Radius des MK' could be read 'Radius des MQ' (Mauerquadrant), which fits the 90/96 divisions of a Bird quadrant.",
+   "The 1.8896 line reads '1 m 8896 aussen am Limbus' (1.8896 m)."
+  ]
+ }
+}

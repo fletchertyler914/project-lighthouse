@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c030",
+ "label": "16r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000031/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page sets up the Jacobian identity f_p g_q - f_q g_p = d/dp(f g_q) - d/dq(f g_p), and its n-dimensional analogue (Jacobi's rule). The task is to integrate a Jacobian integrand once over a surface (bundle on minimal surfaces). This page builds an adapted curvilinear coordinate system (p,q) on a simply connected surface and uses it to prove the boundary formula.\n\n(1) Construction of coordinates. The boundary is shrunk continuously, without tearing the surface. If the surface is multiply connected, its connectivity is kept. A simply connected surface shrinks to a point. Each boundary point of the previous boundary can be assumed to pass to a definite point of the new boundary. The successive boundary curves are the level curves (p) = const. Their parameter p is constant on the true boundary and has a single interior extremum. The trajectories of the boundary points serve as the curves (q).\n- Every curve (q) runs from the boundary to the max/min point.\n- Every curve (p) is a closed curve.\n- q increases monotonically as one runs around the boundary in a fixed sense. So q must jump at one point (q is multivalued with a period, i.e. a cut).\n- The same jump is carried along the whole q-curve running into the extremum.\nIn modern terms: polar-type coordinates from a function with one critical point, a minimum. Later Riemann notes p must increase from inside to outside, so the interior point is a minimum.\n\n(2) Integration. Consider\nI = ∬ [∂(f ∂g/∂q)/∂p − ∂(f ∂g/∂p)/∂q] dp dq.\nThe bracket equals f_p g_q − f_q g_p = ∂(f,g)/∂(p,q), since the mixed second derivatives of g cancel.\n- First term: integrate in p from the minimum point (p0) to the boundary (p1). This gives ∮_{boundary} f (∂g/∂q) dq, provided p grows from inside outwards. Only then does the upper p-limit correspond to the boundary, with sign +f ∂g/∂q.\n- Implicit (mine): the lower limit contributes nothing, because the curve p = p0 degenerates to a point, so g_q = 0 there.\n- Second term: ∫ ∂(f ∂g/∂p)/∂q dq vanishes, because it is taken around a closed curve (p). The integrand f g_p is single-valued, so the boundary terms at q = 0 and q = Q cancel.\n\n(3) Conclusion, written invariantly:\n∬ (∂f ∂g) = ∫ f ∂g = ∬ −(∂g ∂f) = −∫ g ∂f,\nover the whole surface and its whole boundary. In modern terms, ∬_S df∧dg = ∮_{∂S} f dg = −∮_{∂S} g df, using antisymmetry df∧dg = −dg∧df.\n\n(4) Orientation. dp is positive pointing from inside to outside. Positive dq must have the prescribed position relative to dp and to the surface normal. This is the right-hand rule linking boundary orientation and normal on a surface in space.",
+  "errors": [
+   "No real mathematical error. Unjustified/implicit points: (a) existence of the shrinking foliation with a single interior extremum (a Morse-type function with one critical point) is asserted as 'offenbar'; (b) the singularity of the (p,q) coordinates at the extremum and along the cut where q jumps is handled only verbally; (c) the vanishing of the inner-limit contribution at the degenerate point p = p0 is not stated; (d) multiply connected case only sketched (shrinks to a line system, not a point)."
+  ],
+  "results": [
+   {
+    "what": "∬_S ∂(f,g)/∂(p,q) dp dq = ∮_{∂S} f dg = −∮_{∂S} g df on a surface, with orientation fixed by the normal; antisymmetry ∬(df dg) = −∬(dg df)",
+    "modern_name": "Green's/Stokes' theorem for the exact 2-form df∧dg (∫_S d(f dg) = ∫_{∂S} f dg)",
+    "usually_credited_to": "Green (1828), Ostrogradsky; Kelvin/Stokes (1850/1854) for surfaces; differential-form version Poincaré/Cartan (c.1899)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Proof via an adapted coordinate system: level curves of a function constant on the boundary with a single interior minimum (shrinking boundary), plus trajectories as transversal curves",
+    "modern_name": "polar-type/geodesic-type coordinates from a function with one critical point (Morse-theoretic foliation of a disk)",
+    "usually_credited_to": "standard proof technique; no specific attribution",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The Green/Stokes identity for Jacobian integrands is classical by the 1850s, and Riemann used Green-type theorems in published work (1851 dissertation; minimal-surface memoir). The only mildly notable features are the coordinate-free, antisymmetric form ∬(df dg) = −∬(dg df), which prefigures differential forms, and the topological foliation proof. Both are interesting detail, not a new result.",
+  "checkable": [
+   {
+    "sympy": "f,g=Function('f')(p,q),Function('g')(p,q); simplify(diff(f*diff(g,q),p)-diff(f*diff(g,p),q)-(diff(f,p)*diff(g,q)-diff(f,q)*diff(g,p)))==0",
+    "asserts": "The Jacobian equals the divergence form used on the page."
+   },
+   {
+    "sympy": "r,t=symbols('r t',positive=True); x=r*cos(t); y=r*sin(t); J=diff(x,r)*diff(y,t)-diff(x,t)*diff(y,r); integrate(integrate(J,(r,0,1)),(t,0,2*pi))==pi",
+    "asserts": "∬ dx∧dy over the unit disk in polar-type (p=r, q=t) coordinates equals π."
+   },
+   {
+    "sympy": "t=symbols('t'); integrate(cos(t)*diff(sin(t),t),(t,0,2*pi))==pi",
+    "asserts": "Boundary integral ∮ f dg with f=x, g=y equals π, matching the area integral."
+   },
+   {
+    "sympy": "t=symbols('t'); -integrate(sin(t)*diff(cos(t),t),(t,0,2*pi))==pi",
+    "asserts": "−∮ g df with f=x, g=y also equals π, i.e. ∮ f dg = −∮ g df."
+   },
+   {
+    "sympy": "r,t=symbols('r t',positive=True); x=r*cos(t); y=r*sin(t); f=x**2*y; g=x+y**3; J=diff(f,r)*diff(g,t)-diff(f,t)*diff(g,r); A=integrate(integrate(expand(J),(r,0,1)),(t,0,2*pi)); B=integrate((f*diff(g,t)).subs(r,1),(t,0,2*pi)); simplify(A-B)==0",
+    "asserts": "General check of ∬ ∂(f,g)/∂(p,q) dp dq = ∮ f (∂g/∂q) dq with p=r increasing outward and q periodic."
+   }
+  ],
+  "transcription_corrections": [
+   "Throughout the formulas, the machine's '∂q/∂q' and '∂q/∂p' inside the integrands should read ∂g/∂q and ∂g/∂p (the function g, not the coordinate q): ∬(∂(f ∂g/∂q)/∂p − ∂(f ∂g/∂p)/∂q) ∂p ∂q, = ∫ f (∂g/∂q) ∂q, +f ∂g/∂q, and ∫ ∂(f ∂g/∂p)/∂q ∂q giebt 0.",
+   "Final line should read: Man hat also ∬(∂f ∂g) = ∫ f ∂g = ∬ −(∂g ∂f) = −∫ g ∂f (not 'q ∂f').",
+   "'so dass im Innern ein Minimum stattfindet': Minimum is underlined in the manuscript.",
+   "Orientation sentence: 'dass positives ∂q die festgesetzte Lage zu ∂p u. der Normale haben muss' ('u. der Normale' is an interlinear insertion).",
+   "The two lines after the horizontal rule ('Hat man das Curvensystem, so ...') and the top-line insertion near 'Begrenzung' remain uncertain in reading."
+  ]
+ }
+}

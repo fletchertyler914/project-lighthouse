@@ -1,0 +1,78 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c216",
+ "label": "95",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000217/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is not a Gauss manuscript page. It is p. 95 of a printed German algebra textbook set in Fraktur. The bundle name 'HB.Leiste' suggests Gauss's copy of Christian Leiste's 'Die Arithmetik und Algebra' (Wolfenbüttel, 1790), the textbook used at the Collegium Carolinum. The only handwriting visible is cut-off pencil/ink notes at the left edge, which belong to the facing page 94 (the Sigma-recursions and p^k−1 sums transcribed there).\n\nPrinted content. It continues the denesting of a square root of a binomial surd. From the earlier text, which is not visible, the setup is √(a+√b) = p+q with p=√x, q=√y. Squaring gives:\n x + y + 2√(xy) = (p+q)^2 = a + √b.\n\n(1) Match the rational and irrational parts: x+y=a and 2√(xy)=√b, hence 4xy=b.\n\n(2) Then a^2 − b = (x+y)^2 − 4xy = (x−y)^2. So x−y = √(a^2−b).\n- Adding to x+y=a gives 2x = a+√(a^2−b).\n- Subtracting gives 2y = a−√(a^2−b).\n- The book then prints 'x+y = (a+√(a^2−b))/2 + (a−√(a^2−b))/2'. The intended statement (my reading) is the denesting formula √(a+√b) = √x + √y = √((a+√(a^2−b))/2) + √((a−√(a^2−b))/2).\n- The book calls this convenient whenever a^2−b is a perfect square.\n\nThe method is equivalent to finding two numbers from their sum a and product b/4. That is, x and y are the roots of t^2 − a t + b/4 = 0. The three examples apply it.\n\nEx. 1: sum 5, product 9/4. Then a=5, b=9, √(25−9)=4, so x=9/2 and y=1/2. Check: 5 and 9/4.\n\nEx. 2: xy=60 and x^2+y^2=136. Then (x+y)^2 = 136+120 = 256, so a=16, and b=4xy=240. √(256−240)=±4, so x=(16+4)/2=10 and y=6.\n- The book remarks this is easier than substituting y=60/x.\n- That substitution gives the biquadratic x^4+3600 = 136x^2, i.e. x^4 − 136x^2 + 3600 = 0. This can itself be solved by the same method.\n\nEx. 3: sum 6, product 1. Then a=6, b=4, so x=(6+√32)/2 = 3+2√2 and y = 3−2√2. On p. 96 the book adds that these are the roots of x^2−6x+1=0.",
+  "errors": [
+   "The printed line 'x+y = (a+√(a²−b))/2 + (a−√(a²−b))/2' is trivial as written (it just says x+y=a). The intended formula is √(a+√b) = √x+√y, with the square roots of the two halves.",
+   "Ex. 2: the first form of the quartic is printed as 'x⁴+3600 = 36x²'. It should be 136x²; the following form x⁴−136x²+3600=0 is correct.",
+   "Ex. 3: y is printed as '3 − 3√2'. It should be 3 − 2√2.",
+   "Only the positive branch of ±√(a²−b) is used; with the negative branch x and y simply swap, so nothing is lost."
+  ],
+  "results": [
+   {
+    "what": "Denesting √(a+√b) = √((a+c)/2) + √((a−c)/2) with c=√(a²−b), useful when a²−b is a square",
+    "modern_name": "Denesting of quadratic surds (binomial radical identity)",
+    "usually_credited_to": "Implicit in Euclid Elements Book X; explicit in medieval and Renaissance algebra (e.g. Bombelli); standard in Euler's Algebra (1770)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Finding two numbers from their sum and product (or from their product and sum of squares) via (x−y)² = (x+y)² − 4xy",
+    "modern_name": "Sum–product method / Vieta's relations for a quadratic",
+    "usually_credited_to": "Babylonian mathematics; Diophantus; Vieta",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Reducing a biquadratic x⁴−136x²+3600=0 to a sum–product problem",
+    "modern_name": "Biquadratic (quadratic in x²) equation",
+    "usually_credited_to": "Classical (al-Khwarizmi tradition)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed 18th-century elementary algebra textbook page (probably Leiste's Arithmetik und Algebra), not a Gauss manuscript. Its contents (the sum–product method and denesting of √(a+√b)) are ancient and routine. The only handwriting is cut-off marginalia belonging to the facing page.",
+  "checkable": [
+   {
+    "sympy": "simplify(sqrt(a+sqrt(b))**2 - (sqrt((a+sqrt(a**2-b))/2)+sqrt((a-sqrt(a**2-b))/2))**2).subs({a:5,b:9})",
+    "asserts": "The denesting identity holds for a=5, b=9 (difference is 0)."
+   },
+   {
+    "sympy": "expand((x+y)**2-4*x*y-(x-y)**2)",
+    "asserts": "(x+y)²−4xy=(x−y)²; result is 0."
+   },
+   {
+    "sympy": "solve([x+y-5, x*y-Rational(9,4)],[x,y])",
+    "asserts": "Example 1: solutions are {9/2, 1/2}."
+   },
+   {
+    "sympy": "solve([x*y-60, x**2+y**2-136],[x,y])",
+    "asserts": "Example 2: the solutions include (10,6) and (6,10), plus the negatives."
+   },
+   {
+    "sympy": "expand(x**4*(1) + 3600 - 136*x**2).subs(x,10)",
+    "asserts": "x=10 satisfies x⁴−136x²+3600=0 (gives 0); with 36x² instead it would not."
+   },
+   {
+    "sympy": "solve([x+y-6, x*y-1],[x,y])",
+    "asserts": "Example 3: solutions are 3±2√2, not 3−3√2."
+   },
+   {
+    "sympy": "expand((3+2*sqrt(2))*(3-2*sqrt(2)))",
+    "asserts": "The product equals 1."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is a printed Fraktur textbook page, not a handwritten manuscript.",
+   "The left-margin handwriting fragments ('1+3(3)Σ', '(1)+(3)', 'Σ''3+3(3)Σ', '...p⁵', '5p⁵−4p⁴', '−p⁴+1') are cut-off notes from the facing page 94, not part of p. 95.",
+   "The quartic is printed 'x⁴+3600 = 36x²'; the transcription reproduces this faithfully, but it is a misprint for 136x².",
+   "'y = 3 − 3√2' is faithfully transcribed but is a misprint for 3 − 2√2.",
+   "'quadrate Summe' as printed (i.e. Quadratsumme)."
+  ]
+ }
+}

@@ -1,0 +1,63 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c013",
+ "label": "7v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000014/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This folio is page 10 of the fair copy of Riemann's Habilitationsschrift, 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1854, published posthumously by Dedekind in 1867). It covers the end of §1 and the start of §2 of the historical part. There is no derivation on the page; it is historical exposition with one displayed formula pair.\n\n(a) End of §1. Euler, d'Alembert and Lagrange all agreed that Daniel Bernoulli's trigonometric-series solution of the vibrating string was not general.\n- d'Alembert (Opuscules I, p. 42, art. XXIV) wanted to rank Bernoulli's solution below his own. To do so he had to claim that even an analytically given periodic function cannot always be represented by a trigonometric series.\n- Lagrange (Misc. Taur. III, p. 221, art. XXV) believed he could prove that such a representation is possible.\n\n(b) §2. For almost fifty years there was no essential progress. Then Fourier made the key observation. Write the series as\nf(x) = a_1 sin x + a_2 sin 2x + ... + (1/2) b_0 + b_1 cos x + b_2 cos 2x + ...\nThe manuscript's brace notation means the sum of the sine line and the cosine line. The coefficients are\na_n = (1/π) ∫_{-π}^{π} f(x) sin nx dx, b_n = (1/π) ∫_{-π}^{π} f(x) cos nx dx.\n\nImplicit justification (mine): multiply the series by sin nx or cos nx, integrate term by term over [-π, π], and use the orthogonality relations. These give π δ_{mn} for products of like functions with m, n ≥ 1, and 0 for products of sine with cosine. With the (1/2) b_0 normalisation, the single formula for b_n also covers n = 0.\n\nFourier saw that this rule still applies when f is 'entirely arbitrary'. He took a so-called discontinuous function, the ordinate of a broken line (polygonal path), and obtained a series that does represent it. The sentence continues on the next page.",
+  "errors": [
+   "No mathematical errors. The coefficient formulas are correct and consistent with the (1/2) b_0 convention.",
+   "The step 'this determination remains applicable for arbitrary f' presupposes that term-by-term integration is valid. Riemann reports this as Fourier's view; he is not asserting it unconditionally. The rest of the memoir is devoted precisely to that issue."
+  ],
+  "results": [
+   {
+    "what": "Euler–Fourier coefficient formulas a_n = (1/π)∫ f sin nx, b_n = (1/π)∫ f cos nx on [-π, π]",
+    "modern_name": "Fourier coefficients / Euler–Fourier formulas",
+    "usually_credited_to": "Euler (1777) and Clairaut for the formulas; Fourier (1807/1822) for applying them to arbitrary functions",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical account of the vibrating-string controversy (d'Alembert, Euler, Bernoulli, Lagrange) and of Fourier's contribution",
+    "modern_name": "History of the vibrating string controversy; historical introduction to Riemann's 1854 Habilitationsschrift",
+    "usually_credited_to": "Riemann himself, in this published memoir (1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the manuscript of the well-known, published historical introduction to Riemann's 1854 Habilitationsschrift on trigonometric series. It contains only standard Fourier coefficient formulas and historical narrative.",
+  "checkable": [
+   {
+    "sympy": "integrate(sin(n*x)*sin(m*x),(x,-pi,pi)).subs({n:2,m:3}) == 0",
+    "asserts": "Orthogonality of distinct sines, which underlies the coefficient formula"
+   },
+   {
+    "sympy": "integrate(sin(3*x)**2,(x,-pi,pi)) == pi",
+    "asserts": "Normalisation that gives the factor 1/π in a_n"
+   },
+   {
+    "sympy": "integrate(sin(n*x)*cos(m*x),(x,-pi,pi)).subs({n:2,m:5}) == 0",
+    "asserts": "Sine and cosine terms are orthogonal on [-π, π]"
+   },
+   {
+    "sympy": "simplify(integrate(x*sin(n*x),(x,-pi,pi))/pi - 2*(-1)**(n+1)/n) == 0  # with n positive integer",
+    "asserts": "Fourier sine coefficients of the sawtooth f(x)=x (a broken-line-type function): a_n = 2(-1)^(n+1)/n"
+   },
+   {
+    "sympy": "simplify(integrate(Abs(x)*cos(n*x),(x,-pi,pi))/pi - 2*((-1)**n-1)/(pi*n**2)) == 0  # n positive integer",
+    "asserts": "Cosine coefficients of the polygonal function |x|: b_n = 2((-1)^n - 1)/(π n^2)"
+   },
+   {
+    "sympy": "integrate(Abs(x),(x,-pi,pi))/pi == pi",
+    "asserts": "b_0 = π for |x|, so the constant term (1/2) b_0 = π/2 equals its mean value"
+   }
+  ],
+  "transcription_corrections": [
+   "The page number '10.' at top left is accompanied by an older pencil folio number '6.' in the outer margin; marginal fragments ('Mé', '3/.', 'eff', 'd'a') are bleed-through or neighbouring-sheet remnants, not text of this page.",
+   "The footnotes are marked '¹)' and '²)' style in the manuscript (written '1)' before the Opuscules reference), not '*)' / '**)'; the content of the footnote text is correctly transcribed.",
+   "The displayed series uses a brace joining the sine line and cosine line, meaning their sum; the transcription's 'cases' environment should be read as '+', not as alternatives."
+  ]
+ }
+}

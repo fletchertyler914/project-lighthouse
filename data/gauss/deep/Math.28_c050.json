@@ -1,0 +1,65 @@
+{
+ "bundle": "Math.28",
+ "page": "c050",
+ "label": "25v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000051/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page, f.25r): the page is headed 'Fundamentaltheorem für die Integration der Differentialgleichungen der Dynamik'. For functions U, V of q_1..q_m, p_1..p_m the bracket is defined as [U,V] = Σ_i (∂U/∂q_i ∂V/∂p_i − ∂U/∂p_i ∂V/∂q_i). Item 1) states the identity [U,[V,W]] + [V,[W,U]] + [W,[U,V]] = 0 (the Jacobi identity). Item 2) takes the canonical system dq_i/dt = ∂H/∂p_i, dp_i/dt = −∂H/∂q_i.\n\nWhy brackets with H detect integrals [this step is my filling]: for any F(q,p), dF/dt = Σ (F_{q_i} q_i' + F_{p_i} p_i') = Σ (F_{q_i} H_{p_i} − F_{p_i} H_{q_i}) = [F,H]. So F = const is an integral exactly when [F,H] ≡ 0.\n\nThe previous page then says: if U = const and V = const are integrals, then [U,H] = 0 (the '=0' is omitted in the manuscript) and [V,H] = 0 identically.\n\nThis page: put W = H in the identity. This gives [U,[V,H]] + [V,[H,U]] + [H,[U,V]] = 0. The first two terms vanish, so [H,[U,V]] = 0 identically. Equivalently d[U,V]/dt = [[U,V],H] = 0, i.e. [U,V] = Const is a third integral of the same equations.\n\nThe page then adds two remarks:\n- 'Proceeding in this way one obtains in general all the integral equations.' This is Jacobi's claim that repeated bracketing of known integrals generates the complete system.\n- 'According to Hamilton one can always give the dynamical equations this canonical form when conservation of vis viva holds.'\n\nThe signature 'J.' marks the whole note (25r–25v) as an excerpt of Jacobi's announcement of his 'most profound theorem' (Poisson's theorem on brackets of integrals, proved via the Jacobi identity). The next page explicitly excerpts Jacobi, Berliner Akademie Monatsberichte, Nov. 1846, p. 351 ff., on the Hamilton–Jacobi equation and perturbed elements. So this is Gauss copying or recording Jacobi's results, not original work of Gauss.",
+  "errors": [
+   "On the previous page '[U,H]' is written without '= 0'. This is a trivial slip; the intended statement is [U,H] = 0.",
+   "'Fährt man so fort, so erhält man im allgemeinen sämmtliche Integralgleichungen' is an overstatement, inherited from Jacobi. Repeated Poisson brackets of known integrals often give constants or functions of integrals already known, so they do not in general produce a complete set of integrals. Even the 'im allgemeinen' qualifier is too optimistic.",
+   "The Hamilton remark ties canonical form to conservation of vis viva (time-independent force function). Canonical form exists more generally, e.g. with time-dependent H. Conservation of energy is what makes H itself an integral. This is a restriction rather than an error."
+  ],
+  "results": [
+   {
+    "what": "Bracket of two first integrals of a Hamiltonian system is again a first integral",
+    "modern_name": "Poisson's theorem (Poisson–Jacobi theorem on integrals)",
+    "usually_credited_to": "S.D. Poisson (1809) for brackets of integrals; C.G.J. Jacobi (c. 1840, published posthumously 1862/66) for the proof via the Jacobi identity and its emphasis as the 'fundamental theorem'",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Cyclic identity [U,[V,W]] + [V,[W,U]] + [W,[U,V]] = 0 for Poisson brackets",
+    "modern_name": "Jacobi identity",
+    "usually_credited_to": "C.G.J. Jacobi (c. 1840s; Nova methodus, published 1862)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "dF/dt = [F,H] along canonical flow; integral iff [F,H] = 0",
+    "modern_name": "Poisson-bracket characterization of conserved quantities",
+    "usually_credited_to": "Poisson / Hamilton / Jacobi",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Dynamical equations can be put in canonical form when vis viva is conserved",
+    "modern_name": "Hamilton's canonical equations",
+    "usually_credited_to": "W.R. Hamilton (1834–35)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is signed 'J.' and sits beside an explicit excerpt of Jacobi's 1846 Berlin Academy note. It records Jacobi's announced Poisson–Jacobi theorem and the Jacobi identity, which are well known and correctly attributed to Jacobi and Poisson. Gauss is reading or copying, not discovering. The only mild interest is documentary: Gauss knew of Jacobi's 'fundamental theorem' in the 1840s.",
+  "checkable": [
+   {
+    "sympy": "q1,q2,p1,p2=symbols('q1 q2 p1 p2'); PB=lambda U,V: sum(diff(U,q)*diff(V,p)-diff(U,p)*diff(V,q) for q,p in [(q1,p1),(q2,p2)]); U=Function('U')(q1,q2,p1,p2); V=Function('V')(q1,q2,p1,p2); W=Function('W')(q1,q2,p1,p2); simplify(PB(U,PB(V,W))+PB(V,PB(W,U))+PB(W,PB(U,V)))==0",
+    "asserts": "Jacobi identity for the bracket as defined on f.25r (two degrees of freedom, arbitrary functions)"
+   },
+   {
+    "sympy": "x,y,z,px,py,pz=symbols('x y z px py pz'); PB=lambda U,V: sum(diff(U,a)*diff(V,b)-diff(U,b)*diff(V,a) for a,b in [(x,px),(y,py),(z,pz)]); H=(px**2+py**2+pz**2)/2-1/sqrt(x**2+y**2+z**2); Lx=y*pz-z*py; Ly=z*px-x*pz; simplify(PB(Lx,H))==0 and simplify(PB(Ly,H))==0 and simplify(PB(PB(Lx,Ly),H))==0",
+    "asserts": "Example of the theorem: Lx, Ly are integrals of the Kepler problem, and so is their bracket (which equals ±Lz)"
+   },
+   {
+    "sympy": "simplify(PB(Lx,Ly)-(-(x*py-y*px)))==0",
+    "asserts": "With the manuscript's sign convention, [Lx,Ly] = -Lz, i.e. a genuinely new third integral is produced"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription of this page matches the image. 'J.' at the bottom is a signature/attribution mark (almost certainly 'Jacobi'), not part of the mathematics.",
+   "'drittes' is underlined in the manuscript, and 'allgemeinen' is underlined as well."
+  ]
+ }
+}

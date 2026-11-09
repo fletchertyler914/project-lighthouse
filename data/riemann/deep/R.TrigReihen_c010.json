@@ -1,0 +1,80 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c010",
+ "label": "6r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is part of the historical introduction (Section 1) of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854; published posthumously by Dedekind in 1867). It contains no new mathematics, only a historical narrative of the vibrating-string controversy.\n\n(a) Left column. It finishes the French quotation from d'Alembert (Mém. Berlin 1750, p. 358) begun in footnote 2 of the previous page. d'Alembert's point: y can be expressed analytically only as a function of t and x. Under that assumption the problem is solved only when the successive shapes of the string can be contained in one and the same equation. The column also gives footnotes 1) to 3) for the right column:\n- 1) Mém. Berlin 1753, p. 147: Daniel Bernoulli.\n- 2) Taylor, Methodus incrementorum.\n- 3) l.c. p. 157, art. XIII.\n\n(b) Taylor's particular solution. For the string of length l, Riemann restates Taylor's observation in modern notation:\n- The wave equation is y_tt = α^2 y_xx.\n- The boundary conditions are y(0,t) = y(l,t) = 0.\n- Both are satisfied by y = sin(nπx/l) cos(nπαt/l) for integer n.\n\nCheck (mine): y_tt = -(nπα/l)^2 y and α^2 y_xx = -α^2 (nπ/l)^2 y, so the two sides agree. Also sin(0) = sin(nπ) = 0.\n\nThe n-th mode has angular frequency nπα/l, which is the fundamental of a string of length l/n. Riemann says Taylor used this to explain why a string can sound the fundamentals of strings 1/2, 1/3, 1/4, ... as long. Taylor took his particular solution as (approximately) general, choosing n according to the pitch.\n\n(c) Daniel Bernoulli's superposition. Observation shows a string sounding several tones at once. Bernoulli therefore proposed\n\n y = Σ_n a_n sin(nπx/l) cos(nπα(t − β_n)/l).\n\nThis is a linear superposition of normal modes, each with its own amplitude a_n and phase β_n. It solves the same problem by linearity. Bernoulli held it to be the most general solution because it explained all observed phenomena.\n\n(d) Bernoulli's beaded string. To support this view, Bernoulli studied a massless stretched thread loaded with finitely many point masses. For small oscillations this is a linear system M q'' = −K q with n degrees of freedom, where:\n- M is the positive diagonal mass matrix;\n- K is the symmetric positive definite tridiagonal tension matrix.\n\nIts general motion decomposes into n simple (normal-mode) oscillations, each with a period common to all masses. Modern justification (mine): simultaneous diagonalization of K with respect to M, giving the generalized eigenproblem K v = ω^2 M v.\n\nThe next page continues with Euler's reply (Mém. Berlin 1753, p. 196) and Lagrange.",
+  "errors": [
+   "No mathematical errors. The formula y = Σ a_n sin(nπx/l) cos(nπα(t−β_n)/l) is a correct general superposition of modes.",
+   "Historical nuance: Taylor (1713/1715) did not write the partial differential equation y_tt = α^2 y_xx; that form is due to d'Alembert (1747). Riemann's phrase 'Taylor hatte gesehen, dass ∂²y/∂t² = αα ∂²y/∂x²' is an anachronistic modern rendering of Taylor's result (sinusoidal shape, frequency formula). It is not an error of mathematics.",
+   "The claim that the beaded-string motion 'stets ... zerlegt werden kann' into n modes is correct for generic and indeed all cases (K, M symmetric positive definite), although Bernoulli did not prove it in this generality."
+  ],
+  "results": [
+   {
+    "what": "y = sin(nπx/l) cos(nπαt/l) solves the wave equation with fixed ends; harmonics as fundamentals of strings 1/n as long",
+    "modern_name": "standing-wave normal modes of the vibrating string",
+    "usually_credited_to": "Brook Taylor (1713/1715), modes made explicit by D. Bernoulli / d'Alembert",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "General vibration as a superposition Σ a_n sin(nπx/l) cos(nπα(t−β_n)/l)",
+    "modern_name": "principle of superposition / Fourier sine series solution of the wave equation",
+    "usually_credited_to": "Daniel Bernoulli (1753)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "A massless string loaded with n point masses has n normal modes, each with a common period for all masses",
+    "modern_name": "normal-mode decomposition of a finite-dimensional linear oscillator (beaded string)",
+    "usually_credited_to": "Daniel Bernoulli (1733 onward; 1753); later Lagrange (1759)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical account of the vibrating-string controversy (Taylor, d'Alembert, Euler, D. Bernoulli)",
+    "modern_name": "history of the vibrating string problem",
+    "usually_credited_to": "Riemann's own historical survey in the published Habilitationsschrift (1854/1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a manuscript page of Riemann's well-known Habilitationsschrift on trigonometric series, Section 1 (history). The content was published by Dedekind in 1867 and matches the printed text. All mathematics is classical 18th-century material attributed by Riemann himself to Taylor and Bernoulli.",
+  "checkable": [
+   {
+    "sympy": "x,t,l,a=symbols('x t l alpha',positive=True); n=symbols('n',integer=True,positive=True); y=sin(n*pi*x/l)*cos(n*pi*a*t/l); simplify(diff(y,t,2)-a**2*diff(y,x,2))==0",
+    "asserts": "Taylor's mode satisfies the wave equation y_tt = alpha^2 y_xx"
+   },
+   {
+    "sympy": "x,t,l,a=symbols('x t l alpha',positive=True); n=symbols('n',integer=True,positive=True); y=sin(n*pi*x/l)*cos(n*pi*a*t/l); (y.subs(x,0), simplify(y.subs(x,l)))",
+    "asserts": "The mode vanishes at x=0 and x=l for integer n (expect (0, 0))"
+   },
+   {
+    "sympy": "x,t,l,a,b1,b2,a1,a2=symbols('x t l alpha beta1 beta2 a1 a2',positive=True); y=a1*sin(pi*x/l)*cos(pi*a*(t-b1)/l)+a2*sin(2*pi*x/l)*cos(2*pi*a*(t-b2)/l); simplify(diff(y,t,2)-a**2*diff(y,x,2))==0",
+    "asserts": "Bernoulli's superposition with phases beta_n still solves the wave equation (checked for two terms)"
+   },
+   {
+    "sympy": "m,T,h=symbols('m T h',positive=True); K=T/h*Matrix([[2,-1],[-1,2]]); M=m*eye(2); (M.inv()*K).eigenvals()",
+    "asserts": "A massless string with 2 equal masses equally spaced has exactly 2 distinct normal-mode frequencies omega^2 = T/(m h) and 3T/(m h)"
+   },
+   {
+    "sympy": "m,T,h=symbols('m T h',positive=True); K=T/h*Matrix([[2,-1,0],[-1,2,-1],[0,-1,2]]); M=m*eye(3); len((M.inv()*K).eigenvals())==3",
+    "asserts": "With 3 masses the beaded string has 3 distinct normal modes (number of modes equals number of masses)"
+   },
+   {
+    "sympy": "n=symbols('n',integer=True,positive=True); l,a=symbols('l alpha',positive=True); simplify((n*pi*a/l)/(pi*a/(l/n)))==1",
+    "asserts": "The n-th mode's frequency equals the fundamental of a string of length l/n"
+   }
+  ],
+  "transcription_corrections": [
+   "The stray '6' at the end of the line '... gleichzeitig geben könne, führte' is a marginal mark in the manuscript, not part of the text.",
+   "The left-column French text is the continuation of footnote 2 of the previous page (d'Alembert, Mém. Berlin 1750, p. 358), not a new footnote.",
+   "Footnote markers 1), 2), 3) in the left column belong to the right-column text: 1) to 'Daniel Bernoulli', 2) to 'Taylor', 3) to 'die allgemeinste'.",
+   "In the formula, the manuscript writes cos (nπα/l)(t−β_n), i.e. the factor (t−β_n) multiplies nπα/l inside the cosine; the transcription is consistent with this.",
+   "'masselosen gespannten Fadens' is correct; 'beschwert' (loaded) is correct."
+  ]
+ }
+}

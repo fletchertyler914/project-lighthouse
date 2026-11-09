@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.28",
+ "page": "c066",
+ "label": "34r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000067/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a 1915 typewritten copy ('Abschrift angefertigt von Herrn P. Stäckel (Heidelberg) 1.5.15'). It was forwarded with a letter from Schlesinger to Klein dated 22 June 1915. It reproduces a note found on a marble tablet owned by Mr C. Gauss of Hameln, presumably a descendant. The note is headed as a reference to Cauchy's memoir in Comptes rendus, 24 April 1843 (no. 17), so it dates from 1843 or later.\n\nProblem. K is the plane algebraic curve F(x,y)=0, where F is a polynomial of degree n. What is the geometric meaning of the value F(α,β) at a point ϖ=(α,β) not on K?\n\nSetup.\n- Let f be the homogeneous part of F of top degree n.\n- Let k be the curve f(x,y)=1, drawn in the same coordinate frame.\n- For n=2, k is the conic centred at the origin O that is similar to K and has parallel principal axes. Its centre coincides with O.\n- Take any point p=(a,b) on k, so f(a,b)=1, and put r=sqrt(a^2+b^2)>0.\n- Through ϖ draw the line x=α+(a/r)s, y=β+(b/r)s. The text says 'through ϖ and o'; geometrically it is the line through ϖ parallel to Op.\n- The parameter s is the signed Euclidean distance from ϖ, because (a/r,b/r) is a unit vector.\n- Let the line meet K at P',P'',P''',..., with parameters s',s'',s''',..., assumed real.\n\nDerivation (modern form).\n1. S(s)=F(α+as/r, β+bs/r) vanishes at s=s',s'',....\n2. Taylor expansion: S(s)=Σ_{k=0}^{n} (s^k/(k! r^k)) (a∂_α+b∂_β)^k F(α,β).\n3. Top term [my gloss]: the n-th derivatives of F equal those of f. By Euler's homogeneity theorem, (1/n!)(a∂_x+b∂_y)^n f = f(a,b). The text phrases this as: the last term is f(as/r, bs/r)=(s^n/r^n) f(a,b)=s^n/r^n.\n4. So S is a polynomial of degree n in s, with leading coefficient 1/r^n, constant term F(α,β), and roots s',s'',....\n5. Vieta's formula gives s's''···s^(n) = (-1)^n F(α,β)·r^n, i.e. F(α,β)=(-1)^n s's''s'''···/r^n.\n\nInterpretation. F(α,β) equals ±(product of the distances from ϖ to the n intersection points along any chosen direction) divided by r^n. Here r is the 'radius' of the indicatrix curve k in that direction. This generalizes the power of a point (n=2) and Newton's transversal theorem: the ratio of the products of segments for two directions is independent of ϖ.",
+  "errors": [
+   "The text says the line is drawn 'durch ϖ und o' (through ϖ and O). The parametrization x=α+(a/r)s, y=β+(b/r)s is in fact the line through ϖ parallel to Op. It passes through O only in special cases. This is a slip in wording, either in the original or in the copy.",
+   "The Taylor series is written with its last term missing the operand F(α,β); the copyist added it in by hand. The coefficient 1/(1·2···n·r^n) is correct.",
+   "Assuming all s', s'', ... are real is unnecessary: the Vieta identity holds with complex roots counted with multiplicity. Only their reading as real distances needs it.",
+   "Unstated assumptions: the direction (a,b) must satisfy f(a,b)>0, so that a real point of k=1 exists in that direction. Also f(a,b)≠0 is needed so that exactly n intersections exist; otherwise the degree drops. With these, the result is correct."
+  ],
+  "results": [
+   {
+    "what": "F(α,β) = (-1)^n s's''···s^(n) / r^n, where s^(i) are the signed distances from (α,β) to the intersections of K with a line of direction (a,b), and f(a,b)=1, r=|(a,b)|. The value of the defining polynomial at a point is the product of segment lengths along any direction, normalized by the indicatrix curve f=1.",
+    "modern_name": "Generalized power of a point with respect to an algebraic curve; Newton's theorem on transversals (product of segments), via Vieta's formulas",
+    "usually_credited_to": "Newton (Enumeratio linearum tertii ordinis, 1704) for the constancy of the ratio of segment products; Carnot (Géométrie de position, 1803) for transversal theorems; Cauchy (Comptes rendus 1843) for this formulation of the meaning of F(x,y)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Expansion of F along a line, with the top-degree coefficient equal to f(a,b)/r^n by homogeneity (Euler's theorem).",
+    "modern_name": "Taylor expansion of a polynomial along a line / Euler's homogeneous function theorem",
+    "usually_credited_to": "Taylor, Euler",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a short, correct reconstruction of a classical result: Newton/Carnot transversal theorems and the power of a point, in the form Cauchy presented in 1843. It is explicitly marked as a note on Cauchy's memoir. Its historical interest lies in the provenance (a marble tablet held by the Gauss family, copied in 1915), not in the mathematics. Note also that the attribution to Gauss himself is inferred only from the tablet's ownership.",
+  "checkable": [
+   {
+    "sympy": "s,al,be,a,b=symbols('s alpha beta a b'); F=lambda x,y: 3*x**2+2*x*y+5*y**2-4*x+7*y-11; f=lambda x,y: 3*x**2+2*x*y+5*y**2; r=sqrt(a**2+b**2); P=expand(F(al+a*s/r,be+b*s/r)); simplify(Poly(P,s).all_coeffs()[0]-f(a,b)/r**2)==0",
+    "asserts": "The leading coefficient in s of F along the line is f(a,b)/r^n (here n=2)."
+   },
+   {
+    "sympy": "s,al,be,a,b=symbols('s alpha beta a b'); F=lambda x,y: 3*x**2+2*x*y+5*y**2-4*x+7*y-11; r=sqrt(a**2+b**2); c=Poly(expand(F(al+a*s/r,be+b*s/r)),s).all_coeffs(); simplify(c[-1]/c[0] - F(al,be)*r**2/(3*a**2+2*a*b+5*b**2))==0",
+    "asserts": "The product of the roots equals (-1)^n F(α,β) r^n / f(a,b). When f(a,b)=1 this gives F(α,β)=(-1)^n s's''·/r^n."
+   },
+   {
+    "sympy": "s,al,be,a,b=symbols('s alpha beta a b'); F=lambda x,y: x**3-2*x*y**2+y**3+x*y-3*y+1; f=lambda x,y: x**3-2*x*y**2+y**3; r=sqrt(a**2+b**2); c=Poly(expand(F(al+a*s/r,be+b*s/r)),s).all_coeffs(); simplify((-1)**3*c[-1]/c[0] - (-1)**3*F(al,be)*r**3/f(a,b))==0",
+    "asserts": "Cubic case: (-1)^n times the product of the roots equals F(α,β) r^n / f(a,b), so with f(a,b)=1, F(α,β)=(-1)^3 s's''s'''/r^3."
+   },
+   {
+    "sympy": "x,y,a,b=symbols('x y a b'); f=x**3-2*x*y**2+y**3; expr=sum(binomial(3,k)*a**(3-k)*b**k*diff(f,x,3-k,y,k) if k not in (0,3) else (a**3*diff(f,x,3) if k==0 else b**3*diff(f,y,3)) for k in range(4))/factorial(3); simplify(expr-f.subs({x:a,y:b}))==0",
+    "asserts": "(1/n!)(a∂x+b∂y)^n f = f(a,b) for homogeneous f of degree n (here n=3), justifying the 'last term' step."
+   }
+  ],
+  "transcription_corrections": [
+   "The heading reads 'Abschrift angefertigt von Herrn P. Stäckel (Heidelberg) 1.5.15.' followed by a signature/initials, consistent with the machine transcription. Stäckel was at Heidelberg in 1915.",
+   "The archival number at top right is crossed out ('157 d 55'), and '(34)' is the folio number.",
+   "Handwritten marginal note '(so im Original!)' sits beside the line where 'derselben' was struck through and replaced by 'paralleler' (Lage der Coordinaten).",
+   "Handwritten insertions: a comma after 'sein' ('ähnlich sein, mit paralleler Lage'), 'als' in 'die wir alle als reell voraussetzen', and 'u.s.w.' after s',s'',s'''.",
+   "The final Taylor term is completed by hand with the operand 'F(α,β)'.",
+   "Typed 'genmmen' should read 'genommen'; 'resp' is typed with a correction ('resp.').",
+   "'sind so wird' has a typed correction on 'so'.",
+   "Bottom handwritten line: '[Übersandt mit Brief Schlesinger an Klein, 1915 Juni 22'."
+  ]
+ }
+}

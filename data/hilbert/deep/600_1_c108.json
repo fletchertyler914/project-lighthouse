@@ -1,0 +1,61 @@
+{
+ "bundle": "600_1",
+ "page": "c108",
+ "label": "99",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000109/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): the heading is 'Franklinscher Beweis des Minkowskischen Satzes'. The theorem is: an integral linear substitution (integer n×n matrix) A that is congruent to the identity modulo a prime p and has finite order is itself the identity. This page gives the algebraic set-up and the core estimate. The following page finishes the argument.\n\n(1) Notation. A, B, C, D are integer matrices (A=(a_ik), B=(b_ik), ...). A+B denotes the entrywise sum (a_ik+b_ik), and products are composition of substitutions. Distributivity holds: (A+B)(C+D)=AC+AD+BC+BD. From this Hilbert infers the binomial expansion (A+B)^N = A^N + C(N,1)A^{N-1}B + ... . [My remark: this is only valid when A and B commute. In the application one summand is the identity 1, so it is legitimate there.]\n\n(2) Main step. Suppose A ≡ 1 (mod p) and A ≠ 1. Write A = 1 + p^r B with r ≥ 1, where B is an integer matrix whose entries are not all divisible by p. Suppose A^N = 1. Expanding gives A^N = 1 + N p^r B + C(N,2) p^{2r} B^2 + ... + p^{Nr} B^N, and this must equal 1.\n\n(3) Case p ∤ N. The term N p^r B is divisible by p^r but not by p^{r+1}, since N is a unit mod p and B ≢ 0 mod p. Every later term is divisible by p^{2r}, and 2r ≥ r+1. So the sum of the terms after 1 cannot vanish, a contradiction.\n\n(4) Case N = p (next page, 'aus dem nämlichen Grunde'). The second term is p^{r+1}B, exactly divisible by p^{r+1}. For 2 ≤ k ≤ p−1, the term C(p,k)p^{kr}B^k is divisible by p^{1+kr}, which is at least p^{1+2r}. The last term is p^{pr}B^p.\n\n(5) General N (next page). Write N = p^s·m with p ∤ m.\n- [My filling] A^{p^s} is ≡ 1 mod p and has order dividing m, so by (3) A^{p^s} = 1.\n- Then A^{p^{s-1}} is ≡ 1 mod p and its p-th power is 1, so by (4) A^{p^{s-1}} = 1.\n- Iterating (A^{N/p}, A^{N/p^2}, ... in Hilbert's words) gives A = 1.\n\nPurpose: this is the key lemma behind Minkowski's bound on finite subgroups of GL_n(Z). Reduction mod an odd prime p is injective on finite subgroups, so their order divides |GL_n(F_p)|.",
+  "errors": [
+   "The case N = p is not valid for p = 2 with r = 1. The last term p^{pr}B^p = 4B^2 is then of the same 2-adic order as the second term 2^{r+1}B = 4B, so cancellation is possible. Counterexample: A = −I ≡ I (mod 2), A ≠ I, A^2 = I. The theorem needs p odd, or for p = 2 the hypothesis A ≡ I (mod 4). The manuscript, as far as these pages show, states it for an arbitrary prime p.",
+   "The binomial theorem is said to 'follow' from distributivity alone. For non-commuting matrices it fails. It is harmless here only because one summand is the identity.",
+   "In the displayed expansion on this page the left-hand side appears to be written A rather than A^N (a slip of the pen).",
+   "Minor: 'alle folgenden Glieder durch noch höhere Potenzen [von p theilbar werden, als es bereits das 2te ist]' — the precise point is that the later terms are divisible by p^{2r} while the second term is exactly divisible by p^r. This holds for every r ≥ 1, so the p ∤ N case is fine."
+  ],
+  "results": [
+   {
+    "what": "An integer matrix of finite order congruent to I modulo a prime p (p odd) is the identity; equivalently the kernel of GL_n(Z) → GL_n(Z/p) is torsion-free for p ≥ 3 (and for p = 2 the level-4 kernel is torsion-free).",
+    "modern_name": "Minkowski's lemma / torsion-freeness of principal congruence subgroups (Minkowski's theorem on finite subgroups of GL_n(Z))",
+    "usually_credited_to": "H. Minkowski, 1887 (Crelle 101); the short binomial/p-adic valuation proof is standard (attributed in the manuscript to a 'Franklin')",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Binomial expansion of (1 + p^r B)^N and p-adic valuation comparison of terms",
+    "modern_name": "valuation argument / lifting-the-exponent style estimate",
+    "usually_credited_to": "folklore",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a notebook exposition of a known proof (explicitly attributed to Franklin) of Minkowski's 1887 lemma. It is standard material. The only notable feature is the overlooked p = 2 exception.",
+  "checkable": [
+   {
+    "sympy": "A=-eye(2); (A**2==eye(2), (A-eye(2)).applyfunc(lambda x: x%2)==zeros(2))",
+    "asserts": "Counterexample for p=2: A=-I is ≡ I mod 2, A≠I, and A^2=I, so the N=p step fails for p=2, r=1."
+   },
+   {
+    "sympy": "p,r,N=symbols('p r N',positive=True,integer=True); B=MatrixSymbol('B',2,2); expand((1+p**r*symbols('b'))**3)",
+    "asserts": "Commutative binomial expansion of (1+p^r b)^3 = 1+3p^r b+3p^{2r}b^2+p^{3r}b^3, illustrating the term structure."
+   },
+   {
+    "sympy": "from sympy import binomial, multiplicity; all(multiplicity(p, binomial(p,k)*p**(k*r)) >= 1+2*r for p in [3,5,7] for r in [1,2] for k in range(2,p))",
+    "asserts": "For odd p, the middle terms C(p,k)p^{kr} (2≤k≤p−1) have p-adic valuation ≥ 1+2r > r+1."
+   },
+   {
+    "sympy": "all(p*r > r+1 for p in [3,5,7,11] for r in [1,2,3]) and not (2*1 > 1+1)",
+    "asserts": "The last term p^{pr} has valuation > r+1 for all odd p, but not for p=2, r=1."
+   },
+   {
+    "sympy": "A=Matrix([[1,3],[0,1]]); [A**k==eye(2) for k in range(1,10)]",
+    "asserts": "A matrix ≡ I mod 3 other than I (here unipotent) has no finite order, consistent with the theorem."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'Man hat nun daher A^N = 1 + ...': in the image the left side reads 'A' (exponent N apparently omitted by the writer), and 'nun' looks struck through.",
+   "Next page: 'A^{N/r}' and 'A^{N/r^2}' should read A^{N/p} and A^{N/p^2}; the reduction divides the order by powers of p.",
+   "The page begins 'dul p' completing 'Primzahlmodul p' from the previous page."
+  ]
+ }
+}

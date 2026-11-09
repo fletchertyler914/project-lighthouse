@@ -1,0 +1,60 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c245",
+ "label": "123v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000246/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two layers: an inked German draft at the top, and pencil scratch-work (formulas, rotated about 90-180 degrees, plus sketches of circles and lens-shaped figures) over the rest of the sheet. The two layers may be unrelated.\n\n(A) Ink text (geodesy). With the deletions and insertions resolved, the paragraph reads: 'Zu den Untersuchungen über die Gestalt der Erde betrachtet man diese als begrenzt durch eine Niveaufläche, d.h. durch eine Fläche, die überall auf der Resultante aus der Centrifugalkraft und Schwerkraft senkrecht steht, und zwar durch diejenige Niveaufläche, mit welcher die Oberfläche des ruhenden und den Anziehungen der Sonne und des Mondes entzogenen Meeres zusammenfallen würde.'\n\nIn translation: for investigations of the figure of the Earth, the Earth is taken to be bounded by a level surface, i.e. a surface everywhere normal to the resultant of centrifugal force and gravitation. Specifically it is the level surface with which the surface of a sea at rest, and freed from the attractions of the Sun and Moon, would coincide.\n\nIn modern terms, define the gravity potential W = V + (1/2)*omega^2*(x^2+y^2), where V is the Newtonian potential. The Earth's figure is the equipotential surface W = W0 that best fits mean sea level, with tides removed. This is the geoid concept (Gauss 1828; the name 'Geoid' is due to Listing, 1873).\n\nThe revision history is visible. The first version said 'senkrecht auf der Schwere' and added a separate sentence abstracting from the periodic tidal changes caused by Moon and Sun. Riemann struck both and built the centrifugal term and the removal of lunisolar attraction into the definition itself.\n\nThe next sentence, 'Alle bisherigen Beobachtungen lassen sich mit der ...' ('All observations so far can be reconciled with the ...'), breaks off. Presumably it was to continue 'Annahme eines abgeplatteten Rotationsellipsoids' (the assumption of an oblate ellipsoid of revolution); this completion is my conjecture. No derivation is carried out in ink.\n\n(B) Pencil scratch-work. It is fragmentary, rotated, and largely illegible, so only a tentative identification is possible:\n\n1. A Gaussian kernel of the form exp(-r^2/(4 k^2 t)) / (...)^(3/2). This looks like the fundamental solution of the three-dimensional heat equation u_t = k^2*Laplacian(u), the source solution used in Riemann's lectures on heat conduction.\n2. Boundary-type conditions, du/dn = 0 and d(log r)/dn = 0, and a sum of normal derivatives of logarithms. These belong to plane potential theory, with log r as the 2D fundamental solution.\n3. A large circle containing three small circles, plus several other circles. This plausibly depicts a multiply connected plane domain, the setting of Neumann/Dirichlet problems with log-potentials.\n4. Quadric-type equations, read in the machine transcription as second derivatives. They may instead be x^2/a^2 - y^2/b^2 = 1 or = 0, or confocal-conic equations.\n5. An integral equal to an expression with square roots of factors like (e+epsilon)(phi-epsilon) and (e+f). This is suggestive of elliptic or ellipsoidal coordinates, as in the attraction of an ellipsoid, which would fit the Earth-figure text.\n\nNone of these can be reconstructed into a step-by-step derivation from the image.",
+  "errors": [
+   "No error can be identified in the ink text; the definition is physically correct, and the revision improves it by including centrifugal force and excluding tidal attractions.",
+   "The pencil formulas are too fragmentary to check; the machine transcription's reading of them as partial-derivative equations is doubtful."
+  ],
+  "results": [
+   {
+    "what": "Definition of the Earth's figure as the level (equipotential) surface of gravity plus centrifugal potential coinciding with the undisturbed, tide-free mean sea surface",
+    "modern_name": "Geoid (equipotential surface W = W0 of the gravity potential)",
+    "usually_credited_to": "C. F. Gauss (1828, Bestimmung des Breitenunterschiedes ...); name 'Geoid' by J. B. Listing (1873); theory by Stokes (1849)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Gaussian kernel exp(-r^2/(4k^2 t))/(...)^(3/2), apparently the 3D heat-conduction source solution",
+    "modern_name": "Heat kernel / fundamental solution of the heat equation",
+    "usually_credited_to": "Fourier, Laplace, Poisson (early 19th c.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Normal-derivative conditions involving log r on boundaries of (possibly multiply connected) circular domains",
+    "modern_name": "Neumann-type boundary conditions / logarithmic potential in 2D",
+    "usually_credited_to": "Gauss, Green; Riemann used such methods in his 1851 dissertation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The ink text is a standard textbook-level definition of the geoid concept as current after Gauss and Bessel. Its interest is biographical: it shows Riemann drafting an exposition on the figure of the Earth. The pencil fragments (heat kernel, log-potential conditions) belong to areas known from his lectures and are too fragmentary to suggest anything new.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,t,k=symbols('x y z t k',positive=True); r2=x**2+y**2+z**2; u=exp(-r2/(4*k**2*t))/t**Rational(3,2); simplify(diff(u,t)-k**2*(diff(u,x,2)+diff(u,y,2)+diff(u,z,2)))==0",
+    "asserts": "exp(-r^2/(4k^2 t))/t^(3/2) solves the 3D heat equation u_t = k^2 Laplacian(u)"
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); simplify(diff(log(sqrt(x**2+y**2)),x,2)+diff(log(sqrt(x**2+y**2)),y,2))==0",
+    "asserts": "log r is harmonic in the plane away from the origin"
+   },
+   {
+    "sympy": "x,y,z,w=symbols('x y z omega',real=True); W=1/sqrt(x**2+y**2+z**2)+w**2*(x**2+y**2)/2; [diff(W,v) for v in (x,y,z)]",
+    "asserts": "The gradient of point-mass potential plus centrifugal potential gives the resultant of gravitation and centrifugal force, to which level surfaces W = const are normal (G*M set to 1)"
+   }
+  ],
+  "transcription_corrections": [
+   "The final clause should read: 'mit welcher die Oberfläche des ruhenden und den Anziehungen der Sonne und des Mondes entzogenen Meeres zusammenfallen würde'; the insertion '(die überall auf) der Resultante aus der Centrifugalkraft und Schwerkraft senkrecht steht' replaces the deleted 'auf der Schwere'.",
+   "The struck sentence reads approximately: 'Man abstrahirt dabei natürlich von den periodischen Änderungen dieser Niveaufläche in Folge der Anziehungen des Mondes und der Sonne, welche Ebbe und Fluth bedingen.'",
+   "A page/section marker '2.' (or similar) appears at the top left.",
+   "The pencil 'd^2 r/dx^2 ...' readings are unreliable; these may be quadric equations such as x^2/a^2 - y^2/b^2 = 1 (and = 0).",
+   "The exponential fraction is plausibly exp(-r^2/(4k^2 t)) over a (...)^(3/2) power, i.e. a heat kernel; the denominator content is uncertain."
+  ]
+ }
+}

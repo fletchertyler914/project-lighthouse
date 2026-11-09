@@ -1,0 +1,60 @@
+{
+ "bundle": "Math.20",
+ "page": "c010",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem: describe the complex (non-real) roots of the trinomial equation x^(α+β) − p x^α + q = 0 in polar form, and reduce the problem to a single real equation for the argument φ.\n\nSetup. Put x = r(cos φ + i sin φ) with r > 0. The marginal note \"Wurzel in üblicher Bedeutung\" means that powers such as r^α, r^β and p^(α+β) are to be read as the ordinary positive real roots or powers.\n\nStep 1 (imaginary part of the equation itself; this step is mine). By de Moivre the equation reads r^(α+β) e^{i(α+β)φ} − p r^α e^{iαφ} + q = 0. Its imaginary part is\nr^(α+β) sin(α+β)φ − p r^α sin αφ = 0,\nso r^β = p sin αφ / sin(α+β)φ.\n\nStep 2 (imaginary part after dividing by x^α; this step is mine). The divided equation is r^β e^{iβφ} − p + q r^(−α) e^{−iαφ} = 0. Its imaginary part is\nr^β sin βφ − q r^(−α) sin αφ = 0,\nso r^(α+β) = q sin αφ / sin βφ.\n\nStep 3 (Gauss's third formula). Dividing the result of Step 2 by that of Step 1 gives r^α = q sin(α+β)φ / (p sin βφ).\n\nGauss's symmetric summary.\nsin αφ / r^(α+β) = sin βφ / q = sin(α+β)φ / (p r^α).\n\nStep 4 (elimination of r). Use (r^α)^β = (r^β)^α. This gives\n[q sin(α+β)φ / (p sin βφ)]^β = [p sin αφ / sin(α+β)φ]^α,\ni.e. q^β (sin(α+β)φ)^(α+β) = p^(α+β) (sin αφ)^α (sin βφ)^β.\nThis is the equation that determines φ. Gauss's notation sin(α+β)φ^(α+β) means (sin((α+β)φ))^(α+β). Once φ is known, r follows from any one of the three formulas.\n\nWhy the reduction is legitimate (my remark). A complex number E vanishes if E is real and E·e^{−iαφ} is real, provided sin αφ ≠ 0. For a non-real root, sin αφ = 0 would force r^α sin βφ = 0 by Step 2 and hence r^β sin βφ = 0 and the root real, a contradiction. So the two imaginary-part equations used above are together equivalent to the original equation.\n\nThe next page carries a note referring to 1841, which suggests the sheet dates from about then. This is the germ of the treatment of trinomial equations in Gauss's 'Beiträge zur Theorie der algebraischen Gleichungen' (1849/50).",
+  "errors": [
+   "No mathematical errors: all three formulas for r^(α+β), r^α, r^β, the proportion, and the final φ-equation check out.",
+   "Unstated caveat: the φ-equation is obtained by raising to powers. It loses the sign conditions sin αφ/sin βφ > 0 and p sin αφ/sin(α+β)φ > 0 (needed for r > 0), so it can admit extraneous φ. This is presumably what the remark 'Wurzel in üblicher Bedeutung' partly guards against.",
+   "Implicitly assumes sin βφ ≠ 0 and sin(α+β)φ ≠ 0. This is justified for non-real roots, but it is not stated."
+  ],
+  "results": [
+   {
+    "what": "Polar-form conditions for complex roots of x^(α+β) − p x^α + q = 0: r^(α+β) = q sin αφ/sin βφ, r^α = q sin(α+β)φ/(p sin βφ), r^β = p sin αφ/sin(α+β)φ, i.e. sin αφ/r^(α+β) = sin βφ/q = sin(α+β)φ/(p r^α)",
+    "modern_name": "Polar (argument-modulus) analysis of trinomial equations",
+    "usually_credited_to": "Gauss himself, Beiträge zur Theorie der algebraischen Gleichungen (1849, publ. 1850), section on trinomial equations; trinomial roots were also studied by Lambert and Euler (series) and later by Nekrasov, Mellin and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Resolvent equation for the argument: q^β sin((α+β)φ)^(α+β) = p^(α+β) sin(αφ)^α sin(βφ)^β",
+    "modern_name": "Argument equation for roots of a trinomial (elimination of the modulus)",
+    "usually_credited_to": "Gauss (1849 Beiträge, trinomial part)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are elementary de Moivre manipulations, and they coincide with material Gauss himself published in the 1849 'Beiträge' on trinomial equations. The sheet is a preliminary note (c. 1841?) toward a known publication.",
+  "checkable": [
+   {
+    "sympy": "a,b=2,3; p,q=Rational(5,2),1; x=symbols('x'); rts=[complex(z) for z in Poly(x**(a+b)-p*x**a+q,x).nroots() if abs(complex(z).imag)>1e-9]; [(abs(z)**(a+b) - q*sin(a*arg(z))/sin(b*arg(z))).evalf() for z in rts]",
+    "asserts": "r^(α+β) = q sin αφ / sin βφ for every non-real root (values ≈ 0)"
+   },
+   {
+    "sympy": "[(abs(z)**a - q*sin((a+b)*arg(z))/(p*sin(b*arg(z)))).evalf() for z in rts]",
+    "asserts": "r^α = q sin(α+β)φ /(p sin βφ) (≈ 0)"
+   },
+   {
+    "sympy": "[(abs(z)**b - p*sin(a*arg(z))/sin((a+b)*arg(z))).evalf() for z in rts]",
+    "asserts": "r^β = p sin αφ / sin(α+β)φ (≈ 0)"
+   },
+   {
+    "sympy": "[(q**b*sin((a+b)*arg(z))**(a+b) - p**(a+b)*sin(a*arg(z))**a*sin(b*arg(z))**b).evalf() for z in rts]",
+    "asserts": "the argument φ of each complex root satisfies Gauss's φ-equation (≈ 0)"
+   },
+   {
+    "sympy": "r,phi,al,be,p,q=symbols('r phi alpha beta p q',positive=True); simplify((q*sin((al+be)*phi)/(p*sin(be*phi)))*(p*sin(al*phi)/sin((al+be)*phi)) - q*sin(al*phi)/sin(be*phi))",
+    "asserts": "r^α · r^β = r^(α+β) is consistent among the three formulas (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The heading '[-45b/6-]' is a struck-through old foliation '45b/6' next to the circled new folio number 5; the transcription is otherwise faithful.",
+   "The second exponent letter, written like a 'b' in the hand, is β, as transcribed.",
+   "Exponents such as sin(α+β)φ^(α+β) are to be read as (sin((α+β)φ))^(α+β), not sin of a power."
+  ]
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c058",
+ "label": "34r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000059/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page contains two independent computations. Each is a closedness or integrability condition for a 1-form in two variables.\n\n(I) Variables z,u. Unknowns φ, ψ, χ, f are functions of (z,u). Define A = φ f_z + ψ f and B = φ f_u + χ f. Riemann computes the 'curl' of the form A dz + B du. Expanding, the φ f_{zu} terms cancel, giving\nA_u − B_z = (φ_u − χ) f_z + (ψ − φ_z) f_u + (ψ_u − χ_z) f.\nHe first tried to rewrite this as p f_z + q f_u + (p_z + q_u) f and struck the attempt out, since it is wrong.\nHe then introduced p, q so that the φ-part becomes a pure derivative. The definitions are implicit; making them explicit is mine: p = ψ − φ_z and q = χ − φ_u. Then\nA = ∂(φ f)/∂z + p f,\nB = ∂(φ f)/∂u + q f,\nand since ∂²(φf)/∂u∂z cancels,\nA_u − B_z = ∂(p f)/∂u − ∂(q f)/∂z.\nThis means that the 'φ-part' of a linear first-order expression in f contributes nothing to the curl; only the zero-order coefficients p, q matter. This is a Lagrange/Green-type identity of the kind used in adjoint-operator arguments. The page itself gives no indication of the intended application.\n\n(II) Variables x,y,z. Consider the surface f(x,y,z)=0, with x regarded as a function of (y,z), so x_y = −f_y/f_x and x_z = −f_z/f_x. Riemann takes the 1-form (φ dy + ψ dz)/f_x on the surface; this is the kind of form appearing in the theory of integrals on algebraic surfaces / residue forms dy/f_x. He writes its closedness condition\nd/dz (φ/f_x) = d/dy (ψ/f_x),\nwhere the derivatives are total derivatives along the surface: d/dz g = g_z − g_x f_z/f_x.\nAn intermediate fragment, −φ_x f_z/(f_x f_x), is one of the terms of d/dz(φ/f_x). Multiplying through by f_x², he obtains\n−φ_x f_z + φ_z f_x − φ f_{xz} + φ f_{xx} f_z/f_x = −ψ_x f_y + ψ_y f_x − ψ f_{xy} + ψ f_{xx} f_y/f_x.",
+  "errors": [
+   "The struck line '= p f_z + q f_u + (p_z+q_u) f' is incorrect. With p = ψ−φ_z and q = χ−φ_u, the correct form is p f_u − q f_z + (p_u − q_z) f. Riemann deleted the line himself.",
+   "In the first bracket the χ appears struck through, but the correct coefficient of f_z is (φ_u − χ). Either the strike removed a mistaken '∂χ' and only the χ should remain, or the strike itself is a slip. The intended result requires −χ.",
+   "No other errors: the identity A_u−B_z = (pf)_u − (qf)_z and both sides of the surface closedness condition (after multiplying by f_x²) check out."
+  ],
+  "results": [
+   {
+    "what": "Rewriting the curl of A dz + B du, with A,B linear first-order in f, so that the φ-terms drop out: A_u − B_z = (pf)_u − (qf)_z",
+    "modern_name": "Lagrange/Green identity (divergence form of a bilinear differential expression; adjoint operator)",
+    "usually_credited_to": "Lagrange (adjoint), Green; in the 2D hyperbolic setting Riemann 1860",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Closedness condition for the 1-form (φ dy + ψ dz)/f_x on the surface f=0, computed by implicit differentiation",
+    "modern_name": "Closedness of a differential form on an implicitly defined surface (precursor of Picard-type integrals / Poincaré residue forms)",
+    "usually_credited_to": "Classical (Euler/Jacobi implicit differentiation); integrals on algebraic surfaces: Picard, Noether (1880s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Both computations are routine calculus identities: a divergence-form rewriting and an exactness condition on an implicit surface. The second hints at an interest in integrals on algebraic surfaces, but nothing beyond the elementary check is carried out.",
+  "checkable": [
+   {
+    "sympy": "z,u=symbols('z u'); phi,psi,chi,f=[Function(n)(z,u) for n in ['phi','psi','chi','f']]; A=phi*diff(f,z)+psi*f; B=phi*diff(f,u)+chi*f; simplify(diff(A,u)-diff(B,z)-((diff(phi,u)-chi)*diff(f,z)+(psi-diff(phi,z))*diff(f,u)+(diff(psi,u)-diff(chi,z))*f))==0",
+    "asserts": "Expansion of A_u − B_z"
+   },
+   {
+    "sympy": "p=psi-diff(phi,z); q=chi-diff(phi,u); simplify(A-(diff(phi*f,z)+p*f))==0 and simplify(B-(diff(phi*f,u)+q*f))==0 and simplify(diff(A,u)-diff(B,z)-(diff(p*f,u)-diff(q*f,z)))==0",
+    "asserts": "With p=ψ−φ_z, q=χ−φ_u: A=(φf)_z+pf, B=(φf)_u+qf, and A_u−B_z=(pf)_u−(qf)_z"
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); f,phi=Function('f')(x,y,z),Function('phi')(x,y,z); g=phi/diff(f,x); Dz=lambda h: diff(h,z)-diff(h,x)*diff(f,z)/diff(f,x); simplify(Dz(g)*diff(f,x)**2-(-diff(phi,x)*diff(f,z)+diff(phi,z)*diff(f,x)-phi*diff(f,x,z)+phi*diff(f,x,2)*diff(f,z)/diff(f,x)))==0",
+    "asserts": "f_x² · d/dz(φ/f_x) along f=0 equals the left side written by Riemann"
+   },
+   {
+    "sympy": "psi=Function('psi')(x,y,z); Dy=lambda h: diff(h,y)-diff(h,x)*diff(f,y)/diff(f,x); simplify(Dy(psi/diff(f,x))*diff(f,x)**2-(-diff(psi,x)*diff(f,y)+diff(psi,y)*diff(f,x)-psi*diff(f,x,y)+psi*diff(f,x,2)*diff(f,y)/diff(f,x)))==0",
+    "asserts": "f_x² · d/dy(ψ/f_x) along f=0 equals the right side written by Riemann"
+   }
+  ],
+  "transcription_corrections": [
+   "First bracket: the image reads (∂φ/∂u − χ) with an apparent strike over the χ-symbol. The mathematically required term is −χ, not a deleted term.",
+   "In the φ-line, the term '−∂²f/∂x∂z φ[?]' is written as '−(∂²f/∂x∂z + (∂²f/∂x²)(∂f/∂z)/(∂f/∂x)) φ'. The trailing φ multiplies both terms, so the '[?]' is unnecessary.",
+   "The struck symbol before (φ dy + ψ dz)/(∂f/∂x) is an illegible deleted label. The struck 'pf' before ∂A/∂u − ∂B/∂z is correctly marked as deleted.",
+   "In the expression ∂(ψ/f_x)/∂y the numerator was overwritten (an 'f' over ψ); the intended reading ∂(ψ/f_x)/∂y is confirmed by the following lines."
+  ]
+ }
+}

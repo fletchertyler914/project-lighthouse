@@ -1,0 +1,53 @@
+{
+ "bundle": "Math.28",
+ "page": "c048",
+ "label": "24v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000049/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Main content (top of page). Gauss writes the substitution\n  sin t = 2m sin t' / ((m+n) cos^2 t' + 2m sin^2 t').\nWith s = sin t', c = cos t', the denominator is D = (m+n)c^2 + 2m s^2 = (m+n) + (m-n)s^2.\n\nHe then differentiates by the quotient rule, writing cos t (dt/dt') = [ D * 2m cos t' - 2m sin t' * (dD/dt') ] / D^2. The page breaks off after '- 2m sin t' ('. The completion below is mine:\n- dD/dt' = -2(m+n)sc + 4m sc = 2(m-n) sc.\n- So cos t dt/dt' = 2mc[(m+n) + (m-n)s^2 - 2(m-n)s^2]/D^2 = 2m cos t' [(m+n) - (m-n) sin^2 t'] / D^2.\n\nWhere this leads (my completion; this is the standard outcome of the substitution):\n- D^2 - 4m^2 s^2 factors as (1-s^2)((m+n)^2 - (m-n)^2 s^2) = c^2((m+n)^2 c^2 + 4mn s^2).\n- Hence cos t = 2c sqrt(m'^2 c^2 + n'^2 s^2)/D, with m' = (m+n)/2 and n' = sqrt(mn).\n- Also m^2 cos^2 t + n^2 sin^2 t = m^2 [(m+n) - (m-n)s^2]^2 / D^2.\n- Combining these gives dt / sqrt(m^2 cos^2 t + n^2 sin^2 t) = dt' / sqrt(m'^2 cos^2 t' + n'^2 sin^2 t').\n\nThis is Gauss's arithmetic-geometric-mean transformation of the complete/incomplete elliptic integral of the first kind. It is the very substitution printed in his 'Determinatio attractionis quam in punctum quodvis positionis datae exerceret planeta...' (1818). Context: the previous page treats Euler's addition theorem for the lemniscatic differential (Novi Comm. Petrop. XII). So this page continues work on elliptic differentials, here the Landen/Gauss quadratic transformation.\n\nNumbers. The scattered numbers include a small rotated column (1200, 2080, 880, 1480, 2360; and 1200, 1320, 2520) and upside-down columns at the bottom (1920, 2520, 3160, 2356, 1760, 2226, 1770, 580, 460, 1320, 1440, 1060, 134, 1160, 1180). They look like unrelated scratch arithmetic, e.g. 1200+880=2080, 1480+880=2360, 1200+1320=2520. They have no evident connection to the formula.",
+  "errors": [
+   "No error in what is written. The quotient-rule expression is correct but unfinished: the factor dD/dt' = 2(m-n) sin t' cos t' and the division by D^2 are not written. The derivation stops mid-line.",
+   "In the second line the leading 'cos t dt/dt' =' is followed by the numerator only. The denominator ((m+n)cos^2 t' + 2m sin^2 t')^2 is implicit or omitted."
+  ],
+  "results": [
+   {
+    "what": "Substitution sin t = 2m sin t'/((m+n)cos^2 t' + 2m sin^2 t') and its derivative, leading to invariance of dt/sqrt(m^2cos^2t+n^2sin^2t) under m -> (m+n)/2, n -> sqrt(mn)",
+    "modern_name": "Gauss's AGM (Landen-type quadratic) transformation of the elliptic integral of the first kind",
+    "usually_credited_to": "Landen (1775) for the quadratic transformation; Gauss (AGM form, 1799 onward, published 1818 in 'Determinatio attractionis')",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is exactly the substitution Gauss published in 1818 and used from the 1790s for the AGM. The page is an unfinished routine differentiation of it, consistent with known Gauss work.",
+  "checkable": [
+   {
+    "sympy": "s,c,m,n=symbols('s c m n',positive=True); D=(m+n)*(1-s**2)+2*m*s**2; simplify(D-((m+n)+(m-n)*s**2))",
+    "asserts": "Denominator equals (m+n)+(m-n)sin^2 t' (should give 0)"
+   },
+   {
+    "sympy": "tp,m,n=symbols('tp m n',positive=True); D=(m+n)*cos(tp)**2+2*m*sin(tp)**2; simplify(diff(2*m*sin(tp)/D,tp) - 2*m*cos(tp)*((m+n)-(m-n)*sin(tp)**2)/D**2)",
+    "asserts": "cos t dt/dt' = 2m cos t' ((m+n)-(m-n)sin^2 t')/D^2 (should give 0)"
+   },
+   {
+    "sympy": "s,m,n=symbols('s m n',positive=True); D=(m+n)+(m-n)*s**2; expand(D**2-4*m**2*s**2-(1-s**2)*((m+n)**2-(m-n)**2*s**2))",
+    "asserts": "D^2 - 4m^2 s^2 = cos^2 t' ((m+n)^2 - (m-n)^2 sin^2 t') (should give 0)"
+   },
+   {
+    "sympy": "s,m,n=symbols('s m n',positive=True); D=(m+n)+(m-n)*s**2; S=2*m*s/D; expand(m**2*(1-S**2)*D**2+n**2*S**2*D**2 - m**2*((m+n)-(m-n)*s**2)**2)",
+    "asserts": "m^2 cos^2 t + n^2 sin^2 t = m^2((m+n)-(m-n)s^2)^2/D^2 (should give 0)"
+   },
+   {
+    "sympy": "m,n=1.0,0.5; from mpmath import quad,sqrt,cos,sin,pi; quad(lambda t:1/sqrt(m**2*cos(t)**2+n**2*sin(t)**2),[0,pi/2]) - quad(lambda t:1/sqrt(((m+n)/2)**2*cos(t)**2+m*n*sin(t)**2),[0,pi/2])",
+    "asserts": "The complete integral is invariant under (m,n)->((m+n)/2, sqrt(mn)) (should be ~0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Second line: the left side is 'cos t dt/dt'' with the fraction dt/dt' written below. The right side is only the numerator of the quotient rule; the line ends with an open parenthesis '- 2m sin t' (' and the expression is unfinished.",
+   "Squares are written cos t'^2 and sin t'^2 with the prime and exponent stacked (cos^2 t', sin^2 t'). The transcription renders this correctly.",
+   "The small number clusters (middle left) are written rotated/inverted and are scratch arithmetic unrelated to the formula. The readings 1200, 2080, 880, 1480, 2360 and 1200, 1320, 2520 are plausible.",
+   "Bottom upside-down numbers: the reading '134' is likely '1340' or similar (partially legible). The column order in the transcription is approximate."
+  ]
+ }
+}

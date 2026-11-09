@@ -1,0 +1,75 @@
+{
+ "bundle": "PH.Grundformel",
+ "page": "c018",
+ "label": "10r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382435:00000019/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 10r is a typeset (printed) table, not Gauss's handwriting. The only manuscript marks are the folio number '(10)' and a crossed-out '12'. It continues the printed table on the previous page (eta = 0.00–0.32, which also gives log nu). This page gives log mu for eta = 0.32 to 0.94 in steps of 0.01, with first and second differences in units of the 7th decimal. The page closes with the end point and the defining formulas.\n\nMeaning of the constants (my identification). [8.5366114] = log(2k) with k = 0.01720209895, Gauss's gravitational constant: log k = 8.2355814 (-10) and log 2 = 0.3010300. So eta = 2kt/(r+r')^(3/2). The printed 'k' in the second formula is not Gauss's constant but the chord s (often written k in Olbers'/Encke's notation): s = 2kt*mu/(r+r')^(1/2). On the previous page, [8.3860964] = log(sqrt(2)*k) enters nu.\n\nUnderlying problem: the parabolic orbit (Olbers' method for comets). Euler's equation for the parabola is 6kt = (r+r'+s)^(3/2) - (r+r'-s)^(3/2).\n\nDerivation (filled in by me):\n1. Put x = s/(r+r').\n2. Divide by (r+r')^(3/2) and by 3: eta = 2kt/(r+r')^(3/2) = [(1+x)^(3/2) - (1-x)^(3/2)]/3.\n3. Define mu = x/eta. Then s = (r+r')*eta*mu = 2kt*mu/(r+r')^(1/2), which is the printed second formula.\n\nSo the table inverts Euler's equation: given eta (from the time interval and r+r'), it yields log mu, and hence the chord.\n\nSeries: eta = x - x^3/24 - x^5/128 - ... Inverting gives mu = 1 + eta^2/24 + 5 eta^4/384 + ..., and ln mu = eta^2/24 + 7 eta^4/576 + ... This explains the slowly varying second differences at small eta.\n\nUpper limit: x = 1, i.e. chord = r + r' (heliocentric motion of 180 degrees). There eta = 2^(3/2)/3 = sqrt(8)/3 = 0.9428090 and mu = 1/eta = 3/sqrt(8). Hence log mu = log 3 - 1.5 log 2 = 0.0255763, exactly as printed. The second differences blow up near this end (5.63, 7.05, 9.48, 15.27) because d(eta)/dx = [(1+x)^(1/2) + (1-x)^(1/2)]/2 approaches 1/sqrt(2) and d(eta)/dx proportional to x^(-1/2)... more precisely the (1-x)^(1/2) term produces a square-root singularity in x(eta) at eta = sqrt(8)/3.\n\nThis kind of table is the one Encke published for Olbers' method (Berliner Astronomisches Jahrbuch, around 1833). The printed sheet appears to be a stray insertion: the next folio is Gauss's handwritten torsion/magnetism notes.",
+  "errors": [
+   "No errors found. I recomputed every first and second difference on the page from the tabulated log mu values; all agree to the last unit.",
+   "Direct spot checks agree. eta = 0.50: log mu = 0.0049011 gives x = 0.505674 and f(x) = 0.499999. eta = 0.94: log mu = 0.0251919 gives x = 0.99614 and f(x) = 0.940001. eta = 0.32: the series gives 0.0019083 plus a small higher-order term, consistent with 0.0019112.",
+   "Slight irregularities in the second differences (0.49, then 0.48 near eta = 0.39; 0.52, then 0.51 near 0.43) are ordinary last-digit rounding noise, not errors."
+  ],
+  "results": [
+   {
+    "what": "Table of log mu (mu = chord/((r+r')*eta)) as a function of eta = 2kt/(r+r')^(3/2), inverting Euler's parabolic time equation 6kt = (r+r'+s)^(3/2) - (r+r'-s)^(3/2).",
+    "modern_name": "Euler's equation for parabolic motion, as used in Olbers' method of parabolic orbit determination (Encke's auxiliary table)",
+    "usually_credited_to": "Euler (1744) for the equation; Olbers (1797) for the method; Encke for the tabulation in this form",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Limiting value eta = sqrt(8)/3, log mu = log(3/sqrt(8)) = 0.0255763, corresponding to chord = r + r'.",
+    "modern_name": "Boundary case of Euler/Lambert parabolic transfer (180-degree transfer)",
+    "usually_credited_to": "Euler/Lambert; standard",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Constant [8.5366114] = log(2k), with k Gauss's gravitational constant.",
+    "modern_name": "Gaussian gravitational constant",
+    "usually_credited_to": "Gauss (Theoria Motus, 1809)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The sheet is a printed auxiliary table for Olbers' method (Encke-type), containing standard and correctly computed material. It is not Gauss's own work and contains nothing new; it is simply bound into the Gauss papers next to unrelated magnetism notes.",
+  "checkable": [
+   {
+    "sympy": "N(log(2*0.01720209895, 10) + 10, 8)",
+    "asserts": "Equals 8.5366114, i.e. the bracketed constant is log(2k)."
+   },
+   {
+    "sympy": "N(log(3/sqrt(8), 10), 8)",
+    "asserts": "Equals 0.0255763, the tabulated end value of log mu."
+   },
+   {
+    "sympy": "N(sqrt(8)/3, 8)",
+    "asserts": "Equals 0.9428090, the limiting eta for x = 1."
+   },
+   {
+    "sympy": "x=symbols('x'); e=Rational(1,2); N(log(nsolve(((1+x)**Rational(3,2)-(1-x)**Rational(3,2))/3 - e, x, 0.5)/e, 10), 8)",
+    "asserts": "Approximately 0.0049011, the tabulated log mu at eta = 0.50."
+   },
+   {
+    "sympy": "x=symbols('x'); e=Rational(94,100); N(log(nsolve(((1+x)**Rational(3,2)-(1-x)**Rational(3,2))/3 - e, x, 0.99)/e, 10), 8)",
+    "asserts": "Approximately 0.0251919, the tabulated log mu at eta = 0.94."
+   },
+   {
+    "sympy": "x=symbols('x'); series(((1+x)**Rational(3,2)-(1-x)**Rational(3,2))/3, x, 0, 6)",
+    "asserts": "Equals x - x**3/24 - x**5/128 + O(x**6)."
+   },
+   {
+    "sympy": "2519.19-2402.76 - (2402.76-2301.60)",
+    "asserts": "Equals 15.27, the last second difference on the page (units of 1e-7 after scaling)."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is printed (typeset), not handwritten; only '(10)' and the crossed-out '12' are manuscript.",
+   "The second-difference column is aligned with the eta rows and the first-difference column falls between rows; the machine transcription interleaves them correctly in substance.",
+   "In the formula k = [8,5366114] t mu/(r+r')^(1/2), 'k' denotes the chord, not the Gaussian constant."
+  ]
+ }
+}

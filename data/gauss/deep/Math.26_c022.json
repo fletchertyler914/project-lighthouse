@@ -1,0 +1,67 @@
+{
+ "bundle": "Math.26",
+ "page": "c022",
+ "label": "10r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381839:00000023/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem served: find a point inside a triangle such that the perpendiculars dropped from it to the three sides cut the triangle into three quadrilaterals of equal area. The next page sets V = Delta/3 using Heron's formula and reduces the problem to tangents of three angles summing to 180 degrees.\n\nSetup (as written on the page): the triangle has sides a, a', a''. From an arbitrary point P, perpendiculars p, p', p'' are dropped to these sides. q, q', q'' are the segments those perpendiculars cut off on the sides, all measured in the same circular sense, so each side splits into q and a-q. V, V', V'' are the quadrilaterals at the three vertices, each bounded by two perpendiculars and two side segments.\n\n(I) Pythagoras, twice per vertex. Take the vertex where side a'' ends and side a begins. The two right triangles at that vertex have the same hypotenuse PX. So |PX|^2 = p^2 + q^2 = p''^2 + (a''-q'')^2, and cyclically for the other two vertices.\n\n(II) The quadrilateral at that vertex is the union of those two right triangles, with legs (p, q) and (p'', a''-q''). Hence pq + p''(a''-q'') = 2V', and cyclically.\n\nCombining. Write (I) as p^2+q^2-p''^2-(a''-q'')^2 = 0.\n- Adding it to 2(II) gives (p+q)^2 - (p''+q''-a'')^2 = 4V'.\n- Subtracting it from 2(II) gives (p''-q''+a'')^2 - (p-q)^2 = 4V'.\n- The other two pairs follow cyclically.\n\nEqual-area case V = V' = V''. Normalise with p+q = 2x*sqrt(V) and a = 2c*sqrt(V) (and cyclically). Dividing by 4V turns the first family into three hyperbola-type equations:\n- x^2 - (x''-c'')^2 = 1\n- x'^2 - (x-c)^2 = 1\n- x''^2 - (x'-c')^2 = 1\n\nAdding them, the squares x^2, x'^2, x''^2 cancel. This leaves the linear relation 2cx + 2c'x' + 2c''x'' = 3 + c^2 + c'^2 + c''^2.\n\nContinuation (next page): V = Delta/3 gives 3 = sqrt((c+c'+c'')(c+c'-c'')(c-c'+c'')(-c+c'+c'')). Gauss then substitutes x+x'' = y''+c'' and x-x'' = 1/y''-c'' (factorising each hyperbola) and arrives at t+t'+t'' = t t' t''.",
+  "errors": [
+   "No mathematical errors found. All three families of identities and the summed relation check algebraically.",
+   "Implicit assumption (not stated): the feet of the perpendiculars lie on the sides themselves, so that q and a-q are both positive and each V is a genuine quadrilateral. With signed lengths the identities still hold formally.",
+   "On the page 'abzieht' must mean 2(II) minus (I) to get the right-hand column with +4V. The other order would give -4V. This is a reading convention, not an error."
+  ],
+  "results": [
+   {
+    "what": "Distance from an interior point to a vertex expressed two ways via the feet of the perpendiculars: p^2+q^2 = p''^2+(a''-q'')^2. Area of the vertex quadrilateral: 2V' = pq + p''(a''-q'').",
+    "modern_name": "Pythagorean decomposition / pedal-point quadrilateral areas",
+    "usually_credited_to": "classical, elementary",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Difference-of-squares forms (p+q)^2-(p''+q''-a'')^2 = 4V' and (p''-q''+a'')^2-(p-q)^2 = 4V', and cyclic versions.",
+    "modern_name": "algebraic identity from combining Pythagoras and the area formula",
+    "usually_credited_to": "none specific (elementary)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Reduction of the problem 'point whose perpendiculars to the sides split a triangle into three equal-area quadrilaterals' to the system x^2-(x''-c'')^2=1 (cyclic), with summed linear relation 2Σcx = 3+Σc^2.",
+    "modern_name": "equal-area partition of a triangle by pedal perpendiculars (recreational/elementary geometry problem)",
+    "usually_credited_to": "no standard attribution known",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is an elementary, correct analytic set-up of a recreational geometry problem: dividing a triangle into three equal quadrilaterals by perpendiculars from an interior point. The normalisation to unit hyperbolas and the later tangent-sum parametrisation (next page) are elegant and Gauss-like but not significant. Nothing here anticipates a later named result.",
+  "checkable": [
+   {
+    "sympy": "p,q,pp,qq,a2,V1=symbols('p q pp qq a2 V1'); simplify(((p+q)**2-(pp+qq-a2)**2) - ((p**2+q**2-pp**2-(a2-qq)**2) + 2*(p*q+pp*(a2-qq)))) == 0",
+    "asserts": "(I) + 2(II) gives (p+q)^2-(p''+q''-a'')^2 = 4V'."
+   },
+   {
+    "sympy": "simplify(((pp-qq+a2)**2-(p-q)**2) - (2*(p*q+pp*(a2-qq)) - (p**2+q**2-pp**2-(a2-qq)**2))) == 0",
+    "asserts": "2(II) - (I) gives (p''-q''+a'')^2-(p-q)^2 = 4V'."
+   },
+   {
+    "sympy": "x,x1,x2,c,c1,c2=symbols('x x1 x2 c c1 c2'); expand((x**2-(x2-c2)**2-1)+(x1**2-(x-c)**2-1)+(x2**2-(x1-c1)**2-1) - (2*c*x+2*c1*x1+2*c2*x2-3-c**2-c1**2-c2**2)) == 0",
+    "asserts": "Summing the three normalised equations gives 2cx+2c'x'+2c''x'' = 3+c^2+c'^2+c''^2."
+   },
+   {
+    "sympy": "V,x,x2,c2=symbols('V x x2 c2',positive=True); simplify(((2*x*sqrt(V))**2-(2*x2*sqrt(V)-2*c2*sqrt(V))**2-4*V)/(4*V) - (x**2-(x2-c2)**2-1)) == 0",
+    "asserts": "The substitution p+q=2x sqrt(V), a=2c sqrt(V) turns (p+q)^2-(p''+q''-a'')^2=4V into x^2-(x''-c'')^2=1."
+   },
+   {
+    "sympy": "A=Matrix([0,0]);C=Matrix([1,3]);P=Matrix([Rational(3,2),1]); u=C/sqrt(10); t=P.dot(u); F=t*u; dist=abs(P[0]*3-P[1]*1)/sqrt(10); (Rational(3,2)**2+1 - (t**2+dist**2)).simplify()==0 and (Rational(1,2)*(Rational(3,2)*1+t*dist) - Polygon(Point(0,0),Point(Rational(3,2),0),Point(P[0],P[1]),Point(F[0],F[1])).area).simplify()==0",
+    "asserts": "Numeric example: triangle A(0,0),B(4,0),C(1,3), point P(3/2,1). At vertex A, p^2+q^2 is the same through both sides, and the quadrilateral area equals half the sum of the two right-triangle leg products."
+   }
+  ],
+  "transcription_corrections": [
+   "The folio numbering is '(10)' with the earlier numbers '47' and '12' struck through. The machine rendering [-47-] [-12-] is consistent with this.",
+   "The line under the three normalised equations is a summation bar, not a table rule. The bottom line is the sum of the three equations.",
+   "Otherwise the transcription agrees with the image: 'Es seien', 'darauf gefällten Perpendikel', 'nach einerlei Zählung genommen', 'enthaltenen Vierecke', 'Je nachdem man ... respective addirt oder von einander abzieht, erhält man'."
+  ]
+ }
+}

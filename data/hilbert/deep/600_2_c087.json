@@ -1,0 +1,67 @@
+{
+ "bundle": "600_2",
+ "page": "c087",
+ "label": "[82]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000088/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is headed 'Mathematische Scherze' (mathematical jokes). It records two classical fallacious proofs in plane geometry, each followed by Hilbert's diagnosis ('Lösung').\n\n(1) 'Every triangle is isosceles.'\nSetup: triangle ABC. The bisector of angle C splits it into two angles alpha = alpha. M is the midpoint of AB (AM = MB = a). The perpendicular to AB at M (the perpendicular bisector) meets the bisector at O. Join OA and OB. Drop perpendiculars OE to AC and OF to BC.\nThe fallacious chain:\n(i) Triangle AOM is congruent to triangle BOM by SAS (AM = BM, OM common, both right angles at M). Hence OA = OB and angle OAM = angle OBM.\n(ii) Triangle OEC is congruent to triangle OFC by AAS (equal angles alpha at C, right angles at E and F, common hypotenuse OC). Hence OE = OF.\n(iii) Triangle AOE is congruent to triangle BOF by RHS (right angles, hypotenuses OA = OB, legs OE = OF). Hence angle OAE = angle OBF.\n(iv) 'Also auch' angle MAC = angle MBC, so CA = CB. This step is implicitly angle OAM + angle OAE = angle OBM + angle OBF.\nHilbert's diagnosis: in a correct drawing, O falls below AB, i.e. outside the triangle.\nModern completion (mine): for a scalene triangle, O is the midpoint of the arc AB of the circumcircle not containing C. Exactly one of E, F lies on the extension of its side, the other on the side itself. So on one side the angles must be subtracted, not added, and the additions in (iv) fail.\nExample (mine): A = (0,0), B = (4,0), C = (1,3) gives O = (2, 1 - sqrt5). The foot E lies beyond A on line CA (parameter (5 - 3*sqrt5)/10 < 0). The foot F lies inside segment BC (parameter (9 - 3*sqrt5)/18, which is in (0,1)).\n\n(2) 'Every obtuse angle equals a right angle.'\nSetup: quadrilateral ABDC, with A top-left, B top-right, C bottom-left, D bottom-right. CA is perpendicular to AB, angle DBA is obtuse, and AC = BD. Erect the perpendicular bisector of AB (foot M) and the perpendicular bisector of CD (foot N). They meet at O.\nThe fallacious chain:\n(i) OA = OB.\n(ii) OC = OD.\n(iii) With AC = BD, triangle CAO is congruent to triangle DBO by SSS (implicit), so angle CAO = angle DBO.\n(iv) Angle OAM = angle OBM, from the isosceles triangle OAB.\n(v) Subtracting gives angle MAC = angle MBD, i.e. 90 degrees = obtuse.\nHilbert's diagnosis: O actually lies much higher, so that OD passes on the other side of B (his dotted line).\nModern completion (mine): angle DBO then lies on the far side of B. It equals 360 - angle ABO - angle ABD, not angle ABO + angle ABD. So the subtraction is illegitimate.\nExample (mine): A = (0,0), B = (2,0), C = (0,-2), D = (3,-sqrt3), so angle ABD = 120 degrees. This gives O = (1, y0) with y0 about 3.73. Line OD crosses the x-axis at x about 2.37 > 2. The angles are angle CAO = angle DBO, about 165 degrees, and angle OAB = angle OBA, about 75 degrees. Then 165 - 75 = 90 at A, while at B we have 360 - 165 - 75 = 120.",
+  "errors": [
+   "Fallacy 1: Hilbert's resolution ('O falls below AB') is correct but incomplete. O lying outside the triangle alone does not break the argument. The decisive point is that exactly one of the feet E, F falls on the extension of its side while the other falls on the side, which forces a sum on one side and a difference on the other. The note does not say this.",
+   "Fallacy 1: the degenerate case CA = CB, where the bisector and the perpendicular bisector coincide and O is undefined, is not mentioned. This is harmless for the joke.",
+   "Fallacy 2: the SSS congruence OAC = OBD is used implicitly ('Folglich wegen AC = BD'). The resolution (O higher, OD passing on the other side of B) is correct and is the standard one.",
+   "These are intentional fallacies, so the 'errors' in the derivations are the jokes. The only issue is whether the diagnoses are complete."
+  ],
+  "results": [
+   {
+    "what": "Fallacious proof that every triangle is isosceles (angle bisector of C meets perpendicular bisector of AB), with diagnosis that O lies outside the triangle",
+    "modern_name": "'Every triangle is isosceles' fallacy; the meeting point is the arc midpoint on the circumcircle",
+    "usually_credited_to": "Popularized by W. W. Rouse Ball, Mathematical Recreations (1892), and often attributed to Lewis Carroll; folklore",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Fallacious proof that an obtuse angle equals a right angle (perpendicular bisectors of AB and CD in a quadrilateral with AC = BD), with diagnosis that OD passes on the other side of B",
+    "modern_name": "Lewis Carroll's 'obtuse angle equals right angle' fallacy",
+    "usually_credited_to": "Lewis Carroll (C. L. Dodgson); in Rouse Ball's Mathematical Recreations (1892)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Both are well-known recreational fallacies that circulated in the early 1890s (Rouse Ball 1892, Carroll). Hilbert's notebook entry, roughly datable to that time given the 1892 citation on the next page, simply records them with standard (partly incomplete) resolutions. It is of minor biographical interest as a sign of his interest in diagram-reliance problems around the period of his foundations-of-geometry work, but not mathematically novel.",
+  "checkable": [
+   {
+    "sympy": "A=Matrix([0,0]);B=Matrix([4,0]);C=Matrix([1,3]);O=Matrix([2,1-sqrt(5)]); simplify((O-A).norm()-(O-B).norm())==0 and simplify((O-A).norm()-(O-C).norm()+ (O-C).norm()-sqrt(5)*0 - ((O-A).norm()-(O-C).norm()))==0",
+    "asserts": "O is equidistant from A and B, so it lies on the perpendicular bisector of AB."
+   },
+   {
+    "sympy": "u1=(A-C)/(A-C).norm(); u2=(B-C)/(B-C).norm(); d=u1+u2; simplify((O-C)[0]*d[1]-(O-C)[1]*d[0])==0",
+    "asserts": "O = (2, 1-sqrt(5)) lies on the internal bisector of angle C, so it is the fallacy's point O, and it lies below AB (y < 0)."
+   },
+   {
+    "sympy": "s=((O-A).dot(C-A))/((C-A).dot(C-A)); u=((O-B).dot(C-B))/((C-B).dot(C-B)); (simplify(s), simplify(u), N(s)<0, 0<N(u)<1)",
+    "asserts": "The foot E is outside segment AC (s = (5-3*sqrt(5))/10 < 0) while the foot F is inside BC (u = (9-3*sqrt(5))/18 in (0,1)); this is the true source of the fallacy."
+   },
+   {
+    "sympy": "A=Matrix([0,0]);B=Matrix([2,0]);C=Matrix([0,-2]);D=Matrix([3,-sqrt(3)]);y=symbols('y');O=Matrix([1,y]);ys=solve((O-C).dot(O-C)-(O-D).dot(O-D),y)[0];ys",
+    "asserts": "The perpendicular bisectors of AB and CD meet at O = (1, ys), with ys about 3.73."
+   },
+   {
+    "sympy": "Os=Matrix([1,ys]); ang=lambda P,Q,R: acos(((P-Q).dot(R-Q))/((P-Q).norm()*(R-Q).norm())); [N(ang(C,A,Os)*180/pi),N(ang(D,B,Os)*180/pi),N(ang(Os,A,B)*180/pi),N(ang(Os,B,A)*180/pi),N(ang(A,B,D)*180/pi)]",
+    "asserts": "angle CAO = angle DBO (about 165 degrees) and angle OAB = angle OBA (about 75 degrees), but angle ABD = 120 = 360-165-75, not 165-75 = 90."
+   },
+   {
+    "sympy": "t=solve(Os[1]+symbols('t')*(D[1]-Os[1]),symbols('t'))[0]; N(Os[0]+t*(D[0]-Os[0]))>2",
+    "asserts": "Line OD crosses line AB to the right of B (x about 2.37), i.e. OD passes on the other side of B, as Hilbert says."
+   }
+  ],
+  "transcription_corrections": [
+   "Page number '82' is visible at top right (not transcribed).",
+   "In fallacy 1, the line read as '△OEC ≡ OFC' has a crossed-out letter after F (an overwritten D/C); the intended statement is △OEC ≡ △OFC.",
+   "In fallacy 2, 'mache AC = BD' is a small interlinear insertion above the figure near O, replacing the struck '[AM = MB]'.",
+   "In fallacy 2, the last line appears as 'aus/auch ∡MAC = ∡MBD' with the first word partly struck; the sense is 'also angle MAC = angle MBD'.",
+   "Before 'auf' in the Lösung of fallacy 2, the struck word is 'ein'; the reading 'auf der andern Seite von B herum geht' is correct."
+  ]
+ }
+}

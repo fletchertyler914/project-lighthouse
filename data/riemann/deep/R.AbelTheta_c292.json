@@ -1,0 +1,57 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c292",
+ "label": "145r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000293/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft (sheet \"No 10\") of the section \"Bestimmung einer Function einer veränderlichen complexen Grösse durch Grenz- und Unstetigkeitsbedingungen\" of Riemann's Theorie der Abel'schen Functionen (Crelle 54, 1857). The previous page carries that title and sets up the integral ∫((α_x−β_y)^2+(α_y+β_x)^2)dT.\n\n(1) Setting. Riemann fixes the data of the problem. There are points of the surface S where z = x+yi takes the values a_1, a_2, a_3, .... The function sought should be discontinuous at these points in a prescribed way: near a_1 it should behave like a given function ξ_1(z), near a_2 like ξ_2(z), and so on. Here each ξ_ν is analytic in a punctured neighbourhood of a_ν. In addition, boundary values are prescribed.\n\n(2) The key observation, which a struck draft sentence and its rewrite both express. Let α+βi be any function of (x,y) (not assumed analytic) such that:\n- near the first discontinuity point, α+βi = ξ_1(z) + (something with finite derivatives);\n- it has the given values on the boundary;\n- it has finite difference quotients elsewhere.\nThen the 'Cauchy–Riemann-defect' integral\n Ω = ∫_S [(∂α/∂x − ∂β/∂y)^2 + (∂α/∂y + ∂β/∂x)^2] dS\nis finite.\n\n(3) Reason (implicit; supplied by me). Let L(f) = (α_x−β_y, α_y+β_x), which equals 2·∂f/∂z̄ in components. This operator is linear and annihilates analytic functions. Near a_1 write α+βi = ξ_1(z) + g with g smooth; then L(α+βi) = L(g), which is bounded. So the singularity contributes nothing to Ω, even though the ordinary Dirichlet integral ∫(α_x^2+α_y^2)dS used on the previous page diverges at a pole or logarithmic point.\n\nThis is precisely why Riemann replaces the Dirichlet integral by Ω when singularities are prescribed. One then minimizes Ω over α+βi (equivalently over β, with α given, or by subtracting μ+νi of finite Ω) to obtain a function that is analytic, has the prescribed singular parts, and has the prescribed boundary values.\n\n(4) First variation. The fragmentary line '(∂α/∂x − ∂β/∂y)·… + (∂α/∂y + ∂β/∂x)·… ∫ = 0' appears to be the vanishing of the first variation of Ω (Euler–Lagrange condition of the minimum), continuing the variational argument of the previous page.\n\n(5) The remainder is upside-down, struck-through scratch writing and is not mathematically interpretable.",
+  "errors": [
+   "Possible sign inconsistency. As written, the integrand appears as (α_x ± β_y)^2 + (α_y − β_x)^2, with the '+' in the first bracket struck. The consistent Cauchy–Riemann defect for α+βi is (α_x − β_y)^2 + (α_y + β_x)^2, as on the previous page and in the 1857 paper. If the second term really reads α_y − β_x, it is a slip, or else refers to α−βi. Uncertain from the image.",
+   "The finiteness claim tacitly needs α+βi − ξ_ν to have bounded first derivatives near every a_ν, not only a_1, and the integral must be finite near the boundary. The text states this only for the first point (the 'u.s.w.' covers the rest)."
+  ],
+  "results": [
+   {
+    "what": "Replacing the Dirichlet integral by the Cauchy–Riemann-defect functional ∫((α_x−β_y)^2+(α_y+β_x)^2)dS, which stays finite when α+βi has prescribed analytic singularities ξ_ν(z), so that the Dirichlet principle can be applied to functions with poles/log singularities",
+    "modern_name": "Dirichlet principle with prescribed singularities / minimization of ∫|∂f/∂z̄|^2 (existence of meromorphic functions and abelian differentials with prescribed principal parts)",
+    "usually_credited_to": "Riemann, 1857 (Theorie der Abel'schen Functionen, §3); rigorously Hilbert 1900/1904",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "First variation of the functional set to zero",
+    "modern_name": "Euler–Lagrange equation for the ∂̄-energy (leading to harmonicity / Cauchy–Riemann equations)",
+    "usually_credited_to": "Riemann 1851/1857 (Dirichlet principle)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of a published passage of Riemann's 1857 Abelian functions paper. The idea and even the section title match the published text, so it is only of interest as a view of the drafting process.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); z=x+I*y; f=1/z; a=re(f); b=im(f); simplify(diff(a,x)-diff(b,y)), simplify(diff(a,y)+diff(b,x))",
+    "asserts": "For the singular analytic function 1/z, both Cauchy–Riemann defect terms vanish identically, so the singularity contributes nothing to Ω"
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); a=x/(x**2+y**2); simplify(diff(a,x)**2+diff(a,y)**2)",
+    "asserts": "The Dirichlet integrand of Re(1/z) equals 1/r^4, so ∫(α_x^2+α_y^2)dS diverges near z=0; this is why the plain Dirichlet integral cannot be used"
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); a,b=Function('a')(x,y),Function('b')(x,y); expand((diff(a,x)-diff(b,y))**2+(diff(a,y)+diff(b,x))**2 - (diff(a,x)**2+diff(a,y)**2+diff(b,x)**2+diff(b,y)**2 - 2*(diff(a,x)*diff(b,y)-diff(a,y)*diff(b,x))))",
+    "asserts": "Identity: the CR-defect integrand equals the sum of the Dirichlet integrands of α and β minus twice the Jacobian (result 0)"
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); z=x+I*y; f=1/z+x**2*y; a=re(f); b=im(f); simplify((diff(a,x)-diff(b,y))**2+(diff(a,y)+diff(b,x))**2)",
+    "asserts": "Adding a smooth non-analytic part to 1/z gives a bounded CR-defect integrand near 0, so Ω is finite"
+   }
+  ],
+  "transcription_corrections": [
+   "The first-line heading next to '№ 10' is illegible; 'Die Fest...' is doubtful.",
+   "'σ [?] {+z+}' at the start of line 2 is probably just 'z' (the variable z, with 'angenommen wird' referring to its values a_1, a_2, ...).",
+   "In both integrals the signs should probably be read as (∂α/∂x − ∂β/∂y)^2 + (∂α/∂y + ∂β/∂x)^2, the '+' in the first bracket being cancelled. The second bracket's sign is unclear in the image.",
+   "'endlichen Werth ist' is probably 'einen endlichen Werth hat/annehmen'.",
+   "'= ξ_1 z' should read 'α+βi − ξ_1(z) endlich/stetig' in sense, i.e. α+βi behaves like ξ_1(z) near the first discontinuity point."
+  ]
+ }
+}

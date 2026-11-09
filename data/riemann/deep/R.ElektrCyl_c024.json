@@ -1,0 +1,70 @@
+{
+ "bundle": "R.ElektrCyl",
+ "page": "c024",
+ "label": "11r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173043:00000025/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a lecture draft (\"in der vorigen Stunde\") for the bundle on electricity on circular cylinders with parallel axes. Physically this is 2-D electrostatics in the region outside several circles. The next page goes on to cuts K1, K2, periods, and combining z = alpha W + beta W' + W'' so that the periods cancel. That matches the posthumous piece 'Gleichgewicht der Electricität auf Cylindern mit kreisförmigem Querschnitt und parallelen Axen' in Riemann's Werke.\n\n(1) Statement of the problem, line 1. Find a function w = u + iv of the complex variable z, analytic in the region outside given circles. Its real part must take arbitrarily prescribed values on the boundary circles. This is the Dirichlet problem for a multiply connected circular domain.\n\n(2) Setup. Write z = x + y sqrt(-1), with x and y rectangular coordinates in the plane. The circles have centres z = p, p1, p2, ... and radii r, r1, r2, ...\n\n(3) Auxiliary kernel function. Riemann first seeks w = u + vi with these properties:\n- its imaginary part is 0 on the boundary;\n- it is infinite at the single boundary point z - p = r e^{i alpha};\n- it is continuous everywhere else, including at z = infinity, where it is a continuous function of 1/z.\n\n(4) Explicit kernel for one circle. Riemann writes (the exponent is my reading of the image, see corrections):\ng + hi = e^{i(alpha-beta)/2} (z - p - r e^{i beta}) / (z - p - r e^{i alpha}).\n\nCheck on the circle (my filling-in). Put z - p = r e^{i theta}. Then\ne^{i theta} - e^{i beta} = 2i e^{i(theta+beta)/2} sin((theta-beta)/2),\nand similarly for alpha. So the quotient equals e^{i(beta-alpha)/2} sin((theta-beta)/2) / sin((theta-alpha)/2). The prefactor e^{i(alpha-beta)/2} cancels the phase, so g + hi is real on |z - p| = r.\n\nHence:\n- h = 0 on that circle;\n- there is a simple pole at the boundary point r e^{i alpha};\n- the function tends to e^{i(alpha-beta)/2} as z goes to infinity.\n\nThe second boundary point e^{i beta} serves as a normalisation. It makes the kernel finite at infinity and makes the real boundary data change sign there. This is a Möbius/Poisson-kernel type function: the half-plane/disc kernel (zeta + a)/(zeta - a), rotated so that the imaginary part, rather than the real part, vanishes.\n\n(5) Variational part. Riemann writes the Dirichlet integral ∫∫ (v_x^2 + v_y^2) dx dy together with Laplace's equation v_xx + v_yy = 0. He also writes the functional\nOmega = ∫∫ [ (g_x - h_y)^2 + (g_y + h_x)^2 ] dx dy.\nThis measures the deviation of g + ih from the Cauchy–Riemann equations; it is exactly the functional of his 1851 dissertation (§§16–18).\n\nIntended use (my inference). For several circles, the single-circle kernel does not have vanishing imaginary part on the other circles. The correction would be obtained by Dirichlet's principle: minimise Omega, or the Dirichlet integral of v. The minimiser v is harmonic, and g + ih becomes analytic. Expanding the integrand gives |grad g|^2 + |grad h|^2 - 2(g_x h_y - g_y h_x). The Jacobian term is a boundary term, so minimising Omega amounts to minimising Dirichlet integrals.\n\nThe next page then handles the multivaluedness of the conjugate function around the circles: periods K along cuts, removed by linear combinations of normalised functions.",
+  "errors": [
+   "No mathematical error is visible. The kernel, read as e^{i(alpha-beta)/2}(z-p-re^{i beta})/(z-p-re^{i alpha}), is real on |z-p|=r, as required.",
+   "If the exponent really were the transcription's e^{alpha-beta} (no i, no 1/2), the boundary values would not be real. The image suggests i(alpha-beta)/2, so this is a transcription issue, not Riemann's slip.",
+   "Unjustified at this stage: the page lists the Dirichlet-type functional without arguing that a minimiser exists. This is the usual gap of Riemann's Dirichlet principle (Weierstrass's objection), later repaired by Hilbert."
+  ],
+  "results": [
+   {
+    "what": "Dirichlet problem for the exterior of several circles (2-D electrostatics of parallel circular cylinders), posed via an analytic function whose real part is prescribed on the boundary",
+    "modern_name": "Dirichlet problem in a multiply connected circular domain; capacitance/potential of parallel cylinders",
+    "usually_credited_to": "Riemann (posthumous Werke fragment, ed. Weber 1876); later systematic treatment by Schottky (1877) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Explicit function with pole at a boundary point and real values on the circle: e^{i(alpha-beta)/2}(z-p-re^{i beta})/(z-p-re^{i alpha})",
+    "modern_name": "Poisson/Schwarz kernel (Herglotz-type Möbius kernel) for a disc/exterior of a disc",
+    "usually_credited_to": "Poisson (integral formula); Schwarz (1870) for the complex form",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Functional ∫∫((g_x-h_y)^2+(g_y+h_x)^2) dx dy and the Dirichlet integral with Laplace equation",
+    "modern_name": "Dirichlet principle / Cauchy–Riemann defect functional",
+    "usually_credited_to": "Riemann (1851 dissertation; name after Dirichlet)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a lecture draft for Riemann's known posthumous work on the equilibrium of electricity on parallel circular cylinders. It uses his own Dirichlet-principle functional from the 1851 dissertation and a standard Möbius/Poisson-type kernel. Nothing here goes beyond what is already attributed to him.",
+  "checkable": [
+   {
+    "sympy": "t,a,b=symbols('t a b',real=True); simplify(im(expand_complex(exp(I*(a-b)/2)*(exp(I*t)-exp(I*b))/(exp(I*t)-exp(I*a)))))",
+    "asserts": "Imaginary part of the kernel vanishes on the unit circle z-p=r e^{it} (r scales out); expected result 0."
+   },
+   {
+    "sympy": "t,a,b=symbols('t a b',real=True); simplify(exp(I*(a-b)/2)*(exp(I*t)-exp(I*b))/(exp(I*t)-exp(I*a)) - sin((t-b)/2)/sin((t-a)/2))",
+    "asserts": "On the circle the kernel equals sin((t-b)/2)/sin((t-a)/2), which is real; expected result 0."
+   },
+   {
+    "sympy": "z,p,r,a,b=symbols('z p r a b'); limit(exp(I*(a-b)/2)*(z-p-r*exp(I*b))/(z-p-r*exp(I*a)), z, oo)",
+    "asserts": "The kernel is finite at infinity, with value exp(I*(a-b)/2)."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); g=Function('g')(x,y); h=Function('h')(x,y); expand((diff(g,x)-diff(h,y))**2+(diff(g,y)+diff(h,x))**2 - (diff(g,x)**2+diff(g,y)**2+diff(h,x)**2+diff(h,y)**2 - 2*(diff(g,x)*diff(h,y)-diff(g,y)*diff(h,x))))",
+    "asserts": "The CR-defect integrand equals the sum of the Dirichlet integrands minus twice the Jacobian (a boundary term); expected result 0."
+   },
+   {
+    "sympy": "x,y,p,r,a,b=symbols('x y p r a b',real=True); w=exp(I*(a-b)/2)*(x+I*y-p-r*exp(I*b))/(x+I*y-p-r*exp(I*a)); simplify(diff(w,x)+I*diff(w,y))",
+    "asserts": "The kernel satisfies the Cauchy–Riemann equations (d/dzbar = 0), so g and h are harmonic; expected result 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 likely begins 'Wir haben in der vorigen Stunde die Aufgabe zu behandeln angefangen/vorgenommen' ('haben', not 'sahen').",
+   "'für alle Werthe, die geometrisch durch Punkte ... dargestellt' probably reads 'durch Punkte ausserhalb gegebener Kreise' (exterior of given circles). This fits the cylinder problem and the continuity at z = infinity.",
+   "'Welt' at the end of the first paragraph is not a word here; probably 'erhält'/'annimmt' (the real part takes arbitrarily given values on the boundary).",
+   "First centre is 'z = p' (not p_0), consistent with 'z - p' in the formulas.",
+   "The exponent in the kernel formula is most likely e^{(alpha-beta)i/2}, not e^{alpha-beta}; only the former makes g + hi real on the circle.",
+   "The crossed-out line before the kernel is 'u+vi =', after which Riemann writes the kernel as g+hi."
+  ]
+ }
+}

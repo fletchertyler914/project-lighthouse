@@ -1,0 +1,69 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c097",
+ "label": "18v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000098/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page computes the definite integral I1 = ∫_0^1 x dx/(1-x^3)^{1/3}. It continues the previous page, where Gauss computed I0 = ∫_0^1 dx/(1-x^3)^{2/3} ≈ 1.766 (half ≈ 0.8833) by the same method.\n\nMethod (inferred from the numbers): put y = (1-x^3)^{1/3}, so the curve is x^3+y^3 = 1. It is symmetric about x = y = a = 2^{-1/3} ≈ 0.7937.\n- On the curve dy = -x^2 dx/y^2. Hence x dx/y = -y dy/x.\n- Therefore ∫_a^1 x dx/y = ∫_0^a y dy/(1-y^3)^{1/3}.\n- So I1 = 2 ∫_0^a x(1-x^3)^{-1/3} dx (my reconstruction of the reasoning).\n\nThe series step:\n- Expand (1-x^3)^{-1/3} = Σ d_n x^{3n}, with d_0 = 1, d_n = d_{n-1}(3n-2)/(3n).\n- Integrate termwise to a. Since a^3 = 1/2, term n is d_n · a^2 · 2^{-n}/(3n+2), with a^2 = 0.629960525.\n- Gauss writes the terms in two columns. The left column holds the even n: 0.314980262, 0.004374726, 0.000405072, 0.000054610, summing to 0.31982.\n- The right column holds the odd n: 0.020998684, 0.001237296, 0.000144555, 0.000021482, summing to 0.0224.\n- Total ≈ 0.342 (the neglected tail is ≈ 1.5e-5). Doubling gives I1 ≈ 0.684, entered in the x–y table at x = 1.0.\n- The jotting 'A 23/26 27/43' is probably a ratio estimate for the tail; this is unsure.\n- The figures 0.30 / 0.60 beside 0.342 / 0.68 are unexplained. They may be a rougher or alternative value; also unsure.\n\nBottom line: 0.684 × 1.7[66] = π/(3√(3/4)) (a struck '3√3' precedes it).\n- This checks the product I1·I0 = (Γ(2/3)^2/Γ(1/3)) · (Γ(1/3)^2/(3Γ(2/3))) = Γ(1/3)Γ(2/3)/3 = π/(3 sin(π/3)) = 2π/(3√3) ≈ 1.2092.\n- Numerically 0.6845 × 1.7666 ≈ 1.2092. Correct.\n\nMiddle-right scratch: 'M·(2x^{1/2}/(1+x)) = …Mx', 'Mx = A/xx', 'A(1+xx)/(4x) = 2A'.\n- This appears to be arithmetic-geometric-mean notation, M x = M(1,x).\n- The first line is presumably the Landen/Gauss transformation M(1, 2√x/(1+x)) = 2M(1,x)/(1+x). The right-hand side is hard to read.\n- The next lines look like testing a trial form M x = A/x^2. This is scratch work and not completed.",
+  "errors": [
+   "No arithmetic errors in the series terms; every listed term checks to about 9 digits.",
+   "The truncated column sums give 0.342217. The true half-integral is ≈ 0.342236 because of the omitted tail, so 0.684 is correct only to 3 places (the true value is 0.684472).",
+   "The AGM line as transcribed ('= 2xMx') does not match the correct identity M(1,2√x/(1+x)) = 2M(1,x)/(1+x). This is likely a misreading of '2/(1+x)·Mx'.",
+   "The meaning of 0.30 / 0.60 is unclear. If 0.60 were meant as a value of I1 it would be wrong."
+  ],
+  "results": [
+   {
+    "what": "Numerical evaluation of ∫_0^1 x dx/(1-x^3)^{1/3} ≈ 0.684 by splitting at the symmetry point 2^{-1/3} of x^3+y^3=1 and summing the binomial series",
+    "modern_name": "Beta function B(2/3,2/3)/3 = Γ(2/3)^2/Γ(1/3); series evaluation of trinomial-type abelian integrals",
+    "usually_credited_to": "Euler (beta integrals, 1730s–1770s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Product relation ∫_0^1 x dx/(1-x^3)^{1/3} · ∫_0^1 dx/(1-x^3)^{2/3} = π/(3√(3/4)) = 2π/(3√3)",
+    "modern_name": "Euler's product formula for complementary beta integrals (reflection formula Γ(s)Γ(1-s)=π/sin πs); cubic analogue of the lemniscatic relation",
+    "usually_credited_to": "Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "AGM transformation scratch M(1,2√x/(1+x)) = 2M(1,x)/(1+x)",
+    "modern_name": "Landen/Gauss transformation of the arithmetic-geometric mean",
+    "usually_credited_to": "Lagrange / Gauss (1790s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are numerical checks of Euler's beta-integral product relations for the cube-root (equianharmonic) case. Gauss is well known to have computed such integrals in his lemniscatic and elliptic investigations. The symmetry trick and the series are routine.",
+  "checkable": [
+   {
+    "sympy": "N(Integral(x/(1-x**3)**Rational(1,3),(x,0,1)))",
+    "asserts": "≈ 0.68447, i.e. 0.684"
+   },
+   {
+    "sympy": "simplify(gamma(Rational(2,3))**2/gamma(Rational(1,3)) - beta(Rational(2,3),Rational(2,3))/3)",
+    "asserts": "closed form of I1; equals 0"
+   },
+   {
+    "sympy": "simplify(gamma(Rational(2,3))**2/gamma(Rational(1,3)) * gamma(Rational(1,3))**2/(3*gamma(Rational(2,3))) - pi/(3*sqrt(Rational(3,4))))",
+    "asserts": "product of the two integrals equals π/(3√(3/4)) = 2π/(3√3); equals 0"
+   },
+   {
+    "sympy": "[N(rf(Rational(1,3),n)/factorial(n)*2**(-Rational(2,3))*2**(-n)/(3*n+2),10) for n in range(8)]",
+    "asserts": "reproduces 0.314980262, 0.020998684, 0.004374726, 0.001237296, 0.000405072, 0.000144555, 0.000054610, 0.000021482"
+   },
+   {
+    "sympy": "N(2*Integral(x/(1-x**3)**Rational(1,3),(x,0,2**Rational(-1,3))))",
+    "asserts": "twice the half-range integral equals the full integral 0.68447 (symmetry of x^3+y^3=1)"
+   }
+  ],
+  "transcription_corrections": [
+   "'.1,7' at the bottom is the value 1.7(66) of ∫dx/(1-x^3)^{2/3} from the previous page, not a separate number.",
+   "The struck item before π/(3√(3/4)) appears to be '3√3' crossed out.",
+   "'A 23/26 27/43' is tiny and uncertain; possibly tail-ratio factors for the series.",
+   "In the AGM line, the right side is probably '2/(1+x)·Mx' rather than '2xMx'."
+  ]
+ }
+}

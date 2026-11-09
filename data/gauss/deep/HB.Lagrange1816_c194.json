@@ -1,0 +1,78 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c194",
+ "label": "191",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000195/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a continuation of a high-precision difference table. The argument x runs from 5.650 to 5.950 in steps h = 0.002. The function F(x) is given as an angle in degrees, minutes and seconds, to 5 decimals of a second.\n\nThe page has three sub-tables, each starting where the last ended: 5.650–5.750, 5.750–5.850 and 5.850–5.950. Each sub-table has four columns:\n- **Col. 1:** x.\n- **Col. 2:** F(x).\n- **Col. 3 (first difference, in arcseconds):** D(x) = F(x+h) − F(x), written on the row of x.\n- **Col. 4 (absolute second difference):** δ(x) = D(x−h) − D(x), i.e. |Δ²F| centred at x.\n\nExamples:\n- F(5.652) − F(5.650) = 81°58′58.58125″ − 81°47′47.43615″ = 671.14510″, which is D(5.650).\n- D(5.650) − D(5.652) = 671.14510 − 670.44267 = 0.70243, which is δ(5.652).\n\nThe structure is the same on the previous page (from x = 5.350) and the next page (to x ≈ 6.15). Across the three pages the behaviour is:\n- D rises to a maximum of about 697.16″ near x ≈ 5.511, where F ≈ 68.4°.\n- So F has an inflection there. The second difference is positive before 5.511 and negative after it; Gauss lists only absolute values (…0.00719, 0.00449…).\n- On this page F″ < 0 throughout. |Δ²F| grows from 0.695 to a maximum of 1.13379 at x = 5.900 (F = 103°6′12″) and then decreases again.\n\nIn modern terms, with u = π/(180·3600):\n- F′ ≈ D/(h·206264.8″) ≈ 1.63 rad/unit at x = 5.65, 1.39 at x = 5.85 and 1.26 at x = 5.95.\n- F″ ≈ −δ·u/h² ≈ −1.374 rad/unit² at its extreme.\n\nThe smoothness of the third differences (about 0.0078 per step at the top of the page, falling to about 0 near 5.90 and changing sign after) shows the table is internally consistent. It was very likely built, or at least checked, by summing differences: the 'integration by differences' of a smooth function, probably a numerically integrated angle.\n\nThe underlying function is not identified on the page. The variable F″ changing sign, with an asymmetric extremum, suggests an angle in a periodic mechanical or astronomical problem. The bundle label 'Lagrange 1816' may point to a problem from Lagrange's Mécanique analytique (2nd edition, vol. II, 1815/16), e.g. an azimuth or precession-type angle; this attribution is my conjecture.\n\nNo derivation, formula or text appears on the page; it is pure numerical tabulation.",
+  "errors": [
+   "Row x=5.658: from the tabulated F values, D(5.656) − D(5.658) = 669.01478 − 668.28945 = 0.72533. Gauss wrote 0.72534 (visibly overwritten). This is a 1-unit rounding inconsistency in the 5th decimal, typical when a table is built by accumulating separately rounded second differences.",
+   "Rows x=5.730/5.732: the transcription's first differences 637.77132 and 636.81878 do not agree with the tabulated F values. These give 89°15′33.76057″ − 89°4′55.98922″ = 637.77135 and 89°26′10.57925″ − 89°15′33.76057″ = 636.81868. With 637.77135 and 636.81868 all neighbouring second differences (0.94785, 0.95267, 0.95740) check exactly. The entries are overwritten in the manuscript; the internally consistent values are 637.77135 and 636.81868.",
+   "Apart from these, every spot-checked first and second difference on the page is exact, including those at the three sub-table junctions."
+  ],
+  "results": [
+   {
+    "what": "High-precision (10^-5 arcsecond) table of an angle F(x), x = 5.650…5.950 step 0.002, with first and second differences used for construction and control. The function passes an inflection near x ≈ 5.511 and has an extremal second derivative near x = 5.900.",
+    "modern_name": "Finite-difference table / numerical integration by summation of differences (difference-table quadrature of an ODE)",
+    "usually_credited_to": "Standard 17th–18th c. technique (Briggs, Newton, Euler, Lagrange); routine in astronomical computation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine but extremely careful numerical table of the kind Gauss produced in great quantity. The method (difference-table construction and checking) is standard. The underlying problem is not identifiable from this page alone, and nothing here suggests a new mathematical result.",
+  "checkable": [
+   {
+    "sympy": "(81*3600+58*60+Rational('58.58125'))-(81*3600+47*60+Rational('47.43615')) - Rational('671.14510')",
+    "asserts": "First difference D(5.650) = 671.14510 arcsec (result should be 0)"
+   },
+   {
+    "sympy": "Rational('671.14510')-Rational('670.44267') - Rational('0.70243')",
+    "asserts": "Second difference at 5.652 is 0.70243 (should be 0)"
+   },
+   {
+    "sympy": "(90*3600+50*60+Rational('30.27902'))-(90*3600+40*60+Rational('1.24629')) - Rational('629.03273')",
+    "asserts": "First difference D(5.748) = 629.03273 (should be 0)"
+   },
+   {
+    "sympy": "(91*3600+21*60+Rational('51.40425'))-(91*3600+11*60+Rational('25.36207')) - Rational('626.04218')",
+    "asserts": "With F(5.756) = 91°21′51.40425″, D(5.754) = 626.04218 (should be 0)"
+   },
+   {
+    "sympy": "(89*3600+15*60+Rational('33.76057'))-(89*3600+4*60+Rational('55.98922')) - Rational('637.77135')",
+    "asserts": "True first difference D(5.730) is 637.77135, not 637.77132 (should be 0)"
+   },
+   {
+    "sympy": "(89*3600+26*60+Rational('10.57925'))-(89*3600+15*60+Rational('33.76057')) - Rational('636.81868')",
+    "asserts": "True first difference D(5.732) is 636.81868 (should be 0)"
+   },
+   {
+    "sympy": "Rational('637.77135')-Rational('636.81868') - Rational('0.95267')",
+    "asserts": "Second difference at 5.732 = 0.95267 is consistent with the corrected first differences (should be 0)"
+   },
+   {
+    "sympy": "(103*3600+15*60+Rational('18.44499'))-(103*3600+6*60+Rational('12.15722')) - Rational('546.28777')",
+    "asserts": "D(5.900) = 546.28777 (should be 0)"
+   },
+   {
+    "sympy": "Rational('547.42156')-Rational('546.28777') - Rational('1.13379')",
+    "asserts": "Maximal second difference 1.13379 at x = 5.900 (should be 0)"
+   },
+   {
+    "sympy": "Rational('669.01478')-Rational('668.28945') - Rational('0.72534')",
+    "asserts": "Gives -1/100000, exposing the 1-unit slip in δ(5.658)"
+   },
+   {
+    "sympy": "(106*3600+48*60+Rational('9.76105'))-(106*3600+39*60+Rational('30.60144')) - Rational('519.15961')",
+    "asserts": "D(5.948) = 519.15961 (should be 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "F(5.756): the image shows 91°21′51.40425″ (overwritten), not 51.40415; only 51.40425 is consistent with the first differences 626.04218 and 625.03733.",
+   "D(5.730): the consistent value is 637.77135 (the manuscript digit is overwritten), not 637.77132.",
+   "D(5.732): the consistent value is 636.81868 (the manuscript digit is overwritten), not 636.81878.",
+   "Page number at top right: '191' written with '192' above (renumbering)."
+  ]
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "bundle": "Math.28",
+ "page": "c043",
+ "label": "22r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000044/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Title: 'Taylor's theorem following Cauchy's treatment.' The page sets up Cauchy's 1831 (Turin memoir) proof of the power-series expansion of a function of a complex variable through circular means.\n\n(1) Hypothesis. Z = f(z) with z = r(cos θ + i sin θ) = r e^{iθ}. Z and dZ/dz vary continuously ('nach der Stetigkeit fortschreitet') for all r between R^0 and R', i.e. on a closed annulus. Implicitly Z is single-valued, so Z is 2π-periodic in θ.\n\n(2) Definition. Put S(r) = (1/2π) ∫_0^{2π} Z(r e^{iθ}) dθ, the mean of Z over the circle |z| = r, with r held constant. Claim: S is constant for R^0 ≤ r ≤ R'.\n\nProof as written:\n- Differentiate under the integral sign: 2π dS/dr = ∫_0^{2π} ∂Z/∂r dθ = ∫_0^{2π} Z'(z) (∂z/∂r) dθ.\n- From log z = log r + iθ one gets dz/z = dr/r + i dθ. Hence ∂z/∂r = z/r and ∂z/∂θ = iz.\n- So ∂z/∂r is a multiple of ∂z/∂θ. Gauss writes ∂z/∂r = (i/r) ∂z/∂θ; the correct factor is 1/(ir) = -i/r.\n- With ∂Z/∂θ = Z'(z) ∂z/∂θ this gives 2π dS/dr = (const/r) ∫_0^{2π} ∂Z/∂θ dθ.\n- [My completion] This equals (const/r)[Z(r e^{2πi}) − Z(r)] = 0 by single-valuedness.\n- Hence S is independent of r, 'as far as the basic principles (Grund-principien) of the differential calculus are valid'. The next page confirms this applies on all of [R^0, R'].\n\nContinuation on the next page (context only):\n- (3) If R^0 = 0 can be taken, S is constant down to r = 0, so S = Z(0). This is the mean-value property f(0) = (1/2π)∫ f(re^{iθ}) dθ.\n- (4) Apply this to Ω = x(X − A)/(x − a), with X = f(x) and A = f(a). Ω vanishes at x = 0, so ∫_0^{2π} Ω dθ = 0.\n- [My completion of where this leads] Since ∫ x/(x−a) dθ = 2π for |a| < r, this gives A = (1/2π)∫_0^{2π} xX/(x−a) dθ. This is Cauchy's integral formula in mean-value form.\n- Expanding x/(x−a) = Σ (a/x)^n then yields the Taylor series of f(a) with coefficients (1/2π)∫ X x^{−n} dθ. This is Cauchy's 1831 proof of Taylor's theorem and of the convergence of the series up to the nearest singularity.",
+  "errors": [
+   "Sign slip: from dz/dθ = iz and dz/dr = z/r it follows that dz/dr = (1/(ir)) dz/dθ = -(i/r) dz/dθ, not (i/r) dz/dθ as written. The same wrong sign appears in 2π dS/dr = ∫ (i/r) dZ/dθ dθ. It is harmless because the integral is 0.",
+   "The final step ∫_0^{2π} ∂Z/∂θ dθ = 0 is not justified on the page. It needs Z to be single-valued (2π-periodic in θ) on each circle. This is implicit in the hypothesis but not stated.",
+   "Notational inconsistency: the bounds are written R^0 and R' in §1 but R and R' in §2.",
+   "Differentiation under the integral sign is used without comment. The hypotheses (continuity of Z and dZ/dz on the closed annulus) do suffice for it."
+  ],
+  "results": [
+   {
+    "what": "The circular mean S(r) = (1/2π)∫_0^{2π} f(re^{iθ}) dθ of a function with continuous complex derivative on an annulus is independent of r. Proof: dS/dr = (1/(2πir))∫ ∂f/∂θ dθ = 0.",
+    "modern_name": "Cauchy's integral theorem for an annulus / mean-value property (proof by differentiating the circular mean with respect to the radius)",
+    "usually_credited_to": "A.-L. Cauchy, Turin memoir of 1831 (Mémoire sur la mécanique céleste / 'Résumé d'un mémoire...'), building on his integral theorem of 1825",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Setup (continued on the next page) of the Taylor expansion via A = (1/2π)∫ xX/(x−a) dθ, obtained from the vanishing mean of x(X−A)/(x−a).",
+    "modern_name": "Cauchy integral formula and Cauchy–Taylor theorem (convergence of the power series inside the disc of holomorphy)",
+    "usually_credited_to": "A.-L. Cauchy, 1831",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is explicitly titled as an exposition of Taylor's theorem 'nach Cauchys Behandlung'. It reproduces Cauchy's 1831 circular-mean proof faithfully, with a harmless sign slip. Gauss's own priority on the integral theorem (letter to Bessel, 1811) is already well known. A study note on Cauchy's published method adds nothing unexpected.",
+  "checkable": [
+   {
+    "sympy": "r,t=symbols('r t',positive=True); z=r*exp(I*t); simplify(diff(z,r)-z/r)",
+    "asserts": "dz/dr = z/r (result 0)"
+   },
+   {
+    "sympy": "r,t=symbols('r t',positive=True); z=r*exp(I*t); simplify(diff(z,t)-I*z)",
+    "asserts": "dz/dθ = i z (result 0)"
+   },
+   {
+    "sympy": "r,t=symbols('r t',positive=True); z=r*exp(I*t); simplify(diff(z,r)+(I/r)*diff(z,t))",
+    "asserts": "Correct relation dz/dr = -(i/r) dz/dθ (result 0)"
+   },
+   {
+    "sympy": "r,t=symbols('r t',positive=True); z=r*exp(I*t); simplify(diff(z,r)-(I/r)*diff(z,t))",
+    "asserts": "Gauss's written relation dz/dr = (i/r) dz/dθ is off by sign: result is 2*exp(I*t), not 0"
+   },
+   {
+    "sympy": "r,t=symbols('r t',positive=True); integrate(exp(r*exp(I*t)),(t,0,2*pi))/(2*pi)",
+    "asserts": "The mean of exp(z) over |z| = r equals exp(0) = 1, independent of r (may need series/simplify)"
+   },
+   {
+    "sympy": "r,t=symbols('r t',positive=True); integrate((1+r*exp(I*t))**4,(t,0,2*pi))",
+    "asserts": "The circular mean of a polynomial is its constant term: 2*pi*1"
+   },
+   {
+    "sympy": "x,a=symbols('x a'); limit(x*(sin(x)-sin(a))/(x-a),x,0)",
+    "asserts": "Ω = x(X−A)/(x−a) vanishes at x = 0 (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Last line: 'so weit die Grenz[?]' should read 'so weit die Grund' (continuing as 'Grund-principien der Differentialrechnung' on the next page).",
+   "In §2 the bounds are written 'R und R'' (no superscript 0), as transcribed. This is consistent with the image but inconsistent with 'R^0' in §1.",
+   "The struck-out word before 'innerhalb' is illegible in the image; '[-die-]' is a guess."
+  ]
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "bundle": "Math.34",
+ "page": "c004",
+ "label": "1v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382187:00000005/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The previous page is headed 'Astralgeometrie', the term Schweikart used for the non-Euclidean (hyperbolic) geometry. There Gauss gives the volume of a thin prism-like body of infinitesimal height Aa as (1/2)·Aa·BC·sin(i·AD)/i. Since sin(i·u)/i = sinh u, this is the hyperbolic replacement of the Euclidean factor AD. Gauss is working with spherical-type formulas and passing to the 'astral' case by imaginary substitution. This page, headed 'Noch zierlicher' ('even more elegant'), gives a second volume element of the same kind.\n\nSetup (from figure and text).\n- ABC is a triangle with a right angle at B and angle φ at A.\n- AB = x (the leg) and AC = r (the hypotenuse).\n- D lies close to C, so ABD is a congruent right triangle (BD ⊥ AB). It is obtained by turning ABC about the edge AB through an infinitely small dihedral angle θ.\n- The 'Pyramide ABCD' is the resulting thin tetrahedron, a wedge at edge AB. To first order in θ its volume equals that of the wedge swept out by triangle ABC rotating about AB through θ.\n- Claim: Volume = (1/2)(x − r cos φ)·θ.\n\nReconstruction (my steps). Use coordinates about the axis AB: z = distance along AB from A, ρ = distance from the axis, ψ = rotation angle.\n\nSpherical space of curvature +1:\n- Metric: ds² = dρ² + sin²ρ dψ² + cos²ρ dz², so dV = sinρ cosρ dρ dψ dz.\n- Hence V = θ ∫_0^x ∫_0^{ρ(z)} sinρ cosρ dρ dz = (θ/2) ∫_0^x sin²ρ(z) dz.\n- Parametrize the hypotenuse by s = AP. The right triangle APQ gives sin ρ = sin s sin φ and tan z = cos φ tan s.\n- Then dz = cos φ ds / (1 − sin²φ sin²s).\n- Integrand: sin²ρ dz = cos φ [1/(1 − sin²φ sin²s) − 1] ds.\n- The first part integrates over 0..r to ∫ dz = x; the second gives r cos φ.\n- So V = (θ/2)(x − r cos φ), exactly Gauss's formula.\n\nHyperbolic space of curvature −1:\n- dV = sinhρ coshρ, with sinh ρ = sinh s sin φ and tanh z = cos φ tanh s.\n- The same computation gives V = (θ/2)(r cos φ − x), and here r cos φ > x.\n- Equivalently, with radius R: V = (R²θ/2)(x − r cos φ). Putting R = ik turns this into (k²θ/2)(r cos φ − x).\n\nEuclidean check: x = r cos φ, so the bracket vanishes to first order. The leading term of the expansion is θ r³ cos φ sin²φ / 6. This equals the Euclidean wedge of the cone, (θ/2π)(π/3)(x tan φ)² x.\n\nWhat it serves: an elementary volume element for building up volumes of tetrahedra and solids in non-Euclidean space. It is in effect the derivative of the volume of the solid of revolution with respect to the rotation angle, and a special case of the Schläfli-type relation between volume, edge lengths and dihedral angles.",
+  "errors": [
+   "The formula (1/2)(x − r cos φ)θ is exactly right for spherical space of unit radius (more generally R²θ/2·(x − r cos φ)).",
+   "In hyperbolic space of curvature −1, x < r cos φ, so read literally the expression is negative; the correct value is (θ/2)(r cos φ − x).",
+   "This sign is consistent only if one adopts Gauss's evident convention of computing spherically and substituting an imaginary radius (factor R² = −k²). The constant factor and its sign are not stated on the page.",
+   "'Pyramide ABCD' (a tetrahedron) is identified with the rotational wedge. This is valid only to first order in the infinitesimal θ; that is acceptable given 'unendlich klein'."
+  ],
+  "results": [
+   {
+    "what": "Volume of the infinitesimal wedge (tetrahedron ABCD) obtained by rotating a right triangle (leg AB = x, hypotenuse AC = r, angle φ at A) about AB through dθ: V = (1/2)(x − r cos φ) dθ in spherical/'astral' form (hyperbolic: (1/2)(r cos φ − x) dθ).",
+    "modern_name": "Volume element of a solid of revolution in constant-curvature space; special case of the Schläfli differential volume formula (dV = −(1/2)Σ ℓ dα for curvature −1, (1/2)Σ ℓ dα for +1).",
+    "usually_credited_to": "Hyperbolic volumes of solids: Lobachevsky (1829–1836) and J. Bolyai (1832). The general differential volume formula: Schläfli (1850s, published 1858/60).",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Use of sin(i·u)/i (= sinh u) to pass from spherical to hyperbolic ('Astral') formulas.",
+    "modern_name": "Imaginary-radius correspondence between spherical and hyperbolic geometry.",
+    "usually_credited_to": "Lambert (1766, hint), Taurinus (1826), Lobachevsky; Gauss's use is known from his correspondence and Nachlass.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss's interest in non-Euclidean volumes (e.g. the tetrahedron problem he mentions to W. Bolyai in 1832) and his imaginary-radius method are known. A clean closed-form volume element for a rotational wedge, essentially a Schläfli-type relation, is a notable unpublished technical detail but not a major priority claim. Lobachevsky had comparable volume computations, and parts of Gauss's Astralgeometrie notes appear in Werke VIII.",
+  "checkable": [
+   {
+    "sympy": "s,phi=symbols('s phi',positive=True); simplify(diff(atan(cos(phi)*tan(s)),s) - cos(phi)/(1-sin(phi)**2*sin(s)**2))",
+    "asserts": "Spherical case: dz/ds = cos φ/(1 − sin²φ sin²s) when tan z = cos φ tan s (result 0)."
+   },
+   {
+    "sympy": "simplify(sin(s)**2*sin(phi)**2*cos(phi)/(1-sin(phi)**2*sin(s)**2) - (cos(phi)/(1-sin(phi)**2*sin(s)**2) - cos(phi)))",
+    "asserts": "Spherical integrand sin²ρ dz/ds splits as cos φ/(1 − sin²φ sin²s) − cos φ, so ∫_0^r = x − r cos φ (result 0)."
+   },
+   {
+    "sympy": "simplify(diff(atanh(cos(phi)*tanh(s)),s) - cos(phi)/(1+sin(phi)**2*sinh(s)**2))",
+    "asserts": "Hyperbolic case: dz/ds = cos φ/(1 + sin²φ sinh²s) when tanh z = cos φ tanh s (result 0)."
+   },
+   {
+    "sympy": "simplify(sinh(s)**2*sin(phi)**2*cos(phi)/(1+sin(phi)**2*sinh(s)**2) - (cos(phi) - cos(phi)/(1+sin(phi)**2*sinh(s)**2)))",
+    "asserts": "Hyperbolic integrand splits as cos φ − dz/ds, giving V = (θ/2)(r cos φ − x) (result 0)."
+   },
+   {
+    "sympy": "r=symbols('r'); series(r*cos(phi) - atanh(cos(phi)*tanh(r)), r, 0, 4)",
+    "asserts": "Leading term is r³ cos φ sin²φ/3, so (θ/2)(r cos φ − x) ≈ θ r³ cos φ sin²φ/6, the Euclidean cone wedge."
+   },
+   {
+    "sympy": "series(atan(cos(phi)*tan(r)) - r*cos(phi), r, 0, 4)",
+    "asserts": "Spherical: x − r cos φ ≈ r³ cos φ sin²φ/3 > 0, consistent with Gauss's sign."
+   },
+   {
+    "sympy": "simplify(sin(I*s)/I - sinh(s))",
+    "asserts": "sin(i u)/i = sinh u, the substitution used on the previous page (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'Inhalt der [-unend-] Pyramide ABCD': the article reads more like 'des' (Gauss's slip for 'der'); the crossed-out word is 'unend' (start of 'unendlich').",
+   "'Noch zierlicher' is correct (= 'even more elegant').",
+   "The figure: the dotted line runs from A to D along/near AC; C and D are almost coincident at the right end, D slightly below C, indicating the infinitesimal rotation."
+  ]
+ }
+}

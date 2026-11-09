@@ -1,0 +1,75 @@
+{
+ "bundle": "Math.25",
+ "page": "c055",
+ "label": "27v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000056/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. The previous page studies an elliptic orbit with e = 0.9, measuring anomalies from APHELION. All angles are in units of a right angle (quadrants), so 2.0 = 180 deg. That page contains a column of m − v (its 'Gleichung, negat.') whose value 1.3565 at m = 1.8 checks against an independent computation in quadrants. It also contains a table of tg(v/2)/tg(m/2), whose value 0.120745 at m = 0 equals sqrt((1−e)/(1+e)^3) for e = 0.9. That is the limiting ratio dv/dm at aphelion; 8.2819 = 1/0.120745 also appears there.\n\nTOP OF THIS PAGE.\n(1) Kepler's equation counted from aphelion: E + e sin E = m. My justification: put E = π − E_p and m = π − M_p in M_p = E_p − e sin E_p.\n(2) Two candidate smooth auxiliary functions for tabulation: tan(E/2)/tan(m/2) and its reciprocal tg(m/2)/tg(E/2). The aim (my interpretation) is to replace the badly behaved E(m) by a slowly varying ratio, as the previous page did for tg(v/2)/tg(m/2).\n(3) From m/2 = E/2 + (e sin E)/2, the tangent addition formula gives tan(m/2) = [tan(E/2) + tan(e sin E/2)] / [1 − tan(E/2) tan(e sin E/2)]. This lets the ratio tan(m/2)/tan(E/2) be computed directly from E.\n\nTABLE. Column 1 is E, in quadrants, for m = 0, 0.1, ..., 2.0 quadrants (m = 0, 9, 18, ..., 180 deg), with e = 0.9. I verified this:\n- For m = 9 deg = π/20, solving E + 0.9 sin E = π/20 gives E = 0.082720 rad = 0.052660 quadrants.\n- For m = 90 deg, E = 0.87822 rad = 0.559065 quadrants (table: 0.559065260).\n- For m = 171 deg, E ≈ 2.3344 rad = 1.48610 quadrants.\n- For m = 180 deg, E = 2.000000000 exactly (E = π).\n\nColumns 2–7 are the successive differences Δ, Δ², Δ³, Δ⁴, Δ⁵, Δ⁶ in units of 1e-9 quadrant.\n- Because E(m) is odd in m, Gauss writes 0 for the even-order central differences at m = 0: the leading 0 of columns 3, 5 and 7.\n- Each odd-order column then starts with the first entry of the column before it (171492; 4461).\n- I checked every entry by subtraction. All are correct except one in column 7.\n\nThe differences grow explosively toward m = 180 deg:\n- Δ grows from 0.0527 to 0.514.\n- Δ⁶ reaches about 1.76e8 units, i.e. about 0.18 quadrant.\n\nThis shows that a table of E(m) for e = 0.9 cannot be interpolated near perihelion (m near 180 deg from aphelion), because dE/dm = 1/(1 + e cos E) rises to 10. The likely purpose (my inference) is to justify tabulating a smoother auxiliary quantity such as tan(E/2)/tan(m/2) instead, in work on tables or methods for highly eccentric (cometary) orbits.\n\nThe upside-down Kurrent writing at the top, middle and bottom appears to be unrelated non-mathematical jottings. The marginal numbers 93000, 105115 and 35057 are unexplained.",
+  "errors": [
+   "Column 7 (sixth differences), third entry: written 975, but 7124 − 5149 = 1975. This is a dropped leading digit; a stroke crosses this region of the table, possibly a correction. All other differences check exactly.",
+   "No errors in the trigonometric addition formula or in the values of E(m), which agree with direct solution of E + 0.9 sin E = m to about 1e-9 quadrant where checked."
+  ],
+  "results": [
+   {
+    "what": "Kepler's equation referred to aphelion, E + e sin E = m, solved numerically for e = 0.9 at 9-degree steps, results in quadrant units",
+    "modern_name": "Numerical solution of Kepler's equation; table of eccentric anomaly vs mean anomaly",
+    "usually_credited_to": "Kepler (equation, 1609); numerical tabulation is routine 18th–19th c. practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Full difference table up to 6th order of E(m), exploiting odd symmetry (zero even central differences at m = 0)",
+    "modern_name": "Finite-difference table for checking and interpolation (Newton/Stirling differences)",
+    "usually_credited_to": "Newton, Briggs, Stirling",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "tan(m/2) = (tan(E/2) + tan(e sin E/2))/(1 − tan(E/2) tan(e sin E/2)), used to form the auxiliary ratio tan(m/2)/tan(E/2) as a smoother tabulating function for high eccentricity",
+    "modern_name": "Tangent addition formula; auxiliary-function (regularizing) tabulation for near-parabolic or highly eccentric orbits",
+    "usually_credited_to": "Classical trigonometry; such auxiliary tables appear in Gauss's Theoria Motus (1809) and later Bessel/Encke methods for near-parabolic orbits",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine computational celestial mechanics: a Kepler-equation table for e = 0.9 with a difference table, showing why interpolation fails near perihelion and motivating an auxiliary tan-ratio. Gauss's interest in tables for highly eccentric orbits is well known.",
+  "checkable": [
+   {
+    "sympy": "nsolve(E + 0.9*sin(E) - pi/20, E, 0.08)*2/pi  # ≈ 0.052660016",
+    "asserts": "First tabulated value: E in quadrants for m = 9 deg, e = 0.9"
+   },
+   {
+    "sympy": "nsolve(E + 0.9*sin(E) - pi/2, E, 0.88)*2/pi  # ≈ 0.559065260",
+    "asserts": "Tabulated value at m = 1.0 quadrant"
+   },
+   {
+    "sympy": "nsolve(E + 0.9*sin(E) - 19*pi/20, E, 2.3)*2/pi  # ≈ 1.486101351",
+    "asserts": "Tabulated value at m = 1.9 quadrant"
+   },
+   {
+    "sympy": "simplify(tan(x + y) - (tan(x) + tan(y))/(1 - tan(x)*tan(y))) == 0  # x = E/2, y = e*sin(E)/2",
+    "asserts": "Addition formula giving tan(m/2) from E"
+   },
+   {
+    "sympy": "sqrt((1 - Rational(9,10))/(1 + Rational(9,10))**3).evalf()  # 0.120745",
+    "asserts": "Limit of tan(v/2)/tan(m/2) at aphelion for e = 0.9 (previous page's 0.120745122)"
+   },
+   {
+    "sympy": "7124 - 5149  # = 1975, not 975",
+    "asserts": "Slip in the sixth-difference column"
+   },
+   {
+    "sympy": "2000000000 - 1486101351 == 513898649 and 310353254 - 62036743 == 248316511",
+    "asserts": "Sample consistency of the difference columns"
+   }
+  ],
+  "transcription_corrections": [
+   "Columns 3, 5 and 7 begin with a 0 placed at the m = 0 level (zero even central differences by odd symmetry). Columns 4 and 6 have no leading 0. The transcription's alignment of the zeros is ambiguous.",
+   "Column 7, third entry: the image shows 975, but the arithmetically correct value is 1975 (Gauss's slip or an overwrite).",
+   "Column 3 entry '28040800[?]' is confirmed correct: 141508652 − 113467852 = 28040800.",
+   "The large upside-down words read as 'Comet[?] Patriarch[?] reisen' are upside-down Kurrent jottings unrelated to the mathematics; the reading 'Comet' is doubtful (the image looks more like 'Comus')."
+  ]
+ }
+}

@@ -1,0 +1,60 @@
+{
+ "bundle": "600_1",
+ "page": "c107",
+ "label": "[98]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000108/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT (from the previous page). Hilbert is discussing expansions of 'arbitrary' functions on an interval into series of polynomials, sum_k Q_k(x), that converge pointwise. Examples include functions with a continuity point in every subinterval, and series that converge exactly on the rationals. He then asks whether each polynomial term Q_k can be 'split' into its monomials so that the resulting series still converges.\n\nTHIS PAGE, part 1.\n(a) If the splitting is possible, one gets a series whose terms are integral powers c x^j. Rearranging the terms, or collecting those with the same power, is of course not allowed, since that would turn the series into a power series.\n(b) Hilbert concludes that one could give a single, fixed ('ein für alle mal bestimmte') sequence of functions\n   G_1 = 1;\n   G_2 = 1, G_3 = x;\n   G_4 = 1, G_5 = x, G_6 = x^2;\n   G_7 = 1, G_8 = x, ...\n   That is, it consists of blocks (1, x, ..., x^m) for m = 0, 1, 2, ....\n   In closed form: G_n = x^(n-1-k(k+1)/2), where k = floor((sqrt(8n-7)-1)/2).\n(c) Claim: every function with 'the above property' (a pointwise limit of a polynomial series) can be written as sum_n a_n G_n with constant coefficients a_n.\n\nImplicit justification (mine; the page gives none). Let f = sum_k Q_k pointwise on a bounded interval I.\n- Place each Q_k into blocks of degree >= deg Q_k, padding with zero coefficients.\n- Naively, putting Q_k into a single block may fail: the intermediate partial sums (truncations T_i of Q_k) can be large on I, because a small polynomial can have huge monomial coefficients.\n- Remedy: spread Q_k over M_k consecutive blocks, each carrying Q_k/M_k, with M_k chosen so that sup_I |T_i|/M_k < eps_k, where eps_k -> 0.\n- Then every partial sum lies within eps_k of a point on the segment between S_{k-1}(x) and S_k(x).\n- Hence the series converges pointwise to f, and uniformly if the original series did.\nSo the claim is correct, but it is stated without proof. It is a 'universal' monomial system: weaker than, but akin to, Fekete's universal power series (1914).\n\nTHIS PAGE, part 2 (continued on the next page). Heading: 'Franklin's proof of Minkowski's theorem'. The theorem: every integral linear substitution A in n variables with A ≡ I (mod p), p prime, and A^N = I for some N, must equal I.\n\nThe proof on the next page runs as follows.\n- Formal matrix algebra: (A+B)(C+D) = AC+AD+BC+BD, hence a binomial expansion, which is valid here because I and B commute.\n- Write A = I + p^r B with r >= 1 and B not ≡ 0 (mod p).\n- Then A^N = I + N p^r B + C(N,2) p^(2r) B^2 + ....\n- If p does not divide N, the term N p^r B is not divisible by p^(r+1), while all later terms are. So A^N ≠ I.\n- Implicitly (mine): it remains to treat N = p. There A^p = I + p^(r+1)B + C(p,2)p^(2r)B^2 + ... + p^(rp)B^p. For p odd, all later terms are divisible by p^(r+2), so A^p ≠ I. Hence the order is never finite unless A = I.",
+  "errors": [
+   "The formula 'a_1 G_1 + a_2 G_2 a_3 G_3 ...' is missing a '+' between a_2G_2 and a_3G_3 (a slip of the pen).",
+   "The expansion claim is asserted without proof. Simply inserting each polynomial Q_k into one block can destroy convergence of the partial sums; one needs, for example, to spread Q_k/M over many blocks. The claim is true with such a construction, but that step is unjustified on the page.",
+   "Minkowski's theorem as stated (any prime modulus p) is false for p = 2. For example, -I ≡ I (mod 2) and (-I)^2 = I. Minkowski's actual statement requires p > 2 (or modulus 4). The binomial argument on the next page also fails for p = 2, r = 1, since C(2,2)p^(2r) = 4 = p^(r+1). Unless an odd-p hypothesis appears later, this is a gap."
+  ],
+  "results": [
+   {
+    "what": "A fixed sequence of monomials G_n (blocks 1, x, ..., x^m) such that every pointwise limit of polynomials on an interval is expandable as sum a_n G_n with constant coefficients (no rearrangement allowed)",
+    "modern_name": "Universal series / representing systems; relates to Baire class 1 functions as pointwise limits of polynomials (Weierstrass + Baire) and to universal power series",
+    "usually_credited_to": "Weierstrass (1885) for polynomial approximation; Baire (1899) for the class-1 characterization; Fekete (1914), Menshov and others for universal series",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Franklin's proof of Minkowski's theorem: an integral matrix ≡ I (mod p) of finite order is I, via A = I + p^r B and binomial expansion of A^N",
+    "modern_name": "Minkowski's lemma: the congruence subgroup Γ(p), p ≥ 3, is torsion-free",
+    "usually_credited_to": "H. Minkowski (1887); the proof is attributed on the page to Franklin (presumably Fabian Franklin, Johns Hopkins — unsure)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The universal monomial system is a modest, unproved remark, but it anticipates in spirit the later theory of universal series (Fekete 1914 and after). The Minkowski/Franklin material is a standard note on known work.",
+  "checkable": [
+   {
+    "sympy": "[x**(n-1-k*(k+1)//2) for n in range(1,11) for k in [int((sqrt(8*n-7)-1)//2)]] == [1,1,x,1,x,x**2,1,x,x**2,x**3]",
+    "asserts": "The closed form reproduces Hilbert's sequence G_1..G_10."
+   },
+   {
+    "sympy": "A=-eye(2); (A**2==eye(2)) and all((A-eye(2))[i,j]%2==0 for i in range(2) for j in range(2))",
+    "asserts": "Counterexample for p=2: -I ≡ I mod 2 and has order 2."
+   },
+   {
+    "sympy": "all(simplify(binomial(p,2)*p**(2*r)/p**(r+2)).is_integer for p in [3,5,7] for r in [1,2,3])",
+    "asserts": "For odd p, the second binomial term is divisible by p^(r+2), so A^p = I + p^(r+1)B mod p^(r+2)."
+   },
+   {
+    "sympy": "binomial(2,2)*2**2 % 2**3 != 0",
+    "asserts": "For p=2, r=1 the argument fails: the quadratic term is not divisible by p^(r+2)."
+   },
+   {
+    "sympy": "B=Matrix([[1,2],[0,1]]); expand((eye(2)+3*B)**3 - (eye(2)+3*3*B+3*9*B**2+27*B**3)) == zeros(2)",
+    "asserts": "The binomial expansion of (I+p^r B)^N holds since I and B commute (p=3, r=1, N=3)."
+   }
+  ],
+  "transcription_corrections": [
+   "'eine für alle  mal' should read 'ein für alle mal' (the image shows an ampersand-like 'ein' abbreviation).",
+   "The handwritten 'G_7' resembles 'G_4' with a stroke; the context confirms G_7 = 1.",
+   "The image shows 'a_1G_1 + a_2G_2 a_3G_3 ...' (the '+' is missing in the original); the transcription is faithful."
+  ]
+ }
+}

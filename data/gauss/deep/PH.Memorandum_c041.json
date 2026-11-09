@@ -1,0 +1,87 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c041",
+ "label": "40",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000042/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PART A - Cost and efficiency of a telegraph line (Gauss-Weber electromagnetic telegraph context, 1830s).\n\n(1) Basic data for a 'Doppelmeile' (double geographic mile, 2 x 7407.4 m = 14814.8 m) of copper wire 1 mm thick (diameter 1 mm).\n- Cross-section: pi/4 mm^2 = 0.7854 mm^2 (the cross-section step is mine).\n- Volume: 0.7854 x 14,814,800 mm = 11,635,500 mm^3. This matches the written value almost exactly. Solving back gives a length of 14,814.8 m, so the 'mile' is the geographic mile of 1/15 degree.\n- Weight: 11,635.5 cm^3 at about 9.0 g/cm^3 gives about 105 kg. This implies a copper density of 9.02, slightly above the usual 8.9.\n- 105 kg is equated to 230 pounds (about 0.457 kg per pound, close to the English or Cologne pound). The price is 92 Thaler, i.e. 0.4 Thaler per pound.\n- 'Widerstand 4709': the resistance of this wire in some reference unit (unit not stated).\n- 'Wirkung 315': the effect (deflection or current) obtained with the reference apparatus over this line.\n\n(2) General scaling.\nVariables:\n- a = strengthening of the apparatus (battery, inductor or multiplier) relative to the reference;\n- m = length in the same mile units;\n- n = wire diameter in mm.\n\nAssumption: line resistance dominates, and resistance is proportional to m/n^2. Then:\n- Effect: E = 315 * a n^2 / m.\n- Cost: K = 92 * m n^2 Thaler, since wire volume is proportional to m n^2.\n- Eliminating n^2 = E m/(315 a) (step mine): K = (92/315) * m^2 E / a ≈ 0.3 * m^2 E / a Thaler. Here 92/315 = 0.292.\n\n(3) Numerical case.\n- With a = 18: K = 0.3 m^2 E / 18 = m^2 E / 60 Thaler.\n- The final '= 5 mm' means 5 m^2 Thaler. This follows if one demands E = 300 (implicit; my inference), since 300/60 = 5.\n- So for a fixed required effect, the copper cost grows with the square of the distance and inversely with the strength of the apparatus.\n\nPART B - The integral of (sin x / x)^2.\n- Integration by parts, with u = sin^2 phi and dv = dphi/phi^2:\n  ∫ sin^2 phi/phi^2 dphi = -sin^2 phi/phi + ∫ 2 sin phi cos phi/phi dphi = ∫ sin 2phi/phi dphi - sin^2 phi/phi.\n- Then the Dirichlet integral is recorded: ∫_0^∞ sin psi/psi dpsi = pi/2.\n- Implicit conclusion (mine):\n  - the boundary term vanishes at 0 and at ∞;\n  - with psi = 2 phi, ∫_0^∞ sin 2phi/phi dphi = ∫_0^∞ sin psi/psi dpsi = pi/2;\n  - hence ∫_0^∞ (sin phi/phi)^2 dphi = pi/2.\n- This is the integral of the Fraunhofer single-slit intensity function. Given the Repsold instrument and magnification notes on the previous page, it may serve an optical (diffraction / resolving power) purpose, but that is speculative.\n- Notation: sin phi^2 is Gauss's usual notation for (sin phi)^2.\n\nPART C - Non-mathematical excerpt.\nAn anecdote: J. C. L. Simonde de Sismondi declined a professorship offered in Geneva and wrote to his mother that he knew few trades he cared less for than training children or monkeys with daily lessons.",
+  "errors": [
+   "No mathematical errors. The integration by parts is exact.",
+   "0.3 is a rounding of 92/315 = 0.29206 (about 3% high), so the cost formula is a deliberately rounded estimate.",
+   "The final '= 5mm' tacitly assumes a required effect E = 300 (or the line is otherwise elliptic). The step is not written out.",
+   "The weight of 105 kg implies a copper density of about 9.02 g/cm^3, slightly high (8.9 would give 103.6 kg). This is an acceptable rough figure.",
+   "The model assumes the line resistance dominates the circuit (effect proportional to n^2/m), ignoring the resistance of the multiplier and battery. Gauss's own figure of 4709 for resistance is not used further."
+  ],
+  "results": [
+   {
+    "what": "Volume and weight of a double geographic mile of 1 mm copper wire, and its price",
+    "modern_name": "Elementary engineering estimate (wire volume = pi d^2 L/4)",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Telegraph line economics: effect proportional to a n^2/m and cost proportional to m n^2, hence cost proportional to m^2 E/a",
+    "modern_name": "Ohm's-law scaling of line resistance; quadratic growth of conductor cost with distance at fixed signal current",
+    "usually_credited_to": "Ohm (1827) for the law; telegraph cost scaling discussed by Gauss, Weber, Steinheil and others in the 1830s",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "∫ (sin phi/phi)^2 dphi = ∫ sin 2phi/phi dphi - sin^2 phi/phi, giving ∫_0^∞ (sin x/x)^2 dx = pi/2",
+    "modern_name": "Integration by parts; Dirichlet integral; L2 norm of the sinc function",
+    "usually_credited_to": "Euler (1781) for the Dirichlet integral; Dirichlet (rigorous treatment); the squared version is a standard corollary",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The telegraph cost scaling is a natural working note for Gauss, co-inventor of the 1833 Göttingen telegraph. The sinc-squared integral is a textbook consequence of the Dirichlet integral, known since Euler. Nothing here is beyond the standard knowledge of the period; it only documents Gauss's practical engineering estimates.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(Integral(sin(2*x)/x, x).doit() - sin(x)**2/x, x) - sin(x)**2/x**2) == 0",
+    "asserts": "The integration-by-parts identity on the page is correct."
+   },
+   {
+    "sympy": "integrate(sin(x)**2/x**2, (x, 0, oo)) == pi/2",
+    "asserts": "The implied value of the sinc-squared integral."
+   },
+   {
+    "sympy": "integrate(sin(x)/x, (x, 0, oo)) == pi/2",
+    "asserts": "The Dirichlet integral as written."
+   },
+   {
+    "sympy": "N(pi/4 * 2*7407.4*1000)",
+    "asserts": "About 11,635,500 mm^3: the volume of a 1 mm wire one double geographic mile long."
+   },
+   {
+    "sympy": "N(11635500/1000 * Rational(9,1) / 1000)",
+    "asserts": "About 104.7 kg at copper density 9.0, matching 105 kg."
+   },
+   {
+    "sympy": "N(Rational(92,315))",
+    "asserts": "0.292, rounded by Gauss to 0.3."
+   },
+   {
+    "sympy": "Rational(3,10)/18 == Rational(1,60)",
+    "asserts": "With a = 18 the cost coefficient becomes 1/60."
+   },
+   {
+    "sympy": "simplify((92*m*(E*m/(315*a))) - Rational(92,315)*m**2*E/a) == 0",
+    "asserts": "Eliminating n^2 from E = 315 a n^2/m in the cost 92 m n^2."
+   },
+   {
+    "sympy": "Rational(300,60) == 5",
+    "asserts": "With E = 300 the cost is 5 m^2 Thaler."
+   }
+  ],
+  "transcription_corrections": [
+   "'1mm deck' should read '1mm dick' (1 mm thick).",
+   "'aℰ = 18': in the image the first symbol looks like 'a' overwritten with or followed by ℰ; the sense is 'a = 18'.",
+   "'= 5mm' means 5·m·m (five times m squared) Thaler, not 5 millimetres.",
+   "'sin phi^2' means (sin phi)^2 in Gauss's notation.",
+   "'Leonard' refers to J.-C.-L. Simonde de Sismondi; spelling 'Leonard' as in the manuscript."
+  ]
+ }
+}

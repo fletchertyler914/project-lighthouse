@@ -1,0 +1,68 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c200",
+ "label": "87",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000201/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Printed page, not Gauss's own text. This is p. 87 of a printed German algebra textbook in Fraktur, very probably Christian Leiste's arithmetic/algebra text, given the bundle name 'HB.Leiste' and the § numbering (§179) on the next page. The handwritten marks at the left edge are the cut-off right edge of the interleaved handwritten facing sheet (the 'previous page'). They are not notes on this page.\n\n(A) Generalising earlier examples 5) and 6). Those examples had the form a·x = x + b with a = 1/2 + 1/3 + 1/4. The text generalises:\n- a = n/m + p/q + r/s = (nqs + pms + rmq)/(mqs).\n- With n = p = r = 1: a = (qs + ms + mq)/(mqs).\n- For m = 2, q = 3, s = 4: a = (12 + 8 + 6)/24 = 26/24 = 13/12.\n- The general formula for 5 and 6 is ((qs + ms + mq)/(mqs))·x = x + b.\n\n(B) General inheritance problem (example 9). An amount x is split into equal shares. Share k is k·a plus 1/n of what remains after the previous shares; the constant k·a is not removed before taking the n-th part.\n- Share 1 = a + x/n.\n- Share 2 = 2a + (x − x/n − a)/n = (n−1)x/n² − a/n + 2a.\n- Equal shares give a + x/n = (n−1)x/n² − a/n + 2a.\n- Subtracting a: x/n = (n−1)x/n² − a/n + a.\n- Over a common denominator (step filled in by me): x/n² = (n−1)a/n, so x = n(n−1)a.\n- Example with n = 10, a = 100 rthl: x = 10·9·100 = 9000. Each share is a + x/n = na = 1000, so there are 9 children (in general n−1).\n\n(C) Variant. Share k is k·a plus 1/n of the remainder after k·a has been deducted.\n- Share 1 = a + (x−a)/n = x/n + (n−1)a/n = [nx + n(n−1)a]/n².\n- Share 2 = 2a + (x − x/n − (n−1)a/n − 2a)/n = [(n−1)x − (n−1)a + 2n(n−1)a]/n².\n- Continued on p. 88: equating the shares gives nx + n(n−1)a = (n−1)x − (n−1)a + 2n(n−1)a.\n- Hence x = n(n−1)a − (n−1)a = (n−1)²a.\n- For n = 10, a = 100: x = 8100. Each share is 100 + 800 = 900, so again 9 children.",
+  "errors": [
+   "No mathematical errors found; every printed step checks.",
+   "Minor wording point: the first problem statement says each share is 'k·a plus the n-th part of the k-th remainder'. The computation takes the remainder before deducting k·a. The text itself flags this ambiguity by working the variant in (C).",
+   "The equal-shares condition is imposed only between shares 1 and 2. That all later shares are then equal, and that the estate is exhausted after n−1 shares, is asserted from the numerical check, not proved. It is true: in both versions every share equals the share of the last child."
+  ],
+  "results": [
+   {
+    "what": "Sum of unit fractions written over a common denominator, and the linear equation ((qs+ms+mq)/(mqs))x = x + b",
+    "modern_name": "Elementary linear equation with fractional coefficients",
+    "usually_credited_to": "Traditional textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Equal inheritance problem: share k = k·a + (remainder)/n gives estate n(n−1)a and n−1 heirs; the variant gives (n−1)²a and n−1 heirs",
+    "modern_name": "Classical 'father's inheritance' (equal shares) puzzle",
+    "usually_credited_to": "Fibonacci, Liber Abaci (1202); popularised by Euler, Vollständige Anleitung zur Algebra (1770)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed elementary algebra textbook page (Leiste), not Gauss's own work. It contains standard 18th-century textbook material: the classical inheritance puzzle known from Fibonacci and Euler. The only handwriting visible is the edge of the facing manuscript sheet.",
+  "checkable": [
+   {
+    "sympy": "Eq(Rational(1,2)+Rational(1,3)+Rational(1,4), Rational(13,12))",
+    "asserts": "1/2 + 1/3 + 1/4 = 13/12"
+   },
+   {
+    "sympy": "simplify((q*s+m*s+m*q)/(m*q*s) - (1/m+1/q+1/s))",
+    "asserts": "General common-denominator formula (gives 0)"
+   },
+   {
+    "sympy": "solve(Eq(a + x/n, 2*a + (x - x/n - a)/n), x)",
+    "asserts": "Returns [a*n*(n-1)], i.e. x = n(n−1)a for the first version"
+   },
+   {
+    "sympy": "simplify(2*a + (x - x/n - a)/n - ((n-1)*x/n**2 - a/n + 2*a))",
+    "asserts": "Second share simplifies as printed (gives 0)"
+   },
+   {
+    "sympy": "simplify(2*a + (x - x/n - (n-1)*a/n - 2*a)/n - ((n-1)*x - (n-1)*a + 2*n*(n-1)*a)/n**2)",
+    "asserts": "Second share in the variant simplifies as printed (gives 0)"
+   },
+   {
+    "sympy": "solve(Eq(a + (x-a)/n, 2*a + (x - (a + (x-a)/n) - 2*a)/n), x)",
+    "asserts": "Returns [a*(n-1)**2], i.e. x = (n−1)²a for the variant"
+   },
+   {
+    "sympy": "(10*9*100, 100 + 10*9*100/10, (10-1)**2*100, 100 + ((10-1)**2*100 - 100)/10)",
+    "asserts": "Numerical cases: estate 9000 with shares of 1000, and estate 8100 with shares of 900"
+   }
+  ],
+  "transcription_corrections": [
+   "The handwritten 'margin' items ('equationis[?]', √-1 entries, (1)√-1, (4)√-1, the '2 4 / 2 4 / 2·4' grid, (0,2)+(0,4)..., A^4B^4) are not marginalia on this page. They are the cut-off right edge of the interleaved handwritten facing sheet, and match the previous page's content.",
+   "'(0.2)' in the margin should read '(0,2)', as on the facing sheet.",
+   "The first marginal word is probably the end of 'aequationes' or 'aequationis' from the facing sheet."
+  ]
+ }
+}

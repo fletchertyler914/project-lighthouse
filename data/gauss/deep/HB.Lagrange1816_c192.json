@@ -1,0 +1,73 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c192",
+ "label": "189",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000193/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 189 is a pure numerical table, a continuation of the table on folio 188 and on the following page. There is no algebra on the page. It has four columns:\n\n(1) An argument t, running from 5.050 to 5.350 in steps of h = 0.002. Rows are grouped in blocks of five by ruled lines, and the page is split into three sub-columns of 50 steps each (5.050–5.150, 5.150–5.250, 5.250–5.350).\n\n(2) A function value φ(t), given as an angle in degrees, minutes and seconds to 10^-5 arcsec. It runs from 29°45'45.49070\" to 53°12'16.08175\".\n\n(3) The first difference Δφ_i = φ(t_{i+1}) − φ(t_i), in arcseconds. It is written between the rows and runs from 451.57336\" to 659.42508\".\n\n(4) The second difference Δ²φ_i = Δφ_i − Δφ_{i−1}, in arcseconds.\n\nI verified the structure of the table by recomputation:\n- 29°45'45.49070\" + 451.57336\" = 29°53'17.06406\".\n- 453.12695 − 451.57336 = 1.55359.\n- 527.99230 + 1.53936 = 529.53166.\n\nThe table was therefore built, or at least checked, by summation of differences: φ_{i+1} = φ_i + Δφ_i, with Δφ_i = Δφ_{i−1} + Δ²φ_i. This is the standard double-summation scheme, consistent with numerically integrating a second-order relation φ'' = F(...). It could equally be a check of a directly computed table (my inference, not certain).\n\nBehaviour of the differences:\n- The second difference rises to a maximum of 1.56634\" at t ≈ 5.093 (φ ≈ 32.5°).\n- It then decreases steadily, reaching 0.92600\" at 5.350.\n- On the next page it passes through zero near t ≈ 5.511 (φ ≈ 68.4°). That is an inflection point, where φ' is maximal: Δφ ≈ 697.16\" per step, i.e. φ' ≈ 1.690 rad per unit of t.\n- In continuous terms, on this page φ' runs from ≈ 1.095 to ≈ 1.598 rad/unit, and φ'' ≈ Δ²φ/h² peaks at ≈ 1.90 rad/unit².\n\nThe third differences are smooth (about +121, +117, +110, … units of the 5th decimal). The fourth differences scatter by a few units, which suggests the second differences were computed independently by some formula and rounded, not themselves differenced from φ.\n\nWhat φ is cannot be read off this page. I tried:\n- an autonomous pendulum/elastica law φ'' = −k sin(φ − φ0);\n- a Kepler law for true anomaly against time;\n- a Gudermannian.\nNone fits. The underlying problem (the bundle label 'Lagrange1816' gives no direct clue) remains unidentified.",
+  "errors": [
+   "No arithmetic errors found in the entries I checked. These include:\n- all second differences in the first sub-column from 5.052 to 5.100;\n- the transitions across the block boundaries at 5.150, 5.250 and 5.350;\n- the corrected entries at 5.216, 5.316 and 5.340;\n- the rows at 5.312 and 5.314.",
+   "Several entries show overwritten digits (e.g. 5.078, 5.216, 5.316, 5.340 and the corresponding difference columns). In every case the final written value is consistent with the difference scheme, so these are self-corrections, not residual errors."
+  ],
+  "results": [
+   {
+    "what": "Table of an angle-valued function φ(t) at step 0.002, with first and second differences, built or checked by summation of second differences.",
+    "modern_name": "Difference table / numerical integration by double summation (Störmer-type summation of second differences)",
+    "usually_credited_to": "Classical astronomical computing practice (Newton, Euler, Lagrange; systematised by Gauss and Encke for perturbations; Störmer/Cowell later)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine high-precision numerical tabulation, of a kind Gauss is well known to have done in great quantity. The function and its purpose are not identifiable from the page, and nothing in it is methodologically novel.",
+  "checkable": [
+   {
+    "sympy": "Rational('451.57336') == (29*3600+53*60+Rational('17.06406')) - (29*3600+45*60+Rational('45.49070'))",
+    "asserts": "The first difference between t=5.050 and 5.052 equals the difference of the angles in arcseconds."
+   },
+   {
+    "sympy": "Rational('453.12695') - Rational('451.57336') == Rational('1.55359')",
+    "asserts": "The second difference at t=5.052."
+   },
+   {
+    "sympy": "Rational('473.40991') - Rational('471.84542') == Rational('1.56449')",
+    "asserts": "The second difference at t=5.078 is 1.56449, not 1.56444 as transcribed."
+   },
+   {
+    "sympy": "(49*3600+35*60+Rational('54.99970')) + Rational('639.07333') == 49*3600+46*60+Rational('34.07303')",
+    "asserts": "The angle at t=5.312 (apparently struck through) is correct."
+   },
+   {
+    "sympy": "(49*3600+46*60+Rational('34.07303')) + Rational('640.17851') == 49*3600+57*60+Rational('14.25154')",
+    "asserts": "The angle at t=5.314 follows from the angle at 5.312."
+   },
+   {
+    "sympy": "Rational('640.17851') - Rational('639.07333') == Rational('1.10518')",
+    "asserts": "The second difference at t=5.312 is correct (not deleted)."
+   },
+   {
+    "sympy": "(41*3600+28*60+Rational('51.21712')) + Rational('577.28785') == 41*3600+38*60+Rational('28.50497')",
+    "asserts": "The overwritten entry at t=5.216 is consistent."
+   },
+   {
+    "sympy": "(52*3600+6*60+Rational('39.32650')) + Rational('653.71973') == 52*3600+17*60+Rational('33.04623')",
+    "asserts": "The overwritten entry at t=5.340 is consistent."
+   },
+   {
+    "sympy": "(53*3600+1*60+Rational('17.58267')) + Rational('658.49908') == 53*3600+12*60+Rational('16.08175')",
+    "asserts": "The final angle at t=5.350."
+   },
+   {
+    "sympy": "Rational('659.42508') - Rational('658.49908') == Rational('0.92600')",
+    "asserts": "The last second difference, linking to the next page."
+   }
+  ],
+  "transcription_corrections": [
+   "Row 5.078, second-difference column: the value is 1,56449 (471.84542 → 473.40991). The transcription's 1,56444 misreads the overwritten final digit.",
+   "Row 5.312: the angle 46'34,07303\" and the second difference 1,10518 are not struck out. The horizontal block-separator rule runs through them, and both values are correct.",
+   "Row 5.216: 38'28,50497\" is the correct reading of the overwritten value; no [?] is needed.",
+   "The first-difference column is written between rows: the entry beside row t_i is φ(t_{i+1}) − φ(t_i). The second-difference entry at t_i is Δφ_i − Δφ_{i−1}."
+  ]
+ }
+}

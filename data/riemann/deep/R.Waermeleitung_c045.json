@@ -1,0 +1,61 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c045",
+ "label": "24v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000046/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This is a draft of Riemann's answer to the Paris Academy prize question on heat conduction, the 'Commentatio mathematica' of 1861, published posthumously in the Werke in 1876. On the previous page the problem is set up as follows.\n- The heat equation for an anisotropic body is sum_{i,i'} d/dx_i (a_{ii'} du/dx_{i'}) = h du/dt, with a symmetric and positive definite.\n- It comes from the variational form (A).\n- Under new variables s_1, s_2, s_3 it becomes the same kind of equation with coefficients b_{mu nu} = (1/J) sum a_{ii'} (ds_mu/dx_i)(ds_nu/dx_{i'}) and k = h/J, where J = det(ds/dx).\n- The adjugate (reciprocal) forms then satisfy beta_{mu nu} = sum alpha_{ii'} (dx_i/ds_mu)(dx_{i'}/ds_nu), and A = B J.\n- Hence sum alpha_{ii'} dx_i dx_{i'} = sum beta_{ii'} ds_i ds_{i'}: the adjugate quadratic differential form is invariant.\n\nThis page. After several abandoned openings, Riemann states the plan for solving the general problem. The general problem asks for which conductivities a family of surfaces stays isothermal, that is, when u can depend only on t and two variables.\n\n(i) First determine what the functions b_{ii'} and k of s_1, s_2, s_3 must be so that u can be independent of one of these variables.\n\n(ii) For given a_{ii'} and h, decide whether and when u can be a function of time and only two variables. This reduces to deciding whether the form sum beta_{ii'} ds_i ds_{i'}, built from the b found in (i), can be transformed into the given form sum alpha_{ii'} dx_i dx_{i'}. This is the equivalence problem for quadratic differential forms in three variables. Riemann remarks that it can be handled by nearly the same method Gauss used in the theory of curved surfaces; in the finished Commentatio this leads to the Riemann curvature conditions.\n\nNotation. Rename s_1, s_2, s_3 as alpha, beta, gamma and write the form b as (a, b, c; a', b', c'). This means b11 = a, b22 = b, b33 = c, b23 = a', b31 = b', b12 = c'.\n\nThe equation when u is independent of gamma. The transformed equation is\nd/dalpha(a u_alpha + c' u_beta + b' u_gamma) + d/dbeta(c' u_alpha + b u_beta + a' u_gamma) + d/dgamma(b' u_alpha + a' u_beta + c u_gamma) = k u_t.\nSetting u_gamma = 0 and expanding (expansion mine) gives\na u_aa + 2c' u_ab + b u_bb + s u_a + t u_b = k u_t,\nwhere s = a_alpha + c'_beta + b'_gamma and t = b_beta + c'_alpha + a'_gamma.\nThe coefficients may still depend on gamma; that dependence is what the next page analyses (cases m = 1, 2, ...). The labels I and II at the bottom are left empty.",
+  "errors": [
+   "On this page the coefficient of d2u/dalpha dbeta is unclear or struck through. The correct coefficient is 2c', since both the (1,2) and (2,1) entries contribute; the next page writes 2c' correctly.",
+   "Riemann's own letter 's' for the u_alpha coefficient clashes with the variables s_i; the next page renames s, t to e, f. This is not an error.",
+   "Otherwise the definitions of s and t are correct, including the gamma-derivative terms b'_gamma and a'_gamma, which survive even when u is independent of gamma."
+  ],
+  "results": [
+   {
+    "what": "Coordinate covariance of the anisotropic heat equation: the coefficient form transforms as a tensor density, and its adjugate form sum alpha dx dx is invariant (sum alpha dx dx = sum beta ds ds).",
+    "modern_name": "Laplace-Beltrami / divergence-form operator covariance; inverse conductivity tensor as a Riemannian metric",
+    "usually_credited_to": "Riemann (Commentatio 1861, publ. 1876); in the isotropic case Lamé and Jacobi",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reducing the isothermal-surfaces problem to the question whether a given quadratic differential form in three variables can be transformed into another, to be solved by Gauss's method for surfaces.",
+    "modern_name": "Equivalence problem for Riemannian metrics (flatness / Riemann curvature tensor)",
+    "usually_credited_to": "Riemann 1854 / Commentatio 1861; Christoffel and Lipschitz 1869",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Explicit 2D-reduced PDE when u is independent of gamma, with first-order coefficients s and t containing gamma-derivatives.",
+    "modern_name": "Reduction of a divergence-form parabolic equation under symmetry",
+    "usually_credited_to": "routine calculation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft page of the well-known 1861 Paris prize essay (Commentatio mathematica). The plan, the reduction to the equivalence of quadratic forms, the reference to Gauss, and the reduced PDE all appear in the published version, so the page shows only drafting variants.",
+  "checkable": [
+   {
+    "sympy": "al,be,ga,t=symbols('alpha beta gamma t'); a,b,c,a1,b1,c1,k=[Function(n)(al,be,ga) for n in ['a','b','c','ap','bp','cp','k']]; u=Function('u')(al,be,t); lhs=diff(a*diff(u,al)+c1*diff(u,be),al)+diff(c1*diff(u,al)+b*diff(u,be),be)+diff(b1*diff(u,al)+a1*diff(u,be),ga); rhs=a*diff(u,al,2)+2*c1*diff(u,al,be)+b*diff(u,be,2)+(diff(a,al)+diff(c1,be)+diff(b1,ga))*diff(u,al)+(diff(b,be)+diff(c1,al)+diff(a1,ga))*diff(u,be); simplify(lhs-rhs)==0",
+    "asserts": "With u independent of gamma, the divergence-form equation expands to a u_aa + 2c' u_ab + b u_bb + s u_a + t u_b, with s and t as defined on the page."
+   },
+   {
+    "sympy": "P=Matrix(3,3,symbols('p0:9')); A=Matrix([[1,2,0],[2,5,1],[0,1,3]]); J=P.det(); B=(P*A*P.T)/J; simplify(B.adjugate()-P.inv().T*A.adjugate()*P.inv())==zeros(3)",
+    "asserts": "If b = J^{-1} P A P^T with P = ds/dx, then adj(b) = (dx/ds)^T adj(A) (dx/ds), i.e. beta_{mu nu} = sum alpha_{ii'} dx_i/ds_mu dx_{i'}/ds_nu (previous page)."
+   },
+   {
+    "sympy": "P=Matrix(3,3,symbols('p0:9')); A=Matrix([[1,2,0],[2,5,1],[0,1,3]]); J=P.det(); B=(P*A*P.T)/J; simplify(A.det()-B.det()*J)==0",
+    "asserts": "The determinant relation A = B * J between det a and det b."
+   }
+  ],
+  "transcription_corrections": [
+   "'datis valoribus quantitatum a_{ιι'} et quantitatis k' should read '... et quantitatis h'; the image shows h, the original coefficient.",
+   "'tum expressionis Σ b_{ιι'} ds_ι ds_ι' formari potest' should read 'Unde expressionis Σ β_{ιι'} ds_ι ds_ι' formari poterit'. The form compared is the adjugate β-form, consistent with the previous page.",
+   "'an expressio Σ b_{ιι'} ds ds in formam datam Σ α_{ιι'} dx dx' should have β_{ιι'} in place of b_{ιι'}.",
+   "'quaestionem ipsa videbimus' is likely 'quaestionem ipsam videbimus'.",
+   "The coefficient of ∂²u/∂α∂β is not cleanly struck; the intended reading is 2c' (as on the next page)."
+  ]
+ }
+}

@@ -1,0 +1,79 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c007",
+ "label": "[2]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page, 'Erstes Problem'): expand {sqrt(1+i^2x^2)+ix}^n in powers of x, where i = sqrt(-1), so sqrt(1+iixx) = sqrt(1-x^2).\n\nThe substitution is sqrt(1+iixx)+ix = R^(1/2). Squaring sqrt(1+iixx) = R^(1/2) - ix gives the implicit equation R = 1 + 2ix R^(1/2).\n\nThis is put into Lagrange's form z = a + t*zeta(z), using the theorem as stated on the previous page (with a reference 'M. C. p. 236', presumably Laplace's Mécanique céleste):\n- a = 1, t = 2ix, zeta = z^(1/2);\n- phi(z) = z^(n/2), so phi'(z) = (n/2) z^((n-2)/2).\nLagrange's series is then phi(z) = phi(a) + sum_{k>=1} t^k/k! * d^(k-1)/dz^(k-1)[zeta^k phi'(z)], evaluated at z = a.\n\nThis page computes the ingredients.\n- In general zeta^k phi'(z) = (n/2) z^((n+k-2)/2).\n- k=1: (n/2) R^((n-1)/2).\n- k=2: (n/2) R^(n/2); its first derivative is (n^2/4) R^((n-2)/2).\n- k=3: (n/2) R^((n+1)/2); its second derivative is (1/8) n(n+1)(n-1) R^((n-3)/2).\n- k=4: (n/2) R^((n+2)/2); its third derivative is (1/16) n(n+2) n(n-2) R^((n-4)/2).\n- k=5: (n/2) R^((n+3)/2); its fourth derivative is (1/32) n(n+3)(n+1)(n-1)(n-3) R^((n-5)/2).\n- 'etc.'\n\n[My generalisation:] d^(k-1)/dz^(k-1)[zeta^k phi'] at z=1 equals 2^(-k) n prod_{j=1}^{k-1}(n+k-2j). Multiplying by t^k/k! = (2ix)^k/k!, the powers of 2 cancel. The k-th coefficient is therefore n(n+k-2)(n+k-4)...(n-k+2)/k! times (ix)^k.\n\nSetting R = 1 (i.e. z = a) gives the page's result:\n{sqrt(1+iixx)+ix}^n = 1 + n(ix) + n^2/2! (ix)^2 + n(n^2-1)/3! (ix)^3 + n^2(n^2-4)/4! (ix)^4 + n(n^2-1)(n^2-9)/5! (ix)^5 + n^2(n^2-4)(n^2-16)/6! (ix)^6 + ...\n\nIn modern terms this is the Maclaurin series of exp(n*arcsinh(u)) with u = ix. With x = sin(phi) it is e^(i n phi).\n\nPurpose: the next page takes real and imaginary parts to obtain\n- cos(n phi) = 1 - n^2/2! x^2 + ...\n- sin(n phi) = n x - n(n^2-1)/3! x^3 + ...\nas power series in x = sin(phi).\n\nThe four lines at the bottom of this page are test cases of the odd-n sine series, which terminates:\n- sin(phi) = x\n- sin 3phi = 3x - 4x^3\n- sin 5phi = 5x - 20x^3 + 16x^5\n- sin 7phi = 7x - 56x^3 + 112x^5 - 64x^7",
+  "errors": [
+   "No mathematical errors found. Every derivative coefficient is correct (checked by the general formula (n/2)(z^((n+k-2)/2))^(k-1) at z=1). The assembled series coefficients and the sin 3phi, 5phi, 7phi polynomials are also correct.",
+   "Minor point: the formal convergence of the series (|x|<1) and the choice of square-root branch are not discussed, which is routine for the period.",
+   "The digits '20' and '56' in the sin 5phi and sin 7phi lines appear to be overwritten corrections; the final values are correct."
+  ],
+  "results": [
+   {
+    "what": "Application of Lagrange's inversion (Lagrange–Bürmann) series to the implicit equation R = 1 + 2ix R^(1/2) to expand R^(n/2)",
+    "modern_name": "Lagrange inversion theorem / Lagrange–Bürmann formula",
+    "usually_credited_to": "Lagrange (1770), Bürmann (1799); textbook exposition in Laplace's Mécanique céleste",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Power series (sqrt(1+u^2)+u)^n = sum n(n+k-2)(n+k-4)...(n-k+2)/k! u^k",
+    "modern_name": "Maclaurin series of exp(n arcsinh u) (generating series related to Chebyshev polynomials)",
+    "usually_credited_to": "Euler / Lagrange era (18th century); classical",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "sin 3phi, sin 5phi, sin 7phi as polynomials in sin phi",
+    "modern_name": "Multiple-angle formulas (Chebyshev polynomials in sin)",
+    "usually_credited_to": "Viète, Newton, Euler (16th–18th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a textbook exercise: deriving the classical multiple-angle series via Lagrange's inversion theorem, following Laplace's Mécanique céleste. All results were well known long before 1805, and nothing non-standard appears. The handwriting and 'Litt. A' format suggest a study or notebook copy rather than original research.",
+  "checkable": [
+   {
+    "sympy": "x=symbols('x'); I_*x; R=(sqrt(1-x**2)+I*x)**2; simplify(R-(1+2*I*x*sqrt(1-x**2)+2*I*x*I*x)) == 0",
+    "asserts": "R=(sqrt(1+i^2x^2)+ix)^2 satisfies R = 1 + 2ix R^(1/2) (with R^(1/2)=sqrt(1-x^2)+ix)"
+   },
+   {
+    "sympy": "n,z=symbols('n z',positive=True); simplify(diff(n/2*z**((n+3)/2),z,4) - n*(n+3)*(n+1)*(n-1)*(n-3)/32*z**((n-5)/2)) == 0",
+    "asserts": "Fourth derivative of zeta^5 phi'(z) is (1/32) n(n+3)(n+1)(n-1)(n-3) z^((n-5)/2)"
+   },
+   {
+    "sympy": "n,z=symbols('n z',positive=True); simplify(diff(n/2*z**((n+2)/2),z,3) - n**2*(n+2)*(n-2)/16*z**((n-4)/2)) == 0",
+    "asserts": "Third derivative of zeta^4 phi'(z) is (1/16) n^2(n+2)(n-2) z^((n-4)/2)"
+   },
+   {
+    "sympy": "n,z=symbols('n z',positive=True); simplify(diff(n/2*z**((n+1)/2),z,2) - n*(n+1)*(n-1)/8*z**((n-3)/2)) == 0",
+    "asserts": "Second derivative of zeta^3 phi'(z) is (1/8) n(n+1)(n-1) z^((n-3)/2)"
+   },
+   {
+    "sympy": "n,u=symbols('n u'); simplify(series((sqrt(1+u**2)+u)**n,u,0,7).removeO() - (1+n*u+n**2/2*u**2+n*(n**2-1)/6*u**3+n**2*(n**2-4)/24*u**4+n*(n**2-1)*(n**2-9)/120*u**5+n**2*(n**2-4)*(n**2-16)/720*u**6)) == 0",
+    "asserts": "Expansion of {sqrt(1+u^2)+u}^n through u^6 (u = ix) matches the page"
+   },
+   {
+    "sympy": "p=symbols('p'); s=sin(p); simplify(expand_trig(sin(7*p)) - (7*s-56*s**3+112*s**5-64*s**7)) == 0",
+    "asserts": "sin 7phi = 7x - 56x^3 + 112x^5 - 64x^7 with x = sin phi"
+   },
+   {
+    "sympy": "p=symbols('p'); s=sin(p); simplify(expand_trig(sin(5*p)) - (5*s-20*s**3+16*s**5)) == 0",
+    "asserts": "sin 5phi = 5x - 20x^3 + 16x^5"
+   },
+   {
+    "sympy": "p=symbols('p'); s=sin(p); simplify(expand_trig(sin(3*p)) - (3*s-4*s**3)) == 0",
+    "asserts": "sin 3phi = 3x - 4x^3"
+   }
+  ],
+  "transcription_corrections": [
+   "Header line (top of page, faint) reads approximately '8vo Monat ... Litt. A.' (ruled notebook heading); it is omitted in the machine transcription.",
+   "In 'sin 5phi = 5x - 20x^3 + 16x^5' the '20' is written over another digit; likewise '56' in the sin 7phi line is an overwritten correction.",
+   "The last term of the series is written 'i^6 x^6 ...' with a trailing ellipsis; this is correctly rendered."
+  ]
+ }
+}

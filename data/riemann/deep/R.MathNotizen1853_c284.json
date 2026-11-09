@@ -1,0 +1,69 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c284",
+ "label": "143r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000285/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the page reads like the draft of a letter or reply to a student or junior colleague, not a research computation. It contains one worked example, a methodological point about complex function theory, a pedagogical remark, and a footnote with a Fourier-coefficient computation.\n\n(1) The task. Let f(x,y) satisfy the 'part. Diff.gl' (the Cauchy–Riemann / Laplace system). Show that f can be transformed into an expression in which x and y occur only in the combination z = x+iy.\n\nThe 'angegebene Verfahren' is evidently formal substitution: treat f(x,y) as an analytic expression and put x = z, y = 0, or more generally x = (z+w)/2, y = (z−w)/(2i). Because f satisfies the equation, the w-dependence drops out and F(z) = f(z,0). [This reading of the procedure is mine, inferred from the text.]\n\n(2) Counterexample.\n- Take the Fourier series of x/2 on (−π,π): x/2 = Σ_{n≥1} (−1)^{n+1} sin(nx)/n.\n- Then (x+iy)/2 = Σ (−1)^{n+1} sin(nx)/n + i Σ (−1)^{n+1} sin(ny)/n for |x|,|y| < π.\n- Riemann writes (−1)^n; the correct sign is (−1)^{n+1}.\n- The value is trivially a function of x+iy, but the procedure cannot be applied to this expression. sin(nz) grows like e^{n|Im z|}/2, so the series diverges as soon as the argument is made imaginary/complex. Hence: 'Dann können sie nicht substituiren.'\n\n(3) The remedy. Appeal to the theorem, to be proved later, that every solution of the partial differential equation can be expanded by Taylor's theorem in powers of z−a, within certain limits.\n- In the example one must work with the value (x+iy)/2, not with the series expression.\n- Expanding about a then gives a/2 + (z−a)/2.\n- General problem: give a general method by which a function of x,y satisfying the PDE is always represented as a function of x+yi.\n- The substitution method is not always applicable, since f(x,y) can cease to converge once an argument is taken imaginary.\n- Riemann adds that it aids clarity to state the theorem at the outset.\n\n(4) Pedagogical remark. Beginners are confused between 'function as operation' (an analytic expression, Euler/Lagrange) and 'function as value' (Dirichlet's correspondence concept). Textbooks present both; students pick one and fight the other, whereas both are needed, each in its place.\n\n(5) Footnote +). The addressee should derive the Fourier series of x himself.\n- Coefficient: ∫_{−π}^{π} x sin(mx) dx.\n- Integration by parts: ∫ x sin(mx) dx = −x cos(mx)/m + ∫ cos(mx)/m dx.\n- [Completion, mine:] = −x cos(mx)/m + sin(mx)/m².\n- Hence ∫_{−π}^{π} x sin(mx) dx = 2π(−1)^{m+1}/m and b_m = 2(−1)^{m+1}/m, which gives x/2 = Σ (−1)^{m+1} sin(mx)/m.",
+  "errors": [
+   "Sign slip: the series for x/2 should carry (−1)^{n+1}, not (−1)^n. As written it gives −x/2.",
+   "Mixed indices: the image shows sin nx/m and (−1)^m in the same term; this is a notational slip.",
+   "The identity (x+iy)/2 = series holds only for |x|<π, |y|<π (with endpoint values 0). Outside this square the series gives a periodic sawtooth that does not satisfy the PDE across the jumps. This is implicit, not stated.",
+   "Footnote: the coefficient −1/m in the integration by parts is correct if read as 1/m (it is hard to read in the image). The computation is left unfinished."
+  ],
+  "results": [
+   {
+    "what": "Fourier series x/2 = Σ (−1)^{n+1} sin(nx)/n and its coefficient computation by parts",
+    "modern_name": "Fourier series of the sawtooth function",
+    "usually_credited_to": "Euler / Fourier (18th–early 19th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "A solution of the Cauchy–Riemann system is a function of x+iy; formal substitution of complex arguments into a series representation can fail because of divergence; the correct route is the Taylor expandability (analyticity) of solutions",
+    "modern_name": "Analyticity of holomorphic (Cauchy–Riemann) functions; distinction between a function and its analytic representation",
+    "usually_credited_to": "Cauchy; Riemann (Dissertation 1851)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Pedagogical distinction between function as operation/expression and function as value assignment; both are needed",
+    "modern_name": "Euler–Lagrange 'analytic expression' concept vs Dirichlet's 'arbitrary correspondence' concept of function",
+    "usually_credited_to": "Dirichlet (1837) for the value concept; the contrast is a known theme of Riemann's work",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The material is a teaching or letter draft that illustrates standard points of Riemann's own function theory. These are: the Cauchy–Riemann characterization, analyticity via Taylor expansion, and the value-versus-expression concept of function, with a routine Fourier series example. The explicit counterexample and the pedagogical remark are mildly interesting as documentation of his teaching, but contain nothing new.",
+  "checkable": [
+   {
+    "sympy": "integrate(x*sin(m*x),(x,-pi,pi)).subs(m,3) - 2*pi*(-1)**(3+1)/3",
+    "asserts": "The Fourier coefficient integral equals 2π(−1)^{m+1}/m (checked at m=3; result 0)."
+   },
+   {
+    "sympy": "simplify(diff(-x*cos(m*x)/m + sin(m*x)/m**2, x) - x*sin(m*x))",
+    "asserts": "The antiderivative from the integration by parts is correct (result 0)."
+   },
+   {
+    "sympy": "N(Sum((-1)**(n+1)*sin(n*Rational(1,2))/n,(n,1,4000)).doit() - Rational(1,4))",
+    "asserts": "Σ(−1)^{n+1} sin(nx)/n = x/2 at x=1/2 (approximately 0). With (−1)^n one gets −x/2, which confirms the sign slip."
+   },
+   {
+    "sympy": "Abs(sin(n*(1+I))/n).subs(n,50).evalf()",
+    "asserts": "The terms sin(nz)/n grow exponentially for Im z ≠ 0 (huge value at n=50), so the series diverges and complex substitution fails."
+   },
+   {
+    "sympy": "simplify(Rational(1,2)*a + (z-a)/2 - z/2)",
+    "asserts": "The Taylor expansion of z/2 about a is a/2 + (z−a)/2 (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "In the series line the image shows sin nx/m with (−1)^m (index letter m/n mixed), not a clean n.",
+   "'(in derselben gewissen Grenzen)' is more plausibly '(innerhalb gewisser Grenzen)'.",
+   "In the footnote the first term reads −(1/m) cos mx · x; the denominator is hard to read and may resemble '2m', but 1/m is what is mathematically required.",
+   "The '[3/]' bracket after the series is a footnote/reference mark and should not be read as a fraction."
+  ]
+ }
+}

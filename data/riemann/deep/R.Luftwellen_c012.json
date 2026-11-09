@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c012",
+ "label": "19r-22v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a leaf of lecture notes on practical astronomy, specifically the meridian circle. The previous page gives level-screw readings, a level scale value of 1 2/3 arcsec per division, and the clock rate. The next page covers the ring micrometer and level corrections. There is no mathematical derivation in the main text; it is descriptive instrument theory.\n\n(A) Testing the pivots with a level. The main text reads that the level (Libelle) is also used to examine the pivots (Zapfen) of the transit axis. The transcription reads 'Elasticität'; the image more plausibly reads 'Ellipticität' (ellipticity, i.e. non-circular cross-section) or 'Ungleichheit' (inequality).\n- Method: one end of the level is held in a hinge (Charnier). The other end rests by a screw or knife-edge on the pivot.\n- When the axis is turned to different zenith distances z, the level rises and falls with the irregularity of the pivot.\n- This detects an error in the azimuth (and inclination) correction that the other method, the hanging level read only in one or two positions, would leave hidden.\n- Modern reading (my reconstruction): if the pivot profile is not circular, the apparent inclination becomes a periodic function of the setting angle z. Instead of a single term proportional to sin z (or a constant), one obtains terms proportional to sin z and cos z. For an elliptic pivot these would be the double-angle terms sin 2z and cos 2z; the digits are unclear in the image.\n- The coefficients are found from readings at several z, together with a reversal of the instrument (Umlegen). The notes add that the coefficients can be fixed by reversing the instrument and also observing a mark or wall object or the horizon (horizontal collimator / 'Horizont').\n- In formulas (mine): i(z) = i0 + A cos z + B sin z (+ A2 cos 2z + B2 sin 2z). This is a Fourier fit of the level readings over z, with reversal separating level error from axis inclination.\n\n(B) Adjustment of the hanging level. The level is 'geprüft' (adjusted) when the axis of the level tube is parallel to the suspension axis. That requires:\n1. Both lines lie in one plane, i.e. there is no lateral twist (Seitenverwindung).\n2. Within that plane they are parallel; the deviation from parallelism is the main twist or 'Hauptverwindung'.\n\nProcedure:\n- Shorten (adjust) one arm of the level until reversing the level (Umhängen) does not change the reading.\n- Then test for absence of lateral twist by letting the level swing about the suspension axis. If the twist is present, the bubble runs to different sides as the level swings.\n- The standard reversal result appears on the next page: inclination = mean of the two readings, with the level error eliminated (the correction there is (b+b')/4).\n\n(C) Right-margin vertical scribble, unrelated to the astronomy text. It is an integral of the radial derivative of u over a surface:\n∫ (x ∂u/∂x + y ∂u/∂y + z ∂u/∂z) dS = … 4π …\nThis is x·∇u = r ∂u/∂r integrated over a (spherical) surface, i.e. a Green's-theorem/potential-theory fragment. A plausible instance is u = 1/r, for which r ∂u/∂r = −1/r, giving −4πR over the sphere of radius R. It is too fragmentary to reconstruct with certainty; it likely belongs to the acoustic or potential computations of the 'Luftwellen' bundle.",
+  "errors": [
+   "No mathematical errors identifiable; the text is descriptive. The machine transcription's 'Elasticität' is doubtful and changes the physics: elasticity would be flexure (a sin z term), while ellipticity gives double-angle terms.",
+   "Margin formula is incomplete; the right-hand side cannot be verified."
+  ],
+  "results": [
+   {
+    "what": "Detecting pivot irregularity/ellipticity of a transit axis with a level resting on the pivot, readings taken at different zenith distances; periodic (sin/cos) terms in the inclination",
+    "modern_name": "pivot-error determination (Zapfenfehler), Fourier analysis of level readings",
+    "usually_credited_to": "Bessel (1820s–30s), later Hansen, Struve, and the Pulkovo school",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Adjustment of the hanging level: reversal to remove inequality of arms, swinging test for lateral twist (Seitenverwindung)",
+    "modern_name": "spirit level adjustment by reversal",
+    "usually_credited_to": "standard 19th-c. practical astronomy (Bessel, Gauss school)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Marginal surface integral of x·grad u giving a 4π term",
+    "modern_name": "Green's identity / Gauss flux integral for 1/r",
+    "usually_credited_to": "Gauss, Green",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are standard lecture notes on meridian-circle level theory, apparently taken in Göttingen astronomy lectures, plus a routine potential-theory scribble. Nothing here is non-standard.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,R,th,ph=symbols('x y z R theta phi',positive=True); u=1/sqrt(x**2+y**2+z**2); simplify(x*diff(u,x)+y*diff(u,y)+z*diff(u,z) + u)",
+    "asserts": "For u=1/r, x u_x + y u_y + z u_z = -u, i.e. r du/dr = -1/r (result 0)."
+   },
+   {
+    "sympy": "integrate(integrate(-1/R*R**2*sin(th),(th,0,pi)),(ph,0,2*pi))",
+    "asserts": "Surface integral of r du/dr for u=1/r over the sphere of radius R equals -4*pi*R."
+   },
+   {
+    "sympy": "b,bp=symbols('b bp'); simplify(((b+bp)/2) - (b+bp)/2)",
+    "asserts": "Reversal: the mean of the two level readings eliminates the level's own error (trivial identity, reflecting the next page's (b+b')/4 correction under its sign conventions)."
+   },
+   {
+    "sympy": "z,A,B=symbols('z A B'); simplify(A*cos(2*z)+B*sin(2*z) - sqrt(A**2+B**2)*cos(2*z-atan2(B,A)))",
+    "asserts": "Elliptic-pivot inclination terms A cos2z + B sin2z combine into a single periodic term of period 180 degrees."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'Elasticität der Zapfen' more likely 'Ellipticität (or Ungleichheit) der Zapfen'; the parenthesis may read '(Zapfenlibelle)' or similar.",
+   "'Statt sin z' and 'Glieder, die sin z und cos z proportional': the arguments may be 2z (sin 2z, cos 2z).",
+   "'bei der Luftdruck' is doubtful; possibly 'bei der Durchsicht' or a reference to the coefficient being determined.",
+   "'Hauptverwindung' is plausible; contrasted with 'Seitenverwindung'.",
+   "Margin formula: the left side is ∫(x ∂u/∂x + y ∂u/∂y + z ∂u/∂z) dS; the right side appears to involve -4π times an integral, not legible."
+  ]
+ }
+}

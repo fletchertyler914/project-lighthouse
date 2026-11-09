@@ -1,0 +1,48 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c235",
+ "label": "[230]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000236/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is an ephemeris-type table for delta Ursae minoris (Yildun, about 3.4 deg from the pole). There are no derivations; it holds 12 dates at 10-day steps (Jan 0, 10, 20, 30, Feb 9, 19, Mar 1, 11, 21, 31, Apr 10, 20) and three numeric columns.\n\nContext: the previous page records 1846 measurements with the Göttingen meridian circle and transit instrument, so this is probably a working table for observing this circumpolar star with those instruments.\n\nColumn A runs from -23.04 to +3.62. It is marked with a seconds sign. My identification: A is the reduction from mean place at the start of the year to apparent right ascension, in seconds of time (alpha_app - alpha_0).\n- For delta UMi around 1840-46 I take alpha ≈ 276 deg (about 18h24m), delta ≈ +86.6 deg, so sec(delta) ≈ 17.\n- With aberration constant kappa = 20.45\", annual aberration in RA is about -(kappa*sec(delta)/15)*(cos(alpha)*cos(eps)*cos(L) + sin(alpha)*sin(L)) ≈ -2.1*cos(L) + 23.1*sin(L) seconds of time, where L is the Sun's longitude.\n- The annual precession in RA is m + n*sin(alpha)*tan(delta) ≈ 3.07 - 22.3 ≈ -19.3 s/yr, applied pro rata from Jan 0 (t in years).\n- Checks, sum of the two terms against Gauss's value:\n  - Jan 0 (L≈280 deg): about -23.1 + 0 = -23.1, against -23.04.\n  - Jan 10: about -22.4 - 0.5 = -22.95, against -23.09.\n  - Mar 21 (L≈0): about -2.1 - 4.2 = -6.3, against -6.71.\n  - Apr 10: about 5.9 - 5.2 = +0.7, against +0.33.\n- This agrees to a few tenths of a second, given my rough star place and the unknown nutation term. A should therefore be aberration + precession (+ nutation) in RA, in seconds of time.\n\nColumn B (written between the rows) holds the first differences of A over each 10-day step:\n- -23.09 - (-23.04) = -0.05, written as 0.05 with a bar.\n- Then 0.67, 1.37, 1.99, 2.55, 2.99, 3.31, 3.50, 3.56, 3.48, 3.29.\n- Gauss would use these for interpolating to the day of observation.\n\nColumn C runs from -0.0038 to +0.0278 (maximum about Apr 1-10). It is a smooth near-sinusoid with amplitude about 0.03 and mean about -0.002. It is roughly in quadrature with A and runs roughly opposite to the declination aberration of the star (about -19.1*cos(L) - 2*sin(L) arcsec, most negative near L≈6 deg, i.e. late March). So it is probably a declination-related or second-order reduction quantity (e.g. a factor for azimuth or collimation reduction) in some scaled unit. I could not determine its exact definition and leave it unidentified. Its differences are not tabulated.\n\nThe purpose is evidently to reduce meridian-circle or transit observations of a close circumpolar star (useful for azimuth and collimation of the instrument) from mean to apparent place.",
+  "errors": [
+   "No arithmetic errors found: every entry in column B equals the difference of successive entries in column A to 0.01.",
+   "The first difference is actually -0.05; it is written as 0.05 (a bar beneath it may mark the sign or a separation). This is cosmetic only."
+  ],
+  "results": [
+   {
+    "what": "Table of the reduction to apparent place (in RA, apparently in seconds of time) for delta UMi at 10-day intervals, with first differences for interpolation, plus a further small periodic correction column",
+    "modern_name": "Apparent-place reduction (precession + nutation + annual aberration) / star ephemeris with difference table",
+    "usually_credited_to": "Standard practice (Bradley, Bessel's Tabulae Regiomontanae 1830, Nautical Almanac/Berliner Jahrbuch star tables)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine observational reduction table, standard practice in 19th-century practical astronomy and typical of Gauss's Göttingen observatory work; nothing mathematically novel.",
+  "checkable": [
+   {
+    "sympy": "[(-23.09)-(-23.04), (-22.42)-(-23.09), (-21.05)-(-22.42), (-19.06)-(-21.05), (-16.51)-(-19.06), (-13.52)-(-16.51), (-10.21)-(-13.52), (-6.71)-(-10.21), (-3.15)-(-6.71), 0.33-(-3.15), 3.62-0.33]",
+    "asserts": "Equals [-0.05, 0.67, 1.37, 1.99, 2.55, 2.99, 3.31, 3.50, 3.56, 3.48, 3.29], i.e. column B is the first difference of column A"
+   },
+   {
+    "sympy": "(-20.45*sec(rad(86.6))/15*(cos(rad(276))*cos(rad(23.45))*cos(rad(280))+sin(rad(276))*sin(rad(280)))).evalf()",
+    "asserts": "Annual aberration in RA (seconds of time) for delta UMi on Jan 0 is about -23 s, consistent with the first entry -23.04"
+   },
+   {
+    "sympy": "(3.07 + 1.336*sin(rad(276))*tan(rad(86.6))).evalf()",
+    "asserts": "Annual precession in RA of delta UMi circa 1840 is about -19 s/yr, the trend term needed to fit column A"
+   },
+   {
+    "sympy": "[0.0009-(-0.0038), 0.0060-0.0009, 0.0109-0.0060, 0.0154-0.0109, 0.0195-0.0154, 0.0228-0.0195, 0.0254-0.0228, 0.0271-0.0254, 0.0278-0.0271, 0.0278-0.0278, 0.0267-0.0278]",
+    "asserts": "Column C has smoothly decreasing differences (0.0047, 0.0051, 0.0049, ..., -0.0011), i.e. a smooth near-sinusoidal function peaking near early April"
+   }
+  ],
+  "transcription_corrections": [
+   "The first entry of the difference column (0.05) is placed between Jan 0 and Jan 10, with a bar beneath it; it represents -0.05.",
+   "Column B entries are interlinear (between date rows), not on the rows themselves as the transcription's row layout suggests: 0.05 belongs between Jan 0 and Jan 10, and so on through 3.29 between Apr 10 and Apr 20.",
+   "The 'Mz' abbreviation is März (March); 'Apr' is written 'Apr' with a flourish. Otherwise the transcription matches the image."
+  ]
+ }
+}

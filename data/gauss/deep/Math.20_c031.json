@@ -1,0 +1,58 @@
+{
+ "bundle": "Math.20",
+ "page": "c031",
+ "label": "15v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000032/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page (Math.20, 15r) gives the 'first half' of a proof of the fundamental theorem of algebra. Its Lehrsatz 1–3 show the following. If Ω(x)=a+b x^m+c x^{m+1}+…+x^n with a≠0 and b≠0, then the substitution x=u·(−a/b)^{1/m} gives Ω=a(1−u^m+O(u^{m+1})). Hence some x has Norm Ω(x) < Norm a. Gauss's 'Norm' of a complex number is |z|^2. This is d'Alembert's lemma: a polynomial value that is not 0 is never a local minimum of the modulus. The reference to Drobisch (1834) dates the sheet to 1834 or later.\n\nThis page gives the second half, the growth estimate.\n\nSetup:\n- Let Ω(x)=x^n+A x^{n−1}+B x^{n−2}+…+N with complex coefficients.\n- Let α=|A|, β=|B|, γ=|C|, …, ν=|N|. These are the positive square roots of the Norms.\n- Choose a real t > max((n+1)α, ((n+1)β)^{1/2}, ((n+1)γ)^{1/3}, …, ((n+1)ν)^{1/n}).\n- Put W=Ω/x^n=1+A/x+B/x^2+…+N/x^n.\n\nSteps:\n1. Take |x|^2>t^2, i.e. |x|>t. Then for each k, |a_k/x^k| < |a_k|/t^k < 1/(n+1), since t^k > (n+1)|a_k|. [step made explicit by me]\n2. Summing the n terms gives |W−1| < n/(n+1). So Re(W−1) > −n/(n+1). Gauss writes 'the real part of W−1 is smaller than n/(n+1)', meaning in absolute value.\n3. Hence Re W > 1/(n+1), so |W| > 1/(n+1), i.e. Norm W > (1/(n+1))^2.\n4. Ω=x^n W gives Norm Ω > t^{2n}/(n+1)^2 = (t^n/(n+1))^2.\n5. Since t^n > (n+1)ν, this exceeds ν^2 = Norm N = Norm Ω(0).\n\nConclusion: on the closed disk Norm x ≤ t^2, the Norm of Ω must attain a minimum at some point. On the boundary it is everywhere larger than at the centre x=0, so the minimum lies in the interior. Combined with the first half (shift the variable so the minimum point is the origin), the minimum value must be 0, so Ω has a root.\n\nThis is the minimum-modulus (Argand–Cauchy) proof of the fundamental theorem of algebra.",
+  "errors": [
+   "'Der reelle Theil von W−1 kleiner als n/(n+1)' is imprecise as written. What follows from the estimate is |W−1| < n/(n+1), hence Re(W−1) > −n/(n+1). Only that lower bound is needed for 'Re W > 1/(n+1)'. This is a verbal slip, not a mathematical error.",
+   "Existence of a minimum of |Ω| on the closed disk is simply assumed. Today this is the extreme value theorem for continuous functions on compact sets (Weierstrass). This was the standard gap of the period, also present in Argand and Cauchy.",
+   "The application of the first half at the minimizing point x0 needs the translation x=x0+y. The first half also requires the lowest-order nonconstant coefficient b≠0, which is automatic after choosing m as the lowest nonvanishing order. Both points are left implicit.",
+   "The bounds are strict where needed: |x|>t gives strict inequalities, and the boundary case |x|=t also works by continuity. The step is correct."
+  ],
+  "results": [
+   {
+    "what": "Bound: if |x|>t with t^k>(n+1)|a_k| for all k, then |Ω(x)|>t^n/(n+1)>|a_n|, so |Ω| is larger on and outside the circle |x|=t than at 0. Corollary: every root satisfies |x| ≤ max_k ((n+1)|a_k|)^{1/k}.",
+    "modern_name": "Coercivity / root-modulus bound of Cauchy–Fujiwara type",
+    "usually_credited_to": "Cauchy (1821, 1829); sharper forms Fujiwara (1916)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Proof of the fundamental theorem of algebra by the minimum of |Ω| on a disk, combined with d'Alembert's lemma (previous page).",
+    "modern_name": "Argand–Cauchy minimum-modulus proof of the fundamental theorem of algebra",
+    "usually_credited_to": "d'Alembert (1746, lemma); Argand (1806/1814); Cauchy (Cours d'analyse 1821)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The mathematics is the standard Argand–Cauchy proof, which predates this sheet (post-1834, given the Drobisch citation). The mild interest is historical. Gauss, who criticized d'Alembert-style proofs in 1799, here writes out a clean, fully quantitative version of the minimum-modulus argument. That is a notable but minor unpublished detail, not a new result.",
+  "checkable": [
+   {
+    "sympy": "n=symbols('n',positive=True); simplify(1 - n/(n+1) - 1/(n+1))",
+    "asserts": "1 − n/(n+1) = 1/(n+1), i.e. Re W > 1/(n+1) follows from |W−1| < n/(n+1). Should be 0."
+   },
+   {
+    "sympy": "x=symbols('x'); P=x**3+(1+I)*x**2-2*x+3; t=Rational(43,10); [N(Abs(P.subs(x,t*exp(I*2*pi*k/360)))) > 3 for k in range(360)]",
+    "asserts": "Numeric test with A=1+I, B=−2, N=3. Here t must exceed max(3*sqrt(2)≈4.243, sqrt(6), 9**(1/3)), and t=4.3 does. Then |Ω| on |x|=t exceeds |N|=3 = |Ω(0)|. All entries should be True."
+   },
+   {
+    "sympy": "x=symbols('x'); P=x**3+(1+I)*x**2-2*x+3; t=Rational(43,10); all(N(Abs(P.subs(x,t*exp(I*2*pi*k/360)))) > N(t**3/4) for k in range(360))",
+    "asserts": "The stronger bound |Ω(x)| > t^n/(n+1) on |x|=t for the same example (n=3, so t^n/(n+1)=t^3/4). Should be True."
+   },
+   {
+    "sympy": "x=symbols('x'); P=x**3+(1+I)*x**2-2*x+3; max(Abs(r) for r in Poly(P,x).nroots()) < 3*sqrt(2)",
+    "asserts": "All roots of the example lie inside the radius max_k ((n+1)|a_k|)^{1/k} = 3*sqrt(2)."
+   }
+  ],
+  "transcription_corrections": [
+   "The second root letter is written in a form resembling 'ℓ/b'. It is Gauss's β (|B|), not a Fraktur 𝔟.",
+   "In the line 'muss also für Einen [-die-] Norm ein Minimum sein', the word 'die' is struck through; Gauss's intended reading is 'für Einen die Norm ein Minimum sein'. The bracketing is correct.",
+   "In the formula for W, the denominators x and xx were overwritten or corrected in the manuscript. The reading 1 + A/x + B/(xx) + C/x^3 + etc. is right.",
+   "The last radical index is meant to be n (ⁿ√((n+1)ν)), as transcribed, though the index looks like a small 3/n in the image."
+  ]
+ }
+}

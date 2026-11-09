@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c146",
+ "label": "75r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000147/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is not a Riemann autograph. It is the editor's printer's copy (Heinrich Weber, 1876 edition of Riemann's Werke) of the 'Anmerkungen' to the Paris prize essay on heat conduction, the 'Commentatio mathematica' of 1861. The heading 'Bemerkungen des Herausgebers' is struck through and replaced by 'Anmerkungen'. The note '(Mit kleinerem Satz)' is a typesetting instruction meaning 'set in smaller type'. Note 1 says the investigations are closely tied to the Habilitationsvortrag 'Ueber die Hypothesen, welche der Geometrie zu Grunde liegen'. It then reproduces, with Dedekind's permission, an extract from Dedekind's own investigations, intended to explain Riemann's text.\n\nThe mathematics: construction of Riemann normal (geodesic) coordinates.\n\nStep 1. Take a Riemannian metric ds^2 = sum_{i,j} b_{ij}(x) dx_i dx_j in n dimensions.\n\nStep 2. Geodesics parametrized by arc length r from a fixed point O satisfy the Euler-Lagrange equations\n(1) d/dr( sum_i b_{i mu} dx_i/dr ) = (1/2) sum_{i,j} (d b_{ij}/d x_mu) (dx_i/dr)(dx_j/dr), for mu = 1..n,\ntogether with the unit-speed condition sum b_{ij} (dx_i/dr)(dx_j/dr) = 1. Here r = integral of sqrt(sum b_{ij} dx_i dx_j) is the geodesic length from O.\n\nStep 3. Introduce new variables by x_i = r c_i, where c_i = (dx_i/dr)_0 is the initial unit tangent at O. So sum b^{(0)}_{ij} c_i c_j = 1, and the c_i are constant along each geodesic issuing from O.\n- This is exactly the exponential map: the new coordinates of the point at distance r along the geodesic with initial direction c are r c.\n- Implicitly (my addition): O is the origin, and the original and new coordinates agree to first order at O.\n\nStep 4. Write the metric in the new coordinates as ds^2 = sum a_{ij}(x) dx_i dx_j. Along a geodesic from O the new coordinates are linear in r, so dx_i/dr = c_i. The unit-speed condition then gives\n(2) sum a_{ij}(x) c_i c_j = 1.\nLetting r -> 0 (assuming a is continuous at O; my addition) gives sum a^{(0)}_{ij} c_i c_j = 1. Equivalently a^{(0)} = b^{(0)} on the unit sphere, since d(exp)_0 = id.\n\nStep 5 (begins at the foot of the page, continued on the next). Substituting into (1) gives d(sum_i a_{mu i} x_i) = (1/2) dr sum (d a_{ij}/d x_mu) x_i x_j. This leads to the Gauss-lemma identity (4): sum_i a_{mu i} x_i = sum_i a^{(0)}_{mu i} x_i.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "Implicit, not stated: the substitution presupposes O is at the origin of the x-coordinates, and that the map c*r -> point is a local diffeomorphism near O (the exponential map). Otherwise the 'new variables' are not well-defined coordinates.",
+   "The second equality in (2), sum a^{(0)} c c = 1, needs continuity of a_{ij} at O (the r -> 0 limit), or the fact a^{(0)} = b^{(0)}. This is not said explicitly; the next page assumes it ('bestimmte endliche Werthe im Punkte 0')."
+  ],
+  "results": [
+   {
+    "what": "Geodesic equations of a Riemannian metric in arc-length parametrization (equation 1) with unit-speed normalization",
+    "modern_name": "Geodesic (Euler-Lagrange) equations",
+    "usually_credited_to": "Euler/Lagrange; for surfaces Gauss (1827); general n-dim form standard by mid-19th c.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Coordinates x = r c, with c the initial unit tangent of the geodesic from O, giving sum a_ij c_i c_j = 1 along radial geodesics",
+    "modern_name": "Riemann normal coordinates (exponential map coordinates)",
+    "usually_credited_to": "Riemann (1854 Habilitationsvortrag, 1861 Commentatio); this explanatory derivation is Dedekind's, printed by Weber in the Werke (1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Start of the derivation of sum_i a_{mu i} x_i = sum_i a^{(0)}_{mu i} x_i (completed on next page)",
+    "modern_name": "Gauss lemma in normal coordinates",
+    "usually_credited_to": "Gauss (surfaces); n-dim in Riemann/Dedekind notes as published in Riemann's Werke 1876",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is Weber's editorial manuscript of the published 'Anmerkungen' to Riemann's Commentatio. It reproduces Dedekind's well-known explanatory excerpt on normal coordinates, printed in Riemann's Gesammelte Werke (1876). The content is standard and already in print.",
+  "checkable": [
+   {
+    "sympy": "x1,x2=symbols('x1 x2',real=True); r=sqrt(x1**2+x2**2); f=sin(r)**2/r**2; a11=x1**2/r**2+f*(1-x1**2/r**2); a12=x1*x2/r**2-f*x1*x2/r**2; a22=x2**2/r**2+f*(1-x2**2/r**2); simplify(a11*x1+a12*x2-x1), simplify(a12*x1+a22*x2-x2)",
+    "asserts": "For the unit sphere in normal coordinates (a^{(0)} = identity), sum_i a_{mu i} x_i = sum_i a^{(0)}_{mu i} x_i, i.e. the identity (4) prepared on this page."
+   },
+   {
+    "sympy": "t,th=symbols('t theta',positive=True); c1,c2=cos(th),sin(th); subs={x1:t*c1,x2:t*c2}; simplify((a11*c1**2+2*a12*c1*c2+a22*c2**2).subs(subs))",
+    "asserts": "Equation (2): along a radial line x = r c with |c| = 1, sum a_ij c_i c_j = 1 (unit speed), using the sphere metric above."
+   },
+   {
+    "sympy": "Q=a11*x1**2+2*a12*x1*x2+a22*x2**2; [simplify(diff(a11,v)*x1**2+2*diff(a12,v)*x1*x2+diff(a22,v)*x2**2) for v in (x1,x2)]",
+    "asserts": "sum_ij (d a_ij/d x_mu) x_i x_j = 0, so straight lines x = r c satisfy geodesic equation (1) in the new coordinates (since sum a_{mu i} c_i is constant)."
+   }
+  ],
+  "transcription_corrections": [
+   "'zur Erläuterung des Verständnisses' should read 'zur Erleichterung des Verständnisses', as in the printed Werke text.",
+   "The pencil '385/25' at right is a later archival or pagination mark (likely the printed page reference), not part of the text.",
+   "In (1) the derivative is d b_{iota iota'}/d x_mu (partial with respect to x_mu, not s_mu); the handwriting uses x/s-like letters inconsistently.",
+   "This is the editor's (Weber's) hand and not a Riemann autograph. '(Mit kleinerem Satz)' is a typesetting instruction, and '(p. ..)' are page-reference placeholders."
+  ]
+ }
+}

@@ -1,0 +1,74 @@
+{
+ "bundle": "Math.22",
+ "page": "c023",
+ "label": "12v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000024/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two parts. Both apply Euler's summation formula for alternating series. Notation: l = natural log, lx^2 = (ln x)^2, llx = ln ln x.\n\nGeneral formula (used implicitly). For S(x) = sum_{k<=x} (-1)^k f(k), as x -> infinity:\nS(x) = C ± (1/2)[ f(x) + f'(x)/2 - f'''(x)/24 + f^(5)(x)/240 - 17 f^(7)(x)/40320 + ... ].\nThe sign is + for even x and - for odd x. The coefficients 1/2, -1/24, 1/240, -17/40320 are the Taylor coefficients of tanh(t/2) (tangent/Euler-number coefficients).\n\nPart 1: f(x) = (ln x)^2, series S(x) = sum_{k=2}^x (-1)^k (ln k)^2.\n- The derivatives satisfy f^(n)(x) = (-1)^n 2 (n-1)! (H_{n-1} - ln x)/x^n, where H_m = 1 + 1/2 + ... + 1/m. (The closed form is my statement; Gauss's terms match it.)\n- f'/2 = ln x / x.\n- f'''/24 = (ln x - 1 - 1/2)/(6x^3).\n- f^(5)/240 = (ln x - H_4)/(5x^5). Gauss writes the coefficient as 3/15.\n- 17 f^(7)/40320 = (17/28)(ln x - H_6)/x^7.\nSo Gauss's expansion C ± (1/2)(lx^2 + lx/x - (lx - 3/2)/(6x^3) + (3/15)(lx - H_4)/x^5 - (17/28)(lx - H_6)/x^7 ...) is exactly this formula.\n\nNumerical step, x = 20 (even, so + sign):\n- (ln 20)^2 = 8.974411855\n- ln20/20 = 0.149786614\n- -(ln20 - 1.5)/48000 = -0.000031161\n- (ln20 - 25/12)/(5·20^5) = +0.000000057\n- The x^-7 term (~2.6e-10) is dropped.\n- Bracket = 9.124167365; half = 4.562083682.\nGauss sets C + 4.562083682 equal to the directly computed partial sum, which he gives as 4.608773261. This yields C' = 0.046689579. A marginal '636' looks like an alternative set of final digits.\n\nPurpose: to find the constant C. This is the Abel/Cesàro value of sum_{k>=2} (-1)^k ln^2 k. In modern terms C = -η''(0), where η is the Dirichlet eta function.\n\nPart 2: f(x) = ln ln x, series sum (-1)^k ln ln k.\n- f'/2 = 1/(2x lx).\n- f''' = x^-3 (2/L + 3/L^2 + 2/L^3), with L = ln x; divided by 24 = 2·3·4.\n- f^(5) = x^-5 (24/L + 50/L^2 + 70/L^3 + 60/L^4 + 24/L^5); f^(5)/240 = 3 f^(5)/720 = 3/(2·3·4·5·6) f^(5).\nThe expansion is written out to the x^-5 term. No numerical evaluation appears on this page.\n\nContext: the next page does the same for sum (-1)^k / ln k, at x = 10, getting C ≈ 0.922.",
+  "errors": [
+   "The symbolic expansions in both parts are correct. I checked every derivative coefficient: 1/x, (lx - 3/2)/(6x^3), (3/15)(lx - H_4)/x^5, (17/28)(lx - H_6)/x^7; and 2,3,2 and 24,50,70,60,24.",
+   "The asymptotic terms at x = 20 are correct to the digits shown: 8.974411855, 0.149786614, 0.000031161, 0.000000057, 9.124167365, 4.562083682.",
+   "The direct partial sum is wrong. Gauss gives sum_{k=2}^{20} (-1)^k ln^2 k = 4.608773261, but the true value is ≈ 4.6231124. Gauss's figure is too small by ≈ 0.014339, probably from a slip in one tabulated square or in the addition.",
+   "The resulting constant is therefore wrong. Gauss has C' = 0.046689579 (or ...636). The true value is C = -η''(0) = 2 ln2 ln(2π) - ln^2 2 + ζ''(0) ≈ 0.0610292. This agrees with 4.6231124 - 4.5620837.",
+   "The coefficient 3/15 is unreduced (equal to 1/5) but correct."
+  ],
+  "results": [
+   {
+    "what": "Asymptotic expansion of sum_{k<=x} (-1)^k (ln k)^2 with harmonic-number corrections, used to compute the summation constant numerically at x = 20.",
+    "modern_name": "Euler(-Boole) summation formula for alternating series; constant = -η''(0) (Dirichlet eta)",
+    "usually_credited_to": "L. Euler (Institutiones calculi differentialis, 1755); G. Boole (1860) for the Euler-Boole form",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Asymptotic expansion of sum (-1)^k ln ln k, with explicit 3rd and 5th derivatives of ln ln x.",
+    "modern_name": "Euler-Boole summation applied to f = ln ln x (Stirling-number-type derivative coefficients)",
+    "usually_credited_to": "Euler (method)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine but careful application of Euler's alternating-series summation formula, already standard in Euler's Institutiones (1755). It fits Gauss's known interest in numerically computing summation constants. Nothing goes beyond Euler, and the numerical constant obtained is actually in error.",
+  "checkable": [
+   {
+    "sympy": "x=symbols('x',positive=True); f=log(x)**2; simplify(diff(f,x,3)/24 - (log(x)-Rational(3,2))/(6*x**3))",
+    "asserts": "f'''/24 matches Gauss's third term (result 0)"
+   },
+   {
+    "sympy": "simplify(diff(log(x)**2,x,5)/240 - Rational(3,15)*(log(x)-harmonic(4))/x**5)",
+    "asserts": "5th-order term coefficient 3/15 with H_4 (result 0)"
+   },
+   {
+    "sympy": "simplify(17*diff(log(x)**2,x,7)/40320 - Rational(17,28)*(log(x)-harmonic(6))/x**7)",
+    "asserts": "7th-order term coefficient 17/28 with H_6 (result 0)"
+   },
+   {
+    "sympy": "L=log(x); simplify(diff(log(log(x)),x,3) - (2/L+3/L**2+2/L**3)/x**3)",
+    "asserts": "third derivative of ln ln x (result 0)"
+   },
+   {
+    "sympy": "simplify(diff(log(log(x)),x,5) - (24/L+50/L**2+70/L**3+60/L**4+24/L**5)/x**5)",
+    "asserts": "fifth derivative of ln ln x (result 0)"
+   },
+   {
+    "sympy": "N(log(20)**2 + log(20)/20 - (log(20)-Rational(3,2))/48000 + (log(20)-Rational(25,12))/(5*20**5), 12)/2",
+    "asserts": "half-bracket ≈ 4.562083682 as on page"
+   },
+   {
+    "sympy": "N(Sum((-1)**k*log(k)**2,(k,2,20)).doit(),12)",
+    "asserts": "true partial sum ≈ 4.6231124, not Gauss's 4.608773261"
+   },
+   {
+    "sympy": "s=symbols('s'); N(-diff((1-2**(1-s))*zeta(s),s,2).subs(s,0),12)",
+    "asserts": "true constant C = -eta''(0) ≈ 0.0610292 (Gauss: 0.046689579)"
+   }
+  ],
+  "transcription_corrections": [
+   "'lx^2', 'l2^2' etc. mean (ln x)^2, (ln 2)^2. In the first line the x in 'lx^2' is overwritten/corrected in the manuscript.",
+   "'+ 0,......57' denotes 0.000000057 (the x^-5 term).",
+   "The trailing '636' after C' = 0,046689579 (with 579 underlined) appears to be alternative final digits (0.046689636), not a separate number."
+  ]
+ }
+}

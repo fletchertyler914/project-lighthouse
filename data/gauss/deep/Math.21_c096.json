@@ -1,0 +1,55 @@
+{
+ "bundle": "Math.21",
+ "page": "c096",
+ "label": "47br",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000097/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page has no text, formulas or computation. It holds about fifteen figures on squared paper, each a square array of points (apparently 8×8 lattices, with the dots placed at every other ruled line). In each figure some points are emphasised as small circles, a few as heavy circles or filled dots, and they are joined by straight segments. Many segments have slopes of about ±2 or ±1/2 (knight-move direction), others ±1 (diagonals), and some figures have lines radiating from one point.\n\nThe context fixes the subject. The facing half of the sheet (previous transcription) says, in a hand that refers to Gauss in the third person: 'Es gibt nur eine (von Gauß gefundene) symmetrische Lösung des Problems der 8 Königinnen', with an 8×8 diagram. The fragments '...sion' and '...n.' in the cut-off left margin of this page are the line-ends of that text ('Perversion', 'bieten.'). So this page continues the eight-queens material.\n\nInterpretation (mine, tentative):\n- The figures look like trial and finished placements of 8 mutually non-attacking queens, shown as circled points.\n- The connecting segments seem to show structural relations between queens, such as pairs at knight's-move distance, or the centrally symmetric pairing (r,c) ↔ (9−r, 9−c) of the symmetric solution.\n- Some figures are shaded or overlaid like attack patterns.\n- The top-left pencil figure (interlacing curves over a lattice) and the top-right ink figure (a dense interlaced lattice of slanted segments, symmetric under the dihedral group) may be ornamental studies of the board's symmetry, or possibly a closed knight's path. I cannot verify which from the image.\n\nNo position can be read reliably enough to reconstruct a specific solution vector. The mathematical content that can be inferred is the classification of the 92 eight-queens solutions into 12 classes under the 8 symmetries of the square. Exactly one class is invariant under the half-turn: for example 3 5 2 8 1 7 4 6 (queen in column c_r on row r). It maps to itself under (r,c) → (9−r, 9−c).",
+  "errors": [
+   "No derivations are present on this page, so nothing here can be checked line by line.",
+   "Related remark on the facing half-page: a solution invariant under the half-turn has only 4 distinct images under the dihedral group of order 8, not 8. If 'gibt 8 Varianten' there refers to that symmetric solution, it is an overcount; the other 11 classes each have 8 variants."
+  ],
+  "results": [
+   {
+    "what": "Graphical exploration of placements of 8 non-attacking queens on an 8×8 board, apparently studying symmetric or structured solutions (context: the claim that exactly one fundamental solution is symmetric).",
+    "modern_name": "Eight queens problem; classification of its 92 solutions into 12 equivalence classes under the dihedral group D4, exactly one of which is centrally symmetric",
+    "usually_credited_to": "Problem posed by Max Bezzel (1848); 92 solutions published by Franz Nauck (1850); discussed by Gauss in letters to Schumacher (1850); later proofs and the full symmetry analysis by Günther, Glaisher and others (1874 onward)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Ornamental or interlaced lattice figures (top row), possibly knight's-move or symmetry studies on the 8×8 board",
+    "modern_name": "Symmetric lattice path / knight's-move diagrams (identification uncertain)",
+    "usually_credited_to": "unsure",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's interest in the eight-queens problem (correspondence with Schumacher, 1850) is well documented, and these sketches add only visual working material. The facing-page annotation that the unique symmetric solution was 'found by Gauss' is a mild unpublished detail, but it comes from a later hand and the fact itself is elementary.",
+  "checkable": [
+   {
+    "sympy": "len([p for p in __import__('itertools').permutations(range(8)) if len({p[i]+i for i in range(8)})==8 and len({p[i]-i for i in range(8)})==8]) == 92",
+    "asserts": "The eight-queens problem has exactly 92 solutions."
+   },
+   {
+    "sympy": "(lambda S: len({min(tuple(t) for t in [s, s[::-1], tuple(7-x for x in s), tuple(7-x for x in s[::-1]), tuple(sorted(range(8), key=lambda i: s[i])), tuple(sorted(range(8), key=lambda i: s[i]))[::-1], tuple(7-x for x in sorted(range(8), key=lambda i: s[i])), tuple(7-x for x in sorted(range(8), key=lambda i: s[i]))[::-1]]) for s in S}))([p for p in __import__('itertools').permutations(range(8)) if len({p[i]+i for i in range(8)})==8 and len({p[i]-i for i in range(8)})==8]) == 12",
+    "asserts": "The 92 solutions fall into 12 classes under the symmetries of the square."
+   },
+   {
+    "sympy": "len([p for p in __import__('itertools').permutations(range(8)) if len({p[i]+i for i in range(8)})==8 and len({p[i]-i for i in range(8)})==8 and tuple(7-x for x in p[::-1])==p]) == 4",
+    "asserts": "Exactly 4 solutions are invariant under the half-turn, i.e. one symmetric class with 4 (not 8) members."
+   },
+   {
+    "sympy": "(lambda p: tuple(7-x for x in p[::-1])==p and len({p[i]+i for i in range(8)})==8 and len({p[i]-i for i in range(8)})==8)((2,4,1,7,0,6,3,5))",
+    "asserts": "3 5 2 8 1 7 4 6 (0-indexed 2,4,1,7,0,6,3,5) is a valid solution invariant under the half-turn."
+   }
+  ],
+  "transcription_corrections": [
+   "The cut-off left-margin fragments ('...sion', '...n.') are the line-ends of the facing half-sheet's text ('durch Perversion', '...bieten.'), not separate content on this page.",
+   "The diagrams are best described as 8×8 point lattices (chessboard) with circled queen positions and connecting segments of slopes ±1, ±2 and ±1/2, related to the eight-queens problem, not as generic polygons.",
+   "'47b' is the archival folio number in a circle, not Gauss's writing."
+  ]
+ }
+}

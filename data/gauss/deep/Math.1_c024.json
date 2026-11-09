@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.1",
+ "page": "c024",
+ "label": "13r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000025/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 13r is one page of a large prime-by-prime table. Its columns are the 24 consecutive primes 367 to 503, written at top and bottom. The previous page has 227 to 359 and the next page 509 to 659, so the column set is the successive primes. The upper part of the grid is ruled into blocks but empty. Only the lowest block is filled. Its rows are labelled with the primes 953, 971, 977, 983, 991 and 997; the prime 967 is not written in the margin. Rows 953 and 971 contain no entries. In rows 977, 983, 991 and 997 a small circle 'o' is placed in certain cells.\n\nMy reconstruction, checked cell by cell with Legendre-symbol arithmetic: a circle at (row p, column q) means that q is a quadratic residue modulo p, i.e. (q/p)=+1. Equivalently, by quadratic reciprocity, (p/q)=+1 except when p and q are both 3 mod 4, where the sign flips.\n- Row 977 (977 = 1 mod 4, so (q/977)=(977/q)): residues among the 24 columns are exactly 379, 401, 409, 419, 421, 431, 433, 439, 457, 467, 503. That is 11 entries. Examples: 977 = 2*401+175 = 2*401 + 25*7, and (7/401)=(401/7)=(2/7)=+1. Also 977-2*443 = 91 = 7*13, giving (7/443)(13/443) = (-1)(+1) = -1, so 443 is unmarked.\n- Row 983 (= 3 mod 4): exactly 367, 389, 401, 433, 439, 443, 461, 503. That is 8 entries. For instance (379/983) = -(983/379) = -(225/379) = -1, and (431/983) = -(121/431) = -1.\n- Row 991 (= 3 mod 4): exactly 367, 379, 389, 419, 421, 431, 449, 467, 487. That is 9 entries.\n- Row 997 (= 1 mod 4): exactly 373, 379, 401, 409, 421, 431, 443, 449, 467, 491. That is 10 entries. For instance 997 = -1 mod 499 and 499 = 3 mod 4, so 499 is unmarked; 997 = 15 mod 491 with (3/491)=(5/491)=+1, so 491 is marked.\n\nThe whole table is thus (my inference) an extensive table of quadratic characters of primes with respect to primes up to 1000. It extends the kind of table Gauss printed as Table II of the Disquisitiones Arithmeticae (moduli up to 503, primes up to 97) to much larger ranges. The page shows it being filled in from the bottom rows. The empty rows 953 and 971 are simply not yet filled, not 'no residues': e.g. 379 is a residue of 953.\n\nThe thin connecting lines join circles that are adjacent in the grid. Horizontal lines join marks in neighbouring columns of the same row, e.g. row 977 from 401 through 439. Vertical lines join marks in neighbouring rows of the same column, e.g. 367, 389 and 401 in rows 977/983 or 983/991, and 421 and 431 in rows 991/997. This produces chains and little squares. It appears to be a visual or checking device and carries no extra arithmetic content (my interpretation).",
+  "errors": [
+   "No arithmetic errors found: all 96 filled cells in rows 977, 983, 991 and 997 agree with the Legendre symbol (q/p), including every blank.",
+   "Rows 953 and 971 are left blank although they should contain residues (e.g. (379/953)=+1), so the table is incomplete here, not wrong.",
+   "The prime 967 is missing from the margin labels between 953 and 971. This is either an omission or the row is handled elsewhere."
+  ],
+  "results": [
+   {
+    "what": "Table of the quadratic residue character of the primes 367 to 503 modulo the primes 977, 983, 991 and 997 (part of a larger prime-by-prime residue table)",
+    "modern_name": "Table of Legendre symbols (q/p) for primes p, q (quadratic character table)",
+    "usually_credited_to": "Gauss (Disquisitiones Arithmeticae 1801, Table II), extended later by Jacobi (Canon arithmeticus 1839) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss is well known to have computed extensive quadratic-residue tables, published in reduced form in the Disquisitiones and found in the Nachlass. This page is an error-free piece of such a table for larger primes. It is impressive computation but not a new result.",
+  "checkable": [
+   {
+    "sympy": "[q for q in primerange(367,504) if legendre_symbol(q,977)==1] == [379,401,409,419,421,431,433,439,457,467,503]",
+    "asserts": "Row 977: circled columns are exactly the quadratic residues mod 977 among the primes 367 to 503"
+   },
+   {
+    "sympy": "[q for q in primerange(367,504) if legendre_symbol(q,983)==1] == [367,389,401,433,439,443,461,503]",
+    "asserts": "Row 983 entries are exactly the residues mod 983"
+   },
+   {
+    "sympy": "[q for q in primerange(367,504) if legendre_symbol(q,991)==1] == [367,379,389,419,421,431,449,467,487]",
+    "asserts": "Row 991 entries are exactly the residues mod 991"
+   },
+   {
+    "sympy": "[q for q in primerange(367,504) if legendre_symbol(q,997)==1] == [373,379,401,409,421,431,443,449,467,491]",
+    "asserts": "Row 997 entries are exactly the residues mod 997"
+   },
+   {
+    "sympy": "list(primerange(367,504)) == [367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503]",
+    "asserts": "The column headers are all the primes from 367 to 503 in order"
+   },
+   {
+    "sympy": "legendre_symbol(379,953) == 1",
+    "asserts": "Row 953 should have entries, so its blankness means the row is unfilled"
+   },
+   {
+    "sympy": "list(primerange(950,1000)) == [953,967,971,977,983,991,997]",
+    "asserts": "967 is a prime omitted from the margin labels"
+   }
+  ],
+  "transcription_corrections": [
+   "The circle at row 997, column 373 is ink-blotted (filled) but is a genuine entry, joined by a line to 379.",
+   "There is a short stray stroke near column 491 at row 977. It is not a circle and not an entry.",
+   "Connecting lines (not given in the transcription):\n- Horizontal: row 977 joins 401 to 409, 419, 421, 431, 433, 439 in one chain. Row 983 joins 433, 439 and 443. Row 991 joins 419, 421 and 431. Row 997 joins 373-379, 401-409, 421-431 and 443-449.\n- Vertical: 367 (983-991), 389 (983-991), 379 (991-997), 401 (977-983), 433 (977-983), 439 (977-983), 421 and 431 (991-997), 449 (991-997), 467 (991-997), 503 (977-983).",
+   "The margin row labels omit 967 (953 is followed directly by 971)."
+  ]
+ }
+}

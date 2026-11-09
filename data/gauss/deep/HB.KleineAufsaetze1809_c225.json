@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c225",
+ "label": "216",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000226/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem: a unit sphere is shown in orthographic projection onto a plane. The projection plane is then changed, which is the same as rotating the sphere through an angle λ about an axis lying in the picture plane. Gauss asks how an infinitely small piece of the sphere's surface changes its appearance. Specifically, a piece that looks like a small circle in the first picture: what does it look like in the second? This is the local affine distortion between two orthographic views.\n\nSetup. The x-axis is the line of intersection of the two projection planes, so it is the rotation axis. Gauss's correction on the page says that y is measured in the remaining projection plane, parallel to the line joining the two projection points. z is the depth toward the viewer. The picture coordinates are (x,y) in the first view and (x',y') in the second. The sphere point (the centre of the small patch) is (x,y,z), with x^2+y^2+z^2=1.\n\nRotation about the x-axis:\n- x' = x.\n- ρ = sqrt(1-x^2) = sqrt(1-x'^2) is the radius of the parallel circle perpendicular to the x-axis.\n- y = ρ sin u, z = ρ cos u [z-part mine, implicit].\n- y' = ρ sin(u+λ), z' = ρ cos(u+λ) [z'-part mine, implicit].\n\nDifferentiation [the steps are mine; Gauss states only the result].\n1. dρ = -x dx/ρ.\n2. From dy = ρ cos u du + sin u dρ: du = (dy - (y/ρ) dρ)/z.\n3. dy' = ρ cos(u+λ) du + sin(u+λ) dρ = (z'/z) dy + dρ (y'z - yz')/(ρ z).\n4. y'z - yz' = ρ^2 sin λ.\n5. Hence dy' = (z'/z) dy + (ρ sin λ/z) dρ = (z'/z) dy - (x sin λ/z) dx.\nThe second view therefore has dx' = dx and dy' = (z'/z) dy - (x sin λ/z) dx.\n\nComplex-number formulation. Gauss writes a picture-plane displacement as the complex number α+βi = dx + i dy. A displacement that appears as α+βi in view 1 appears as α + ((βz' - αx sin λ)/z) i in view 2. This is a real-linear (affine) map.\n\nApplication to the circle. The two perpendicular radii 1 and i of the small circle in view 1 become conjugate semi-diameters of an ellipse in view 2:\n- e1 = 1 - (x sin λ/z) i;\n- e2 = (z'/z) i.\n\nFinal step. Gauss refers to p.164 (presumably his rule for finding the axes of an ellipse from two conjugate semi-diameters, as in Apollonius) to obtain the dimensions of the projected ellipse [the following consequences are mine]:\n- a·b = |Im(conj(e1) e2)| = |z'/z|, the ratio of the foreshortening factors.\n- a^2 + b^2 = 1 + x^2 sin^2 λ/z^2 + z'^2/z^2.\n- From these two, the semi-axes follow.",
+  "errors": [
+   "In the final line Gauss writes the second conjugate semi-diameter as (β z'/z) i. For the radius i (α=0, β=1) it should be (z'/z) i; β is a leftover from the general formula and should be 1. This is a harmless slip.",
+   "The minus sign in dy' = (z'/z) dy - (x sin λ/z) dx is obscured by an ink blot. The derivation confirms that minus is correct. It is also consistent with the subsequent α - term.",
+   "The steps leading to dy' are omitted on the page, but the result is correct."
+  ],
+  "results": [
+   {
+    "what": "Differential relation between two orthographic views of the sphere related by rotation λ about the x-axis: dx'=dx, dy' = (z'/z)dy - (x sin λ/z)dx",
+    "modern_name": "Jacobian (local affine map) of a change of orthographic view; local linearization of a rotation followed by projection",
+    "usually_credited_to": "standard descriptive/analytic geometry; no specific attribution",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "An infinitesimal circle maps to an ellipse whose images of two perpendicular radii are conjugate semi-diameters; axes obtained from the conjugate diameters",
+    "modern_name": "Affine image of a circle / distortion ellipse (anticipating the Tissot indicatrix idea); Apollonius' theorem on conjugate diameters",
+    "usually_credited_to": "Apollonius (conjugate diameters); Tissot (1859/1881) for systematic distortion ellipses in map projections",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of complex numbers α+βi to represent planar displacements under a real-linear map",
+    "modern_name": "Complex representation of plane vectors",
+    "usually_credited_to": "Wessel, Argand, Gauss",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is an elementary differential computation for a rotated orthographic projection, with the standard conjugate-diameter conclusion. The idea of an infinitesimal circle becoming an ellipse loosely prefigures Tissot's indicatrix. However, here it is plain affine geometry, fully in line with Gauss's known geodetic and cartographic interests (e.g., his 1822 conformal mapping work).",
+  "checkable": [
+   {
+    "sympy": "rho,u,lam=symbols('rho u lam',positive=True); x=sqrt(1-rho**2); y=rho*sin(u); z=rho*cos(u); yp=rho*sin(u+lam); zp=rho*cos(u+lam); J=Matrix([x,y]).jacobian([rho,u]); Jp=Matrix([yp]).jacobian([rho,u]); M=Jp*J.inv(); simplify(M[0,0] - (-x*sin(lam)/z)), simplify(M[0,1]-zp/z)",
+    "asserts": "dy'/dx = -x sin(lam)/z and dy'/dy = z'/z, i.e. dy' = (z'/z)dy - (x sin lam/z)dx (both differences simplify to 0)"
+   },
+   {
+    "sympy": "rho,u,lam=symbols('rho u lam'); simplify(rho*sin(u+lam)*rho*cos(u) - rho*sin(u)*rho*cos(u+lam) - rho**2*sin(lam))",
+    "asserts": "Key identity y'z - y z' = rho^2 sin(lam) (difference simplifies to 0)"
+   },
+   {
+    "sympy": "x,z,zp,lam=symbols('x z zp lam',positive=True); A=Matrix([[1,0],[-x*sin(lam)/z, zp/z]]); simplify(A.det())",
+    "asserts": "The area ratio of the image ellipse to the circle is z'/z, so the product of the semi-axes is z'/z"
+   },
+   {
+    "sympy": "x,z,zp,lam=symbols('x z zp lam',positive=True); A=Matrix([[1,0],[-x*sin(lam)/z, zp/z]]); simplify((A.T*A).trace() - (1 + x**2*sin(lam)**2/z**2 + zp**2/z**2))",
+    "asserts": "Sum of squares of the semi-axes = 1 + x^2 sin^2 lam/z^2 + z'^2/z^2 (Apollonius' invariant)"
+   }
+  ],
+  "transcription_corrections": [
+   "In 'dy' = z'/z.dy − x sin λ/z.dx' the operator is obscured by an ink blot. A minus sign is correct and confirmed by the derivation.",
+   "The last formula reads '(βz'/z) i' in the manuscript, as transcribed. Mathematically, β should be 1 there.",
+   "In the definition of the y-axis, 'Ebene' is struck out and replaced by 'Axe' written above, as transcribed. 'der beiden' before 'geraden Linie' is partly struck out, leaving 'der geraden Linie'.",
+   "'1 − x sinλ/z .i' should be read as 1 − (x sinλ/z)·i, a complex number. The fraction does not include i in its numerator."
+  ]
+ }
+}

@@ -1,0 +1,66 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c034",
+ "label": "17r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000035/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio continues the opening of Riemann's 1857 Nachlass fragment 'Zwei allgemeine Sätze über lineare Differentialgleichungen mit algebraischen Coefficienten' (Werke, Nachlass XXI).\n\nSetup from the previous page. y = (y_1,...,y_n)^T is a vector of functions of x. They are single-valued and finite on the Riemann sphere except at the branch points a, b, ..., g. A positive loop around a sends y to A y, where A = (A^ν_i) is a constant n×n matrix; B, ..., G are the analogous matrices for the other branch points. A closed curve L through a, b, ..., g in order cuts the sphere into a positive region and a negative region. In each region the branches are separated and single-valued.\n\n(1) The relation (G)(F)...(B)(A) = (1). The image reads 'statt, wenn man durch (1)...', completing 'so findet ... die Gleichung (G)(F)…(B)(A) = (1) statt'. Here (1) is the identity substitution: the entries on the main diagonal are 1 and all others are 0.\n\nProof, restated. Let x run once around L. It stays on the positive side from one branch point to the next, and makes a small positive detour around each branch point. The values then change successively to (A)(y), (B)(A)(y), ..., (G)(F)...(B)(A)(y).\n\nThis path is homotopic, in the sphere minus the branch points, to the boundary of the negative region traversed in the same sense. In the negative region the functions are single-valued, so after that circuit they must return to their original values. Hence the composite substitution is the identity.\n\nIn modern terms: the monodromy representation of π_1(P^1 \\ {a,...,g}) satisfies the single defining relation γ_g···γ_b γ_a = 1. This holds provided ∞ is either a regular point or listed among the branch points.\n\n(2) Notation. A system with these properties is denoted by the fraktur symbol 𝔓 with upper row (a b c … g), lower row (A B C … G), and argument x. This is the generalisation of Riemann's P-function notation of 1857.\n\n(3) Classes. All systems sharing the same branch points and the same substitutions, the latter subject to (1), form one class. Riemann announces that each class contains infinitely many systems.\n\n(4) Diagonalisation. Riemann cites a theorem 'easy to prove and much used by Jacobi': generically ('allgemein zu reden') every substitution factors into three substitutions. The last is the inverse of the first, and the middle one has all off-diagonal coefficients zero, so it only multiplies each quantity by a factor. That is, A = α diag(λ_1,...,λ_n) α^{-1}; the formula is carried over onto the next page. The λ are the roots of the characteristic equation, and the case of repeated roots is deferred on the next page.",
+  "errors": [
+   "No mathematical error on this page. The diagonalisation claim is stated only generically ('allgemein zu reden'). The non-diagonalisable (repeated eigenvalue) case is explicitly postponed on the next page.",
+   "Convention subtlety, not an error. If the branches y are replaced by A y, then continuing that combination around b gives A(B y) in matrix-multiplication terms. Riemann's '(B)(A)(y)' must therefore be read as composition of substitutions in his own sense. This is the usual anti-homomorphism ambiguity of monodromy, and the relation 'product = identity' holds under either consistent convention.",
+   "Implicit assumption (mine): the point ∞ is not an extra branch point, or else it is included among a,...,g. Otherwise the loop around L would not bound a region free of singularities."
+  ],
+  "results": [
+   {
+    "what": "Product of the local monodromy matrices around all singular points equals the identity: G·...·B·A = 1. Proved by deforming the circuit to the boundary of the complementary simply-connected region.",
+    "modern_name": "Monodromy relation / presentation of π_1 of the punctured sphere; monodromy representation",
+    "usually_credited_to": "Riemann (1857 Nachlass, published in Werke 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Defining a class of function systems by prescribed branch points and monodromy substitutions (generalised P-symbol 𝔓), with the claim that infinitely many systems exist in each class",
+    "modern_name": "Riemann–Hilbert problem setup (Hilbert's 21st problem); Riemann's P-symbol generalised",
+    "usually_credited_to": "Riemann 1857; problem later posed by Hilbert 1900, solved by Plemelj 1908 and others",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Generic factorisation of a substitution as α·diag(λ)·α^{-1}",
+    "modern_name": "Diagonalisation / similarity to diagonal form (eigen-decomposition)",
+    "usually_credited_to": "Cauchy, Jacobi (principal axes); general Jordan form by Weierstrass 1858/1868 and Jordan 1870",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of Riemann's well-known 1857 fragment on linear ODEs with prescribed monodromy, printed in his Gesammelte Werke and widely cited as the origin of the Riemann–Hilbert problem. Nothing here is unknown or misattributed.",
+  "checkable": [
+   {
+    "sympy": "A=Matrix([[2,1],[0,3]]); P,D=A.diagonalize(); simplify(P*D*P.inv()-A)==zeros(2,2)",
+    "asserts": "A generic substitution factors as α·diag(λ)·α^{-1}, with the λ the eigenvalues"
+   },
+   {
+    "sympy": "A=Matrix([[2,1],[0,3]]); set(A.eigenvals().keys())=={2,3}",
+    "asserts": "The diagonal factors are the roots of the characteristic equation det(A-λI)=0"
+   },
+   {
+    "sympy": "mu=Rational(1,3); lamA=exp(2*pi*I*mu); lamB=exp(-2*pi*I*mu); simplify(lamA*lamB)==1",
+    "asserts": "Example: y=(x-a)^mu (x-b)^(-mu) is regular at infinity. Its monodromies around a and b are e^{2πiμ} and e^{-2πiμ}, and their product is 1, as relation (1) requires."
+   },
+   {
+    "sympy": "J=Matrix([[1,1],[0,1]]); J.is_diagonalizable()==False",
+    "asserts": "The decomposition can fail for repeated eigenvalues, hence Riemann's qualifier 'allgemein zu reden'"
+   }
+  ],
+  "transcription_corrections": [
+   "First word 'Null' should read 'statt' (completing '... die Gleichung (G)(F)…(B)(A) = (1) statt'). '(0)' should be '(1)': the identity substitution.",
+   "The diagonal of the identity runs from upper left down to the right; the transcription's 'nach links' should be checked against the image (the Werke text has the main diagonal).",
+   "'lässt sich jede Substitution allgemein zerlegen in drei Substitutionen zerlegen' should read 'lässt sich jede Substitution allgemein zu reden in drei Substitutionen zerlegen'.",
+   "'gegebenen der Gleichung (1) genügende Werthe' should read 'gegebene, der Gleichung (1) genügende Werthe'.",
+   "The function symbol is a fraktur 𝔓 (Riemann's P-notation), not 𝔔.",
+   "'Jacobi' is underlined in the manuscript."
+  ]
+ }
+}

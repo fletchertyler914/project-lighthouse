@@ -1,0 +1,68 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c029",
+ "label": "[28]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000030/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: on 3 Nov 1828, during Gauss's Hannover triangulation period, he examines a small Ertel theodolite. This is a repeating instrument with two vertical axes: the limbus (graduated circle) turns about one, the alidade about the other. The aim, stated on the page, is to determine the relative position (mutual inclination) of these two vertical axes.\n\nSetup: face left (Höhenkreis links). The telescope is clamped with the vertical-circle index reading 27°50'20\". The azimuth circle is then turned so that index I reads successive values A, and the inclination h of the optical axis is observed. The observations are not on this page.\n\nStep 1 (result of an adjustment, presumably a least-squares fit of the observations; the data are not given):\n h(A) = 27°49'7\" + 140.17\" cos A − 270.50\" sin A.\nThis is the first-order model. If the alidade axis is tilted by a small angle ε relative to the axis about which the optical-axis plane is referred, then (my filling, standard) sin h = sin h0 cos ε + cos h0 sin ε cos(A − A0), so h ≈ h0 + ε cos(A − A0). The amplitude of the A-periodic term is therefore the angle between the two axes.\n\nStep 2 (harmonic combination): a cos A − b sin A = R cos(A + φ), with R = sqrt(a² + b²), R cos φ = a, R sin φ = b.\n R = sqrt(140.17² + 270.50²) = 304.66\" ≈ 304.7\".\n φ = arctan(270.50/140.17) = 62°36'27\".\nSo h = 27°49'7\" + 304.7\" cos(A + 62°36'27\").\n\nStep 3 (geometric interpretation):\n- The maximum of h occurs at A = −62°36'27\" = 297°23'33\"; the minimum at A = 117°23'33\".\n- Gauss assumes index I lies 90° to the right of the vertical plane in which the optical axis moves (face left). The limbus direction lying in that plane at the extremum is then 297°23'33\" − 270° = 27°23'33\". The opposite end of that diameter is 207°23'33\".\n- He draws the plane containing both axes, taking the paper as that plane. The limbus is a horizontal line with ends marked 207°23'33\" and 27°23'33\". Axis 1 is perpendicular to it. Axis 2 (dashed) deviates from axis 1 by 5'4\".7 = 304.7\", leaning toward the 27°23'33\" side in the sketch.\n\nThe 73\" difference between the index setting 27°50'20\" and the mean 27°49'7\" is not commented on. It is presumably an index or collimation-type constant absorbed in the fit.\n\nThe next page applies the identical procedure to Reichenbach's small theodolite: 5.2\" cos A − 7.3\" sin A = 9.0\" cos(A + 54°37').",
+  "errors": [
+   "No arithmetic errors. R = sqrt(140.17² + 270.50²) = 304.66\", rounded correctly to 304.7\".",
+   "φ = atan2(270.50, 140.17) = 62.6074° ≈ 62°36'26.7\"; Gauss's 62°36'27\" is correct to the second.",
+   "27°23'33\" and 207°23'33\" follow consistently from 360° − 62°36'27\" − 270° (and ±180°).",
+   "The sense of the sign convention (which end axis 2 leans toward) depends on the instrument's handedness and cannot be verified from the page alone.",
+   "The underlying observations and the fitting step are not shown, so the coefficients 140.17 and 270.50 cannot be checked here."
+  ],
+  "results": [
+   {
+    "what": "Determination of the mutual inclination of the limbus and alidade vertical axes of a repeating theodolite. The telescope inclination is fitted as a function of azimuth reading: h = c + a cos A + b sin A, giving amplitude 304.7\" = 5'4.7\" and the azimuth of the plane of the axes (27°23'33\"/207°23'33\").",
+    "modern_name": "Instrument calibration (axis-error / vertical-axis eccentricity determination) by harmonic (Fourier first-order) fitting",
+    "usually_credited_to": "Standard practice in 19th-century practical astronomy and geodesy (Bessel, Gauss, Reichenbach/Ertel instrument tradition)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Reduction a cos A − b sin A = sqrt(a² + b²) cos(A + arctan(b/a))",
+    "modern_name": "Harmonic addition / amplitude–phase form",
+    "usually_credited_to": "Classical trigonometry (18th century or earlier)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine instrument-calibration work from Gauss's Hannover geodetic survey period (1828), using a standard sinusoidal fit and harmonic addition. It is an interesting archival detail about the Ertel theodolite he used, but contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "N(sqrt(140.17**2 + 270.50**2), 6)",
+    "asserts": "Amplitude ≈ 304.66 arcsec, i.e. Gauss's 304\"7"
+   },
+   {
+    "sympy": "N(atan2(270.50, 140.17)*180/pi, 8) - (62 + 36/60 + 27/3600)",
+    "asserts": "Phase angle equals 62°36'27\" to within about 1 arcsec (difference ≈ -0.0001 deg)"
+   },
+   {
+    "sympy": "simplify(304.66*cos(A + atan2(270.50,140.17)) - (140.17*cos(A) - 270.50*sin(A)))",
+    "asserts": "The two forms of the A-dependent term agree (residual ~1e-3 arcsec scale)"
+   },
+   {
+    "sympy": "Rational(360) - (62 + Rational(36,60) + Rational(27,3600)) - 270 - (27 + Rational(23,60) + Rational(33,3600))",
+    "asserts": "The limbus direction of the axes' plane, 27°23'33\", equals 360° − 62°36'27\" − 270° (result 0)"
+   },
+   {
+    "sympy": "304.7 - (5*60 + 4.7)",
+    "asserts": "304.7\" = 5'4.7\", the angle between the axes in the diagram (result 0)"
+   },
+   {
+    "sympy": "N(sqrt(5.2**2+7.3**2)), N(atan2(7.3,5.2)*180/pi)",
+    "asserts": "Next-page check for the Reichenbach theodolite: about 9.0\" amplitude and about 54.5°; Gauss wrote 54°37' (≈54.62°)"
+   }
+  ],
+  "transcription_corrections": [
+   "'Hoh. Kreis' should read 'Höh. Kreis' (Höhenkreis), abbreviated 'Höhs. Kreis' in the image.",
+   "The first digit of '304\"7' appears overwritten or corrected in the manuscript; the value 304\"7 is confirmed by computation.",
+   "The diagram's angle between Axe 1 and Axe 2 reads 5'4\"7, consistent with 304\"7; the [?] can be removed.",
+   "'Körper' is written with a struck or overwritten ending ('Korpe..'); the reading 'Körper des Limbuskreises' is correct.",
+   "Struck-out text before '(d. Kr. links)' looks like 'd. K' or 'd. Kr' crossed out, as in the transcription."
+  ]
+ }
+}

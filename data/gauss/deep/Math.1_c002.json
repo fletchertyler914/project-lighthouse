@@ -1,0 +1,66 @@
+{
+ "bundle": "Math.1",
+ "page": "c002",
+ "label": "2r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000003/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table, not a derivation. Row headings are the odd primes p from 3 to 181. Column headings are the primes q from 227 to 359. It continues the previous sheet (columns 97–223) and the next sheet (columns 367–503).\n\nA small circle at the cell (row p, column q) marks that the column prime q is a quadratic residue modulo the row prime p. In modern terms the circle means legendre(q,p) = +1; an empty cell means -1.\n\nEquivalent formulation: by quadratic reciprocity this is the same as saying p* = (-1)^((p-1)/2)·p is a residue mod q. That is the same sign convention (−3, +5, −7, −11, +13, …) Gauss uses in Table II of the Disquisitiones Arithmeticae.\n\nI established this convention myself from spot checks (my reconstruction, not stated on the page). Column 227 has circles at rows 29, 31, 53, 67, 73, 83, 89, 97, 101, 107, 109, 113, 127, 151, 163, 173, 179, 181. It is empty at 3, 5, 7, 11, 13, 17, 19, 23, 37, 41, 43, 47, 59, 61.\n\nThe decisive cases are p = 3 and p = 31, both with 227:\n- (227/3) = (2/3) = −1, and the cell is empty, although (3/227) = +1.\n- (227/31) = +1, and the cell is circled, although (31/227) = −1.\nSo the column number is the residue and the row number is the modulus.\n\nFurther checks all agree:\n- Column 229 at rows 3, 5, 11 (229 ≡ 1 mod 3, ≡ 4 mod 5, ≡ 9 mod 11).\n- Column 233 at row 7 (233 ≡ 2 mod 7, a residue).\n- Column 239 at row 7 (239 ≡ 1 mod 7).\n- Row 3 for columns 241, 271, 277, 283, 307, 313, 331, 337, 349 (each ≡ 1 mod 3) circled, and row 3 empty for 227 and 233 (each ≡ 2 mod 3).\n- Column 349 at row 5 and column 359 at rows 5 and 7.\n\nThe horizontal and vertical strokes join circles in neighbouring cells, either the same column and consecutive rows or the same row and consecutive columns. Examples:\n- 29–31 in column 227;\n- the chain 83–89–97–101 in column 227;\n- 173–179–181 in column 227;\n- (53, 227)–(53, 229).\nThe result is a picture of connected clusters, including rectangles where four neighbours are all residues.\n\nThe strokes carry no further numerical information. They seem to be a visual aid for reading the table or for looking for patterns in the residue characters. The purpose is a large empirical table of quadratic residue characters of the kind Gauss built in 1795–96 when he found and tested quadratic reciprocity. It is a precursor or companion of Disquisitiones Table II, whose moduli also stop at 503 — exactly where the next sheet ends.",
+  "errors": [
+   "Spot checks (about 50 cells) found no errors. A full cell-by-cell audit of all roughly 980 cells was not done from the image."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic residue characters (q/p) for row primes p = 3..181 and column primes q = 227..359. A circle marks a residue; adjacent circles are joined by strokes.",
+    "modern_name": "Table of Legendre symbols / quadratic residue table (cf. Disquisitiones Arithmeticae Table II)",
+    "usually_credited_to": "Gauss (Disquisitiones 1801, Table II); residue tables also by Euler and Legendre",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Graphical joining of adjacent residue marks into clusters",
+    "modern_name": "Visualization of the residue pattern (no standard name)",
+    "usually_credited_to": "unsure",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's large empirical quadratic-residue tables, built while discovering reciprocity and published in condensed form in the Disquisitiones, are well known. The neighbour-connecting strokes are a curious visual device but contain no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; legendre_symbol(227,29)==1",
+    "asserts": "Circle at (29, 227): 227 is a residue mod 29"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; legendre_symbol(227,31)==1 and legendre_symbol(31,227)==-1",
+    "asserts": "Circle at (31, 227) shows the column number is the residue and the row number the modulus"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; legendre_symbol(227,3)==-1 and legendre_symbol(3,227)==1",
+    "asserts": "Empty cell (3, 227) confirms the convention"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [p for p in [3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181] if legendre_symbol(227,p)==1]",
+    "asserts": "Expected circled rows in column 227 (the image shows at least 29, 31, 53, 67, 73, 83, 89, 97, 101, 107, 109, 113, 127, 151, 163, 173, 179, 181)"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; all(legendre_symbol(q,3)==1 for q in [229,241,271,277,283,307,313,331,337,349])",
+    "asserts": "Row 3 circles in these columns"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; legendre_symbol(233,7)==1 and legendre_symbol(239,7)==1 and legendre_symbol(229,7)==-1",
+    "asserts": "Row 7 entries for columns 229, 233, 239"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; all(legendre_symbol(q,p)==legendre_symbol((-1)**((p-1)//2)*p,q) for p in [3,5,7,11,13] for q in [227,229,233,239])",
+    "asserts": "Equivalent reading via p* = (-1)^((p-1)/2) p (quadratic reciprocity)"
+   }
+  ],
+  "transcription_corrections": [
+   "The body is not a featureless grid. Circles mark cells where the column prime q is a quadratic residue of the row prime p, and strokes join circles in adjacent cells.",
+   "The top-right archival note is probably '40a/2' or similar, and '(2)' is circled. The 'Math. 1' heading is in a later hand.",
+   "The last row label is 181; the ink blot partly obscures it."
+  ]
+ }
+}

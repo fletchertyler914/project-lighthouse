@@ -1,0 +1,59 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c060",
+ "label": "35r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000061/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Orientation: the page is written upside down relative to the scan. Read after a 180-degree rotation, the order of the items is roughly the reverse of the image order. Individual letters (u vs n, v vs a, primes) are hard to read, so every identification below carries some uncertainty.\n\n(A) Top, partly cancelled. A fragment that may read 'x+y+z' sits next to a heavily corrected integral, roughly \\int (...)/(uu+vv) dx dy. It is illegible in detail.\n\n(B) A four-fold integral over four real variables (equivalently two complex variables x+iy, x'+iy'):\n  \\int dx dy dx' dy' / (u^2+v^2+u'^2+v'^2).\nThe denominator is a squared distance in R^4, so the kernel 1/r^2 is the Newtonian (harmonic) kernel in four dimensions. It is not clear from the page whether u, v, u', v' are coordinate differences or independent coordinates.\n\n(C) The 2 x 4 array of partial derivatives of (x, y, x', y') with respect to two parameters:\n  row 1: dx/du, dy/du, dx'/du, dy'/du\n  row 2: dx/dv, dy/dv, dx'/dv, dy'/dv\nThe second parameter could be read as u' rather than v; the scan does not decide this. This is the Jacobian matrix of a 2-dimensional surface in the 4-space (x, y, x', y').\n\n(D) Riemann then writes 2x2 minors of this array as products with a minus sign, for example\n  (dx/du * dy/dv - dy/du * dx/dv) and (dx/du * dx'/dv - dx'/du * dx/dv),\nand bracketed differences such as -(dx/du * dx'/dv - dx'/du * dx/dv).\n\n(E) The last lines (at the top of the scan) are\n  ((dx/du)^2 + (dy/du)^2) * ((dx/dv)^2 + (dy/dv)^2), and the analogous expression in the u' derivatives,\nwith a '+' term containing a squared derivative.\n\nMy reconstruction of the purpose (not on the page; mine). Riemann is computing the area element of the parametrized 2-surface, i.e. expressing the Gram determinant through the minors:\n  E*G - F^2 = sum over the six 2x2 minors of (minor)^2,\nwhere\n  E = sum_i (dX_i/du)^2,\n  G = sum_i (dX_i/dv)^2,\n  F = sum_i dX_i/du * dX_i/dv.\nIn two variables this reduces to Lagrange's identity\n  (a^2+b^2)(c^2+d^2) = (ac+bd)^2 + (ad-bc)^2.\n\nA likely alternative or complementary reading, given the 1850-51 date and the dissertation on complex functions (also mine): if x+iy is an analytic function of u+iv, the Cauchy-Riemann equations give\n  Jacobian = (dx/du)^2 + (dy/du)^2 = |f'|^2,\nand the products of sums of squares relate the area element of the map (u, v) -> (x, y, x', y') to |f'|^2 + |g'|^2.\n\nThe following page is a draft letter ('Hochgeehrtester Herr Professor! Ihr guetiges Anerbieten, meinen Aufsatz ueber die Theorie...'), so this sheet is scratch work.",
+  "errors": [
+   "No demonstrable errors. The page is too fragmentary, and partly overwritten, to check any equation chain fully.",
+   "The minors that are legible have the correct antisymmetric form (product minus swapped product)."
+  ],
+  "results": [
+   {
+    "what": "Gram determinant of a 2-surface in R^4 expressed as the sum of squares of the 2x2 minors of the 2x4 Jacobian matrix; in 2D, Lagrange's identity.",
+    "modern_name": "Cauchy-Binet formula / Lagrange identity (area element of a parametrized surface)",
+    "usually_credited_to": "Lagrange (1773); Binet and Cauchy (1812)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Jacobian of an analytic map equals (dx/du)^2 + (dy/du)^2 under Cauchy-Riemann (conjectural reading).",
+    "modern_name": "Jacobian of a holomorphic map = |f'|^2",
+    "usually_credited_to": "Classical (Cauchy; used by Riemann in his 1851 dissertation)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Four-fold integral with kernel 1/(u^2+v^2+u'^2+v'^2).",
+    "modern_name": "Newtonian potential kernel in R^4 = C^2",
+    "usually_credited_to": "Green / Gauss style potential theory, generalized to n dimensions",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Scratch computation of the minors and Gram determinant for a surface in 4-space, plus a 4D 1/r^2 integral. This is routine algebra, consistent with Riemann's known 1850-51 work on complex functions and potential theory. Nothing non-standard is legible.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); simplify((a**2+b**2)*(c**2+d**2) - ((a*c+b*d)**2+(a*d-b*c)**2)) == 0",
+    "asserts": "Lagrange identity in two variables."
+   },
+   {
+    "sympy": "M=Matrix(2,4,symbols('a0:4')+symbols('b0:4')); from itertools import combinations; simplify((M*M.T).det() - sum(M[:,[i,j]].det()**2 for i,j in combinations(range(4),2))) == 0",
+    "asserts": "Gram determinant E*G - F^2 of a 2x4 Jacobian equals the sum of the squares of its six 2x2 minors (Cauchy-Binet)."
+   },
+   {
+    "sympy": "u,v=symbols('u v',real=True); f=(u+I*v)**3; x=re(expand(f)); y=im(expand(f)); simplify(diff(x,u)*diff(y,v)-diff(x,v)*diff(y,u) - (diff(x,u)**2+diff(y,u)**2)) == 0",
+    "asserts": "For an analytic map, the Jacobian equals (dx/du)^2 + (dy/du)^2."
+   }
+  ],
+  "transcription_corrections": [
+   "The page image is upside down; the line order in the machine transcription should be reversed.",
+   "In the four-fold integral, dx dy dx' dy' is the numerator and u^2+v^2+u'^2+v'^2 the denominator (as transcribed). The integral sign is on the left once the page is rotated.",
+   "The derivative arrays are probably (x, y, x', y') differentiated with respect to u (row 1) and v (row 2). The transcription's repeated 'd/du'' with x and y swapped in the minors is a misreading of the rotated script.",
+   "The minors should read in the form (dx/du * dy/dv - dy/du * dx/dv), not the degenerate (dy/du' * dx/du' - dx/du' * dy/du') given in the transcription."
+  ]
+ }
+}

@@ -1,0 +1,63 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c303",
+ "label": "[292]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000304/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The previous page sets up the finite alternating series\n  T_k = sum_{j=0}^{k} (-1)^j C(k,j) (1-θ)_j/(n+1)_j,\nwhere k and n are positive integers and (x)_j is the rising factorial x(x+1)...(x+j-1). In hypergeometric notation T_k = F(-k, 1-θ; n+1; 1).\n\nStatement on this page. The sum of the series is\n  S = (n+θ)(n+θ+1)...(n+θ+k-1) / ((n+1)(n+2)...(n+k)) = (n+θ)_k/(n+1)_k.\nThis is the Chu–Vandermonde evaluation: F(-k,b;c;1) = (c-b)_k/(c)_k, with b = 1-θ and c = n+1, so c-b = n+θ. Gauss uses it without proof.\nLet S_m be the partial sum of the first m terms. The claim to be proved is that S - S_m always has the same sign as the first omitted term. In other words, the terminating series is 'enveloping': each partial sum over- or under-shoots S according to the sign of the next term.\n\nProof offered for 1-θ > 0.\n(i) Since (1-θ)_j > 0, the terms alternate in sign: 1, -a, +b, -c, ... .\n(ii) Gauss asserts that the absolute values increase up to some term g and decrease afterwards (unimodality).\n(iii) Front part. Since 0 < S < 1 (my addition: this holds when θ < 1 and n+θ > 0), we have 1 - S in (0,1).\n  - Induction (my explicit form): if S_m - S has the sign of t_m and |S_m - S| < |t_m| ≤ |t_{m+1}|, then adding t_{m+1}, of opposite sign, gives S_{m+1} - S with the sign of t_{m+1} and magnitude < |t_{m+1}|.\n  - This yields his list: 1-S > 0 and < 1; 1-a-S < 0 with |.| < a; 1-a+b-S > 0 and < b; and so on, up to g.\n(iv) Back part. For terms after g, start from the end. The tail sums (last term, last two, last three, ...) form an alternating series with decreasing magnitudes. By the Leibniz argument each tail has the sign of its first term, and S - S_m equals that tail.\n\nPurpose (from the next page). This is a Hilfssatz. It is used to show that\n  A = F(θ, n+θ; n+1; t^2)\nand the partial sums B_μ of (1-t^2)^{-θ} F(θ, 1-θ; n+1; -t^2/(1-t^2)) satisfy: A - B_μ has the sign of the next term. The second expression is the Pfaff transform of the first, since c-b = 1-θ.\nOn the next page Gauss himself suggests an easier proof by induction on k and calls the lemma a special case of a more general statement about sums of increasing positive quantities.",
+  "errors": [
+   "The unimodality claim in (ii) is not true in general. The ratio |t_{j+1}/t_j| = (k-j)(j+1-θ)/((j+1)(n+j+1)) can be < 1 at j=0 and > 1 afterwards. Example: θ=0.95, n=0, k=10 gives |t0|=1, |t1|=0.5, |t2|≈1.18, i.e. the magnitudes decrease, then increase, then decrease. In such cases the front induction step (which needs |t_m| ≤ |t_{m+1}|) is not justified. In that example the sign claim still happens to hold (S≈0.864), but the argument as written has a gap.",
+   "The bound 0 < S < 1, needed for the base step '1-S positive and smaller than 1', is used without being stated. It requires n+θ > 0 and θ < 1. The latter is the stated hypothesis 1-θ > 0.",
+   "The closed-form sum (Chu–Vandermonde) is quoted without proof here; it is presumably taken from earlier pages."
+  ],
+  "results": [
+   {
+    "what": "Sum of the terminating series sum_j (-1)^j C(k,j)(1-θ)_j/(n+1)_j = (n+θ)_k/(n+1)_k",
+    "modern_name": "Chu–Vandermonde identity, F(-k,b;c;1) = (c-b)_k/(c)_k",
+    "usually_credited_to": "Zhu Shijie (1303), Vandermonde (1772); the general F(a,b;c;1) case is Gauss 1812",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Enveloping property: the remainder S - S_m has the sign of the first omitted term, for this terminating alternating hypergeometric series when θ<1",
+    "modern_name": "Enveloping ('einschließende') series / alternating-series remainder estimate (Leibniz criterion with unimodal terms)",
+    "usually_credited_to": "Leibniz criterion (1680s); systematic theory of enveloping series by Stieltjes (1886) and Pólya–Szegő (1925)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of the lemma to bound the error of partial sums of the Pfaff-transformed series (1-t^2)^{-θ}F(θ,1-θ;n+1;-t^2/(1-t^2)) against F(θ,n+θ;n+1;t^2)",
+    "modern_name": "Error bounds for hypergeometric series via Pfaff transformation (enveloping property)",
+    "usually_credited_to": "Pfaff (1797) for the transformation; such remainder bounds are usually attributed to later 19th-century analysts",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Chu–Vandermonde and the alternating-series argument are routine. What is mildly notable is Gauss's attempt to obtain rigorous sign-of-remainder (enveloping) bounds for partial sums of a Pfaff-transformed hypergeometric series. That is an early instance of a technique later systematized by Stieltjes and Pólya–Szegő. The proof given is also incomplete, because unimodality fails, and Gauss himself seeks a better proof on the next page.",
+  "checkable": [
+   {
+    "sympy": "simplify(sum((-1)**j*binomial(5,j)*rf(1-th,j)/rf(n+1,j) for j in range(6)) - rf(n+th,5)/rf(n+1,5))",
+    "asserts": "Chu–Vandermonde for k=5: the series sums to (n+θ)_5/(n+1)_5 (result should be 0)"
+   },
+   {
+    "sympy": "[abs((-1)**j*binomial(10,j)*rf(Rational(1,20),j)/rf(1,j)) for j in range(4)]",
+    "asserts": "For θ=19/20, n=0, k=10 the term magnitudes are 1, 1/2, ~1.18, ... (not unimodal), contradicting the claim of increase-then-decrease"
+   },
+   {
+    "sympy": "S=rf(Rational(19,20),10)/rf(1,10); t=[(-1)**j*binomial(10,j)*rf(Rational(1,20),j)/rf(1,j) for j in range(11)]; all(sign(S-sum(t[:m]))==sign(t[m]) for m in range(1,11))",
+    "asserts": "Numerical check of the enveloping (sign-of-remainder) claim in the non-unimodal example"
+   },
+   {
+    "sympy": "simplify(rf(n+th,7)/rf(n+1,7) - sum((-1)**j*binomial(7,j)*rf(1-th,j)/rf(n+1,j) for j in range(8)))",
+    "asserts": "Chu–Vandermonde for k=7 (should be 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is essentially faithful. In line 2, 'werden mag' and 'immer' are struck through and 'wird' is inserted above.",
+   "A faint marginal 'daß' appears before 'allemahl', completing the sentence 'Es kommt nur darauf an zu zeigen, daß ... [daß] allemahl S - S_m dasselbe Zeichen hat ...'.",
+   "'u.s.w. sein werde': the ink may read 'sein werd', but 'werde' is the intended word."
+  ]
+ }
+}

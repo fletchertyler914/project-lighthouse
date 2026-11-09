@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.11",
+ "page": "c010",
+ "label": "7r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376629:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting: put θ = ∛n and α = x + yθ + zθ² in Z[θ]. The cubic form on the page is the norm N(α) = x³ + n y³ + n² z³ − 3n x y z. This is the determinant of multiplication by α on the basis 1, θ, θ².\n\nClaim on the page: if A (or a multiple kA) is represented by this form, then n is a cubic residue mod A. A cube root of n mod A is given by any of three equal fractions:\n∛n ≡ (x²−nyz)/(nz²−xy) ≡ (ny²−nxz)/(x²−nyz) ≡ (nz²−xy)/(y²−xz) (mod A).\n\nReconstruction of the reasoning (implicit steps mine, but certain):\n\n(1) Adjugate element. Put\n- a = x² − nyz,\n- b = nz² − xy,\n- c = y² − xz,\n- α' = a + bθ + cθ².\nDirect multiplication gives α·α' = N. The θ- and θ²-coefficients cancel identically. So α' is the product of the two conjugates of α, i.e. the adjugate.\n\n(2) Key identities (mine). Computed identically in Z[x,y,z,n]:\n- a² − nbc = x·N,\n- b² − ac = z·N,\n- nc² − ab = y·N.\nThese say the adjugate matrix of the multiplication matrix has rank ≤ 1 whenever det = N vanishes.\n\n(3) Hence if A | N:\n- a² ≡ nbc, b² ≡ ac, nc² ≡ ab (mod A).\n- So a/b ≡ nc/a (equivalent to a² ≡ nbc), and a/b ≡ b/c (equivalent to b² ≡ ac), provided the denominators are invertible mod A. These are exactly Gauss's three fractions: (x²−nyz)/(nz²−xy) = a/b, (ny²−nxz)/(x²−nyz) = nc/a, (nz²−xy)/(y²−xz) = b/c.\n- Put t = a/b. Then a³ = a·a² ≡ nabc and b³ = b·b² ≡ abc, so t³ ≡ n.\n- Identically, a³ − n b³ = N·(ax − nbz).\n- So n is a cubic residue mod A and t is a cube root, i.e. (a, b, c) ≡ c·(t², t, 1).\n\nPurpose: this is the cubic analogue of 'p | x² + ny² ⇒ −n is a quadratic residue mod p, with √(−n) ≡ x/y'. It gives a criterion and an explicit cube root for cubic residuacity via the norm form of the pure cubic ring Z[∛n]. It belongs to Gauss's investigations of cubic residues and cubic forms.",
+  "errors": [
+   "Not an error in the algebra, but an unstated hypothesis: the fractions require the denominators (nz²−xy, x²−nyz, y²−xz) to be invertible mod A. For composite A, or when x, y, z share factors with A (e.g. α ≡ 0 mod a prime of A, making a ≡ b ≡ c ≡ 0), the statement as written can fail or become vacuous. Some coprimality condition (e.g. gcd(b, A) = 1, or gcd(A, n) = 1 and the representation primitive) is tacitly assumed.",
+   "The three expressions are equal mod A only via the identities a² − nbc = xN, b² − ac = zN, nc² − ab = yN. Gauss states the equalities without proof; they are correct."
+  ],
+  "results": [
+   {
+    "what": "x³ + ny³ + n²z³ − 3nxyz is the norm of x + y∛n + z∛n², with adjugate (x²−nyz) + (nz²−xy)∛n + (y²−xz)∛n²",
+    "modern_name": "Norm form of the pure cubic order Z[∛n]; circulant-type determinant",
+    "usually_credited_to": "Euler and Lagrange (Lagrange's Additions to Euler's Algebra, 1770s, on multiplicative cubic forms)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "If A divides x³ + ny³ + n²z³ − 3nxyz (with suitable coprimality), then n is a cubic residue mod A and ∛n ≡ (x²−nyz)/(nz²−xy) ≡ n(y²−xz)/(x²−nyz) ≡ (nz²−xy)/(y²−xz)",
+    "modern_name": "Primes dividing a norm from Q(∛n) split, giving a root of t³ − n mod p (Dedekind–Kummer style); explicit root from the rank-1 adjugate",
+    "usually_credited_to": "Implicit in Euler/Lagrange/Gauss work on cubic residues; general theory Dedekind (1870s–1880s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "An elementary, correct observation, the direct cubic analogue of the familiar quadratic fact. It fits Gauss's known (partly published in Werke) work on cubic residues and cubic forms. The explicit cube-root formula is a nice detail but not a significant result unknown to the literature.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,n=symbols('x y z n'); N=x**3+n*y**3+n**2*z**3-3*n*x*y*z; a=x**2-n*y*z; b=n*z**2-x*y; c=y**2-x*z; th=symbols('th'); expand(rem(expand((x+y*th+z*th**2)*(a+b*th+c*th**2)), th**3-n, th) - N)",
+    "asserts": "α·α' = N in Z[θ]/(θ³−n), i.e. the result is 0"
+   },
+   {
+    "sympy": "expand(a**2 - n*b*c - x*N)",
+    "asserts": "a² − nbc = xN, so a/b ≡ nc/a mod A when A | N (result 0)"
+   },
+   {
+    "sympy": "expand(b**2 - a*c - z*N)",
+    "asserts": "b² − ac = zN, so a/b ≡ b/c mod A when A | N (result 0)"
+   },
+   {
+    "sympy": "expand(n*c**2 - a*b - y*N)",
+    "asserts": "nc² − ab = yN (result 0)"
+   },
+   {
+    "sympy": "expand(a**3 - n*b**3 - N*(a*x - n*b*z))",
+    "asserts": "a³ − nb³ = N(ax − nbz), so (a/b)³ ≡ n mod A whenever A | N and b is invertible (result 0)"
+   },
+   {
+    "sympy": "xv,yv,zv,nv=1,1,0,2; Nv=xv**3+nv*yv**3+nv**2*zv**3-3*nv*xv*yv*zv; av=xv**2-nv*yv*zv; bv=nv*zv**2-xv*yv; t=(av*mod_inverse(bv,Nv))%Nv; (t**3-nv)%Nv",
+    "asserts": "Numerical example: x=1, y=1, z=0, n=2 gives N=3; t = a/b mod 3 satisfies t³ ≡ 2 (mod 3) (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "In the first numerator the image shows 'xx' with the second x written over a correction; the reading xx − nyz is right.",
+   "The machine transcription is otherwise faithful: 'Vielfaches derselben', 'kubischer Rest', 'Werth des Ausdrucks'. The second fraction's numerator nyy − nxz and the last denominator yy − xz match the image."
+  ]
+ }
+}

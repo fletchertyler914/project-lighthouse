@@ -1,0 +1,61 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c144",
+ "label": "135",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000145/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is an error analysis of the adjustment of Gauss's heliotrope (his invention of 1821) for the Hanover triangulation. The pencil note at the top ('Band IX S. 478') points to publication in Gauss's Werke, vol. IX, p. 478.\n\nSetup: the telescope (main) axis is horizontal and points to azimuth 0, toward the distant station. The sun (the 'luminous point') is also on the horizon, at azimuth A. A correctly set mirror has its normal at azimuth A/2, bisecting the directions to the sun and to the target, so the reflected beam goes exactly along the line of sight. Each error is given as its first-order 'Wirkung' (effect): the angular deviation of the reflected beam from the line of sight, in azimuth (I) or in altitude (II).\n\nModern frame (mine): x points toward the target, y to the right/left in the horizontal plane, z up. Unit vector toward the sun: s = (cos A, sin A, 0). Mirror normal: n = (cos A/2, sin A/2, 0). Reflection law: r = -s + 2(s.n)n. With the unperturbed n this gives r = (1,0,0).\n\nI. Azimuth errors.\n(1) Crosshair displaced to the right by alpha. The line of sight, and hence the beam aimed along it, goes to azimuth -alpha. Effect -alpha.\n(2) Mirror rotated about its vertical axis by beta away from perpendicularity to the guide rod. A mirror rotation beta turns the reflected ray by 2 beta. Effect +2 beta.\n(3) Axis of the sleeve too far from the telescope axis, in the ratio (1+gamma):1. Effect +206265 gamma tan(A/2) arcseconds. This depends on the guide-rod/sleeve linkage, which is not described on the page; I cannot reconstruct the derivation with certainty.\n\nII. Altitude errors (z-component of r to first order).\n(4) Mirror normal tilted upward by delta: n = (cos(A/2)cos d, sin(A/2)cos d, sin d). Then r_z = 2cos(A/2) sin d cos d, which is about 2 delta cos(A/2). Matches.\n(5) Mirror axis tilted forward at the bottom by epsilon, in the plane of azimuth 0. The normal, being perpendicular to that axis, acquires n_z of about epsilon cos(A/2). So r_z is about 2 eps cos^2(A/2). Gauss writes cos 1/2A^2, meaning cos^2(A/2). Matches.\n(6) Mirror axis tilted to the right at the bottom by zeta. Then n_z is about zeta sin(A/2), so r_z is about 2 zeta sin(A/2)cos(A/2) = zeta sin A. Matches.\n(7) Telescope axis tilted forward at the bottom by eta, with the optical axis still parallel to the main axis. Effect 2 eta sin^2(A/2) = eta(1 - cos A). This is a combination of the line-of-sight tilt and the induced mirror tilt; the exact linkage is not stated on the page.\n(8) Crosshair too high by theta. Effect +theta.\nAddendum for azimuth: parallax pi (the offset between the mirror and the telescope axis, seen from the target) gives effect -pi sin A.\n\nSecond heliotrope (the two-mirror design). For azimuth, only the mutual inclination of the two mirrors matters. If the small mirror is turned forward by alpha, the image is reflected toward -2 alpha, independent of A. This is the constant-deviation property of a two-mirror system: the deviation equals twice the angle between the mirrors, as in the sextant.",
+  "errors": [
+   "No outright errors found in items 1, 2, 4, 5, 6, 8 or the second-heliotrope statement; all are verified to first order by the reflection law.",
+   "Items 3 (206265 gamma tan(A/2)) and 7 (2 eta sin^2(A/2)) depend on the mechanical linkage of the instrument, which the page does not describe. They are plausible but not independently verifiable from the page alone.",
+   "Sign conventions (right/forward/up) are implicit and not stated."
+  ],
+  "results": [
+   {
+    "what": "First-order error budget of a heliotrope: beam deviations in azimuth and altitude caused by mirror tilt, mirror-axis tilt, crosshair offset, telescope tilt and parallax, as functions of the sun's azimuth A",
+    "modern_name": "Instrument error analysis / adjustment theory of the heliotrope (law of reflection, small-angle perturbation)",
+    "usually_credited_to": "Gauss (heliotrope, 1821)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Rotating a mirror by beta deviates the reflected ray by 2 beta; two mirrors inclined by alpha deviate by 2 alpha regardless of incidence",
+    "modern_name": "Law of reflection / constant-deviation property of a double mirror (sextant principle)",
+    "usually_credited_to": "Hooke/Newton/Hadley (reflecting quadrant, 1730s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine instrument-error analysis of Gauss's own heliotrope. The pencil note suggests it is already printed in Werke IX, p. 478. The optics involved are elementary.",
+  "checkable": [
+   {
+    "sympy": "A,d=symbols('A d'); n=Matrix([cos(A/2)*cos(d),sin(A/2)*cos(d),sin(d)]); s=Matrix([cos(A),sin(A),0]); r=-s+2*(s.dot(n))*n; simplify(series(r[2],d,0,2).removeO()-2*d*cos(A/2))",
+    "asserts": "Item 4: an upward mirror tilt delta gives altitude effect 2*delta*cos(A/2) (result 0)."
+   },
+   {
+    "sympy": "A,e=symbols('A e'); n=Matrix([cos(A/2),sin(A/2),e*cos(A/2)]); s=Matrix([cos(A),sin(A),0]); r=-s+2*(s.dot(n))*n; simplify(series(r[2],e,0,2).removeO()-2*e*cos(A/2)**2)",
+    "asserts": "Item 5: a forward tilt epsilon of the mirror axis gives 2*epsilon*cos(A/2)**2 (result 0)."
+   },
+   {
+    "sympy": "A,z=symbols('A z'); n=Matrix([cos(A/2),sin(A/2),z*sin(A/2)]); s=Matrix([cos(A),sin(A),0]); r=-s+2*(s.dot(n))*n; simplify(series(r[2],z,0,2).removeO()-z*sin(A))",
+    "asserts": "Item 6: a sideways tilt zeta of the mirror axis gives zeta*sin(A) (result 0)."
+   },
+   {
+    "sympy": "A,b=symbols('A b'); n=Matrix([cos(A/2+b),sin(A/2+b),0]); s=Matrix([cos(A),sin(A),0]); r=-s+2*(s.dot(n))*n; simplify(atan2(r[1],r[0])-2*b)",
+    "asserts": "Item 2: rotating the mirror by beta rotates the reflected ray by 2*beta (0 for small angles)."
+   },
+   {
+    "sympy": "A=symbols('A'); simplify(2*sin(A/2)**2-(1-cos(A)))",
+    "asserts": "Item 7's coefficient equals 1-cos(A)."
+   }
+  ],
+  "transcription_corrections": [
+   "'um 6 vorwerts gedrehet' should read 'um β' (Greek beta), and the effect is '+2β', not '+26'.",
+   "'cos ½A^2' and 'sin ½A^2' mean cos²(½A) and sin²(½A).",
+   "Pencil annotation at top: 'Band IX S. 478' (Werke reference); there is also a 'Wk' mark at the left margin.",
+   "In item 3 the text reads 'Fernrohrsaxe entfernt, im Verhältniss 1+γ:1'; the effect is '+206265·γ·tg½A'."
+  ]
+ }
+}

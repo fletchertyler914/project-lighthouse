@@ -1,0 +1,73 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c204",
+ "label": "201",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000205/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem (title: 'Zur Berechnung der Chorde k aus Zeit = T u. Summe der beiden Rad. = r+r''): in a parabolic orbit, find the chord k between two positions, given the time of flight T and the sum of the radii vectors r+r'. The starting point is Euler's parabolic time equation, the parabolic case of Lambert's theorem: 3mT = (r+r'+k)^{3/2} - (r+r'-k)^{3/2}. Here m is a constant; with the usual Euler form 6√μ·T = ..., one has m = 2√μ, i.e. 2k_Gauss for unit mass. The page writes the sign as minus, the case where the arc does not contain the focus.\n\nStep 1. Put x = k/(r+r'). Factor out (r+r')^{3/2}, so the right side becomes (r+r')^{3/2}[(1+x)^{3/2} - (1-x)^{3/2}].\n\nStep 2. Gauss writes t = √(1+x) and u = √(1-x) above the roots. Then t^3 - u^3 = (t-u)(tt+tu+uu). Since tt+uu = 2, the second factor is 2+tu (the '2+tu' written below the line).\n\nStep 3. The marginal note -tt/2 - uu/2 + tu = -(t-u)^2/2 equals -1+tu. Hence tu = 1 - (t-u)^2/2, so 2+tu = 3 - (t-u)^2/2. This gives 3mT = (r+r')^{3/2}(t-u)(3 - (t-u)^2/2), a cubic in t-u.\n\nStep 4 (trigonometric solution of the cubic). Set (t-u)/√8 = sinψ. Then (t-u)(3 - (t-u)^2/2) = √8(3 sinψ - 4 sin^3ψ) = √8 sin3ψ. With q = mT/(r+r')^{3/2}, this gives sin3ψ = (3/√8)q, so ψ follows directly from T.\n\nStep 5 (back-substitution, left column).\n- sin^2ψ = (t-u)^2/8 = (2-2tu)/8 = (1 - √(1-kk/(r+r')^2))/4.\n- cos2ψ = 1 - 2sin^2ψ = (1 + √(1-kk/(r+r')^2))/2.\n- ((t+u)/2)^2 = (1+tu)/2 = cos2ψ, so (t+u)/2 = √cos2ψ.\n- x = (tt-uu)/2 = (t-u)(t+u)/2 = √8 sinψ · √cos2ψ, i.e. k/(√8(r+r')) = sinψ·√cos2ψ.\n\nResult: the chord in closed form, k = √8 (r+r') sinψ √cos2ψ, where sin3ψ = 3mT/(√8 (r+r')^{3/2}).\n\nRoot choice (my remark): the physical range 0 ≤ x ≤ 1 corresponds to 0 ≤ ψ ≤ 30°. At x = 1, t-u = √2, so sinψ = 1/2 and 3ψ = 90°. So one takes the smallest root of the trisection, and T has its maximum 3mT = (2(r+r'))^{3/2} when k = r+r'. The isolated '0,' at the bottom appears to be the start of an unfinished numerical example.",
+  "errors": [
+   "No mathematical errors found; every identity on the page checks.",
+   "The page does not state which root of sin3ψ = (3/√8)q to take. The admissible root is the one with 0 ≤ ψ ≤ 30°, which is implicit.",
+   "Only the minus-sign case of Euler's equation is treated. The plus-sign case (arc containing the focus) would need a different substitution (sinh/cosh or a cos-type trisection) and is not addressed."
+  ],
+  "results": [
+   {
+    "what": "Euler's parabolic time equation: 3mT = (r+r'+k)^{3/2} - (r+r'-k)^{3/2}",
+    "modern_name": "Euler's equation for parabolic motion (parabolic case of Lambert's theorem)",
+    "usually_credited_to": "Euler (1744); Lambert (1761) for the general case",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Reduction to the cubic (t-u)(3-(t-u)^2/2) = 3q with t = √(1+x), u = √(1-x), and its solution by the substitution t-u = √8 sinψ, giving sin3ψ = 3q/√8",
+    "modern_name": "Trigonometric (Viète) solution of a cubic applied to inverting Euler's parabolic equation",
+    "usually_credited_to": "Viète for the method. Closed-form trigonometric inversions of Euler's equation appear in 19th-century astronomy texts (e.g. in connection with Olbers' method, Encke, Bessel); exact first attribution unsure",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Closed form for the chord: k/(r+r') = √8 sinψ √cos2ψ, together with sin^2ψ = (1-√(1-x^2))/4 and cos2ψ = (1+√(1-x^2))/2",
+    "modern_name": "Explicit chord-from-time formula for parabolic orbits (useful in Olbers' method of parabolic orbit determination)",
+    "usually_credited_to": "unsure; standard in later textbooks of orbit determination",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The page gives a neat, correct trigonometric inversion of Euler's parabolic equation (chord from time and r+r') by Viète-type trisection. Gauss was steeped in exactly this problem (Theoria Motus, Olbers' method), and such inversions are elementary and appear in contemporary astronomical practice. So it is a pleasant unpublished detail but not historically significant.",
+  "checkable": [
+   {
+    "sympy": "x=symbols('x',positive=True); t=sqrt(1+x); u=sqrt(1-x); simplify(t**3-u**3 - (t-u)*(3-(t-u)**2/2))",
+    "asserts": "(1+x)^{3/2}-(1-x)^{3/2} = (t-u)(3-(t-u)^2/2); should give 0"
+   },
+   {
+    "sympy": "p=symbols('p'); expand_trig(sqrt(8)*sin(p)*(3-(sqrt(8)*sin(p))**2/2) - sqrt(8)*sin(3*p))",
+    "asserts": "With t-u = √8 sinψ the cubic becomes √8 sin3ψ; should simplify to 0"
+   },
+   {
+    "sympy": "x=symbols('x',positive=True); simplify(((sqrt(1+x)-sqrt(1-x))**2/8) - (1-sqrt(1-x**2))/4)",
+    "asserts": "sin^2ψ = (1-√(1-x^2))/4; should give 0"
+   },
+   {
+    "sympy": "x=symbols('x',positive=True); simplify(((sqrt(1+x)+sqrt(1-x))/2)**2 - (1+sqrt(1-x**2))/2)",
+    "asserts": "((t+u)/2)^2 = cos2ψ = (1+√(1-x^2))/2; should give 0"
+   },
+   {
+    "sympy": "x=symbols('x',positive=True); s=(sqrt(1+x)-sqrt(1-x))/sqrt(8); simplify(sqrt(8)*s*sqrt(1-2*s**2) - x)",
+    "asserts": "x = k/(r+r') = √8 sinψ √cos2ψ for 0<x<1; should give 0"
+   },
+   {
+    "sympy": "s=(sqrt(2)-0)/sqrt(8); [s, asin(s)*180/pi]",
+    "asserts": "At x = 1, sinψ = 1/2 and ψ = 30°, so 3ψ = 90° (maximal time); admissible range is 0 ≤ ψ ≤ 30°"
+   }
+  ],
+  "transcription_corrections": [
+   "The struck-out word at the start ('Ist k') looks rather like 'Ist k' or 'Ist k=' crossed out. Its content is irrelevant.",
+   "The marginal '-tt/2 - uu/2 + tu' is a side computation of -(t-u)^2/2 = tu - 1. The '2 + tu' written below is the value of tt+tu+uu, since tt+uu = 2.",
+   "The small superscript over the second line, 't-u', marks that the factor (t-u) has been extracted; it is not a separate equation.",
+   "In the first root of line 1 the sign is +; in the second root the overwritten sign is '-' (√(1 - k/(r+r'))).",
+   "The small writing under √8 ('√(1+e) √(1-e)') appears to be Gauss trying the alternative notation e = k/(r+r'). It is not part of the denominator."
+  ]
+ }
+}

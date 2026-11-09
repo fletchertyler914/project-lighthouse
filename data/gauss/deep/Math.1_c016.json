@@ -1,0 +1,63 @@
+{
+ "bundle": "Math.1",
+ "page": "c016",
+ "label": "9r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000017/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a computation table, not a derivation. It is one leaf (red crayon sheet number 17) of a large table of quadratic residue characters. The previous leaf (16) has columns 97…223 and the next leaf (18) has columns 367…503. Leaves 16–18 therefore form a table whose rows are the prime moduli p = 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521 (black ink) and 523, 541 (red ink, added later). Its columns are the primes q from (at least) 97 up to 503; this leaf covers q = 227 … 359.\n\nMeaning of the entries (my inference, checked numerically): a circle at (p, q) means q is a quadratic residue mod p, i.e. Legendre symbol (q/p) = +1. An empty cell means (q/p) = -1.\n\nVerification of the red row p = 523 (p ≡ 3 mod 4, so (q/523) and (523/q) differ when q ≡ 3 mod 4). I computed all 24 symbols with reciprocity. The residues among the columns are exactly 241, 257, 263, 281, 313 and 331. That is precisely the six circles Gauss drew. Two decisive cases:\n- q = 227 has no circle; here (523/227) = +1 but (227/523) = -1.\n- q = 263 has a circle; here (523/263) = -1 but (263/523) = +1.\nThese two cases fix the convention: the column prime is tested as a residue of the row modulus.\n\nRed row p = 541 (≡ 1 mod 4, so the symbol is symmetric). I checked 227, 229, 241, 251, 277, 307 and 313 (all +1, circled) and 233, 239, 257, 263 (all -1, empty). All agree with the 11 circles shown.\n\nBlack rows: spot checks are consistent with the same rule.\n- p = 439: 229 and 251 circled, with (229/439) = (251/439) = +1; 227, 233 and 241 empty, with symbol -1.\n- p = 443: the chain 227–229–233, with (227/443) = (233/443) = +1.\n\nRows 509 and 521 are left blank, i.e. not yet computed.\n\nIn the black block, horizontally and vertically adjacent circles are joined by lines into chains and small squares. This is a graphical device making the 0/1 pattern visually legible, presumably as an aid for copying, checking or pattern-spotting. I see no evidence that it encodes any further arithmetic; its exact purpose is uncertain (my interpretation).\n\nThe circled 9 at the right and the faint '40e/9' / 'Math. 1' at the top are archival or sequence marks.",
+  "errors": [
+   "No errors found in the checked entries: the red row 523 matches the true residue set exactly (6 of 24), and all checked entries in rows 541, 439 and 443 are correct.",
+   "Rows 509 and 521 are left empty (incomplete table, not an error)."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic residue characters (q/p) for prime moduli p = 439…541 against prime arguments q (here q = 227…359), with residues marked by circles",
+    "modern_name": "Table of Legendre symbols / quadratic residue table",
+    "usually_credited_to": "Gauss himself (Disquisitiones Arithmeticae 1801, Table II for small primes); later extensive tables by Jacobi (Canon Arithmeticus, 1839) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Graphical linking of adjacent residue marks into chains and rectangles",
+    "modern_name": "Visual pattern display of a 0/1 residue matrix (no standard name)",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Extensive hand-computed quadratic residue tables are well known to be part of Gauss's work (DA Table II and Nachlass tables). This leaf is an extension to larger moduli, accurate but routine. The connecting-line visualization is a curiosity rather than a mathematical result.",
+  "checkable": [
+   {
+    "sympy": "[q for q in [227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359] if legendre_symbol(q,523)==1] == [241,257,263,281,313,331]",
+    "asserts": "Red row 523 circles are exactly the quadratic residues mod 523 among the column primes"
+   },
+   {
+    "sympy": "[q for q in [227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359] if legendre_symbol(q,541)==1] == [227,229,241,251,277,307,313,347,349,353,359]",
+    "asserts": "Red row 541 circles (as transcribed) are exactly the quadratic residues mod 541 among the column primes"
+   },
+   {
+    "sympy": "legendre_symbol(227,523)==-1 and legendre_symbol(523,227)==1",
+    "asserts": "Convention check: entry (p,q) records (q/p), not (p/q)"
+   },
+   {
+    "sympy": "legendre_symbol(263,523)==1 and legendre_symbol(523,263)==-1",
+    "asserts": "Second convention check: 263 circled in row 523"
+   },
+   {
+    "sympy": "(legendre_symbol(229,439), legendre_symbol(251,439), legendre_symbol(227,439), legendre_symbol(233,439), legendre_symbol(241,439)) == (1,1,-1,-1,-1)",
+    "asserts": "Black row 439: 229 and 251 circled, 227, 233 and 241 empty"
+   },
+   {
+    "sympy": "(legendre_symbol(227,443), legendre_symbol(229,443), legendre_symbol(233,443)) == (1,1,1)",
+    "asserts": "Black row 443 chain 227–229–233 consists of residues"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription omits the black-ink entries in rows 439–503. From the image, row 439 has circles at least under 229, 251, 269, 271, 281, 283, 307 (and further right), and row 443 has the chain 227–229–233. All are consistent with the rule 'circle iff (q/p) = +1'.",
+   "Red rows 523 and 541 are transcribed correctly, and they agree with the computed residue sets.",
+   "The meaning of the circles should be stated: circle = column prime is a quadratic residue of the row prime."
+  ]
+ }
+}

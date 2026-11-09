@@ -1,0 +1,68 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c026",
+ "label": "17",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000027/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a five-place table of Gaussian (addition) logarithms, continuing p.16 and continued on p.18. It has two blocks, A = 0.640 to 0.680 and A = 0.680 to 0.720, with step 0.001.\n\nColumns: (1) the argument A = log10 x; (2) B(A) = log10(1 + 1/x) = log10(1 + 10^(-A)); (3) the first difference of B in units of 1e-5, written between rows; (4) C = A + B = log10(1 + x) = log10(1 + 10^A); (5) the first difference of C, which equals 100 - (difference of B) in units of 1e-5.\n\nIdentification (mine, verified numerically):\n- A = 0.640: x = 4.36516, 1 + 1/x = 1.229087, log10 = 0.089582, so B = 0.08958.\n- A = 0.680: B = 0.082401 (table 0.08240).\n- A = 0.695: B = 0.079846 (table 0.07985).\n- A = 0.700: B = 0.079009 (table 0.07901).\n- A = 0.720: B = 0.075747 (table 0.07575).\n- Off the page, A = 0.800 gives 0.063891, matching 0.06389 on the next page.\n\nThe C column is just A + B. For example, 0.640 + 0.08958 = 0.72958 and 0.720 + 0.07575 = 0.79575.\n\nThe differences behave as expected. dB/dA = -1/(1 + x) goes from about -0.186 at A = 0.64 to about -0.160 at A = 0.72. That matches the tabular differences falling from 18-19 to 16 units per 0.001. Correspondingly, dC/dA = x/(1 + x) gives differences rising from 81-82 to 84.\n\nPurpose: the table lets you get log(a + b) from log a and log b without leaving logarithms. Put A = log a - log b. Then log(a + b) = log b + C(A) = log a + B(A). With the same table read backwards, it also gives log(a - b).\n\nThis is evidently the working or fair copy of the table Gauss published in 1812 in Zach's Monatliche Correspondenz. That printed table was a five-place table with argument step 0.001 over this range.",
+  "errors": [
+   "No numerical errors found. Every B difference on the page was recomputed from adjacent values and agrees with what Gauss wrote. Every C entry equals A + B exactly. Every C difference equals 100 minus the corresponding B difference.",
+   "Spot checks against exact values all round correctly: A = 0.640, 0.660, 0.680, 0.694, 0.695, 0.700 and 0.720.",
+   "The visible corrections are in the hand, not errors in the result: an ink blot in the C entry for 0.642 (0.73121), an overwritten digit in 0.73202, and a corrected final 5 in B(0.692) = 0.08035."
+  ],
+  "results": [
+   {
+    "what": "Five-place table of B(A) = log10(1 + 10^-A) and C(A) = A + B = log10(1 + 10^A) for A = 0.640 to 0.720, step 0.001, with first differences",
+    "modern_name": "Gaussian logarithms (addition/subtraction logarithms)",
+    "usually_credited_to": "Idea due to Z. Leonelli (Supplément logarithmique, 1802/03). The tables were popularized by Gauss, who published a table in Monatliche Correspondenz 26 (1812); hence the name 'Gaussian logarithms'.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript draft of Gauss's own published 1812 table of addition logarithms, which is famously associated with his name. The values are correct and routine, so it is of interest only as evidence of how the table was prepared.",
+  "checkable": [
+   {
+    "sympy": "N(log(1+10**(-Rational(640,1000)),10),8)",
+    "asserts": "approx 0.0895816, i.e. B(0.640) = 0.08958"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(680,1000)),10),8)",
+    "asserts": "approx 0.0824012, i.e. B(0.680) = 0.08240"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(695,1000)),10),8)",
+    "asserts": "approx 0.079846, i.e. B(0.695) = 0.07985"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(700,1000)),10),8)",
+    "asserts": "approx 0.079009, i.e. B(0.700) = 0.07901"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(720,1000)),10),8)",
+    "asserts": "approx 0.075747, i.e. B(0.720) = 0.07575"
+   },
+   {
+    "sympy": "N(log(1+10**(Rational(660,1000)),10),8)",
+    "asserts": "approx 0.745924, i.e. C(0.660) = 0.74592 = 0.660 + B"
+   },
+   {
+    "sympy": "[round(float(log(1+10**(-Rational(k,1000)),10)),5) for k in range(640,721)]",
+    "asserts": "reproduces the whole B column of the page"
+   },
+   {
+    "sympy": "simplify(Rational(1,1)*log(1+10**a,10) - a - log(1+10**(-a),10))",
+    "asserts": "identity C = A + B, i.e. log(1 + x) = log x + log(1 + 1/x); expected to simplify to 0 for real a"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 0.642, C column: the image shows an ink blot over the third digit. The intended value is 0.73121, consistent with A + B.",
+   "Row 0.643, C column: 0.73202 has an overwritten digit; the value is correct.",
+   "Row 0.692, B column: the final digit is a corrected 5, giving 0.08035, which is correct.",
+   "Row 0.653: the difference looks like '16' in the image but is 18 (0.08719 - 0.08701 = 18), as transcribed.",
+   "Row 0.655: the argument is obscured by a blot but is 0.655.",
+   "In the manuscript the difference columns stand between rows; the transcription's attachment of each difference to the preceding row is consistent with the values."
+  ]
+ }
+}

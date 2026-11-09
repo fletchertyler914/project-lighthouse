@@ -1,0 +1,63 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c403",
+ "label": "206v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000404/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is written rotated by 90° and is a loose scratch sheet. It holds pencil figures and short formula fragments. The figures are two circles, a large triangle with a curved arrow, a hatched triangle subdivided by a grid of lines with a vertex on a straight line, a circle and an ellipse/oval, and short line segments near the formulas. All of the formulas fit one topic: the 2D Laplacian, directional and normal derivatives, and the Green/Gauss boundary-integral identity in the plane. This is the potential-theory toolkit Riemann used from his 1851 dissertation onward. The next page is an excerpt from Poisson's work on terrestrial heat, so this is a working sheet on heat and potential theory.\n\nReconstruction (my ordering; the page itself is fragmentary):\n\n(1) Rotated axes. Riemann writes x cos t + y sin t (the coordinate p along a direction at angle t). Implicitly (mine) p = x cos t + y sin t and q = -x sin t + y cos t.\n\n(2) Directional / normal derivative. He writes ∂u/∂x cos t + ∂u/∂y sin t, and ∂u/∂n = ∂u/∂x cos(n,x) + ∂u/∂y cos(n,y). In other words ∂u/∂p = u_x cos t + u_y sin t. For a boundary curve with outward normal at angle t this is the normal derivative.\n\n(3) Second derivatives in rotated coordinates. He writes ∂²u/∂p∂q = … and also forms the product ∂u/∂x·∂u/∂y. Filled in (mine):\n- ∂²u/∂p² = u_xx cos²t + 2u_xy sin t cos t + u_yy sin²t\n- ∂²u/∂q² = u_xx sin²t - 2u_xy sin t cos t + u_yy cos²t\n- ∂²u/∂p∂q = (u_yy - u_xx) sin t cos t + u_xy (cos²t - sin²t)\n\nHence ∂²u/∂p² + ∂²u/∂q² = ∂²u/∂x² + ∂²u/∂y², the rotational invariance of the Laplacian, which is written on the page. The ∂u/∂x ∂u/∂y fragment probably belongs to the companion invariance (∂u/∂p)² + (∂u/∂q)² = (∂u/∂x)² + (∂u/∂y)², or to the off-diagonal term above.\n\n(4) Boundary integral identity. Fragments: '∫ (∂u/∂x dy - ∂u/∂y dx)', '= ∫ ∂u/∂p dt', '∫(…)=0', and the circle with a boundary element ds marked. Together they express ∫∫_D (u_xx + u_yy) dx dy = ∮_∂D ∂u/∂n ds. Consequently ∮ ∂u/∂n ds = 0 for harmonic u. On a circle of radius r with x = r cos t, y = r sin t, the outward normal is the radial direction, so ∂u/∂n = u_x cos t + u_y sin t and ds = r dt. This explains why x cos t + y sin t (= r on the circle) appears.\n\n(5) The hatched, gridded triangle and the triangle with an arrow look like a verification of the plane Green/Stokes identity by decomposing a region into small cells (or triangles). In that argument the interior edge contributions cancel and only the boundary integral survives. This is my interpretation of the drawing; no formulas are attached.",
+  "errors": [
+   "No verifiable error. The fragments are consistent with correct standard formulas, but too little is written to check any derivation line by line. Several symbols (e.g. 'x dt', '∫(x x + y y)=0') are illegible and their exact form cannot be confirmed."
+  ],
+  "results": [
+   {
+    "what": "Directional/normal derivative ∂u/∂n = ∂u/∂x cos t + ∂u/∂y sin t, using p = x cos t + y sin t",
+    "modern_name": "directional derivative / chain rule under rotation",
+    "usually_credited_to": "standard 18th-century calculus (Euler, Lagrange)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Transformation of second derivatives under rotation, including ∂²u/∂p∂q, and invariance of the Laplacian",
+    "modern_name": "rotational invariance of the Laplace operator",
+    "usually_credited_to": "Laplace / Lamé era (classical by 1830s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "∫∫ Δu dA = ∮ ∂u/∂n ds, so the flux of a harmonic function through a closed curve vanishes; illustrated on a circle and on a triangulated/gridded region",
+    "modern_name": "Green's theorem / Gauss divergence theorem in the plane",
+    "usually_credited_to": "Green (1828), Gauss (1813/1839), Ostrogradsky",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Routine potential-theory scratch work: directional derivatives, rotation invariance of the Laplacian, and the planar Green identity. Riemann used all of this explicitly in his 1851 dissertation and in his lectures on partial differential equations.",
+  "checkable": [
+   {
+    "sympy": "x,y,t=symbols('x y t',real=True); u=Function('u'); p=x*cos(t)+y*sin(t); q=-x*sin(t)+y*cos(t); P,Q=symbols('P Q'); U=Function('U')(P,Q); X=P*cos(t)-Q*sin(t); Y=P*sin(t)+Q*cos(t); f=Function('f'); expr=f(X,Y); simplify(diff(expr,P,2)+diff(expr,Q,2) - (Subs(Derivative(f(x,y),x,2)+Derivative(f(x,y),y,2),(x,y),(X,Y)).doit()))",
+    "asserts": "The Laplacian is invariant under rotation of axes (the difference simplifies to 0)."
+   },
+   {
+    "sympy": "P,Q,t=symbols('P Q t'); f=Function('f'); X=P*cos(t)-Q*sin(t); Y=P*sin(t)+Q*cos(t); x,y=symbols('x y'); g=f(x,y); lhs=diff(f(X,Y),P,Q); rhs=((diff(g,y,2)-diff(g,x,2))*sin(t)*cos(t)+diff(g,x,y)*(cos(t)**2-sin(t)**2)).subs({x:X,y:Y}); simplify(lhs-rhs.doit())",
+    "asserts": "Formula for the mixed derivative ∂²u/∂p∂q in rotated coordinates."
+   },
+   {
+    "sympy": "r,t,x,y=symbols('r t x y',positive=True); u=x**3*y+x*y**2; lap=diff(u,x,2)+diff(u,y,2); R,th=symbols('R th',positive=True); lhs=integrate(integrate(lap.subs({x:R*cos(th),y:R*sin(th)})*R,(R,0,1)),(th,0,2*pi)); un=(diff(u,x)*cos(t)+diff(u,y)*sin(t)).subs({x:cos(t),y:sin(t)}); rhs=integrate(un,(t,0,2*pi)); simplify(lhs-rhs)",
+    "asserts": "Green identity ∫∫Δu dA = ∮ ∂u/∂n ds on the unit disk, with ∂u/∂n = u_x cos t + u_y sin t (difference = 0)."
+   },
+   {
+    "sympy": "t,x,y=symbols('t x y'); u=x**2-y**2+3*x*y; integrate((diff(u,x)*cos(t)+diff(u,y)*sin(t)).subs({x:2*cos(t),y:2*sin(t)})*2,(t,0,2*pi))",
+    "asserts": "The flux of a harmonic function through a circle vanishes (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is rotated 90°. The fragments are scattered scratch notes, not a linear sequence, so the order in the machine transcription is arbitrary.",
+   "'x cos t + y sin t' is correct. The neighbouring line likely contains the companion rotated coordinate (-x sin t + y cos t or similar), not 'x cos t = …'.",
+   "'∫ (x x + y y) = 0' is probably a garbled boundary integral of the type ∫(∂u/∂x dy - ∂u/∂y dx) = 0 (flux of a harmonic function). The exact form is uncertain.",
+   "'+ ∂u/∂y … x dt' is more likely part of '∂u/∂x cos t + ∂u/∂y sin t' with 'dt' (or ds) as the boundary element.",
+   "The transcription omits the figures: two circles (one with a boundary element marked), a large triangle with a curved arrow, a densely hatched/gridded triangle with a vertex on a straight line, and an ellipse."
+  ]
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "bundle": "R.Ellipsoid",
+ "page": "c109",
+ "label": "50v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205083:00000110/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has only two lines, written in the top-left corner. The faint writing over the rest of the sheet is show-through from the other side.\n\nLine 1: psi = pi/2 - theta.\n\nLine 2: (-5 + 2cos2theta + cos4theta)(pi - 2theta) + 10 sin2theta + 2 sin4theta = 0.\n\nWhat it serves. The previous page linearizes the equations of motion of Riemann's uniformly rotating/streaming fluid ellipsoid about the axisymmetric state a = b (the Maclaurin spheroid). It considers the two classes of perturbation delta a = delta b and delta a = -delta b. The potential coefficients p and q appear there as integrals over ds/Delta.\n\nThis page records the transcendental equation for the critical Maclaurin spheroid. My reading of the parametrization, verified below:\n- e is the meridional eccentricity, sin psi = e, and cos psi = c/a.\n- Hence psi = arcsin e is the angular eccentricity, and theta = pi/2 - psi gives cos theta = e and sin theta = sqrt(1 - e^2).\n\nConversion to e (my step):\n- cos2theta = 2e^2 - 1\n- cos4theta = 8e^4 - 8e^2 + 1\n- sin2theta = 2e*sqrt(1 - e^2)\n- sin4theta = 4e*sqrt(1 - e^2)*(2e^2 - 1)\n- pi - 2theta = 2*arcsin e\n\nSubstituting, the left side equals 4[(4e^4 - 2e^2 - 3) arcsin e + e*sqrt(1 - e^2)*(4e^2 + 3)]. The equation is therefore\n\n(4e^4 - 2e^2 - 3) arcsin e + (4e^2 + 3) e sqrt(1 - e^2) = 0.\n\nRoots, with x = 2theta:\n- f(x) is -2pi at x = 0, which corresponds to e = 1.\n- f vanishes trivially at x = pi (theta = pi/2, i.e. the sphere e = 0), where it vanishes to high order.\n- The only nontrivial root is x ~ 0.6165, i.e. theta ~ 0.3083 rad (17.66 deg), psi ~ 72.34 deg.\n- This gives e = cos theta ~ 0.95289, and c/a = sin theta ~ 0.3033.\n\nThis is exactly the eccentricity at which the Maclaurin spheroid becomes dynamically (overstably) unstable to the second-harmonic 'bar' (delta a = -delta b) deformation. It is the value e = 0.9529 that Riemann states in his 1861 paper on the motion of a fluid ellipsoid.\n\nSo the page is the clean trigonometric form of the stability-limit equation, presumably prepared for numerical solution.",
+  "errors": [
+   "No error detected: the equation, converted to e, has its nontrivial root at e = 0.95289, which is the accepted limit of dynamical stability of Maclaurin spheroids.",
+   "The derivation leading to the equation is not on this page. It must be inferred from the perturbation equations on the neighbouring folios (50r and 51r), so the intermediate steps are not checkable from this page alone."
+  ],
+  "results": [
+   {
+    "what": "Transcendental equation (-5+2cos2theta+cos4theta)(pi-2theta)+10 sin2theta+2 sin4theta=0 with e=cos theta. It is equivalent to (4e^4-2e^2-3) arcsin e + (4e^2+3) e sqrt(1-e^2) = 0, whose root is e ~ 0.95289.",
+    "modern_name": "Onset of dynamical (overstable) instability of the Maclaurin spheroid to the l=2 bar mode (point of dynamical instability, e = 0.9529)",
+    "usually_credited_to": "Riemann (1861), later confirmed by Bryan (1888) and Chandrasekhar's virial / ellipsoidal-figures treatment (1960s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The equation is the working form of the criterion for the dynamical instability of the Maclaurin spheroid at e ~ 0.9529. Riemann published this value in his 1861 ellipsoid paper, and the literature (e.g. Chandrasekhar) credits it to him. The only new detail is this particular trigonometric parametrization.",
+  "checkable": [
+   {
+    "sympy": "e=symbols('e',positive=True); th=acos(e); simplify(((-5+2*cos(2*th)+cos(4*th))*(pi-2*th)+10*sin(2*th)+2*sin(4*th)) - 4*((4*e**4-2*e**2-3)*asin(e)+(4*e**2+3)*e*sqrt(1-e**2)))",
+    "asserts": "With cos(theta)=e, the page's equation is 4 times (4e^4-2e^2-3) asin(e) + (4e^2+3) e sqrt(1-e^2); the difference simplifies to 0."
+   },
+   {
+    "sympy": "th=symbols('th'); nsolve((-5+2*cos(2*th)+cos(4*th))*(pi-2*th)+10*sin(2*th)+2*sin(4*th), th, 0.3)",
+    "asserts": "The nontrivial root is theta ~ 0.30826 rad."
+   },
+   {
+    "sympy": "e=symbols('e'); nsolve((4*e**4-2*e**2-3)*asin(e)+(4*e**2+3)*e*sqrt(1-e**2), e, 0.95)",
+    "asserts": "The root is e ~ 0.95289, the Maclaurin dynamical-instability eccentricity."
+   },
+   {
+    "sympy": "th=symbols('th'); series((-5+2*cos(2*th)+cos(4*th))*(pi-2*th)+10*sin(2*th)+2*sin(4*th), th, pi/2, 6)",
+    "asserts": "The left side vanishes to high order at theta = pi/2 (the sphere e = 0), the trivial root."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription of the two lines is correct.",
+   "All other faint markings on the sheet are show-through of the writing on the other side and should not be transcribed as content of 50v."
+  ]
+ }
+}

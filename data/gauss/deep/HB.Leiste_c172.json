@@ -1,0 +1,89 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c172",
+ "label": "73",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000173/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Note first that this is a printed page in Fraktur type, not a Gauss autograph. It comes from an arithmetic textbook, almost certainly Christian Leiste's 'Arithmetik und Algebra' (Wolfenbüttel, 1790), which fits the bundle name 'HB.Leiste'. Gauss's own pencil marginalia are visible on the facing page in the left margin. The page content is the author's standard treatment of geometric progressions.\n\n(1) Continuation of §157: solving the geometric sum for the number of terms n. The sum is S = a(e^n - 1)/(e - 1). Rearranging gives ((e-1)S + a)/a = e^n. Taking logarithms gives log((e-1)S + a) - log a = n log e, so n = [log((e-1)S + a) - log a]/log e.\n\n(2) §158: any three of S, V, a, e, n determine the other two. Here V is the last term, V = a e^(n-1).\n- From the sum: a = (e-1)S/(e^n - 1). The print appears as e^(n--1), meant as e^n - 1.\n- From the last term: a = V/e^(n-1) = Ve/e^n.\n- The ratio: e = (S - a)/(S - V). This follows because eS - S = eV - a, so e(S - V) = S - a.\n\n(3) §159, the horse-nail problem. A horse is sold for 32 nails, the first costing 1 Pfennig and each subsequent one double the previous. So a = 1 pf, e = 2, n = 32, and S = (2^32 - 1) pf. Since 1 Reichsthaler = 24 Groschen = 24·12 = 288 pf, S = (2^32 - 1)/288 rthl.\n\nThe author then works with 7-place Vega tables:\n- 32 log 2 = 9.6329600, pointing to a number between 4294960000 and 4294970000. The -1 is therefore negligible.\n- log 12 + log 24 = log 288 = 2.4593924.\n- The difference is 7.1735676. This lies between log 14913000 (table value 7.1735650) and log 14913100.\n- The tabular difference per 100 is 29; the excess over the smaller table value is 26.\n- Proportional interpolation (cited as §107) gives 29:26 = 100:x. The book writes x = 80 and concludes the value is 14913080 rthl.\n\n(4) The chess-board legend: Sessa's reward from King Shehram (Shirham). The number of grains is (2^64 - 1)/(2 - 1), taken as ≈ 2^64. Then 64 log 2 = 19.2659200, giving ≈ 18446740000000000000 grains. Page 74 continues with conversion to Himpten of grain.",
+  "errors": [
+   "Interpolation slip: 29:26 = 100:x gives x = 2600/29 ≈ 89.7, not 80. The printed final value 14913080 is nevertheless nearly correct (exact: 4294967295/288 = 14913080.88...). This is because the book's log 7.1735676 is about 2 units too high in the 7th place (true 7.17356737), so the true excess is about 24, giving roughly 83.",
+   "§159 chess example: the book writes (2^64 - 1)/(2 - 1) = 2^64. Strictly this equals 2^64 - 1; the equality is only an approximation, and that is how it is used.",
+   "§158: the formula a = (e-1)S/e^(n-1) as printed is wrong if read literally. It must be read as a = (e-1)S/(e^n - 1).",
+   "Logarithmic values are rounded to 7 places (32·log 2 = 9.63295986, 64·log 2 = 19.26591972). The truncated 18446740000000000000 versus the true 18446744073709551615 is acceptable at 7-place precision."
+  ],
+  "results": [
+   {
+    "what": "Sum of a finite geometric progression, and solving for n by logarithms",
+    "modern_name": "geometric series sum formula and its inversion",
+    "usually_credited_to": "classical (Euclid IX.35; standard in 18th-century textbooks)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Relations among first term, ratio, number of terms, last term and sum (any three determine the rest)",
+    "modern_name": "geometric progression relations",
+    "usually_credited_to": "classical textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Horse-nail and chess-board (Sessa) problems evaluated with 7-place logarithm tables and linear interpolation",
+    "modern_name": "doubling/exponential-growth recreational problems; linear interpolation in log tables",
+    "usually_credited_to": "folklore (Ibn Khallikan's chessboard legend; horse-nail problem in early modern arithmetic books); tables by Vega (1783/1794)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed page of Leiste's elementary arithmetic textbook, not a Gauss manuscript, and contains only standard geometric-series material and recreational examples. Nothing here is attributable to Gauss.",
+  "checkable": [
+   {
+    "sympy": "Eq((2**32-1)/Rational(288), Rational(4294967295,288))",
+    "asserts": "the horse price in Reichsthaler is (2^32-1)/288 ≈ 14913080.88"
+   },
+   {
+    "sympy": "floor((2**32-1)/Rational(288)) - 14913080",
+    "asserts": "equals 0: the book's final value is the integer part of the true value"
+   },
+   {
+    "sympy": "N(32*log(2,10), 10)",
+    "asserts": "≈ 9.632959861, matching the book's 9.6329600"
+   },
+   {
+    "sympy": "N(log(288,10), 10)",
+    "asserts": "≈ 2.459392488, matching log 12 + log 24 = 2.4593924"
+   },
+   {
+    "sympy": "N(log(14913,10), 10)",
+    "asserts": "≈ 4.173565014, i.e. table mantissa 1735650, so the excess 1735676 - 1735650 = 26"
+   },
+   {
+    "sympy": "Rational(2600,29)",
+    "asserts": "≈ 89.66, showing that 29:26 = 100:80 is an arithmetic slip"
+   },
+   {
+    "sympy": "2**64 - 1",
+    "asserts": "= 18446744073709551615, the exact chessboard grain count (book: ≈ 18446740000000000000)"
+   },
+   {
+    "sympy": "N(64*log(2,10), 10)",
+    "asserts": "≈ 19.26591972"
+   },
+   {
+    "sympy": "simplify((a*(e**n-1)/(e-1) - a)/(a*(e**n-1)/(e-1) - a*e**(n-1)) - e)",
+    "asserts": "equals 0: e = (S-a)/(S-V) with S = a(e^n-1)/(e-1), V = a e^(n-1)"
+   },
+   {
+    "sympy": "simplify(((e-1)*a*(e**n-1)/(e-1) + a)/a - e**n)",
+    "asserts": "equals 0: ((e-1)S + a)/a = e^n, the basis of the log formula for n"
+   }
+  ],
+  "transcription_corrections": [
+   "This is a printed page (Fraktur), not a Gauss autograph. It is Leiste's arithmetic textbook, p. 73, with signature mark 'E 5'.",
+   "In §158 the printed denominator 'e^{n--1}' in a = (e-1)S/... must mean e^n - 1. The transcription's e^{n-1} reproduces the literal print, but the mathematics requires e^n - 1.",
+   "'Hufnagel' is printed 'Huf-nagel' with a line-break hyphen. 'nochmal so viel' means 'twice as much'.",
+   "'Shehram' is as printed; the usual spelling is Shirham/Shihram."
+  ]
+ }
+}

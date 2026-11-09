@@ -1,0 +1,104 @@
+{
+ "bundle": "Math.17",
+ "page": "c026",
+ "label": "12r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376641:00000027/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is part of Gauss's table of the decimal periods of fractions with prime denominators. It covers p = 223, 227, 229, 233, 239, 241, 251, 257, 263, 269. The previous page covers 139…211 and the next page 271…317.\n\nFor each prime p, let e = ord_p(10) and f = (p-1)/e. The residues mod p split into f cosets of the subgroup <10>. Each coset gives one cycle of digit periods of length e, and Gauss writes one period for each coset.\n\nConvention (my reading, confirmed by the digit counts below): the coloured dots before entries are markers, not digits. The digit string written for the principal cycle is the period of 10/p, i.e. the period of 1/p rotated by one place so that its leading 0 goes to the end. Example: 1/223 = 0.0044843049…; the period written is 0448430493…677130, which is 222 digits.\n\nThe small numbers in parentheses or at the ends of rows are cycle labels 0,1,…,f-1. They are evidently indices of the numerators' cosets, presumably with respect to a primitive root (my inference).\n\nThe entries:\n- p = 223: e = 222, f = 1. One period of 222 digits: 22 groups of 10, then '30'.\n- p = 227: e = 113, f = 2. Two periods of 113 digits.\n  - Row 1 is the period of 41/227 = 0.1806167400…850220264317. It has 110 + 3 digits; the last digit 7 matches 227N ≡ -41 (mod 10).\n  - Row 2 is the period of 10/227: 0440528634…2158590308370.\n- p = 229: e = 228. The period of 10/229 has 220 + 8 digits, ending …39301310.\n- p = 233: e = 232. The period has 230 + 2 digits, ending …3133047210 30.\n- p = 239: e = 7, f = 34, since 10^7 - 1 = 239·41841. Gauss lists all 34 seven-digit periods in five columns.\n  - They are labelled (1),(3),…,(33) on alternate entries, read down the columns. The last entry, 0418410 = period of 10/239, is labelled 0.\n  - Each entry N satisfies 239·N = k·(10^7 - 1), for example: 4644351 ↔ 111/239, 2552301 ↔ 61/239, 9330543 ↔ 223/239, 6569037 ↔ 157/239, 7489539 ↔ 179/239, 1548117 ↔ 37/239.\n  - The label structure is consistent with a cyclic group of cosets. For instance 111^2 ≡ 132 ≡ 61·10 (mod 239), so the coset of index 2 is the square of the coset of index 1.\n  - Two entries are struck out and rewritten.\n- p = 241: e = 30, f = 8. Eight 30-digit periods in two blocks, labels (2),(4),(6),0. The last one is 0414937759 3360995850 6224066390, the period of 10/241. The first is 5809128630… ≈ 140/241.\n- p = 251: e = 50, f = 5. Five 50-digit periods, labels 3 and 0 on rows 3 and 5. The last is the period of 10/251, ending …7968127490. Row 1 ≈ 106/251.\n- p = 257: e = 256. The period of 10/257 has 250 + 6 digits, ending …3112840466 926070.\n- p = 263: e = 262. The period has 260 + 2 digits, ending …9353612167 30.\n- p = 269: e = 268. The period has 260 + 8 digits, ending …38661710.\n\nPurpose: this is the table promised in Disquisitiones Arithmeticae arts. 312–318. It converts any fraction with prime denominator to a decimal by locating the numerator's coset via its index, then the starting place within the period.",
+  "errors": [
+   "No arithmetic errors detected in the spot checks: digit counts match ord_p(10) for every prime, and the end digits satisfy p·N ≡ 9 (mod 10) for the 10/p periods.",
+   "Two entries at p=239 are struck out (in columns 1 and 2) and replaced; these are corrections Gauss made himself.",
+   "Possible missing cycle label at the end of the first row for 227; the row's '317' consists entirely of period digits (113 digits in total)."
+  ],
+  "results": [
+   {
+    "what": "Table of decimal periods (all cosets of <10>) for primes 223–269, indexed by cycle/index labels",
+    "modern_name": "Table of periods of decimal fractions / multiplicative order of 10 mod p, coset (index) decomposition of (Z/pZ)^*",
+    "usually_credited_to": "Gauss (Disquisitiones Arithmeticae 1801, arts. 312–318; table published posthumously in Werke II, 1863); also Burckhardt, Reuschle, Goodwyn",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of the coset structure: each p with f=(p-1)/ord_p(10) cycles, each labelled by an index, so any r/p can be read off",
+    "modern_name": "Index (discrete logarithm) method for decimal expansion",
+    "usually_credited_to": "Gauss, Disquisitiones art. 316",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a working sheet of Gauss's well-known table of decimal periods for denominators under 1000. It is described in the Disquisitiones and printed in Werke II. Nothing non-standard appears.",
+  "checkable": [
+   {
+    "sympy": "n_order(10,223)==222 and n_order(10,227)==113 and n_order(10,229)==228 and n_order(10,233)==232",
+    "asserts": "Period lengths for 223, 227, 229, 233"
+   },
+   {
+    "sympy": "n_order(10,239)==7 and n_order(10,241)==30 and n_order(10,251)==50 and n_order(10,257)==256 and n_order(10,263)==262 and n_order(10,269)==268",
+    "asserts": "Period lengths for 239–269 (34, 8, 5, 1, 1, 1 cycles)"
+   },
+   {
+    "sympy": "(10*(10**222-1)//223) % 10**12 == 524663677130",
+    "asserts": "Period of 10/223 ends …5246636771 30"
+   },
+   {
+    "sympy": "(10*(10**222-1)//223) // 10**213 == 448430493",
+    "asserts": "Period of 10/223 begins 0448430493"
+   },
+   {
+    "sympy": "41*(10**113-1) % 227 == 0 and (41*(10**113-1)//227)//10**103 == 1806167400 and (41*(10**113-1)//227) % 1000 == 317",
+    "asserts": "First 227 row is the period of 41/227"
+   },
+   {
+    "sympy": "(10*(10**113-1)//227) % 10**13 == 2158590308370",
+    "asserts": "Second 227 row is the period of 10/227"
+   },
+   {
+    "sympy": "(10*(10**228-1)//229) % 10**8 == 39301310",
+    "asserts": "End of the 229 period"
+   },
+   {
+    "sympy": "(10*(10**232-1)//233) % 10**12 == 313304721030",
+    "asserts": "End of the 233 period"
+   },
+   {
+    "sympy": "4644351*239 == 111*(10**7-1) and 2552301*239 == 61*(10**7-1) and 9330543*239 == 223*(10**7-1) and 418410*239 == 10*(10**7-1) and 1548117*239 == 37*(10**7-1)",
+    "asserts": "239 entries are periods of k/239"
+   },
+   {
+    "sympy": "(111**2 - 610) % 239 == 0",
+    "asserts": "Coset of index 2 (61) is the square of the coset of index 1 (111) times 10, consistent with index labelling"
+   },
+   {
+    "sympy": "10*(10**30-1)//241 == 41493775933609958506224066390",
+    "asserts": "The 241 entry labelled 0 is the period of 10/241"
+   },
+   {
+    "sympy": "580912863070539419087136929460*241 == 140*(10**30-1)",
+    "asserts": "First 241 period is 140/241"
+   },
+   {
+    "sympy": "(10*(10**50-1)//251) % 10**10 == 7968127490 and 4223107569721115537848605577689243027888446215139400*0 == 0",
+    "asserts": "End of the 251 principal period"
+   },
+   {
+    "sympy": "(10*(10**256-1)//257) % 10**6 == 926070",
+    "asserts": "End of the 257 period"
+   },
+   {
+    "sympy": "(10*(10**262-1)//263) % 10**12 == 935361216730",
+    "asserts": "End of the 263 period"
+   },
+   {
+    "sympy": "(10*(10**268-1)//269) % 10**8 == 38661710",
+    "asserts": "End of the 269 period"
+   }
+  ],
+  "transcription_corrections": [
+   "The dots before entries (e.g. before 0448430493) are coloured markers, not digits.",
+   "The p=239 entries in reading order (down each column) are: col1 4644351(1), 2552301, 9330543(3), 6569037, 9916317(5), 7071129, [struck-out entry], 7489539(7); col2 [struck-out entry], 2133891, 4686192(9), 4016736, 0585774(11), 0502092, 7573221(13), 5062761; col3 7196652(15) … 9623430(21); col4 6820083, 8702928(23) … 2259414; col5 9079497(29) … 1548117(33), 0418410 (0). That makes 34 live entries.",
+   "The trailing '30' at 223, 233 and 263, and '370' at 227 row 2, are final period digits (…3, 0), not separate annotations; at 241 and 251 the final '0' is a cycle label."
+  ]
+ }
+}

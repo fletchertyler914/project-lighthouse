@@ -1,0 +1,52 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c265",
+ "label": "131v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000266/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a pencil draft written over a printed accounting form with the columns No, Auslage, Porto and Franko. It is heavily cancelled and largely illegible. What follows is only the frame I could establish with reasonable confidence. Reading the struck-through headings, Riemann revises the title several times. The final version is: 'Verzweigung einer Function s von z, welche die Wurzel einer gegebenen irreductibeln Gleichung F(s^n, z^m)=0 ist.' F(s^n, z^m) is Riemann's notation, as in the 1857 Abelian functions paper, for a polynomial of degree n in s and m in z. The next page is numbered 'No 10' and counts branch points via the discriminant. This page therefore appears to be the preceding section (No 9?) of a systematic, lecture-style exposition. Its subject is the branching structure of the surface T of an irreducible algebraic function.\n\n(1) Top lines, beginning '(s,z)', partly a marginal insertion. Riemann considers what happens if, for some of the roots s_1, ..., s_mu, something 'verschwindet', i.e. if a part of the surface T could be separated from the rest. Probable reconstruction (mine; the wording is not legible): suppose the sheets of T split into classes that are never interchanged by continuation. Then the elementary symmetric functions of the roots in one class are single-valued and bounded near finite z, with at most poles. They are therefore rational functions of z. Hence F(s,z) would factor, contradicting irreducibility. Conclusion: for irreducible F, the surface T is connected, i.e. any root s_1 can be continued into any other root s_i.\n\n(2) Middle block, 'Wenn für einen Werth z = zeta ...'. Here zeta is a value at which several root values coincide. Riemann describes the local behaviour there: a group of sheets winds around zeta and the corresponding roots are cyclically interchanged. This yields a branch (winding) point of T. The reference to F(s,z)=0 at the point (s,z)=(alpha,zeta) prepares the local expansion carried out on the next page.\n\n(3) Lower block. Let a_1, a_2, ..., a_rho be the branch points and s_1, ..., s_mu the root values at an ordinary point. Riemann describes the interchange of roots around each branch point. Around a_1, s_1 is interchanged with s_2; around a_2, s_1 with s_3; ...; around a_rho, s_1 with s_mu. This exhibits that the sheets s_1 s_2 s_3 ... s_mu are all joined into one connected surface. In modern terms, the monodromy group is transitive, and the normal form uses simple branch points (transpositions). The final lines are mostly cancelled and cannot be reconstructed reliably. They appear to say that T is a connected surface and to prepare the count of winding points.\n\nWhat it serves: the topological description of the Riemann surface T of an algebraic function, as preparation for the count of branch points (2m(n-1) in the generic case, next page) and hence for the genus.",
+  "errors": [
+   "No mathematical error is detectable in the legible fragments. Most of the page is cancelled draft text and cannot be checked step by step.",
+   "The sample normal form 's_1 with s_2 around a_1, s_1 with s_3 around a_2, ...' is only one possible configuration of simple branch points. If it is offered as general, it is an unproven simplification, though the cancelled context may qualify it."
+  ],
+  "results": [
+   {
+    "what": "Irreducibility of F(s,z) implies connectedness of the Riemann surface T (equivalently, transitivity of the monodromy action on the roots). Argued via symmetric functions of a sheet class being rational in z.",
+    "modern_name": "Irreducible polynomial <=> connected Riemann surface / transitive monodromy group",
+    "usually_credited_to": "Riemann (1857, Theorie der Abel'schen Functionen); later rigorous treatment by Weierstrass, Hurwitz and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Description of branch points as points where roots coincide, with cyclic interchange of sheets; branch points a_1..a_rho permuting s_1 with s_2, s_3, ..., s_mu.",
+    "modern_name": "Monodromy / branch cycle description of a branched covering of the sphere",
+    "usually_credited_to": "Riemann (1851 dissertation, 1857); Hurwitz 1891 for systematic branch-cycle descriptions",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a didactic, lecture-style draft of material Riemann published in 1857 (connectedness of T for irreducible F, branch points as coinciding roots). Nothing beyond his known work is legible.",
+  "checkable": [
+   {
+    "sympy": "from sympy.combinatorics import Permutation, PermutationGroup; mu=5; G=PermutationGroup([Permutation([[0,i]],size=mu) for i in range(1,mu)]); (G.is_transitive(), G.order()==factorial(mu))",
+    "asserts": "Transpositions (s1 s2), (s1 s3), ..., (s1 s_mu) generate a transitive group (in fact S_mu), so the sheets form one connected surface."
+   },
+   {
+    "sympy": "z,s=symbols('z s'); a0,a1,a2=[Poly(symbols('c%d_0'%i)+symbols('c%d_1'%i)*z,z).as_expr() for i in range(3)]; degree(expand(discriminant(a0*s**2+a1*s+a2,s)),z)==2*1*(2-1)",
+    "asserts": "Context check for the next page: for generic F of bidegree (n,m)=(2,1), the discriminant in s has degree 2m(n-1)=2 in z (number of simple branch points)."
+   },
+   {
+    "sympy": "z,s=symbols('z s'); F=s**3-3*s+z; degree(discriminant(F,s),z)",
+    "asserts": "Sanity example: the discriminant of s^3-3s+z in s is quadratic in z, giving 2 finite simple branch points, consistent with the 2m(n-1) count once infinity is included (2*1*2=4)."
+   }
+  ],
+  "transcription_corrections": [
+   "Heading: the final (uncancelled) title reads 'Verzweigung einer Function s von z, welche die Wurzel einer gegebenen irreductibeln Gleichung F(s^n, z^m) = 0 ist'. Earlier cancelled versions begin 'Bestimmung der Verzweigungsart ...' / 'Bestimmung der Fläche ...'.",
+   "Top lines: the marginal '(s,z)' insertion concerns roots s_1..s_mu and a part of the surface T. It is likely the irreducibility <=> connectedness argument, not a literal 'verschwinden' of roots.",
+   "Lower block: the legible sequence is 'um a_1 s_1 mit s_2, um a_2 s_1 mit s_3, ..., um a_rho s_1 mit s_mu', followed by 's_1 s_2 s_3 ... s_mu' (the connected chain of sheets).",
+   "The printed form headers 'No | Auslage | Porto | Franko' belong to the reused paper, not to the mathematical text."
+  ]
+ }
+}

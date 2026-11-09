@@ -1,0 +1,72 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c274",
+ "label": "265",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000275/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Purpose. This is the opening of Gauss's proof of Ampère's equivalence theorem. The theorem says that a closed current acts like a magnetic shell, i.e. a uniform double layer, bounded by the same curve. Gauss computes the force between a current element and a double layer spread over an arbitrary bounded surface. The next page continues the argument: he rewrites the integrand as a curl-type expression (d/dx of one quantity minus d/dy of another) so that the surface integral reduces to an integral over the boundary curve.\n\nSetup.\n(1) Surface (I) is given as z = z(x,y). Write p = dz/dx, q = dz/dy and W = sqrt(1+p^2+q^2).\n(2) Positive magnetic fluid is spread uniformly over (I) with surface density k.\n(3) A current element of intensity i runs from the origin to (0,0,zeta), so ds = (0,0,zeta). Write r = sqrt(x^2+y^2+z^2).\n\nArea and charge. An element omega of the xy-plane corresponds to the surface element omega*W of (I). That element carries magnetic charge m = k*omega*W.\n\nForce on the current element. By the Biot–Savart (Laplace) law, the element i*ds exerts on a pole m at (x,y,z) the force m*i*(ds x r)/r^3. Here ds x r = (-zeta*y, zeta*x, 0). The reaction on the current element is therefore\n  (i k zeta omega W y/r^3, -i k zeta omega W x/r^3, 0).\nThese are exactly the three 'partial forces' Gauss writes, with the unit constant suppressed. The step from the pole force to the force on the element is mine; Gauss states only the result.\n\nSecond sheet. Surface (II) is the parallel surface at infinitesimal distance epsilon 'below' (I). Each point P = (x,y,z) of (I) corresponds to the point P + epsilon*n of (II), where\n  n = (p, q, -1)/W.\nThis n is the unit normal to (I) pointing toward negative z. Gauss's three coordinate formulas are exactly the components of P + epsilon*n.\n\nNegative fluid on (II). (II) carries negative fluid such that each corresponding piece contains exactly as much fluid as the matching piece of (I). This sentence is completed on the next page.\n\nContinuation, using next page. Let f(P) = i k zeta y/r^3 be the x-force per unit charge. The x-force of a corresponding pair of elements is\n  m[f(P) - f(P + epsilon*n)] = -epsilon*m*(n . grad f).\nBecause m contains the factor W and n contains 1/W, W cancels. The result is\n  epsilon i k zeta omega [3xy p + (3y^2 - r^2) q - 3yz]/r^5,\nand similarly for the y-component. This agrees with page 266.\n\nGauss then shows the identity\n  [3xy p + (3y^2 - r^2) q - 3yz]/r^5 = d/dx(x q/r^3) - d/dy((x p - z)/r^3),\nusing 3y^2 - r^2 = 2r^2 - 3x^2 - 3z^2. The double integral over the projection (III) then reduces to a boundary integral. This is in effect Green's/Stokes' theorem in coordinates.",
+  "errors": [
+   "No mathematical error on this page. The force components (y, -x, 0)*i k zeta omega W/r^3 agree with the Biot–Savart law up to the overall sign convention, which Gauss does not state. The physical law itself is assumed without comment.",
+   "Taking equal amounts of fluid on corresponding elements, rather than equal density, is essential. The element of the parallel surface differs in area by a factor 1 + O(epsilon), which would otherwise introduce a spurious first-order term. Gauss correctly defines the equality by quantity on corresponding elements.",
+   "The surface is assumed to be a graph z = z(x,y) over its projection, i.e. single-valued. This is a tacit restriction, presumably removable by decomposition."
+  ],
+  "results": [
+   {
+    "what": "Force of a current element on a magnetic pole, written as components of i ds x r / r^3",
+    "modern_name": "Biot–Savart (Laplace) law",
+    "usually_credited_to": "Biot & Savart 1820, Laplace",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Surface element omega*sqrt(1+p^2+q^2) and the parallel (offset) surface P + epsilon*n with unit normal (p,q,-1)/W",
+    "modern_name": "surface area element of a graph; parallel/offset surface",
+    "usually_credited_to": "standard (Euler, Monge, Gauss's own surface theory)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Uniform magnetic double layer (shell) on a bounded surface acting on a current element; with the next page, reduction to a boundary integral showing equivalence to a closed current along the boundary",
+    "modern_name": "Ampère's equivalence theorem (magnetic shell = current loop), proved via Stokes'/Green's theorem",
+    "usually_credited_to": "Ampère 1820s; magnetic-shell formulation Ampère and later Kelvin; Stokes' theorem Kelvin/Stokes 1850–54",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The marginal note 'V. p 624' indicates this note was printed in Gauss's Werke vol. V, p. 624 ('Beweis von Ampère's Fundamentalsatze'), so it is already known. The physics is Ampère's theorem. The coordinate Stokes-type reduction is notable but well documented in the Gauss literature.",
+  "checkable": [
+   {
+    "sympy": "x,y,eps=symbols('x y epsilon'); z=Function('z')(x,y); p=diff(z,x); q=diff(z,y); W=sqrt(1+p**2+q**2); n=Matrix([p,q,-1])/W; simplify(n.dot(n))",
+    "asserts": "The displacement direction (p,q,-1)/W is a unit vector (result 1)."
+   },
+   {
+    "sympy": "simplify(n.dot(Matrix([1,0,p]))), simplify(n.dot(Matrix([0,1,q])))",
+    "asserts": "That vector is orthogonal to both tangent vectors of z=z(x,y), so (II) is offset along the normal (both results 0)."
+   },
+   {
+    "sympy": "X,Y,Z,zeta=symbols('X Y Z zeta'); Matrix([0,0,zeta]).cross(Matrix([X,Y,Z]))",
+    "asserts": "ds x r = (-zeta*Y, zeta*X, 0); its negative gives Gauss's components (zeta*y, -zeta*x, 0) for the force on the current element."
+   },
+   {
+    "sympy": "X,Y,Z=symbols('X Y Z'); R=sqrt(X**2+Y**2+Z**2); f=Y/R**3; g=Matrix([diff(f,X),diff(f,Y),diff(f,Z)]); P,Q=symbols('P Q'); simplify(-(P*g[0]+Q*g[1]-g[2]) - (3*X*Y*P+(3*Y**2-R**2)*Q-3*Y*Z)/R**5)",
+    "asserts": "The double-layer x-force per unit epsilon*i*k*zeta*omega equals [3xyp+(3y^2-r^2)q-3yz]/r^5 (result 0)."
+   },
+   {
+    "sympy": "X,Y,Z,P,Q=symbols('X Y Z P Q'); R=sqrt(X**2+Y**2+Z**2); f=-X/R**3; g=Matrix([diff(f,X),diff(f,Y),diff(f,Z)]); simplify(-(P*g[0]+Q*g[1]-g[2]) + ((3*X**2-R**2)*P+3*X*Y*Q-3*X*Z)/R**5)",
+    "asserts": "The y-component equals -[(3x^2-r^2)p+3xyq-3xz]/r^5, as on page 266 (result 0)."
+   },
+   {
+    "sympy": "r=sqrt(x**2+y**2+z**2); simplify(diff(x*q/r**3,x) - diff((x*p - z)/r**3,y) - (3*x*y*p + (3*y**2 - r**2)*q - 3*y*z)/r**5)",
+    "asserts": "The integrand is the divergence-type form d/dx(xq/r^3) - d/dy((xp-z)/r^3), with z=z(x,y) (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'jeder Flächenheit von II' should read 'jeder Flächentheil von II'; compare 'der entsprechende Flächentheil von I' on the next page.",
+   "The omega in 'Einem Elemente omega' is written as a superscript insertion above 'Elemente'.",
+   "'begrenzte' and '(I)' are interlinear insertions above 'Fläche', and 'in' is struck out; the transcription marks this correctly.",
+   "'V. p 624' is a later pencil note giving the location in Gauss Werke vol. V."
+  ]
+ }
+}

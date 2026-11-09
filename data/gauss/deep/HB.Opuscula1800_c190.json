@@ -1,0 +1,63 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c190",
+ "label": "185",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000191/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the facing page has transit times of oscillations ('Zweite Reihe', 'Decr. log') of the kind recorded in magnetometer observations, which fits the 1830s Göttingen magnetic work. Here Gauss writes down the far-field action of a magnet SN on a point P, as needed for deflection experiments.\n\nSetup: A is the centre of the magnet. AN is the half-axis toward pole N. P is at distance r = AP, large compared with the magnet. u is the angle between AN and AP. PQ is the direction of the force on positive magnetic fluid at P. v is the angle between the prolongation of AP beyond P and PQ. u and v are counted in the same rotational sense. m is the magnetic moment and SN is the magnetic axis.\n\nModern restatement (my notation): take the unit vector e along AN, the radial unit vector r̂ at angle u from e, and the transverse unit vector t at angle u+90°. The force per unit positive fluid is F = (m/r^3)(3 cos u r̂ − e), i.e. the point-dipole field (3(m·r̂)r̂ − m)/r^3 with the moment vector pointing toward N.\n\nStated results:\n(1) Components: radial F_r = 2m cos u/r^3 and transverse F_t = m sin u/r^3. This is decomposition II, on the next page. Hence tan v = F_t/F_r = ½ tan u.\n(2) Magnitude |F| = (m/r^3)√(4cos²u + sin²u). The rewritings follow from sin²u = 1 − cos²u and cos²u = (1+cos 2u)/2 [steps mine]:\n  = (m/r^3)√(3cos²u + 1)\n  = (m/r^3)√(4 − 3 sin²u)\n  = (m/r^3)√(5/2 + (3/2) cos 2u).\n(3) Three resolutions of F into two forces:\n  I. m/r^3 parallel to NS (that is, −e) plus 3m cos u/r^3 along AP. This is exactly the vector form 3(m·r̂)r̂/r^3 − m/r^3.\n  II (next page). 2m cos u/r^3 along AP plus m sin u/r^3 along the direction at angle u+90° to AN.\n  III (next page). 3m/(2r^3) along AP', where angle NAP = angle PAP' so AP' lies at angle 2u, plus m/(2r^3) parallel to SN (+e). This uses 3cos u r̂ = (3/2)(cos 2u, sin 2u) + (3/2)e. It also explains the fourth magnitude form, since |(3/2)ê_{2u} + (1/2)e|² = 5/2 + (3/2) cos 2u.\n\nThe signs are internally consistent. Gauss switches deliberately from 'parallel mit NS' in I to 'parallel mit SN' in III, which matches −e versus +e.\n\nPurpose: these are the formulas for the deflection of a needle by a distant magnet in Gauss's two principal positions (u = 0 gives force 2m/r^3; u = 90° gives m/r^3), as used in the absolute determination of magnetic intensity.",
+  "errors": [
+   "No mathematical errors found. All equalities and all three decompositions check out, with consistent signs (I: −e, III: +e).",
+   "The page gives only the leading 1/r^3 term (point-dipole approximation 'in grosser Ferne'), with no higher-order corrections. This is deliberate rather than an error."
+  ],
+  "results": [
+   {
+    "what": "Far field of a magnet: radial component 2m cos u/r^3, transverse m sin u/r^3, direction tan v = ½ tan u, magnitude (m/r^3)√(1+3cos²u)",
+    "modern_name": "Magnetic dipole field; field-line direction law tan v = ½ tan u",
+    "usually_credited_to": "Dipole law from Coulomb/Biot; systematic potential treatment Poisson (1824); the deflection-magnetometer use is Gauss (Intensitas vis magneticae, 1832/33)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Vector decomposition F = (m/r^3)(3 cos u r̂ − ê_axis) and the alternative split into 3m/(2r^3) along the doubled angle 2u plus m/(2r^3) along the axis",
+    "modern_name": "Vector form of the dipole field B = (3(m·r̂)r̂ − m)/r^3, and its double-angle representation",
+    "usually_credited_to": "Standard in 19th-century magnetism (Poisson, Gauss, Weber)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are the standard dipole-field and Gauss-position formulas that Gauss himself published in the 1830s magnetic papers. The double-angle decomposition III is a neat working note but not a new result.",
+  "checkable": [
+   {
+    "sympy": "simplify(4*cos(u)**2 + sin(u)**2 - (3*cos(u)**2 + 1))",
+    "asserts": "first rewriting of the magnitude squared (result 0)"
+   },
+   {
+    "sympy": "simplify(4*cos(u)**2 + sin(u)**2 - (4 - 3*sin(u)**2))",
+    "asserts": "second rewriting (result 0)"
+   },
+   {
+    "sympy": "simplify(4*cos(u)**2 + sin(u)**2 - (Rational(5,2) + Rational(3,2)*cos(2*u)))",
+    "asserts": "third rewriting with the double angle (result 0)"
+   },
+   {
+    "sympy": "simplify(Matrix([3*cos(u)*cos(u) - 1, 3*cos(u)*sin(u)]) - (2*cos(u)*Matrix([cos(u), sin(u)]) + sin(u)*Matrix([-sin(u), cos(u)])))",
+    "asserts": "decomposition I equals decomposition II (radial 2cos u, transverse sin u); zero vector"
+   },
+   {
+    "sympy": "simplify(Matrix([3*cos(u)*cos(u) - 1, 3*cos(u)*sin(u)]) - (Rational(3,2)*Matrix([cos(2*u), sin(2*u)]) + Rational(1,2)*Matrix([1, 0])))",
+    "asserts": "decomposition I equals decomposition III (3/2 along angle 2u plus 1/2 along AN, i.e. parallel to SN); zero vector"
+   },
+   {
+    "sympy": "simplify(sin(u)/(2*cos(u)) - tan(u)/2)",
+    "asserts": "tan v = F_t/F_r = ½ tan u (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line on m: Gauss struck out 'des' and 'SN' and added 'N'; the intended reading is 'm Moment des Magnetismus des Magnets'.",
+   "Last line: '3m cos u/r^3 nach der Richtung AP'. A struck-out 'p' and 'AP' precede the final wording 'der Richtung AP'.",
+   "'tang v' should read 'tang v = ½ tang u'. Squares are written cos u², i.e. cos²u."
+  ]
+ }
+}

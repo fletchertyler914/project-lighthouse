@@ -1,0 +1,46 @@
+{
+ "bundle": "PH.Varia",
+ "page": "c009",
+ "label": "5v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382762:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 5v carries no independent writing by Gauss. What the image shows is the ink of the recto (fol. 5r, 'Phys. 37') bleeding through in mirror image. The match with the recto is element by element.\n- The circled figure (circle with a radius and an angle) sits at the upper RIGHT here, where the recto has it at the upper left.\n- The short heading at the top centre is the mirror image of 'Element der Masse'.\n- The line below it, and the long line with a fraction bar, correspond to 'u u du sin θ ∂θ ∂ϖ' and 'Elem. d. Potentials (uu du sinθ ∂θ ∂ϖ)/f'.\n- The right-hand column of short items corresponds to the recto's left column: 'u dθ', 'u sinθ ∂π', '∂u', '∫_0^{2π} …'.\n- The curved brace and the fractions in the middle are the mirrored '2π uu du sinθ ∂θ / f' and 'f df = r u sinθ ∂θ' lines.\n- The two-column block at the bottom is the mirrored 'ausserhalb / innerhalb' table with f' and f^0.\nThe page is therefore effectively blank, and every visible trace belongs to the recto.\n\nFor context only, here is the recto's mathematics as it can be read through the paper and from its transcription. It computes the Newtonian potential of a thin homogeneous spherical shell of radius u and thickness du at a point at distance r from the centre.\n1. Volume element in spherical coordinates: dm = u^2 du sinθ dθ dϖ.\n2. Potential element: dV = dm / f, with f^2 = r^2 + u^2 − 2 r u cosθ.\n3. Integrating over ϖ from 0 to 2π gives 2π u^2 du sinθ dθ / f.\n4. Differentiating f^2 gives f df = r u sinθ dθ. Substituting turns the θ-integrand into (2π u du / r) df.\n5. Integrating df gives (2π u du / r)(f' − f^0).\n   - Outside (r > u): f' = r + u and f^0 = r − u, so V = 4π u^2 du / r.\n   - Inside (r < u): f' = u + r and f^0 = u − r, so V = 4π u du, independent of r.\n6. The recto then begins to integrate over shells. Its struck-out '(4π/3)(1/r) ϱ^3' is the potential of a full homogeneous ball outside it.\nThis is the classical shell theorem, handled with the standard substitution.",
+  "errors": [
+   "No mathematical content of its own on 5v; the visible marks are show-through from 5r.",
+   "On the recto (context only), the final inside entry is transcribed as '4π u du / r [?]'. The correct inside value is 4π u du with no 1/r, and the earlier entry in the same row has it correctly. The '/r' is either a transcription artefact or an unfinished correction."
+  ],
+  "results": [
+   {
+    "what": "(Show-through of recto) Potential of a homogeneous thin spherical shell: 4π u^2 du / r outside, 4π u du inside. Uses the substitution f df = r u sinθ dθ.",
+    "modern_name": "Newton's shell theorem / potential of a spherical shell",
+    "usually_credited_to": "Newton (Principia, 1687); the potential formulation is due to Laplace and Legendre (late 18th century)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The verso is blank apart from mirror-image bleed-through of the recto. The recto content itself is the textbook shell-potential computation, which Gauss used routinely, e.g. in his 1840 potential-theory memoir.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(sqrt(r**2+u**2-2*r*u*cos(t)),t)*sqrt(r**2+u**2-2*r*u*cos(t)) - r*u*sin(t))",
+    "asserts": "f df/dθ = r u sinθ, where f^2 = r^2 + u^2 − 2ru cosθ (should be 0)."
+   },
+   {
+    "sympy": "simplify(integrate(2*pi*u**2*sin(t)/sqrt(r**2+u**2-2*r*u*cos(t)),(t,0,pi)).subs({r:3,u:1}) - 4*pi*1**2/3)",
+    "asserts": "Outside the shell (r=3, u=1), the θ-integral equals 4π u^2 / r (should be 0)."
+   },
+   {
+    "sympy": "simplify(integrate(2*pi*u**2*sin(t)/sqrt(r**2+u**2-2*r*u*cos(t)),(t,0,pi)).subs({r:1,u:3}) - 4*pi*3)",
+    "asserts": "Inside the shell (r=1, u=3), the θ-integral equals 4π u, independent of r (should be 0)."
+   },
+   {
+    "sympy": "integrate(4*pi*u**2/r,(u,0,R))",
+    "asserts": "Summing the shells gives the potential of a homogeneous ball outside it: (4π/3) R^3 / r."
+   }
+  ],
+  "transcription_corrections": [
+   "The page contains no original writing. All traces are the mirror-image bleed-through of fol. 5r ('Element der Masse', the potential-of-shell computation, and the circle figure, which appears here at the upper right). The '[illegible]' lines should be replaced by a note such as '[blank; show-through of recto]'."
+  ]
+ }
+}

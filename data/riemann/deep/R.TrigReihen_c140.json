@@ -1,0 +1,64 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c140",
+ "label": "69r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000141/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page continues the historical introduction (§1–2) of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1854, published 1867). It is a draft whose wording is very close to the printed text.\n\n(a) Lagrange's formula. Riemann quotes Lagrange (Misc. Taur. III, p. 261), the passage Poisson cited as anticipating Fourier:\n y = 2∫Y sin Xπ dX · sin xπ + 2∫Y sin 2Xπ dX · sin 2xπ + … + 2∫Y sin nXπ dX · sin nxπ,\nso that y = Y when x = X.\n\nRiemann's point is that Lagrange's ∫ ... dX denotes a finite sum Σ ... ΔX. The formula solves a finite interpolation problem. Find\n S(x) = Σ_{m=1}^n a_m sin(mπx)\nsuch that S(X_k) = Y_k at the nodes X_k = k/(n+1), k = 1..n.\n\nImplicit steps (mine):\n1. Discrete orthogonality: Σ_{k=1}^n sin(mπk/(n+1)) sin(lπk/(n+1)) = ((n+1)/2) δ_{ml} for 1 ≤ m, l ≤ n.\n2. Hence a_m = (2/(n+1)) Σ_k Y_k sin(mπk/(n+1)) = 2 Σ_k Y_k sin(mπX_k) ΔX, with ΔX = 1/(n+1).\n3. This is exactly Lagrange's expression with ∫ dX read as Σ ΔX. It is the discrete sine transform (DST-I).\n4. Letting n → ∞ formally gives a_m = 2∫_0^1 Y(X) sin(mπX) dX, the Fourier sine coefficients.\n\nRiemann argues historically:\n- Lagrange did not take this step.\n- He believed arbitrary functions could not be expressed by a formula, and that trigonometric series represent only analytically given periodic functions.\n- Shaped by the Euler–d'Alembert controversy, he wanted to solve the vibrating-string problem completely for finitely many masses before passing to the limit. That required lengthy limit considerations, which would have been unnecessary had he known the Fourier series.\n\n(b) After Fourier. The coefficient formulas were used widely in mathematical physics. Convergence was checked case by case when the coefficients had closed form, but there was long no general proof.\n\n(c) Cauchy's 1826 proof (Mém. Acad. Paris VI, p. 603) was shown inadequate by Dirichlet (Crelle IV, pp. 157–158).\n- Cauchy assumes the periodic f, continued to x+iy, is finite for every y.\n- Riemann remarks this holds only for constant functions. Reason (mine): an entire, periodic function bounded on the whole plane is constant by Liouville's theorem.\n- He adds that the hypothesis is not needed in full. The next page says it suffices to have φ(x+iy) finite for y > 0 whose real part at y = 0 equals f, i.e. a harmonic/analytic extension to the half-plane (Poisson integral). Riemann notes this conversely follows from the Fourier series and refers to his dissertation.",
+  "errors": [
+   "No mathematical errors. The interpretation of Lagrange's ∫ as a finite sum with nodes k/(n+1) is correct and is the standard reading.",
+   "The claim that Cauchy's hypothesis holds only for constants is correct only if 'finite for every y' means bounded in the whole plane (Liouville). Merely being finite (not uniformly bounded) at each point would allow e.g. sin x. Riemann states it tersely, but this reading is clearly intended and matches the printed version.",
+   "The scope of Riemann's historical judgment, that Lagrange did not believe arbitrary functions were representable, is an interpretive claim, not a mathematical one. It is consistent with the standard historiography (Riemann's own account is a main source for it)."
+  ],
+  "results": [
+   {
+    "what": "Lagrange's finite sine-interpolation formula, with coefficients a_m = (2/(n+1)) Σ Y_k sin(mπk/(n+1)), and Riemann's observation that Lagrange's ∫ dX is really Σ ΔX",
+    "modern_name": "Discrete sine transform (DST-I) / trigonometric interpolation via discrete orthogonality",
+    "usually_credited_to": "Lagrange (1759–62, Misc. Taur.); the critical reading is Riemann's, in the published Habilitationsschrift (1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Critique of Cauchy's 1826 convergence proof: boundedness of the complex continuation for all y forces f to be constant",
+    "modern_name": "Liouville's theorem applied to entire periodic functions",
+    "usually_credited_to": "Dirichlet (1829) for the critique; Riemann's formulation appears in the published Habilitationsschrift",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Historical account of Fourier vs. Lagrange/Poisson priority",
+    "modern_name": "History of Fourier series",
+    "usually_credited_to": "Riemann, Habilitationsschrift §1–2",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of the published historical introduction to Riemann's 1854 Habilitationsschrift, nearly verbatim. Both the Lagrange-interpolation analysis and the Cauchy critique are well known as his.",
+  "checkable": [
+   {
+    "sympy": "n=5; k=symbols('k', integer=True); simplify(Sum(sin(2*k*pi/(n+1))*sin(3*k*pi/(n+1)),(k,1,n)).doit())",
+    "asserts": "Discrete orthogonality: equals 0 for m≠l (n=5, m=2, l=3)"
+   },
+   {
+    "sympy": "n=5; k=symbols('k', integer=True); nsimplify(Sum(sin(2*k*pi/(n+1))**2,(k,1,n)).doit())",
+    "asserts": "Equals (n+1)/2 = 3 for m=l=2, n=5"
+   },
+   {
+    "sympy": "n=4; Y=[Rational(1),Rational(3),Rational(-2),Rational(5)]; a=[Rational(2,n+1)*sum(Y[k-1]*sin(m*k*pi/(n+1)) for k in range(1,n+1)) for m in range(1,n+1)]; [nsimplify(simplify(sum(a[m-1]*sin(m*j*pi/(n+1)) for m in range(1,n+1)))) for j in range(1,n+1)]",
+    "asserts": "Lagrange's coefficients reproduce the prescribed values Y at x = j/(n+1), i.e. returns [1,3,-2,5]"
+   },
+   {
+    "sympy": "limit(2*Sum(sin(m*pi*k/(N+1))*(k/(N+1))/(N+1),(k,1,N)).doit().subs(m,1), N, oo)",
+    "asserts": "As n→∞ the Lagrange sum tends to the Fourier sine coefficient 2∫_0^1 X sin(πX) dX = 2/π (test case Y=X, m=1)"
+   }
+  ],
+  "transcription_corrections": [
+   "'an der von [?] citirten Stelle' should read 'an der von Poisson citirten Stelle' (matches the image and the printed text).",
+   "'Lagrange {+allgemein+} unbestimmt durch X bezeichnet': 'allgemein' is an interlinear insertion above 'unbestimmt', which appears to be the word replaced.",
+   "Interlinear 'kaum denkbar' replaces 'fast unbegreiflich' in 'Freilich erscheint es uns jetzt …'; the transcription captures this correctly.",
+   "The struck passage reads '[-auch überzeugte man-] {+und+} sich in jedem einzelnen Falle'; the sentence is syntactically awkward in the draft (repeated 'überzeugte man')."
+  ]
+ }
+}

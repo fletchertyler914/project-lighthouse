@@ -1,0 +1,77 @@
+{
+ "bundle": "Math.20",
+ "page": "c093",
+ "label": "46v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000094/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "OVERVIEW. The page is a 25-row numerical table for a parameter θ = 0°, 7½°, 15°, …, 180°. That is 24 equal steps of 7.5°, i.e. half of a 48-point period.\n\nColumns:\n(a) log r (Briggsian logarithm).\n(b) an angle φ in degrees, minutes and seconds. It grows monotonically from 86°19'13.342\" to 88°53'28.424\".\n(c) x = r cos φ.\n(d) y = r sin φ, with the points numbered (1)…(24).\n(e), (f) two columns of trigonometric (Fourier) coefficients, row k giving the coefficient of cos kθ.\n\nThe head of the table reads '0.2991866 (n.)' and '−0.1278113 ∓ 1.9874234 i'. So the tabulated points are z(θ) = −x ∓ i·y, i.e. a curve together with its complex conjugate, with the real part negative throughout. ('n.' plausibly means negativ.)\n\nSTEP 1 (polar to rectangular; my verification).\nr = 10^(log r), x = r cos φ, y = r sin φ.\n- θ=0: r = 10^0.2991866 ≈ 1.99153 and 90°−φ = 3.6796°. This gives x ≈ 0.12781 and y ≈ 1.98742, matching 0.1278113 and 1.9874234.\n- θ=90°: r ≈ 1.75890 and 90°−φ = 2.65386°. This gives x ≈ 0.081441 and y ≈ 1.757016, matching.\n- θ=30°: x ≈ 0.122115.\n\nSTEP 2 (correction of the x-column).\nIn the rows 30° to 52½°, Gauss had first entered the x-values shifted by one row. At 30° he wrote the value belonging to 37½°, and so on. He struck these out and wrote the correct values above: 0.1221151, 0.1189630, 0.1151638, 0.1107525. The value 0.1057733 then correctly stands at 60°.\n\nSTEP 3 (harmonic analysis; reconstructed).\nTreat x(θ) and y(θ) as even 2π-periodic functions of θ. Expand\n- x(θ) = Σ_{k=0}^{24} A_k cos kθ,\n- y(θ) = Σ_{k=0}^{24} B_k cos kθ,\n\nwith the discrete cosine (trigonometric-interpolation) formulas for N = 24 intervals, h = π/24, using trapezoidal end weights:\n- A_0 = (1/24)[x_0/2 + Σ_{j=1}^{23} x_j + x_24/2],\n- A_k = (1/12)[x_0/2 + Σ x_j cos(kjh) + (−1)^k x_24/2],\n- likewise for B_k.\n\nValues in units of the 7th decimal (A for x, carrying the overall minus sign of the real part):\n- A_0 = −0.0789344, A_1 = −0.0513048, A_2 = +0.0024905, A_3 = −0.0000493, A_4 = −165, A_5 = +37, A_6 = −6, A_7 = −1.\n- Higher A_k are 0 or ±1, i.e. rounding noise.\n- B_0 = 1.7036737, B_1 = 0.3298791, B_2 = −0.0568829, B_3 = 0.0137364, B_4 = −39008, B_5 = +12190, B_6 = −4041, B_7 = +1392, B_8 = −493, B_9 = 178, B_10 = −65, B_11 = 25, B_12 = −10, B_13 = 4, B_14 = −1.\n- The B_k decay geometrically with ratio about −0.3, until they reach noise level near k = 15.\n\nMy checks:\n- Σ B_k = 1.98742 = y(0) and Σ (−1)^k B_k ≈ 1.29751 = y(180°).\n- Σ A_k ≈ −0.1278115 = x(0) and Σ (−1)^k A_k ≈ −0.0251106 = x(180°).\n- Direct trapezoidal mean of the y column: 40.8881724/24 = 1.7036739 ≈ B_0.\n\nPURPOSE. Gauss is converting a numerically computed closed curve into a rapidly convergent Fourier series. This is presumably so it can be represented, integrated or used further, e.g. in a conformal or complex-analytic problem. The previous page tabulates a related curve with polar and rectangular coordinates and a double point at 2^{4/3}e^{iπ/3} = 1.2599210 + 2.1822472 i (note 1.2599210 = 2^{1/3}), headed 'Zu IV'. The precise underlying problem cannot be determined from this page alone.",
+  "errors": [
+   "First-entry slip: in rows 30°–52½° the x-values were initially copied one row too late. Gauss himself caught and corrected this by writing the right values (0.1221151, 0.1189630, 0.1151638, 0.1107525) above the struck-out ones. The corrected column is consistent with r cos φ.",
+   "No arithmetic errors found in spot checks of r cos φ and r sin φ (θ = 0°, 30°, 37½°, 90°) or of the Fourier coefficients. Endpoint reconstructions agree to 1–2 units of the 7th decimal. B_0 recomputed from the table is 1.7036739 vs 1.7036737.",
+   "The high-order coefficients (k ≥ 15 for y, k ≥ 8 for x) are ±1–2 units of the 7th decimal. They reflect rounding in the data, not genuine harmonics, as Gauss surely knew."
+  ],
+  "results": [
+   {
+    "what": "Conversion of a tabulated curve from polar (log r, φ) to rectangular coordinates x = r cos φ, y = r sin φ at 25 equally spaced parameter values.",
+    "modern_name": "polar-to-Cartesian tabulation",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Harmonic analysis of the tabulated coordinates: cosine coefficients from 24 equal intervals over a half period (48-point period), with trapezoidal end weights. The result is a rapidly convergent trigonometric series for x(θ) and y(θ).",
+    "modern_name": "discrete cosine transform / trigonometric interpolation (discrete Fourier analysis)",
+    "usually_credited_to": "Clairaut and Lagrange (18th c.); Gauss's 'Theoria interpolationis methodo nova tractata' (c. 1805, publ. posthumously 1866), which also contains the FFT idea",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a careful numerical application of trigonometric interpolation, a method Gauss is well known to have developed and used routinely (e.g. in perturbation work and the 1805 interpolation memoir). Nothing here is theoretically new. The only point of interest is the unidentified geometric or complex-analytic problem behind the curve, which ties to the previous page's double point at 2^{4/3}e^{iπ/3}.",
+  "checkable": [
+   {
+    "sympy": "N(10**0.2991866*cos(pi*(86+19/60+13.342/3600)/180), 10)",
+    "asserts": "≈ 0.1278113 (x at θ=0)"
+   },
+   {
+    "sympy": "N(10**0.2991866*sin(pi*(86+19/60+13.342/3600)/180), 10)",
+    "asserts": "≈ 1.9874234 (y at θ=0)"
+   },
+   {
+    "sympy": "N(10**0.2452418*cos(pi*(87+20/60+46.098/3600)/180), 10)",
+    "asserts": "≈ 0.0814408 (x at θ=90°)"
+   },
+   {
+    "sympy": "N(10**0.2935643*cos(pi*(86+26/60+19.354/3600)/180), 10)",
+    "asserts": "≈ 0.1221151, the corrected x at θ=30° (not 0.1189630)"
+   },
+   {
+    "sympy": "y=[1.9874234,1.9858452,1.9811087,1.9732085,1.9621167,1.9478287,1.9303200,1.9095674,1.8855544,1.8582712,1.8277261,1.7939500,1.7570162,1.7170557,1.6742846,1.6290383,1.5818226,1.5333729,1.4847321,1.4373397,1.3930974,1.3543781,1.3238768,1.3042321,1.2974346]; (y[0]/2+sum(y[1:24])+y[24]/2)/24",
+    "asserts": "≈ 1.7036737 (B_0)"
+   },
+   {
+    "sympy": "(y[0]/2+sum(y[j]*cos(pi*j/24) for j in range(1,24))-y[24]/2)/12",
+    "asserts": "≈ 0.3298791 (B_1); with cos(2*pi*j/24) and +y[24]/2 it gives ≈ −0.0568829 (B_2)"
+   },
+   {
+    "sympy": "B=[1.7036737,0.3298791,-0.0568829,0.0137364,-0.0039008,0.0012190,-0.0004041,0.0001392,-0.0000493,0.0000178,-0.0000065,0.0000025,-0.0000010,0.0000004,-0.0000001,0.0000001,-0.0000001]; sum(B), sum((-1)**k*B[k] for k in range(len(B)))",
+    "asserts": "≈ 1.9874234 and ≈ 1.2974346 (y at 0° and 180°)"
+   },
+   {
+    "sympy": "A=[-0.0789344,-0.0513048,0.0024905,-0.0000493,-0.0000165,0.0000037,-0.0000006,-0.0000001]; sum(A), sum((-1)**k*A[k] for k in range(len(A)))",
+    "asserts": "≈ −0.1278113 and ≈ −0.0251107 (real part at 0° and 180°)"
+   },
+   {
+    "sympy": "N(2**Rational(1,3)), N(2**Rational(1,3)*sqrt(3)), N(log(2**Rational(4,3),10))",
+    "asserts": "1.2599210, 2.1822472, 0.4013733: the double point on the previous page is 2^(4/3)*exp(i*pi/3)"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 0°: log r is 0.2991866 followed by '(n.)'. The x entry is '−0.1278113' and the y entry '∓ 1.9874234 i', with the minus sign applying to the whole x column.",
+   "Row 30°: the corrected x-value written above the struck-out 0.1189630 is 0.1221151 (the transcription's '0.122151' drops a digit). This is confirmed by r cos φ ≈ 0.122115.",
+   "Last two columns are Fourier coefficients in units of 10^-7 unless written with a decimal point. Row 0 is −0.0789344 and +1.7036737; row 2 is +0.0024905 and −0.0568829; and so on.",
+   "Row 22½°: y = 1.9732085 (overwritten digits, but consistent with the neighbouring values)."
+  ]
+ }
+}

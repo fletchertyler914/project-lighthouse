@@ -1,0 +1,61 @@
+{
+ "bundle": "R.PFunctionen",
+ "page": "c010",
+ "label": "6r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206214:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a dated (1855) draft introduction to what became Riemann's 1857 memoir 'Beiträge zur Theorie der durch die Gauss'sche Reihe F(α,β,γ,x) darstellbaren Functionen'.\n\n(A) Euler-type equation. Write θ = d/d log x = x d/dx. Riemann considers linear second-order ODEs in which the independent variable occurs in only two 'dimensions':\n  aθ²y + bθy + cy = x^λ (a'θ²y + b'θy + c'y).\nHe recalls Euler's remark that such equations have solutions as power series whose exponents form an arithmetic progression with difference λ.\n\nImplicit step (mine): put y = Σ_n c_n x^{μ+nλ}. The indicial equation is aμ² + bμ + c = 0. The recursion is\n  c_n (a μ_n² + b μ_n + c) = c_{n-1} (a' μ_{n-1}² + b' μ_{n-1} + c'),  with μ_n = μ + nλ.\nSo c_n/c_{n-1} is a ratio of two quadratics in n, with leading coefficients a'λ² and aλ².\n\nRiemann's parenthetical claim: apart from a common factor x^μ, the series is Gauss's hypergeometric series with fourth element a'x^λ/a.\n\nNormalisation: replacing a'x^λ/a by x reduces the general case to a = a' = λ = 1. With the quadratics factored, the equation becomes (2):\n  (1-x)θ²y + ((α+β) - x(α'+β'))θy + (αβ - xα'β')(y) = 0.\nThe y in the last term is missing in the manuscript.\n\n(B) Properties of the general solution (multivalued function y):\n1) Any three branches y', y'', y''' that y takes at the same x satisfy a linear relation a y' + b y'' + c y''' = 0 with constant coefficients. So the branches span a 2-dimensional space.\n2) Local behaviour at the singular points x = 0, ∞, 1:\n  - Each branch splits into two components u_i, v_i.\n  - At 0: u_1/x^α and v_1/x^β are finite and continuous.\n  - At ∞: u_2 x^{α'} and v_2 x^{β'} are finite and continuous.\n  - At 1: u_3 and v_3/(1-x)^{1-α-β-α'-β'} are finite and continuous. The text's 'v_3(1-x)…' stands for the exponent pair 0 and 1-α-β-α'-β'.\n  - These quotients expand in ascending powers of x, 1/x, 1-x respectively.\n  - Excluded case: α-β, α'-β' or α+β+α'+β' an integer. That is, exponent differences at the three points are integral (logarithmic case). Otherwise α, β, α', β' are arbitrary.\n  - The exponents satisfy the Fuchs relation α+β+α'+β'+0+(1-α-β-α'-β') = 1.\n3) At all other x, every branch varies single-valuedly and continuously (analytically).\n\nJustification as stated: (1) holds for any linear 2nd-order ODE. (2) follows from series expansion or from definite-integral (Euler-integral) representations.\n\nProgramme: prove the converse. Any function with properties 1–3 is a solution of (2). This is the P-function characterisation. The next page begins exactly this, constructing p, q via Wronskian quotients that are single-valued under monodromy.",
+  "errors": [
+   "Equation (2) as written omits the factor y in the last term (αβ - xα'β')y.",
+   "Sign inconsistency: with the signs as written, (θ+α)(θ+β)y - x(θ+α')(θ+β')y = 0. The exponents at 0 are then -α, -β, not α, β as stated in property 2. The exponents at 1 become 0 and 1+α+β-α'-β'. Consistency with u_1 ~ x^α and with the exponent 1-α-β-α'-β' at x=1 requires (θ-α)(θ-β)y - x(θ+α')(θ+β')y = 0, i.e. (1-x)θ²y - ((α+β)+x(α'+β'))θy + (αβ - xα'β')y = 0. This is a draft slip (or a convention switch midway).",
+   "The hypergeometric identification needs the a'x^λ/a substitution together with λ-scaling of the parameters (dividing μ-parameters by λ). This is left implicit, but it is correct."
+  ],
+  "results": [
+   {
+    "what": "Series solutions with exponents in arithmetic progression of difference λ for aθ²y+bθy+cy = x^λ(a'θ²y+b'θy+c'y)",
+    "modern_name": "Frobenius-type series for a two-term (Euler/Pochhammer) recurrence; reduction to Gauss hypergeometric series",
+    "usually_credited_to": "Euler (Inst. Calc. Integralis II, 1769); Gauss 1812 for the series",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Characterisation of solutions by: 2-dim branch space, prescribed local exponents at 0, 1, ∞ (sum 1), analytic elsewhere; with the converse that such functions satisfy the hypergeometric ODE",
+    "modern_name": "Riemann P-function / Riemann's characterisation of the hypergeometric equation; Fuchs relation; monodromy approach",
+    "usually_credited_to": "Riemann 1857",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Exclusion of integral exponent differences",
+    "modern_name": "Logarithmic (resonant) case of Fuchsian singularities",
+    "usually_credited_to": "Riemann 1857 / Fuchs 1866",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the introduction of Riemann's own 1857 P-function memoir; the content is well known as his. The only mild detail is the 1855 date, consistent with his known 1856–57 work.",
+  "checkable": [
+   {
+    "sympy": "x,al,be,alp,bep=symbols('x alpha beta alphap betap'); y=x**al*hyper([al+alp,al+bep],[1+al-be],x); th=lambda f: x*diff(f,x); simplify(hyperexpand(th(th(y))-(al+be)*th(y)+al*be*y - x*(th(th(y))+(alp+bep)*th(y)+alp*bep*y)))",
+    "asserts": "The corrected equation (θ-α)(θ-β)y = x(θ+α')(θ+β')y has the solution x^α F(α+α', α+β'; 1+α-β; x); check numerically if simplify fails."
+   },
+   {
+    "sympy": "simplify((1-al-be-alp-bep) - ((1+al-be) - (al+alp) - (al+bep)))",
+    "asserts": "Exponent at x=1 equals c-a-b of the associated Gauss series, i.e. 1-α-β-α'-β' (Fuchs relation sum = 1)."
+   },
+   {
+    "sympy": "n,mu,lam,a,b,c,ap,bp,cp=symbols('n mu lambda a b c ap bp cp'); ratio=(ap*(mu+(n-1)*lam)**2+bp*(mu+(n-1)*lam)+cp)/(a*(mu+n*lam)**2+b*(mu+n*lam)+c); limit(ratio,n,oo)",
+    "asserts": "The coefficient ratio tends to a'/a, so the series is hypergeometric in a'x^λ/a."
+   }
+  ],
+  "transcription_corrections": [
+   "'a y'_x + b y''_x + c y'''_x = 0' denotes three branches y', y'', y''' of y at the same x, not derivatives. Read: 'zwischen drei der verschiedenen Werthe, welche y für denselben Werth von x annimmt, findet eine lineare Gleichung mit constanten Coefficienten … Statt'.",
+   "The insertion above the second paragraph is probably 'Den linearen' rather than 'einer jeneren'.",
+   "The '$y_2, y_3$' after 'folgende Eigenschaften' is a stray fragment, not part of the sentence.",
+   "At x=1 the finite quotients are u_3 and v_3/(1-x)^{1-α-β-α'-β'}; the transcription 'v_3(1-x)' is incomplete.",
+   "The date reads 'D. 1855' (possibly 'Dec. 1855'); 'Riemann 11' is a later archival pencil note."
+  ]
+ }
+}

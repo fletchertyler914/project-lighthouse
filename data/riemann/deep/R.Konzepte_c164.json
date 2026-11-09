@@ -1,0 +1,59 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c164",
+ "label": "80r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000165/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Art. 11 of Riemann's Inaugural Dissertation (1851), 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse'. The previous page is the draft of the connectivity articles (Querschnitte, order of connectivity). The function u is real and satisfies the conditions fixed at the end of Art. 10: Δu = ∂²u/∂x² + ∂²u/∂y² = 0 in the surface T, with u and its first derivatives continuous (discontinuous at most at isolated points, never along a line, as the footnote on the next page says). From Art. 10 he already has two facts. (a) Green's formula with log r: for a region not containing the pole O0, ∫_∂ (log r ∂u/∂p − u ∂log r/∂p) ds = 0. (b) The flux identity: ∫_∂ ∂u/∂p ds = 0 over the full boundary. Here p is the (inner) normal.\n\nTheorem I: if u = 0 and ∂u/∂p = 0 along a line, then u ≡ 0. This is unique continuation, or uniqueness of the Cauchy problem for the Laplace equation.\n\nLemma: a line λ on which u = 0 and ∂u/∂p = 0 cannot bound a region a in which u > 0.\n\nProof by contradiction.\n1. Cut out of a a piece D bounded partly by an arc of λ and partly by an arc C of a circle |z − O0| = r, with the centre O0 not in D. He says this construction is always possible. Locally: take the centre on the other side of λ, and a radius slightly larger than its distance to λ.\n2. Write r, φ for the polar coordinates of the variable point O about O0. Then log r is harmonic in D, so ∫_{∂D} (log r ∂u/∂p − u ∂log r/∂p) ds = 0.\n3. On λ both u and ∂u/∂p vanish, so only C contributes.\n4. On C, r is constant, ∂log r/∂p = ±1/r and ds = r dφ. Up to an overall sign this gives ∫_C u dφ + log r ∫_C ∂u/∂p ds = 0.\n5. By the flux identity on ∂D, with the λ-part vanishing, ∫_C ∂u/∂p ds = 0.\n6. Hence ∫_C u dφ = 0. But C lies in the interior of a, where u > 0, so the integral is strictly positive. Contradiction.\n7. The same argument with u < 0 (region b) gives the same conclusion.\n\nConclusion of I: suppose u = u_n = 0 on a line but u ≠ 0 in some part of T. A part where u ≠ 0 would have to be bounded either by the line itself or by a region where u ≡ 0. In either case its boundary is a line where u = 0 and ∂u/∂p = 0, which the lemma excludes.\n\nTheorem II (begun at the bottom, finished on the next page): Cauchy data u and ∂u/∂p along a line determine u in all of T. Proof: the difference u1 − u2 of two solutions satisfies the same conditions, by linearity, and has zero Cauchy data on the line; apply I.",
+  "errors": [
+   "Gap in the conclusion of I: the lemma only excludes boundaries of regions where u has one fixed sign. A component of {u ≠ 0} adjacent to λ could contain both signs, separated by nodal curves (u = 0 but ∂u/∂p ≠ 0) that run up to λ. Then no region of fixed sign need have a boundary on which both u and ∂u/∂p vanish. Riemann's 'offenbar' therefore hides a real topological/analytic step. The modern proof uses real-analyticity of harmonic functions (or Holmgren's theorem).",
+   "The circle-cutting construction ('allemal möglich') tacitly assumes λ is a smooth arc, with a lying locally on one side of it. The circular arc C must lie entirely in the interior of a, so that u > 0 on it. This is asserted, not proved.",
+   "The signs in the arc formula ∫u dφ + log r ∫∂u/∂p ds = 0 depend on the orientation of the normal. This is immaterial to the argument, which only uses the vanishing of ∫_C u dφ.",
+   "No outright computational errors."
+  ],
+  "results": [
+   {
+    "what": "A harmonic function with u = 0 and ∂u/∂p = 0 along a curve vanishes identically, proved via Green's identity with log r and the circle-arc mean-value argument.",
+    "modern_name": "Unique continuation / uniqueness of the Cauchy problem for the Laplace equation (special case of Holmgren's theorem)",
+    "usually_credited_to": "Classical; follows from analyticity (Cauchy, Weierstrass). In general form Holmgren 1901. This specific statement and proof appear in Riemann's Dissertation 1851, Art. 11.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Cauchy data along a line determine a harmonic function (proved by linearity plus I).",
+    "modern_name": "Uniqueness for the Cauchy problem for Δu = 0",
+    "usually_credited_to": "Riemann, Dissertation 1851, Art. 11 (Satz II); generally classical.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of Art. 11 of Riemann's published 1851 Dissertation, essentially identical in content to the printed text (Sätze I and II). It is well known as his; only small wording variants of the draft are new.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); simplify(diff(log(sqrt(x**2+y**2)),x,2)+diff(log(sqrt(x**2+y**2)),y,2))",
+    "asserts": "log r is harmonic away from the origin (result 0)."
+   },
+   {
+    "sympy": "r=symbols('r',positive=True); diff(log(r),r)*r",
+    "asserts": "On a circle, (∂log r/∂p) ds = (1/r)·r dφ = dφ (result 1), giving the u dφ term."
+   },
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); u=r**2*cos(2*phi); integrate((log(r)*diff(u,r)-u*diff(log(r),r))*r,(phi,0,2*pi))",
+    "asserts": "Green's boundary integral vanishes on a full circle for a harmonic u with no log term (result 0)."
+   },
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); u=r**3*cos(3*phi); integrate(diff(u,r)*r,(phi,0,2*pi))",
+    "asserts": "Flux identity ∫ ∂u/∂p ds = 0 for a harmonic function on a circle (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: read 'Unter denselben in Bezug auf u gemachten Voraussetzungen wie am Schlusse des vorigen Art. folgen nun folgende Sätze'. 'Unter denselben Voraussetzungen' is partly struck and the insertions belong to it; this matches the printed text.",
+   "'daß eine Linie λ, wo u=0 und du/dp=0 ist, nicht die Begrenzung eines Flächentheils a ... bilden könne': the word 'nicht' must be retained (the logic and the printed Dissertation require it); the transcription's '[-nicht-] [?]' is wrong.",
+   "'Polarcoordinaten von O in Bezug auf O_0': O denotes the variable point; the reading is correct but worth noting.",
+   "'(nicht bestehen kann)' is a deleted alternative to 'unverträglich ist'.",
+   "'stattfinden können' (b-case) and final 'statthaft ist': the last sentence reads roughly 'was nothwendig auf eine der vorhin widerlegten Annahmen führt, [also] nicht statthaft ist'."
+  ]
+ }
+}

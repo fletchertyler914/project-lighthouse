@@ -1,0 +1,99 @@
+{
+ "bundle": "Math.21",
+ "page": "c082",
+ "label": "42r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000083/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "OVERVIEW. The function phi studied on folios 41v-43 satisfies the linear ODE x*phi'' + phi = 0. This can be checked directly against the data at x=27: 27*0.0103264 = 0.2788128, which equals -phi(27). The values agree to high accuracy with phi(x) = sqrt(x)*J1(2*sqrt(x)) = sum_k (-1)^k x^(k+1)/(k!(k+1)!). Then phi'(x) = J0(2*sqrt(x)) = sum_k (-1)^k x^k/(k!)^2, which is D. Bernoulli's hanging-chain series. Gauss uses Taylor series to step from x=27 to x=26, finds the derivatives at 26 from the ODE, and then locates the zero of phi just below 26. That zero is the third positive zero of sqrt(x)J1(2sqrt x), equivalently the third extremum of J0(2sqrt x).\n\n1. INPUT (top). At x=27: phi = -0.2788132, phi' = -0.2437854. At x=28: phi = -0.5159484, phi' = -0.2293237. The higher derivatives at 27 come from folio 43 and are listed here in units of 1e-7: phi''=+103264.1, phi'''=+86466.3, phi^IV=-10229.5, phi^V=-2065.8, phi^VI=+684.9, phi^VII=-50.3, phi^VIII=-14.2, phi^IX=+5.5.\n\n[My derivation] Differentiating the ODE k times gives x*phi^(k+2) + k*phi^(k+1) + phi^(k) = 0. With this recurrence all of the listed derivatives at 27 check, e.g. phi'''=-(phi''+phi')/27 = 0.0086466 and phi^IV=-(2phi'''+phi'')/27 = -0.0010230.\n\n2. STEP TO x=26 (h=-1). Gauss splits the Taylor series into two sign groups, which is what the +- columns mean.\n- phi(26) = phi - phi' + phi''/2 - phi'''/6 + phi^IV/24 - phi^V/120 + ...\n- Group A: 0.2788132 + phi'''/6 (=0.00144110) + |phi^IV|/24 (=0.0000426). Gauss writes the sum as 2702.96928 (units 1e-4).\n- Group B: 0.2437854 + 0.0051632 + 0.0000172 + 0.0000010 + ... = 0.24895042, which is correct.\n- Difference: Gauss gets phi(26) = -0.0213465.\n- phi'(26) = phi' - phi'' + phi'''/2 - phi^IV/6 + phi^V/24 - phi^VI/120 + ...\n- Negative group: 0.2437854 + 0.01032641 + 0.0000086 + 0.0000006 + ... = 0.25412100 (Gauss 2541.20995).\n- Positive group: 0.00432331 + 0.00017049 + ... = 0.00449381.\n- Result: phi'(26) = -0.2496272. A rough value -0.25 is written first.\n\n3. DERIVATIVES AT 26 FROM THE ODE (right-hand columns).\n- phi'' = -phi/26: 1067325 = 5*213465, then /130, giving 0.00082102 (8210192).\n- phi''' = -(phi''+phi')/26: 24962719 - 82102 = 24880617; x5 = 124403085; /130 gives 0.009569468.\n- phi^IV: Gauss forms 2phi''' = 19138936, then 19138936 - 821020 = 18317916, halves to 9158958, divides by 13, and gets 704535, i.e. phi^IV = -0.00070454.\n- phi^V = -(3phi^IV+phi''')/26: 956947 - 211361 = 745586; /2 = 372793; /13 = 286764, i.e. -0.00028676.\n- phi^VI = -(4phi^V+phi^IV)/26: 1147056 + 70454 = 1851596; /26 = 71215, i.e. +0.0000712.\n- phi^VII = -(5phi^VI+phi^V)/26: 356075 - 286764 = 69311 (written 69315); /26 = 2666, i.e. -0.0000027.\n- These are collected as the Taylor data at 26: -0.0213465, -0.2496271.9, +8210.2, +95694.7, -7045.4, -2867.6, +712.2, -2?.7, -2 (units 1e-7).\n\n4. ROOT (bottom). Put x = 26 - n. The condition phi(26-n)=0, divided out, gives\nn = 0.0213465 / (0.2496272 + 0.0004105 n - 0.0015949 n^2 - 0.0000294 n^3 + 0.0000024 n^4).\n- The coefficients are phi''/2, phi'''/6, phi^IV/24 and phi^V/120.\n- First approximation: n ~ 0.0855. The denominator then becomes 0.24965.., and n = 0.085505707.\n- The products 68404565.6, 17101141, ... are the multiplication checks of n by the denominator.\n- Root: x = 25.914494293, where phi = 0.\n- Slope there: phi'(26-n) = phi' - n*phi'' + n^2/2*phi''' - ... The term n*phi'' = 702019e-9 is computed, giving phi' = -0.24966.",
+  "errors": [
+   "Addition slip in the group sum: 2788.1320 + 14.4110 + 0.4262 = 2802.9692, not 2702.96928. Hence phi(26) should be -0.0313465 (from Gauss's own inputs), not -0.0213465. The error is exactly 0.01. A direct 9-term Taylor sum confirms -0.0313465, and so does phi''(26) = 0.0120563 obtained by Taylor-stepping phi''.",
+   "Sign slip in phi^IV(26). The recurrence x*phi^IV + 2phi''' + phi'' = 0 requires 2phi''' + phi'' = 0.019959956, but Gauss subtracted (19138936 - 821020 = 18317916). Even with his phi(26) the value should be -0.00076769, not -0.00070454. The error propagates into phi^V, phi^VI and phi^VII at 26.",
+   "Because of the 0.01 error in phi(26), the root 25.9144943 is wrong. Redoing step 4 with phi(26) = -0.0313465 (and phi''=0.00120563, phi'''=0.0095547) gives n ~ 0.12555, x ~ 25.8745. The true third zero of sqrt(x)J1(2sqrt x) is (j_{1,3}/2)^2 = (10.1734681/2)^2 ~ 25.87487.",
+   "The input phi(27) = -0.2788132 seems too negative by about 1.0e-4. My asymptotic evaluation gives sqrt(27)J1(2sqrt27) ~ -0.278711, while phi'(27), phi(28) and phi'(28) agree with J0/J1 to about 1e-6 to 2e-5. This accounts for the remaining 0.0004 gap in the root. Folio 43 shows Gauss re-checking these values by series ('zu klein um ...').",
+   "Minor: 69315 should be 69311 (immaterial). The phi^VII entry read as '28.7' should be 26.7 (from 2666e-9 = 26.66e-7), unless the reading is at fault."
+  ],
+  "results": [
+   {
+    "what": "Identification of phi as a solution of x*y''+y=0 with phi' = J0(2sqrt x), the hanging-chain series; numerics are consistent with phi = sqrt(x)J1(2sqrt x)",
+    "modern_name": "Bessel functions of order 0 and 1 in the variable 2sqrt(x) (Bernoulli/Euler hanging-chain function)",
+    "usually_credited_to": "Daniel Bernoulli (1732-33) and Euler (1736/1764); systematized by Bessel (1824)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Taylor stepping with all higher derivatives generated by differentiating the ODE: x y^(k+2) + k y^(k+1) + y^(k) = 0",
+    "modern_name": "Taylor-series method for ODEs (derivative recurrence)",
+    "usually_credited_to": "Newton/Euler; standard 18th-century practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Root location by inverting the Taylor polynomial: n = phi/(phi' + phi''/2 n - ...) iterated (fixed-point/Newton-type)",
+    "modern_name": "Newton-Raphson / series reversion",
+    "usually_credited_to": "Newton, Raphson, Lagrange",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Numerical value of the third zero of J1, here in the form x = (j_{1,3}/2)^2 (erroneous 25.91449 owing to slips)",
+    "modern_name": "Zeros of Bessel functions",
+    "usually_credited_to": "Euler and Bernoulli (first chain zeros); Bessel; extensive tables later (Stokes, Meissel, etc.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Careful but routine numerical work on the Bernoulli-Euler hanging-chain/Bessel function, using standard Taylor/ODE-recurrence and Newton techniques. Mildly interesting as evidence that Gauss computed Bessel-function zeros by hand. Nothing conceptually new, and the final number is spoiled by an addition slip.",
+  "checkable": [
+   {
+    "sympy": "x=symbols('x',positive=True); phi=sqrt(x)*besselj(1,2*sqrt(x)); simplify(x*diff(phi,x,2)+phi)",
+    "asserts": "phi = sqrt(x)J1(2sqrt x) satisfies x*phi''+phi=0 (should simplify to 0)"
+   },
+   {
+    "sympy": "simplify(diff(sqrt(x)*besselj(1,2*sqrt(x)),x) - besselj(0,2*sqrt(x)))",
+    "asserts": "phi' = J0(2sqrt x) (should be 0)"
+   },
+   {
+    "sympy": "[N(sqrt(27)*besselj(1,2*sqrt(27))), N(besselj(0,2*sqrt(27))), N(sqrt(28)*besselj(1,2*sqrt(28))), N(besselj(0,2*sqrt(28)))]",
+    "asserts": "Compare with Gauss's -0.2788132, -0.2437854, -0.5159484, -0.2293237 (expect ~-0.27871, -0.243785, -0.51596, -0.229323)"
+   },
+   {
+    "sympy": "d=[-2788132,-2437854,103264.1,86466.3,-10229.5,-2065.8,684.9,-50.3,-14.2,5.5]; sum(d[k]*(-1)**k/factorial(k) for k in range(10))/1e7",
+    "asserts": "Taylor step from 27 to 26 with Gauss's data gives phi(26) ~ -0.0313465, not -0.0213465"
+   },
+   {
+    "sympy": "sum(d[k+1]*(-1)**k/factorial(k) for k in range(9))/1e7",
+    "asserts": "phi'(26) ~ -0.2496272, matching Gauss"
+   },
+   {
+    "sympy": "2788.1320+14.41105+0.42623",
+    "asserts": "equals 2802.96928, so Gauss's 2702.96928 is an addition slip"
+   },
+   {
+    "sympy": "N(sqrt(26)*besselj(1,2*sqrt(26)))",
+    "asserts": "true phi(26) ~ -0.03125, confirming the 0.01 error"
+   },
+   {
+    "sympy": "n=symbols('n'); nsolve(n*(0.2496272+0.0004105*n-0.0015949*n**2-0.0000294*n**3+0.0000024*n**4)-0.0213465, n, 0.085)",
+    "asserts": "Gauss's equation gives n = 0.0855057, i.e. root 26-n = 25.9144943"
+   },
+   {
+    "sympy": "N((besselj_zero:=nsolve(besselj(1,symbols('z')),symbols('z'),10.17))**2/4)",
+    "asserts": "true zero of sqrt(x)J1(2sqrt x) near 26 is (j_{1,3}/2)^2 ~ 25.87487"
+   },
+   {
+    "sympy": "(2*0.009569468+0.00082102)/26",
+    "asserts": "correct |phi^IV(26)| (with Gauss's phi'') = 0.00076769, not Gauss's 0.00070454 (sign slip)"
+   }
+  ],
+  "transcription_corrections": [
+   "'14.4110.5' means 14.41105 (= phi'''/6 = 0.00144110 in units of 1e-4); '4262.3' (with a struck leading digit) is 0.42623, i.e. |phi^IV|/24.",
+   "'2702.96928' is indeed what Gauss wrote, but it is an addition slip for 2802.96928.",
+   "'1067325' = 5*213465 and '8210192' = 0.0213465/26 = 0.00082101(92): working for phi''(26) = -phi(26)/26, not independent data.",
+   "'124403085' = 5*24880617 (division by 26 via x5/130); '9158958' = 18317916/2; '704535' = 9158958/13.",
+   "The phi^VII entry read as '- 28.7' is probably '- 26.7' (computed 2666e-9).",
+   "At top, phi'27 = -0.2437854 (the digit after 243 is overwritten as 7)."
+  ]
+ }
+}

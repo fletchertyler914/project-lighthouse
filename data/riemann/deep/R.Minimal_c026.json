@@ -1,0 +1,79 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c026",
+ "label": "14r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000027/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this sheet belongs to the working material for the paper 'Über die Fläche vom kleinsten Inhalt bei gegebener Begrenzung', which Hattendorff edited for publication in 1867. The previous page (part III) discusses the formulas for changing the coordinate system when the x-axis (the 'pole') is chosen arbitrarily, and how to add an arbitrary rotation about the x-axis. The next page is Riemann's reply to his collaborator. This sheet has two layers.\n\n(a) Top lines, Riemann's addition. The surface normal is represented by its stereographic coordinate η, the complex variable of the Gauss map; η' denotes the conjugate of η.\n- A general rotation of the sphere of normal directions acts on η as the fractional linear map η1 = e^{iθ}(η−α)/(1+ᾱη), with θ real and α complex.\n- He then writes the inverse as η = e^{−iθ}(η1−β)/(1+β̄η1) with β = α e^{iθ}.\n- The prose says one could add this remark. It seems better, however, to give only the remark and to develop the associated formulas fully only afterwards, since in most cases one manages with it. Equivalently: the special formulas for a moved pole suffice for the applications.\n\n(b) Main body, a draft note by the collaborator (Hattendorff) submitting the morning's write-up:\n- The general introduction (statement of the problem, general characterisation of the method) is to wait until the work is finished.\n- The derivation of differential equations (1) and (2) might be shortened.\n- p and q have been interchanged, so that p now corresponds to Y (transcribed 'J') and q to Z.\n- He asks whether the transformation equations should be derived more fully. He thinks the remark about the substitution determinants suffices; otherwise the following equations could be inserted:\n  x1 = x cos R + y sin R cos φ + z sin R sin φ\n  y1 = x sin R cos φ − y (sin²φ + cos R cos²φ) + z sin²(R/2) sin 2φ\n  z1 = x sin R sin φ + y sin²(R/2) sin 2φ − z (cos²φ + cos R sin²φ)\n\nModern reading of the matrix (my verification). Set n = (cos(R/2), sin(R/2)cos φ, sin(R/2) sin φ). Then the matrix M of this substitution is exactly M = 2 n nᵀ − I.\n- So M is the half-turn (rotation by π) about the axis n.\n- M is symmetric, orthogonal, has det M = +1 and satisfies M² = I.\n- It sends the x-axis to the unit vector (cos R, sin R cos φ, sin R sin φ). This is the direction with polar distance R from the old x-axis and azimuth φ.\n- That is precisely the 'arbitrary choice of the pole' discussed on the previous page.\n\nIn η-language such a pole change is a fractional linear map of the type in (a). The free factor e^{iθ} supplies the extra rotation about the new axis that the previous page asks for. So Riemann's top line answers the question left open there: the most general change of axes acts on η as a unitary Möbius transformation.",
+  "errors": [
+   "The inverse map has a sign slip. Solving η1 = e^{iθ}(η−α)/(1+ᾱη) for η gives η = (e^{−iθ}η1 + α)/(1 − ᾱ e^{−iθ} η1). In the form e^{−iθ}(η1−β)/(1+β̄η1) this requires β = −α e^{iθ}, not β = α e^{iθ} as written. Quick test: η = α must give η1 = 0, but Riemann's formula with η1 = 0 returns η = −α.",
+   "In y1 the term sin²φ inside the parenthesis appears struck or overwritten in the manuscript (the transcription marks it deleted). It is nevertheless required: the coefficient must be −(sin²φ + cos R cos²φ) for orthogonality.",
+   "Of the ambiguous sign '∓' before y in y1, only the minus sign gives an orthogonal matrix.",
+   "The written matrix is correct as a proper rotation (half-turn about the bisecting axis). It is not the 'natural' rotation in the plane through the old and new axes. It is still a legitimate choice of new axes with the prescribed new x-axis."
+  ],
+  "results": [
+   {
+    "what": "Rotations of the sphere of normal directions act on the stereographic (Gauss-map) variable η by unitary fractional linear maps η1 = e^{iθ}(η−α)/(1+ᾱη)",
+    "modern_name": "Representation of SO(3) by PSU(2) Möbius transformations (Cayley–Klein parameters)",
+    "usually_credited_to": "Gauss (unpublished), Riemann (minimal surface paper, publ. 1867), Cayley (1879) and Klein (1870s–1884) for Cayley–Klein parameters",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Explicit orthogonal substitution moving the x-axis to the direction with polar distance R and azimuth φ, of the form 2nnᵀ − I (half-turn about the bisecting axis)",
+    "modern_name": "Rotation by π about an axis / Householder-type form of a half-turn; change of spherical pole",
+    "usually_credited_to": "Classical (Euler, Rodrigues 1840)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Editorial remarks: interchange of p,q (p↔Y, q↔Z), sufficiency of substitution determinants, structure of the introduction",
+    "modern_name": "Editorial correspondence (Riemann–Hattendorff) on the minimal surface paper",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Using Möbius transformations of the stereographic normal coordinate for rotations is a known feature of Riemann's published (1867, posthumous) minimal-surface paper. The rotation matrix is classical. The page mainly documents the editorial collaboration and contains a small sign slip.",
+  "checkable": [
+   {
+    "sympy": "eta,a,ab,th=symbols('eta a ab theta'); eta1=exp(I*th)*(eta-a)/(1+ab*eta); simplify((exp(-I*th)*eta1+a)/(1-ab*exp(-I*th)*eta1)-eta)",
+    "asserts": "Correct inverse: η = (e^{-iθ}η1+α)/(1−ᾱe^{-iθ}η1), i.e. β = −αe^{iθ} (expression simplifies to 0)"
+   },
+   {
+    "sympy": "b=a*exp(I*th); bb=ab*exp(-I*th); simplify(exp(-I*th)*(eta1-b)/(1+bb*eta1)-eta)",
+    "asserts": "Riemann's stated inverse with β = αe^{iθ} does NOT simplify to 0 (sign slip)"
+   },
+   {
+    "sympy": "R,p=symbols('R phi',real=True); M=Matrix([[cos(R),sin(R)*cos(p),sin(R)*sin(p)],[sin(R)*cos(p),-(sin(p)**2+cos(R)*cos(p)**2),sin(R/2)**2*sin(2*p)],[sin(R)*sin(p),sin(R/2)**2*sin(2*p),-(cos(p)**2+cos(R)*sin(p)**2)]]); simplify(M*M.T-eye(3))",
+    "asserts": "The substitution matrix is orthogonal (zero matrix)"
+   },
+   {
+    "sympy": "simplify(M.det())",
+    "asserts": "det M = 1 (proper rotation)"
+   },
+   {
+    "sympy": "n=Matrix([cos(R/2),sin(R/2)*cos(p),sin(R/2)*sin(p)]); simplify(M-(2*n*n.T-eye(3)))",
+    "asserts": "M = 2nnᵀ − I, a half-turn about n (zero matrix)"
+   },
+   {
+    "sympy": "simplify(M*Matrix([1,0,0])-Matrix([cos(R),sin(R)*cos(p),sin(R)*sin(p)]))",
+    "asserts": "M maps the x-axis to the new pole direction (polar distance R, azimuth φ)"
+   },
+   {
+    "sympy": "f=lambda z: exp(I*th)*(z-a)/(1+ab*z); simplify(f(-1/ab_conj_placeholder)) # with a,ab conjugate: check f(-1/conj(eta)) == -1/conj(f(eta))",
+    "asserts": "The map commutes with the antipodal map η ↦ −1/η̄, hence comes from a rotation of the sphere"
+   }
+  ],
+  "transcription_corrections": [
+   "The top three lines are in Riemann's lighter hand; the main body is the collaborator's (Hattendorff's) draft. The next page is Riemann's reply addressing him as 'Du'.",
+   "Top prose: likely reads 'es scheint mir aber eine [Bemerkung] ... besser, die zugehörigen Formeln für Einzelfälle(?) erst nachher vollständig zu entwickeln, da man in den meisten Fällen damit ausreicht'. The phrase 'eine gefaßt' is a misreading.",
+   "'p dem J' is most likely 'p dem Y' (p corresponds to Y, q to Z).",
+   "In y1 the term sin φ² should be kept (needed mathematically), even though it looks overwritten. The sign before y should be read as '−'.",
+   "'zu [?] liebst [?] die Gl.' is uncertain; possibly 'zu diesem Zweck etwa die Gl.' or similar. It means the equations could be inserted.",
+   "'sin R/2 ^2' means sin²(R/2) and 'cos φ^2' means cos²φ (Riemann's notation)."
+  ]
+ }
+}

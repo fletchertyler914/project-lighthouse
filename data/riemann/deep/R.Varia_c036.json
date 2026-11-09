@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Varia",
+ "page": "c036",
+ "label": "19r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173054:00000037/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page contains no calculations. It is a programmatic sketch of a continuum (aether) theory of physics. It continues the previous page, which says that 'thinking is a process inside ponderable matter' and that a homogeneous substance fills space and streams into ponderable matter.\n\nPart (a), restated:\n(i) The observed actions of ponderable matter on ponderable matter fall into two classes:\n  1. central attractive and repulsive forces proportional to 1/r^2;\n  2. light and radiant heat.\n(ii) Hypothesis: all of infinite space is filled uniformly ('gleichmäßig') by a homogeneous substance. Each particle of it acts directly only on its immediate neighbourhood. This is an explicit rejection of action at a distance in favour of a local field or continuum.\n(iii) The 'mathematical law of the force' (marginal insertion) by which this happens can be split into two parts:\n  1. the resistance of a particle of the substance to a change of its volume (in modern terms, a dilatational or bulk-modulus term in the elastic energy, depending on div u);\n  2. the resistance of a 'physical line element' to a change of its length (a deformation or strain term).\n(iv) Gravitation and electrostatic attraction and repulsion rest on the first part. The propagation of light and heat, and electrodynamic or magnetic attraction and repulsion, rest on the second.\n\nModern gloss (mine, not on the page): take the Navier/Cauchy elastic continuum rho*u_tt = (lambda+mu) grad div u + mu Laplacian u.\n- The dilatational part gives scalar, potential-type fields. A static point source or sink of the substance (compare the previous page: substance flowing into ponderable matter) yields a radial field ~ r_vec/r^3, i.e. a 1/r^2 law, since 1/r is harmonic away from the source.\n- The shear part gives transverse waves, with speed sqrt(mu/rho), and so a mechanism for light. It also gives a vector-type (curl) field, which suits magnetism.\nThis is the same split later exploited in elastic-aether models.\n\nPart (b), on Newton: the distinction Newton makes between laws of motion (axioms) and hypotheses is untenable. The law of inertia is itself a hypothesis: if a material point were alone in the world and moved with a definite velocity, it would keep that velocity forever. This is an epistemological remark: the first law is a counterfactual idealisation, not an a priori axiom.",
+  "errors": [
+   "No computational errors; there are no computations.",
+   "Conceptual gap, not a slip: a single compressibility mechanism must yield both attraction (gravity) and attraction or repulsion (electrostatics) with opposite-sign charges. The page does not say how signs or the two different coupling strengths arise.",
+   "Ascribing light to resistance to length change of line elements is suggestive, but this is not spelled out. A pure resistance to change of length is not the same as shear or rotational elasticity, and with no equations one cannot check whether transverse waves without longitudinal waves result. That longitudinal-wave problem plagued all elastic-aether theories."
+  ],
+  "results": [
+   {
+    "what": "Unified contact-action (aether) theory: space-filling homogeneous medium with purely local interaction, replacing action at a distance",
+    "modern_name": "Elastic/continuum aether; local field theory",
+    "usually_credited_to": "Faraday (field concept, 1830s-50s), MacCullagh (1839), Stokes, Kelvin, Maxwell (1861-65)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Decomposition of the medium's elastic law into a volume-change (dilatation) term giving gravity and electrostatics, and a length-change (strain/shear-like) term giving light, heat and magnetism",
+    "modern_name": "Bulk vs shear (or rotational) elasticity; scalar vs vector (curl) fields, cf. Helmholtz decomposition",
+    "usually_credited_to": "Cauchy/Navier (elasticity), MacCullagh (rotational aether), Maxwell",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Newton's first law characterised as a hypothesis, i.e. a counterfactual about an isolated point, rather than an axiom",
+    "modern_name": "Critique of the epistemic status of the law of inertia (conventionalist/empiricist reading)",
+    "usually_credited_to": "Later discussions by C. Neumann (1870, 'Body Alpha'), Mach (1883), Poincaré",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page belongs to Riemann's 'Naturphilosophie' fragments. These were published by Weber and Dedekind in the Gesammelte Werke (1876) under 'Fragmente philosophischen Inhalts' ('Gravitation und Licht' and the remarks on Newton's axioms). Both passages appear there nearly verbatim, and they are well known to historians of Riemann's physics and aether theory. Nothing here is new.",
+  "checkable": [
+   {
+    "sympy": "x,y,z=symbols('x y z',real=True); r=sqrt(x**2+y**2+z**2); simplify(diff(1/r,x,2)+diff(1/r,y,2)+diff(1/r,z,2))",
+    "asserts": "1/r is harmonic away from the origin (result 0), so a point source in the dilatational field gives a 1/r potential."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z',real=True); r=sqrt(x**2+y**2+z**2); simplify(sqrt(diff(1/r,x)**2+diff(1/r,y)**2+diff(1/r,z)**2) - 1/r**2)",
+    "asserts": "The magnitude of the gradient of 1/r is 1/r^2 (result 0), giving the inverse-square force law."
+   },
+   {
+    "sympy": "x,t,k,w,mu,rho,lam=symbols('x t k omega mu rho lambda',positive=True); uy=sin(k*x-w*t); simplify((rho*diff(uy,t,2)-mu*diff(uy,x,2)).subs(w,k*sqrt(mu/rho)))",
+    "asserts": "A transverse plane wave u=(0,sin(kx-wt),0) satisfies the Navier equation, where div u=0 so only the shear term mu*Laplacian(u) acts, with speed sqrt(mu/rho) (result 0)."
+   },
+   {
+    "sympy": "x,t,k,mu,rho,lam=symbols('x t k mu rho lambda',positive=True); ux=sin(k*x-k*sqrt((lam+2*mu)/rho)*t); simplify(rho*diff(ux,t,2)-(lam+2*mu)*diff(ux,x,2))",
+    "asserts": "Longitudinal (dilatational) waves travel at speed sqrt((lambda+2mu)/rho) (result 0). This shows the volume-resistance part also propagates, the known difficulty for elastic-aether light theories."
+   }
+  ],
+  "transcription_corrections": [
+   "The insertion 'das mathematische Gesetz der Kraft,' is a marginal addition at the upper right, apparently linked by a mark to 'Das mathematische Gesetz'. In the transcription it is placed inline after 'gedacht werden'.",
+   "The image reads 'auf dem ersteren Theile' (lower case at the line start, after the list). The transcription is correct, but the Werke edition prints 'Auf dem ersten Theile'.",
+   "'gleichartiger Stoff gleichmäßig erfüllt' is confirmed in the image.",
+   "First line: 'a. die Wirkungen [-von-] ponderabler Materie auf ponderable Materie sind'. The struck word before 'ponderabler' looks like 'von'/'der'; the reading is plausible.",
+   "In the Newton passage the strike-throughs ('sich', 'nur') before 'allein' are plausible; the image shows a cancelled short word before 'allein'.",
+   "The marginal '19' at the right edge is the folio number, not part of the text."
+  ]
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c047",
+ "label": "24r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000048/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft page (marked p19, renumbered from 21) of Riemann's physiological-mathematical fragment on the mechanics of the middle ear. It was published posthumously by Henle in 1867 as 'Mechanik des Ohres' and is included in Riemann's Gesammelte Werke. The page contains no formulas. It states the physical set-up and then a functional requirement on the transmitting apparatus, together with its mathematical reformulation.\n\n(a) Physical chain. A rise in air pressure p_air(t) on the tympanic membrane drives the malleus handle inward. The stapes footplate is then pressed against the membrane of the oval window. This raises the labyrinth-fluid pressure p_lab(t), which pushes the round-window membrane outward. A struck-out opening line says that the attachments of the stapes to the wall of the oval window have no appreciable influence on its position and motion.\n\n(b) Requirement. Riemann says it 'appears absolutely necessary to assume' that the apparatus passes the air pressure change to the labyrinth fluid at every instant in a constant (or only very slowly varying) magnified ratio. In modern notation: Δp_lab(t) = c(t)·Δp_air(t), with c constant, or with c'(t)/c(t) small compared with the time scales of the sound.\n\n(c) Mathematical reformulation. He first wrote 'the curve representing the logarithm of the pressure as a function of time'. He then replaced it with 'the logarithm of the velocity of the pressure change'. My reconstruction of the step:\n- If dp_lab/dt = c·dp_air/dt, then log|dp_lab/dt| = log c + log|dp_air/dt|.\n- So the log-curve is only translated vertically by log c; its form is unchanged.\n- Conversely, an unchanged form (pure translation) forces c to be constant.\n- If c varies slowly, the translation varies slowly, so the form is preserved on short time scales.\nThe log converts multiplicative scaling into additive translation; 'form' means shape up to vertical shift. Riemann calls this 'only another mathematical expression' of the same condition.\n\n(d) Auditory argument. Timbre (Klang) depends essentially on the form of this curve. If the transmitting apparatus distorted it, the fineness of perception would be impossible: we can distinguish slight differences in pronunciation.\n\n(e) Sensitivity. The sensitivity of the apparatus must therefore be extraordinarily large. Judging from the acuity of the intact ear, the pressure changes it still transmits must be extraordinarily small.\n\n(f) Closing (fragmentary). 'Ich setze also, wie gesagt, die Kenntniss der ... anatomischen Thatsachen [voraus]', i.e. the anatomical facts are presupposed.",
+  "errors": [
+   "The first-written version ('logarithm of the pressure') would be wrong. Total pressure includes the large static atmospheric part, so a constant ratio of pressure changes does not translate log p. Riemann correctly struck this and replaced it with the logarithm of the rate of pressure change (equivalently, of the pressure change itself).",
+   "Minor: dp/dt changes sign during oscillation, so strictly log|dp/dt| is meant, together with preservation of the sign/zero pattern. The statement is heuristic, not wrong.",
+   "'Slowly varying ratio' preserving form is only an approximation, valid when c'(t)/c(t) is small relative to the sound frequencies. It is left implicit."
+  ],
+  "results": [
+   {
+    "what": "Requirement that the middle ear transmit pressure changes with a constant (or slowly varying) gain so that waveform shape, and hence timbre, is preserved",
+    "modern_name": "Distortion-free (linear, constant-gain / flat-response) transmission; impedance-matching transformer model of the middle ear",
+    "usually_credited_to": "Helmholtz (Die Mechanik der Gehörknöchelchen und des Trommelfells, 1868; Lehre von den Tonempfindungen 1863) for the transformer view; Riemann's 'Mechanik des Ohres' (publ. 1867) is known for exactly this methodological argument",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Equivalence: constant ratio of signals <=> log-curves differ by a vertical translation (shape preserved)",
+    "modern_name": "Logarithm turns scaling into translation (log-amplitude representation)",
+    "usually_credited_to": "elementary",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Inference that the apparatus must transmit extraordinarily small pressure changes, because the ear discriminates fine differences of pronunciation",
+    "modern_name": "Hearing-threshold sensitivity argument",
+    "usually_credited_to": "19th-century physiological acoustics (Helmholtz, Riemann)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of a passage from Riemann's known, published 'Mechanik des Ohres' (Henle, 1867; in the Gesammelte Werke). The mathematics is elementary (log of a scaled function is a translate). Only drafting variants are new, such as the corrected 'logarithm of the pressure'.",
+  "checkable": [
+   {
+    "sympy": "t,c=symbols('t c',positive=True); f=Function('f'); simplify(log(c*f(t))-log(f(t))-log(c)) # with expand_log(force=True)",
+    "asserts": "Scaling by a constant ratio c shifts the log-curve by the constant log c."
+   },
+   {
+    "sympy": "simplify(diff(log(c*f(t)),t)-diff(log(f(t)),t))",
+    "asserts": "The derivative of the log-curve (its shape) is unchanged by constant scaling; the result is 0."
+   },
+   {
+    "sympy": "g=Function('g'); simplify(diff(log(g(t)*f(t)),t)-diff(log(f(t)),t)-diff(g(t),t)/g(t))",
+    "asserts": "With a time-varying ratio g(t), the shape is distorted exactly by g'/g, so the form is preserved iff g is constant (approximately if g'/g is small)."
+   },
+   {
+    "sympy": "P0,a=symbols('P0 a',positive=True); simplify(log(P0+c*a*f(t))-log(P0+a*f(t)))",
+    "asserts": "For total pressure P0+Δp, a constant ratio of changes is NOT a constant shift of log p; this is why the 'log of pressure' version was struck out (the result is not constant in t)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 of the main text: '...auf das mit ihm verwachsene Trommelfell nach innen getrieben' (the gap after 'auf das' is 'mit ihm verwachsene').",
+   "'Erkenntlich aber hängt nun die Form...' should read 'Wesentlich aber hängt nun von der Form dieser Curve der Klang ab'.",
+   "'die nur ist nur ein anderer mathematischer Ausdruck' should read 'dies ist nur ein anderer mathematischer Ausdruck'.",
+   "'Die Empfindlichkeit des Apparats dann ist nicht ganz außerordentlich gross' reverses the sense. It should read 'Die Empfindlichkeit des Apparats muss dann ganz außerordentlich gross sein' (cf. the published text).",
+   "'deren das unvermerkt Gehörorgan fähig ist' is probably 'deren das unversehrte Gehörorgan fähig ist'.",
+   "Last lines: 'Ich setze also, wie gesagt, die Kenntniss der physiologischen [und] anatomischen Thatsachen [voraus]'. 'Annahme' is likely 'Kenntniss'.",
+   "Struck phrase 'Logarithmus des Drucks' is later superseded by 'Logarithmus der Geschwindigkeit der Druckänderung'. The two should be kept distinct as a revision, not merged."
+  ]
+ }
+}

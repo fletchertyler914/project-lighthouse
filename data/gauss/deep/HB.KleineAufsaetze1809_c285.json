@@ -1,0 +1,56 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c285",
+ "label": "276",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000286/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page). Let x be defined implicitly by x = t + u·ψ(x). Expand f(x) = f(t) + T1 u + T2 u^2 + T3 u^3 + ... and a second function φ(x) = φ(t) + Θ1 u + Θ2 u^2 + .... The T_n are functions of t built from ψ and f, and the Θ_n are built in the same way from ψ and φ. Gauss writes F = f' and Φ = φ'.\n\nGauss's 'Bemerkung'. If T_n turns out to involve f only through F, then Θ_n is obtained from T_n by replacing F with Φ.\n\nThe special choice. He takes φ with Φ = ψ·F, i.e. φ = ∫ψ f' dx.\n\n[My step] Differentiating x = t + uψ(x) gives x_t = 1/(1 − uψ'(x)) and x_u = ψ(x)/(1 − uψ'(x)). Hence x_u = ψ(x)·x_t. It follows that\n  ∂f(x)/∂u = F(x)ψ(x)x_t = Φ(x)x_t = ∂φ(x)/∂t.\n\nComparing coefficients of the two series:\n  T1 + 2T2 u + 3T3 u^2 + ... = Φ(t) + Θ1' u + Θ2' u^2 + ...\nSo T1 = ψF and (n+1)T_{n+1} = dΘ_n/dt.\n\nThis page (the recursion):\n- Θ1 = ψ^2 F, obtained by replacing F with ψF in T1.\n- T2 = (1/2) d(ψ^2 F)/dt.\n- Θ2 = (1/2) d(ψ^3 F)/dt.\n- T3 = 1/(2·3) d^2(ψ^3 F)/dt^2.\n- Θ3 = 1/(2·3) d^2(ψ^4 F)/dt^2.\n- T4 = 1/(2·3·4) d^3(ψ^4 F)/dt^3, and so on.\n\nIn general T_n = (1/n!) d^{n-1}/dt^{n-1}[ψ(t)^n f'(t)]. [This general form is implicit in Gauss's 'u.s.w.'; the induction that T_n depends on f only through F is implicit too.]\n\nFinal result:\n  f(x) = f(t) + ψ f' u + (1/2) d(ψ^2 f')/dt u^2 + (1/(2·3)) d^2(ψ^3 f')/dt^2 u^3 + (1/(2·3·4)) d^3(ψ^4 f')/dt^3 u^4 + ...\nGauss calls this 'der Lagrangische Lehrsatz in seiner ganzen Allgemeinheit' (the Lagrange theorem in its full generality). The page is dated 13 May 1847.\n\nPurpose: a self-contained derivation of the Lagrange inversion series by the partial-differential-equation method. The method lets each coefficient be generated from the previous one, avoiding any residue or contour argument.",
+  "errors": [
+   "No mathematical errors on this page; all coefficients T1–T4 and Θ1–Θ3 check out.",
+   "Notational ambiguity in the final formula: 'd ψt^2 · dft/dt' means d[(ψ(t))^2 f'(t)]/dt, not ψ(t^2).",
+   "The induction step is not argued explicitly: that each T_n depends on f only through F (and linearly), so that the replacement rule F→ψF applies at every stage. It is true and easily supplied.",
+   "On the previous page the relation written '(dφx/du) = ψx·(dfx/dt)' should read (dφx/dt) = ψx·(dfx/dt). This is a slip or transcription error there; the following line (dfx/du) = (dφx/dt) is correct."
+  ],
+  "results": [
+   {
+    "what": "Series expansion of f(x) where x = t + uψ(x): f(x) = f(t) + Σ_{n≥1} u^n/n! · d^{n-1}/dt^{n-1}[ψ(t)^n f'(t)]",
+    "modern_name": "Lagrange inversion theorem (Lagrange–Bürmann formula)",
+    "usually_credited_to": "Lagrange (1770); Bürmann (1799) for the generalization",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Proof via the identity ∂f(x)/∂u = ∂φ(x)/∂t with φ' = ψf', and a recursive coefficient comparison (T_n → Θ_n → T_{n+1})",
+    "modern_name": "PDE proof of Lagrange inversion, using x_u = ψ(x)x_t",
+    "usually_credited_to": "Laplace (1777/1780); standard in 19th-century texts",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a clean but standard derivation of the Lagrange inversion series by a Laplace-type argument, written down in 1847, long after the theorem was classical. It is of interest for showing Gauss's own route to the theorem, but contains nothing new.",
+  "checkable": [
+   {
+    "sympy": "t,u=symbols('t u'); simplify(series((1-sqrt(1-4*u*t))/(2*u),u,0,5).removeO() - (t + t**2*u + Rational(1,2)*diff(t**4,t)*u**2 + Rational(1,6)*diff(t**6,t,2)*u**3 + Rational(1,24)*diff(t**8,t,3)*u**4))",
+    "asserts": "The Lagrange series with ψ(x)=x^2 and f(x)=x reproduces the root of x = t + u x^2 up to u^4 (Catalan coefficients); the difference should be 0."
+   },
+   {
+    "sympy": "t,u,X=symbols('t u X'); psi=Function('psi'); G=X-t-u*psi(X); xt=-diff(G,t)/diff(G,X); xu=-diff(G,u)/diff(G,X); simplify(xu-psi(X)*xt)",
+    "asserts": "For x defined by x = t + uψ(x), x_u = ψ(x)·x_t; the expression should simplify to 0."
+   },
+   {
+    "sympy": "t,u=symbols('t u'); x=t; exec('for i in range(6): x = t + u*sin(x)'); simplify(series(exp(x),u,0,4).removeO() - (exp(t) + sin(t)*exp(t)*u + Rational(1,2)*diff(sin(t)**2*exp(t),t)*u**2 + Rational(1,6)*diff(sin(t)**3*exp(t),t,2)*u**3))",
+    "asserts": "General check with ψ=sin and f=exp: fixed-point iteration of x = t + u sin x, expanded to order u^3, matches T_n = (1/n!) d^{n-1}(ψ^n f')/dt^{n-1}; the difference should be 0."
+   },
+   {
+    "sympy": "t=symbols('t'); psi=Function('psi')(t); F=Function('F')(t); T2=Rational(1,2)*diff(psi**2*F,t); Th2=T2.subs(F,psi*F).doit(); simplify(diff(Th2,t)/3 - Rational(1,6)*diff(psi**3*F,t,2))",
+    "asserts": "The recursion step: 3·T3 = Θ2', where Θ2 is T2 with F replaced by ψF, gives T3 = (1/6)(ψ^3 F)''; the difference should be 0."
+   }
+  ],
+  "transcription_corrections": [
+   "In the final formula the second term's coefficient '1/2 · d ψt^2 · dft/dt / dt' should be read as (1/2) d[(ψt)^2 · dft/dt]/dt.",
+   "Final line: 'Allgemeinheit ist' — Gauss struck through a letter in 'Allgemeinheit' (he crossed out a character in the word); the reading is otherwise correct."
+  ]
+ }
+}

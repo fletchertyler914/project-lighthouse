@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c008",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio belongs to Riemann's drafts for his memoir on minimal surfaces, 'Über die Fläche vom kleinsten Inhalt bei gegebener Begrenzung'. It was published posthumously in 1867, edited by Hattendorff. Throughout, eta = tan(r/2) e^{i phi} is the stereographic coordinate of the unit normal (the spherical/Gauss image), and eta' is its conjugate. The previous page computes the area or Dirichlet-type integral in eta, eta' coordinates and does local exponent bookkeeping (y ~ t^alpha, x ~ t^m, lambda ~ t^{m-alpha}) near singular or branch points.\n\n1. Separation of x. On a minimal surface the Gauss map is conformal (up to orientation). Hence the coordinate x satisfies Laplace's equation in the eta-plane: d^2x/(d eta d eta') = 0 (page top, possibly with a marginal label '4'). Therefore x = X(eta) + X'(eta'), with dX = (dx/d eta) d eta and dX' = (dx/d eta') d eta'. This gives dx = dX + dX'.\n   'Man kann sie fortlassen' most plausibly refers to the additive constants of integration in X and X'. Those constants only translate the surface. (This interpretation is mine.)\n\n2. Reduction of the problem. 'Also ist unsere Aufgabe, x, y, z als Functionen von eta u. eta' zu bestimmen, darauf zurückgeführt: X als Function der complexen Größe eta zu bestimmen.' Suppose X(eta) is determined over the whole surface in accordance with the boundary conditions. Then:\n   - X' follows at once as the conjugate function of eta'.\n   - x = X + X'.\n   - y, z follow from equations (3), (4) of the memoir.\n   In modern Weierstrass form (my reconstruction, conventions up to sign), these are d(y + i z) = -eta dX + dX'/eta' and its conjugate. So the whole surface is a quadrature of one holomorphic function.\n\n3. Programme. 'Jetzt handelt es sich also um die Aufgabe X als Function der unabhängigen Variabeln eta zu bestimmen.' First, the domain in the eta-plane over which X is defined must be represented geometrically. That domain is fixed only through the mapping of the surface onto the sphere, i.e. the spherical image, as a possibly multi-sheeted region. Then the boundary conditions for X must be determined.\n\nThe next page carries this out. It shows that stereographic projection is conformal. It derives that a rotation of the sphere acts as eta_1 = c (eta - alpha)/(1 + alpha' eta), with |c| = 1 normalised by the equator condition.",
+  "errors": [
+   "No mathematical error on this page. Two points are left implicit: the harmonicity d^2x/(d eta d eta')=0 holds only where the Gauss map is a local diffeomorphism (away from branch points and flat points), and the inversion of eta as a coordinate is only local. Riemann handles these singularities separately; the previous page's t^alpha, t^m exponent analysis serves exactly that purpose.",
+   "Equations (3),(4) are referenced but not written here, so the exact sign conventions of the y,z formulas cannot be checked on this page."
+  ],
+  "results": [
+   {
+    "what": "In the coordinates eta, eta' given by the stereographically projected normal, the coordinate x of a minimal surface is harmonic: x = X(eta) + X'(eta') with dX = x_eta d eta.",
+    "modern_name": "Weierstrass(-Enneper) representation in Gauss-map parametrisation; harmonicity of coordinates of a minimal surface in conformal coordinates",
+    "usually_credited_to": "Enneper (1864), Weierstrass (1866), Riemann (memoir publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reduction of the Plateau problem for polygonal boundaries to finding a single holomorphic function X(eta) on the spherical image (Gauss image) domain with boundary conditions.",
+    "modern_name": "Riemann's approach to Plateau's problem via the Gauss map / spherical image",
+    "usually_credited_to": "Riemann (Hattendorff ed., 1867); Schwarz, Weierstrass",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the reduction step in Riemann's published (posthumous, 1867) minimal surface memoir. The content is well known and attributed to him; the page has only draft-level interest.",
+  "checkable": [
+   {
+    "sympy": "eta, etap = symbols('eta etap'); X = Function('X')(eta); Xp = Function('Xp')(etap); simplify(diff(X + Xp, eta, etap)) == 0",
+    "asserts": "x = X(eta)+X'(eta') satisfies d^2x/(d eta d eta')=0"
+   },
+   {
+    "sympy": "f, g = symbols('f g'); phi1 = f*(1-g**2)/2; phi2 = I*f*(1+g**2)/2; phi3 = f*g; simplify(phi1**2+phi2**2+phi3**2) == 0",
+    "asserts": "Weierstrass data give an isotropic (conformal) immersion, the basis of x=X+X', d(y+iz)=-eta dX+dX'/eta'"
+   },
+   {
+    "sympy": "f, g = symbols('f g'); simplify((f*(1-g**2)/2 + I*(I*f*(1+g**2)/2)) + f*g**2) == 0",
+    "asserts": "phi1 + i*phi2 = -f g^2 = -2 g * (f g/2), i.e. the holomorphic part of d(y+iz) is -eta dX with dX = f g dw/2"
+   },
+   {
+    "sympy": "eta, a = symbols('eta a'); ac = conjugate(a); e1 = (eta - a)/(1 + ac*eta); [simplify(e1.subs(eta, a)), limit(1/e1, eta, -1/ac)]",
+    "asserts": "Next-page rotation eta_1=(eta-alpha)/(1+alpha' eta) sends alpha to 0 and the antipode -1/alpha' to infinity"
+   },
+   {
+    "sympy": "x, y, p, q = symbols('x y p q', real=True); eta = x+I*y; a = p+I*q; e1 = (eta-a)/(1+conjugate(a)*eta); simplify(Abs(diff(e1, x))**2/(1+Abs(e1)**2)**2 - 1/(1+Abs(eta)**2)**2) == 0",
+    "asserts": "The Moebius map with |const|=1 preserves the spherical metric 4|d eta|^2/(1+|eta|^2)^2, i.e. is a rotation of the sphere"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 reads 'Da x = X+X' gesetzt war' (supported by image).",
+   "The '4' before d^2x/(d eta d eta')=0 at the top left may be an equation label; it is not part of the formula.",
+   "Lines after 'Variabeln eta zu bestimmen' read roughly: 'Es zeigt sich zunächst daß das Gebiet ... geometrisch dargestellt werden, für welches die Function zu bestimmen ist, erst durch die Abbildung der Fläche auf die Kugel fixirt [?] ist'. The machine reading 'daß die Function eta zu bestimmen ist ... erst auf die Abbildung ... führt' is doubtful; 'der Kugel fixirt' fits the strokes better than 'die Kugel führt'.",
+   "'Dann müssen die Grenzbedingungen für [X?] bestimmt werden': the object of 'für' is unclear; contextually X."
+  ]
+ }
+}

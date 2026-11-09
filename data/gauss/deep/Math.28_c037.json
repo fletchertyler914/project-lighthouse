@@ -1,0 +1,64 @@
+{
+ "bundle": "Math.28",
+ "page": "c037",
+ "label": "19r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000038/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting. Let u = u(t) be positive and increasing for t >= 0, with u' = du/dt. Let alpha, beta > 0. Gauss defines S^(gamma)(t) = ∫_0^t u^gamma dt.\n\n1. Lemma (Lehrsatz). The quantity w(t) = t·S^(alpha+beta) − S^(alpha)·S^(beta) is positive.\n\nProof as written on the page:\n- First derivative: w' = S^(alpha+beta) + t·u^(alpha+beta) − S^(beta)·u^alpha − S^(alpha)·u^beta.\n- Second derivative: w'' = 2u^(alpha+beta) + (alpha+beta)·t·u^(alpha+beta−1)·u' − u^(alpha+beta) − alpha·S^(beta)·u^(alpha−1)·u' − u^(alpha+beta) − beta·S^(alpha)·u^(beta−1)·u'.\n- The three u^(alpha+beta) terms cancel. Grouping what remains gives w'' = u'·[alpha·u^(alpha−1)·(t·u^beta − S^(beta)) + beta·u^(beta−1)·(t·u^alpha − S^(alpha))].\n- Gauss then notes that d/dt (t·u^beta − S^(beta)) is positive. (He writes it as beta·u^(beta−1)·u'; the correct value is t·beta·u^(beta−1)·u'.) Hence t·u^beta − S^(beta) is positive, and likewise t·u^alpha − S^(alpha).\n- So w'' > 0, and 'therefore' w' > 0 and w > 0.\n- Implicit step, supplied by me: this last inference needs w(0) = 0 and w'(0) = 0. Both hold, because every S vanishes at t = 0 and the t·u term vanishes too.\n\nThe lemma is the special case of Chebyshev's integral inequality for the two similarly ordered (both increasing) functions u^alpha and u^beta: (1/t)∫u^alpha·u^beta ≥ ((1/t)∫u^alpha)·((1/t)∫u^beta). Gauss proves it by a second-derivative convexity argument rather than the usual double-integral symmetrization.\n\n2. Corollary.\n- Dividing by t^2: S^(alpha+beta)/t > (S^(alpha)/t)·(S^(beta)/t).\n- Gauss says one 'easily' concludes S^(n·alpha)/t > (S^(alpha)/t)^n for every n > 1, integer or fractional.\n- With alpha = 1 this becomes t^(n−1)·∫_0^t u^n dt > (∫_0^t u dt)^n.\n- On [0, 1] it becomes ∫_0^1 u^n dt > (∫_0^1 u dt)^n.\n- In modern terms these are the power-mean or Jensen inequality for the mean of u^n over [0, t].\n\nPurpose. The setting strongly suggests Gauss's probability work. On [0, 1], an increasing u can be read as the inverse distribution function (quantile function) of a non-negative error, so ∫_0^1 u^n is the n-th moment. This is the kind of moment comparison used in Theoria combinationis observationum (1823), where Gauss compares moments of error laws, e.g. the ratio of the 4th moment to the square of the 2nd. This link is my inference.\n\nThe previous page (exponential-trigonometric antiderivatives) is unrelated.",
+  "errors": [
+   "d/dt (t·u^beta − S^(beta)) = u^beta + t·beta·u^(beta−1)·u' − u^beta = t·beta·u^(beta−1)·u'. Gauss writes beta·u^(beta−1)·u', dropping the factor t. This is a harmless slip, since t > 0.",
+   "The passage from w'' > 0 to w' > 0 and w > 0 silently uses the initial conditions w(0) = w'(0) = 0. Both hold, but they are not stated.",
+   "Strict inequality needs u to be strictly increasing (u' > 0 somewhere). With merely non-decreasing u one only gets ≥, with equality for constant u. Equality also holds at t = 0.",
+   "The claim that S^(n·alpha)/t > (S^(alpha)/t)^n follows 'leicht' from the lemma is justified by induction only for integer n. For fractional n, superadditivity of f(k) = log(S^(k·alpha)/t) does not suffice. One needs log-convexity of k ↦ ∫u^k (Hölder/Lyapunov) or Jensen. The conclusion is true, and in fact holds for any positive u, monotone or not, but the indicated derivation is incomplete."
+  ],
+  "results": [
+   {
+    "what": "For u positive and increasing on [0, t]: t·∫_0^t u^(alpha+beta) ≥ ∫_0^t u^alpha · ∫_0^t u^beta, proved via w'' ≥ 0 with w(0) = w'(0) = 0.",
+    "modern_name": "Chebyshev's integral (sum) inequality for similarly ordered functions, here in the special case of powers of one monotone function",
+    "usually_credited_to": "P. L. Chebyshev (1882–1883); related discrete forms appear earlier",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "S^(n·alpha)/t ≥ (S^(alpha)/t)^n for n > 1; in particular t^(n−1)·∫_0^t u^n ≥ (∫_0^t u)^n and ∫_0^1 u^n ≥ (∫_0^1 u)^n.",
+    "modern_name": "Power-mean / Jensen inequality for integral means (Lyapunov-type moment inequality)",
+    "usually_credited_to": "Jensen (1906) in general; power-mean and Hölder-type integral forms in the 19th century (Hölder 1889, Rogers 1888)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The integral Chebyshev inequality for similarly ordered functions is usually credited to Chebyshev (1882). An earlier, cleanly proved special case in Gauss's papers, apparently tied to his moment comparisons for error laws, is a notable unpublished detail. However, it is a special case, the corollary is the elementary power-mean inequality, and Gauss's published 1823 moment inequalities already show him working with such tools. So this is mildly notable, not major.",
+  "checkable": [
+   {
+    "sympy": "t,s=symbols('t s',positive=True); u=s+1; a,b=1,2; w=t*integrate(u**(a+b),(s,0,t))-integrate(u**a,(s,0,t))*integrate(u**b,(s,0,t)); simplify(w)  # expect t**4/12 + t**5/6 > 0",
+    "asserts": "The lemma for u = s + 1, alpha = 1, beta = 2: w is positive for t > 0."
+   },
+   {
+    "sympy": "t,s=symbols('t s',positive=True); u=exp(s); a,b=Rational(1,2),Rational(3,2); w=t*integrate(u**(a+b),(s,0,t))-integrate(u**a,(s,0,t))*integrate(u**b,(s,0,t)); [N(w.subs(t,v)) for v in (0.5,1,3)]",
+    "asserts": "The lemma holds numerically for u = exp(s) with fractional exponents."
+   },
+   {
+    "sympy": "t=symbols('t'); a,b=symbols('a b',positive=True); U=Function('U')(t); A=Function('A')(t); B=Function('B')(t); C=Function('C')(t); w=t*C-A*B; subsd={Derivative(A,t):U**a, Derivative(B,t):U**b, Derivative(C,t):U**(a+b)}; w2=diff(diff(w,t).subs(subsd),t).subs(subsd); target=Derivative(U,t)*(a*U**(a-1)*(t*U**b-B)+b*U**(b-1)*(t*U**a-A)); simplify(expand(w2-target))  # expect 0",
+    "asserts": "Gauss's factorisation of w'' is correct, with A = S^(alpha), B = S^(beta), C = S^(alpha+beta)."
+   },
+   {
+    "sympy": "t,b=symbols('t b',positive=True); U=Function('U')(t); B=Function('B')(t); expr=diff(t*U**b-B,t).subs(Derivative(B,t),U**b); simplify(expr - t*b*U**(b-1)*Derivative(U,t))  # expect 0",
+    "asserts": "The correct derivative of t·u^beta − S^(beta) is t·beta·u^(beta−1)·u' (Gauss omits the factor t)."
+   },
+   {
+    "sympy": "s=symbols('s',positive=True); u=s**2+1; n=Rational(5,2); N(integrate(u**n,(s,0,1)) - integrate(u,(s,0,1))**n)",
+    "asserts": "∫_0^1 u^n ≥ (∫_0^1 u)^n for a fractional n > 1 (here n = 5/2); expect a positive number."
+   }
+  ],
+  "transcription_corrections": [
+   "'Lehnsatz' should read 'Lehrsatz'.",
+   "'Man setze': the hand reads closer to 'Man sehe/setze'; 'setze' is the intended sense.",
+   "'Grösse' and 'aus ähnlichen Grunde' are as written. 'ähnlichen' is ungrammatical for 'ähnlichem', but that is Gauss's own form.",
+   "In the bracketed expression for w'' and in the 'Nun ist' line, Gauss writes S^alpha and S^beta without parentheses in places; these mean S^(alpha) and S^(beta).",
+   "The folio annotation shows an earlier number '48' struck through and replaced by '19'.",
+   "In 'Dann ist t S^(alpha+beta) − ...' an initial stroke before t is struck out on the manuscript."
+  ]
+ }
+}

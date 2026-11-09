@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c074",
+ "label": "39r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000075/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft for Riemann's Paris prize essay on heat conduction (the 'Pariser Aufgabe', 1861 Commentatio). The page is headed 'Pariser Aufgabe. 5'. The heat equation F=0 in curvilinear coordinates (alpha, beta, y) has been sorted by how it depends on the third variable y, giving cases m=1..4. This page treats case m=2, where the equation (1) splits into two equations whose coefficients do not depend on y. Riemann says the case cannot occur in homogeneous bodies (shown later), so he treats it briefly.\n\nStep 1 (setup). Using one of the two equations to eliminate u_t from the other gives a pair\n(1) Delta u = 0,\n(2) Lambda u = u_t.\nHere Delta and Lambda are linear differential operators in d_alpha and d_beta ('expressiones characteristicae'). Their coefficients depend only on alpha and beta, not on t, and they have no zeroth-order term, since the heat operator has none.\n\nStep 2 (normal forms of Delta). By a change of the independent variables, and by dividing by the leading coefficient (my addition), Delta can be put into one of three forms. In each, e=0 and f=0 are allowed.\n- Delta = d_a d_b + e d_a + f d_b. This is the characteristic-coordinate form; the elliptic case is included because, as on the previous page, the characteristic coordinates may be complex.\n- Delta = d_a^2 + e d_a + f d_b, the parabolic form.\n- Delta = d_a, a first-order operator, obtained by straightening its vector field and dividing by the coefficient.\n\nStep 3 (compatibility). Delta has t-independent coefficients, so it commutes with d_t. Hence 0 = d_t(Delta u) = Delta(d_t u) = Delta Lambda u. This gives\n(3) Delta Lambda u = 0.\n\nStep 4 (case split).\n- Case (alpha): (3) follows from (1), i.e. Delta Lambda = theta Delta for some operator theta. Modern reading: Lambda maps solutions of Delta u=0 to solutions, so Lambda is a symmetry operator of Delta. Riemann adds a parenthetical criterion: reduce Delta Lambda u modulo Delta u=0 to an expression containing only pure derivatives in one variable or the other. All coefficients of this reduced expression must then vanish.\n- Case (beta): (3) is a genuinely new equation independent of Delta u=0.\n\nStep 5 (start of case alpha). Take Delta = d_a d_b + e d_a + f d_b. The mixed derivative can always be eliminated using Delta u=0, so one may write Lambda = a d_a^2 + b d_b^2 + c d_a + d d_b.\n\nContinuation (next page):\n- The d_a^3 and d_b^3 coefficients give a_beta = 0 and b_alpha = 0. After rescaling, a = b = 1.\n- The second-order coefficients give c_beta = 2 e_alpha and f_alpha = 2 d_beta.\n- The resulting forms are Delta = d_a d_b + m_beta d_a + n_alpha d_b and Lambda = d_a^2 + d_b^2 + 2 m_alpha d_a + 2 n_beta d_b.\n- Persistence: if Delta u=0 holds initially it holds for all t, since d_t(Delta u) = theta Delta u.",
+  "errors": [
+   "No outright errors. The criterion that all coefficients of the reduced expression must vanish is stated without proof (my addition from here). It holds in the hyperbolic case because, modulo Delta u=0, u(alpha, beta0) and u(alpha0, beta) can be prescribed arbitrarily (characteristic/Goursat data). So the pure derivatives d_a^k u and d_b^k u are independent at a point.",
+   "The list of normal forms omits an explicit elliptic form. This is consistent only if complex characteristic variables are allowed, as Riemann does on the previous page.",
+   "The normal forms carry no zeroth-order term. This is justified only because operators derived from the heat equation annihilate constants; Riemann leaves this implicit."
+  ],
+  "results": [
+   {
+    "what": "Reduction of a linear second-order operator in two variables to characteristic, parabolic, or first-order normal form by change of variables",
+    "modern_name": "Canonical forms of second-order linear PDEs in two variables",
+    "usually_credited_to": "Laplace, Monge, Ampère, du Bois-Reymond (18th–19th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Compatibility of Delta u=0 with u_t=Lambda u via commutation with d_t, giving Delta Lambda u=0",
+    "modern_name": "Compatibility / integrability condition for an overdetermined linear system",
+    "usually_credited_to": "standard (Riquier–Janet theory systematized later)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Condition Delta Lambda = theta Delta (Lambda preserves the solution space of Delta), tested by reducing modulo Delta and requiring vanishing coefficients",
+    "modern_name": "Symmetry operator / intertwining relation (Lax-type pair) for a linear PDE",
+    "usually_credited_to": "systematically: W. Miller, Kalnins et al. (1970s); intertwining ideas: Darboux era",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a draft of the known 1861 Commentatio (Paris prize essay). The case analysis uses standard normal forms and a compatibility argument. The symmetry-operator condition Delta Lambda = theta Delta is a nice early instance, but it is used ad hoc for a case Riemann himself discards. Notable unpublished detail, not a major result.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d,e,f,u=[Function(n)(x,y) for n in 'abcdefu']; L=lambda w: a*diff(w,x,2)+b*diff(w,y,2)+c*diff(w,x)+d*diff(w,y); D=lambda w: diff(w,x,y)+e*diff(w,x)+f*diff(w,y); expr=expand(D(L(u))); # substitute u_xy -> -e*u_x - f*u_y repeatedly, then coefficient of Derivative(u,(x,3)) == diff(a,y)",
+    "asserts": "Modulo Delta u=0, the d_alpha^3 coefficient of Delta Lambda u equals a_beta (and symmetrically d_beta^3 gives b_alpha). This is the next-page condition that follows from this page's setup."
+   },
+   {
+    "sympy": "diff(D(u),t) - D(diff(u,t)) == 0  (with coefficients e,f independent of t)",
+    "asserts": "d_t Delta = Delta d_t, giving Delta Lambda u = 0 from Delta u = 0 and Lambda u = u_t."
+   },
+   {
+    "sympy": "with a=b=1, reduce D(L(u)) modulo u_xy=-e*u_x-f*u_y; coefficient of u_xx == diff(c,y)-2*diff(e,x) and coefficient of u_yy == diff(d,x)... compare to next page's c_beta = 2 e_alpha, f_alpha = 2 d_beta",
+    "asserts": "Second-order compatibility conditions stated on the following page."
+   }
+  ],
+  "transcription_corrections": [
+   "The parenthetical 'Si (aequatio (1) in duas aequationes a y independentes discinditur, ope alterius du/dt ex altera ejici potest)' appears bracketed/cancelled in the manuscript (retained from the earlier draft); the operative text is 'Brevitatis causa haec ita exhibeatur'.",
+   "In 'vel [-Δ-] =' the struck-out symbol is an illegible cancelled scribble, not necessarily Δ.",
+   "In 'ex his duabus aequationibus' the word aequationibus is overwritten/corrected in the manuscript.",
+   "Folio number '39' is pencilled in the right margin."
+  ]
+ }
+}

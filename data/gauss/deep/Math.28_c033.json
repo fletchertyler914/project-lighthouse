@@ -1,0 +1,58 @@
+{
+ "bundle": "Math.28",
+ "page": "c033",
+ "label": "17r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000034/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Goal (implicit, mine): evaluate the Gaussian/probability integral I = ∫_0^∞ e^{-x^2} dx by squaring it into a double integral. The limits are not written; the natural ones are x, y from 0 to ∞, i.e. the first quadrant.\n\n(1) I^2 = ∫_0^∞∫_0^∞ e^{-(x^2+y^2)} dy dx.\n\n(2) In the inner integral (x fixed, x>0) substitute y = t x, so dy = x dt. The limits y: 0→∞ become t: 0→∞. Then x^2 + y^2 = (1+t^2) x^2, and I^2 = ∫∫ e^{-(1+t^2)x^2} dt · x dx.\n\n(3) Interchange the order (Fubini/Tonelli: the integrand is positive). I^2 = ∫_0^∞ [∫_0^∞ x e^{-(1+t^2)x^2} dx] dt.\n\n(4) In the inner integral (t fixed) put u = (1+t^2) x^2. Then du = 2(1+t^2) x dx, so x dx = du/(2(1+t^2)). This gives I^2 = ∫∫ (1/(2(1+t^2))) e^{-u} du dt.\n\n(5) The inner u-integral: the antiderivative of e^{-u} is -e^{-u} (written, then struck out). So ∫_0^∞ e^{-u} du = 1, and the bracket reduces to 1/(2(1+t^2)), the last line on the page.\n\n(Implicit completion, mine) I^2 = ∫_0^∞ dt/(2(1+t^2)) = (1/2)(π/2) = π/4, hence I = √π/2, equivalently ∫_{-∞}^{∞} e^{-x^2} dx = √π. The page stops before the arctan step.",
+  "errors": [
+   "No mathematical errors.",
+   "Integration limits are never written. The derivation is valid only for limits 0 to ∞ in x and y, which make t run from 0 to ∞; the substitution y = tx also needs x > 0.",
+   "The interchange of integration order is tacit. It is justified because the integrand is non-negative.",
+   "The crossed-out '-e^{-u}' is the antiderivative of e^{-u}. Evaluated from 0 to ∞ it gives 1, which leaves the factor 1/(2(1+tt)) written below. This step is unexplained on the page but correct."
+  ],
+  "results": [
+   {
+    "what": "Evaluation of ∫_0^∞ e^{-x^2} dx = √π/2 by squaring and substituting y = tx in the double integral, then u = (1+t^2)x^2, reducing to ∫_0^∞ dt/(2(1+t^2)) = π/4.",
+    "modern_name": "Gaussian (probability) integral via the double-integral / 'y = tx' substitution trick (Laplace's method; a variant of the polar-coordinate proof)",
+    "usually_credited_to": "The value is due to Euler (via the Gamma/Beta function, 1729–30s) and to Laplace (1774/1781); this double-integral substitution proof is usually attributed to Laplace (1812, Théorie analytique des probabilités); the polar-coordinates version is attributed to Poisson/Sturm.",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss used ∫e^{-x^2}dx = √π constantly (Theoria motus 1809, least squares). This is a standard textbook derivation known from Laplace. The sheet is undated, so it cannot be shown to precede Laplace's 1812 publication. It is a routine private working, at most a minor biographical detail.",
+  "checkable": [
+   {
+    "sympy": "integrate(exp(-(x**2+y**2)), (y,0,oo), (x,0,oo)) - pi/4",
+    "asserts": "The first-quadrant double integral equals π/4 (result should be 0)."
+   },
+   {
+    "sympy": "simplify((x**2+(t*x)**2) - (1+t**2)*x**2)",
+    "asserts": "Under y = t x the exponent becomes (1+t^2)x^2 (should be 0)."
+   },
+   {
+    "sympy": "simplify(integrate(x*exp(-(1+t**2)*x**2), (x,0,oo), conds='none') - 1/(2*(1+t**2)))",
+    "asserts": "Inner x-integral equals 1/(2(1+t^2)) (should be 0)."
+   },
+   {
+    "sympy": "simplify(diff((1+t**2)*x**2, x)/(2*(1+t**2)) - x)",
+    "asserts": "du = 2(1+t^2) x dx, i.e. x dx = du/(2(1+t^2)) (should be 0)."
+   },
+   {
+    "sympy": "integrate(1/(2*(1+t**2)), (t,0,oo)) - pi/4",
+    "asserts": "Final t-integral equals π/4 (should be 0)."
+   },
+   {
+    "sympy": "integrate(exp(-x**2), (x,0,oo)) - sqrt(pi)/2",
+    "asserts": "Hence ∫_0^∞ e^{-x^2} dx = √π/2 (should be 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The crossed-out shelf number at top right reads more like '48d' (or '48a') struck through, replaced by '17'. It is uncertain, and in any case not mathematical.",
+   "In the last line, the struck-out item is '-e^{-u}' (minus sign and e^{-u} struck through), written to the right of 1/(2(1+tt)). The transcription's [-...-] marking is consistent with this.",
+   "The third line has 'dt . x dx', with 'x dx' partly overwritten in the manuscript. The transcription is correct in substance."
+  ]
+ }
+}

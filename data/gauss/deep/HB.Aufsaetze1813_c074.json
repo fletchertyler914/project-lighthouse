@@ -1,0 +1,76 @@
+{
+ "bundle": "HB.Aufsaetze1813",
+ "page": "c074",
+ "label": "67",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354043:00000075/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a station adjustment at Bremerlehe (Bremerhaven–Lehe) from Gauss's Hanoverian triangulation of the 1820s. The bundle name '1813' is misleading. 'Mein Sohn' is evidently Joseph Gauss, who assisted in the survey. The previous page treats Garlste and the next page Varel in the same way.\n\nThe unknowns are directions (azimuths on an arbitrary zero) to four targets: 1 Varel, 2 Langwarden, 3 Brillit, 4 Garlste. They are written as approximate value + correction a, b, c, d.\n\nObservations: six angles between pairs, each with a weight p equal to the number of repetitions:\n- 1.2: p = 104, observed 44°10'11.767\n- 3.4: p = 67, observed 43°18'7.414\n- 3.1: p = 20, observed 115°20'25.012\n- 3.2: p = 13, observed 159°30'35.487\n- 4.1: p = 58, observed 72°2'17.418\n- 4.2: p = 20, observed 116°12'27.895\n\nFor each angle (i, j), Gauss writes computed − observed + (correction_j − correction_i). For example, 1.2 gives (103°31'24.019 − 59°21'12.483) − 44°10'11.767 = −0.231, so the line reads −0.231 − a + b.\n\nNormal equations (Gauss's least-squares station adjustment by directions): minimise Σ p·v². This gives, for each direction k, Σ p·v·∂v/∂k = 0. The diagonal coefficient is the total weight of the angles at that direction (182, 137, 100, 145), and the off-diagonals are −p_ij. For direction a the absolute term is\n104(0.231) + 20(−0.435) + 58(−0.264) = 0.012.\nThe resulting system is:\n- +0.012 + 182a − 104b − 20c − 58d\n- +0.014 − 104a + 137b − 13c − 20d\n- −0.041 − 20a − 13b + 100c − 67d\n- +0.015 − 58a − 20b − 67c + 145d\n\nThe matrix is singular because the orientation is arbitrary: the rows and the constants sum to 0. The constants are almost zero, so the tableau is already essentially the least-squares solution.\n\nSecond block: 'if the 10 measurements in which my son pointed the Langwarden tower are excluded'.\n- Angle 4.2 now has weight 10 and value 116°12'28.933. The 10 excluded rounds therefore averaged about 26.857.\n- New directions: 59°21'12.572, 103°31'24.228, 304°0'47.892, 347°18'55.240.\n- Residuals: −0.111, −0.066, −0.332, +0.849, −0.086, +0.055.\n- Normal equations: b-row diagonal 127, b–d coefficient −10, d diagonal 135. Constants −0.084, +0.043, +0.004, +0.037 (sum 0).\n\nThird block: a further tableau.\n- Directions: 59°21'10.455, 103°31'22.739, 304°0'45.583 (the image reads 45.583, not 45.883), 347°18'53.042. The common shift of about −2'' is an orientation change and is irrelevant.\n- The three angles involving Langwarden are revised: 1.2 → 12.367 (+0.600), 3.2 → 36.709 (+1.222), 4.2 → 29.534, now with weight 20 again.\n- The other three angles are unchanged.\n- Residuals: −0.083, +0.045, −0.140, +0.447, −0.005, +0.163.\n- The new values presumably reflect a correction or re-reduction of the Langwarden pointings, possibly a phase or centring correction; the reason is not stated on the page.\n- My computation: with the weights shown, the normal-equation constants of this tableau would be about +5.54, +0.44, −6.03, +0.05. So this block is a provisional tableau with residuals only, not yet adjusted. No normal equations are written for it.",
+  "errors": [
+   "Second block, normal-equation constants for c and d. From the listed residuals I get c: 67·0.066 + 20·0.332 − 13·0.849 = +0.025, and d: −67·0.066 + 58·0.086 − 10·0.055 = +0.016. Gauss wrote +0.004 and +0.037. The 0.021 discrepancy is equal and opposite in the two rows (both pairs still sum to zero), consistent with a slip in the 67·0.066 product (4.401 used instead of 4.422). The effect is negligible.",
+   "Second block, fourth normal equation: written '−67d + 135d'. The first should be '−67c' (slip of the pen).",
+   "Third block: the residuals do not satisfy the weighted normal equations (a- and c-constants about ±5.5–6.0). So it is not a least-squares solution, only a provisional tableau. This is not an error if it was intended as a starting point."
+  ],
+  "results": [
+   {
+    "what": "Station adjustment of repeated angle measurements by least squares, using direction unknowns and weights equal to the number of repetitions, with the singular normal-equation system (arbitrary orientation).",
+    "modern_name": "Least-squares station adjustment (direction method), weighted normal equations",
+    "usually_credited_to": "Gauss (method of least squares, 1809/1821–23; applied in the Hanover survey)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Sensitivity test: re-adjustment after excluding a suspect subset of observations (the 10 rounds pointed by his son).",
+    "modern_name": "Outlier/robustness check by deleting observations (observer bias)",
+    "usually_credited_to": "standard geodetic practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine Gaussian station adjustment from the Hanover triangulation, a well-documented part of his work. The only small human detail is the explicit exclusion of observations made by his son.",
+  "checkable": [
+   {
+    "sympy": "(103*3600+31*60+24.019)-(59*3600+21*60+12.483)-(44*3600+10*60+11.767)",
+    "asserts": "= -0.231, the 1.2 residual in the first block"
+   },
+   {
+    "sympy": "104*0.231+20*(-0.435)+58*(-0.264)",
+    "asserts": "= 0.012, the first normal-equation constant"
+   },
+   {
+    "sympy": "104*(-0.231)+13*0.626+20*0.795",
+    "asserts": "= 0.014, the second constant"
+   },
+   {
+    "sympy": "-67*0.009+20*0.435-13*0.626",
+    "asserts": "= -0.041, the third constant"
+   },
+   {
+    "sympy": "67*0.009+58*0.264-20*0.795",
+    "asserts": "= 0.015, the fourth constant"
+   },
+   {
+    "sympy": "67*0.066+20*0.332-13*0.849",
+    "asserts": "= 0.025, versus Gauss's +0.004 (second-block c constant)"
+   },
+   {
+    "sympy": "-67*0.066+58*0.086-10*0.055",
+    "asserts": "= 0.016, versus Gauss's +0.037 (second-block d constant)"
+   },
+   {
+    "sympy": "(347*3600+18*60+53.042)-(304*3600+0*60+45.583)-(43*3600+18*60+7.414)",
+    "asserts": "= 0.045, confirming that the Brillit direction in the third block is 45.583"
+   },
+   {
+    "sympy": "Matrix([[182,-104,-20,-58],[-104,137,-13,-20],[-20,-13,100,-67],[-58,-20,-67,145]]).det()",
+    "asserts": "= 0, the normal matrix is singular (free orientation)"
+   }
+  ],
+  "transcription_corrections": [
+   "Third block, direction 3 (Brillit): read 304°0'45.583, not 45.883. This value is required by the residuals +0.045, −0.140 and +0.447.",
+   "Second block, fourth equation: the manuscript has '−67d + 135d', where '−67c' is meant.",
+   "Second block, angle 4.2: weight 10 (not 20), value 116°12'28.933."
+  ]
+ }
+}

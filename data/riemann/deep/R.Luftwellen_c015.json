@@ -1,0 +1,67 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c015",
+ "label": "23v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000016/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio is a fair copy of Riemann's own published abstract (Selbstanzeige, Göttinger Nachrichten 1859, No. 19) of 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'. The page has two parts.\n\n(A) End of the quoted passage from the paper's introduction, on the adiabatic law p = phi(rho) proportional to rho^k. Riemann says Poisson's law can now be founded on Regnault's specific-heat measurements together with the mechanical theory of heat. In modern terms that means k = c_p/c_v with c_v = c_p - R/J (Mayer's relation). This gives k = 1.4101. For comparison, Laplace's sound-speed formula c^2 = k p0/rho0, applied to Martins and Bravais' value c = 332.37 m/s (0 °C, dry air), gives k = 1.4095.\n- Check, mine: with p0 = 0.76 m Hg (about 101354 Pa with Regnault-era constants) and rho0 = 1.293187 kg/m^3, p0/rho0 is about 78375 m^2/s^2. Then k = 332.37^2/78375 is about 1.4095, as stated.\n- With c_p(air) = 0.2375 (Regnault), R about 29.27 kgm/(kg K) and J about 424 kgm/kcal, one gets k about 1.41. That agrees with 1.4101 to the stated precision, depending on the exact J used.\n\n(B) Riemann's own summary of the results. Setting: plane flow u(x,t), rho(x,t), with p = phi(rho). The governing equations are\n- rho_t + (rho u)_x = 0,\n- u_t + u u_x + phi'(rho) rho_x / rho = 0.\n\n(B1) Linear case (infinitesimal pressure differences). A disturbance confined to a finite interval splits into two waves. These travel in opposite directions with constant speed a = sqrt(phi'(rho)). In each wave the velocity is a fixed function of density.\n\n(B2) Finite amplitude, the claim on this page. Put a(rho) = sqrt(phi'(rho)) and F(rho) = Integral a(rho) d log rho = Integral a(rho)/rho d rho.\n- Then (d_t + (u + a) d_x)(F + u) = 0 and (d_t + (u - a) d_x)(F - u) = 0. These are the Riemann invariants r, s from the paper, where Riemann uses half these quantities. This step is mine, from the paper and not stated on the page.\n- A finitely supported disturbance separates after finite time into two simple waves. In each simple wave one invariant is constant.\n- So, measured in the direction of propagation, u = F(rho) + C. The constant C may differ between the two waves.\n- Since F'(rho) = a/rho > 0, a larger density goes with an algebraically larger velocity.\n- Each pair (rho, u) moves with constant speed: a(rho) relative to the gas, and u + a(rho) in space. In the polytropic case this is u + a = C + (k+1)a/(k-1).\n\nThe next page draws the consequence. If phi'' >= 0, denser parts move faster. Rarefaction parts widen in proportion to t, and compression parts narrow and turn into shocks (Verdichtungsstösse).",
+  "errors": [
+   "No mathematical errors on this page.",
+   "Minor looseness: 'Ihre Fortpflanzungsgeschwindigkeit im Gase ist sqrt(phi'(rho))' means the speed of each fixed density value, which differs from value to value. It is not one constant wave speed. The text makes this clear ('Beide Werthe rücken mit constanter Geschwindigkeit fort').",
+   "The two numerical values of k (1.4101 vs 1.4095) depend on Regnault-era constants (mechanical equivalent of heat, g, mercury density). They can only be reproduced approximately without knowing the exact constants Riemann used."
+  ],
+  "results": [
+   {
+    "what": "Adiabatic exponent of air k = c_p/c_v from Regnault's specific heats plus the mechanical theory of heat (1.4101), compared with the Laplace sound-speed value 1.4095 from c = 332.37 m/s",
+    "modern_name": "Mayer relation c_p - c_v = R; Laplace adiabatic sound speed",
+    "usually_credited_to": "Laplace (1816), Poisson (1808/1823), J.R. Mayer (1842), Clausius/Rankine (1850s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "In each separated finite-amplitude plane wave, u = Integral sqrt(phi'(rho)) d log rho + const. Each state moves with speed sqrt(phi') relative to the gas and u + sqrt(phi') in space.",
+    "modern_name": "Simple waves / Riemann invariants for 1D isentropic gas dynamics",
+    "usually_credited_to": "Riemann (1860), independently Earnshaw (1860); special simple-wave solution Poisson (1808)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Decomposition of a localized finite-amplitude disturbance into two counter-propagating simple waves after finite time",
+    "modern_name": "Wave separation / interaction region of Riemann invariants",
+    "usually_credited_to": "Riemann (1860)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a copy of Riemann's published self-review (Göttinger Nachrichten 1859, reprinted in his Werke). The Riemann-invariant and simple-wave results are famous and standardly attributed to him.",
+  "checkable": [
+   {
+    "sympy": "rho,u,x,t=symbols('rho u x t'); a=Function('a')(rho); F=Function('F'); # with F'(rho)=a/rho and Euler eqs rho_t=-(rho*u)_x, u_t=-u*u_x-a**2*rho_x/rho: simplify((u_t + F'(rho)*rho_t) + (u+a)*(u_x + F'(rho)*rho_x)) == 0",
+    "asserts": "u + F(rho) is constant along dx/dt = u + a (Riemann invariant)"
+   },
+   {
+    "sympy": "A,k,rho=symbols('A k rho',positive=True); a=sqrt(diff(A*rho**k,rho)); simplify(integrate(a/rho,rho) - 2*a/(k-1)) == 0",
+    "asserts": "For phi = A*rho**k, Integral sqrt(phi') dlog rho = 2a/(k-1)"
+   },
+   {
+    "sympy": "Rational(33237,100)**2/(Rational(101354)/Rational(1293187,1000000))",
+    "asserts": "k ≈ 1.4095 from sound speed 332.37 m/s at 0 °C, p0 ≈ 101354 Pa, rho0 = 1.293187 kg/m^3"
+   },
+   {
+    "sympy": "0.2375*424/(0.2375*424 - 29.27)",
+    "asserts": "k ≈ 1.41 from Regnault c_p = 0.2375 and Mayer's relation (R = 29.27 kgm/(kg K), J ≈ 424 kgm/kcal), consistent with 1.4101"
+   },
+   {
+    "sympy": "rho=symbols('rho',positive=True); a=Function('a'); diff(Integral(a(rho)/rho,rho),rho)",
+    "asserts": "F'(rho) = a/rho > 0, so in a simple wave larger density goes with algebraically larger velocity"
+   }
+  ],
+  "transcription_corrections": [
+   "'in der Einleitung anzudeuten[?]' should read 'in der Einleitung auseinanderzusetzen', as in the manuscript and the printed Selbstanzeige.",
+   "The closing quotation mark after 'liefern würde.' ends the quotation from the paper's introduction that begins on the previous page.",
+   "Footnote: 'Ann. de chim. et de phys. Ser. III, T. XIII, p. 5' is correct."
+  ]
+ }
+}

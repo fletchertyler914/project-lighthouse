@@ -1,0 +1,66 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c028",
+ "label": "19",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000029/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a five-place table, with no derivations. It continues the table of the previous page (arguments 0.720–0.800) and goes on to the next page (0.880–0.960). It has two blocks of 41 rows each: A = 0.800(0.001)0.840 and A = 0.840(0.001)0.880.\n\nEach row has five entries:\n- the argument A;\n- a value B;\n- the first difference of B, in units of the fifth decimal, written between the rows;\n- the sum C = A + B;\n- the first difference of C.\n\nNumerical checking identifies the function (identification mine):\n- B(A) = log10(1 + 10^(-A)), and C(A) = A + B(A) = log10(1 + 10^A).\n- Example A = 0.8: 10^-0.8 = 0.158489, and log10(1.158489) = 0.063890, giving 0.06389.\n- Example A = 0.88: 10^-0.88 = 0.131826, and log10(1.131826) = 0.053780, giving 0.05378.\n- Spot checks at 0.805, 0.84, 0.851, 0.868, 0.869, 0.875 and 0.876 (0.063213, 0.058632, 0.057259, 0.055194, 0.055075, 0.054364, 0.054247) all agree to the last place.\n\nThese are the 'Gaussian logarithms' (addition/subtraction logarithms). If a = 10^A, then log(1 + a) = A + B, so the logarithm of a sum of two numbers can be read off from the logarithms of the summands without passing to the numbers themselves.\n\nThe arithmetic structure is as follows:\n- Since C = A + B and A advances by 0.001 = 100 units, the C-difference equals 100 minus the B-difference in every row. This holds throughout (13↔87, 14↔86, 12↔88, 11↔89).\n- The B-differences decrease slowly from 13–14 to 11–12. This matches dB/dA = -10^(-A)/(1 + 10^(-A)) ≈ -0.137 at A = 0.8 and ≈ -0.116 at A = 0.88, i.e. about 13.7 and 11.6 units per step.\n\nThe page is a fair copy of part of the table Gauss published in 1812 in Zach's Monatliche Correspondenz. That table is arranged by argument A, with columns B = log(1 + 1/a) and C = log(1 + a).",
+  "errors": [
+   "No computational errors were found. All spot checks are correctly rounded to five places, and all tabular differences are consistent with the B and C columns.",
+   "The visible corrections are scribal overwrites, not errors in the final entries: the '9' in 0,809, the final '26' in 0,05726, and a retouched '8' in 0,90738."
+  ],
+  "results": [
+   {
+    "what": "Five-place table of B(A) = log10(1 + 10^-A) and C(A) = A + B = log10(1 + 10^A) for A = 0.800..0.880 with step 0.001, with first differences",
+    "modern_name": "Gaussian (addition/subtraction) logarithms; Zech/Leonelli logarithms",
+    "usually_credited_to": "Z. Leonelli (idea, Supplément logarithmique, 1802/03); C. F. Gauss (first practical five-place table, Monatliche Correspondenz 1812)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is manuscript material for Gauss's own well-known 1812 table of addition/subtraction logarithms, which already bears his name. It is a routine computation and the values are standard.",
+  "checkable": [
+   {
+    "sympy": "abs(log(1+10**(-Rational(8,10)),10).evalf() - 0.06389) < 5e-6",
+    "asserts": "B(0.800) = 0.06389"
+   },
+   {
+    "sympy": "abs(log(1+10**(-Rational(84,100)),10).evalf() - 0.05863) < 5e-6",
+    "asserts": "B(0.840) = 0.05863"
+   },
+   {
+    "sympy": "abs(log(1+10**(-Rational(88,100)),10).evalf() - 0.05378) < 5e-6",
+    "asserts": "B(0.880) = 0.05378"
+   },
+   {
+    "sympy": "abs(log(1+10**(-Rational(851,1000)),10).evalf() - 0.05726) < 5e-6",
+    "asserts": "B(0.851) = 0.05726 (the overwritten entry)"
+   },
+   {
+    "sympy": "abs(log(1+10**(-Rational(869,1000)),10).evalf() - 0.05508) < 5e-6",
+    "asserts": "B(0.869) = 0.05508"
+   },
+   {
+    "sympy": "abs(log(1+10**(Rational(825,1000)),10).evalf() - 0.88556) < 5e-6",
+    "asserts": "C(0.825) = log10(1 + 10^0.825) = 0.88556 = 0.825 + B(0.825)"
+   },
+   {
+    "sympy": "simplify(x + log(1+10**(-x),10) - log(1+10**x,10))",
+    "asserts": "The identity A + B(A) = C(A) = log10(1 + 10^A), which justifies the sum column (simplifies to 0)"
+   },
+   {
+    "sympy": "abs((diff(log(1+10**(-x),10),x)*Rational(1,1000)).subs(x,Rational(82,100)).evalf() + 0.000131) < 3e-6",
+    "asserts": "The tabular difference of B near A = 0.82 is about 13 units of the fifth decimal"
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription agrees with the image. All values and differences on the page check numerically against log10(1 + 10^-A).",
+   "Row 0,851: the image shows 0,0572 with the final '6' overwritten in darker ink; the value 0,05726 is correct.",
+   "Row 0,809: the argument's final '9' is overwritten in the manuscript; the reading 0,809 is correct.",
+   "Row 0,850: the final '8' of 0,90738 is retouched; the reading 0,90738 is correct.",
+   "The numbers in the left margin (85/86/87) are the C-difference column of the facing previous page, partly visible. They do not belong to this folio."
+  ]
+ }
+}

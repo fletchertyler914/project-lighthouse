@@ -1,0 +1,68 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c478",
+ "label": "243r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000479/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The heading reads m·f(r − αt)/r. This is the outgoing spherical-wave solution of the 3-D wave equation with propagation speed α, for a source of strength m. The same notation (α for the propagation speed, potentials of the form ∫ρ(t − r/α)/r) appears in Riemann's 'Ein Beitrag zur Elektrodynamik' (1858, printed 1867). The page is scratch work toward the potential of a moving point source at retarded time, i.e. the time t − r/α. It has no visible connection to the previous page on period moduli.\n\n(1) Retarded position. Riemann writes √((x − (r/α)·∂x/∂t)² + …), the last factor struck out. This is the distance to the source's retarded position. To first order, x(t − r/α) ≈ x(t) − (r/α)·ẋ(t), and likewise for y and z.\n\n(2) First-order displacement of 1/r. Moving one endpoint by (δx, δy, δz) gives\n1/r + ∂(1/r)/∂x·δx + ∂(1/r)/∂y·δy + ∂(1/r)/∂z·δz = 1/r − (1/r²)(cos α·δx + cos β·δy + cos γ·δz).\nHere cos α, cos β, cos γ are the direction cosines of r, using ∂(1/r)/∂x = −(x−x')/r³ = −cos α/r². With δx = −(r/α)ẋ, this is the retarded correction to the Coulomb term. A struck-out factor ·r/α shows that this substitution was intended.\n\n(3) Temporal Taylor expansion. Viewing 1/r as a function of t and evaluating it at t − r/α gives\n1/r − ∂(1/r)/∂t·(r/α) + ∂²(1/r)/∂t²·(r²/α²).\nThe first-order term is −(−ṙ/r²)(r/α) = ṙ/(rα); the marginal '+∂r/rr' records this. Since ∂(1/r)/∂t = −ṙ/r², the struck '−(∂r/∂t)/rr' is that derivative.\n\n(4) Second derivative. Riemann writes\n∂²(1/r)/∂t² = 2ṙ²/r³ − r̈/r²,\nso the second-order term becomes (2ṙ²/r³ − r̈/r²)·r²/α² = (2ṙ² − r r̈)/(r α²).\n\n(5) The last line, −4·ṙ·ṙ'/(rr) − [struck ∂²r/∂t²], appears to start collecting cross terms. These would come from combining the spatial (retarded-position) and temporal expansions, or from differentiating the product again. The line is fragmentary and its target cannot be determined with certainty.\n\nPurpose (my inference). Expanding the retarded potential of a moving charge in powers of 1/α should produce velocity- and acceleration-dependent terms in ṙ²/α² and r r̈/α². This is the route by which Riemann (1858) and later Lorenz and Clausius recovered Weber-type laws, and it is the second-order (Darwin-type) expansion of the Liénard–Wiechert potential.",
+  "errors": [
+   "The second-order Taylor term is written ∂²(1/r)/∂t²·r²/α² without the factor 1/2. A naive expansion of g(t − τ) has +τ²/2·g''. The omission may be a slip or a deliberate placeholder; the implicit dependence of τ = r/α on t could also alter coefficients.",
+   "Notational clash: α denotes the propagation speed and also the direction angle (cos α). It is harmless here but confusing.",
+   "Sign conventions for δx and for ∂(1/r)/∂x depend on which endpoint is moved; the page does not fix this.",
+   "The final line (−4 ṙṙ'/rr …) is fragmentary and its coefficient 4 cannot be verified from what is written."
+  ],
+  "results": [
+   {
+    "what": "Spherical wave m f(r − αt)/r as solution of the wave equation with speed α",
+    "modern_name": "d'Alembert spherical wave / retarded potential kernel",
+    "usually_credited_to": "Euler, d'Alembert, Poisson (18th–early 19th c.); retarded potentials in electrodynamics: Riemann 1858, L. Lorenz 1867",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Expansion of 1/r at retarded time t − r/α in powers of 1/α, including ∂²(1/r)/∂t² = 2ṙ²/r³ − r̈/r²",
+    "modern_name": "Post-Coulomb (Darwin-type) expansion of the retarded/Liénard–Wiechert potential",
+    "usually_credited_to": "Riemann 1858 (published 1867); Liénard 1898, Wiechert 1900; Darwin 1920",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "First-order change of 1/r under displacement: −(1/r²)(cos α δx + cos β δy + cos γ δz)",
+    "modern_name": "Gradient of the Newtonian potential / directional derivative",
+    "usually_credited_to": "classical (Laplace, Gauss)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are routine scratch computations consistent with Riemann's known 1858 retarded-potential derivation of Weber's law. The only possible interest is if this sheet dates it earlier, but the page itself proves nothing new.",
+  "checkable": [
+   {
+    "sympy": "t=symbols('t'); r=Function('r'); simplify(diff(1/r(t),t,2) - (2*diff(r(t),t)**2/r(t)**3 - diff(r(t),t,2)/r(t)**2))",
+    "asserts": "Second time derivative of 1/r equals 2ṙ²/r³ − r̈/r² (should simplify to 0)"
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); R=sqrt(x**2+y**2+z**2); simplify(diff(1/R,x) + (x/R)/R**2)",
+    "asserts": "∂(1/r)/∂x = −cos α / r² with cos α = x/r (gives 0)"
+   },
+   {
+    "sympy": "t,a=symbols('t a',positive=True); r=Function('r'); simplify(-diff(1/r(t),t)*r(t)/a - diff(r(t),t)/(r(t)*a))",
+    "asserts": "First-order retarded term −∂(1/r)/∂t·r/α equals ṙ/(rα) (gives 0)"
+   },
+   {
+    "sympy": "t,tau=symbols('t tau'); g=Function('g'); series(g(t-tau),tau,0,3)",
+    "asserts": "Taylor expansion g(t−τ) = g − τg' + τ²/2 g'' + …; exposes the missing factor 1/2 on the page"
+   },
+   {
+    "sympy": "r,t,a=symbols('r t a',positive=True); f=Function('f'); simplify(diff(f(r-a*t)/r,t,2) - a**2*(diff(r*f(r-a*t)/r,r,2))/r)",
+    "asserts": "f(r − αt)/r satisfies the radial wave equation u_tt = α² (1/r)(r u)_rr (gives 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Marginal '+∂r/rr' is most likely '+ (∂r/∂t)/(rr)', i.e. the value of −∂(1/r)/∂t; the term multiplying r/α.",
+   "In line 3 the struck factor after ∂(1/r)/∂x is '· r/α · ∂x/∂t'-like (a substitution δx = −(r/α)ẋ), not just '· r/α'.",
+   "The last line likely reads '−4 (∂r/∂t)(∂r'/∂t)/(rr) − [struck]'; the second factor is uncertain."
+  ]
+ }
+}

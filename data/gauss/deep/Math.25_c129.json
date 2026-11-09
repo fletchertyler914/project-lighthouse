@@ -1,0 +1,58 @@
+{
+ "bundle": "Math.25",
+ "page": "c129",
+ "label": "64r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000130/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context from the previous page: Gauss is computing a sequence of angle transformations, apparently of Landen/AGM type for an elliptic integral. The evidence is the quadratically shrinking constants g, g', g'' (log g ≈ 8.91, log g' ≈ 7.22, log g'' ≈ 3.84) and the formulas sin 2u = g sin T, sin T' = h sin T / cos^2 u. He then introduces auxiliary angles U by a tan U = b tan T, a' tan U' = b' tan T', and so on. Under these he obtains two relations, the second of which he marks 'Gut.':\n  (A) sin T' = sin((T+U)/2) / cos((T-U)/2)\n  (B) cos T' = sin U' / sqrt(tan T tan U)\nThis page derives consequences of (A) and (B). It shows how the quantity cos(T+U), normalized in three ways, passes over into the primed angles.\n\nImplicit steps (mine):\n1. From (A): cos^2 T' = [cos^2((T-U)/2) - sin^2((T+U)/2)] / cos^2((T-U)/2).\n   Using cos^2 A - sin^2 B = cos(A+B) cos(A-B) with A = (T-U)/2, B = (T+U)/2, the numerator is cos T cos U.\n   Hence cos^2 T' = cos T cos U / cos^2((T-U)/2).\n2. From (B): sin^2 U' = cos^2 T' tan T tan U = sin T sin U / cos^2((T-U)/2).\n3. Therefore cos(T'+U') cos(T'-U') = cos^2 T' - sin^2 U' = (cos T cos U - sin T sin U) / cos^2((T-U)/2) = cos(T+U) / cos^2((T-U)/2).\n\nThe three lines on the page:\n(i) Dividing step 3 by step 1 gives\n    cos(T+U)/(cos T cos U) = cos(T'+U') cos(T'-U') / cos^2 T'.\n(ii) Dividing step 3 by step 2 gives\n    cos(T+U)/(sin T sin U) = cos(T'+U') cos(T'-U') / sin^2 U'.\n(iii) Take the geometric mean of (i) and (ii), using cos T cos U sin T sin U = (1/4) sin 2T sin 2U. Equivalently, cos T' sin U' = (1/2) sqrt(sin 2T sin 2U) / cos^2((T-U)/2). This gives\n    2 cos(T+U)/sqrt(sin 2T sin 2U) = cos(T'+U') cos(T'-U') / (cos T' sin U').\n\nPurpose: these are transformation rules carrying a symmetric expression in (T, U) to an expression in (T', U'). They are presumably meant for iterating the AGM/Landen step and tracking how such a quantity behaves along the sequence (T, U) -> (T', U') -> (T'', U'').",
+  "errors": [
+   "No errors. All three identities follow correctly from relations (A) and (B) of the previous page.",
+   "The page gives no justification; the intermediate formulas for cos^2 T' and sin^2 U' in terms of T, U are my reconstruction.",
+   "Sign and branch conventions (square roots, angles in the first quadrant) are tacit."
+  ],
+  "results": [
+   {
+    "what": "Given sin T' = sin((T+U)/2)/cos((T-U)/2) and cos T' = sin U'/sqrt(tan T tan U), the identities cos(T+U)/(cos T cos U) = cos(T'+U')cos(T'-U')/cos^2 T' and cos(T+U)/(sin T sin U) = cos(T'+U')cos(T'-U')/sin^2 U'",
+    "modern_name": "Elementary trigonometric consequences of a Landen/Gauss (AGM) amplitude transformation",
+    "usually_credited_to": "Landen (1775) / Lagrange / Gauss (AGM, c. 1799–1818) for the transformation; the identities themselves are routine trigonometry",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Geometric-mean combination: 2cos(T+U)/sqrt(sin2T sin2U) = cos(T'+U')cos(T'-U')/(cos T' sin U')",
+    "modern_name": "Transformation of a symmetric quantity under one AGM/Landen step",
+    "usually_credited_to": "Gauss (AGM work), routine consequence",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are correct but elementary trigonometric manipulations within Gauss's well-documented AGM/Landen-transformation work. Nothing here goes beyond routine identities supporting a known method.",
+  "checkable": [
+   {
+    "sympy": "T,U=0.7,0.4; Tp=asin(sin((T+U)/2)/cos((T-U)/2)); Up=asin(cos(Tp)*sqrt(tan(T)*tan(U))); N(cos(T+U)/(cos(T)*cos(U)) - cos(Tp+Up)*cos(Tp-Up)/cos(Tp)**2)",
+    "asserts": "Line 1 holds (result ~0) when T', U' are defined by relations (A), (B) of the previous page"
+   },
+   {
+    "sympy": "T,U=0.7,0.4; Tp=asin(sin((T+U)/2)/cos((T-U)/2)); Up=asin(cos(Tp)*sqrt(tan(T)*tan(U))); N(cos(T+U)/(sin(T)*sin(U)) - cos(Tp+Up)*cos(Tp-Up)/sin(Up)**2)",
+    "asserts": "Line 2 holds (~0)"
+   },
+   {
+    "sympy": "T,U=0.7,0.4; Tp=asin(sin((T+U)/2)/cos((T-U)/2)); Up=asin(cos(Tp)*sqrt(tan(T)*tan(U))); N(2*cos(T+U)/sqrt(sin(2*T)*sin(2*U)) - cos(Tp+Up)*cos(Tp-Up)/(cos(Tp)*sin(Up)))",
+    "asserts": "Line 3 holds (~0)"
+   },
+   {
+    "sympy": "T,U=symbols('T U'); simplify(1 - sin((T+U)/2)**2/cos((T-U)/2)**2 - cos(T)*cos(U)/cos((T-U)/2)**2)",
+    "asserts": "cos^2 T' = cos T cos U / cos^2((T-U)/2), i.e. the result is 0"
+   },
+   {
+    "sympy": "T,U=symbols('T U'); simplify(cos(T)*cos(U)*sin(T)*sin(U) - sin(2*T)*sin(2*U)/4)",
+    "asserts": "Identity used to pass from the geometric mean of lines 1–2 to line 3 (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription matches the image. 'cos T'^2' and 'sin U'^2' denote (cos T')^2 and (sin U')^2. The 'V' in the third denominator is Gauss's square-root sign."
+  ]
+ }
+}

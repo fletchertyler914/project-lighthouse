@@ -1,0 +1,78 @@
+{
+ "bundle": "Math.20",
+ "page": "c032",
+ "label": "16r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000033/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a scratch slip next to a fundamental-theorem-of-algebra argument. The previous page proves that |Omega(x)| attains a minimum inside a disc. Here a concrete septic family is set up, in which only the constant term varies along a closed curve.\n\nLine 1: x^7 - 28x^4 + 280 + 200 cos(psi) = 0. A word before cos is struck out. The angle psi is evidently meant to be complex.\n\nMarginal note: sqrt(1.4^2 - 1). Here 1.4 = 280/200. Write cosh(alpha) = 1.4 (my notation). Then sinh(alpha) = sqrt(0.96) = 0.9798 and 200 sinh(alpha) = sqrt(38400) = 195.959.\n\nLine 2: x^7 - 28x^4 + 280 - 280 cos(phi) - i sin(phi) sqrt(38400) = 0. A miswritten factor before i is struck out. This is line 1 with psi = pi - phi + i*alpha (the substitution is my reconstruction). Then\n 200 cos(psi) = -200(cos(phi) cosh(alpha) + i sin(phi) sinh(alpha)) = -280 cos(phi) - i sqrt(38400) sin(phi).\n\nSo the constant term c(phi) = 280 - 280 cos(phi) - i*195.96 sin(phi) traces an ellipse:\n- centre 280;\n- semi-axes 280 and 195.96;\n- since 280^2 - 38400 = 200^2, foci at 80 and 480;\n- it passes through c = 0 (phi = 0) and c = 560 (phi = pi).\n\nI note, without certainty, that x^7 - 28x^4 + 480 may be the septic Gauss used as an example in his FTA work. The real critical values of x^7 - 28x^4 + c are c = 0 and c = 12*16^(4/3) ≈ 483.8, the latter close to 480.\n\nLines 3-5: the ellipse point is evaluated at cos(phi) = ∓1/sqrt(2), sin(phi) = 1/sqrt(2), i.e. phi = 135° or 45°.\n- Real part: 280 ± 280/sqrt(2) = 280 ± sqrt(39200), with sqrt(39200) = 197.9898987.\n- Imaginary part: -i sqrt(38400)/sqrt(2) = -i sqrt(19200).\n- Gauss writes 138.9244399 for sqrt(19200).\n- He then writes 2.1416506, which is log10(sqrt(19200)) = (1/2) log10(19200), presumably taken from log tables in preparation for computing the roots.\n\nPurpose: tracing roots of the septic as the constant term runs round this ellipse, presumably to illustrate the root-existence / continuity argument. The roots themselves are not computed on this slip.",
+  "errors": [
+   "138.9244399 is sqrt(19300), not sqrt(19200) = 138.5640646. However, the logarithm 2.1416506 that follows is correct for sqrt(19200), so the slip affects only the written decimal value (likely a table or copying error).",
+   "Struck-out symbols in lines 1 and 2 (before cos and before i sin) are false starts, corrected on the page."
+  ],
+  "results": [
+   {
+    "what": "Complex-angle cosine parametrization of an ellipse: 280 + 200 cos(pi - phi + i*acosh(1.4)) = 280 - 280 cos(phi) - i sqrt(38400) sin(phi), an ellipse with foci 80 and 480 passing through 0 and 560.",
+    "modern_name": "Image of a horizontal line under the cosine map (confocal ellipses); path for the constant term in a root-continuation (homotopy) example",
+    "usually_credited_to": "Classical (Euler-era complex trigonometry); confocal conics via cos z are standard 19th-century material",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Numerical evaluation: sqrt(39200) = 197.9898987, log10 sqrt(19200) = 2.1416506.",
+    "modern_name": "Hand computation with square roots and logarithm tables",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Septic test equation x^7 - 28x^4 + c with c varying (c = 480 at a focus), presumably to illustrate the root-existence argument of the preceding pages.",
+    "modern_name": "Worked example for the fundamental theorem of algebra / root continuation",
+    "usually_credited_to": "Gauss (FTA proofs 1799-1849)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine numerical scratch work for an illustrative example attached to Gauss's well-known fundamental-theorem-of-algebra proofs. The complex-cosine ellipse parametrization is elementary. Nothing here goes beyond what is known of Gauss.",
+  "checkable": [
+   {
+    "sympy": "sqrt(39200).evalf(10)",
+    "asserts": "equals 197.9898987"
+   },
+   {
+    "sympy": "sqrt(19200).evalf(10)",
+    "asserts": "equals 138.5640646, not 138.9244399 as written"
+   },
+   {
+    "sympy": "sqrt(19300).evalf(10)",
+    "asserts": "equals 138.9244399, so Gauss's decimal is sqrt(19300)"
+   },
+   {
+    "sympy": "(log(sqrt(19200),10)).evalf(8)",
+    "asserts": "equals 2.1416506"
+   },
+   {
+    "sympy": "simplify(200*sqrt(Rational(14,10)**2-1) - sqrt(38400))",
+    "asserts": "0: sqrt(38400) = 200*sqrt(1.4^2-1)"
+   },
+   {
+    "sympy": "280**2 - 38400 - 200**2",
+    "asserts": "0: the ellipse has focal distance 200, so foci at 80 and 480"
+   },
+   {
+    "sympy": "phi=symbols('phi',real=True); a=acosh(Rational(7,5)); simplify(expand_trig(expand(280+200*cos(pi-phi+I*a))) - (280-280*cos(phi)-I*sqrt(38400)*sin(phi)))",
+    "asserts": "0: line 1 with complex angle gives line 2"
+   },
+   {
+    "sympy": "x=symbols('x'); [ (x**7-28*x**4).subs(x,r) for r in solve(diff(x**7-28*x**4,x),x) if r.is_real]",
+    "asserts": "real critical values are 0 and -12*16**(4/3) ≈ -483.8, so x^7-28x^4+c has a double real root near c ≈ 483.8, close to the focus 480"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: read '280 + 200 cos phi' with a struck-out symbol before cos; the [?] can be removed.",
+   "Line 2: the struck-out item before 'i sin phi' is a false start, not '2 phi phi'.",
+   "'Math 20 45/47' is a shelf/archival mark, and '(16)' is the folio number."
+  ]
+ }
+}

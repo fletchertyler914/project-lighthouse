@@ -1,0 +1,60 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c069",
+ "label": "33v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000070/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Authorship first. This page is not by Riemann. It continues the editorial 'Anmerkungen' to Riemann's Habilitationsschrift (Werke XII, 'Ueber die Darstellbarkeit einer Function durch eine trigonometrische Reihe'). Note (3) cites Genocchi, 'Intorno ad alcune serie', Torino 1875, which appeared after Riemann's death. So the notes are by the editor of the 1876 Werke (Weber, perhaps with Dedekind's help; which of them wrote these notes is unsure).\n\nNote (2), continued from 33r. Riemann has an integral of the form\n  I_n = (1/2π) ∫_{-π}^{π} F(t) λ(t) d²/dt²[ sin((2n+1)(x-t)/2) / sin((x-t)/2) ] dt.\nHe claims I_n → 0 for an auxiliary function λ satisfying the conditions of his text. The editor says one must add the hypothesis that λ is 2π-periodic.\n\nThe counterexample:\n- Take Φ(t) = F(t) - C t - A0 t²/2 = const = c. Put D_n(u) = sin((2n+1)u/2) / sin(u/2) and λ(t) = (x-t)³.\n- Integrating by parts twice gives (my step):\n  ∫ c λ D_n'' dt = c[λ ∂_t D_n − λ' D_n]_{-π}^{π} + c ∫ λ'' D_n dt.\n- The last integral tends to 2π c λ''(x) = 0 by the Dirichlet kernel property, since λ''(t) = 6(x-t) vanishes at t = x.\n- The boundary terms do not tend to 0. λ(±π) = (x∓π)³ and λ'(±π) = −3(x∓π)² differ at the two ends. Meanwhile D_n(x∓π) and ∂_t D_n(x∓π) oscillate with amplitude of order 1 and of order n respectively.\n- So the integral does not have limit 0 without periodicity.\n- The quadratic term A0 t²/2 in F is handled separately, because its second derivative is constant. Only the periodic part Φ is at issue.\n\nWith λ periodic, the editor says I_n → 0 follows from three ingredients:\n- carrying out the t-differentiation of D_n(x−t) explicitly;\n- Riemann's Satz 3 of Art. 8 (the Riemann–Lebesgue-type lemma μμ∫F cos μ(x−a) λ dx → 0 under his hypotheses);\n- a periodic shift of the integration interval, as in note (1), where λ₁(x) = λ(x+2π) was used.\n\nNote (3). Riemann (Art. 13/14) claimed that Σ_{n≥1} sin(n! x π) converges for certain irrational x.\n- Genocchi remarked that the value printed by Riemann, read here as x = ¼(e − 1/e), does not belong to that set.\n- Genocchi apparently proposed x = ½(e − 1/e) = sinh 1 instead.\n- The editor says the series also fails to converge for sinh 1.\n\nVerification (mine) for x = sinh 1 = Σ_{k≥0} 1/(2k+1)!. Write n! x = N_n + r_n, where N_n = Σ_{odd m≤n} n!/m!.\n- Odd n: the m = n term is 1 and every other term (m+1)⋯n contains an even factor, so N_n is odd. Also r_n ≈ 1/((n+1)(n+2)), so these terms form a summable series.\n- Even n: every term (m+1)⋯n is even, so N_n is even. Also r_n ≈ 1/(n+1).\n- Hence sin(n! x π) = sin(π r_n) ≈ π/(n+1) > 0 for all even n, a harmonic-type divergence. The editor is right.\n\nVerification (mine) for x = ¼(e − 1/e). For odd n, n! x = N_n/2 + small with N_n odd. So |sin(n! x π)| → 1 along odd n, and the terms do not even tend to 0. Genocchi is right.",
+  "errors": [
+   "No error in the editor's claims as checked: the nonperiodic counterexample is valid, and both values sinh(1)/2 and sinh(1) give divergent series.",
+   "The editor's note on λ(t)=(x−t)³ asserts non-convergence without computation; the boundary-term argument above is my reconstruction.",
+   "The machine transcription gives the first value in note (3) as ½(e−1/e). The logic of the sentence ('Aber auch für ... ist die Reihe nicht ... convergent') requires two different values, so the first is most likely ¼(e−1/e)."
+  ],
+  "results": [
+   {
+    "what": "Need for periodicity of the auxiliary function λ in Riemann's localization theorem for twice-integrated trigonometric series; counterexample λ=(x−t)³",
+    "modern_name": "Riemann localization principle / Riemann's second lemma on formal double integration (Rajchman–Zygmund theory of uniqueness)",
+    "usually_credited_to": "Riemann 1854 for the theorem; this correction is an editorial note in Riemann's Werke 1876",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Divergence of Σ sin(n! x π) at x = sinh 1 and at x = sinh(1)/2, correcting Riemann's text and Genocchi",
+    "modern_name": "Arithmetic of factorial (Engel-type) expansions; series sin(n! π x)",
+    "usually_credited_to": "Riemann (example), Genocchi 1875 (first correction), editor of Riemann's Werke 1876 (second correction)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is an editorial annotation written after Riemann's death (it cites Genocchi 1875), correcting minor points in Riemann's published Habilitationsschrift. It is routine content and is not by Riemann.",
+  "checkable": [
+   {
+    "sympy": "all((sum(rf(m+1, n-m) for m in range(1, n+1, 2)) % 2) == 0 for n in range(2, 30, 2))",
+    "asserts": "For even n, the integer part N_n = Σ_{odd m≤n} n!/m! of n!·sinh(1) is even."
+   },
+   {
+    "sympy": "all((sum(rf(m+1, n-m) for m in range(1, n+1, 2)) % 2) == 1 for n in range(1, 30, 2))",
+    "asserts": "For odd n, N_n is odd, so for x = sinh(1)/2 the terms sin(n! x π) do not tend to 0."
+   },
+   {
+    "sympy": "[N(sin(factorial(n)*pi*sinh(1)), 30)*(n+1) for n in range(2, 20, 2)]",
+    "asserts": "For x = sinh 1 the even-n terms are positive and approximately π/(n+1), so the series diverges."
+   },
+   {
+    "sympy": "[N(sin(factorial(n)*pi*sinh(1)/2), 30) for n in range(1, 20, 2)]",
+    "asserts": "For x = sinh(1)/2 the odd-n terms have absolute value near 1."
+   },
+   {
+    "sympy": "simplify(diff((x-t)**3*diff(sin((2*n+1)*(x-t)/2)/sin((x-t)/2), t) - diff((x-t)**3, t)*sin((2*n+1)*(x-t)/2)/sin((x-t)/2), t) - ((x-t)**3*diff(sin((2*n+1)*(x-t)/2)/sin((x-t)/2), t, 2) - diff((x-t)**3, t, 2)*sin((2*n+1)*(x-t)/2)/sin((x-t)/2)))",
+    "asserts": "Should simplify to 0. This is the double integration by parts identity λD'' − λ''D = d/dt(λD' − λ'D) behind the counterexample; it gives nonvanishing boundary terms for nonperiodic λ."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 of note (3): the first value should most likely read x = ¼(e − 1/e), not ½(e − 1/e). The second value is ½(e − 1/e).",
+   "'diese Zeitschrift[?] betreffenden' is likely 'diese Schrift betreffenden' or 'diese Reihe betreffenden'; the sense is Genocchi's paper concerning this work.",
+   "In note (2) the expression 'F(t) − Ct − A0 tt/2' uses C (C' in note 1); 'dd sin... / dt²' is the second t-derivative of the Dirichlet kernel."
+  ]
+ }
+}

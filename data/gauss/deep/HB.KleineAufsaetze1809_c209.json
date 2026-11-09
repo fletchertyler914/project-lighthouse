@@ -1,0 +1,57 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c209",
+ "label": "200",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000210/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting. The sphere x^2+y^2+z^2=r^2 carries a closed curve (\"in sich selbst zurückkehrende Linie\"). Gauss defines V = ∮ z(x dy − y dx) / (r(x^2+y^2)), taken once around the whole curve.\n\nStep 1 (my filling-in, certain). Use longitude λ and latitude b: x = r cos b cos λ, y = r cos b sin λ, z = r sin b. Then x dy − y dx = (x^2+y^2) dλ and z/r = sin b. So V = ∮ sin b dλ. This 1-form ω = sin b dλ is defined everywhere except at the two poles z = ±r, where λ is undefined. Hence Gauss's last remark: a curve passing through a pole is excluded \"by the nature of the integral\". Its exterior derivative is dω = cos b db∧dλ, which is the area element of the unit sphere up to sign. So V is a signed area. Areas must be read in units of r^2 (equivalently r = 1 or solid angle), since V is dimensionless.\n\nStep 2 (Gauss's theorem). The curve divides the sphere into regions A, B, C, …. Then V = αA + βB + γC + …, where the coefficients satisfy two conditions.\n(1) Coefficients of adjacent regions differ by exactly 1. The smaller coefficient belongs to the region that lies relative to the curve as the +z pole lies relative to the great circle drawn from the x-pole to the y-pole. In modern terms: the equator traversed with increasing λ has the +z pole on its left (outward normal up). So the region on the left of the oriented curve gets the smaller coefficient. Gauss corrected 'grössere' to 'kleinere', and the corrected version is the right one.\n(2) The coefficients of the region(s) containing the north and the south pole add to 0.\nEquivalently, the coefficient of a region is −(winding number of the curve around its points), normalized by an additive constant. That constant is fixed by c(N) + c(S) = 0.\n\nStep 3 (proof sketch Gauss indicates). Draw infinitely many meridian half-circles from the south pole to the north pole. Integrating sin b dλ along the curve sweeps out, between neighbouring meridians, a strip of area (sin b_top − sin b_bottom) dλ. Summing gives the area counted with multiplicities, i.e. winding numbers. The constant arises because ∮ dλ = 2π·(winding about the z-axis): ω = (sin b − 1)dλ + dλ = (sin b + 1)dλ − dλ.\n\nWorked check (mine), latitude circle b = b0 traversed eastward. V = 2π sin b0. The northern cap has area 2π(1 − sin b0) and lies on the left, so it gets coefficient −1/2. The southern part has area 2π(1 + sin b0) and coefficient +1/2. Then −½·2π(1−sin b0) + ½·2π(1+sin b0) = 2π sin b0. ✓\n\nWorked check (mine), small circle of angular radius ρ centred on the equator, counterclockwise seen from outside. Both poles lie outside, so the outside coefficient is 0 and the inside coefficient is −1. Prediction: V = −2π(1 − cos ρ). Direct evaluation gives the same.\n\nContext. The neighbouring pages are Gauss/Weber galvanic-commutation timing and complex-number quadrilateral identities. This page belongs to Gauss's electromagnetic work, where solid angles subtended by closed curves occur (potential of closed currents and magnetic shells, 1830s–1840s). The pencil note 'V. p 620' indicates it is printed in Gauss's Werke vol. V, p. 620.",
+  "errors": [
+   "No mathematical error. The correction 'grössere' → 'kleinere' in condition 1 is necessary and correct, as checked with a latitude circle traversed with increasing λ.",
+   "Minor normalization issue: V is dimensionless, so the areas A, B, C must be understood as measured on the unit sphere (area/r^2, i.e. solid angle). Gauss leaves this implicit.",
+   "Gauss says 'two or more' pieces. For a self-intersecting curve the coefficients defined by the adjacency rule are consistent precisely because they are winding numbers. Gauss asserts this without comment ('Der Beweis ist leicht geführt').",
+   "The proof is only sketched (meridian half-circles); it is not given in full."
+  ],
+  "results": [
+   {
+    "what": "On the sphere, the 1-form z(x dy − y dx)/(r(x^2+y^2)) = sin(latitude) dλ integrates around any closed curve (avoiding the poles) to a weighted sum of the areas of the complementary regions. Weights jump by 1 across the curve (smaller on the left side) and are normalized so the weights at the two poles sum to zero.",
+    "modern_name": "Signed (winding-number-weighted) area / solid angle enclosed by a closed spherical curve; Stokes' theorem for a 1-form with polar singularities; region numbering by winding numbers (Alexander numbering)",
+    "usually_credited_to": "Area formula ∮(1−sin b)dλ is classical. Winding-number weighting of regions of self-intersecting curves: Meister (1770s), Möbius (1827/1865), Alexander numbering (1928). Solid-angle treatment of closed currents: Gauss/Ampère/Neumann, 1830s–40s.",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Exclusion of curves through the poles because the integrand is singular there",
+    "modern_name": "Singularities of the angular form dλ at the poles; contribution ±2π per winding",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "A neat, correct statement of signed area with winding-number coefficients on the sphere, fitting Gauss's known solid-angle work in electromagnetism. It is already printed in Werke V (p. 620, as the pencil note shows), so little is new.",
+  "checkable": [
+   {
+    "sympy": "b,l,r=symbols('b l r',positive=True); x=r*cos(b)*cos(l); y=r*cos(b)*sin(l); z=r*sin(b); simplify(z*(x*diff(y,l)-y*diff(x,l))/(r*(x**2+y**2)) - sin(b))",
+    "asserts": "Along a curve parametrized by λ, the integrand reduces to sin(b) dλ (result 0)."
+   },
+   {
+    "sympy": "b0=symbols('b0'); simplify(2*pi*sin(b0) - (Rational(-1,2)*2*pi*(1-sin(b0)) + Rational(1,2)*2*pi*(1+sin(b0))))",
+    "asserts": "For a latitude circle traversed eastward, V = −½·(north cap) + ½·(south part), with coefficients differing by 1 and summing to 0 (result 0)."
+   },
+   {
+    "sympy": "b,b0=symbols('b b0'); simplify(2*pi*integrate(cos(b),(b,b0,pi/2)) - 2*pi*(1-sin(b0)))",
+    "asserts": "Area of a polar cap on the unit sphere is 2π(1−sin b0) (result 0)."
+   },
+   {
+    "sympy": "t=symbols('t'); rho=pi/3; N(Integral(-sin(rho)**2*cos(rho)*sin(t)**2/(cos(rho)**2+sin(rho)**2*cos(t)**2),(t,0,2*pi))) - N(-2*pi*(1-cos(rho)))",
+    "asserts": "For a circle of radius ρ centred on the equator (counterclockwise from outside), V = −(enclosed area) = −2π(1−cos ρ): poles lie in the coefficient-0 region, interior coefficient −1 (result ≈ 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The coefficient after α is written like a '6' in the manuscript; it is β, as the transcription has.",
+   "'in denen die' appears in the manuscript as 'in denender' (a slip/overwriting), meaning 'in denen die'.",
+   "Condition 1 reads '[-grössere-] {+kleinere+}' — the deletion and superscript correction are confirmed by the image. The deleted word after 'an,' looks like 'dessen'/'besser', struck out."
+  ]
+ }
+}

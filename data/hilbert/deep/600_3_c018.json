@@ -1,0 +1,64 @@
+{
+ "bundle": "600_3",
+ "page": "c018",
+ "label": "15",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000019/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This page continues a coefficient-counting proof that there exist 'genuine' (eigentliche) analytic functions of three variables x, y, z, meaning convergent power series that cannot be obtained by finitely many superpositions of power series of two variables. This is the analytic version of the question behind Hilbert's 13th problem.\n\nOn the previous page Hilbert does three things:\n- After one step, the available functions are arbitrary series p^(1)(x,y) or q^(1)(x,z).\n- The next step takes an arbitrary function W(p,q) of two such series.\n- He normalizes by setting F(p,q) = W(p - p(0,0), q - q(0,0)). The coefficients of F are again arbitrary, and the inner series now have zero constant term. This is what makes the formal substitution well defined.\n\nThis page, step by step.\n\n(1) Notation. F is renamed. The circled insertion reads fraktur p^(2), q^(2); the machine transcription's f^(2), g^(2) stand for these. In modern form:\n- p^(2) = sum_{i2,k2} u^(1)_{i2 k2} X^{i2} Y^{k2}\n- q^(2) = sum_{l2,m2} u^(2)_{l2 m2} X^{l2} Y^{m2}\nHere X = x^(1) and Y = y^(1) are the first-step series.\n\n(2) The first-step series have no constant term:\n- X = sum u_{i1 k1} x^{i1} y^{k1}, with (i1,k1) = (0,0) excluded.\n- Y = sum v_{l1 m1} x^{l1} z^{m1}, with (l1,m1) = (0,0) excluded.\nThe image appears to show the second variable of Y corrected to z, consistent with q^(1)(x,z) on the previous page.\n\n(3) Substituting gives p^(2) = sum_{r,s,t} u_{rst} x^r y^s z^t. Each u_{rst} is a polynomial (ganze rationale Funktion) in the u_{ik}, v_{lm} and u^(1)_{i2k2}. This holds because X and Y have no constant term, so only finitely many terms contribute to each monomial.\n\n(4) Counting.\n- There are n^3 coefficients u_{rst} with r, s, t < n.\n- Hilbert claims these depend at most on u_{i1k1} (i1, k1 < n), v_{l1m1} (l1, m1 < n) and u^(1)_{i2k2} (i2, k2 < n).\n- That is at most 3n^2 parameters in total.\n- For n > 3 we have n^3 > 3n^2, so p^(2) is 'certainly not the most general power series'.\n\n(5) Continuation on the next page (implicit here). The n^3 polynomials in fewer than n^3 parameters are algebraically dependent. So the coefficients of every second-step series satisfy a nontrivial polynomial relation R^(2) = 0. Similar relations R^(3), R^(4), ... hold for later steps. A series violating all of these countably many relations is a genuine function of three variables.",
+  "errors": [
+   "The bound i2 < n, k2 < n on the outer coefficients is too strong. X has no constant term but may contain pure x-terms, and Y may also contain pure x-terms. X^{i2} Y^{k2} therefore has total degree at least i2 + k2, and that degree can be distributed over x, y, z. For r, s, t < n the correct constraints are i2 <= r + s <= 2n - 2, k2 <= r + t <= 2n - 2 and i2 + k2 <= 3n - 3. Example with n = 2: (X)^2 with X = a x + b y contributes 2ab to the xy coefficient, so i2 = 2 = n does matter.",
+   "The bounds on the inner coefficients are correct: i1 <= r, k1 <= s for X, and l1 <= r, m1 <= t for Y.",
+   "Corrected parameter count: (n^2 - 1) + (n^2 - 1) + ((2n - 1)^2 - n(n - 1)/2), roughly 5.5 n^2. This is still O(n^2), so the argument survives for n >= 6 instead of n > 3. Hilbert's own footnote on the next page, which uses (3n)^2 for the outer coefficients at step 3, shows awareness of the total-degree effect.",
+   "The step from 'fewer parameters than coefficients' to 'a relation R = 0 exists' is left implicit. It needs the algebraic dependence of more than N polynomials in N variables (a transcendence-degree or Jacobian-rank argument). This is standard but unstated.",
+   "Only one composition pattern is treated (inner functions of (x,y) and (x,z)). A complete proof must range over all finitely many superposition trees at each step and over all choices of variable pairs. This is a countable family, so the final diagonal argument still works, but it is not spelled out here."
+  ],
+  "results": [
+   {
+    "what": "Coefficient-counting (parameter-counting) proof that power series built by k-fold superposition of two-variable power series satisfy polynomial relations among their coefficients, hence do not exhaust all three-variable power series.",
+    "modern_name": "Dimension or parameter-count argument for the analytic case of Hilbert's 13th problem (non-superposability of analytic functions); precursor of Vitushkin's and Kolmogorov's entropy and complexity arguments.",
+    "usually_credited_to": "Hilbert himself asserted the existence of analytic functions of three variables not obtainable by finite superposition of analytic functions of two variables. As far as I recall this is in the 1900 Paris address (Problem 13) and/or 'Über die Gleichung neunten Grades' (Math. Ann. 97, 1927), with a sketch by counting coefficients. Later rigorous treatments came from Ostrowski-type arguments, and the smooth case from Vitushkin (1954).",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Normalization of inner series to zero constant term so that formal composition gives coefficients as polynomials in the parameters.",
+    "modern_name": "Composition of formal power series (substitution into the maximal ideal)",
+    "usually_credited_to": "classical (Weierstrass era)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The existence of genuine analytic functions of three variables via counting coefficients is a known Hilbert claim connected to his 13th problem. This page is a draft of that very argument, with a minor slip in the index bounds. It is historically nice as an unpublished working sketch, but it does not add a result not already associated with Hilbert.",
+  "checkable": [
+   {
+    "sympy": "import sympy as sp; n=sp.symbols('n',positive=True,integer=True); [m for m in range(1,10) if m**3>3*m**2]",
+    "asserts": "n^3 > 3n^2 exactly for n >= 4, i.e. n > 3, Hilbert's stated condition."
+   },
+   {
+    "sympy": "x,y,a,b,u20=sp.symbols('x y a b u20'); sp.Poly(sp.expand(u20*(a*x+b*y)**2),x,y).coeff_monomial(x*y)",
+    "asserts": "Equals 2*a*b*u20, which is nonzero. So for n = 2 an outer coefficient with i2 = 2 = n affects a coefficient with r, s < n; Hilbert's bound i2 < n is too strict."
+   },
+   {
+    "sympy": "sum(1 for i in range(0,4*6) for k in range(0,4*6) if i<=2*6-2 and k<=2*6-2 and i+k<=3*6-3) == (2*6-1)**2 - 6*5//2",
+    "asserts": "The corrected count of relevant outer coefficients for n = 6 equals (2n-1)^2 - n(n-1)/2."
+   },
+   {
+    "sympy": "[m for m in range(1,20) if m**3 > 2*(m**2-1) + (2*m-1)**2 - m*(m-1)//2][:3]",
+    "asserts": "With the corrected parameter count, n^3 exceeds the number of parameters from n = 6 on, so the conclusion survives."
+   },
+   {
+    "sympy": "[m for m in range(1,30) if m**3 > 15*m**2][:1]",
+    "asserts": "The next page's footnote bound 15n^2 < n^3 holds for n > 15 (first n = 16)."
+   }
+  ],
+  "transcription_corrections": [
+   "The renamed series are fraktur p^(2), q^(2) (the circled insertion), not f^(2), g^(2). The struck letters are 𝔘, 𝔙.",
+   "The first-step series y^(1) appears to be written in x and z (sum v_{l1 m1} x^{l1} z^{m1}), with z written over a struck letter, matching q^(1)(x,z) on the previous page. The transcription has y.",
+   "The exclusion condition means the single index pair (i1,k1) = (0,0) is excluded (no constant term), not i1 = 0 or k1 = 0 separately. The same applies to (l1,m1).",
+   "In the line p̃^(2) = sum_{r,s,t} u_{rst} x^r y^s z^t, a struck intermediate expression (products of u_{i2k2}, u_{i1k1}) precedes u_{rst}.",
+   "The coefficient names are mixed in the manuscript: the outer coefficients appear as u^(1)_{i2k2} in the definition but as u_{i2 k2} in the count. The inner coefficients appear as u_{i1k1} but in the count as u^(1)_{i1k1} and v^(1)_{l1m1}."
+  ]
+ }
+}

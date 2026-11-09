@@ -1,0 +1,59 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c105",
+ "label": "54v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000106/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is p.12 of Riemann's Paris prize essay on heat conduction, the 'Commentatio mathematica, qua respondere tentatur quaestioni ab Ill.ma Academia Parisiensi propositae' (submitted 1861). It ends Pars prima and leads into Pars secunda.\n\nThe set-up of Pars prima. The heat equation is written in arbitrary coordinates s_1, s_2, s_3 with conductivity form b_{ιι'}. Δ denotes the spatial operator of that equation, so the equation reads Δu = ∂u/∂t. The question is when a solution u can depend only on t and two spatial variables α, β. The previous page splits this into cases by m, the number of independent equations F = 0 holding among the derivatives.\n\nCase m = 4 (from the previous page, completed here).\n- Besides Δu = u_t there are three linear relations among u_αα, u_αβ, u_ββ, u_α, u_β.\n- Either some relation r u_α + s u_β = 0 holds, so u depends on t and one variable only.\n- Or the second derivatives, and hence Δu, Δ²u, Δ³u, are expressible through u_α and u_β. Since Δ^k u = ∂^k u/∂t^k, this gives a u_ttt + b u_tt + c u_t = 0 with constant roots λ, μ.\n- Hence u = p e^{λt} + q e^{μt} + r, or u = (p + q t) e^{λt} + r, where p, q, r are functions of α, β.\n- Take p as the new variable α. Substituting into Δu = u_t shows that q cannot be a function of α alone when λ ≠ μ.\n- Therefore p and q can serve as the two independent variables (α, β).\n- From Δu = ∂u/∂t one then finds that the remaining additive term r is constant. Filling-in (mine): the t-independent linear relations force r to be at most linear in α, β; then Δα = λα, Δβ = μβ and Δr = 0 kill the linear part (for λ, μ ≠ 0).\n\nConclusion for this case: u is either a function of t and a single variable, or of one of the forms\n- α e^{λt} + β e^{μt} + const, or\n- (α + β t) e^{λt} + const,\nwith μ = 0 not excluded.\n\nGeneral step. Once the possible forms of u are known, the equations F_ι = 0 (conditions on the coefficients, not written out 'for brevity') are easily formed. Hence in each case one determines two arrays in Gauss's notation for ternary quadratic forms:\n- the form (b11 b22 b33; b23 b31 b12), and\n- its adjoint form (β11 β22 β33; β23 β31 β12), where β_{ιι'} are the cofactors.\n\nSubstituting arbitrary functions of x_1, x_2, x_3 for s_1, s_2, s_3 in Σ β_{ιι'} ds_ι ds_ι' yields all cases in which u can depend on time and only two variables. This solves the first question.\n\nRemaining question: when can Σ β_{ιι'} ds_ι ds_ι' be transformed into a given form Σ a_{ιι'} dx_ι dx_ι'? This is the equivalence problem of quadratic differential forms. It is treated in Pars secunda (next page), where Riemann derives the integrability conditions involving the curvature quantities (ιι', ι''ι''').",
+  "errors": [
+   "The claim that r is constant is asserted without the argument. It follows from the t-independence of the three linear relations together with Δu = u_t, at least for λ, μ ≠ 0 and λ ≠ μ. With μ = 0 the constant merges with β e^{0t}, consistent with 'μ=0 non excluso'.",
+   "The claims that q cannot be a function of p, and that the F_ι = 0 are 'facillimae formatu', are stated without proof. These are gaps of exposition, not errors."
+  ],
+  "results": [
+   {
+    "what": "Classification of solutions of the generalized heat equation depending on t and only two spatial variables, case m=4: forms α e^{λt} + β e^{μt} + c or (α + β t) e^{λt} + c",
+    "modern_name": "separation-of-variables / reduction of the anisotropic heat equation; solutions from a constant-coefficient ODE in t",
+    "usually_credited_to": "Riemann, Commentatio (1861), published in Werke 1876",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of Gauss's notation for ternary forms and the adjoint (cofactor) form β_{ιι'}",
+    "modern_name": "adjugate / inverse metric of a quadratic form",
+    "usually_credited_to": "Gauss, Disquisitiones Arithmeticae (1801)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reduction of the problem to the equivalence of quadratic differential forms Σβ ds ds → Σa dx dx",
+    "modern_name": "equivalence problem for Riemannian metrics (leading to the curvature tensor)",
+    "usually_credited_to": "Riemann 1854/1861; Christoffel and Lipschitz 1869",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of Riemann's published 1861 Paris essay (Werke, 1876). Its content is a routine case conclusion plus the known transition to the metric-equivalence problem, all already attributed to Riemann.",
+  "checkable": [
+   {
+    "sympy": "t,l,m,a,b,c=symbols('t l m a b c'); u=a*exp(l*t)+b*exp(m*t)+c; simplify(diff(u,t,3)-(l+m)*diff(u,t,2)+l*m*diff(u,t))",
+    "asserts": "u = α e^{λt} + β e^{μt} + c solves a third-order constant-coefficient ODE of the form a u''' + b u'' + c u' = 0 (result 0)"
+   },
+   {
+    "sympy": "u=(a+b*t)*exp(l*t)+c; simplify(diff(u,t,3)-2*l*diff(u,t,2)+l**2*diff(u,t))",
+    "asserts": "the double-root form (α + β t) e^{λt} + c solves the same type of ODE (result 0)"
+   },
+   {
+    "sympy": "B=Matrix(3,3,symbols('b11 b12 b13 b12 b22 b23 b13 b23 b33')); simplify(B*B.adjugate()-B.det()*eye(3))",
+    "asserts": "cofactor (adjoint form) relation Σ β_{ιι'} b_{ιι''} = B δ_{ι'ι''} (result zero matrix)"
+   }
+  ],
+  "transcription_corrections": [
+   "'ex aequatione λu = ∂u/∂t' should read 'ex aequatione Δu = ∂u/∂t'.",
+   "'invenitur s = const.' most likely refers to r (the additive term r of the previous page), i.e. 'r = const.'; the letter is ambiguous in the image.",
+   "The first displayed formula is 'α e^{λt} + β e^{μt} + const.', with an earlier 'const.' struck out; the published text has the constant.",
+   "'valore μ = 0 non excluso' is correct ('excluso' with a correction)."
+  ]
+ }
+}

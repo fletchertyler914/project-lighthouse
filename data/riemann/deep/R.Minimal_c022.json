@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c022",
+ "label": "12r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000023/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this sheet belongs to Riemann's minimal-surface (Plateau problem) papers. The surviving result from these papers is the posthumous memoir 'Über die Fläche vom kleinsten Inhalt bei gegebener Begrenzung' (ed. Hattendorff, 1867/68). The previous page counts corners and branch points. This page carries the added heading 'über den Flächeninhalt' (on the area) and concerns how to evaluate an area integral.\n\n(1) Setup. Let p, q be parameters on the surface or its parameter domain. Let f(p,q) and g(p,q) be two functions. Consider a double integral whose integrand is a functional determinant (Jacobian):\nI = ∬ (∂f/∂p ∂g/∂q − ∂f/∂q ∂g/∂p) dp dq.\nIf one may substitute f and g as new independent variables, I = ∬ df dg. One integration, in f or in g, can then be carried out, leaving a one-dimensional integral.\n\n(2) Riemann's caveat. Actually introducing f, g as independent variables causes difficulties and requires lengthy case analysis if (f,g) takes the same value at several points of the surface or along a line, i.e. if the map is not injective (folds, multiple covering, branch points). The substitution is wholly impossible if f and g are complex, since then (f,g) gives no real 2-D coordinate change.\n\n(3) Remedy: 'das Verfahren von Jacobi'. One keeps p, q as independent variables and uses Jacobi's identity that a functional determinant is a sum of derivatives (a divergence). My explicit completion:\nf_p g_q − f_q g_p = ∂/∂p (f g_q) − ∂/∂q (f g_p),\nbecause the mixed terms f g_qp and f g_pq cancel.\nBy Green's theorem on a region bounded by a contour C (positively oriented):\nI = ∮_C f (g_p dp + g_q dq) = ∮_C f dg.\nThis is the formal analogue of 'integrating ∬ df dg with respect to f'. It holds irrespective of injectivity, and it holds verbatim for complex-valued f, g, since everything is linear.\n\n(4) Struck-out and fragmentary lines. These mention the sign of a region bounded by a surface piece (orientation) and boundary conditions. They then remark that the boundary itself is unknown: not only must the full part satisfy certain boundary conditions, the boundary in the parameter domain is not given. This is the free-boundary nature of the parameter domain in Riemann's treatment of the Plateau problem.\n\n(5) Final reduction. 'Hiernach ist die Aufgabe darauf zurückgeführt': the task is reduced to determining a (Fraktur) 𝔛 as a function of the complex quantity X (or conversely) so that the boundary conditions are satisfied. This is Riemann's characteristic reduction of the minimal-surface problem to a boundary value / conformal mapping problem for analytic functions of a complex variable.",
+  "errors": [
+   "No mathematical errors. The page is a methodological note and is fragmentary.",
+   "The claim that the substitution is 'ganz unmöglich' (wholly impossible) for complex f, g is correct as a statement about real changes of variables. The Jacobi/Green boundary-integral form remains valid formally for complex f, g.",
+   "Several lines are cancelled or incomplete ('Man muß noch sagen' breaks off), so the exact boundary conditions intended are not recoverable from this page alone."
+  ],
+  "results": [
+   {
+    "what": "Integral of a Jacobian ∬(f_p g_q − f_q g_p) dp dq equals ∬ df dg under a change of variables. Riemann notes this fails for non-injective maps and for complex f, g.",
+    "modern_name": "Change of variables formula / degree-counting for non-injective maps",
+    "usually_credited_to": "Euler, Jacobi (functional determinants, 1841)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Jacobi's method: write the Jacobian as a divergence, f_p g_q − f_q g_p = (f g_q)_p − (f g_p)_q, and reduce the area integral to the boundary integral ∮ f dg while keeping p, q as variables.",
+    "modern_name": "Divergence form of the Jacobian (Jacobi's identity for functional determinants) combined with Green/Stokes: ∫ df∧dg = ∮ f dg",
+    "usually_credited_to": "C.G.J. Jacobi, 'De determinantibus functionalibus' (1841); Green 1828",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Reduction of the minimal-surface (Plateau) problem with unknown parameter boundary to finding an analytic function of a complex variable satisfying boundary conditions.",
+    "modern_name": "Riemann–Weierstrass approach to Plateau's problem via conformal mapping",
+    "usually_credited_to": "Riemann (posthumous 1867), Weierstrass (1866), Schwarz",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine working note. It applies Jacobi's known divergence identity for functional determinants to turn an area integral into a boundary integral, within Riemann's already-published approach to minimal surfaces. Nothing here goes beyond known material.",
+  "checkable": [
+   {
+    "sympy": "p,q=symbols('p q'); f=Function('f')(p,q); g=Function('g')(p,q); simplify(diff(f,p)*diff(g,q)-diff(f,q)*diff(g,p) - (diff(f*diff(g,q),p)-diff(f*diff(g,p),q)))",
+    "asserts": "Jacobi's identity: the Jacobian equals a divergence (result 0)."
+   },
+   {
+    "sympy": "p,q=symbols('p q'); f=Function('f')(p,q); g=Function('g')(p,q); simplify(diff(f,p)*diff(g,q)-diff(f,q)*diff(g,p) + (diff(g*diff(f,q),p)-diff(g*diff(f,p),q)))",
+    "asserts": "The alternative divergence form, with the integration done 'in g' instead of 'in f' (result 0)."
+   },
+   {
+    "sympy": "p,q,t=symbols('p q t'); f=p**2+q; g=p*q**3; J=diff(f,p)*diff(g,q)-diff(f,q)*diff(g,p); A=integrate(integrate(J,(p,0,1)),(q,0,1)); segs=[(t,0),(1,t),(1-t,1),(0,1-t)]; B=sum(integrate((f*(diff(g,p)*diff(P,t)+diff(g,q)*diff(Q,t))).subs({p:P,q:Q}),(t,0,1)) for P,Q in segs); simplify(A-B)",
+    "asserts": "Green's theorem check on the unit square: ∬ Jacobian dp dq = ∮ f dg (result 0)."
+   },
+   {
+    "sympy": "p,q,t=symbols('p q t'); f=exp(I*p)*q; g=p+I*q**2; J=diff(f,p)*diff(g,q)-diff(f,q)*diff(g,p); A=integrate(integrate(J,(p,0,1)),(q,0,1)); segs=[(t,0),(1,t),(1-t,1),(0,1-t)]; B=sum(integrate((f*(diff(g,p)*diff(P,t)+diff(g,q)*diff(Q,t))).subs({p:P,q:Q}),(t,0,1)) for P,Q in segs); simplify(A-B)",
+    "asserts": "The boundary-integral form remains valid for complex-valued f, g, where substituting (f,g) as variables is impossible (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The heading line 'Mit Laufs [?] f [?]' is illegible. It may be a filing note; the readable insertion is 'über den Flächeninhalt'.",
+   "'Fl.-Det.' is presumably an abbreviation for Functional-Determinante.",
+   "The end of the line 'verursacht aber Schwierigkeit u. gewisse weitläuftige Untersuchungen wenn in mehreren Punkten...' is consistent with the image.",
+   "The last lines appear to read: 'Hiernach ist die Aufgabe darauf zurückgeführt 𝔛 als Function der complexen [Größe] ... zu bestimmen, so daß den Grenzbedingungen genügt wird'. The line beginning 'X oder 𝔛 als Function d' is a separate, partly illegible alternative formulation ('Saget X oder X als Function d...')."
+  ]
+ }
+}

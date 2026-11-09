@@ -1,0 +1,66 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c027",
+ "label": "15r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000028/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two unrelated layers.\n\n(A) Lecture text and formulas, 'Doppelte Integrale'. These look like notes for the course on complex functions; the next page continues with Cauchy integrals between imaginary limits and the Cauchy-Riemann equations, where double integrals are needed for Green-type arguments.\n\n1. Setting. Let f(x,y) be a function of two real variables. It need only be defined for (x,y) in some bounded region of the plane, with (x,y) read as rectangular coordinates of a point.\n\n2. Riemann sum. Cut the region into pieces of area P. In each piece pick any point (xi, eta) and form\n   S = sum P f(xi, eta).\n   This is denoted int d(sigma) f(x,y).\n\n3. Claim stated, not proved on the page. Let the dimensions of all pieces shrink to zero, so that within each piece x varies by at most delta and y by at most delta. Then S tends to one and the same limit, whatever the law of subdivision and whatever the choice of (xi, eta). Equivalently, the difference between the largest and smallest possible values of S becomes infinitely small together with delta. This is the two-dimensional analogue of Riemann's integrability criterion via oscillation. The page states it as something 'one can show'; it gives no hypotheses on f (continuity is implicitly assumed) and no proof.\n\n4. Margin remark. The limits (the region) must be specified separately; the value should be independent of how the subdivision is made.\n\n5. Rectangle case (figure). Take the rectangle [a,b] x [g,h] with grid lines x_n and y_m. The Riemann sum is\n   sum_{m,n} (x_n - x_{n-1})(y_m - y_{m-1}) f(xi_{m,n}, eta_{m,n}).\n   From it Riemann writes the iterated-integral formula\n   int_a^b int_g^h f dx dy = int_a^b dx ( int_g^h f(x,y) dy ) = int_g^h dy ( int_a^b f(x,y) dx ).\n   The implicit justification (mine) is to sum the grid first over m, then over n, or in the reverse order, and pass to the limit. This is Fubini's theorem for continuous f on a rectangle.\n\n(B) Unrelated scratch calculations in the lower part, fragmentary.\n\n- One expression reads 4 t d^2v/d(log t)^2 + 2t d(omega v)/d(log t); the 'omega' may be a misreading or stray mark. A second line, partly struck, reads 4t d^2v/dt^2 + 3*2 t^2 dv/dt.\n- There are factors t^{-1/2}, -1/2 t^{-3/2}, -2 t^{1/2}, -2 t^{3/2} dv/dt.\n- My interpretation (uncertain): Riemann is rewriting a second-order differential operator. He changes the independent variable via d/d(log t) = t d/dt, so that d^2/d(log t)^2 = t^2 d^2/dt^2 + t d/dt. He also substitutes a power factor, v proportional to t^{-1/2} w, whose derivative is -1/2 t^{-3/2} w + t^{-1/2} w'. This is the kind of manipulation used for hypergeometric or Bessel-type equations.\n- Further fragments: an integral with limit 1+epsilon, and quotients epsilon/(1+epsilon), 3epsilon/(3+epsilon), 3epsilon/(1+epsilon). These look like an estimate near a singular point t = 1, but the computation cannot be reconstructed with certainty.",
+  "errors": [
+   "The convergence claim in step 3 is asserted without hypotheses (continuity or boundedness of f, regularity of the region's boundary) and without proof. As stated for an arbitrary function it is false, though acceptable as lecture shorthand for continuous f.",
+   "The equality of the iterated integrals is written down without justification. It holds for continuous f on the rectangle.",
+   "The scratch computations are too fragmentary to check fully. The visible identity d/d(log t) = t d/dt is used correctly, as far as can be seen."
+  ],
+  "results": [
+   {
+    "what": "Double integral defined as the limit of sums sum P f(xi,eta) over arbitrary subdivisions and arbitrary sample points; the limit is independent of both, with the oscillation criterion as delta -> 0.",
+    "modern_name": "Riemann integral in two dimensions (Riemann sums, Darboux-type oscillation criterion)",
+    "usually_credited_to": "Cauchy (1820s) for continuous functions; Riemann (1854 Habilitation, one dimension); Darboux and Jordan (1870s-1890s) for rigorous multiple integrals",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Iterated-integral formula on a rectangle: int int f dx dy = int dx int f dy = int dy int f dx.",
+    "modern_name": "Fubini's theorem (for continuous functions on a rectangle)",
+    "usually_credited_to": "Cauchy/Euler (classical form); Fubini 1907 (Lebesgue form)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Change of variable d/d(log t) = t d/dt and power substitution in a second-order differential operator (scratch).",
+    "modern_name": "Euler-type substitution / normal-form transformation of a linear ODE",
+    "usually_credited_to": "Euler",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are standard lecture notes defining the double integral via Riemann sums and stating the iterated-integral formula, consistent with Riemann's known integration theory and his lectures on complex functions. The scratch work is a routine ODE substitution.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y'); f=x**2*y+sin(x*y); simplify(integrate(integrate(f,(y,0,2)),(x,0,1)) - integrate(integrate(f,(x,0,1)),(y,0,2)))==0",
+    "asserts": "The two iterated integrals over a rectangle agree for a continuous f."
+   },
+   {
+    "sympy": "x,y,N=symbols('x y N'); i,j=symbols('i j',integer=True); S=Sum(Sum((1/N)*(1/N)*((i/N)*(j/N)),(i,1,N)),(j,1,N)).doit(); limit(S,N,oo)==integrate(integrate(x*y,(x,0,1)),(y,0,1))",
+    "asserts": "The grid Riemann sum on the unit square converges to the double integral (f = xy)."
+   },
+   {
+    "sympy": "s=symbols('s'); w=Function('w'); v=w(exp(s)); t=symbols('t',positive=True); simplify(diff(v,s,2).subs(s,log(t)) - (t**2*Derivative(w(t),t,2)+t*Derivative(w(t),t)).doit())==0",
+    "asserts": "d^2v/d(log t)^2 = t^2 v'' + t v'."
+   },
+   {
+    "sympy": "t=symbols('t',positive=True); w=Function('w'); simplify(diff(t**Rational(-1,2)*w(t),t) - (-Rational(1,2)*t**Rational(-3,2)*w(t)+t**Rational(-1,2)*diff(w(t),t)))==0",
+    "asserts": "Derivative of the substitution t^{-1/2} w, matching the fragments t^{-1/2}, -1/2 t^{-3/2}."
+   }
+  ],
+  "transcription_corrections": [
+   "The heading is 'Doppelte Integrale' (the transcription has 'Integralen').",
+   "In the figure and formula the lower vertical limit is labelled g, not y. The integral is int_a^b int_g^h, consistent with the transcribed formula.",
+   "The end of the convergence paragraph should read roughly 'der Unterschied des größten und kleinsten Werthes von S mit delta zugleich unendlich klein wird'. The transcription's 'und delta es' is a misreading.",
+   "The margin note under 'int d sigma f(x,y)' is better read as something like 'Zugleich muss ... v. Grenze [unabhängig]...' than 'Zeigen wie das nicht'. It remains uncertain.",
+   "The 'omega' in '2t d(omega v)/d log t' is likely a misread stroke, probably simply 2t dv/d(log t). Uncertain.",
+   "'int_{1+eps}^{1+eps}' is probably an integral with only an upper or lower limit 1+epsilon. The duplicated limit is a transcription artifact."
+  ]
+ }
+}

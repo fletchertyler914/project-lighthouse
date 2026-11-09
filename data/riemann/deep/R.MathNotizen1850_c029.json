@@ -1,0 +1,63 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c029",
+ "label": "16r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000030/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page belongs to Riemann's lecture-style treatment of complex function theory. The previous page has the Cauchy–Riemann equations and path independence; the next page concludes Δu=0. The problem here is the Dirichlet problem on a region T: find u with Δu=0 in T and given boundary values. The method is the Dirichlet principle.\n\n(1) Expansion of the functional. Ω(v)=∫∫_T (v_x²+v_y²) dx dy is taken over admissible v with prescribed boundary values. Write v=u+σ. Then\nΩ = ∫∫(u_x²+u_y²) + 2∫∫(u_x σ_x + u_y σ_y) + ∫∫(σ_x²+σ_y²).\n\n(2) Integration by parts of the first-order term (Green's first identity). Riemann uses p for the inward normal, as in his 1851 dissertation; with outward normal n one has ∂/∂p = −∂/∂n. This gives\n∫∫(u_xσ_x+u_yσ_y) = −∫∫(u_xx+u_yy)σ dx dy − ∮ (∂u/∂p) σ ds.\nTherefore\nΩ = ∫∫|∇u|² − 2∫∫Δu·σ dxdy − 2∮(∂u/∂p)σ ds + ∫∫|∇σ|².\nRiemann writes the boundary term on a separate line as −2∫(∂u/∂p)σ ds. Since σ is to vanish on the boundary ('σ am Rande = 0'), this term drops out.\n\n(3) Variational argument. Suppose Ω attains its smallest value M at v=u, i.e. M=Ω(u). Then Ω−M ≥ 0 for every admissible v. Take v=u+kσ, with k a real constant and σ=0 on the boundary. Then\nΩ−M = −2k(∫∫u_xx σ dxdy + ∫∫u_yy σ dxdy) + k²∫∫(σ_x²+σ_y²) dxdy.\nIf the linear coefficient ∫∫Δu σ were nonzero, one could take |k| so small that the linear term exceeds the quadratic one in absolute value. Ω−M would then take the sign of the linear term. Choosing the sign of k (the step about the sign is mine, implicit in the text) makes Ω−M<0, a contradiction.\n\nHence ∫∫Δu·σ=0 for all such σ. On the next page this gives Δu=0, then Ω(u+s)=M+∫∫|∇s|², and from that uniqueness: ∇s=0 and s=0 on the boundary, so s≡0.\n\n(4) Unrelated jotting at the bottom (continued fractions). It reads −a_{2m}/(1/x + b_{2m} + a_{2m+2}/(1/x + b_{2m+2} + …)), with b_{2m}=α_{2m}+α_{2m+1} and a_{2m}=α_{2m}α_{2m−1}. This is the even contraction of a Stieltjes-type continued fraction 1/(1−α_1x/(1−α_2x/(1−…))) into an associated (J-type) fraction. The partial denominators are sums of consecutive α's and the partial numerators are products of adjacent α's. It continues the continued-fraction scribbles on the previous page, f²(x)=α+1/(β+1/(α+…)).",
+  "errors": [
+   "Existence of the minimizing u is simply assumed ('soll Ω seinen kleinsten Werth M annehmen'). This is the gap later criticised by Weierstrass (1870); it is not a slip within the page itself.",
+   "The sign choice of k needed for the contradiction is not stated explicitly, though it is implicit.",
+   "Riemann writes ∂u/∂x² for ∂²u/∂x² (shorthand, not an error).",
+   "In the Ω−M formula the boundary term has rightly been dropped because σ=0 on the boundary; the second integral is ∫∂²u/∂y²·σ dxdy, not a boundary integral.",
+   "No mathematical errors otherwise; the first-variation computation is correct."
+  ],
+  "results": [
+   {
+    "what": "First-variation argument: the minimizer of the Dirichlet integral with fixed boundary values is harmonic; uniqueness via Ω(u+s)=Ω(u)+∫|∇s|²",
+    "modern_name": "Dirichlet principle / Euler–Lagrange equation for the Dirichlet energy",
+    "usually_credited_to": "Green (1833), Gauss (1839), W. Thomson (1847), Dirichlet (lectures); named and used by Riemann (1851, 1857)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Green's first identity with inward normal p: ∫∇u·∇σ = −∫Δu σ − ∮(∂u/∂p)σ ds",
+    "modern_name": "Green's first identity",
+    "usually_credited_to": "George Green (1828)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Even contraction of an S-continued fraction into a J-fraction with b=α_{2m}+α_{2m+1}, a=α_{2m}α_{2m−1}",
+    "modern_name": "Even part (contraction) of a continued fraction; S-fraction to J-fraction",
+    "usually_credited_to": "Euler / Lagrange; systematized by Stieltjes (1894)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is Riemann's standard Dirichlet-principle argument, already in his 1851 dissertation and 1857 Abelian functions paper, here in lecture form. The continued-fraction contraction is classical, and Riemann's interest in continued fractions (the hypergeometric fragment of 1863) is known.",
+  "checkable": [
+   {
+    "sympy": "x,y,k=symbols('x y k'); u=Function('u')(x,y); s=Function('s')(x,y); v=u+k*s; simplify(expand(diff(v,x)**2+diff(v,y)**2) - (diff(u,x)**2+diff(u,y)**2 + 2*k*(diff(u,x)*diff(s,x)+diff(u,y)*diff(s,y)) + k**2*(diff(s,x)**2+diff(s,y)**2)))",
+    "asserts": "Expansion of the integrand of Ω(u+kσ) into zeroth-, first- and second-order terms; evaluates to 0"
+   },
+   {
+    "sympy": "x,y=symbols('x y'); u=x**3*y; s=sin(pi*x)*sin(pi*y); lhs=integrate(integrate(diff(u,x)*diff(s,x)+diff(u,y)*diff(s,y),(x,0,1)),(y,0,1)); rhs=-integrate(integrate((diff(u,x,2)+diff(u,y,2))*s,(x,0,1)),(y,0,1)); simplify(lhs-rhs)",
+    "asserts": "Integration by parts on the unit square with σ vanishing on the boundary: ∫∇u·∇σ = −∫Δu·σ; evaluates to 0"
+   },
+   {
+    "sympy": "z,c1,c2,c3,c4=symbols('z c1 c2 c3 c4'); L=1/(1-c1*z/(1-c2*z/(1-c3*z/(1-c4*z)))); R=1/(1-c1*z-c1*c2*z**2/(1-(c2+c3)*z-c3*c4*z**2/(1-c4*z))); simplify(L-R)",
+    "asserts": "Even contraction of the continued fraction: partial denominators involve c2+c3 and numerators c1c2, c3c4, matching b_{2m}=α_{2m}+α_{2m+1}, a_{2m}=α_{2m}α_{2m−1}; evaluates to 0"
+   }
+  ],
+  "transcription_corrections": [
+   "In the Ω−M formula the second integral is ∫(∂²u/∂y²)σ dx dy (written ∂u/∂y²), not ∫(∂u/∂p)σ dx dy. The marking before it looks like 'H' or '+' and is not a factor.",
+   "The first integral in that bracket is ∫(∂²u/∂x²)σ dx dy, written ∂u/∂x².",
+   "The isolated line '−2∫(∂u/∂p)σ ds' is the boundary term of the partial integration; p is the (inward) normal.",
+   "The second line likely reads 'Wir formen das Glied erster Ordnung um durch theilweise Integration' with an inserted remark about σ vanishing at the boundary; partly illegible.",
+   "Bottom-left there is a crossed-out fragment (perhaps 'Ist σ' or similar), not mathematics."
+  ]
+ }
+}

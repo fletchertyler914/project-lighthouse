@@ -1,0 +1,72 @@
+{
+ "bundle": "600_3",
+ "page": "c093",
+ "label": "[90]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000094/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): N molecules with total kinetic energy normalized, sum_i v_i^2 = 1. The energy is quantized in units eps = 1/n. N_i is the number of molecules whose velocity square (energy) is i*eps. The constraints are sum_i N_i = N (multiplier mu) and sum_i i N_i = n (multiplier lambda). The quantity to extremize is log W = sum_i N_i log N_i (taken up to sign and constants from the Stirling form of W = N!/prod N_i!).\n\n(1) Most probable single-system distribution. Varying with respect to N_i: d/dN_i [sum N log N + lambda sum i N + mu sum N] = log N_i + 1 + lambda i + mu = 0. Hence N_i = e^{-1-mu} e^{-lambda i}, written N_i = C e^{C' i} with C = e^{-1-mu} and C' = -lambda. [Mine:] C and lambda are fixed by the two constraints. Summing over i >= 0 gives C = N(1-e^{-lambda}) and e^{-lambda} = n/(N+n). This is a geometric (discrete Boltzmann) law in the energy. Hilbert remarks that the velocity square i*eps is carried by N_i molecules, and calls this the most probable velocity distribution.\n\n(2) Ensemble of s systems. In system sigma, N_i^(sigma) molecules carry velocity square i*eps. The tuple nu^(sigma) = (N_1^(sigma), N_2^(sigma), ..., N_i^(sigma), ...) is the system's occupation distribution. Group the systems by distribution: k_1 systems have nu^1, k_2 have nu^2, and so on. The question asked is: which are the most probable values of k_1, k_2, ..., i.e. the most probable function l -> k_l? This is a distribution over distributions, an ensemble in Gibbs's sense.\n\n(3) Heuristic analogy. Grab sand by hand s times. Let d be the difference between black and white grains in a handful, and s_d = s(d) the number of handfuls with deviation d. One asks for the most probable function s_d. 'Almost always' the observed distribution equals that most probable s_d. This is the law-of-large-numbers / concentration idea underlying the maximum-probability method.\n\n(4) Counting. Given k_1, k_2, ..., in how many ways does this assignment arise? Give system S_1 a distribution nu^{sigma_1}, and so on. Distribution j can be realised in W_j = N!/prod_mu (N_mu^{sigma_j}!) ways. Hilbert writes prod_j [k_j combined with an encircled factor containing N!/prod_mu(N_mu^{sigma_j}!) (and a further prod_mu(N_mu^sigma!))] / k_j!. He adds that the encircled expression 'stands in the exponent of k_j'.\n\n[Mine:] The intended correct count is s!/prod_j k_j! * prod_j W_j^{k_j}. Maximizing its logarithm with Stirling and sum k_j = s gives log W_j - log k_j + const = 0, so k_j is proportional to W_j. Adding an energy constraint sum k_j E_j = E would give the canonical law k_j proportional to W_j e^{-beta E_j}. Hilbert breaks off before this step.\n\n(5) A separate note after a rule: 'Study the impact (collision) forces in the Mie-Born electrodynamics and generally in relativity theory.' This continues on the next page and dates the page to c. 1913-1915.",
+  "errors": [
+   "The sign convention is loose. log W is approximately N log N - sum N_i log N_i, so W is maximal when sum N_i log N_i is minimal, not maximal as the previous page says. The stationarity equation is unaffected.",
+   "For the exponential solution to be normalizable one needs C' = -lambda < 0; this is not stated.",
+   "With a single quantum number i per molecule, there is no density-of-states (sqrt(E)) factor. The result is a Boltzmann law for this cell assignment, not the 3D Maxwell energy distribution, despite the label 'wahrscheinlichste Geschwindigkeitsverteilung'.",
+   "The ensemble count is garbled. The correct number of ways is s!/prod k_j! * prod_j (N!/prod_mu N_mu^{(j)}!)^{k_j}.",
+   "The note that the circled factor 'stands in the exponent of k_j' reads as k_j^{W_j}, which would be wrong; the correct form is W_j^{k_j}. It is possibly only an inverted phrasing of the intended W_j^{k_j}.",
+   "The multinomial factor s! is missing. The extra prod_mu(N_mu^sigma!) inside the oval appears spurious or unclear."
+  ],
+  "results": [
+   {
+    "what": "Most probable occupation numbers via Lagrange multipliers, giving N_i = C e^{-lambda i}",
+    "modern_name": "Boltzmann's combinatorial (maximum-probability) derivation of the Maxwell-Boltzmann distribution",
+    "usually_credited_to": "L. Boltzmann 1877",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Ensemble of s systems; most probable numbers k_j of systems with each occupation distribution; counting the ways to realise them",
+    "modern_name": "Gibbs ensemble / method of the most probable distribution over an ensemble (Darwin-Fowler / Schroedinger 'method of mean values' setup)",
+    "usually_credited_to": "J.W. Gibbs 1902; Darwin-Fowler 1922 for rigorous treatment; Planck/Schroedinger for the system-ensemble counting",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Sand-grabbing analogy: the most probable deviation distribution s_d is almost always realised",
+    "modern_name": "Law of large numbers / de Moivre-Laplace concentration",
+    "usually_credited_to": "Bernoulli, de Moivre, Laplace",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is standard Boltzmann/Gibbs statistical-mechanics material of the kind Hilbert lectured on around 1911-1913, worked out only partially and with a garbled counting formula. It is of mild historical interest only as evidence of Hilbert thinking about ensembles of systems and of his interest in Mie-Born electrodynamics.",
+  "checkable": [
+   {
+    "sympy": "diff(N*log(N), N) - (log(N) + 1)",
+    "asserts": "The derivative of N log N is log N + 1, the stationarity term on the page (equals 0)"
+   },
+   {
+    "sympy": "solve(Eq(log(Ni) + 1 + lam*i + mu, 0), Ni)",
+    "asserts": "Gives N_i = exp(-1 - mu - lam*i), i.e. C*exp(C'*i) with C=exp(-1-mu), C'=-lam"
+   },
+   {
+    "sympy": "simplify(summation(C*exp(-lam*i), (i, 0, oo)) - C/(1 - exp(-lam)))",
+    "asserts": "Normalization: sum N_i = C/(1-e^{-lam}) = N for lam>0 (equals 0)"
+   },
+   {
+    "sympy": "simplify((N*x/(1 - x)).subs(x, n/(N + n)) - n)",
+    "asserts": "With e^{-lam} = n/(N+n), the energy constraint sum i N_i = n holds (equals 0)"
+   },
+   {
+    "sympy": "diff(-k*log(k) + k + k*log(W) + a*k, k)",
+    "asserts": "Stationarity of the Stirling-approximated log(s! prod W_j^{k_j}/prod k_j!) gives log W - log k + a = 0, i.e. k_j proportional to W_j"
+   }
+  ],
+  "transcription_corrections": [
+   "'N_i = 6 e^{C i}' should be read as 'N_i = C e^{C' i}'; the '6' is a constant written like C (or sigma), and a prime is visible on the exponent's C.",
+   "'N_1^{(0)}' in the image is N_1^{(sigma)}, consistent with the following N_2^{(sigma)}, N_i^{(sigma)} = nu^{(sigma)}.",
+   "'fast immer ist die Verteilung nu = s_d': the symbol before '= s_d' is partially struck and may be a corrected letter rather than nu.",
+   "In the counting formula the circled block is the factor N!/prod_(mu)(N_mu^{sigma_j}!) together with prod_(mu)(N_mu^{sigma}!), attached to k_j; the side note reads 'steht im Exponenten von k_j!'.",
+   "Last line: 'Studire die Stosskräfte in der Mie-Bornschen Elektro-' (a small mark before 'Stoss' is an insertion sign)."
+  ]
+ }
+}

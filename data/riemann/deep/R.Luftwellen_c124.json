@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c124",
+ "label": "76r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000125/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Riemann's 1860 memoir 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'. The draft treats the isothermal (Boyle) gas, pressure = a^2*rho, in one space dimension. The published paper calls the Riemann invariants r and s; here they are called p and q. The previous page works with combinations of log(rho) and x'/a.\n\n(1) The setting, in modern form. The equations are rho_t + (rho*u)_x = 0 and u_t + u*u_x + a^2*rho_x/rho = 0. They can be written in characteristic (Riemann-invariant) form using u + a*log(rho) and u - a*log(rho). These are transported along dx/dt = u + a and dx/dt = u - a respectively.\n\n(2) Normalisation of p and q (my inference). The page does not define p and q. With p and q proportional to (log(rho) + u/a) and (log(rho) - u/a), the velocity u is proportional to a*(p - q) and log(rho) to p + q. The page states two propagation speeds:\n- a value of p moves toward larger x with speed a*(p - q + 1/2);\n- a value of q moves toward smaller x ('in entgegengesetzter Richtung') with speed a*(q - p + 1/2), i.e. dx/dt = a*(p - q - 1/2).\nThese are the two characteristic speeds u ± a, written in rescaled invariants. One consistent choice is p = (log(rho) + u/a)/4 and q = (log(rho) - u/a)/4, so that u = 2a(p - q). Then u ± a = 2a(p - q ± 1/2). This matches the page up to a global factor of 2, which can be absorbed into the time unit. With the plain choice p, q = (log(rho) ± u/a)/2 one would instead get a(p - q ± 1).\n\n(3) Qualitative argument (heavily revised; the final version survives). The p-wave speed a(p - q + 1/2) increases with p. In a disturbance of finite extent, every value of p eventually meets the same set of q values, though at different times. Hence 'a larger value of p will on average advance with greater speed than a smaller one.' The page breaks off at 'als ein kleinerer'.\n\n(4) Purpose. This is the step toward the conclusion that forward-facing compression parts of the wave steepen: larger p overtakes smaller p. The solution then becomes multivalued, which in the memoir leads to the 'Verdichtungsstoss' (shock) discussion.\n\nThe struck-out lines are earlier attempts at the same sentence. No further computation is on the page.",
+  "errors": [
+   "No genuine mathematical error. The speeds a(p-q±1/2) imply a normalisation of p and q that is not stated on the page. With p, q = (log rho ± u/a)/2 one would get a(p-q±1); the factor 1/2 is consistent only with p, q = (log rho ± u/a)/4 and time rescaled by 2, or an equivalent convention. Treat the normalisation as uncertain.",
+   "The 'on average' (durchschnittlich) argument is heuristic. It assumes every p value meets the same q values, which holds for a disturbance of compact support. Riemann does not make it quantitative here."
+  ],
+  "results": [
+   {
+    "what": "Characteristic speeds u±a of the isothermal 1-D Euler equations, expressed through Riemann invariants p, q (logarithmic in density)",
+    "modern_name": "Riemann invariants / method of characteristics for 1-D gas dynamics",
+    "usually_credited_to": "Riemann 1860 (Earnshaw 1858-60 independently for simple waves)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Argument that larger invariant values propagate faster on average, so the wave steepens",
+    "modern_name": "Wave steepening / gradient catastrophe leading to shock formation",
+    "usually_credited_to": "Riemann 1860 (also Stokes 1848, Challis, Earnshaw)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of a sentence that appears nearly verbatim in Riemann's published 1860 Luftwellen memoir (there with r, s instead of p, q). Nothing new beyond the published work.",
+  "checkable": [
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); rho=Function('rho')(x,t); u=Function('u')(x,t); rt=-diff(rho*u,x); ut=-u*diff(u,x)-a**2*diff(rho,x)/rho; R=u+a*log(rho); simplify(diff(u,x)*0 + (ut + a*rt/rho) + (u+a)*diff(R,x))",
+    "asserts": "R = u + a*log(rho) satisfies R_t + (u+a)R_x = 0 for the isothermal Euler equations (expression simplifies to 0)."
+   },
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); rho=Function('rho')(x,t); u=Function('u')(x,t); rt=-diff(rho*u,x); ut=-u*diff(u,x)-a**2*diff(rho,x)/rho; S=u-a*log(rho); simplify((ut - a*rt/rho) + (u-a)*diff(S,x))",
+    "asserts": "S = u - a*log(rho) satisfies S_t + (u-a)S_x = 0 (expression simplifies to 0)."
+   },
+   {
+    "sympy": "a,rho,u=symbols('a rho u',positive=True); p=(log(rho)+u/a)/4; q=(log(rho)-u/a)/4; simplify((u+a) - 2*a*(p-q+Rational(1,2)))",
+    "asserts": "With p, q = (log rho ± u/a)/4 the forward speed u+a equals 2a(p-q+1/2), the page's form up to a time-scale factor 2."
+   },
+   {
+    "sympy": "a,rho,u=symbols('a rho u',positive=True); p=(log(rho)+u/a)/4; q=(log(rho)-u/a)/4; simplify((u-a) + 2*a*(q-p+Rational(1,2)))",
+    "asserts": "The backward speed u-a equals -2a(q-p+1/2): q values move toward smaller x with speed proportional to (q-p+1/2)."
+   },
+   {
+    "sympy": "a,p,q=symbols('a p q'); diff(a*(p-q+Rational(1,2)),p)",
+    "asserts": "The p-wave speed is increasing in p (derivative a > 0), the basis of the steepening argument."
+   }
+  ],
+  "transcription_corrections": [
+   "The first word 'Nachdem[?]' is uncertain; it may be a struck or faint start such as 'Es rückt' (the published text reads 'Es rückt also ein bestimmter Werth von r ... fort').",
+   "The insertion above line 2 is best read as 'in entgegengesetzter Richtung'. It replaces the struck 'zu kleinern Werthen' and is correctly placed after 'ein Werth von q'.",
+   "In line 1, 'bestimmter' appears struck through, consistent with the transcription.",
+   "The final legible line ends 'als ein kleinerer' with no full stop; the page breaks off there."
+  ]
+ }
+}

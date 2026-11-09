@@ -1,0 +1,84 @@
+{
+ "bundle": "Math.5",
+ "page": "c000",
+ "label": "1r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376170:00000001/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PURPOSE. The page computes arccot 5 = arctan(1/5) to 63 decimal places. The heading is 'Circuli Quadratura nova' (a new quadrature of the circle). The next page computes arccot 70 in the same way. The combination arccot 5 and arccot 70 (presumably with arccot 99 on a later page) points to the Machin-type formula pi/4 = 4 arctan(1/5) - arctan(1/70) + arctan(1/99). That formula is known from Euler and was used by Rutherford in 1841. The page itself states no formula for pi.\n\nHEADING. 'I. Acotg.5 = (1) - (3)'. My reading: arccot 5 = [sum of the positive terms, beginning with term (1)] - [sum of the negative terms, beginning with term (3)]. This is exactly the layout of the page.\n\nSERIES. arccot 5 = sum_{k>=0} (-1)^k / ((2k+1) 5^(2k+1)).\nWrite T_n = 1/(n 5^n). The key device is 1/5^n = 2^n/10^n, so T_n = (2^n/n) * 10^(-n). Each term is therefore a single exact division of a power of 2 by n, then shifted by n decimal places. All numbers are written as 63 decimals, in groups of 10 digits.\n\nNEGATIVE BLOCK: T_n with n = 3 (mod 4), i.e. n = 3, 7, ..., 87. Terms are pre-combined so that their repeating decimals can be added exactly. I checked these groupings.\n- Line 1 = T3 + T7 + T11 + T15 + T19 + T35 + T39. Its digit tail repeats with period 18 from about place 40, consistent with denominators 3, 7, 11, 15, 19, 35, 39.\n  - My check: T3 + ... + T19 = (26684971021007126 + 838/1463) * 10^-19.\n  - Adding T35 = 981706810.514... * 10^-35 and T39 = 14096302920.205... * 10^-39 gives 0.00 26684971 0210071265 7279572373 8848...\n- Line 2 = T23 = 8388608/23 * 10^-23 = 3.64722086956521739130434782608695652173913043...e-18. This is the pure period of 1/23.\n- Line 3 = T27 + T31 = 4977954.3295694...e-27.\n- Then single terms, each written with its leading digit at place n - (number of digits of 2^n/n) + 1:\n  - (43) = 2^43/43 * 10^-43 = 2.0456...e-32\n  - (47) = 2.994...e-35\n  - (51) = 4.41...e-38\n  - (55), (59), ..., (83) = 1.165e-60\n  - (87) = '1' in place 63.\n  - Terms are truncated at place 63, not rounded: (83) = 1.16523e-60 is written as 1165, and (87) = 1.78e-63 is written as 1.\n- Sum of negative terms: N = 0.0026684971 0210071630 9478396268 6921374192 0505397169 7498644659 104.\n\nPOSITIVE BLOCK: n = 1 (mod 4).\n- Line 1 = T1 + T5 + T9 + T13 + T21 = 0.2 + 0.000064 + 512/9e-9 + 8192/13e-13 + 2097152/21e-21. This equals 0.2000640569 5190437336 8654456654 4566544566 ... with period-6 tail 456654.\n- Line 2 = T17 + T25 = (131072/17 + 1342177.28) * 10^-? , i.e. 7.7101310688316235...e-14. Note T25 = 2^25/25 terminates.\n- Line 3 = T29 = 18512790.0689655...e-29, i.e. 1.85127900689655...e-22.\n- Line 4 = T33 + T37 + T41 = 2.606730412...e-25.\n- Line 5 = T45 + T49 = 7.830238127...e-34.\n- Then (53) = 1.69947...e-39, (57), ..., (81), and (85) = '45' in places 62-63.\n- Sum of positive terms: P = 0.2000640569 5198147467 9528161463 4824308667 9015775954 9600162348 045.\n\nRESULT. P - N = arccot 5 = 0.1973955598 4988075837 0049765194 7902934475 8510378785 2101517688 941.\n\nCarries. I verified the group carries in several places:\n- Negative block: group 11-20 is 0210071265 + 364 + 1 = 0210071630. Group 21-30 is 7279572373 + 7220869565 + 4977954329 + carry 1 = (1)9478396268.\n- Positive block: group 11-20 is 5190437336 + 7710131 = 5198147467. Group 21-30 is 8654456654 + 0688316235 + 185127900 + 260673 + carry 1 = 9528161463.\n- Subtraction: 0.2000640569... - 0.0026684971... = 0.1973955598...; 5198147467 - 0210071630 = 4988075837. Groups 21-30 need a borrow, giving 0049765194.\n\nAs far as I recall the true value, arctan(1/5) = 0.19739555984988075837004976519479029344758510378785210151768894024... The page agrees to 62 places. The 63rd digit is 1 instead of 0, which is consistent with the accumulated truncation of terms.\n\nCompleteness. The omitted next terms, T89 (about 7e-65) and T91 (about 3e-66), are below the working precision. So the term range 1..87 is correctly chosen for 63 places.",
+  "errors": [
+   "Final digit: the page gives ...7688941. As far as I recall, the true value is ...76889402410..., so the 63rd decimal is 1 unit too high. This is a minor, expected effect of truncating about 37 terms at place 63. It is not a real error.",
+   "Negative line 1, places 21-30: the transcription reads 7279572372. My exact computation of T3+T7+T11+T15+T19+T35+T39 gives 7279572373, with the following digits 8848... agreeing. Gauss's group sum 9478396268 requires 373, because the carry from places 31-40 is only 1. So the written digit is 3, or Gauss added it as 3. Either way the totals are correct.",
+   "Terms are truncated rather than rounded: (83) = 1.16523e-60 is written as 1165, (87) = 1.78e-63 as 1, and (85) = 4.55e-62 as 45. This is a deliberate simplification, not a mistake."
+  ],
+  "results": [
+   {
+    "what": "arctan(1/5) computed to 63 decimals by the Gregory series. It uses 1/5^n = 2^n/10^n and groups terms whose denominators give compatible repeating periods, so the repeating decimals are added exactly. The result is correct to 62 places.",
+    "modern_name": "Gregory-Leibniz arctangent series; Machin-type high-precision evaluation of arctan(1/5)",
+    "usually_credited_to": "Gregory (1671), Machin (1706); arctan(1/5) evaluations by Machin, Euler and Vega (18th century)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Apparent plan: the heading 'Circuli Quadratura nova' plus arccot 5 here and arccot 70 on the next page suggest the pi formula pi/4 = 4 arccot 5 - arccot 70 + arccot 99, or a related combination.",
+    "modern_name": "Machin-like formula (Euler/Rutherford type)",
+    "usually_credited_to": "Euler (18th c.); used by Rutherford (1841) for 208 digits of pi",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a careful but entirely standard 18th/19th-century high-precision computation of arctan(1/5) to about 63 places. Gauss's interest in arctangent formulas for pi, and in decomposing arctangents via factorization of n^2+1, is well documented (e.g. his formula 12 arctan(1/18) + 8 arctan(1/57) - 5 arctan(1/239)). The grouping-by-period trick is a clever bookkeeping device, not new mathematics.",
+  "checkable": [
+   {
+    "sympy": "N(atan(Rational(1,5)), 70)",
+    "asserts": "arctan(1/5) = 0.197395559849880758370049765194790293447585103787852101517688940241...; the page gives ...688941 (63 places)"
+   },
+   {
+    "sympy": "sum(Rational(2**n, n)/10**n for n in [3,7,11,15,19,35,39])",
+    "asserts": "equals negative line 1, 0.0026684971021007126572795723738848455203418336049914997283418..., i.e. places 21-30 read 7279572373"
+   },
+   {
+    "sympy": "Rational(2**23,23)/10**23",
+    "asserts": "negative line 2: 3.647220869565217391304347826086956521739130434...e-18"
+   },
+   {
+    "sympy": "Rational(2**27,27)/10**27 + Rational(2**31,31)/10**31",
+    "asserts": "negative line 3: 4.9779543295694145758661887694145758661887...e-21"
+   },
+   {
+    "sympy": "Rational(1,5) + Rational(2**5,5)/10**5 + Rational(2**9,9)/10**9 + Rational(2**13,13)/10**13 + Rational(2**21,21)/10**21",
+    "asserts": "positive line 1: 0.20006405695190437336865445665445665445665445665445665..."
+   },
+   {
+    "sympy": "Rational(2**17,17)/10**17 + Rational(2**25,25)/10**25",
+    "asserts": "positive line 2: 7.7101310688316235294117647058823529411764705882352...e-14"
+   },
+   {
+    "sympy": "Rational(2**33,33)/10**33 + Rational(2**37,37)/10**37 + Rational(2**41,41)/10**41",
+    "asserts": "positive line 4: 2.606730412205651483174527076966...e-25"
+   },
+   {
+    "sympy": "Rational(2**45,45)/10**45 + Rational(2**49,49)/10**49",
+    "asserts": "positive line 5: 7.8302381276333963900226757369...e-34"
+   },
+   {
+    "sympy": "N(sum(Rational(2**n,n)/10**n for n in range(3,88,4)), 70)",
+    "asserts": "negative block total ≈ 0.0026684971021007163094783962686921374192050539716974986446591..."
+   },
+   {
+    "sympy": "N(sum(Rational(2**n,n)/10**n for n in range(1,86,4)), 70)",
+    "asserts": "positive block total ≈ 0.2000640569519814746795281614634824308667901577595496001623480..."
+   },
+   {
+    "sympy": "N(4*atan(Rational(1,5)) - atan(Rational(1,70)) + atan(Rational(1,99)) - pi/4, 50)",
+    "asserts": "the Machin-type identity the page apparently serves equals 0"
+   }
+  ],
+  "transcription_corrections": [
+   "Heading: the image appears to read 'I. Acotg.5 = (1) - (3)', not '(2) - (13)'. (1) and (3) index the first terms of the positive and negative blocks.",
+   "Negative line 1, places 21-30: '7279572372' should be (or was used as) '7279572373'. The exact value and Gauss's own column sum both require 3.",
+   "The bracketed labels (43), (47), ..., (87) and (53), ..., (85) are the exponents n of the terms 2^n/(n 10^n). Each term's leading digit falls at place n - (number of digits of 2^n/n) + 1. For example, T29 = 185127900... begins at place 22, which is consistent with the transcription."
+  ]
+ }
+}

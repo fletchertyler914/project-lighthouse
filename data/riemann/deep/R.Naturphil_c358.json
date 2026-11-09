@@ -1,0 +1,62 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c358",
+ "label": "181r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000359/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: these are lecture notes on elementary number theory (divisibility, primes, common divisors). The previous page set the task: given two numbers, find their common divisor(s). This page solves it with the Euclidean algorithm.\n\n1) Motivation. Riemann asks for the greatest common divisor. He is careful to note that it is not clear a priori that knowing the greatest common divisor gives all the others. The algorithm is meant to show that it does.\n\n2) Setup. Take a, b positive integers; he restricts to positive numbers for brevity. Division with remainder gives a = m*b + c with c < b (implicitly 0 <= c).\n\n3) Key lemma. Every common divisor of a and b is a common divisor of b and c, and conversely. The reason is left implicit; supplied here: if d|a and d|b, then d|(a - m*b) = c. If d|b and d|c, then d|(m*b + c) = a. So the question passes from (a,b) to (b,c), which are smaller numbers.\n\n4) Iteration. He writes the sequence of remainders a, b, c, ..., f, g, h with\n   b = n*c + d, ..., f = t*g + h, g = u*h.\n   The successive remainders form a strictly decreasing sequence of positive integers. There are only finitely many positive integers below b. Hence the sequence must terminate, i.e. some remainder divides the previous one exactly.\n\n5) Conclusion. For the last pair (g,h) the question settles itself, since g is a multiple of h. The common divisors of g and h are exactly the divisors of h. By the lemma applied backwards, the common divisors of a and b are exactly the divisors of the last nonzero remainder h. So h = gcd(a,b), and every common divisor divides h, which answers the a priori worry. He remarks: 'already in Euclid'.\n\nOn the next page this is applied:\n- If a and b are coprime, the last remainder is 1.\n- Multiplying the whole chain by K shows that gcd(aK, bK) = K*gcd(a,b).\n- From this follow the standard consequences (coprimality and Euclid's lemma).",
+  "errors": [
+   "No mathematical errors.",
+   "Remainder condition: c < b should read 0 <= c < b. The case c = 0 at the first step, where b itself is the gcd, is not mentioned separately but is covered by the terminating step g = u*h.",
+   "Termination argument: 'only a finite number of decreasing numbers' is correct for nonnegative integers below b. It is stated informally."
+  ],
+  "results": [
+   {
+    "what": "Common divisors of (a,b) coincide with common divisors of (b, a mod b)",
+    "modern_name": "Euclidean algorithm invariance lemma: gcd(a,b) = gcd(b, a mod b)",
+    "usually_credited_to": "Euclid, Elements VII.1-2 (c. 300 BC)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Termination of repeated division and identification of the last nonzero remainder as the gcd, all of whose divisors are exactly the common divisors",
+    "modern_name": "Euclidean algorithm; every common divisor divides the gcd",
+    "usually_credited_to": "Euclid (Elements VII.2)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a standard textbook or lecture presentation of the Euclidean algorithm, explicitly attributed by Riemann himself to Euclid. It is pedagogical material with nothing original.",
+  "checkable": [
+   {
+    "sympy": "gcd(12,15) == 3",
+    "asserts": "Example from previous page: 12 and 15 have common divisor 3"
+   },
+   {
+    "sympy": "gcd(12,35) == 1",
+    "asserts": "Example from previous page: 12 and 35 are relatively prime"
+   },
+   {
+    "sympy": "all(gcd(a,b) == gcd(b, a % b) for a in range(1,60) for b in range(1,60))",
+    "asserts": "Key lemma: passing from (a,b) to (b,c) with a = m*b + c preserves the common divisors (hence the gcd)"
+   },
+   {
+    "sympy": "all(set(divisors(gcd(a,b))) == set(divisors(a)) & set(divisors(b)) for a in range(1,60) for b in range(1,60))",
+    "asserts": "The common divisors of a,b are exactly the divisors of the last remainder (gcd)"
+   },
+   {
+    "sympy": "all(gcd(a*K,b*K) == K*gcd(a,b) for a in range(1,30) for b in range(1,30) for K in range(1,10))",
+    "asserts": "Next-page consequence of multiplying the remainder chain by K"
+   }
+  ],
+  "transcription_corrections": [
+   "'(Ich [?] setze [?] nur a positive [?] ganze [?] Zahlen' — the image more plausibly reads something like '(Ich beschränke mich auf positive Zahlen ...' (tentative).",
+   "'Die schwindenden [?] Reste' — more likely 'Die successiven Reste'.",
+   "'Ist dahin [?] gewonnen' — possibly 'Hier gewonnen' / 'Und gewonnen' (uncertain).",
+   "In the first line, 'so lange [?]' is uncertain, and the struck/underlined 'aber' is correctly marked as deleted.",
+   "The added marginal line 'Die Frage jetzt auf b u. c zurückgeführt' is correctly placed as an insertion after 'u. umgekehrt'."
+  ]
+ }
+}

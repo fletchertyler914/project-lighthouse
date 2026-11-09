@@ -1,0 +1,63 @@
+{
+ "bundle": "600_1",
+ "page": "c126",
+ "label": "117",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000127/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): the topic is a function K(S) of a linear substitution S, and how K(TST^{-1}) is obtained from K(S) by a substitution. K(S) is written as the bilinear expression u1*x1' + u2*x2'. K(TST^{-1}) is written as x1''*ω1 + x2''*ω2. The coordinates ξ = B x are introduced, with B = (β_ik).\n\nThis page: 'd.h.' The pair of substitutions is stated in matrix form. The u are transformed contragrediently and the x cogrediently:\n  u = B^T ω, i.e. u1 = β11 ω1 + β21 ω2, u2 = β12 ω1 + β22 ω2;\n  ξ = B x, i.e. ξ1 = β11 x1 + β12 x2, ξ2 = β21 x1 + β22 x2.\n[My filled step:] This pairing keeps the bilinear form invariant: u·x = (B^T ω)·x = ω·(B x) = ω·ξ. So u1 x1 + u2 x2 = ω1 ξ1 + ω2 ξ2.\n\nNext, 'Wendet man nun noch eine Substitution an' (if one now applies a further substitution) Γ = (γ_ik):\n  ω = Γ^T v, i.e. ω1 = γ11 v1 + γ21 v2, ω2 = γ12 v1 + γ22 v2;\n  τ = Γ ξ, i.e. τ1 = γ11 ξ1 + γ12 ξ2, τ2 = γ21 ξ1 + γ22 ξ2.\n[Implicit, mine:] The composite substitution is u = (ΓB)^T v and τ = (ΓB) x. So these pairs of transformations compose like the matrix product and form a group isomorphic to GL2 acting on x. It is the usual cogredient/contragredient pair.\n\nConclusion: 'Man sieht daher, um eine Invariantentheorie für diese Transformationen aufzustellen, [kommt man] wiederum vollständig mit dem Operationssymbol Ω = ... aus.' In English: to set up an invariant theory for these transformations one again manages entirely with the operation symbol Ω. Ω is meant to be Cayley's Ω-process in the transformation coefficients, i.e. the determinant of the derivatives, ∂²/∂β11∂β22 − ∂²/∂β12∂β21. As written on the page the indices are garbled. The point is that invariants of K under S -> TST^{-1} reduce to ordinary GL2 invariant theory of a simultaneous cogredient/contragredient system. Hence the classical Ω-process machinery applies unchanged, as in Hilbert's 1890 finiteness proof and the Reynolds-type projection to invariants.",
+  "errors": [
+   "The Ω-operator is miswritten. The page has ∂²/(∂β12∂β12) − ∂²/(∂β11 β12): a repeated index, and a missing ∂ in the second denominator. The intended Cayley Ω-process is ∂²/∂β11∂β22 − ∂²/∂β12∂β21.",
+   "The grammar is incomplete ('um einer Invariantentheo[rie] ... aufzustellen ... aus'). The verb 'kommt man' is missing. This suggests student lecture notes rather than a careful manuscript.",
+   "Previous page: 'β_2 x_2''' should be 'β22 x2'' (an index and prime slip). It is carried over correctly on this page.",
+   "The relation between K(TST^{-1}) and the substitution (whether B is T or T^{-1}) is not made explicit. The page only fixes that u transforms by B^T while x transforms by B, which is consistent."
+  ],
+  "results": [
+   {
+    "what": "Under u = B^T ω and ξ = B x the bilinear form u·x equals ω·ξ, and successive substitutions compose as ΓB (group property).",
+    "modern_name": "cogredient/contragredient (dual) representation of GL2; invariance of the canonical pairing",
+    "usually_credited_to": "classical (Cayley, Sylvester, Aronhold, Clebsch, mid-19th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Invariant theory for the system reduces to using Cayley's Ω-process in the transformation coefficients.",
+    "modern_name": "Cayley Ω-process",
+    "usually_credited_to": "Cayley (1846); used systematically by Clebsch and Gordan, and by Hilbert in the 1890 finiteness theorem",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Invariants of K(S) under conjugation S -> TST^{-1} treated as GL2 invariants of a mixed cogredient/contragredient system.",
+    "modern_name": "conjugation invariants of matrices / invariants of a linear map (mixed tensor)",
+    "usually_credited_to": "classical (Sylvester, Clebsch; later Frobenius)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is standard 19th-century invariant theory: dual transformation of variables, composition of substitutions, and Cayley's Ω-process, which Hilbert famously used in 1890. It looks like lecture-note material with a garbled operator, and the next page moves to an unrelated topic.",
+  "checkable": [
+   {
+    "sympy": "b11,b12,b21,b22,w1,w2,x1,x2=symbols('b11 b12 b21 b22 w1 w2 x1 x2'); B=Matrix([[b11,b12],[b21,b22]]); w=Matrix([w1,w2]); x=Matrix([x1,x2]); u=B.T*w; xi=B*x; simplify((u.T*x)[0]-(w.T*xi)[0])==0",
+    "asserts": "u·x = ω·ξ under u = B^T ω, ξ = B x"
+   },
+   {
+    "sympy": "g11,g12,g21,g22,v1,v2=symbols('g11 g12 g21 g22 v1 v2'); G=Matrix([[g11,g12],[g21,g22]]); v=Matrix([v1,v2]); simplify(B.T*(G.T*v)-(G*B).T*v)==zeros(2,1) and simplify(G*(B*x)-(G*B)*x)==zeros(2,1)",
+    "asserts": "composition of the two substitution pairs corresponds to the matrix product ΓB"
+   },
+   {
+    "sympy": "D=B.det(); k=3; Om=lambda f: diff(f,b11,b22)-diff(f,b12,b21); simplify(Om(D**k)-k*(k+1)*D**(k-1))==0",
+    "asserts": "Cayley Ω-process (correct form) satisfies Ω(det B^k) = k(k+1) det B^(k-1)"
+   }
+  ],
+  "transcription_corrections": [
+   "The variables written 'w' in the transcription are ω (omega) in the image: ω1, ω2.",
+   "The second-substitution coefficients are γ_ik (written like 'r' in the image), and the new variables are v1, v2 (written like 'o'/'v').",
+   "The left-hand sides denoted 𝔗1, 𝔗2 look in the image like a script τ/ℰ; read as τ1, τ2 (new cogredient variables).",
+   "'Invariantentheo' is cut off at the line end: read 'Invariantentheo[rie]'.",
+   "The operator is printed as in the image (garbled). The intended form is ∂²/∂β11∂β22 − ∂²/∂β12∂β21.",
+   "'Operations=symbol' is hyphenated across the line break: 'Operationssymbol'."
+  ]
+ }
+}

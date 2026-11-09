@@ -1,0 +1,64 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c008",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is §1 (historical part) of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1853/54, published by Dedekind in 1867). The page continues the account of the vibrating-string controversy.\n\n(1) Model. x is the distance of a point of the string from its initial point. y(x,t) is its displacement from the rest position at time t. The string obeys the wave equation y_tt = α² y_xx, where α is independent of t. For a string of uniform thickness α is also independent of x.\n\n(2) D'Alembert's general solution (Mém. Berlin 1747, p. 214). Every solution has the form y = f(x+αt) + φ(x−αt). Riemann justifies this by introducing u = x+αt and v = x−αt as new independent variables.\n- [Filled step, mine] By the chain rule, y_x = y_u + y_v, so y_xx = y_uu + 2y_uv + y_vv.\n- Likewise y_t = α(y_u − y_v), so y_tt = α²(y_uu − 2y_uv + y_vv).\n- Hence y_xx − (1/α²) y_tt = 4 ∂²y/∂u∂v.\n- So the wave equation becomes y_uv = 0. Integrating twice gives y = f(u) + φ(v).\n\n(3) Fixed-end boundary conditions. Require y(0,t) = y(l,t) = 0 for all t.\n- At x = 0: f(αt) + φ(−αt) = 0, i.e. f(αt) = −φ(−αt).\n- At x = l: f(l+αt) + φ(l−αt) = 0, i.e. f(l+αt) = −φ(l−αt).\n- Since αt ranges over all reals, f(z) = −φ(−z) = −φ(l−(l+z)).\n- Applying the second relation with s = l+z turns the last expression into f(l+(l+z)) = f(2l+z). So f is 2l-periodic.\n- Substituting φ(w) = −f(−w) gives y = f(αt+x) − f(αt−x).\n\n(4) Narrative. D'Alembert, in a continuation of his memoir (footnote 2, 'Ibid.'), then studies the functional equation f(z) = f(2l+z). He looks for analytic expressions unchanged when z increases by 2l. The next page goes on to Euler's 1748 reformulation via initial data g and h.",
+  "errors": [
+   "No mathematical errors. The change of variables, the factor 4, the boundary relations, the periodicity f(z)=f(2l+z) and the final form y=f(αt+x)−f(αt−x) are all correct.",
+   "The step 'every solution must have the form f+φ' assumes the solution is twice differentiable (C²). This is implicit, as in d'Alembert, and is not an error in context.",
+   "Footnote 2 reads 'Ibid. pag. 20' in the image. The printed version of the Habilitationsschrift gives 'Ibid. pag. 220', which is d'Alembert's 'Suite des recherches', Mém. Berlin 1747, pp. 220ff. The manuscript reading is likely a slip, or a dropped digit in copying."
+  ],
+  "results": [
+   {
+    "what": "Wave equation y_tt = α² y_xx for the vibrating string, and its general solution y = f(x+αt) + φ(x−αt), obtained via characteristic coordinates (y_xx − y_tt/α² = 4 y_uv)",
+    "modern_name": "d'Alembert's formula / method of characteristics for the 1D wave equation",
+    "usually_credited_to": "d'Alembert (1747)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Fixed ends force φ(w) = −f(−w) and f(z+2l) = f(z), giving y = f(αt+x) − f(αt−x)",
+    "modern_name": "Odd 2l-periodic extension; reflection method for the Dirichlet problem of the string",
+    "usually_credited_to": "d'Alembert (1747); clarified by Euler (1748)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical exposition of the vibrating-string controversy as the opening of the history of trigonometric series",
+    "modern_name": "Historical section §1 of Riemann's Habilitationsschrift on trigonometric series",
+    "usually_credited_to": "Riemann (1854, publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page belongs to the historical introduction of Riemann's well-known Habilitationsschrift on trigonometric series, published in 1867. The mathematics is d'Alembert's classical 1747 solution of the wave equation, restated correctly. Nothing here is new or unknown.",
+  "checkable": [
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); f=Function('f'); p=Function('phi'); y=f(x+a*t)+p(x-a*t); simplify(diff(y,t,2)-a**2*diff(y,x,2))==0",
+    "asserts": "d'Alembert's form solves y_tt = α² y_xx"
+   },
+   {
+    "sympy": "u,v,a=symbols('u v a',positive=True); Y=Function('Y'); x=(u+v)/2; t=(u-v)/(2*a); # verify y_xx - y_tt/a**2 = 4*Y_uv via chain rule: with y(x,t)=Y(x+a*t,x-a*t), compute diff(y,x,2)-diff(y,t,2)/a**2 and compare with 4*Derivative(Y(u,v),u,v)",
+    "asserts": "In characteristic coordinates the wave operator equals 4 ∂²/∂u∂v"
+   },
+   {
+    "sympy": "x,t,a,l=symbols('x t a l',positive=True); f=Function('f'); y=f(a*t+x)-f(a*t-x); simplify(y.subs(x,0))==0",
+    "asserts": "y = f(αt+x) − f(αt−x) vanishes at x = 0"
+   },
+   {
+    "sympy": "x,t,a,l=symbols('x t a l',positive=True); y=sin(pi*(a*t+x)/l)-sin(pi*(a*t-x)/l); simplify(y.subs(x,l))==0 and simplify(diff(y,t,2)-a**2*diff(y,x,2))==0",
+    "asserts": "With a 2l-periodic f (here sin(πz/l)), y also vanishes at x = l and solves the wave equation"
+   }
+  ],
+  "transcription_corrections": [
+   "First line: 'u., y seine Entfernung' should read 'te, y seine Entfernung'. It is the end of 'Anfangspunkte' carried over from the previous page.",
+   "Footnote 2 in the image reads 'Ibid. pag. 20'; the printed edition has 'pag. 220'.",
+   "A marginal numeral '5' stands to the right of the formula y_xx − y_tt/α² = 4 ∂(∂y/∂(x+αt))/∂(x−αt). It is not part of the formula.",
+   "A closing parenthesis-like mark appears after 'Differentialgleichung' in 'Außer dieser partiellen Differentialgleichung,'. It is probably a stray mark or an unfinished footnote sign."
+  ]
+ }
+}

@@ -1,0 +1,62 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c072",
+ "label": "38r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000073/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This folio belongs to Riemann's heat-conduction work for the Paris Academy prize question. The question asked when isothermal surfaces stay isothermal, i.e. when the temperature can be written as a function of time and two independent variables only. The page matches the opening of Part II of the Commentatio mathematica (1861; printed in the Werke, 1876) and is evidently a draft of it.\n\nSet-up from the previous page. The equation I is sum_{i,j} d/dx_i (a_ij du/dx_j) = h du/dt. It is the Euler-Lagrange condition for the variational expression (A). Riemann changes to coordinates s and writes S = (ds_mu/dx_i) and J = det S. Then:\n- b = S a S^T / J and k = h/J.\n- det b = B = A/J.\n- The adjugate form transforms contravariantly: beta = S^{-T} alpha S^{-1}, i.e. sum alpha_ij dx_i dx_j = sum beta_mn ds_m ds_n.\n- h/A = k/B.\nSo transforming equation I reduces to transforming the quadratic differential form sum alpha dx dx.\n\nPlan of attack (first paragraph of this page).\n(i) Find all coefficient systems b_ij(s) and k(s) for which a solution u can be independent of one coordinate, say s_3. From these, form the corresponding expressions sum beta ds ds.\n(ii) For given a_ij and h, the problem becomes: can some such sum beta ds ds be transformed into the given sum alpha dx dx? Riemann announces this will be handled 'almost by the same method Gauss used in the theory of curved surfaces'. This is the programme that leads, in the Commentatio, to his curvature (four-index) conditions for equivalence of quadratic forms.\n\nStep (i) begins. Riemann renames s_1, s_2, s_3 as alpha, beta, gamma and writes the form (2) as (a,b,c; a',b',c'). Thus b11=a, b22=b, b33=c, b23=a', b31=b', b12=c'. The equation in s-coordinates is sum_mu d/ds_mu (sum_nu b_mn du/ds_nu) = k du/dt. Assume u_gamma = 0 [expansion mine]:\n- d_alpha(a u_alpha + c' u_beta) + d_beta(c' u_alpha + b u_beta) + d_gamma(b' u_alpha + a' u_beta) = k u_t.\n- This gives a u_aa + 2c' u_ab + b u_bb + e u_a + f u_b - k u_t = F = 0.\n- Here e = a_alpha + c'_beta + b'_gamma and f = b_beta + c'_alpha + a'_gamma, exactly as written.\n\nThe linear-algebra argument. Fix a point (alpha, beta) and let gamma vary. Equation (1) becomes a family of linear relations among the six quantities u_aa, u_ab, u_bb, u_a, u_b, u_t. None of these six depends on gamma. Suppose the family spans an m-dimensional space with a basis F_1 = ... = F_m = 0 whose coefficients are gamma-independent. Then for each gamma, F lies in that span: F = c_1(gamma) F_1 + ... + c_m(gamma) F_m. Only the c's depend on gamma (they also depend on alpha, beta).\n\nThe next page treats m = 1, 2, 3, 4 separately. In case m=1, k is normalised to 1 via a substitution in gamma, and the binary form is reduced to a product form m dalpha' dbeta'.",
+  "errors": [
+   "No mathematical errors found. The definitions of e and f are exactly the coefficients of u_alpha and u_beta in the self-adjoint operator when u_gamma = 0.",
+   "Implicit (unstated) assumptions: m is locally constant, i.e. rank is generic, and the coefficients are smooth enough for a smooth choice of a gamma-independent basis F_i and coefficients c_i. There is also an implicit compatibility condition: the system F_i = 0 must actually admit nontrivial solutions u(alpha, beta, t).",
+   "The page does not justify why only m <= 4 needs treatment (taken up on the next page). For m = 5 or 6 the solutions are degenerate."
+  ],
+  "results": [
+   {
+    "what": "Reduction of the heat-equation problem (isothermal surfaces staying isothermal; u depending on t and two variables) to (i) classifying coefficient systems admitting gamma-independent solutions and (ii) an equivalence problem for quadratic differential forms in three variables, attacked by Gauss's method.",
+    "modern_name": "Equivalence problem for Riemannian metrics (curvature as obstruction); separation/reduction of variables for the heat equation",
+    "usually_credited_to": "Riemann, Commentatio mathematica (1861, publ. 1876); equivalence problem also Christoffel and Lipschitz (1869-70)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Explicit form of the reduced operator when u is independent of gamma: a u_aa + 2c' u_ab + b u_bb + e u_a + f u_b - k u_t, with e = a_alpha + c'_beta + b'_gamma and f = b_beta + c'_alpha + a'_gamma.",
+    "modern_name": "Divergence-form operator restricted to gamma-invariant functions",
+    "usually_credited_to": "routine computation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Linear-span argument: the gamma-family of equations spans an m-dimensional space of gamma-independent equations F_i, and F = sum c_i(gamma) F_i.",
+    "modern_name": "Rank/span decomposition of a parameter family of linear PDEs",
+    "usually_credited_to": "Riemann (Commentatio, Part II)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the published (1876 Werke) Commentatio mathematica for the Paris prize. Its content and structure, including the announcement of Gauss's method for the equivalence of quadratic forms, are well known as Riemann's.",
+  "checkable": [
+   {
+    "sympy": "al,be,ga=symbols('alpha beta gamma'); u=Function('u')(al,be); a,b,c,a1,b1,c1=[Function(n)(al,be,ga) for n in ['a','b','c','ap','bp','cp']]; L=diff(a*diff(u,al)+c1*diff(u,be),al)+diff(c1*diff(u,al)+b*diff(u,be),be)+diff(b1*diff(u,al)+a1*diff(u,be),ga); e=diff(a,al)+diff(c1,be)+diff(b1,ga); f=diff(b,be)+diff(c1,al)+diff(a1,ga); simplify(expand(L-(a*diff(u,al,2)+2*c1*diff(u,al,be)+b*diff(u,be,2)+e*diff(u,al)+f*diff(u,be))))==0",
+    "asserts": "For u independent of gamma, the divergence-form operator with form (a,b,c;a',b',c') equals equation (1) with the stated e and f."
+   },
+   {
+    "sympy": "S=Matrix(3,3,symbols('s0:9')); A=Matrix(3,3,lambda i,j: symbols('a%d%d'%(min(i,j),max(i,j)))); J=S.det(); Bm=S*A*S.T/J; simplify(Bm.det()-A.det()/J)==0",
+    "asserts": "B = A/J, i.e. A = B * det(ds/dx) (previous page)."
+   },
+   {
+    "sympy": "simplify(Bm.adjugate() - S.inv().T*A.adjugate()*S.inv())==zeros(3,3)",
+    "asserts": "The adjugate form transforms as beta = S^{-T} alpha S^{-1}, i.e. sum alpha dx dx = sum beta ds ds."
+   },
+   {
+    "sympy": "h=symbols('h'); k=h/J; simplify(h/A.det()-k/Bm.det())==0",
+    "asserts": "h/A = k/B."
+   }
+  ],
+  "transcription_corrections": [
+   "The variable written gamma is rendered as 'y' on the next page; on this page it is gamma (script gamma). This is consistent with the renaming alpha, beta, gamma for s_1, s_2, s_3.",
+   "The rest of the transcription matches the image. Note 'denotationem commodiorem (expeditiorem simpliciorem)', where Riemann gives alternative word choices, and the equation label '(1)' attached to the reduced equation F = 0."
+  ]
+ }
+}

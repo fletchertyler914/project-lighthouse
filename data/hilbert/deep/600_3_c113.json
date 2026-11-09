@@ -1,0 +1,73 @@
+{
+ "bundle": "600_3",
+ "page": "c113",
+ "label": "[110]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000114/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context and page order: the page opens mid-sentence with \"...Archimedes nöthig werden meist indirekt geführt.\" The supplied 'next' page ends with \"Die Beweise, in der[en]...\". Together these read \"Die Beweise, in denen Archimedes nöthig werden, werden meist indirekt geführt\": proofs that require the Archimedean axiom are mostly conducted indirectly, by contradiction. So in reading order the 'next' page most likely precedes this one. It discusses the proportion theory without the Archimedean axiom versus equidecomposability of triangles that needs it, with an error-propagation argument.\n\n(1) Philosophical thesis. Hilbert asks whether this is 'inwardly grounded'. A difficulty in mathematics always comes from the fact that infinitely many processes cannot be carried out, so a new idea, a 'Pointe', is needed. Conversely, every genuine mathematical idea, formula or method must reduce something infinite (unbounded) to something finite.\n\n(2) Example: sum of the first n integers. Hilbert writes 1+2+...+n = n(n+1)/2.\n- Left side: the number of arithmetic operations ('Species') grows with n. Hilbert says n additions; strictly it is n-1.\n- Right side: exactly 3 operations, namely n+1, then n*(n+1), then division by 2.\n- The point is that the right side's count is a constant, independent of the data n. A closed formula is valuable because it gives a uniform bound on computational cost.\n\n(3) Reformulating the physicist's demand. When a physicist vaguely asks for 'formulas' to actually compute things such as integrals, Hilbert proposes a precise version. One should give processes such that, for every choice of the data, a definite finite number of them suffices. The insertion adds: e.g. to compute the sought numbers to 3 decimal places.\n\n(4) Example: geometric series. To compute S(x) = 1 + x + x^2 + ... (0 <= x < 1) to accuracy eps by partial sums, one needs N terms.\n- [Mine:] the tail is sum_{k>=N} x^k = x^N/(1-x).\n- So N must satisfy x^N/(1-x) < eps, i.e. N > log(eps*(1-x))/log(x).\n- This N tends to infinity as x tends to 1, so the operation count is not bounded uniformly in the data.\n- The closed form 1/(1-x) needs only 2 operations (one subtraction, one division) for every x.\n\nThe same theme appears on the facing page: proofs without the Archimedean axiom use a bounded number of axiom applications, so errors multiply only by a fixed factor. Archimedean proofs need a data-dependent, unbounded number.\n\n(5) Aphorism. Through Weierstrass and his critical school we have learned tightrope walking. Now we must actually get across the abysses on the rope without becoming dizzy.",
+  "errors": [
+   "Minor: computing 1+2+...+n needs n-1 additions, not n (Hilbert's count is loose but irrelevant to the point).",
+   "The claim that every difficulty 'always' (immer) stems from infinitely many processes, and its converse, is a heuristic/philosophical thesis, not a proven statement.",
+   "The geometric-series statement implicitly assumes 0<=x<1 (convergence); for x near 1 the claim of unbounded operation count is correct for the partial-sum method."
+  ],
+  "results": [
+   {
+    "what": "Value of a closed formula = number of arithmetic operations bounded independently of the input data (1+...+n vs n(n+1)/2; geometric series vs 1/(1-x))",
+    "modern_name": "Uniform (input-independent) arithmetic complexity / closed form vs. iterative evaluation; precursor of computational-complexity thinking",
+    "usually_credited_to": "Complexity theory: Hartmanis–Stearns 1965, Cobham 1964, algebraic complexity (Ostrowski 1954 operation counts); idea informally older",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Precise reformulation of 'computable formula' as: processes such that for every choice of data a definite finite number suffices to compute the result to prescribed accuracy (e.g. 3 decimals)",
+    "modern_name": "Effective computability with prescribed precision / uniform algorithms (computable analysis)",
+    "usually_credited_to": "Turing 1936–37, Grzegorczyk, Lacombe 1955 (computable analysis); Hilbert's finitism 1920s",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Mathematics consists in reducing the infinite to the finite; proofs needing the Archimedean axiom are typically indirect",
+    "modern_name": "Hilbert's 'Überwindung des Unendlichen', a theme of his later finitism and proof theory",
+    "usually_credited_to": "Hilbert (1920s foundational lectures); this notebook passage is cited by Rowe, Corry and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Weierstrass 'Seiltanzen' aphorism",
+    "modern_name": "Aphorism on rigor (Weierstrassian criticism)",
+    "usually_credited_to": "Hilbert (notebook, quoted in secondary literature)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The arithmetic is elementary. However, the explicit idea of measuring a formula's worth by an operation count bounded independently of the input, and of making the physicist's demand precise as uniformly bounded finite processes for given precision, is an early informal anticipation of complexity and computable-analysis ideas. The Hilbert notebooks (Cod. Ms. Hilbert 600) and these aphorisms are, however, already known and partly quoted by historians (Rowe, Corry), and the theme fits Hilbert's known finitist outlook.",
+  "checkable": [
+   {
+    "sympy": "simplify(summation(k,(k,1,n)) - n*(n+1)/2) == 0",
+    "asserts": "1+2+...+n = n(n+1)/2"
+   },
+   {
+    "sympy": "simplify(summation(x**k,(k,0,oo)).args[0][0] - 1/(1-x)) == 0",
+    "asserts": "Geometric series sums to 1/(1-x) for |x|<1"
+   },
+   {
+    "sympy": "simplify(summation(x**k,(k,N,oo)).args[0][0] - x**N/(1-x)) == 0",
+    "asserts": "Tail after N terms equals x^N/(1-x), so the required N for accuracy eps is > log(eps*(1-x))/log(x)"
+   },
+   {
+    "sympy": "limit(log(Rational(1,2000)*(1-x))/log(x), x, 1, '-') == oo",
+    "asserts": "Number of terms needed for 3-decimal accuracy is unbounded as x->1"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 begins mid-sentence; it continues 'Die Beweise, in der[en] ...' at the bottom of the supplied 'next' page, so that page likely precedes this one in reading order.",
+   "'in unbestimmten Weise' should read 'in unbestimmter Weise'.",
+   "'Speciesn[?]' is most likely 'Species' (plural).",
+   "The insertion above the line reads 'etwa auf 3 Dezimalen genau berechnen' and belongs after 'gesuchten Zahlen'.",
+   "The crossed-out 'Auch der Physiker' at the end of line 7 is correctly marked as deleted.",
+   "'schwindlich' (dizzy) is correctly read."
+  ]
+ }
+}

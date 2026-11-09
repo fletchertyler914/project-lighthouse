@@ -1,0 +1,55 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c014",
+ "label": "5",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000015/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "WHAT THE TABLE IS (my identification, checked numerically below). This is p.5 of a manuscript table of the Sun's rectangular equatorial coordinates. Each row has an argument A from 320 to 400 in steps of 1, and three columns x, y, z in units of 1e-4 AU. The previous page covers A = 240-320.\n\n1. The argument A is the Sun's mean anomaly in centesimal grads (400 = full circle). The next page supports this:\n- 'Ein Tag 1,09516351' equals 400/365.2422.\n- 'Ein gemeines J. -0,26531865' is 365 days of mean motion minus 400 grads.\n- The 1800 epoch value 0.27667 grads (about 0.25 deg) is mean longitude minus perihelion, i.e. a mean anomaly.\n- The constants are perihelion Pi = 279 deg 39' 22\" and eccentricity e = 0.01679055, for the Paris meridian with aberration already included.\n\n2. The coordinates follow from (my explicit restatement):\n- M = A*pi/200 (radians).\n- Kepler's equation E - e sin E = M gives the true anomaly v; equivalently v = M + 2e sin M + (5/4)e^2 sin 2M + ...\n- R = (1 - e^2)/(1 + e cos v).\n- True longitude L = v + Pi.\n- x = R cos L, y = R sin L cos eps, z = R sin L sin eps, with eps approximately 23 deg 28'.\n- The header signs give the quadrant signs: y and z are negative throughout this page. x is negative down to row 389 and positive from row 390, which is why the header reads ∓ and Gauss rules a line under '100'.\n- A consistency check: z/y = tan eps, about 0.4341, holds in every row.\n\n3. My spot recomputations (to the stated 4-figure precision):\n- A = 290 (previous page): v = 259.104 deg, L = 178.76 deg, R = 1.00290. This gives x = -10027, y = 199, z = 86, all matching; it resolves the doubtful '199[?]'.\n- A = 320: L = 205.81 deg, R = 0.99507. This gives x = -8958, y = -3975.5, z = -1726 (table 1725).\n- A = 360: L = 242.51 deg, R = 0.98652. This gives x = -4554, y = -8027, z = -3485 (table 3484).\n- A = 390: v = 350.69 deg, L = 270.35 deg, R = 0.98342. This gives x = +60, y = -9021, z = -3916, exact.\n\n4. The zero of x falls between A = 389 and 390, i.e. at L = 270 deg. The maximum of |y| = R cos eps (9021) occurs there because perihelion (R = 1 - e) lies just past it.\n\n5. Purpose: such tables give the Sun's geocentric coordinates (X, Y, Z) needed for the orbit-determination methods of Gauss's 1809 Theoria Motus and for his Ceres/Pallas reductions. The tables are entered with the yearly epoch values on p.6 plus 1.0952 grads per day.\n\n6. Differencing: first and second differences of all six columns are smooth, except as listed under errors.",
+  "errors": [
+   "Row 362, y column: the table reads 8153. The differences run 65, 61, 63, 59, which is irregular. Recomputation gives |y| = 0.81551, and z/tan eps = 3540/0.4341 = 8155, so the correct entry is 8155; this is a copying/computation slip.",
+   "Row 377, y = 8841: the differences 31, 27 are slightly irregular. Recomputation gives about 8840, a possible 1-unit slip, depending on the exact eps used.",
+   "Several z entries (rows 320, 360) are 1 unit lower than my recomputation, and x at row 362 is 4268 vs my computed 4269. These are last-digit rounding differences consistent with a slightly different obliquity or rounding; they are not real errors."
+  ],
+  "results": [
+   {
+    "what": "Table of the Sun's rectangular equatorial coordinates x = R cos L, y = R sin L cos eps, z = R sin L sin eps, tabulated against mean anomaly in centesimal grads, with e = 0.01679055 and perihelion 279 deg 39' 22\"",
+    "modern_name": "Solar ephemeris / tables of solar rectangular coordinates (via Kepler's equation)",
+    "usually_credited_to": "Standard 18th-19th c. practice (Delambre, Zach solar tables; coordinates as used in Gauss's Theoria Motus 1809)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "A routine computational solar-coordinate table of the kind Gauss is known to have produced for his orbit computations. The only mildly notable features are the centesimal argument and the explicit elements on the following page.",
+  "checkable": [
+   {
+    "sympy": "e=0.01679055; M=290*pi/200; v=M+2*e*sin(M)+Rational(5,4)*e**2*sin(2*M); R=(1-e**2)/(1+e*cos(v)); L=v+(279+39/60+22/3600)*pi/180; N(10000*R*cos(L))",
+    "asserts": "Approximately -10027 (previous page, row 290, x)"
+   },
+   {
+    "sympy": "e=0.01679055; M=390*pi/200; v=M+2*e*sin(M)+Rational(5,4)*e**2*sin(2*M); R=(1-e**2)/(1+e*cos(v)); L=v+(279+39/60+22/3600)*pi/180; eps=(23+28/60)*pi/180; [N(10000*R*cos(L)),N(10000*R*sin(L)*cos(eps)),N(10000*R*sin(L)*sin(eps))]",
+    "asserts": "Approximately [60, -9021, -3916] (row 390)"
+   },
+   {
+    "sympy": "e=0.01679055; M=362*pi/200; v=M+2*e*sin(M)+Rational(5,4)*e**2*sin(2*M); R=(1-e**2)/(1+e*cos(v)); L=v+(279+39/60+22/3600)*pi/180; eps=(23+28/60)*pi/180; N(10000*R*sin(L)*cos(eps))",
+    "asserts": "Approximately -8155, showing that the table entry 8153 at row 362 is a slip"
+   },
+   {
+    "sympy": "N(400/365.2422)",
+    "asserts": "Approximately 1.09516, the daily motion in grads given on p.6"
+   },
+   {
+    "sympy": "N(2413/5560 - tan((23+28/60)*pi/180))",
+    "asserts": "Approximately 0: z/y = tan(eps) in every row"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 362, y: the image indeed reads 8153 (so the transcription is faithful), but the correct value is 8155.",
+   "Row 388, y: '9019' has an overwritten final digit; the reading 9019 is consistent with the computed value.",
+   "Row 392, y: '9014' has an overwritten final 4; the reading is correct.",
+   "Header of the right x column: the sign is '∓' (negative down to row 389, positive from 390), as drawn by the rule under 100; this is correctly transcribed.",
+   "Previous page row 290, y: the doubtful '199[?]' is confirmed as 199 by recomputation."
+  ]
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c198",
+ "label": "195",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000199/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Layout: four blocks of 50 rows each, x = 6.850 to 7.150 in steps of 0.002. Each row gives:\n- the argument x;\n- an angle v(x) in degrees, minutes and seconds, with 5 decimals of the second;\n- the first difference D(x) = v(x+0.002) - v(x), in arcseconds;\n- the second difference D(x-0.002) - D(x), in units of 1e-5 arcsec.\n\nThe second-difference figure at the head of each block is carried over from the preceding block. The page joins seamlessly to fol. 194 (which ends 6.750-6.786 on the transcription) and fol. 196 (which starts at 7.150).\n\nAdditivity checks (my verification), e.g.:\n- 147°41'13.07864\" + 195.27305\" = 147°44'28.35169\".\n- 148°57'37.27024\" + 186.46264\" = 149°0'43.73288\".\n- 195.27305 - 194.89541 = 0.37764, entered as 37764.\n- 7.148: 154°44'17.93278\" + 147.91088\" = 154°46'45.84366\".\n\nIdentification of the function (mine; the page carries no heading): with sigma = tan(v/2), the table satisfies\n  x = log10[ 2 rho'' (sigma + sigma^3/3) ],  where rho'' = 206264.806\".\nEquivalently, sigma + sigma^3/3 = 10^x / (2 rho'').\n\nThis is the parabolic (Barker) equation tan(v/2) + (1/3) tan^3(v/2) ∝ t. Here v is the true anomaly and the argument is the common logarithm of the 'mean motion' quantity M = 2(sigma + sigma^3/3), expressed in arcseconds. So the page is a high-precision (about 11 significant figures) table of v as a function of log M for motion in a parabola. It is equivalently a table for solving the cubic sigma^3 + 3 sigma = 3M/(2 rho) via an angle.\n\nTest at x = 7.000, v = 151°28'50.46916\":\n- psi = 180° - v = 28°31'9.53\".\n- sigma = cot(psi/2) = 3.93473, so sigma + sigma^3/3 = 24.2407.\n- Times 412529.6 this gives about 1.0000006e7, i.e. log10 = 7.0000000.\n\nThe same fit holds at 6.852 and 7.148 to the accuracy of hand checking.\n\nDerivative check (mine). Since dM/dv = rho (1 + sigma^2)^2,\n  dv/dx = ln10 · 2(sigma + sigma^3/3) / (1 + sigma^2)^2  (radians per unit x).\nAt x = 7 this gives 0.41093 rad, i.e. 169.52\" per step of 0.002. This matches the mean of the tabulated differences, (169.67791 + 169.36221)/2.\n\nThe smooth second differences (37859 decreasing to 26597) show the table was either built or checked by differences. That is Gauss's standard procedure for a master table that would later be rounded.",
+  "errors": [
+   "None found. All entries spot-checked (including every place where the transcription has [?]) satisfy v(x+0.002) = v(x) + D(x) exactly, and the second differences agree with the first differences.",
+   "Several entries in the image visibly show overwritten or corrected digits, e.g. 44'28.35169\", 186.81944, 185.39745, 6'55.59123\", 13'6.03279\", 40'33.40871\". The corrected values are internally consistent."
+  ],
+  "results": [
+   {
+    "what": "High-precision table of the true anomaly v in a parabolic orbit as a function of log10 of M = 2 rho''(tan(v/2) + tan^3(v/2)/3), for v from about 147.7° to 154.8°, with first and second differences",
+    "modern_name": "Barker's table / inversion of Barker's equation for parabolic motion (equivalently, the real root of the cubic s^3 + 3s = c)",
+    "usually_credited_to": "Barker (1757) for the parabolic table; Euler, Lambert, Olbers and Gauss (Theoria Motus, 1809) for parabolic-motion methods",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Construction or verification of a table by systematic first and second differences",
+    "modern_name": "Table construction by finite differences (subtabulation)",
+    "usually_credited_to": "Briggs, Mouton and the general practice of 17th-18th-century table makers",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine (if unusually precise) computational table for parabolic motion, which is standard astronomical material and well within Gauss's known practice. The only mildly notable feature is the 11-figure precision and the log-argument format, which suggests a master table.",
+  "checkable": [
+   {
+    "sympy": "v=(151+28/S(60)+S('50.46916')/3600)*pi/180; s=tan(v/2); N(log(2*S('206264.806247')*(s+s**3/3),10),12)",
+    "asserts": "approximately 7.000000, i.e. x = log10(2 rho (tan(v/2)+tan(v/2)**3/3)) at x = 7.000"
+   },
+   {
+    "sympy": "v=(147+41/S(60)+S('13.07864')/3600)*pi/180; s=tan(v/2); N(log(2*S('206264.806247')*(s+s**3/3),10),12)",
+    "asserts": "approximately 6.850 (first row of the page)"
+   },
+   {
+    "sympy": "v=(154+46/S(60)+S('45.84366')/3600)*pi/180; s=tan(v/2); N(log(2*S('206264.806247')*(s+s**3/3),10),12)",
+    "asserts": "approximately 7.150 (last row of the page)"
+   },
+   {
+    "sympy": "S('13.07864')+S('195.27305')-60*3",
+    "asserts": "equals 28.35169: v(6.852) = v(6.850) + D, carried as 3 minutes"
+   },
+   {
+    "sympy": "S('195.27305')-S('194.89541')",
+    "asserts": "equals 0.37764, the tabulated second difference 37764"
+   },
+   {
+    "sympy": "s=tan(pi*(151+28/S(60)+S('50.46916')/3600)/360); N(0.002*206264.806247*log(10)*2*(s+s**3/3)/(1+s**2)**2,8)",
+    "asserts": "about 169.52 arcsec, matching the mean of the first differences 169.67791 and 169.36221 around x = 7.000"
+   }
+  ],
+  "transcription_corrections": [
+   "6.888: 41'59.58747\" is confirmed (38'50.97084\" + 188.61663\").",
+   "6.892: 48'15.73801\" is confirmed (45'7.84290\" + 187.89511\").",
+   "6.900: 149°0'43.73288\" is confirmed; the first difference is 186.10671 (it gives 3'49.83959\" at 6.902).",
+   "6.904: 6'55.59123\" is confirmed; 6.908: 13'6.03279\" is confirmed.",
+   "7.088: 28'13.92924\" is confirmed (25'37.47072\" + 156.45852\").",
+   "The '195.' at top right is the folio number, not a table entry.",
+   "The second-difference figure in the first row of each block (37859, 33502, 29785, 26597) belongs to the preceding interval and is repeated at block boundaries."
+  ]
+ }
+}

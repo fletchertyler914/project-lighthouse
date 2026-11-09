@@ -1,0 +1,63 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c052",
+ "label": "25r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000053/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the end of §12 and the start of §13 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854; published by Dedekind 1867). The question is: which functions f with an isolated point a where f becomes infinite, and which do not have infinitely many maxima and minima, can be represented by a trigonometric series whose coefficients tend to 0? The previous page showed two things. First, f(a+t)+f(a-t) must be integrable up to t=0, which makes the cosine part ∫ f(x) cos n(x-a) dx converge and tend to 0. Second, (x-a)f(x) is integrable up to a, so ∫ f(x) sin n(x-a) dx exists.\n\nStep 1 (sine part). For the coefficients to tend to 0 one also needs ∫_b^c f(x) sin n(x-a) dx → 0 as n → ∞, with b<a<c.\n\nStep 2. Put φ(x) = (x-a) f(x). If φ has finitely many maxima and minima, Dirichlet's theorem gives\n  ∫_b^c f(x) sin n(x-a) dx = ∫_b^c φ(x)/(x-a) · sin n(x-a) dx → (π/2)[φ(a+0)+φ(a-0)].\nThe manuscript writes [φ(a+0)+φ(a-0)]/2 and omits the factor π.\n\nStep 3. Hence the necessary condition is φ(a+t)+φ(a-t) → 0. Since φ(a+t) = t f(a+t) and φ(a-t) = -t f(a-t), this sum equals t f(a+t) - t f(a-t), so t[f(a+t) - f(a-t)] → 0.\n\nStep 4. Because f(a+t)+f(a-t) is integrable up to 0 and is (by the standing hypothesis) eventually monotone, t[f(a+t)+f(a-t)] → 0. [My justification: if g is monotone and integrable on (0,δ), then t g(t) ≤ 2∫_{t/2}^{t} |g| → 0.] Adding and subtracting the two limits gives t f(a+t) → 0 and t f(a-t) → 0 separately.\n\nStep 5 (conclusion of §12). Excluding functions with infinitely many maxima and minima, f is representable by a trigonometric series with coefficients tending to 0 if and only if, at each point a where f becomes infinite:\n- t f(a+t) → 0 and t f(a-t) → 0, and\n- f(a+t)+f(a-t) is integrable up to t=0.\nSufficiency rests on the earlier sections, where these conditions make the Fourier-type integrals converge.\n\nStep 6 (series with non-vanishing coefficients). This uses the earlier theorem of §10 (Satz III / the localization theorem). If the coefficients do not tend to 0, then μ² ∫_b^c F(x) cos μ(x-a) λ(x) dx fails to tend to 0 only at finitely many points, where F is the twice-integrated function. Therefore such a series can represent a function without infinitely many maxima and minima only at finitely many argument values. Riemann remarks that this case is not worth pursuing.\n\nStep 7 (§13 begins). It turns to functions with infinitely many maxima and minima. The next page notes that a function can be integrable throughout without being represented by its Fourier series, using the example (x^ν cos(1/x))' with 0<ν<1/2.",
+  "errors": [
+   "The Dirichlet limit is written as [φ(a+0)+φ(a-0)]/2; the correct value is (π/2)[φ(a+0)+φ(a-0)]. The missing factor π is harmless here, since only the vanishing of the limit is used.",
+   "Step 4 (integrability of f(a+t)+f(a-t) implies t[f(a+t)+f(a-t)] → 0) is false for general integrable functions. It is valid only under the standing hypothesis of no infinitely many maxima and minima (eventual monotonicity). Riemann leaves this implicit but has it in force.",
+   "The 'hinreichend und nothwendig' claim relies on the earlier sections for sufficiency and on Dirichlet's theorem, whose hypotheses require φ to be piecewise monotone near a. This is again covered by the global exclusion of infinitely many extrema."
+  ],
+  "results": [
+   {
+    "what": "Necessary condition t f(a±t) → 0 at a singularity a, derived from Dirichlet's integral applied to φ(x) = (x-a) f(x)",
+    "modern_name": "Dirichlet integral / Dirichlet–Jordan pointwise convergence applied to improperly integrable functions",
+    "usually_credited_to": "Riemann, Habilitationsschrift 1854 (publ. 1867), building on Dirichlet 1829",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Necessary and sufficient conditions (for functions with finitely many extrema) for representability by a trigonometric series with coefficients tending to 0, in the presence of isolated infinities",
+    "modern_name": "Riemann's characterization in §12 of the Habilitationsschrift (Fourier series of improperly integrable functions)",
+    "usually_credited_to": "Riemann 1854/1867",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "A series with non-null coefficients can represent such a function at only finitely many points, via the μ² ∫ F cos μ(x-a) λ dx lemma",
+    "modern_name": "Consequence of Riemann's localization principle / Riemann's theory of trigonometric series (Cantor–Lebesgue type statements came later)",
+    "usually_credited_to": "Riemann 1854/1867",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page is the fair-copy manuscript of the end of §12 and start of §13 of Riemann's published Habilitationsschrift. Its content is well known and printed in his collected works.",
+  "checkable": [
+   {
+    "sympy": "limit(Si(n), n, oo) - pi/2",
+    "asserts": "Dirichlet integral: ∫_0^1 sin(n t)/t dt = Si(n) → π/2, so the limit in the text should carry a factor π (expected result 0)."
+   },
+   {
+    "sympy": "limit(integrate(sin(n*t)/t, (t, -1, 1)), n, oo) - pi",
+    "asserts": "For φ ≡ 1 near a=0, ∫_b^c φ(x)/x · sin(n x) dx → π = (π/2)(φ(0+)+φ(0-)) (expected result 0)."
+   },
+   {
+    "sympy": "limit(t*t**Rational(-1,2), t, 0, '+')",
+    "asserts": "For a monotone integrable singularity f(t) = t^(-1/2), t f(t) → 0, illustrating step 4 (expected result 0)."
+   },
+   {
+    "sympy": "simplify((t*f(a+t)) + (-t)*f(a-t) - (t*f(a+t) - t*f(a-t)))",
+    "asserts": "φ(a+t)+φ(a-t) = t f(a+t) - t f(a-t) for φ(x) = (x-a) f(x) (expected result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The Dirichlet limit appears in the image as [φ(a+0)+φ(a-0)]/2 with no π. The transcription matches the manuscript, but the manuscript itself omits π.",
+   "In 'μμ∫_b^c F(x) cos μ(x-a) λ(x) ∂x' the integrand is indeed F (capital), the twice-integrated function from §10, not f.",
+   "The page number '41.' (top right) and the folio mark '25' (right margin) are omitted from the transcription."
+  ]
+ }
+}

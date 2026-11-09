@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c129",
+ "label": "78v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000130/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Riemann's 1860 memoir 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'. The setting is one-dimensional gas flow with velocity u, density rho and sound speed a. Up to normalisation, p and q are the Riemann invariants u ± a·log(rho). The previous page shows that p is constant along dx = (u+a)dt and q is constant along dx = (u-a)dt.\n\nThe hodograph method treats x and t as functions of (p, q). An auxiliary potential w is introduced with dw/dp = x - (u+a)t and dw/dq = x - (u-a)t. This turns the nonlinear problem into a linear second-order equation for w. That equation is solved by Riemann's integration method, using an auxiliary solution v of the adjoint equation and a line integral round the boundary of a domain.\n\nPart 1 (top of page). Riemann argues that the integral representation stays valid in a case his derivation had excluded. That case arises when, between the initial data and the meeting of the two values p' and q', the functions p and q take the same value several times. The map (x,t) -> (p,q) is then not one-to-one, and the integrated quantity (written 'v') is no longer a single-valued function of p and q.\n\nHis remedy is to take x and t as the independent variables instead. The domain of integration becomes the region of the (x,t)-plane swept, at each instant from t = 0 until p' and q' meet, by the x-interval lying between the point carrying p' and the point carrying q'. This is a characteristic triangle.\n\nHe then states that two line integrals vanish when taken round the whole boundary of this region. As transcribed they read:\n- ∫[v_p (v - v_p) dp + v_q v dq];\n- ∫[v_p v dp + v_q (v + v_q) dq].\nThe transcription of the integrands is uncertain; in the printed paper they are bilinear in w and the Riemann function.\n\nThe justification he gives: ∮(P dp + Q dq) = 0 round the boundary of a region provided that, inside it, P varies continuously with q, Q varies continuously with p, and dP/dq = dQ/dp. In modern terms the form is closed (Green's theorem). Pulled back to the (x,t)-plane it stays closed and single-valued, even where the map to (p,q) folds over. He says both conditions are satisfied there ('in beiden ... Gleichungen erfüllt').\n\nFrom these two vanishing integrals, 'just as above', he recovers equation (6), and in Art. 2 equations (5) and (6). This is the explicit solution formula.\n\nPart 2 (lower half). Suppose the region of relative motion of the gas is initially confined to x1 < x < x2. Initially:\n- for x < x1, p = p1 and q = q1;\n- for x > x2, p = p2 and q = q2;\n- for x1 < x < x2, p and q are arbitrary functions of x.\nThe region where p varies moves forward (speed u+a) and the region where q varies moves backward (speed u-a), in opposite directions at sound speed relative to the gas. After a finite time they separate. Each is then a simple wave:\n- where p varies, q = q2 (its value from the right-hand undisturbed state);\n- where q varies, p = p1;\n- between them a region of constant state p = p1, q = q2 appears.\n\n[Implicit step, mine: the backward characteristics entering the forward wave all come from x > x2, so they carry q = q2. The forward characteristics entering the backward wave come from x < x1, so they carry p = p1. Separation happens in finite time because the forward speed exceeds the backward speed by 2a > 0, uniformly.]\n\nThe next page goes on to wave steepening and shock formation.",
+  "errors": [
+   "The transcribed integrands, e.g. ∫ v_p(v - v_p)dp + v_q v dq, are not plausibly correct as written; they almost certainly involve both w and the auxiliary function. This is a reading problem, not a demonstrable error by Riemann.",
+   "The criterion 'P continuous in q, Q continuous in p, P_q = Q_p' is stated only as a sufficient condition and loosely: simple connectivity and suitable regularity of the region are tacitly assumed. Routine for the period.",
+   "The separation into two simple waves tacitly assumes the solution stays smooth until separation (no shock forms earlier); the next page addresses shocks."
+  ],
+  "results": [
+   {
+    "what": "Extension of the integral (Riemann-function) solution formula to the case where the hodograph map is not one-to-one, by integrating over the characteristic triangle in the (x,t)-plane and using closedness of the differential form",
+    "modern_name": "Riemann's method of integration for linear hyperbolic equations (Riemann function), with pullback of a closed form / Green's theorem",
+    "usually_credited_to": "Riemann 1860 (Luftwellen memoir)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Criterion that ∮(P dp + Q dq) = 0 if P_q = Q_p with continuity",
+    "modern_name": "Green's theorem / exactness of closed 1-forms",
+    "usually_credited_to": "Green, Cauchy, Gauss (standard by 1850s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "A localized initial disturbance splits in finite time into two simple waves moving in opposite directions, separated by a constant state p = p1, q = q2",
+    "modern_name": "Decomposition into simple waves / Riemann-invariant interaction; constant intermediate state",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of material that appears in Riemann's published 1860 Luftwellen memoir: the Riemann integration method and the splitting into simple waves. The draft wording on the non-single-valued case is a minor textual detail of interest for the genesis of the paper, not a new result.",
+  "checkable": [
+   {
+    "sympy": "u,rho,a=symbols('u rho a',positive=True); ut,ux,rt,rx=symbols('ut ux rt rx'); p=u+a*log(rho); pt=ut+a*rt/rho; px=ux+a*rx/rho; sol={rt:-(rho*ux+u*rx), ut:-(u*ux+a**2*rx/rho)}; simplify((pt+(u+a)*px).subs(sol))",
+    "asserts": "For isothermal flow (pressure a^2*rho), p = u + a*log(rho) satisfies p_t + (u+a)p_x = 0, i.e. it is constant along dx = (u+a)dt (expect 0)."
+   },
+   {
+    "sympy": "q=u-a*log(rho); qt=ut-a*rt/rho; qx=ux-a*rx/rho; simplify((qt+(u-a)*qx).subs(sol))",
+    "asserts": "q = u - a*log(rho) is constant along dx = (u-a)dt (expect 0)."
+   },
+   {
+    "sympy": "P,Q=symbols('P Q'); t_,a_=symbols('t a'); u_=P+Q; wP=Function('wP'); # with w_p = x-(u+a)t, w_q = x-(u-a)t, u=p+q: t = (w_q - w_p)/(2a) and w_pq = -t, hence w_pq = (w_p - w_q)/(2a)",
+    "asserts": "Hodograph reduction (isothermal case, normalised so u = p+q): w satisfies the linear equation w_pq = (w_p - w_q)/(2a), to which Riemann's integration method applies."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); f=Function('f')(x,y); P=diff(f,x); Q=diff(f,y); simplify(diff(P,y)-diff(Q,x))",
+    "asserts": "Exact forms are closed (P_q = Q_p), the condition Riemann cites for a vanishing boundary integral (expect 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3: 'so daß v aufhört eine eindeutige Function von p und q zu sein': the letter read as 'v' may stand for the unknown function (w or x, t); unclear from the image.",
+   "The integrands of the two line integrals are probably misread; they should involve w as well as the auxiliary solution v.",
+   "'+ Gleichungen erfüllt' is the completion of the sentence 'diese Bedingungen sind in beiden+', i.e. 'diese Bedingungen sind in beiden Gleichungen erfüllt'.",
+   "'{+ott+}' in line 5 is likely 'oft' or a stray insertion mark rather than a word."
+  ]
+ }
+}

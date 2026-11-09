@@ -1,0 +1,80 @@
+{
+ "bundle": "Math.20",
+ "page": "c104",
+ "label": "52r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000105/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Object of the page: high-precision numerical solution of two complex trinomial-type equations of the family P(x;c) = x^7 - 28x^4 + c = 0. The header 'Zug III' and the previous page show that these are checkpoints on paths ('Züge') in the c-plane, along which Gauss traces the seven roots as continuous functions of c. This amounts to numerical continuation of the algebraic function x(c).\n\nThe two parameter values.\n- Equation 1: c1 = 477.9898987 + B i.\n- Equation 2: c2 = 82.0101013 + B i.\n- The real parts are 280 ± 140*sqrt(2) = 280 ± 197.9898987.\n- From the moduli Gauss records (see below), B must be 80*sqrt(3) = 138.5640646. This equals t = 138,56406 of 'Zug III' on the previous page.\n- Both points lie on the circle |c - 280| = sqrt(58400) = 241.6609. The value 241,6609 also appears as a t-value on the previous page. The arguments seen from the centre 280 are about 35 deg and 145 deg. The marginal '45/135' could not be matched; this is my uncertain observation.\n- Branch points (my addition): P' = 7x^3(x^3 - 16), so the critical c are c = 0 and c = 192*16^(1/3)*omega^k, of modulus about 483.8. The paths therefore wind among genuine branch points. This is a monodromy-type investigation.\n\nFor each equation Gauss lists:\n(a) The seven roots x_k = a_k + b_k i to 7 decimals.\n(b) The polar form x_k = ±r_k e^{i phi_k}, with phi_k in [0,180 deg). 'n' marks that the sign is negative, so the true argument is phi_k + 180 deg. Gauss gives log10 r_k and phi_k to thousandths of an arcsecond.\n(c) Control checks, filled in as follows:\n  - Sum check: since the x^6 coefficient is 0, the sum of the x_k should be 0. He finds +0.0000015 - 0.0000011i and +0.0000012 + 0.0000002i, i.e. rounding error.\n  - Product check, moduli: the product of the x_k equals -c, so sum of log r_k = log10|c| =: log f. He gets 2.6969406 vs 2.6969405, and 2.2068650 vs 2.2068649.\n  - Product check, arguments: the sum of phi_k (mod 180 deg; four 'n' factors give sign +) should equal psi = arg c. He gets 16°9'58.688\" vs 16°9'58.675\", and 59°22'49.937\" vs 59°22'49.937\".\n\nLink to the previous page. Roots x4 = -0.3595483 + 1.5412089i and x6 = -1.5612950 + 2.5724606i of equation 2 are exactly the 5-place values -0.35955 + 1.54121i and -1.56130 + 2.57246i listed at 'III, t = 138.56406' on the previous page. This page thus gives refined values at the path node III.",
+  "errors": [
+   "The imaginary part read as 138,9244399 cannot be right. Gauss's own log f and psi require |c1| = 497.669 and arg c1 = 16.1663 deg, which forces Im c = 138.5640646 = 80*sqrt(3). With 138.9244399 one would get log f = 2.697028 and psi ≈ 16°12'. This is either a transcription misreading or a slip of the pen in the header; the computations themselves use 80*sqrt(3).",
+   "No computational errors found. The sums of roots, sums of logarithms and sums of angles (reduced mod 180 deg) all agree with the listed totals to the last place. The residual discrepancies of 1e-6 in the root sums, 1e-7 in log f and 0.013\" in psi are rounding level.",
+   "Spot check of x7 in equation 2 (Taylor expansion about the real part): x^7 - 28x^4 ≈ -82.05 - 139.3i, against -c2 = -82.01 - 138.56i. This is consistent to the accuracy of the expansion."
+  ],
+  "results": [
+   {
+    "what": "High-precision computation of all 7 complex roots of x^7 - 28x^4 + c = 0 for complex c, with control via Vieta relations (sum of roots, log of product modulus, sum of arguments).",
+    "modern_name": "Numerical root-finding of polynomials with Vieta-type checks",
+    "usually_credited_to": "standard computational practice (Gauss, Encke and others, 19th c.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Tracing the roots of a polynomial as continuous functions of a complex parameter along paths ('Züge') in the parameter plane, which encircle the branch points c = 0 and c = 192*16^(1/3)*omega^k.",
+    "modern_name": "Numerical analytic continuation / monodromy of an algebraic function (Riemann surface of x(c))",
+    "usually_credited_to": "Puiseux (1850), Riemann (1851/1857) for the theory; numerical path-tracking much later",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The page itself is careful routine computation with standard checks. Its context, numerically following roots of x^7 - 28x^4 + c along paths around branch points, is a concrete monodromy experiment. It fits Gauss's known interest in the topology of root curves (FTA proofs, 1849), so it is a notable but not revolutionary unpublished detail. It is undated and gives no theory.",
+  "checkable": [
+   {
+    "sympy": "N(140*sqrt(2),12), N(80*sqrt(3),12)",
+    "asserts": "197.989898732 and 138.564064606, so c = 280 ± 140*sqrt(2) + 80*sqrt(3)*I"
+   },
+   {
+    "sympy": "c=477.9898987+80*sqrt(3)*I; x=-1.9355480-0.1184013*I; N(x**7-28*x**4+c)",
+    "asserts": "approximately 0, i.e. x1 is a root of equation 1 (the residual is small relative to |c| ~ 500)"
+   },
+   {
+    "sympy": "c=82.0101013+80*sqrt(3)*I; x=3.0069214-0.0654138*I; N(x**7-28*x**4+c)",
+    "asserts": "approximately 0, i.e. x7 is a root of equation 2"
+   },
+   {
+    "sympy": "Poly(x**7-28*x**4+477.9898987+138.5640646*I, x).nroots()",
+    "asserts": "the seven roots match the listed x1..x7 of equation 1 to about 1e-6"
+   },
+   {
+    "sympy": "Poly(x**7-28*x**4+82.0101013+138.5640646*I, x).nroots()",
+    "asserts": "the seven roots match the listed x1..x7 of equation 2 to about 1e-6"
+   },
+   {
+    "sympy": "N(log(abs(477.9898987+138.5640646*I),10)), N(atan(138.5640646/477.9898987)*180/pi)",
+    "asserts": "2.6969405 and about 16.16630 deg = 16°9'58.7\", matching log f and psi of equation 1"
+   },
+   {
+    "sympy": "N(log(abs(82.0101013+138.5640646*I),10)), N(atan(138.5640646/82.0101013)*180/pi)",
+    "asserts": "2.2068649 and about 59.38054 deg = 59°22'49.9\", matching equation 2"
+   },
+   {
+    "sympy": "N(log(abs(477.9898987+138.9244399*I),10))",
+    "asserts": "about 2.697028, not 2.6969405; shows 138.9244399 is inconsistent with the page's log f"
+   },
+   {
+    "sympy": "solve(diff(x**7-28*x**4+c,x),x); simplify((-(x**7-28*x**4)).subs(x,16**Rational(1,3)))",
+    "asserts": "critical points x = 0 and x^3 = 16, with branch value c = 192*16^(1/3) ≈ 483.8 (times cube roots of unity)"
+   },
+   {
+    "sympy": "0.2876151+0.3625122+0.5019301+0.3076199+0.2986187+0.4952690+0.4433756",
+    "asserts": "= 2.6969406, the listed sum of log r for equation 1"
+   }
+  ],
+  "transcription_corrections": [
+   "Header of both equations: the imaginary part 138,9244399 should almost certainly be 138,5640646 (= 80*sqrt(3), equal to t of Zug III on the previous page). Either the transcription misread it or Gauss slipped. Either way, it is required by log f and psi.",
+   "The marginal 'Zug III .45\".135\"' is probably 'Zug III, 45°, 135°' (angles in degrees, not seconds). Its exact meaning is uncertain.",
+   "The 'n' after log r means a negative sign (true argument = phi + 180°). This is consistent with the signs of the real parts of x1, x3, x5, x7 in both equations."
+  ]
+ }
+}

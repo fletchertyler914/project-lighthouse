@@ -1,0 +1,71 @@
+{
+ "bundle": "Math.1",
+ "page": "c011",
+ "label": "[6v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000012/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is one sheet of a large hand-drawn table of quadratic characters. The previous page (sheet (11)) has the same rows with columns 367–503. The next page has columns 661–827.\n\nLayout:\n- Rows: primes p from 191 to 433, in blocks of seven: 191–227 | 229–263 | 269–307 | 311–349 | 353–389 | 397–433.\n- Columns: primes q from 509 to 659, listed at top and bottom, with heavier rules after 557 and after 593.\n\nWhat a circle means. A small circle in cell (p,q) marks that the column prime q is a quadratic residue modulo the row prime p, i.e. the Legendre symbol (q/p) = +1. An empty cell means (q/p) = -1. This is my identification; I checked it against the image (my own work below).\n\nRow 199:\n- 509 ≡ 111 = 3·37 gives (3/199)(37/199) = (-1)(-1) = +1: circle.\n- 521 ≡ 123 = 3·41 gives (-1)(-1) = +1: circle.\n- 523 ≡ 125 = 5^3 gives (5/199) = +1: circle.\n- 541 ≡ 143 = 11·13 gives (-1)(+1) = -1: blank.\n- 557 ≡ 159 = 3·53 gives -1: blank.\n- 599 ≡ 2 gives +1 (199 ≡ 7 mod 8): circle.\n\nRow 193: q mod 193 for 523, 547, 563, 571, 577, 587, 593, 607, 641, 643 is 137, 161, 177, 185, 191, 8, 14, 28, 62, 64. All are residues, and these are exactly the circled cells. The cells 509, 521, 541, 557, 569, 599, 601, 613, 617, 619, 631, 647, 653, 659 are non-residues and blank.\n\nRow 191: circles at 593 (≡20), 599 (≡26), 659 (≡86) are residues. Blanks at 509 (≡127) and 521 (≡139) are non-residues.\n\nOrientation of the symbol. Rows 191 and 199 are ≡ 3 mod 4, and so are columns 523, 599 and 659. There (q/p) = -(p/q). The circles agree with (q/p) = +1, not (p/q) = +1. So the table records 'column prime is a residue of row prime'.\n\nThe connecting lines. Horizontal and vertical strokes join circles in adjacent cells, i.e. residues for consecutive primes along a row or down a column. This is a purely graphical device. It seems to make visible the clusters and runs of residue pairs (an empirical look at the distribution of quadratic characters). No arithmetic is written on the page.\n\nOther marks. The red '12' is a later sheet number. The short red ticks along the top rows look like ruling or check marks.\n\nPurpose (inferred). Empirical tabulation of the quadratic character of primes with respect to primes, of the kind Gauss used in his inductive study of quadratic reciprocity and residue distribution (compare the residue table in Disquisitiones Arithmeticae).",
+  "errors": [
+   "No arithmetic errors found in the cells I checked. About 30 cells in rows 191, 193 and 199 all agree with (q/p) = +1. A full cell-by-cell audit of the page was not possible from the image."
+  ],
+  "results": [
+   {
+    "what": "Table marking, for primes p in [191,433] and q in [509,659], whether q is a quadratic residue mod p (circle iff (q/p) = +1). Adjacent residue cells are joined by lines.",
+    "modern_name": "Table of Legendre symbols / quadratic residue table (quadratic character matrix)",
+    "usually_credited_to": "Tables of quadratic residues: Gauss (Disquisitiones Arithmeticae 1801, Table II), Legendre; later extended by Jacobi (Canon Arithmeticus 1839) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Graphical linking of adjacent residue cells into chains and squares, to visualise the clustering of quadratic characters",
+    "modern_name": "Visual / empirical study of the distribution of the quadratic character (cf. 'random-like' behaviour of Legendre symbols)",
+    "usually_credited_to": "unsure",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's extensive hand-computed residue tables are well known from the Nachlass and his published work. The connecting-line visualisation is a minor curiosity, not a new result.",
+  "checkable": [
+   {
+    "sympy": "legendre_symbol(523,199) == 1",
+    "asserts": "Circle at row 199, column 523."
+   },
+   {
+    "sympy": "legendre_symbol(199,523) == -1",
+    "asserts": "Shows the table records (q/p), not (p/q), since both primes are ≡ 3 mod 4."
+   },
+   {
+    "sympy": "legendre_symbol(541,199) == -1",
+    "asserts": "Blank at row 199, column 541."
+   },
+   {
+    "sympy": "legendre_symbol(599,199) == 1",
+    "asserts": "Circle at row 199, column 599."
+   },
+   {
+    "sympy": "[q for q in [509,521,523,541,547,557,563,569,571,577,587,593,599,601,607,613,617,619,631,641,643,647,653,659] if legendre_symbol(q,193)==1] == [523,547,563,571,577,587,593,607,641,643]",
+    "asserts": "The circled cells in row 193 are exactly the residues."
+   },
+   {
+    "sympy": "legendre_symbol(593,191) == 1 and legendre_symbol(599,191) == 1 and legendre_symbol(659,191) == 1",
+    "asserts": "Circles at row 191, columns 593, 599, 659."
+   },
+   {
+    "sympy": "legendre_symbol(509,191) == -1 and legendre_symbol(521,191) == -1",
+    "asserts": "Blanks at row 191, columns 509, 521."
+   },
+   {
+    "sympy": "legendre_symbol(191,659) == -1",
+    "asserts": "Orientation check for row 191: circle present although (p/q) = -1."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription should state the meaning of the circles: a circle at (row p, column q) means q is a quadratic residue mod p, i.e. Legendre symbol (q/p) = +1.",
+   "Row 193 circles are at columns 523, 547, 563, 571, 577, 587, 593, 607, 641, 643.",
+   "Row 199 circles are at columns 509, 521, 523, 599, 601, 607, 613, 617, 643, 647, 653, 659.",
+   "The top-left circled '(12)' is the sheet number, and the red '12' in the centre is a later foliation mark. Faint red tick marks run across the rows near 191 and 227/229."
+  ]
+ }
+}

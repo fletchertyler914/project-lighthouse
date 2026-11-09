@@ -1,0 +1,110 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c125",
+ "label": "63v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000126/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Overall purpose (my interpretation): the page computes sqrt(2), and especially 1/sqrt(2) = 0.70710678118654752440..., to about 18 decimals. It does this in two ways: by long division with multiples of sqrt(2), and by a logarithm/exponential detour through high-precision natural logarithms (ln 707, ln 1000, ln 2, ln 577, ln 408). Comparing the results tests the accuracy of the logarithm values. It is the sqrt(2) counterpart of the neighbouring pages. The previous page has rational and Egyptian-fraction-type approximations to sqrt(5). The next page checks sqrt(5) against 51841/23184 = 47*1103/(144*161) with 20-digit logs: ln47 + ln1103 - ln23184 compared with (1/2)ln5.\n\n(A) Top left. sqrt(2) = 1.41421356237309505 (correctly rounded). Below it is a table of multiples:\n- 4*sqrt2 = 5.65685424949\n- 2*sqrt2 = 2.828427124746\n- 3*sqrt2 = 4.242640687119\n- sqrt2/2 = 0.7071067811865\n- 6*sqrt2 = 8.485281374238\n- 7*sqrt2 = 9.899494936611\n\nThese feed long divisions whose divisor is 2*sqrt2 = 2.828427124746. The subtrahends are 0.5, 4, 8, 7, 6, 7 times 2*sqrt2 (14.142..., 11.3137085, 22.627417, 19.79899, 16.9706, 19.799). The central division is 1.4280167644/2.8284271247 = 0.5048767... The left-column division, with subtrahends 25.4558441227 = 9*(2*sqrt2), 16.97056 = 6*(2*sqrt2), and so on, is the same kind of operation. The exact dividends are not fully legible.\n\n(B) Top centre. 1/7 = 0.142857..., 1/49 = 0.0204081632653061224489795918367..., and 1.0102040816 = 99/98 = 1 + 1/98. These are connected with the convergent 99/70 of sqrt2, since (99/70)^2 = 2*(9801/9800).\n\n(C) Small series (centre). ln(1.0001) = 10^-4 - 5*10^-9 + 3.333...*10^-13 - 2.5*10^-17 = 0.0000999950003333308. ln(1.00005) = 5*10^-5 - 1.25*10^-9 + 4.1667*10^-14 - 1.5625*10^-18 = 0.0000499987500416656.\n\n(D) Main computation (left column, repeated and corrected in the right column).\n- ln 707 = ln7 + ln101 = 6.56103066589657275599.\n- ln 1000 = 6.90775527898213705205.\n- So ln 0.707 = -0.34672461308556429606.\n- -(1/2)ln2 = -0.34657359027997265471.\n- Difference: x := ln(1/sqrt2) - ln(0.707) = 0.000151022805591641.\n- Split x = ln(1.0001) + ln(1.00005) + x', which gives x - ln1.0001 = 0.0000510278052583... and x' ≈ 1.02905521664*10^-6.\n- Then e^x' = 1 + x' + x'^2/2 = 1.0000010290557461...\n- The square x'^2 ≈ 1.058954*10^-12 is computed at upper right (29055, 58110, ... 1058 95463), so x'^2/2 ≈ 5.29*10^-13.\n- Multiply successively by 1.00005: 1.0000510291071989...\n- Then by 1.0001: 1.00015103421011...\n- Then by 0.707, done as 0.7*F + 0.007*F: 0.70010572394707676 + 0.0070010572394707676 = 0.7071067811865475..., which equals 1/sqrt2.\n- The middle block (1028056257666, doubled 2056112515333, ..., 1056899668 5, 528449) is a long multiplication squaring a first, slightly wrong value of x' (1.02805...), giving x'^2/2.\n\n(E) Lower left. Convergents of sqrt2: the Pell numbers 1, 2, 5, 12, 29, 70, 169, 408, 985, 2378 and 1, 3, 7, 17, 41, 99, 239, 577, 1393, 3363. Then:\n- ln577 = 6.35784226650809956148.\n- ln408 = 6.01126717440416169970.\n- Difference 0.34657509210393786158.\n- Subtracting (1/2)ln2 leaves 0.00000150182396520687.\n- This equals (1/2)ln(1 + 1/332928), since 577^2 - 2*408^2 = 1. It is a consistency check of ln2, ln577 (577 prime) and ln408 = 3ln2 + ln3 + ln17.",
+  "errors": [
+   "The left-column version of the exponential correction contains a slip of about 1e-12 in x' (or in e^x'). The resulting product 1.00015103421099... is too large by about 9e-13, and the left result for 1/sqrt2 is off at the 13th decimal. Riemann redid the computation in the right column, where x' ≈ 1.0290552166e-6, e^x' = 1.0000010290557461 and 1.0000051029107199 are correct.",
+   "The first trial value 1.0280562576... of x' squared in the middle block appears to be a mis-subtraction that was later abandoned.",
+   "In the central long division by 2*sqrt2, 24894935 - 22627417 is 2267518, not 2271518 as transcribed. This is either a small arithmetic slip or a misreading; it is uncertain."
+  ],
+  "results": [
+   {
+    "what": "High-precision 1/sqrt2 via ln707 - ln1000 + (1/2)ln2 and factorization exp(x) = 1.0001*1.00005*exp(x')",
+    "modern_name": "Logarithmic/exponential evaluation with argument reduction (checking a table of natural logarithms)",
+    "usually_credited_to": "Standard 17th-19th c. table-making technique (Briggs, Napier tradition)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Pell numbers / convergents p/q of sqrt2 up to 3363/2378 and the check ln577 - ln408 - (1/2)ln2 = (1/2)ln(1+1/332928)",
+    "modern_name": "Continued fraction convergents of sqrt2, Pell equation p^2 - 2q^2 = ±1",
+    "usually_credited_to": "Ancient (Theon of Smyrna), Brouncker/Euler/Lagrange",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Series for ln(1.0001), ln(1.00005)",
+    "modern_name": "Mercator series for ln(1+x)",
+    "usually_credited_to": "Mercator 1668",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Decimal expansions 1/7, 1/49, 99/98",
+    "modern_name": "Periodic decimal expansion",
+    "usually_credited_to": "folklore",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is purely numerical scratch work: checking 20-digit natural logarithms through the known value of sqrt2, using elementary series and Pell convergents. It is routine. Its only interest is as evidence of Riemann's high-precision log computations in the Primzahlen papers, probably for his numerical prime-counting work.",
+  "checkable": [
+   {
+    "sympy": "N(log(707),22)",
+    "asserts": "ln707 ≈ 6.56103066589657275599"
+   },
+   {
+    "sympy": "N(log(1000),22)",
+    "asserts": "ln1000 ≈ 6.90775527898213705205"
+   },
+   {
+    "sympy": "N(log(2)/2,22)",
+    "asserts": "(1/2)ln2 ≈ 0.34657359027997265471"
+   },
+   {
+    "sympy": "N(log(sqrt(2)/2)-log(Rational(707,1000)),20)",
+    "asserts": "x ≈ 0.000151022805591641"
+   },
+   {
+    "sympy": "N(log(Rational(10001,10000)),20)",
+    "asserts": "ln1.0001 ≈ 0.0000999950003333308"
+   },
+   {
+    "sympy": "N(log(sqrt(2)/2)-log(Rational(707,1000))-log(Rational(10001,10000))-log(Rational(100005,100000)),15)",
+    "asserts": "x' ≈ 1.02905521664e-6"
+   },
+   {
+    "sympy": "N(Rational(707,1000)*Rational(10001,10000)*Rational(100005,100000)*exp(log(sqrt(2)/2)-log(Rational(707,1000))-log(Rational(10001,10000))-log(Rational(100005,100000))) - sqrt(2)/2, 30)",
+    "asserts": "The factorization reproduces 1/sqrt2 exactly (difference 0)"
+   },
+   {
+    "sympy": "N(log(577)-log(408)-log(2)/2,20)",
+    "asserts": "≈ 0.00000150182396520687"
+   },
+   {
+    "sympy": "577**2-2*408**2",
+    "asserts": "= 1, so the previous difference equals log(1+1/332928)/2"
+   },
+   {
+    "sympy": "3363**2-2*2378**2",
+    "asserts": "= -1 (Pell convergent)"
+   },
+   {
+    "sympy": "N(Rational(1,49),32)",
+    "asserts": "0.0204081632653061224489795918367..."
+   },
+   {
+    "sympy": "N(Rational(14280167644,10**10)/(2*sqrt(2)),10)",
+    "asserts": "Central long division ≈ 0.5048767"
+   },
+   {
+    "sympy": "N(log(47)+log(1103)-log(23184)-log(5)/2,20)",
+    "asserts": "Context (next page): ≈ 1.86047e-11"
+   }
+  ],
+  "transcription_corrections": [
+   "'0,00015102280 6592 64135' should read 0,00015102280559164135 (the difference of the two logs)",
+   "'0,000002999500 0333 30834' is ln(1.0001) = 0,0000999950003333 30834",
+   "'5,1027805258 33301' is x - ln1.0001 = 0,0000510278052583...",
+   "'0,000000,10280561216 6791' / '0,00000 1029 0 5521 666791' is x' ≈ 0,00000102905521666...",
+   "'1,0000001029055746145 41' should be 1,0000010290557461454 1",
+   "Right-column final product is 1,000151034210(1)... and the result 0,707106781186547521..., with 4752440 (true tail of 1/sqrt2) written below",
+   "The lower-left log block is ln577 = 6,35784..., ln408 = 6,01126..., difference minus (1/2)ln2 = 0,00000150182396520687"
+  ]
+ }
+}

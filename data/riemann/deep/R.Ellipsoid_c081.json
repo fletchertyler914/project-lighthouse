@@ -1,0 +1,57 @@
+{
+ "bundle": "R.Ellipsoid",
+ "page": "c081",
+ "label": "36v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205083:00000082/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Riemann's paper on the motion of a homogeneous fluid ellipsoid (Abh. Ges. Wiss. Göttingen 9, 1861). The page closes the 'first case', in which one pair of quantities (u, u') vanishes, so that the vectors describing the motion lie in the principal plane perpendicular to the axis a. The next page begins 'Zweiter Fall'. The page only states results; no derivation is written out.\n\nSetting (modern). Ellipsoid x^2/a^2 + y^2/b^2 + z^2/c^2 = 1. Riemann's internal motions keep the boundary fixed and are linear. Put xi = (x/a, y/b, z/c). In xi-space the internal motion is a uniform rigid rotation of the unit ball with angular vector nu = (0, q, r), which lies in the plane perpendicular to the a-axis. In physical space the velocity is v_i = a_i (nu x xi)_i.\n\nClaim 1 (planes of the orbits). In xi-space the orbits are circles in the planes q*eta + r*zeta = const. Mapped back, these are the planes q*y/b + r*z/c = const. The tangent plane at a surface point (0, y0, z0) is y*y0/b^2 + z*z0/c^2 = 1. Parallelism requires (y0/b^2, z0/c^2) proportional to (q/b, r/c). Normalising onto the ellipsoid gives the point (0, b q/sqrt(q^2+r^2), c r/sqrt(q^2+r^2)). This is the point named in the text. [Normalisation step mine.]\n\nClaim 2 (period). The motion in xi-space has angular speed |nu| = sqrt(q^2+r^2), so every particle completes its orbit in 2*pi/sqrt(q^2+r^2).\n\nClaim 3 (orbits and area law). An affine image of a circle is an ellipse. The circle centres lie on the line xi proportional to nu. Their physical images lie on the diameter through (0, b q, c r), i.e. the diameter conjugate to the orbit planes. The affine map multiplies all areas in a given plane by a constant factor. Therefore uniform circular motion maps to elliptic motion in which the radius vector from the centre sweeps equal areas in equal times. [Justification mine.]\n\nClaim 4 (axis). The text identifies this line of centres with the instantaneous rotation axis. The tangent of its angle with the c-axis is then (b q)/(c r), matching the stated value '(q/r)(b/c)'. The text also states the revolution time 2*pi/sqrt(q^2+r^2).\n\nThis characterises the motions now called Riemann ellipsoids, in which the rotation and the internal vorticity lie in a principal plane.",
+  "errors": [
+   "Possible inconsistency or transcription problem. If the rigid rotation axis has direction (0, b q, c r) and the same q, r define the internal motion, then a revolution time of 2*pi/sqrt(q^2+r^2) for the rigid rotation does not follow automatically. The angular-velocity magnitude of the figure is a separate parameter in Riemann's theory. Either different letters (e.g. q', r') were meant, or the last clause repeats the orbital period. This cannot be decided from the image.",
+   "No derivation is given on the page; all claims are stated without proof. They are correct under the reconstruction above."
+  ],
+  "results": [
+   {
+    "what": "In the first case (rotation axis in a principal plane), fluid particles move on ellipses in planes parallel to the tangent plane at (0, b q/sqrt(q^2+r^2), c r/sqrt(q^2+r^2)). The period is 2*pi/sqrt(q^2+r^2), and the area law holds about centres on a fixed diameter.",
+    "modern_name": "Internal (vortical) motion of Riemann ellipsoids; affine image of rigid rotation (Dirichlet–Dedekind–Riemann linear flows)",
+    "usually_credited_to": "Riemann 1861 (building on Dirichlet 1857/1860 and Dedekind)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Tangent of the angle between the c-axis and the rotation axis equals b q/(c r)",
+    "modern_name": "Inclination of the rotation axis for Riemann ellipsoids of types II/III",
+    "usually_credited_to": "Riemann 1861; modern treatment Chandrasekhar, Ellipsoidal Figures of Equilibrium (1969)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of material in Riemann's published 1861 paper on the fluid ellipsoid. It is a geometric description of the internal motion, which is well known as his work.",
+  "checkable": [
+   {
+    "sympy": "b,c,q,r,t=symbols('b c q r t',positive=True); N=sqrt(q**2+r**2); y0=b*q/N; z0=c*r/N; simplify(y0**2/b**2+z0**2/c**2-1)",
+    "asserts": "The stated point lies on the ellipsoid (result 0)."
+   },
+   {
+    "sympy": "simplify((y0/b**2)*(r/c)-(z0/c**2)*(q/b))",
+    "asserts": "The tangent-plane normal at that point (y0/b^2, z0/c^2) is parallel to the orbit-plane normal (q/b, r/c) (result 0)."
+   },
+   {
+    "sympy": "R=Matrix([[0,-r,q],[r,0,0],[-q,0,0]]); simplify((R**2+(q**2+r**2)*eye(3))*Matrix([0,q,r]))",
+    "asserts": "nu=(0,q,r) spans the kernel of R. R^2 = -|nu|^2 on the orthogonal complement, so the motion has angular speed sqrt(q^2+r^2) and period 2*pi/sqrt(q^2+r^2)."
+   },
+   {
+    "sympy": "simplify(atan((b*q)/(c*r)) - atan2(b*q, c*r))",
+    "asserts": "The angle between the c-axis and the direction (0, b q, c r) has tangent b q/(c r) (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'beide innere Bewegung' should read 'bei der inneren Bewegung'.",
+   "'zur Hauptlage a' should read 'zur Hauptaxe a'. The subject 'diese Hauptaxe' is probably 'diese Rotationsaxe' or 'Hauptebene' (uncertain).",
+   "The point is likely (0, b q/sqrt(q^2+r^2), c r/sqrt(q^2+r^2)), not (0, b u/theta_1, c u/theta_1).",
+   "'nach ihnen von der augenblicklichen Rotationsaxe gelegenen Mittelpunkten' should read 'nach ihnen von den in der augenblicklichen Rotationsaxe gelegenen Mittelpunkten'.",
+   "The tangent value reads more plausibly as (q b)/(r c) (angle with the c-axis); the singular 'Hauptaxe' is likely meant."
+  ]
+ }
+}

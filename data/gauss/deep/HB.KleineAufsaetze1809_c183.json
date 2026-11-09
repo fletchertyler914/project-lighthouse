@@ -1,0 +1,56 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c183",
+ "label": "[174]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000184/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is Gauss's note on the linking integral, dated 22 January 1833. It is printed in Werke V, p. 605; the pencil shelf-mark 'Gd. V 605' at top left refers to this.\n\n(a) Historical preamble. Gauss writes that of the geometria situs that Leibniz anticipated, and into which only a couple of geometers (Euler and Vandermonde) were permitted a weak glance, 'we know and have, after a century and a half, still not much more than nothing.' The background is Leibniz's analysis situs (c. 1679), Euler's Königsberg bridges (1736) and Vandermonde's paper on knots (1771). Gauss then names a main problem from the border region between geometria situs and geometria magnitudinis: to count the windings ('Umschlingungen') of two closed or infinite curves.\n\n(b) Formula. Let r = (x,y,z) run over curve C and r' = (x',y',z') over curve C'. Gauss defines\n\nV = ∮_C ∮_{C'} [ (x'-x)(dy dz' - dz dy') + (y'-y)(dz dx' - dx dz') + (z'-z)(dx dy' - dy dx') ] / [ (x'-x)^2 + (y'-y)^2 + (z'-z)^2 ]^{3/2}.\n\nIn vector form this is V = ∮∮ (r'-r)·(dr × dr') / |r'-r|^3. The components of dr × dr' are exactly (dy dz' - dz dy', dz dx' - dx dz', dx dy' - dy dx'), matching the manuscript.\n\n(c) Claims. Gauss asserts two things:\n- Taken over both curves, the integral equals (a multiple of π times) m, where m is the number of windings.\n- The value is 'gegenseitig' (reciprocal): it is unchanged when the two curves are interchanged.\n\n(d) Implicit justification (my addition; not on the page). The page connects naturally with the previous page on the mutual action of current elements.\n- The inner integral ∮_C (r'-r) × dr / |r'-r|^3 is, up to sign, the Biot–Savart field B(r') of a unit current on C, i.e. the gradient of the solid angle Ω(r') subtended by C.\n- Then V = ±∮_{C'} ∇Ω·dr'. Ω jumps by 4π each time r' crosses a surface spanned by C.\n- Hence V = 4π·Lk(C,C'), with sign fixed by the orientations.\n\nModern form: Lk = (1/4π)∮∮ (r-r')·(dr×dr')/|r-r'|^3.\n\n(e) Symmetry check (mine). Interchanging primed and unprimed variables gives (r-r')·(dr'×dr) = (-(r'-r))·(-(dr×dr')) = (r'-r)·(dr×dr'). So the integrand, and hence V, is symmetric, as Gauss says.",
+  "errors": [
+   "Normalization: the integral equals 4π·Lk, where Lk is the linking number (±1 for a simple Hopf link). As it reads on the image ('= mπ'), m would be 4 times the linking number. The Werke edition prints '= 4mπ'. There is a small mark before the '=' sign on the page, which may be a faint or lost '4'. If Gauss really wrote mπ, it is a slip by a factor of 4; if he wrote 4mπ, the statement is correct.",
+   "No proof is given, and orientation and sign conventions are not stated. With oriented curves the value is a signed count, ±4π per linking, so m is an algebraic rather than absolute number of windings. This is an omission, not an error.",
+   "For 'infinite' (unbounded) lines, convergence and the meaning of the winding count need additional conditions at infinity. These are not discussed."
+  ],
+  "results": [
+   {
+    "what": "Double line-integral formula for the number of windings (linking number) of two closed curves in space, and its symmetry under interchanging the curves",
+    "modern_name": "Gauss linking integral / Gauss linking number formula",
+    "usually_credited_to": "Gauss (1833, this note; published posthumously in Werke V, 1867). Later work by Maxwell (1873), and topological treatments of the linking number by Listing, Poincaré, and others.",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Programmatic remark on geometria situs (topology), citing Leibniz, Euler and Vandermonde, and posing the problem of counting windings of curves",
+    "modern_name": "Early statement of a problem in knot/link theory (analysis situs)",
+    "usually_credited_to": "Gauss's remark is well known and widely quoted in histories of topology (e.g., Epple 1998; Ricca & Nipoti 2011)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the famous, published (Werke V, 605) and extensively studied Gauss linking-number note of 22 Jan 1833. It is fully credited to Gauss; the only open detail is the factor 4 in the normalization as written.",
+  "checkable": [
+   {
+    "sympy": "t,s=symbols('t s',real=True); r1=Matrix([cos(t),sin(t),0]); r2=Matrix([1+cos(s),0,sin(s)]); d1=r1.diff(t); d2=r2.diff(s); f=((r2-r1).dot(d1.cross(d2)))/((r2-r1).dot(r2-r1))**Rational(3,2); V=Integral(Integral(f,(t,0,2*pi)),(s,0,2*pi)).evalf()",
+    "asserts": "For a Hopf link (two unit circles, each passing through the other once), V ≈ ±12.566 = ±4π, i.e. V = 4π·Lk with Lk = ±1."
+   },
+   {
+    "sympy": "t,s=symbols('t s',real=True); r1=Matrix([cos(t),sin(t),0]); r2=Matrix([3+cos(s),0,sin(s)]); d1=r1.diff(t); d2=r2.diff(s); f=((r2-r1).dot(d1.cross(d2)))/((r2-r1).dot(r2-r1))**Rational(3,2); Integral(Integral(f,(t,0,2*pi)),(s,0,2*pi)).evalf()",
+    "asserts": "For two unlinked circles the integral is ≈ 0."
+   },
+   {
+    "sympy": "x,y,z,X,Y,Z,dx,dy,dz,dX,dY,dZ=symbols('x y z X Y Z dx dy dz dX dY dZ'); N=(X-x)*(dy*dZ-dz*dY)+(Y-y)*(dz*dX-dx*dZ)+(Z-z)*(dx*dY-dy*dX); Nswap=N.subs({x:X,X:x,y:Y,Y:y,z:Z,Z:z,dx:dX,dX:dx,dy:dY,dY:dy,dz:dZ,dZ:dz},simultaneous=True); simplify(N-Nswap)",
+    "asserts": "The integrand numerator is symmetric under interchange of the two curves (result 0); the denominator is obviously symmetric. This is Gauss's 'gegenseitig'."
+   },
+   {
+    "sympy": "x,y,z,X,Y,Z,dx,dy,dz,dX,dY,dZ=symbols('x y z X Y Z dx dy dz dX dY dZ'); N=(X-x)*(dy*dZ-dz*dY)+(Y-y)*(dz*dX-dx*dZ)+(Z-z)*(dx*dY-dy*dX); simplify(N - Matrix([X-x,Y-y,Z-z]).dot(Matrix([dx,dy,dz]).cross(Matrix([dX,dY,dZ]))))",
+    "asserts": "The manuscript numerator equals (r'-r)·(dr×dr') (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The value line is transcribed '= mπ'. The image shows a small mark before the '=' sign, and the Werke edition (V, 605) reads '= 4mπ'. The reading should be flagged as uncertain: possibly '4mπ' with a faint '4'.",
+   "'[-von-] [-der-] nur einem Paar Geometern': on the image 'von' is struck through and 'der' is possibly altered (perhaps 'die'). The intended sense is 'und der nur einem Paar Geometern ... einen schwachen Blick zu thun vergönnt war'.",
+   "Shelf-mark at top left: 'Gd. V 605' (Gauss Werke vol. V p. 605). It is not part of the text."
+  ]
+ }
+}

@@ -1,0 +1,60 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c202",
+ "label": "193",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000203/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two unrelated items.\n\n(A) Header note, with a pointing-hand sign. 'Fläche / Linie / Punkt } gemeinschaftliche Grenze v. { zwei / drei / vier } Raumes' means: a surface is the common boundary of two regions of space, a line of three, a point of four. This is a remark on how a generic partition of 3-space into cells meets. Where two cells touch they share a face. Three cells meet generically along an edge, and four meet at a vertex, as in a tetrahedral or soap-froth partition. In modern terms, in a generic cell decomposition of R^3 a stratum of dimension 3-j is the common boundary of j+1 cells (j = 1, 2, 3). The note is purely qualitative, with no derivation.\n\n(B) Main text: 'Grundgesetz für alle Wechselwirkungen galvanischer Ströme, gef[unden] im Jul[i] 1835' (fundamental law for all interactions of galvanic currents, found July 1835). Gauss states the following.\n- Two elements of electricity in relative motion attract or repel each other differently than when they are at relative rest.\n- Let e at (x,y,z) and e' at (x',y',z') be the two elements, with r^2 = (x'-x)^2 + (y'-y)^2 + (z'-z)^2.\n- The mutual action, counted positive as repulsion, is\n  F = (e e'/r^2) * [ 1 + k ( |d(r'-r_vec)/dt|^2 - (3/2)(dr/dt)^2 ) ].\n- That is, F = (e e'/r^2)[1 + k(v^2 - (3/2) rdot^2)], with v the relative velocity and rdot = (Δx·Δv)/r its radial component.\n- 1/sqrt(k) represents a definite velocity.\n- Equivalently, v^2 - (3/2)rdot^2 = v_perp^2 - (1/2) rdot^2, where v_perp is the transverse relative speed.\n\nThe force is directed along the joining line. It depends on velocities only, not on accelerations; Weber's 1846 law does contain the acceleration r*rddot.\n\nPurpose (my reconstruction, consistent with the next page, f.194): to derive Ampère's force between current elements from a law between moving charges. Assume a Fechner-type picture: in element ds, charges +e move with velocity a and -e with velocity -a; in ds', +e' moves with b and -e' with -b. Let n be the unit vector from P to P'. Sum over the four pairs with sign factors s*t (s, t = ±1) and relative velocity t*b - s*a.\n- The constant terms cancel.\n- The squared term contributes Σ s t (a^2 + b^2 - 2 s t a·b) = -8 a·b.\n- The radial term contributes -(3/2)·(-8)(n·a)(n·b) = +12 (n·a)(n·b).\n- The net repulsion is therefore -8k (e e'/r^2)[a·b - (3/2)(n·a)(n·b)].\n- This is an attraction proportional to (ds ds'/r^2)(cos ε - (3/2) cos θ cos θ'), which is Ampère's formula.\n\nOn f.194 Gauss writes this as (cos u + (3/2) cos q cos q')/r^2. There q' is measured from P'P instead of PP', so cos q' = -cos θ', and the two forms agree. That page then proceeds to the force on ds from a closed circuit.",
+  "errors": [
+   "No mathematical error on this page; the law is stated, not derived.",
+   "Physical caveat, not a slip: a velocity-dependent central force of this form is not derivable from a velocity-dependent potential in the usual way. Maxwell (Treatise, Art. 851–852) criticized Gauss's formula as inconsistent with energy conservation. Gauss himself abandoned publishing it and looked for a law with propagation in time (letter to Weber, 1845).",
+   "The header note on boundaries is stated without qualification. It is true only for generic partitions; four or more cells can meet along a line in degenerate cases."
+  ],
+  "results": [
+   {
+    "what": "Velocity-dependent force between moving charge elements: F = ee'/r^2 [1 + k(v^2 - 3/2 rdot^2)], with 1/sqrt(k) a characteristic velocity, found July 1835",
+    "modern_name": "Gauss's law of electrodynamic force (Gauss's formula), a precursor of Weber's law",
+    "usually_credited_to": "C. F. Gauss, 1835 (unpublished; printed posthumously in Werke V, 1867, p. 616); Weber's related law 1846",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Implicit reduction to Ampère's law for current elements, (cos ε - 3/2 cos θ cos θ')/r^2, by summing over oppositely moving charges (made explicit on f.194)",
+    "modern_name": "Derivation of Ampère's force law from a charge-interaction law (Fechner hypothesis)",
+    "usually_credited_to": "Gauss 1835 (Nachlass), Weber 1846 (published)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Surface, line and point as the common boundary of 2, 3 and 4 regions of space",
+    "modern_name": "Generic incidence in cell decompositions / dimension of boundary strata",
+    "usually_credited_to": "folklore; later analysis situs",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is exactly the well-known 1835 'Grundgesetz' printed in Gauss's Werke V p. 616 (the pencil note 'V p 616' refers to that edition) and discussed by Maxwell. It is famous and already attributed to Gauss. The boundary remark is elementary.",
+  "checkable": [
+   {
+    "sympy": "a1,a2,a3,b1,b2,b3,n1,n2,n3,k=symbols('a1 a2 a3 b1 b2 b3 n1 n2 n3 k'); a=Matrix([a1,a2,a3]); b=Matrix([b1,b2,b3]); n=Matrix([n1,n2,n3]); F=lambda v: 1+k*(v.dot(v)-Rational(3,2)*(n.dot(v))**2); expand(sum(s*t*F(t*b-s*a) for s in (1,-1) for t in (1,-1)) + 8*k*(a.dot(b)-Rational(3,2)*n.dot(a)*n.dot(b)))",
+    "asserts": "Equals 0: summing Gauss's law over ± charges moving oppositely in two elements gives -8k[a·b - 3/2 (n·a)(n·b)], i.e. Ampère's element force."
+   },
+   {
+    "sympy": "X,Y,Z,U,V,W=symbols('X Y Z U V W'); r=sqrt(X**2+Y**2+Z**2); rdot=(X*U+Y*V+Z*W)/r; simplify((U**2+V**2+W**2-Rational(3,2)*rdot**2) - ((U**2+V**2+W**2-rdot**2) - rdot**2/2))",
+    "asserts": "Equals 0: the bracket v^2 - 3/2 rdot^2 equals v_perp^2 - 1/2 rdot^2, where (X,Y,Z) = Δx and (U,V,W) = Δv."
+   },
+   {
+    "sympy": "t=symbols('t'); x=Function('x')(t); y=Function('y')(t); z=Function('z')(t); r=sqrt(x**2+y**2+z**2); simplify(diff(r,t) - (x*diff(x,t)+y*diff(y,t)+z*diff(z,t))/r)",
+    "asserts": "Equals 0: dr/dt is the radial component of the relative velocity, as used in the law."
+   }
+  ],
+  "transcription_corrections": [
+   "The pencil reference reads 'V p 616' (Gauss Werke vol. V, p. 616), not 'I p 616'. Likewise the next page's 'X p 617' should be 'V p 617'.",
+   "'galvanischer Strome' should read 'galvanischer Ströme' (umlaut dots faint).",
+   "'gef. im Jul. 1835' = 'gefunden im Juli 1835'.",
+   "In the formula the outer bracket encloses the whole of 1 + k{...}; the -3/2(dr/dt)^2 term sits inside the k-brace, as the machine transcription has it."
+  ]
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c118",
+ "label": "60r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000119/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is part of the minimal-surface material in Riemann's Nachlass, corresponding to the posthumous paper 'Über die Fläche vom kleinsten Inhalt bei gegebener Begrenzung' (1867, edited by Hattendorff). The page header 'Seite 28' and '(2' suggest a fair copy or elaboration rather than a first draft.\n\nThe page continues an argument from an earlier page. Some function k_1(v) is given; v is the variable in which an earlier equation is written. One now passes to a new independent variable t, with v = v(t).\n\n(a) Change of variable. The displayed fraction (v' k'' - k' v'')/(v')^3, where ' = d/dt, is exactly d^2k/dv^2 expressed in t. [My step] dk/dv = k'/v'. Differentiating once more gives d/dv(k'/v') = (1/v')·(k''v' - k'v'')/v'^2 = (v'k'' - k'v'')/v'^3.\n\n(b) Equation (15). The equation d^2k/dv^2 - (k_1^{-1} d^2k_1/dv^2)·k = 0 is multiplied by (dv/dt)^3. This gives\nv' k'' - v'' k' - v'^3 {k_1^{-1} d^2k_1/dv^2} k = 0.\nIt is a second-order linear ODE in t. By construction k = k_1 is one solution. The bracket {...} is a coefficient q(v) = k_1''(v)/k_1(v), regarded as a function of t through v(t).\n\n(c) Ratio of solutions. Let K_1, K_2 be two independent particular solutions of (15) that also satisfy the earlier equation (13), not on this page. Put H = K_2/K_1.\n\n(d) Formula (16). The general η is set to η = e^{iθ}(α - H)/(1 + α'H), where α' is the complex conjugate of α. The matrix [[-1, α], [ᾱ, 1]] satisfies M M* = (1+|α|^2) I. So it is a scalar times a unitary matrix, and the map is a rotation of the Riemann sphere. Composing with the rotation e^{iθ} still gives a rotation. This is a three-real-parameter family (θ, Re α, Im α), i.e. the stereographic picture of SO(3) ≅ PSU(2).\n\nHere η is the stereographic coordinate of the normal (Gauss map) of the minimal surface. It is fixed by H only up to a rigid rotation of space, as the text says: 'three arbitrary real constants'.\n\n(e) Final condition. v(t) is to be chosen so that, for finite t, the singularities of k_1^{-1} d^2k_1/dv^2 lie only at the distinguished points a, a', b, c, e. These are presumably the images of the boundary corners or branch points.\n\nThe method is the representation of the Gauss map as a ratio of two solutions of a second-order linear ODE with prescribed singular points. Because of the condition that K_1, K_2 also satisfy (13), the monodromy and normalization are presumably unitary, so only rotations remain free.",
+  "errors": [
+   "No mathematical errors on this page. The change-of-variable formula and the form of (15) are correct, and k = k_1 trivially satisfies (15).",
+   "(16) does not literally cover all rotations: the case α = ∞, e.g. η = e^{iθ}/H, is only a limit. This is a harmless omission.",
+   "The claim that K_1, K_2 can be chosen to satisfy (13) as well depends on (13), which is not on this page. It cannot be checked here."
+  ],
+  "results": [
+   {
+    "what": "Expression of d^2k/dv^2 in terms of t-derivatives: (v'k''-k'v'')/v'^3",
+    "modern_name": "chain rule / change of independent variable in a linear ODE",
+    "usually_credited_to": "standard calculus",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Gauss map of the minimal surface written as the ratio H = K_2/K_1 of two solutions of a second-order linear ODE with prescribed singular points",
+    "modern_name": "Riemann–Schwarz method for minimal surfaces bounded by straight lines (Schwarzian derivative / Fuchsian-equation approach to the Plateau problem for polygons)",
+    "usually_credited_to": "Riemann (posthumous 1867), Schwarz (1865–1890), Weierstrass (1866)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "η = e^{iθ}(α - H)/(1+ᾱH): general rotation of the sphere in stereographic coordinates, with 3 real parameters",
+    "modern_name": "PSU(2) ≅ SO(3) acting by Möbius transformations",
+    "usually_credited_to": "Gauss/Riemann; standard (Cayley–Klein parameters)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of the material behind Riemann's posthumously published minimal-surface memoir (1867), whose ODE/ratio-of-solutions method is already credited to him. The steps here are routine: change of variables and a rotation normalization.",
+  "checkable": [
+   {
+    "sympy": "t=symbols('t'); v=Function('v')(t); k=Function('k')(t); simplify(diff(diff(k,t)/diff(v,t),t)/diff(v,t) - (diff(v,t)*diff(k,t,2)-diff(k,t)*diff(v,t,2))/diff(v,t)**3)",
+    "asserts": "The displayed fraction equals d^2k/dv^2 (result 0)."
+   },
+   {
+    "sympy": "p,q=symbols('p q',real=True); M=Matrix([[-1,p+I*q],[p-I*q,1]]); simplify(M*M.H)",
+    "asserts": "M M* = (1+p^2+q^2)·I, so (α-H)/(1+ᾱH) is a rotation of the Riemann sphere."
+   },
+   {
+    "sympy": "x,y,p,q,th=symbols('x y p q theta',real=True); H=x+I*y; a=p+I*q; eta=exp(I*th)*(a-H)/(1+conjugate(a)*H); simplify(Abs(diff(eta,x))/(1+Abs(eta)**2) - 1/(1+Abs(H)**2))",
+    "asserts": "The map preserves the spherical metric |dη|/(1+|η|^2) = |dH|/(1+|H|^2), i.e. it is an isometry of the sphere (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is essentially accurate.",
+   "In (15) the coefficient is written with a lowercase k_1, i.e. {1/k_1 · d^2k_1/dv^2}, while the particular integrals are uppercase K_1, K_2. This distinction is correctly kept.",
+   "'(2' at top right is a sheet number. A faint pencil foliation number '60' appears near the top right."
+  ]
+ }
+}

@@ -1,0 +1,78 @@
+{
+ "bundle": "Math.5",
+ "page": "c024",
+ "label": "13r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376170:00000025/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Purpose: this is an auxiliary table for Gauss's method of exclusion (Disquisitiones Arithmeticae, arts. 319–326). It is used to solve A = f x^2 + g y^2, and so to factor numbers. The worked example on the previous page is 2168143 = x^2 + 78 y^2.\n\nDerivation (filled in by me, verified against the entries): from g y^2 = A − f x^2 we get f g y^2 = f^2 (a − x^2), with a ≡ A/f (mod p). So fg(a − x^2) must be a square (zero or a quadratic residue) mod p.\n\nLayout: for each excluding prime p = 3, 5, 7, 11, 13, 17, 19 and each a = A/f mod p (rows 1..p−1), the table sorts x = 0..p−1 into three columns.\n- Admittuntur: x with a − x^2 a nonzero quadratic residue mod p.\n- Unlabelled middle column: x with x^2 ≡ a, i.e. a − x^2 ≡ 0. These are admissible in every case (they force y ≡ 0 mod p). The column is filled only when a is a residue.\n- Excluduntur: x with a − x^2 a non-residue.\n\nThe headings fgRp and fgNp: the main headings hold when fg is a residue mod p. The footer headings (fgNp: Excluduntur | Admittuntur) say that when fg is a non-residue the two outer columns are swapped. The middle column stays admitted in both cases.\n\nThe second column f/A is simply the inverse of A/f mod p, so a row can be entered from either quantity. Checked: 7: 3↔5; 11: 2↔6, 3↔4, 5↔9, 7↔8; 13: 2↔7, 3↔9, 4↔10, 5↔8, 6↔11; 17: 2↔9, 3↔6, 4↔13, 5↔7, 8↔15, 10↔12, 11↔14; 19: 2↔10, 3↔13, 4↔5, 6↔16, 7↔11, 8↔12, 9↔17, 14↔15.\n\nWorked check, p = 19, a = 1. Squares mod 19 for x = 0..9 are 0, 1, 4, 9, 16, 6, 17, 11, 7, 5. The values 1 − x^2 are 1, 0, 16, 11, 4, 14, 3, 9, 13, 15. This gives admitted 0.2.3.4.7.12.15.16.17, middle 1.18, excluded 5.6.8.9.10.11.13.14, as on the page.\n\nUse with the previous page: 2168143 ≡ 3 (mod 5) and fg = 78 ≡ 3 is N mod 5. The row a = 3 gives admitted 2.3, excluded 0.1.4 under fgR. Swapped for fgN, it admits 0.1.4 and excludes 2.3.\n\nSpot checks: I recomputed every row for p = 3, 5, 7 and the rows I tested for 11, 13, 17 and 19. These were 11: a = 1, 2, 6; 13: a = 9, 11; 17: a = 6, 13; 19: a = 1, 11, 17. All agree, except that row 19/17 is heavily overwritten in the manuscript (see corrections).",
+  "errors": [
+   "No arithmetical errors found in the rows checked.",
+   "Row p=19, a=17 (f/A=9) shows visible overwriting in the Admittuntur and Excluduntur cells. The correct values are admitted 0.1.4.5.7.12.14.15.18, middle 6.13, excluded 2.3.8.9.10.11.16.17. The overwrite suggests Gauss first entered something else, perhaps the double root 6.13 inside the admitted list, and then corrected it.",
+   "Minor: the unlabelled middle column is admissible under both fgR and fgN. The footer swap applies only to the outer two columns; this is implicit, not stated."
+  ],
+  "results": [
+   {
+    "what": "For an excluding prime p and a ≡ A/f, a classification of the residues x mod p by the quadratic character of a − x^2. Used to decide which x can satisfy A = f x^2 + g y^2, the two cases fg R p and fg N p being obtained by swapping columns.",
+    "modern_name": "Gauss's method of exclusion (sieve by quadratic residues for representations by binary quadratic forms / factorization)",
+    "usually_credited_to": "C. F. Gauss, Disquisitiones Arithmeticae (1801), arts. 319–326; related to earlier Fermat/Euler sieving ideas",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Auxiliary index column f/A = (A/f)^{-1} mod p, so the table can be entered from either quantity.",
+    "modern_name": "modular inverse lookup",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a computational aid for the exclusion method that Gauss published in the Disquisitiones (1801). The table is accurate and neatly organized, with a residue/non-residue column swap and an inverse index, but it contains nothing new beyond his known methods.",
+  "checkable": [
+   {
+    "sympy": "[x for x in range(19) if (1-x**2)%19!=0 and is_quad_residue((1-x**2)%19,19)] == [0,2,3,4,7,12,15,16,17]",
+    "asserts": "Row p=19, a=1, admitted under fgR"
+   },
+   {
+    "sympy": "[x for x in range(19) if (1-x**2)%19!=0 and not is_quad_residue((1-x**2)%19,19)] == [5,6,8,9,10,11,13,14]",
+    "asserts": "Row p=19, a=1, excluded under fgR"
+   },
+   {
+    "sympy": "[x for x in range(19) if (17-x**2)%19!=0 and is_quad_residue((17-x**2)%19,19)] == [0,1,4,5,7,12,14,15,18]",
+    "asserts": "Corrected admitted list for p=19, a=17"
+   },
+   {
+    "sympy": "[x for x in range(19) if (17-x**2)%19==0] == [6,13]",
+    "asserts": "Middle column for p=19, a=17"
+   },
+   {
+    "sympy": "[x for x in range(17) if (6-x**2)%17!=0 and is_quad_residue((6-x**2)%17,17)] == [2,5,6,7,10,11,12,15]",
+    "asserts": "Row p=17, a=6, admitted"
+   },
+   {
+    "sympy": "[x for x in range(13) if (11-x**2)%13!=0 and is_quad_residue((11-x**2)%13,13)] == [1,5,6,7,8,12]",
+    "asserts": "Row p=13, a=11, admitted"
+   },
+   {
+    "sympy": "[x for x in range(11) if (2-x**2)%11!=0 and not is_quad_residue((2-x**2)%11,11)] == [0,4,5,6,7]",
+    "asserts": "Row p=11, a=2, excluded"
+   },
+   {
+    "sympy": "all((a*mod_inverse(a,p))%p==1 for p,a,b in [(19,9,17),(17,8,15),(13,6,11),(19,14,15)] if mod_inverse(a,p)==b)",
+    "asserts": "The f/A column is the modular inverse of A/f"
+   },
+   {
+    "sympy": "(2168143 % 5, 78 % 5, is_quad_residue(78,5)) == (3,3,False)",
+    "asserts": "Use for the previous page's example: a=3, fg is N mod 5"
+   }
+  ],
+  "transcription_corrections": [
+   "p=19, row A/f=17, f/A=9: the Admittuntur cell reads (after Gauss's correction) 0.1.4.5.7.12.14.15.18, not '0.1.4.5.6.13.14.15.18'. The 6.13 belongs in the middle column.",
+   "p=19, row 17: the middle column is 6.13 and Excluduntur is 2.3.8.9.10.11.16.17; the overwritten digits are the corrected 8, 9 and final 17.",
+   "p=17, row 6: Admittuntur is 2.5.6.7.10.11.12.15 (the smudge before 2 is not a digit).",
+   "p=7, row 4: the trailing period in '0.3.4.' is an artefact; the list is 0.3.4.",
+   "Header annotation 'Math.5' and the stamped folio number '(13)' are archival marks, as is the struck-through '401/13'."
+  ]
+ }
+}

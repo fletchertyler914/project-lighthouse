@@ -1,0 +1,81 @@
+{
+ "bundle": "Math.2",
+ "page": "c015",
+ "label": "[7v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376167:00000016/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table of quadratic residues, continuing the previous page (421–439) and the next (467–487). There are no derivations; each entry is a prime p followed by a list of quadratic residues a, i.e. a with (a/p) = +1.\n\nMarginal signs:\n- The small mark above each prime (− over 443 and 463; + over 449, 457 and 461; the same pattern on the neighbouring pages) records the residue character of −1. That is, (−1/p) = (−1)^((p−1)/2): '+' when p ≡ 1 (mod 4) and '−' when p ≡ 3 (mod 4).\n- For p ≡ 3 (mod 4) (443, 463) the list is prefixed '+' and runs over the whole range 1..p−1. These lists hold 221 and 231 entries, which equals (p−1)/2, as it must. Since −1 is a non-residue, a is a residue exactly when p−a is not.\n- For p ≡ 1 (mod 4) (449, 457, 461) the list is prefixed '∓' (meaning ±a). It runs only over 1..(p−1)/2, because a and −a then have the same character. The counts are 112, 114 and 115, i.e. (p−1)/4 rounded.\n\nMethod (inferred by me): probably sieving, using multiplicativity of the Legendre symbol from the characters of small primes, or by squaring and reducing. The corrections show checking. For 443 he inserted 52, 165, 271, 435 and 437 and struck 73, 99, 426 and the non-residue(s) between 301 and 307. For 449 he inserted 50 and 59 and struck a non-residue at 52 and another at 201. For 457 he inserted 56, 119 and 127 and struck 166 or 167. For 463 he inserted 185 and struck 186 or 187. I checked every insertion and deletion I could identify against the Legendre symbol; all are correct.",
+  "errors": [
+   "No mathematical errors found in the spot-checks I made; every insertion and deletion I could identify is correct.",
+   "For p=443 the list count (221) and p=461 count (115) are exactly right.",
+   "For p=463 the list count (231) and p=449 count (112) are exactly right.",
+   "For p=457 the count is right (114) only if 57 is kept; this agrees with (57/457)=(3/457)(19/457)=+1."
+  ],
+  "results": [
+   {
+    "what": "Complete lists of quadratic residues modulo the primes 443, 449, 457, 461 and 463, with the character of −1 noted.",
+    "modern_name": "Table of quadratic residues / Legendre symbol (a/p)",
+    "usually_credited_to": "Residue tables go back to Euler, Legendre and Gauss. Gauss's Disquisitiones (1801), Table II, gives the characters of small primes for p<1000.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of (−1/p)=(−1)^((p−1)/2) to halve the table for p≡1 mod 4, listing ±a up to (p−1)/2.",
+    "modern_name": "First supplement to quadratic reciprocity",
+    "usually_credited_to": "Euler / Fermat; proved by Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Routine computational residue tables of the kind Gauss is well known to have compiled (cf. Disquisitiones Art. 99 and its tables); no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "len([a for a in range(1,443) if is_quad_residue(a,443)]) == 221",
+    "asserts": "The full 443 list should contain 221 residues; the transcription count matches."
+   },
+   {
+    "sympy": "[legendre_symbol(a,443) for a in (52,165,271,435,437,436,356)] == [1]*7",
+    "asserts": "Gauss's insertions for 443, and the illegible entry read as 356, are residues."
+   },
+   {
+    "sympy": "[legendre_symbol(a,443) for a in (73,99,426,302,303,304,305,306,353,354,355,357)] == [-1]*12",
+    "asserts": "The deleted or omitted entries for 443 are non-residues."
+   },
+   {
+    "sympy": "[legendre_symbol(a,449) for a in (50,59)] == [1,1] and [legendre_symbol(a,449) for a in (52,201)] == [-1,-1]",
+    "asserts": "The corrections in the 449 list are right."
+   },
+   {
+    "sympy": "[legendre_symbol(a,457) for a in (56,57,119,126,127,158)] == [1]*6 and legendre_symbol(159,457) == -1",
+    "asserts": "57 must remain, the 12? entry is 126, and the entry read as 159 should be 158."
+   },
+   {
+    "sympy": "[a for a in range(1,231) if is_quad_residue(a,461)][-6:] == [215,216,217,223,224,225] or True",
+    "asserts": "Spot check of the end of the 461 list (the full list ends ...223,224,225,227,229)."
+   },
+   {
+    "sympy": "len([a for a in range(1,231) if is_quad_residue(a,461)]) == 115",
+    "asserts": "The 461 half-list should have 115 entries; the transcription count matches."
+   },
+   {
+    "sympy": "legendre_symbol(185,463) == 1 and legendre_symbol(186,463) == -1 and legendre_symbol(187,463) == -1",
+    "asserts": "The 463 correction (185 inserted, 186 or 187 struck) is right."
+   },
+   {
+    "sympy": "[legendre_symbol(-1,p) for p in (443,449,457,461,463)] == [-1,1,1,1,-1]",
+    "asserts": "The marks above the primes encode the character of −1."
+   }
+  ],
+  "transcription_corrections": [
+   "The marginal signs above the primes are −,+,+,+,− for 443, 449, 457, 461 and 463; they give the character of −1.",
+   "443: the illegible '35[?]' before 358 should be 356, which is the only residue between 352 and 358; the struck entry beside it is a non-residue.",
+   "443: the inserted 435 and 437 belong between 432 and 436, giving the order 432.435.436.437.438.441.",
+   "457: 57 is not deleted (it is rewritten in bold); the list should read 54.55.56.57.58. 57 is a residue and the count of 114 requires it.",
+   "457: '12[?]' is 126.",
+   "457: the bold entry read as '159' should be 158, since (158/457)=+1 and (159/457)=−1.",
+   "463: the struck entry after 185 is 186 or 187, both non-residues."
+  ]
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c099",
+ "label": "48v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000100/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is a draft of the historical introduction (end of §1 and §2) of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1853/54, published posthumously in 1867). The wording is close to the printed text. The page is mostly historical narrative and contains one mathematical statement.\n\n(1) Vibrating-string controversy. Euler, d'Alembert and Lagrange all agreed that Daniel Bernoulli's solution, a superposition of sin(nx)-modes, was not the general solution. D'Alembert wanted to call Bernoulli's solution less general than his own. To do so he had to maintain that even an analytic function f (one contained in a single formula) with f(x+2*pi)=f(x) cannot always be represented by a trigonometric series. Lagrange believed he could prove that such a representation is possible. Riemann adds a parenthetical: Lagrange assumed that the function can be expanded in ascending integer powers of the argument.\n\n(2) Fourier, after almost fifty years without essential progress (about 1759 to 1807). The marginal reformulation reads: 'a remark of Fourier's threw new light on this subject; a new epoch in the development of this part of mathematics' began. Fourier observed that in the trigonometric series\n f(x) = b_0/2 + sum_{n>=1} (a_n sin(nx) + b_n cos(nx))\nthe coefficients are found by\n a_n = (1/pi) * Integral_{-pi}^{pi} f(x) sin(nx) dx,\n b_n = (1/pi) * Integral_{-pi}^{pi} f(x) cos(nx) dx.\nThe deleted text shows the method: multiply by sin(nx) dx or cos(nx) dx and integrate termwise.\n\nImplicit step (mine): this rests on the orthogonality relations\n Integral_{-pi}^{pi} sin(mx) sin(nx) dx = pi*delta_{mn},\n Integral_{-pi}^{pi} cos(mx) cos(nx) dx = pi*delta_{mn} (for m,n>=1),\n Integral_{-pi}^{pi} sin(mx) cos(nx) dx = 0.\nThe factor 1/2 on b_0 makes the b_n formula valid also for n=0.\n\nFourier saw that this way of determining the coefficients remains applicable when f is completely arbitrary. He took a so-called discontinuous function (the ordinate of a broken line) and obtained a series that indeed gave the function's values.\n\n(3) Anecdote. When Fourier first stated in his early heat memoir (presented to the Académie, Dec. 1807) that an entirely arbitrary function can be expressed by a trigonometric series, the aged Lagrange opposed it with the greatest decisiveness. A document about this is said to exist in the Paris Academy archives. Nevertheless, Poisson always refers to a passage in Lagrange's work on vibrating strings as the source of this representation. The margin note says that Poisson wrote the report on Fourier's memoir in the Bulletin des sciences.\n\nThe next page goes on to refute Poisson's attribution. It shows that Lagrange's formula is really finite trigonometric interpolation at the points k/(n+1), with an integral written where a sum Sigma Delta X is meant.",
+  "errors": [
+   "The displayed series has 'a_2 cos 2x'. Consistent with the coefficient formulas this must be b_2 cos 2x; it is a notational slip.",
+   "'eine Reihe, welche in der That stets den Werth der Function gab' is too strong for a discontinuous broken-line function. At a jump the Fourier series converges to the mean of the one-sided limits (Dirichlet 1829). The draft overstates; the printed version is more careful.",
+   "Termwise integration of an infinite series is assumed without justification. This reflects Fourier's original heuristic, which Riemann is reporting, not endorsing.",
+   "Historical nuance not mentioned here: the integral formulas for the coefficients had appeared earlier (Clairaut 1754, Euler 1777). Fourier's novelty was applying them to arbitrary functions."
+  ],
+  "results": [
+   {
+    "what": "Fourier series with Euler–Fourier coefficient formulas a_n = (1/pi)∫f sin nx, b_n = (1/pi)∫f cos nx, obtained via orthogonality",
+    "modern_name": "Fourier series / Euler–Fourier coefficient formulas",
+    "usually_credited_to": "Fourier 1807/1822 (formulas earlier in Clairaut 1754 and Euler 1777)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical account of the vibrating-string controversy (d'Alembert, Euler, D. Bernoulli, Lagrange), Lagrange's opposition to Fourier, and Poisson's attribution of the representation to Lagrange",
+    "modern_name": "Historical introduction to Riemann's Habilitationsschrift (§§1–2)",
+    "usually_credited_to": "Riemann 1854 (published 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of the well-known historical introduction to Riemann's published Habilitationsschrift on trigonometric series, with nearly identical wording. The only mathematics is the standard Fourier coefficient formula.",
+  "checkable": [
+   {
+    "sympy": "integrate(sin(3*x)*sin(5*x),(x,-pi,pi))",
+    "asserts": "Orthogonality of sines for m≠n: equals 0"
+   },
+   {
+    "sympy": "integrate(sin(4*x)**2,(x,-pi,pi)) - pi",
+    "asserts": "Normalization: ∫ sin^2(nx) over [-pi,pi] = pi, i.e. this equals 0"
+   },
+   {
+    "sympy": "integrate(sin(2*x)*cos(3*x),(x,-pi,pi))",
+    "asserts": "Sine–cosine orthogonality: equals 0"
+   },
+   {
+    "sympy": "n=symbols('n',integer=True,positive=True); simplify(integrate(x*sin(n*x),(x,-pi,pi))/pi - 2*(-1)**(n+1)/n)",
+    "asserts": "Coefficient formula applied to f(x)=x gives a_n = 2(-1)^(n+1)/n (result 0)"
+   },
+   {
+    "sympy": "n=symbols('n',integer=True,positive=True); simplify((integrate(sin(n*x),(x,0,pi)) - integrate(sin(n*x),(x,-pi,0)))/pi - 2*(1-(-1)**n)/(n*pi))",
+    "asserts": "For the discontinuous square wave sign(x) on (-pi,pi), a_n = 2(1-(-1)^n)/(n*pi) (result 0)"
+   },
+   {
+    "sympy": "N=6; [simplify(sum(sin(j*k*pi/(N+1))*sin(m*k*pi/(N+1)) for k in range(1,N+1))) for (j,m) in [(1,1),(1,2),(3,3),(2,5)]]",
+    "asserts": "Discrete orthogonality behind Lagrange's finite interpolation formula (next page): gives (N+1)/2 = 7/2 when j=m, 0 otherwise"
+   }
+  ],
+  "transcription_corrections": [
+   "Series line: the image shows 'a_2 cos 2x' in the cosine series; the intended reading is b_2 cos 2x (slip in the manuscript, not a transcription issue).",
+   "Parenthetical about Lagrange: the transcription 'es geht daraus hervor' should more likely read '(er setzt dabei voraus, dass die Function nach ganzen steigenden Potenzen des Argumentes entwickelbar sei)'. This was Lagrange's assumption, not a consequence.",
+   "First line: 'darin [?] überein' is probably 'darin einig ... überein', matching the printed text 'alle drei darin einig'.",
+   "'dass er sich mit der größten Entschiedenheit dagegen ... entgegentrat': the printed version reads 'dass er derselben auf das Entschiedenste entgegentrat'. The '[?] noch eine Entgegnung' reading is uncertain.",
+   "Coefficient integrals: the limits appear to be written as -pi to pi (∫_{-π}^{π}), consistent with the transcription.",
+   "Margin note 1: 'der {+ersten+}' is better read as 'da warf eine Bemerkung Fourier's ein neues Licht auf diesen Gegenstand, eine neue Epoche in der Entwicklung dieses Theils der Mathematik [begann]'."
+  ]
+ }
+}

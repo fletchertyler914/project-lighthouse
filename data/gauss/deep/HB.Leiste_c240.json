@@ -1,0 +1,63 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c240",
+ "label": "107",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000241/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Nature of the page: this is a PRINTED page (p. 107) of a German school algebra textbook, §§202–203. The bundle name 'HB.Leiste' points to Christian Leiste's 'Arithmetik und Algebra' (Wolfenbüttel), the textbook Gauss used. It is not a Gauss manuscript. The handwritten scraps at the left edge belong to the facing previous page, which carries Gauss's Latin note on a sin A + b sin B. Nothing on this page is in Gauss's hand.\n\n§202, problem: expand sqrt(a+x) as an infinite power series by undetermined coefficients.\n1. Set sqrt(a+x) = A + Bx + Cx^2 + Dx^3 + Ex^4 + ...\n2. Square both sides: a + x = A^2 + 2AB x + (B^2+2AC) x^2 + (2BC+2AD) x^3 + (C^2+2BD+2AE) x^4 + ...\n3. Move everything to one side and set each coefficient to zero:\n   - A^2 = a, so A = sqrt(a). The positive root is chosen tacitly.\n   - 2AB = 1, so B = 1/(2 sqrt a).\n   - B^2 + 2AC = 0, so C = -B^2/(2A) = -1/(8 a^{3/2}).\n   - BC + AD = 0, so D = -BC/A = 1/(16 a^{5/2}).\n   - C^2 + 2BD + 2AE = 0, so E = -(C^2+2BD)/(2A) = -(1/(64a^3) + 1/(16a^3))/(2 sqrt a) = -5/(128 a^{7/2}).\n4. Result: sqrt(a+x) = sqrt a + x/(2 sqrt a) - x^2/(8 a sqrt a) + x^3/(16 a^2 sqrt a) - 5x^4/(128 a^3 sqrt a) - ...\n   Equivalently, sqrt(a+x) = (a + x/2 - x^2/(8a) + x^3/(16a^2) - 5x^4/(128a^3) - ...)/sqrt a.\n5. Practical remark in the text: take x small and a a number whose square root is easy, and the series converges quickly. If x is much larger than a, swap the roles and expand in powers of a instead. The coefficients A, B, ... then depend on x, for example A = sqrt x and B = 1/(2 sqrt x).\n\n§203, corollary: reversion of a series.\n1. Let x = y/(1+y) = y - y^2 + y^3 - ... ; call this equation (K).\n2. From x + xy = y one gets x = (1-x)y, so y = x/(1-x). The text writes y = Ax + Bx^2 + Cx^3 + Dx^4 + ... with unknown coefficients.\n3. It computes the needed powers:\n   - y^2 = A^2x^2 + 2AB x^3 + (2AC+B^2) x^4 + ...\n   - y^3 = A^3x^3 + 3A^2B x^4 + ...\n   - y^4 = A^4 x^4 + ...\n4. On the next page these are substituted into K. This gives 0 = (A-1)x + (B-A^2)x^2 + (C-2AB+A^3)x^3 + (D-2AC-B^2+3A^2B-A^4)x^4 + ... Hence A = B = C = D = 1 and y = x + x^2 + x^3 + ...\n\nThe author adds that these examples only illustrate the general formula of §200 and could be solved more easily without it.",
+  "errors": [
+   "No computational errors: every coefficient A through E and the final normalized series are correct.",
+   "Tacit choice of the positive root A = +sqrt(a) is not stated.",
+   "No convergence condition (|x| < |a|) is given. The text only says x should be 'sehr klein'.",
+   "The remark for x >> a writes sqrt(a+x) = A + Ba + Ca^2 + ... without saying that the coefficients now depend on x. This is heuristic, but correct in substance.",
+   "§203: the expansion y = x/(1-x) is assumed to start at the x^1 term, with no constant term. This is justified because x = 0 when y = 0, but it is not stated."
+  ],
+  "results": [
+   {
+    "what": "Power series of sqrt(a+x) by the method of undetermined coefficients, up to x^4",
+    "modern_name": "Binomial series for (a+x)^(1/2) / Taylor expansion; method of undetermined coefficients",
+    "usually_credited_to": "Newton (binomial series, 1665/1676); undetermined coefficients Descartes/Newton/Leibniz",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Inversion of x = y/(1+y) to y = x + x^2 + x^3 + ... by undetermined coefficients",
+    "modern_name": "Reversion (inversion) of power series",
+    "usually_credited_to": "Newton (1669/1676); later Lagrange inversion (1770)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed page of a standard 18th-century German school textbook (Leiste), not Gauss's own work. The binomial series by undetermined coefficients and elementary series reversion were standard textbook material long before Gauss. The page has no Gauss annotation; the marginal scraps belong to the facing page.",
+  "checkable": [
+   {
+    "sympy": "series(sqrt(a+x), x, 0, 5).removeO() - (sqrt(a) + x/(2*sqrt(a)) - x**2/(8*a**Rational(3,2)) + x**3/(16*a**Rational(5,2)) - 5*x**4/(128*a**Rational(7,2)))  # with a=symbols('a', positive=True); expect 0",
+    "asserts": "The printed series for sqrt(a+x) is correct through x^4."
+   },
+   {
+    "sympy": "simplify(-(1/(64*a**3) + 1/(16*a**3))/(2*sqrt(a)) + 5/(128*a**Rational(7,2)))  # a positive; expect 0",
+    "asserts": "E = -(C^2+2BD)/(2A) = -5/(128 a^(7/2))."
+   },
+   {
+    "sympy": "expand(sqrt(a)*(sqrt(a) + x/(2*sqrt(a)) - x**2/(8*a**Rational(3,2)) + x**3/(16*a**Rational(5,2)) - 5*x**4/(128*a**Rational(7,2))) - (a + x/2 - x**2/(8*a) + x**3/(16*a**2) - 5*x**4/(128*a**3)))  # expect 0",
+    "asserts": "The normalized form (a + x/2 - x^2/(8a) + ...)/sqrt(a) equals the series."
+   },
+   {
+    "sympy": "series(x/(1-x), x, 0, 6)",
+    "asserts": "y = x/(1-x) = x + x^2 + x^3 + x^4 + x^5 + ..., the inverse of x = y/(1+y)."
+   },
+   {
+    "sympy": "Poly(expand((A*x+B*x**2+C*x**3+D*x**4) - (A*x+B*x**2+C*x**3+D*x**4)**2 + (A*x+B*x**2+C*x**3+D*x**4)**3 - (A*x+B*x**2+C*x**3+D*x**4)**4 - x), x).all_coeffs()[-5:]",
+    "asserts": "The coefficients of x..x^4 are A-1, B-A^2, C-2AB+A^3, D-2AC-B^2+3A^2B-A^4, matching the next page."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is printed Fraktur text, not manuscript. The left-margin handwritten fragments (')×', 'determinand', 'est pos.', 'neg.', 'in A+bsin', etc.) are the edge of the facing previous page's Latin note, not annotations to §202.",
+   "In C = -1/(2.4.a^{...}) the printed exponent is badly struck. It must be read as a^{3/2} for consistency with C = -1/(8a sqrt a); it could be misread as a^{2/3}.",
+   "In the line '= -1/(2.4a.√a)' the numeral appears as 'I'' with a stray tick. It is simply 1.",
+   "The printed fraction in the final line reads '1/16' and '5/128' (the 5/128 is set as '5/I28'); 'I' is the Fraktur-style numeral 1 throughout (e.g., 'I07' = 107)."
+  ]
+ }
+}

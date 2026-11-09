@@ -1,0 +1,59 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c054",
+ "label": "28r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000055/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two unrelated blocks.\n\n(A) Thermodynamics lecture or outline notes (German, partly struck out). The headings are: 'Wärmezustand', 'Temperatur', 'Wärme'. Then: 'Von einem bestimmten Wärmezustand aus bestimmte Wärmemenge'. This defines a quantity of heat relative to a fixed reference state of heat. The fixed points are given as 'Temperatur des schmelzenden Eises und des siedenden Wassers' (temperature of melting ice and of boiling water), followed by 'Temperatur', 'Specifische Wärme'. Then: 'Die in einem Körper enthaltene Wärmemenge ... abhängig von Temperatur und Volumen' (the heat contained in a body depends on temperature and volume).\n\nThe formulas are:\n- First law: A Q = A U + W. Here Q is heat supplied, U is the internal energy (heat content), W is external work, and A is a heat/work conversion constant.\n- U is a function of v and t. The pressure p does external work p dv.\n- Differential form: dQ = M dv + N dt and dW = p dv.\n- [My completion, not on the page:] A dQ = A dU + p dv. Since dQ is not exact, M and N are not partial derivatives of one function Q(v,t). The page stops before any integrability condition or second law appears. This is the standard Clausius-style setup of 1850-54.\n\n(B) A scratch computation, almost certainly tied to the zeta-function work on the next folio (Li(x) in the prime-counting formula). The aim is to find the differential equation satisfied by the logarithmic integral.\n- Start: dy/dx = 1/log x. This is y = li(x). The image shows dy/dx, not dy/dt.\n- Substitute log x = t, so x = e^t. Then dy/dt = e^t / t, i.e. t dy/dt = e^t.\n- Differentiating again: d/dt (t dy/dt) = e^t = t dy/dt. So y = li(e^t) = Ei(t) satisfies the second-order linear ODE (t y')' = t y'.\n- A struck-out side variant reads log x · dy/d(log x) = x, which is correct.\n- Finally Riemann rewrites with u = log t: t d²y/d(log t)² = dy/d(log t).\n- [My check:] since t d/dt = d/du, we get t y_t = y_u, and d/dt (y_u) = y_uu / t. The equation (t y_t)_t = t y_t therefore becomes y_uu = t y_u, i.e. d²y/d(log t)² = t dy/d(log t). The factor t is on the wrong side in the last line (see errors).",
+  "errors": [
+   "The last line, t·∂²y/∂(log t)² = ∂y/∂(log t), is incorrect as a transform of d/dt(t dy/dt) = t dy/dt. With u = log t one gets ∂²y/∂u² = t ∂y/∂u (i.e. e^u y_u). Riemann's version would give y_u = C·exp(-1/t) instead of y_u = e^t. This is a slip in scratch work.",
+   "No errors in the thermodynamic part. It is only a statement of definitions and the first law, with no derivation."
+  ],
+  "results": [
+   {
+    "what": "First law of thermodynamics in the form AQ = AU + W, with U a function of v and t, dQ = M dv + N dt, dW = p dv",
+    "modern_name": "First law of thermodynamics (internal energy as a state function; heat as a non-exact differential)",
+    "usually_credited_to": "Clausius 1850 (also Rankine, W. Thomson); the M dv + N dt notation follows Clausius",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Differential equation for the logarithmic integral: with t = log x, y = li(x) satisfies t y' = e^t and (t y')' = t y'",
+    "modern_name": "Elementary ODE for li(x) = Ei(log x)",
+    "usually_credited_to": "Classical (Euler/Soldner era); no specific credit",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The thermodynamics is standard Clausius-era material, consistent with known Riemann lecture interests. The li(x) scratch is an elementary chain-rule computation, plausibly linked to the zeta work on the next folio, and it contains a slip. Nothing here is non-standard.",
+  "checkable": [
+   {
+    "sympy": "simplify(t*diff(li(exp(t)), t) - exp(t))",
+    "asserts": "With x = e^t and y = li(x): t dy/dt = e^t (should be 0)."
+   },
+   {
+    "sympy": "simplify(diff(t*diff(Ei(t), t), t) - t*diff(Ei(t), t))",
+    "asserts": "y = Ei(t) = li(e^t) satisfies d/dt(t y') = t y' (should be 0)."
+   },
+   {
+    "sympy": "simplify(log(x)*diff(li(x), x)*x - x)",
+    "asserts": "Struck-out variant: log x · dy/d(log x) = x, using dy/d(log x) = x dy/dx (should be 0)."
+   },
+   {
+    "sympy": "simplify(diff(Ei(exp(u)), u, 2) - exp(u)*diff(Ei(exp(u)), u))",
+    "asserts": "Correct form after u = log t: y_uu = t y_u (should be 0)."
+   },
+   {
+    "sympy": "simplify(exp(u)*diff(Ei(exp(u)), u, 2) - diff(Ei(exp(u)), u))",
+    "asserts": "Riemann's written form t y_uu = y_u does NOT hold (nonzero, equals (exp(2u)-1)*exp(exp(u)))."
+   }
+  ],
+  "transcription_corrections": [
+   "The first uncrossed derivative is ∂y/∂x = 1/log x, not ∂y/∂t = 1/log x. Only with dy/dx = 1/log x does the next line t ∂y/∂t = e^t follow.",
+   "'U f. u.[?] v, t.' is probably an abbreviation for 'U Function von v, t' (U a function of v, t). The stray 'u.' is likely 'v.' or part of the abbreviation.",
+   "In 'Die in einem Körper enthaltene Wärmemenge [-...-] Function[?] abhängig von Temperatur und Volumen', the word read as 'Function' is uncertain. The image suggests a struck word followed by something like 'und/als abhängig von'; the transcription's guess is not secure."
+  ]
+ }
+}

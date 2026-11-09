@@ -1,0 +1,70 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c145",
+ "label": "[140]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000146/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a finished ephemeris headed 'Ephemeride für die Juno 1808' and filed under 'Litt. R'. The note at the bottom right says it was 'Vollendet 12 Jan 1808' (completed 12 January 1808). It covers 16 April to 28 December 1808 at 4-day intervals and is set out in three blocks: 16 Apr–5 Jul, 9 Jul–27 Sep and 1 Oct–28 Dec.\n\nEach row gives four things for the asteroid Juno:\n(i) the date;\n(ii) the geocentric right ascension alpha, in degrees, minutes and seconds;\n(iii) the geocentric declination delta. The minus sign is written only in the first row, but the whole column is south (negative);\n(iv) log10 of the Earth–Juno distance Delta, in AU.\n\nThe identification of the columns as RA and declination, rather than ecliptic longitude and latitude, is my inference. A rough check supports it. Near opposition (early August) the Sun is at longitude about 130 deg, so Juno is near longitude 310 deg. Juno's node lies near 171 deg and its inclination is about 13 deg, so the heliocentric latitude is about +8.5 deg. With r/Delta ≈ 2.6/1.65 this becomes a geocentric latitude of about +13–14 deg. The ecliptic point at longitude 310 deg has declination about −17.6 deg, giving delta ≈ −4 deg. The table has −4.3 deg at alpha = 308.8 deg on 2 August, which fits.\n\nThe motion shown is a standard retrograde loop:\n- alpha rises to a first station near 11 June (315°30'2\");\n- it then falls through opposition at the start of August, where the daily motion is greatest, about −51'37\" per 4 days around 2–6 August;\n- a second station comes near 19 September (302°19'54\"), and alpha then rises to 330°8' by 28 December.\n\nThe declination is smallest in absolute value, −2°13'51\", on 27 June. It then grows southward to about −13°56'40\" on 10 November.\n\nLog Delta falls from 0.47133 (Delta = 2.96 AU) to a minimum near 10–14 August, 0.21757 (Delta ≈ 1.650 AU). That minimum marks closest approach, near opposition. It then rises to 0.43785 (Delta = 2.74 AU).\n\nThere is no derivation on this page; it is a fair copy of computed positions. The working behind it would be:\n1. Take Gauss's elements of Juno and solve Kepler's equation for each date.\n2. Form heliocentric equatorial coordinates (x, y, z) and add the solar coordinates.\n3. Compute alpha = atan2(Y, X), delta = atan(Z / sqrt(X^2 + Y^2)) and log Delta.\n\nThe columns of x, y, z on the previous page are this kind of working, but that page appears to concern a different body.\n\nThe bold overwritten figures show that Gauss corrected entries after checking differences. They occur in the declinations of 26 May and 7 Jun–1 Jul, the declinations of 9–17 Jul, the RA of 10 Aug and log Delta on 26 May and 27 Jun. Checking by differences was his normal procedure.",
+  "errors": [
+   "Log-distance column, 5 Oct: 0.29121 breaks the smooth run of first differences (+816, +842, +832, +845). If the value were 0.29111, the differences would be +816, +832, +842, +845, +844, with smooth second differences (+16, +10, +3, −1). This points to a slip of 10 units in the fifth decimal, either Gauss's or in the copying. The image reads 0,29121.",
+   "RA column around 29 Oct: the 4-day differences 54'50\", 60'13\", 64'20\", 69'9\" give second differences +5'23\", +4'07\", +4'49\", which zig-zag. If the 29 Oct value were 308°0'22\" instead of 308°0'40\", the second differences would run smoothly at 5'05\", 4'43\", 4'31\", 4'12\". This suggests an error of about 18\" in that entry. The image reads 308.0.40; the error is possible but not certain, since the noise elsewhere is about 10\".",
+   "Log-distance column around 26 May–15 Jun: the first differences (−1090, −1100, −1102, −1104, −1108, −1103, −1091) have slightly irregular third differences. These are minor rounding or interpolation irregularities of a few units in the fifth decimal. The 26 May value is visibly overwritten.",
+   "Otherwise the table is internally smooth. The stationary points and the opposition minimum are consistent with one another and with the expected geometry."
+  ],
+  "results": [
+   {
+    "what": "Geocentric ephemeris of the minor planet Juno for April–December 1808 (right ascension, declination, log distance) at 4-day intervals, covering the retrograde loop and the opposition of early August 1808",
+    "modern_name": "Planetary/asteroid ephemeris computed from Keplerian orbital elements",
+    "usually_credited_to": "Routine astronomical practice. Gauss is well known to have computed the ephemerides of Ceres, Pallas and Juno for von Zach's Monatliche Correspondenz in these years.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a fair-copy ephemeris of Juno of exactly the kind Gauss routinely computed and published in von Zach's Monatliche Correspondenz around 1805–1810. It contains no new mathematics; its only interest is as a dated working document (completed 12 Jan 1808).",
+  "checkable": [
+   {
+    "sympy": "N(10**0.21757, 6)",
+    "asserts": "The minimum geocentric distance near 10 Aug 1808 is about 1.650 AU."
+   },
+   {
+    "sympy": "N(10**0.47133, 6)",
+    "asserts": "The distance on 16 April 1808 is about 2.961 AU."
+   },
+   {
+    "sympy": "d=[0.47133,0.46216,0.45273,0.44304,0.43311,0.42297,0.41263,0.40208,0.39136,0.38046]; [round((d[i+2]-2*d[i+1]+d[i])*1e5) for i in range(len(d)-2)]",
+    "asserts": "The second differences of log Delta in April–May are smooth and small (about −26 to −18 units of 1e-5)."
+   },
+   {
+    "sympy": "L=[0.27463,0.28279,0.29121,0.29953,0.30798,0.31642]; [round((L[i+1]-L[i])*1e5) for i in range(len(L)-1)]",
+    "asserts": "Gives first differences 816, 842, 832, 845, 844. The non-monotonic 842/832 pair exposes the suspect 5 Oct entry 0.29121 (0.29111 would make the run smooth)."
+   },
+   {
+    "sympy": "ra=[315*3600+17*60+53,315*3600+26*60+35,315*3600+30*60+2,315*3600+28*60+8,315*3600+20*60+51]; [ra[i+1]-ra[i] for i in range(4)]",
+    "asserts": "The 4-day RA differences change sign between 11 and 15 June (+207\" then −114\"), placing the first station near 11–13 June."
+   },
+   {
+    "sympy": "ra=[302*3600+29*60+23,302*3600+21*60+9,302*3600+19*60+54,302*3600+25*60+26]; [ra[i+1]-ra[i] for i in range(3)]",
+    "asserts": "The RA differences change sign between 19 and 23 Sept (−75\" then +332\"), placing the second station near 18–19 September."
+   },
+   {
+    "sympy": "r=[307*3600+0*60+27,308*3600+0*60+40,309*3600+5*60+0,310*3600+14*60+9,311*3600+27*60+30]; d1=[r[i+1]-r[i] for i in range(4)]; [d1[i+1]-d1[i] for i in range(3)]",
+    "asserts": "The RA second differences around 29 Oct are 247\", 289\", 252\" (irregular). Replacing 308.0.40 with 308.0.22 makes them smooth."
+   },
+   {
+    "sympy": "atan2(sin(rad(310))*cos(rad(23.47))-tan(rad(13.7))*sin(rad(23.47)), cos(rad(310)))*180/pi, asin(sin(rad(13.7))*cos(rad(23.47))+cos(rad(13.7))*sin(rad(23.47))*sin(rad(310)))*180/pi",
+    "asserts": "Rough check that ecliptic longitude 310 deg and latitude +13.7 deg give RA ≈ 309 deg and declination ≈ −4.6 deg. This is consistent with the August entries and supports reading the columns as RA and declination."
+   }
+  ],
+  "transcription_corrections": [
+   "The declination column is south throughout. The minus sign is written only on the first entry (−6.59.36) and should apply to every value.",
+   "26 May log Delta: the image shows 0,36946 with the last digits '946' rewritten in bold, so the [?] can be removed.",
+   "27 Jun log Delta: 0,28299, with the final digits overwritten in bold.",
+   "Several declinations are bold overwrites (corrections by Gauss) rather than doubtful readings: 26 May 3.29.29, 7 Jun 2.45.43, 15 Jun 2.25.53, 23 Jun 2.15.13, 27 Jun 2.13.51, 1 Jul 2.15.23, 9 Jul 2.27.33, 13 Jul 2.38.19 and 17 Jul 2.52.13.",
+   "10 Aug RA: 307.2.53, with '2.53' overwritten in bold.",
+   "The top-left margin carries the folio numbers 182/140 and a struck-through marginal note (possibly 'Mo... nath'), not part of the table.",
+   "The bottom-right note reads 'Vollendet 12 Jan 1808'."
+  ]
+ }
+}

@@ -1,0 +1,94 @@
+{
+ "bundle": "Math.21",
+ "page": "c083",
+ "label": "42v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000084/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "OBJECT. The page evaluates two entire functions at x = 28 and x = 27:\n  phi(x)  = sum_{n>=1} (-1)^(n-1) x^n /((n-1)! n!) = sqrt(x) J_1(2 sqrt x),\n  phi'(x) = sum_{n>=0} (-1)^n x^n /(n!)^2 = J_0(2 sqrt x)  (indeed d/dx phi = phi').\nThe Bessel names are mine; Gauss uses only the power series. phi satisfies x phi'' + phi = 0.\n\nMETHOD (direct series, x = 28, upper half). To avoid alternating signs, Gauss splits each series into its positive and negative parts. He builds each term from the previous one by a ratio multiplication, carrying 7 decimals.\n  Column 1: A = sum x^(2k)/((2k)!)^2. Terms: 1; 196 = 28^2/4; 1067.1111111 = 28^4/576; ...\n  Column 2: B = sum x^(2k+1)/((2k)!(2k+1)!). Terms: 28; 1829.3333 = 28^3/12; 5975.8222 = 28^5/2880; ...\n  Column 3: C = sum x^(2k+1)/((2k+1)!)^2. Terms: 28; 609.7778; 1195.1644; ...\n  Column 4: D = sum x^(2k)/((2k-1)!(2k)!). Terms: 392; 4268.4444; 5577.4340741; ...\n  Running partial sums appear in rows (e.g. 1264.1111111 = 1+196+1067.1111). Totals:\n    A = 2449.5851296, B = 12333.8812140, C = 2449.8321203, D = 12334.1877614.\n  Then phi'(28) = A - C = -0.2469907 and phi(28) = B - D = -0.3065474.\n  These are the results of massive cancellation between sums near 2450 and 12334.\n\nCROSS-CHECK BY TAYLOR SERIES FROM x = 27 (lower half). The same four sums at x = 27 give:\n  A = 2043.2614812, B = 10093.0483025, C = 2043.5052666, D = 10093.3271157,\n  hence phi'(27) = -0.2437854 and phi(27) = -0.2788132.\nHigher derivatives follow from the ODE (implicit step, mine), differentiated k times:\n  x phi^(k+2) + k phi^(k+1) + phi^(k) = 0.\nThis yields:\n  phi''  = -phi/27 = +0.0103264\n  phi''' = -(phi'+phi'')/27 = +0.0086466\n  phi^IV = -(phi''+2phi''')/27 = -0.0010230\n  phi^V  = -0.0002066,  phi^VI = +0.0000685,  phi^VII = -0.0000050.\nTaylor step h = 1 for phi:\n  phi(28) = -0.2788132 - 0.2437854 + 0.0051632 + 0.0014411 - 0.0000426 - 0.0000017 + 0.0000001 = -0.5160385.\n  Bottom right of the page: 5226429 negative, 66044 positive.\nFor phi' (middle bottom):\n  phi'(28) = -(0.24378 + 0.00017 + 0.00001) + (0.01032 + 0.00432) = -0.22932.\nComparing, he writes:\n  phi28 = -0.3065474 'zu klein um 0,2095' (= 0.5160385 - 0.3065474);\n  phi'28 = -0.2469907 'zu gross um 176' (about 0.0176).\n\nLOCATING THE SLIP (my reconstruction, confirmed by his numbers). In the x = 28 series he multiplied by 768 instead of x^2 = 784 at one ratio step in every column:\n  col 1, x^12 term: 0.9914427 instead of 1.0120977;\n  col 2, x^13 term: 2.1354150 instead of 2.17990;\n  col 3, x^13 term: 0.1642627 instead of 0.167684;\n  col 4, x^12 term: 11.8973120 instead of 12.1451.\nThe error propagated through the later terms. His marginal corrections are exactly the accumulated shortfalls:\n  +0.0211506 (col 1), +0.0454114 (col 2), +0.0034836 (col 3), +0.2548124 (col 4).\nCorrected values (written on the previous page):\n  phi'(28) = 2449.6062802 - 2449.8356039 = -0.2293237;\n  phi(28)  = 12333.9266254 - 12334.4425738 = -0.5159484.\n\nPURPOSE. The previous page uses these values, with Taylor expansions about 27, to locate the zero of phi near x = 25.9. This is the third positive zero of J_1, via x = (j_{1,3}/2)^2. Physical motivation unsure: possibly Fourier's cylinder heat problem or Bernoulli's hanging chain, both of which involve the series sum (-1)^n x^n/(n!)^2.",
+  "errors": [
+   "x = 28 series: at one ratio step per column Gauss multiplied by 768 instead of 784 = 28^2. This affects the x^12 term (cols 1 and 4) and the x^13 term (cols 2 and 3), giving phi(28) = -0.3065474 and phi'(28) = -0.2469907. Gauss himself detected this via the Taylor cross-check and added the corrections 0.0211506, 0.0454114, 0.0034836, 0.2548124, which are correct to about 1e-7.",
+   "x = 27 series (undetected): at one late step per column he multiplied by 756 (= 27*28) instead of 729 = 27^2.\n- col 1, x^16 term: 0.0001890 vs 0.0001822.\n- col 2, x^17 term: 0.0003001 vs 0.0002894.\n- col 3, x^17 term: 0.0000177 vs 0.0000170.\n- col 4, x^16 term: 0.0030234 vs 0.0029154.",
+   "Consequences of the x = 27 slip:\n- Correct sums are about A = 2043.2614743, B = 10093.0482917, C = 2043.5052659, D = 10093.3270067.\n- So phi(27) is about -0.2787150, not -0.2788132 (error about 1e-4).\n- phi'(27) is about -0.2437915, not -0.2437854.\n- The Taylor value phi(28) = -0.5160385 is therefore off by about 9e-5; the corrected direct value -0.5159484 is the accurate one.\n- The discrepancy of 0.2095 vs the actual 0.2094010 reflects this.",
+   "Context, previous page: phi(26) is given as -0.0213465. Taylor from 27 with Gauss's own numbers gives -0.0313466, a slip of 0.01. This puts the zero at 25.9145 instead of the true (j_{1,3}/2)^2, about 25.8749."
+  ],
+  "results": [
+   {
+    "what": "Numerical evaluation of sum (-1)^n x^n/(n!)^2 and sum (-1)^(n-1) x^n/((n-1)!n!) at x = 27, 28 by splitting into positive and negative partial series with recursive term ratios",
+    "modern_name": "Power-series evaluation of J_0(2 sqrt x) and sqrt(x) J_1(2 sqrt x)",
+    "usually_credited_to": "Series known to D. Bernoulli (1732), Euler, Fourier (1822), Bessel (1824)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Higher derivatives from the ODE x phi'' + phi = 0 via the recurrence x phi^(k+2) + k phi^(k+1) + phi^(k) = 0, then a Taylor step of length 1 used as an independent check",
+    "modern_name": "Taylor-series continuation using the differential equation (ODE-based analytic continuation)",
+    "usually_credited_to": "Standard 18th-century technique (Newton, Euler, Taylor)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Error detection by comparing direct series values with Taylor extrapolation, then exact reconstruction of the propagated error",
+    "modern_name": "Numerical consistency check / error localization",
+    "usually_credited_to": "routine computing practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is routine high-precision numerical computation of Bessel-type series (J_0 and J_1 of argument 2 sqrt x) with a Taylor cross-check. The series and the ODE were well known by the 1840s. The only interest is biographical: Gauss computing Bessel zeros and his careful error hunting, with an undetected slip at x = 27.",
+  "checkable": [
+   {
+    "sympy": "N(Rational(28**4, factorial(4)**2) - Rational(9604,9), 12)",
+    "asserts": "1067.1111111 = 28^4/(4!)^2; result should be 0"
+   },
+   {
+    "sympy": "N(Rational(28**12, factorial(12)**2), 10)",
+    "asserts": "The correct x^12 term in column 1 is about 1.0120977, not Gauss's 0.9914427"
+   },
+   {
+    "sympy": "N(Rational(768,784)*Rational(28**12, factorial(12)**2), 10)",
+    "asserts": "Using 768 instead of 784 reproduces Gauss's 0.9914427"
+   },
+   {
+    "sympy": "N(sum(Rational((-1)**n*28**n, factorial(n)**2) for n in range(0,60)), 12)",
+    "asserts": "phi'(28) = J0(2*sqrt(28)) is about -0.2293237 (Gauss's corrected value)"
+   },
+   {
+    "sympy": "N(sum(Rational((-1)**(n-1)*28**n, factorial(n-1)*factorial(n)) for n in range(1,60)), 12)",
+    "asserts": "phi(28) = sqrt(28)*J1(2*sqrt(28)) is about -0.5159484 (Gauss's corrected value)"
+   },
+   {
+    "sympy": "N(sqrt(27)*besselj(1, 2*sqrt(27)), 12)",
+    "asserts": "phi(27) is about -0.278715, so Gauss's -0.2788132 is off by about 1e-4"
+   },
+   {
+    "sympy": "N(besselj(0, 2*sqrt(27)), 12)",
+    "asserts": "phi'(27) is about -0.243792, vs Gauss's -0.2437854"
+   },
+   {
+    "sympy": "simplify(diff(sqrt(x)*besselj(1,2*sqrt(x)), x) - besselj(0, 2*sqrt(x)))",
+    "asserts": "phi' is the derivative of phi; result should be 0"
+   },
+   {
+    "sympy": "simplify(x*diff(sqrt(x)*besselj(1,2*sqrt(x)), x, 2) + sqrt(x)*besselj(1,2*sqrt(x)))",
+    "asserts": "x*phi'' + phi = 0; result should be 0"
+   },
+   {
+    "sympy": "N(-0.2788132 - 0.2437854 + 0.0103264/2 + 0.0086466/6 - 0.0010230/24 - 0.0002066/120 + 0.0000685/720, 10)",
+    "asserts": "Gauss's Taylor value phi(28) = -0.5160385 from his derivatives at 27"
+   },
+   {
+    "sympy": "N((besselj(1, 2*sqrt(x)).subs(x, (besselj_zero := 10.173468135062722)**2/4)), 6)",
+    "asserts": "The zero of phi near 25.9 is x = (j_{1,3}/2)^2, about 25.8749, so the previous page's 25.9145 is wrong"
+   }
+  ],
+  "transcription_corrections": [
+   "Col 4 (x = 28), row 1: the crossed-out item is a rewriting of the decimals. The term is 5577.4340741 = 28^6/(5!6!); '4340,741' is the rewritten fractional part, not a separate number.",
+   "Col 1 (x = 28), last small term: '27' is correct (0.0000027 = x^18/(18!)^2 with Gauss's propagated values).",
+   "Col 4 (x = 28): '51 104' and '481' are correct readings (0.0051104, 0.0000481).",
+   "Col 3 (x = 27), first row: the overwritten number is 546.75 = 27^3/36.",
+   "'zu klein um 0,2095' / 'zu groß um 176' should be read as 'too small by 0.2095' / 'too large by 0.0176' (relative to the Taylor extrapolation)."
+  ]
+ }
+}

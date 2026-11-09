@@ -1,0 +1,67 @@
+{
+ "bundle": "R.Varia",
+ "page": "c106",
+ "label": "54r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173054:00000107/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Throughout, the step-by-step fillings are mine; the page itself gives only the key formulas.\n\nThe page works out the quadratic (Gauss, or descending Landen) transformation of Jacobi's elliptic functions. Put k' = sqrt(1-k^2) and lambda = k^(2) = (1-k')/(1+k').\n\n(1) First line: 1/x = 1/2(1+k')(1/y) + 1/2(1-k')y.\n- Here x = sn(u,k) and y = sn(v,lambda), with v = u/(1+lambda) = (1+k')u/2.\n- Mine: Gauss's transformation is x = (1+lambda) y / (1 + lambda y^2).\n- Inverting it gives 1/x = [1/(1+lambda)](1/y) + [lambda/(1+lambda)] y.\n- Mine: 1/(1+lambda) = (1+k')/2 and lambda/(1+lambda) = (1-k')/2. This reproduces Riemann's line exactly.\n- The substitution is monotone and maps x in [0,1] onto y in [0,1].\n\n(2) Integral line: ∫_{x=0}^{x=1} … together with (1+k')/2·K.\n- Mine: substituting (1) in dx/sqrt((1-x^2)(1-k^2x^2)) gives (1+lambda) dy/sqrt((1-y^2)(1-lambda^2y^2)).\n- Hence K(k) = (1+lambda) K(lambda), i.e. K(lambda) = (1+k')/2 · K(k). This is the note '(1+k')/2 K'.\n\n(3) The line read as 'β1 x = πu/2K' most likely means 'also x = πu/(2K)'. Riemann switches to the normalized argument, so that u = 2Kx/π.\n\n(4) Main formula: tg am(2Kx/π) = (1+k^(2)) tg am(2K^(2)x/π) / Δ^(2).\nMine, the derivation:\n- From (1), cn u = sqrt((1+lambda y^2)^2 - (1+lambda)^2 y^2)/(1+lambda y^2).\n- The numerator factors, so cn u = sqrt((1-y^2)(1-lambda^2y^2))/(1+lambda y^2) = cn v · dn v/(1+lambda sn^2 v).\n- Therefore tn(u,k) = (1+lambda) sn v/(cn v · dn v) = (1+lambda) tn(v,lambda)/dn(v,lambda).\n- In Riemann's notation: tg am u = (1+k^(2)) tg am v / Δ^(2), where Δ^(2) = Δam(v, k^(2)) = dn(v,lambda).\n- The arguments match because v = u/(1+lambda) = 2Kx/(π(1+lambda)) = 2K^(2)x/π.\n\n(5) The page closes with the auxiliary relations:\n- 1 + k^(2) = 2/(1+k').\n- K^(2) = K/(1+k^(2)).\nThe second is the same as the result of (2).\n\nPurpose: this is the standard quadratic modulus-reduction step. In the variable x = πu/2K, iterating it yields the arithmetic-geometric-mean / Landen algorithm for computing tg am, and the Fourier or product-type representation of tg am in terms of x. The next page carries a bibliographic note to Trans. Roy. Soc. Edinburgh vol. 16 (1849); its connection to these formulas is unclear.",
+  "errors": [
+   "No mathematical errors found. Every recorded relation (1/x formula, 1+k^(2) = 2/(1+k'), K^(2) = K/(1+k^(2)), the tg am transformation with Δ^(2) in the denominator) checks out.",
+   "The page is a scratch sketch. The integrand of the integral line and the meaning of the stray 'x1' are not written out."
+  ],
+  "results": [
+   {
+    "what": "1/sn(u,k) = (1+k')/2 · 1/sn(v,λ) + (1-k')/2 · sn(v,λ), with λ = (1-k')/(1+k') and v = (1+k')u/2",
+    "modern_name": "Gauss (descending Landen) quadratic transformation of sn",
+    "usually_credited_to": "Landen (1775), Gauss (c. 1800, AGM), Jacobi (Fundamenta Nova, 1829)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "K(k) = (1+λ) K(λ), i.e. K(λ) = (1+k')/2 · K(k)",
+    "modern_name": "Landen/Gauss transformation of the complete elliptic integral (AGM step)",
+    "usually_credited_to": "Landen, Lagrange, Gauss",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "tn(u,k) = (1+λ) tn(v,λ)/dn(v,λ), written as tg am(2Kx/π) = (1+k^(2)) tg am(2K^(2)x/π)/Δ^(2)",
+    "modern_name": "Quadratic (Gauss/Landen) transformation of tn = tg am",
+    "usually_credited_to": "Jacobi (Fundamenta Nova, 1829)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are standard textbook quadratic-transformation formulas from Jacobi's Fundamenta Nova, written in Jacobi's own notation (tg am, Δ, k^(2)). Riemann taught elliptic functions, so finding them in his notes is entirely expected.",
+  "checkable": [
+   {
+    "sympy": "k=sp.symbols('k',positive=True); y=sp.symbols('y'); kp=sp.sqrt(1-k**2); lam=(1-kp)/(1+kp); x=(1+lam)*y/(1+lam*y**2); sp.simplify(1/x - (sp.Rational(1,2)*(1+kp)/y + sp.Rational(1,2)*(1-kp)*y))",
+    "asserts": "Riemann's first line follows from Gauss's substitution; the result should be 0."
+   },
+   {
+    "sympy": "sp.simplify(1+lam - 2/(1+kp))",
+    "asserts": "1 + k^(2) = 2/(1+k'); the result should be 0."
+   },
+   {
+    "sympy": "sp.simplify((1+lam*y**2)**2 - (1+lam)**2*y**2 - (1-y**2)*(1-lam**2*y**2))",
+    "asserts": "The factorization giving cn u = cn v dn v/(1+λ sn^2 v), hence tn u = (1+λ) tn v/dn v; the result should be 0."
+   },
+   {
+    "sympy": "import mpmath as mp; kk=mp.mpf('0.8'); kp_=mp.sqrt(1-kk**2); l=(1-kp_)/(1+kp_); mp.ellipk(kk**2) - (1+l)*mp.ellipk(l**2)",
+    "asserts": "K(k) = (1+k^(2)) K^(2), i.e. K^(2) = K/(1+k^(2)); the result should be ~0."
+   },
+   {
+    "sympy": "u=mp.mpf('0.7'); v=u/(1+l); sn=lambda w,m: mp.ellipfun('sn',w,m=m); cn=lambda w,m: mp.ellipfun('cn',w,m=m); dn=lambda w,m: mp.ellipfun('dn',w,m=m); sn(u,kk**2)/cn(u,kk**2) - (1+l)*(sn(v,l**2)/cn(v,l**2))/dn(v,l**2)",
+    "asserts": "tg am u = (1+k^(2)) tg am(u/(1+k^(2)), k^(2)) / Δ^(2); the result should be ~0."
+   }
+  ],
+  "transcription_corrections": [
+   "The denominator of the tg am formula is Δ^(2) (Δ am with modulus k^(2)), slightly blotted. It is not an illegible '[-…-]' expression.",
+   "In the numerator, the argument is tg am(2K^(2)x/π); the apparent subscript '_2' is a pen artefact.",
+   "'β1 x = πu/2K' should most likely read 'also x = πu/(2K)' (German 'also'), introducing the normalized argument x.",
+   "In the integral line, the limits are x=0 to x=1. The integrand is unwritten or illegible, and the note beside it is (1+k')/2 · K."
+  ]
+ }
+}

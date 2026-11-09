@@ -1,0 +1,112 @@
+{
+ "bundle": "Math.25",
+ "page": "c069",
+ "label": "34v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000070/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page and this page): A is e^{-pi}. On the previous page, 599*e^{-pi}*10^8 = 2588513703.99995..., which matches e^{-pi} = 0.04321391826377224977... The aim is to compute e^{-pi} (equivalently e^{pi}) to about 48 decimals. The method writes A = N*e^delta, where N is an exact rational number whose prime factors appear in a 48-place table of natural logarithms (Wolfram/Vega, primes below about 10000), and delta is tiny. Then ln N comes from the table and e^delta from a short series. To find such an N, A is multiplied by a scale factor until the result is nearly an integer, and that integer is tested for small prime factors. The previous attempt (2588513704 = 8*7*17*2719027) failed because 2719027 was proved prime with the form 3x^2+616y^2 (idoneal number 1848).\n\nThis page:\n(1) The text says A*10^13 = 4321391826377.25. Numerically 10^14*e^{-pi} = 4321391826377.2249..., and the later formula divides by 10^14, so the factor is really 10^14.\n(2) Take the nearby integer M = 4321391826375 and factor it: M = 125*81*13*32831087. This is correct.\n(3) The cofactor C = 32831087 is declared composite 'because it is not contained in the form xx+190yy'. 190 is an idoneal number (Euler's numerus idoneus), so for determinant -190 each genus contains a single class. A prime with -190 as a quadratic residue is then represented exactly once by the form of its genus. Non-representation by that form therefore proves compositeness.\n(4) The 'first method of the Disquisitiones' (art. 329 ff., excluding candidate prime divisors by known quadratic residues) is applied. Gauss records C = 373*8819.\n(5) Hence, taking A = e^{-pi}, A = (81*125*13*373*8819/10^14) * exp(11 ln10 + ln8 - ln81 - ln4849 - ln8819 - pi) =: N e^delta. Here 4849 = 13*373, and 125/10^14 = 1/(8*10^11) is absorbed as 11 ln10 + ln8.\n(6) Table, using the regrouping 125*13*373 = 325*1865: the 48-decimal natural logs of 8819, 1865, 325 and 81 are listed together with pi. A carry row follows, and the sum is ln8819 + ln1865 + ln325 + ln81 + pi = 29.9355470865 5806619249 3876016461 2292532872 06771096. The intended next step [mine] is delta = 14 ln10 - (this sum), which should be tiny; e^delta would then be computed by series.",
+  "errors": [
+   "The factorization 32831087 = 373*8819 on the page is wrong. 373*8819 = 3289487. The correct factorization is 32831087 = 373*88019, with 88019 prime (> 10000, so not in a 10000-prime log table). Gauss dropped a digit 0.",
+   "Consequence: the logarithm table uses ln 8819 instead of ln 88019. With the wrong N, delta = 14 ln10 - 29.93554708... ≈ 2.30064 (about ln 10), not a small quantity, so the computation as set up fails. With the correct factor the sum would be ≈ 32.2361913 = 14 ln10 and delta would be tiny. Even then 88019 lies outside the 10000-prime table, so this attempt would not 'succeed' in the intended sense either.",
+   "The text says 'multiplicirt mit 10^13', but A*10^13 would be 432139182637.72. The value 4321391826377.25 and the later denominator 10^14 require 10^14 (A = e^{-pi}). This is a slip or a misread exponent.",
+   "The stated compositeness criterion 'not of the form xx+190yy' needs care. C ≡ 2 mod 5, so C can never be represented by x^2+190y^2 whatever its factorization. For determinant -190 its genus characters ((C/5) = -1, (C/19) = -1, C ≡ 7 mod 8) point to the form 2x^2+95y^2 (equivalently 2C = X^2+190Y^2). The conclusion 'composite' is correct, but the form as written is either shorthand or a slip.",
+   "The final rounding 4321391826377,25 is fine: the true value is ...377.2249."
+  ],
+  "results": [
+   {
+    "what": "Computing e^{-pi} (Gelfond's constant e^pi) to about 48 decimals by finding a rational N = product of tabulated primes over a power of 10 with e^{-pi}/N ≈ 1, then using 48-place natural log tables plus a series for e^delta.",
+    "modern_name": "High-precision evaluation of e^pi via factor-table logarithms (an argument-reduction technique)",
+    "usually_credited_to": "Standard 18th/19th-century computing practice (Wolfram/Vega log tables, 1794); Gauss is known to have needed e^{-pi} as the lemniscatic nome",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Compositeness or primality test using an idoneal number (190): in a determinant where each genus has one class, a prime is represented exactly once by the form of its genus.",
+    "modern_name": "Euler–Gauss idoneal-number primality test (Disquisitiones Arithmeticae art. 303, 329–334)",
+    "usually_credited_to": "Euler (numeri idonei, 1778); Gauss, Disquisitiones Arithmeticae (1801)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Factoring by exclusion using quadratic residues ('first method' of the Disquisitiones).",
+    "modern_name": "Gauss's exclusion method for factorization (DA art. 329–332)",
+    "usually_credited_to": "Gauss (1801)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a worked application of Gauss's own published factoring and primality methods (idoneal numbers, exclusion) in service of a high-precision computation of e^{-pi}. Both the methods and the motive are well known. The only notable feature is an arithmetic slip (8819 for 88019) that invalidates this attempt.",
+  "checkable": [
+   {
+    "sympy": "N(exp(-pi)*10**14, 25)",
+    "asserts": "equals 4321391826377.2249..., matching the page's 4321391826377,25 (factor 10^14, not 10^13)"
+   },
+   {
+    "sympy": "125*81*13*32831087 == 4321391826375",
+    "asserts": "the stated factorization of the integer is correct"
+   },
+   {
+    "sympy": "373*8819",
+    "asserts": "equals 3289487, NOT 32831087 (Gauss's factorization is wrong)"
+   },
+   {
+    "sympy": "factorint(32831087)",
+    "asserts": "{373: 1, 88019: 1}"
+   },
+   {
+    "sympy": "isprime(88019) and isprime(8819) and isprime(373)",
+    "asserts": "all three are prime"
+   },
+   {
+    "sympy": "13*373 == 4849 and 125*13*373 == 325*1865",
+    "asserts": "explains l4849 in the exponent and the regrouping 325, 1865 in the table"
+   },
+   {
+    "sympy": "N(log(8819), 50)",
+    "asserts": "≈ 9.0846637638881807872587516391480778891991855102..., matching the first table row"
+   },
+   {
+    "sympy": "N(log(1865), 50)",
+    "asserts": "should match row 7.5310163320 7791591593 6493938327 8517774444 18976895 (checks the uncertain digits)"
+   },
+   {
+    "sympy": "N(log(325), 50)",
+    "asserts": "≈ 5.7838251823 2973748525 5006108017 6938838564 70653297"
+   },
+   {
+    "sympy": "N(log(81), 50)",
+    "asserts": "≈ 4.3944491546 7243876558 0980947690 1028185899 62231291"
+   },
+   {
+    "sympy": "N(log(8819)+log(1865)+log(325)+log(81)+pi, 50)",
+    "asserts": "≈ 29.93554708655806619249387601646122925328720677..., the page's sum"
+   },
+   {
+    "sympy": "N(14*log(10) - (log(8819)+log(1865)+log(325)+log(81)+pi), 15)",
+    "asserts": "≈ 2.30064, so delta is not small with the erroneous factor 8819"
+   },
+   {
+    "sympy": "N(14*log(10) - (log(88019)+log(1865)+log(325)+log(81)+pi), 15)",
+    "asserts": "tiny (about 5e-14): the correct factor 88019 gives the intended small delta"
+   },
+   {
+    "sympy": "(32831087 % 5, 32831087 % 8, 32831087 % 19)",
+    "asserts": "(2, 7, 18): C cannot be represented by x^2+190y^2 for genus reasons alone; its genus is that of 2x^2+95y^2"
+   },
+   {
+    "sympy": "N(599*exp(-pi)*10**8, 20)",
+    "asserts": "≈ 2588513703.99995..., consistent with the previous page and confirming A = e^{-pi}"
+   }
+  ],
+  "transcription_corrections": [
+   "'10^{13}' in line 3: the value requires 10^{14} (possibly Gauss's slip; the image looks like 10^13 or 10^3 with an overwrite).",
+   "Exponent 'l4849' is correct as written (4849 = 13*373); the '[?]' can be removed.",
+   "'373. 8819' is faithfully transcribed but is Gauss's arithmetic error; the correct cofactor is 88019.",
+   "Exponent begins '11 l10 + l8' (from 125/10^14 = 1/(8*10^11)); the transcription is correct.",
+   "In the 1865 row the doubtful digits ('...1593', '...7774444') should be checked against ln 1865 computed to 50 places.",
+   "The row '122222123 3322323222 ...' is the carry row of the column addition, not data."
+  ]
+ }
+}

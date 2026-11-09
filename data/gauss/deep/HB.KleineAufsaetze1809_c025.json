@@ -1,0 +1,53 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c025",
+ "label": "16",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000026/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a five-place table. It continues p.15 and leads into p.17. It has two blocks: arguments 0.560 to 0.600, and 0.600 to 0.640, in steps of 0.001. Each row has five columns: A | B | ΔB | C | ΔC.\n\nWhat the columns are (identification and checks are mine, not stated on the page):\n- A is the argument.\n- B = log10(1 + 10^(-A)).\n- C = A + B = log10(1 + 10^A).\n- ΔB = B(A) − B(A+0.001), in units of 10^-5.\n- ΔC = C(A+0.001) − C(A), in units of 10^-5. Since C(A) − A = B(A), it follows that ΔB + ΔC = 100 exactly. Every row on the page satisfies this (e.g. 21+79, 20+80, 19+81, 18+82).\n\nSpot checks against the formula:\n- A=0.560: 10^-0.56 = 0.275423, log10(1.275423) = 0.105652, giving 0.10565.\n- A=0.587: B = 0.099964, giving 0.09996.\n- A=0.600: 10^-0.6 = 0.251189, log10(1.251189) = 0.097323, giving 0.09732.\n- A=0.613: giving 0.09474.\n- A=0.620: giving 0.09338.\n- A=0.634: 10^-0.634 = 0.232274, B = 0.090708, giving 0.09071. This confirms the blotted entry.\n- A=0.640: 10^-0.64 = 0.229087, B = 0.089583, giving 0.08958.\n\nThe C column is just A + B. Note the cosmetic coincidence that C(0.600) = 0.69732 has the same digits as B = 0.09732 shifted by 0.6.\n\nPurpose: these are Gaussian (addition) logarithms. Given log a and log b with a ≥ b, put A = log a − log b. Then log(a+b) = log a + B(A) = log b + C(A). Read inversely, the table gives log(a−b) by a single entry and one addition. This page is evidently part of the manuscript of Gauss's five-place table, published 1812 in Zach's Monatliche Correspondenz (Werke III). The 1809 bundle date fits that preparation. The difference columns are tabular differences for linear interpolation.",
+  "errors": [
+   "No numerical errors found. All checked B values agree with log10(1+10^-A) to 5 places, all differences are arithmetically consistent with adjacent entries, and ΔB+ΔC=100 throughout.",
+   "Several entries in the lower right block (0.09108, 0.09071, 0.09052, 0.09033, 0.09014, 0.08996) are heavily inked or overwritten in the manuscript. This indicates the writer corrected or re-inked them; the final values are correct."
+  ],
+  "results": [
+   {
+    "what": "Five-place table of B(A)=log10(1+10^-A) and C(A)=log10(1+10^A) for A=0.560..0.640 with first differences, for computing the logarithm of a sum or difference from the logarithms of the terms.",
+    "modern_name": "Gaussian logarithms (addition/subtraction logarithms)",
+    "usually_credited_to": "Zecchini Leonelli (idea, 1802/1803); Gauss (first widely used 5-place table, Monatliche Correspondenz 1812)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of Gauss's own published 1812 table of addition logarithms, already credited to him (the tables bear his name). It is routine computation with no new mathematics; its only interest is as a working manuscript of the published table.",
+  "checkable": [
+   {
+    "sympy": "[round(float(log(1+10**(-Rational(a,1000)),10)),5) for a in range(560,641)]",
+    "asserts": "Reproduces the B column on this page (0.10565 at A=0.560 down to 0.08958 at A=0.640)."
+   },
+   {
+    "sympy": "round(float(log(1+10**(-Rational(634,1000)),10)),5) == 0.09071",
+    "asserts": "The blotted entry at A=0.634 is 0.09071."
+   },
+   {
+    "sympy": "round(float(log(1+10**(Rational(600,1000)),10)),5) == 0.69732",
+    "asserts": "C(A)=log10(1+10^A); value at A=0.600."
+   },
+   {
+    "sympy": "simplify(log(1+10**a,10) - a - log(1+10**(-a),10))",
+    "asserts": "Identity C(A)=A+B(A) (should simplify to 0), hence ΔB+ΔC=100 units of 1e-5 per 0.001 step."
+   },
+   {
+    "sympy": "round(float(log(1+10**(-Rational(560,1000)),10)),5) == 0.10565",
+    "asserts": "First entry of the page."
+   }
+  ],
+  "transcription_corrections": [
+   "Row 0.634: the B value, partly obscured by ink in the image, is 0.09071. This is confirmed by computation and by differences of 19 on both sides.",
+   "Row 0.578: the C value 0,67983 has a blotted/overwritten digit in the image; the correct reading is 0,67983.",
+   "Rows 0.632, 0.635, 0.636, 0.637, 0.638: the B values 0.09108, 0.09052, 0.09033, 0.09014, 0.08996 are overwritten or heavily inked in the image; the transcribed readings are correct.",
+   "In the manuscript the difference columns are written between successive rows, not on the rows themselves."
+  ]
+ }
+}

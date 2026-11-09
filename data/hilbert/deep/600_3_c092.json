@@ -1,0 +1,72 @@
+{
+ "bundle": "600_3",
+ "page": "c092",
+ "label": "89",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000093/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds four separate notes.\n\n(1) Physics-methodological remark. It continues a sentence from the previous page, which ends 'Umgekehrt könnte die Sommer-'. The full sentence reads: 'Conversely, the Sommerfeld mean free path could be used as a method (at first approximately) for solving an integral equation!'. The idea is to replace the collision integral of a kinetic (Boltzmann-type) integral equation, as in Hilbert's 1912 kinetic gas theory, by a mean-free-path ansatz. This yields an approximate solution, which might then serve as a starting point for iteration. No computation is given.\n\n(2) Epistemological remark.\n- Gauss still experimented with numbers and then proved the laws found this way.\n- Today this no longer works even in number theory. Instead, general laws are found theoretically, and it is then hard to compute simple numerical examples.\n- Into this 'unpleasant gap' steps the physical experiment.\n- That these really are mathematical laws is shown only by the axiomatic method, 'completely analogous to geometry'. The phenomenological (= thermodynamic) level corresponds to the axioms that give lines, planes, etc. The continuity axioms correspond to the molecular-kinetic level.\n\n(3) Speculative remark on the second law.\n- 'Our grandchildren will laugh at us for still winding our watches every evening.'\n- 'Because of the invalidity of the second law, a perpetuum mobile of the second kind' will have long since been found technically.\n- '[Living?] microbes are small enough to be such apparatus converting heat into work.'\n- This is a Maxwell-demon / fluctuation idea, of the kind discussed by Smoluchowski in 1912.\n\n(4) Derivation: the most probable distribution in the Boltzmann combinatorial method.\n- There are N molecules with sum_{i=1..N} v_i^2 = 1, i.e. total (kinetic) energy normalised to 1.\n- Energy is quantised in units epsilon = 1/n.\n- Let N_i be the number of molecules with energy i*epsilon.\n- Energy constraint: sum_i i*epsilon*N_i = 1, i.e. sum_i i*N_i = n, with multiplier lambda.\n- Number constraint: sum_i N_i = N, with multiplier mu.\n- Hilbert writes log W = sum N_i log N_i = Maximum under these side conditions.\n\n[Implicit, mine] W = N!/prod N_i! is the number of complexions. Stirling gives log W ≈ N log N − sum N_i log N_i.\n\nThe next page continues: the variation gives log N_i + 1 + lambda*i + mu = 0, so N_i = C*e^{-lambda i}. This is a geometric/exponential (Maxwell–Boltzmann) distribution in the energy (velocity squared). [Mine] With i = 0,1,2,..., the constraints fix the ratio q = e^{-lambda} = n/(n+N) and C = N^2/(n+N). In the continuum limit epsilon → 0 this gives the exponential law in v^2. The following page then generalises to an ensemble of s systems (counting how many systems have each distribution), i.e. a Gibbs-type ensemble argument.",
+  "errors": [
+   "Sign slip: log W = −sum N_i log N_i + N log N (via Stirling), not +sum N_i log N_i. As written, 'Maximum' should be 'Minimum' of sum N_i log N_i. The stationarity equation on the next page is unaffected; it only matters for identifying max vs min.",
+   "The constraint system mixes normalisations: sum v_i^2 = 1 is kinetic energy without the factor m/2. This is harmless, since the next page explicitly calls i*epsilon the 'Geschwindigkeitsquadrat' (velocity squared).",
+   "The range of i (starting at 0 or 1) is not specified; this affects the explicit constants but not the exponential form.",
+   "The physical claim that the second law is 'invalid' so that microbes could act as perpetua mobilia of the second kind is speculative and, by modern understanding (Szilard, Landauer/Bennett), incorrect as a source of usable work."
+  ],
+  "results": [
+   {
+    "what": "Most probable occupation numbers N_i of discrete energy levels i*epsilon under fixed N and total energy, via maximising the multinomial count with Lagrange multipliers",
+    "modern_name": "Boltzmann's combinatorial derivation of the Maxwell–Boltzmann distribution (method of the most probable distribution)",
+    "usually_credited_to": "Ludwig Boltzmann (1877)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Suggestion to use a mean-free-path ansatz as an approximate method for solving the kinetic integral equation",
+    "modern_name": "Relaxation-time / mean-free-path approximation to the Boltzmann collision operator (cf. BGK model)",
+    "usually_credited_to": "Mean free path: Clausius/Maxwell; relaxation-time model: Bhatnagar–Gross–Krook (1954); its use for transport goes back to Lorentz/Sommerfeld",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Analogy: phenomenological thermodynamics vs molecular kinetics treated axiomatically like geometry's incidence axioms vs continuity axioms",
+    "modern_name": "Hilbert's axiomatisation programme for physics (6th problem)",
+    "usually_credited_to": "David Hilbert (1900, 6th problem; lectures around 1912–1913)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Microorganisms as small enough to violate the second law (perpetuum mobile of the second kind)",
+    "modern_name": "Maxwell's demon / thermal-fluctuation critique of the second law",
+    "usually_credited_to": "Maxwell (1867/1871); Smoluchowski (1912); Szilard (1929)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The derivation is Boltzmann's standard 1877 method, which Hilbert is known to have studied around 1912 in connection with his kinetic gas theory. The philosophical remarks match his known axiomatic programme. The mean-free-path-as-approximation idea is a vague anticipation of relaxation-time methods, but it is not developed here.",
+  "checkable": [
+   {
+    "sympy": "N,n=symbols('N n',positive=True); q=n/(n+N); C=N**2/(n+N); i=symbols('i',integer=True,nonnegative=True); simplify(summation(C*q**i,(i,0,oo))-N)",
+    "asserts": "With N_i = C*q^i, i >= 0, the number constraint sum N_i = N holds (expected 0)."
+   },
+   {
+    "sympy": "N,n=symbols('N n',positive=True); q=n/(n+N); C=N**2/(n+N); i=symbols('i',integer=True,nonnegative=True); simplify(summation(i*C*q**i,(i,0,oo))-n)",
+    "asserts": "The energy constraint sum i*N_i = n holds for the same geometric distribution (expected 0)."
+   },
+   {
+    "sympy": "x,l,m=symbols('x lambda mu'); solve(diff(-x*log(x)-l*3*x-m*x,x),x)",
+    "asserts": "Stationarity of −N_i log N_i − lambda*i*N_i − mu*N_i (here i=3) gives N_i = exp(−1−mu−lambda*i), i.e. the next page's lg N_i + 1 + lambda*i + mu = 0."
+   },
+   {
+    "sympy": "x=symbols('x',positive=True); diff(x*log(x),x,2)",
+    "asserts": "The second derivative 1/x > 0 shows sum N_i log N_i is convex, so the constrained extremum is a minimum of sum N_i log N_i (maximum of log W = −sum N_i log N_i + const), confirming the sign slip."
+   }
+  ],
+  "transcription_corrections": [
+   "First line: '[?]ldische Weglänge' should read 'feldsche Weglänge'. It completes 'Sommer-' from the previous page: 'Sommerfeldsche Weglänge'.",
+   "The interlinear insertion 'Ergiebt Gerade, Ebene etc.' reads more naturally as 'Er giebt Gerade, Ebene etc.' (or 'ergiebt'). It is written above 'phaenomenologisch'.",
+   "Before 'phaenomenologisch' there is a struck-through start, an opening parenthesis followed by a capital 'Ph' / 'Pha' overwritten.",
+   "'Die Lebensmikroben[?]' is uncertain in the image; the reading is plausible but not secure."
+  ]
+ }
+}

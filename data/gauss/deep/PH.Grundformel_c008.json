@@ -1,0 +1,78 @@
+{
+ "bundle": "PH.Grundformel",
+ "page": "c008",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382435:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem. Gauss studies the forced linear oscillator (1/n^2) phi'' + phi + (mu r/theta) G(t) = 0. Here phi is presumably a deflection angle, n the free angular frequency, and G a periodic driving term. The heading 'Phys.' and the parameters mu, r, theta suggest a magnetic needle or torsion apparatus driven by a periodic current. That interpretation is my conjecture.\n\nStep 1 (steady-state response to one harmonic). Take G = a sin(lambda n t + A) and try phi = C sin(lambda n t + A). Substituting gives (-lambda^2 + 1) C + (mu r/theta) a = 0. Hence C = (mu r/theta) a/(lambda^2 - 1), as Gauss writes. By linearity, a G that is a sum of such parts gives the sum of these contributions.\n\nStep 2 (Fourier expansion of a non-analytic periodic G). Gauss remarks that any periodic G can be put in this form, even if G is not given by a single analytic expression. Example: G = |a sin(lambda n t)|, i.e. a rectified sine. Its Fourier series is\n(2a/pi)(1 - 2 sum_{k>=1} cos(2k lambda n t)/(4k^2 - 1)).\nThe coefficients are 2/3, 2/15, 2/35, 2/63, ...\n\nStep 3 (resulting periodic solution, formula I). Apply Step 1 term by term, with frequency 0 for the constant and 2k lambda for the cosines (cosines behave like sines with a phase shift):\nphi = -(2 mu r a/(theta pi)) {1 + sum_k 2 cos(2k lambda n t)/((4k^2 - 1)(4k^2 lambda^2 - 1))}.\nGauss writes the left side as 'G'; it should be phi. For lambda = 43 the first coefficient is 2/(3(4*1849 - 1)) = 2/22185.\n\nStep 4 (closed form on one half-period, formula II). On 0 <= lambda n t <= pi we have |sin| = sin, so the ODE is driven by a sin(lambda n t) there. Its general solution is\nphi = h sin(nt + H) + K sin(lambda n t), with K = mu r a/(theta (lambda^2 - 1)).\nAgain Gauss labels this 'G'. This agrees with I only on one period, because the periodic solution is a different branch of II on each half-wave.\n\nStep 5 (fixing h and H). Gauss requires phi and dphi/dt to take equal values at t = 0 and at t = pi/(lambda n). This makes the piecewise continuation C^1 and therefore equal to the unique periodic solution (my justification, valid since 2k lambda != 1).\n- Values: h sin H = h sin(pi/lambda + H).\n- Derivatives: n h cos H + K lambda n = n h cos(pi/lambda + H) - K lambda n, since cos(pi) = -1.\n- The first gives H + pi/lambda = pi - H, i.e. H = pi/2 - pi/(2 lambda).\n- In the second, cos(H + pi/lambda) - cos H = -2 sin(H + pi/(2 lambda)) sin(pi/(2 lambda)) = -2 sin(pi/(2 lambda)) (my step). Hence h sin(pi/(2 lambda)) + K lambda = 0.\n\nThe next page substitutes these values: h sin(nt + H) = -(K lambda/sin(pi/(2 lambda))) cos(nt - pi/(2 lambda)). Equating with I yields the 'remarkable' identity, the Fourier series of cos(nt - pi/(2 lambda)) on [0, pi/(lambda n)].",
+  "errors": [
+   "The solution phi is written as 'G' in formula (I), in the lambda = 43 line, and in formula (II). The letter should be phi. This is a notational slip, not a mathematical error.",
+   "Formula (I) ends with a trailing '−' although every later term is positive (all terms are +2/((4k^2-1)(4k^2 lambda^2 - 1))). The same loose sign appears on the next page. It is a harmless slip.",
+   "The claim that the matching conditions give the periodic solution is used without justification. It is correct: C^1 matching suffices for this second-order ODE, and the solution is unique when no 2k lambda = 1.",
+   "Otherwise every step checks: the particular solution, the Fourier coefficients of |sin|, 2/22185, H = pi/2 - pi/(2 lambda), and h sin(pi/(2 lambda)) = -K lambda."
+  ],
+  "results": [
+   {
+    "what": "Steady-state response of an undamped oscillator to the harmonic forcing a sin(lambda n t + A): amplitude factor 1/(lambda^2 - 1)",
+    "modern_name": "Particular solution / frequency response of the forced harmonic oscillator",
+    "usually_credited_to": "Euler, d'Alembert (18th century)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Fourier series of the rectified sine |sin x| = (2/pi)(1 - 2 sum cos 2kx/(4k^2 - 1))",
+    "modern_name": "Fourier series of the full-wave rectified sine",
+    "usually_credited_to": "Euler/Fourier (classical)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Periodic solution under rectified-sine forcing, obtained two ways: by Fourier synthesis (I) and by piecewise closed form with C^1 matching at the half-period endpoints (II/III)",
+    "modern_name": "Periodic steady state via matching conditions vs. harmonic balance; leads to a Fourier series of cos on a sub-interval (related to the partial-fraction expansion of pi/sin)",
+    "usually_credited_to": "Classical (Euler's partial fractions; Fourier methods, 1807-1822)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are routine applied techniques for a linear forced oscillator: harmonic response, the standard Fourier series of |sin|, and matching conditions. The method of comparing two representations to obtain a series identity is neat, but the identity itself is a classical consequence of Euler-type partial fractions. The likely physical context (a rectified periodic current acting on a needle, as in Gauss-Weber induction work) is of historical interest but not mathematically surprising.",
+  "checkable": [
+   {
+    "sympy": "C=symbols('C'); lam,a,k=symbols('lam a k',positive=True); solve(-lam**2*C + C + k*a, C)",
+    "asserts": "The particular solution amplitude is k*a/(lam**2-1) with k = mu*r/theta (Step 1)."
+   },
+   {
+    "sympy": "x=symbols('x'); [simplify(integrate(Abs(sin(x))*cos(2*m*x),(x,0,pi))*2/pi) for m in range(0,5)]",
+    "asserts": "The Fourier cosine coefficients of |sin x| are 4/pi, -4/(3pi), -4/(15pi), -4/(35pi), -4/(63pi). With a0/2 this gives (2/pi)(1 - 2/3 cos2x - 2/15 cos4x - 2/35 cos6x - 2/63 cos8x - ...)."
+   },
+   {
+    "sympy": "3*(4*43**2-1)",
+    "asserts": "The result equals 22185, the denominator for lambda = 43."
+   },
+   {
+    "sympy": "H,lam=symbols('H lam'); simplify(sin(pi/2-pi/(2*lam)) - sin(pi/lam + pi/2 - pi/(2*lam)))",
+    "asserts": "The result is 0: H = pi/2 - pi/(2 lam) satisfies sin H = sin(H + pi/lam)."
+   },
+   {
+    "sympy": "lam=symbols('lam'); H=pi/2-pi/(2*lam); simplify(cos(H+pi/lam)-cos(H) + 2*sin(pi/(2*lam)))",
+    "asserts": "The result is 0, so the derivative condition reduces to h*sin(pi/(2 lam)) + K*lam = 0."
+   },
+   {
+    "sympy": "t,lam,n=symbols('t lam n',positive=True); phi=-lam/sin(pi/(2*lam))*cos(n*t-pi/(2*lam))+sin(lam*n*t); [simplify(phi.subs(t,0)-phi.subs(t,pi/(lam*n))), simplify(diff(phi,t).subs(t,0)-diff(phi,t).subs(t,pi/(lam*n)))]",
+    "asserts": "Both entries are 0: formula III (in units of K) is continuous with continuous derivative across the half-period, so it extends periodically."
+   },
+   {
+    "sympy": "t=symbols('t'); lam=Rational(7,2); n=1; lhs=1+sum(2*cos(2*k*lam*t)/((4*k**2-1)*(4*k**2*lam**2-1)) for k in range(1,400)); rhs=pi*lam/(2*(lam**2-1)*sin(pi/(2*lam)))*cos(t-pi/(2*lam)) - pi/(2*(lam**2-1))*sin(lam*t); N((lhs-rhs).subs(t,0.3))",
+    "asserts": "The result is approximately 0. This numerically confirms that I equals III on 0 <= t <= pi/lam, the 'remarkable equation' of the next page."
+   }
+  ],
+  "transcription_corrections": [
+   "The top-right folio number reads '(5)', then '50' struck through, then '7'.",
+   "In the series for |a sin lambda n t|, the sign before 2/15 cos 4 lambda n t is blotted or overwritten in the image. Mathematically it must be '−', as transcribed.",
+   "In (I) the denominator of the first term was overwritten; it reads 3(4 lambda lambda − 1).",
+   "In (II) the argument was corrected in the manuscript; the final reading is h sin(nt + H).",
+   "Gauss's 'G' on the left of formulas (I) and (II) is in the manuscript itself; it is not a transcription error. Conceptually it denotes phi."
+  ]
+ }
+}

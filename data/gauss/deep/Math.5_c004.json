@@ -1,0 +1,87 @@
+{
+ "bundle": "Math.5",
+ "page": "c004",
+ "label": "3r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376170:00000005/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Title: 'Potestates fractionum ad Circuli Quadraturam una cum residuis', i.e. powers of fractions for the quadrature of the circle, together with remainders. The page is a table of successive powers 1/n^k, worked out to about 60 decimal places by repeated long division. It supplies the terms of the Gregory series arccot n = Σ_k (-1)^k /((2k+1) n^(2k+1)), which feeds an arctangent (Machin-type) formula for π.\n\nSection I, n = 307. Let N = 10^60. Line 1 is L1 = floor(N/307) = 3257328990228013029315960912052117263843648208469055374592. The 1/307 = 0.0032573289... is written without its leading zeros and grouped in tens. The parenthesis '(256' at the top is the remainder 10^60 − 307·L1 = 256.\n\nFor each later line, L_{k+1} = floor(L_k/307), and r_k = L_k − 307·L_{k+1} is the 'residuum' written at the right margin of line k. The residues are therefore offset by half a line: (256) belongs to producing line 1, (132) to dividing line 1 to get line 2, and so on. The last '(2' comes from 2 = 0·307 + 2. My own spot-checks confirm the scheme:\n- 307·L2 + 132 ends …9055374592 (= L1);\n- 307·L4 + 268 ends …1556823471 (= L3);\n- 307·L8 + 121 ends …6274855960 (= L7);\n- 307·58897127 + 98 = 18081418178;\n- 191847 = 307·624 + 279;\n- 624 = 2·307 + 10.\n\nSince floor(floor(a/b)/c) = floor(a/(bc)), L_k = floor(10^60/307^k) = the first 60 decimal places of 307^(-k). The table stops at k = 24, where 10^60/307^24 ≈ 2.04. All powers are computed because Gauss divides by 307 once per step. Only the odd ones, L1, L3, …, L23, are used on the previous page: there they are divided by 1, 3, 5, …, 23, summed with alternating signs, and give arccot 307 ≈ 0.0032573174700585734… The previous page's heading 'Acotg 307 = −3(2)+3(5)+(13)+(29)' records how 307+i factors into Gaussian primes. This rests on 307²+1 = 2·5³·13·29, Gauss's standard technique for finding arctangent relations.\n\nSection II, n = 882 (note 882²+1 = 5²·29²·37). The same procedure applied to 1/882, carried only to the 12th power. There are no marginal residues except '(316' on line 1, which is 10^60 mod 882. The digit groups are aligned in fixed absolute positions: each line moves about 3 digits to the right, since log10 882 ≈ 2.945. The leading-group lengths 8, 5, 2, 9, 6, 3, 10, 7, 4, 1, 8, 5 confirm this. Values checked against 1/882^k:\n- 1/882 = 0.0011337868 4807256235 …;\n- 1/882² = 1.2854726…e-6;\n- 1/882³ = 1.4574519…e-9;\n- 1/882⁶ = 2.124166…e-18;\n- 1/882⁷ = 2.40835167…e-21;\n- 1/882¹² = 4.51208…e-36.\nThe last group of each line in II is written only partly and is heavily overwritten in lines 8–12. The section looks unfinished: about 20 powers would be needed for 60 places.\n\nMarginal numbers 385791 and 8827: their purpose is unclear. Note 8827 = 7·13·97 and 385791 = 3·7·18371.",
+  "errors": [
+   "No arithmetic errors found in Section I; all spot-checked residues and digit groups are consistent with L_k = 307·L_{k+1} + r_k.",
+   "Section II line 3: Gauss first wrote '…591337384' and then wrote '497' above it. My long division confirms the corrected group 5913377497 and the following group 8583909606, so the correction is right.",
+   "Section II lines 8–12: the final digit groups are overwritten and only partly legible. Their correctness cannot be confirmed from the image; the section appears incomplete.",
+   "The previous page's copy of the 7th power reads …6274858960, but this page (and the check 307·L8 + 121) gives …6274855960. Either the previous-page transcription or Gauss's copy has a slip there."
+  ],
+  "results": [
+   {
+    "what": "60-decimal values of 307^(-k), k = 1..24, by repeated division with recorded remainders, as input to the Gregory series for arccot 307",
+    "modern_name": "Gregory/Machin arctangent series evaluation (Machin-type π computation by long division)",
+    "usually_credited_to": "James Gregory (1671) for the series; John Machin (1706) for the arctangent-relation method",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The same power table for 1/882 (partial, to the 12th power)",
+    "modern_name": "Machin-like formula computation; numbers n with smooth n²+1 (Størmer-type arccot relations)",
+    "usually_credited_to": "Gauss's 'Cyclotechnie' tables of factored n²+1 (Werke II); systematic theory by Størmer (1896)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine high-precision auxiliary table for evaluating arccot 307 and arccot 882. Gauss's work on arctangent relations and the factoring of n²+1 for computing π is documented in his Werke (Zur Cyclotechnie). Nothing here is methodologically new.",
+  "checkable": [
+   {
+    "sympy": "10**60 % 307 == 256",
+    "asserts": "Top residue (256) is the remainder of 10^60 divided by 307"
+   },
+   {
+    "sympy": "10**60 // 307 == 3257328990228013029315960912052117263843648208469055374592",
+    "asserts": "Line I.1 equals the first 60 decimals of 1/307"
+   },
+   {
+    "sympy": "[(10**60 // 307**k) % 307 for k in range(1, 25)] == [132,183,268,127,275,153,121,40,147,206,78,248,126,169,212,112,197,20,88,189,98,279,10,2]",
+    "asserts": "The marginal residues are the remainders of successive division by 307"
+   },
+   {
+    "sympy": "10**60 // 307**24 == 2",
+    "asserts": "Line I.24 equals 2"
+   },
+   {
+    "sympy": "(10**60 // 307**7) % 10**10 == 6274855960",
+    "asserts": "Last group of line I.7 is 6274855960, as on this page"
+   },
+   {
+    "sympy": "10**60 // 307**12 == 14267224473556021432734938776 60",
+    "asserts": "Line I.12 equals 1.4267224473.5560214327.3493877660 (remove the space; i.e. 1426722447355602143273493877660)"
+   },
+   {
+    "sympy": "10**60 // 882 == 1133786848072562358276643990929705215419501133786848072562 and 10**60 % 882 == 316",
+    "asserts": "Line II.1 and its residue 316"
+   },
+   {
+    "sympy": "'59133774978583909606' in str(10**80 // 882**3)",
+    "asserts": "The corrected digit groups 5913377497 and 8583909606 in line II.3 are right"
+   },
+   {
+    "sympy": "str(10**60 // 882**7).startswith('2408351674')",
+    "asserts": "Line II.7 begins with 2408351674 (1/882^7 = 2.408351674e-21)"
+   },
+   {
+    "sympy": "factorint(307**2 + 1) == {2: 1, 5: 3, 13: 1, 29: 1}",
+    "asserts": "307²+1 = 2·5³·13·29, matching 'Acotg 307 = −3(2)+3(5)+(13)+(29)'"
+   },
+   {
+    "sympy": "factorint(882**2 + 1) == {5: 2, 29: 2, 37: 1}",
+    "asserts": "882²+1 is smooth, so 882 is useful in arccot relations"
+   }
+  ],
+  "transcription_corrections": [
+   "The residues in the right margin are offset by half a line: '(256' belongs to forming line 1 (10^60 mod 307), and the residue printed beside line k is L_k mod 307, used to form line k+1.",
+   "I.17 should read '52317576.3638805103' (no space).",
+   "I.7 last group is '6274855960' (correct on this page); the previous page's '6274858960' is a slip or misreading.",
+   "II.3 should read '14.5745194655.5913377497.8583909606.9180976483.70972', where '497' is Gauss's correction of the crossed-out '384' and the 4th group begins with 8.",
+   "II.4 should read '165243984.8702849634.3513133684.3615851447.26'; the first group stands for 0165243984 at its absolute position."
+  ]
+ }
+}

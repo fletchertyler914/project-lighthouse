@@ -1,0 +1,58 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c087",
+ "label": "44v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000088/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds two unrelated fragments. The lower one is written upside down relative to the upper one.\n\n(A) Top: the change of variables continued from fol. 44r.\n- The setting from the previous page: a point P in the plane has distance ϱ from one fixed pole and distance r from a second pole. The defining relation is a^2 = ϱ^2 + r^2 + 2ϱ r cos φ, with λ = r/ϱ. Equivalently a^2 = ϱ^2(1 + 2λ cos φ + λ^2) = ϱ r(λ + 1/λ + 2 cos φ).\n- Read with a fixed (the reading most consistent with fol. 44r), these are bipolar coordinates. The curves λ = const are Apollonius circles. The curves φ = const are circular arcs through both poles. φ is the supplement of the angle OPA.\n- On 44r Riemann obtained the area element dA = ϱ dϱ dψ = (r ϱ^3 / a^2) dφ dλ.\n- My check: in standard bipolar coordinates (foci ±c, c = a/2, τ = ln(ϱ/r), σ = π − φ) one has dA = c^2 dσ dτ/(cosh τ − cos σ)^2. Here cosh τ − cos σ = (λ + 1/λ)/2 + cos φ = a^2/(2ϱ r) and |dτ| = dλ/λ. This gives dA = ϱ^2 r^2 dφ dλ/(a^2 λ) = r ϱ^3 dφ dλ/a^2, so his Jacobian is correct.\n- On this page he writes λ = r/ϱ again. He then splits a double integral over the plane into the region λ < 1 (term ∫ λ dφ dλ/a^2) and λ > 1 (term ∫^∞ dφ dλ/(a^2 λ^2)). The second term looks like the image of the first under the inversion λ → 1/λ, which exchanges the roles of r and ϱ.\n- Next he writes, in brackets, terms obtained by integrating by parts in λ: ∫ (1/r) ∂(1/ϱ)/∂λ λ dφ + ∫ (1/ϱ) ∂(1/r)/∂λ λ dφ. A further boundary-type term −∫ (…)/(rϱ) dφ follows.\n- The integrand is not fully legible. Most likely it is a product of two potentials 1/r and 1/ϱ, or a gradient product of such potentials, integrated over the plane. Its exact form cannot be settled, and the computation is unfinished.\n\n(B) Bottom, upside down: Green's first identity in the plane.\n- A sketch shows a closed region with x- and y-axes. Next to it is a note on the boundary direction cosines (dx, dy expressed via ds; partly illegible).\n- The formula is, with S an area element, s the boundary and n the normal:\n  ∫ u (∂²u/∂x² + ∂²u/∂y²) dS + ∫ ((∂u/∂x)² + (∂u/∂y)²) dS = ∫ u ∂u/∂n ds.\n- The boundary is apparently treated in two parts, s and s' with normals n and n'. This may be a domain with an inner boundary or a cut, or two subregions.\n- Rearranged: ∫ u Δu dS = ∫ u ∂u/∂n ds (+ ∫ u ∂u/∂n' ds') − ∫ |∇u|^2 dS.\n- This is the Dirichlet-integral identity Riemann used constantly. It is probably connected to the potential/energy integral in part (A).",
+  "errors": [
+   "No definite mathematical error is visible. The Jacobian dA = rϱ^3/a^2 dφ dλ carried over from 44r checks out against standard bipolar coordinates.",
+   "The top expression is fragmentary and partly struck through: the bracket is unclosed and one integrand is deleted. Its correctness cannot be fully judged.",
+   "The factor 1/λ^2 in the λ>1 term does not obviously follow from substituting λ→1/λ into λ dλ, which would give dλ/λ^3. It may be consistent if the roles of ϱ and r (hence the meaning of a^2/ϱ^2) are also exchanged. This is unverified."
+  ],
+  "results": [
+   {
+    "what": "Area element in bipolar coordinates (φ = angle at P, λ = r/ϱ): dA = rϱ^3/a^2 dφ dλ, used to transform a plane integral involving 1/r and 1/ϱ, with splitting at λ=1 and integration by parts in λ",
+    "modern_name": "Bipolar coordinates / Apollonian circle coordinates; Jacobian of bipolar transformation",
+    "usually_credited_to": "Classical (bipolar coordinates in the 19th c.; e.g. Lamé-era curvilinear coordinates, W. Thomson's work with images)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "∫ u Δu dS = ∮ u ∂u/∂n ds − ∫ |∇u|^2 dS in the plane, with boundary split into parts s, s'",
+    "modern_name": "Green's first identity (Dirichlet integral identity)",
+    "usually_credited_to": "George Green (1828); Gauss; Dirichlet",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Both fragments are routine 19th-century analysis: a bipolar change of variables and Green's first identity, which Riemann used extensively in published work (Dirichlet principle). Nothing non-standard is visible.",
+  "checkable": [
+   {
+    "sympy": "rho,lam,phi=symbols('rho lam phi',positive=True); r=rho*lam; simplify(rho**2*(1+2*lam*cos(phi)+lam**2) - rho*r*(lam+1/lam+2*cos(phi)))",
+    "asserts": "Equals 0: the two forms of a^2 used by Riemann agree."
+   },
+   {
+    "sympy": "rho,lam,phi=symbols('rho lam phi',positive=True); r=rho*lam; a2=rho**2+r**2+2*rho*r*cos(phi); simplify((lam+1/lam)/2+cos(phi) - a2/(2*rho*r))",
+    "asserts": "Equals 0: cosh τ − cos σ = a^2/(2ϱr) in bipolar coordinates."
+   },
+   {
+    "sympy": "rho,lam,phi=symbols('rho lam phi',positive=True); r=rho*lam; a2=rho**2+r**2+2*rho*r*cos(phi); simplify((a2/4)/(a2/(2*rho*r))**2/lam - r*rho**3/a2)",
+    "asserts": "Equals 0: the bipolar area element c^2 dσdτ/(coshτ−cosσ)^2 (c=a/2, dτ=dλ/λ) equals rϱ^3/a^2 dφ dλ."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); u=x**3+y**2; lhs=integrate(integrate(u*(diff(u,x,2)+diff(u,y,2))+diff(u,x)**2+diff(u,y)**2,(x,0,1)),(y,0,1)); rhs=integrate((u*diff(u,x)).subs(x,1)-(u*diff(u,x)).subs(x,0),(y,0,1))+integrate((u*diff(u,y)).subs(y,1)-(u*diff(u,y)).subs(y,0),(x,0,1)); simplify(lhs-rhs)",
+    "asserts": "Equals 0: Green's first identity ∫(uΔu+|∇u|^2)dS = ∮u ∂u/∂n ds on the unit square."
+   }
+  ],
+  "transcription_corrections": [
+   "The bottom formula block and the sketch are written upside down relative to the top formulas.",
+   "In the bottom formula, the second area integrand is the squared gradient (∂u/∂x)^2+(∂u/∂y)^2, not u times second derivatives (the machine transcription duplicates the Laplacian term).",
+   "The bottom boundary terms read ∫ u ∂u/∂n ds and ∫ u ∂u/∂n' ds' (two boundary pieces), followed by −∫((∂u/∂x)^2+(∂u/∂y)^2) dS.",
+   "Top line: the integral limits appear to be (0 to 1) and (1 to ∞) for λ; '+∫ 1/r − ∂(1/ϱ)/∂λ' should probably read '∫ (1/r) ∂(1/ϱ)/∂λ λ ∂φ'. The bracketed terms are integrations by parts in λ.",
+   "Near the sketch, the line read as 'dy = x ∂s = φ(x,y) ∂s' is very uncertain. It likely concerns boundary direction cosines dx/ds, dy/ds."
+  ]
+ }
+}

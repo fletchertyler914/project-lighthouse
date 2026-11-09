@@ -1,0 +1,53 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c070",
+ "label": "37r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000071/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This is the opening page (sections 1–2) of the draft of Riemann's answer to the 1858/1861 prize question of the Paris Academy. The final version is the 'Commentatio mathematica, qua respondere tentatur quaestioni ab Ill.ma Academia Parisiensi propositae', submitted 1861 and printed posthumously in the Werke (1876). The German note at the top is in a different hand, probably Dedekind or Weber as editors. It says: 'The work Riemann sent to the Paris Academy should still be in the Academy's archive. Publishing it might be arranged, e.g. through Hermite.'\n\n§1, the plan. The Academy asked for the thermal state of a homogeneous body in which a given system of isothermal lines stays isothermal for all time. Riemann first solves a more general question. Which conductivity properties of the body, together with which heat distribution, allow a system of lines that stay isothermal forever? He will then pick out the cases where these properties are the same everywhere, i.e. the body is homogeneous.\n\n§2, heat motion in an arbitrary body. Let u(x1,x2,x3,t) be the temperature. The general equation is stated as known ('constat'):\n\n(I)  sum_i d/dx_i ( sum_j a_ij du/dx_j ) = h du/dt.\n\nOnly the first term, i = 1, is written out; the other two are left blank.\n- The a_ij are the 'resultant conductivities': the flux vector is q = -A grad u with A = (a_ij).\n- h = c·rho is the heat capacity per unit volume, i.e. specific heat times density.\n- All of these are arbitrary given functions of x1, x2, x3; the body is anisotropic and inhomogeneous.\n\nTwo restrictions follow.\n- Symmetry, a_ij = a_ji. Riemann motivates this as 'the conductivity is the same in two opposite directions'. He wrote the restriction twice: once as a later parenthetical insertion in the first paragraph, once in the main text.\n- Positivity. Heat flows from hotter to colder places, so -grad u · q = sum a_ij u_i u_j must be > 0. Hence the quadratic form (a_11, ...), written in Gauss's bracket notation but left unfilled, must be positive definite.\n\nWhat this prepares (my addition, from the next page). Eq. (I) is the Euler–Lagrange condition of the variational expression (A): delta ∫∫∫ sum a_ij u_i u_j dx + ∫∫∫ 2h u_t delta u dx depends only on delta u on the boundary. This makes the change to curvilinear coordinates s easy. Riemann then shows the problem depends only on the adjoint quadratic form sum alpha_ij dx_i dx_j, which plays the role of a Riemannian metric.",
+  "errors": [
+   "No mathematical error. The equation is incomplete: only the i=1 term is written and the j-sum is written out explicitly; the remaining terms are left blank. The quadratic form '(a_11  )' is likewise not filled in.",
+   "Physically loose justification: 'the conductivity is the same in two opposite directions' does not by itself give a_ij = a_ji. A linear flux law q = -A grad u automatically gives equal and opposite flux when the gradient is reversed. Symmetry is a separate assumption: no 'rotatory' conduction (Duhamel 1848, Stokes 1851; later Onsager reciprocity). For constant a the antisymmetric part drops out of (I). For variable a it contributes sum_ij (d_i b_ij) u_j, so the restriction is a genuine assumption.",
+   "The positivity requirement as stated (heat flows hot to cold) constrains only the symmetric part of A, so it is consistent with, but does not imply, symmetry."
+  ],
+  "results": [
+   {
+    "what": "General heat equation for an anisotropic, inhomogeneous body: div(A grad u) = h u_t, with A symmetric positive definite and h = specific heat × density",
+    "modern_name": "Anisotropic heat (diffusion) equation in divergence form",
+    "usually_credited_to": "Fourier (1822, isotropic); Duhamel (1828/1848) and Lamé (crystals, anisotropic); Stokes (1851) on symmetry of the conductivity tensor",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Reformulating the Paris prize question (persistence of isothermal lines) as a problem about a body with arbitrary conductivity, to be specialised later to the homogeneous case",
+    "modern_name": "Riemann's Commentatio (1861): reduction of the heat-conduction problem to equivalence of quadratic differential forms (curvature tensor)",
+    "usually_credited_to": "Riemann (Commentatio, written 1861, published in Werke 1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of the opening of Riemann's published Paris prize essay (Werke, 1876). The content is the standard anisotropic heat equation plus a statement of plan. It is well known as his and contains nothing new.",
+  "checkable": [
+   {
+    "sympy": "x,y,z=symbols('x y z'); u=Function('u')(x,y,z); b=symbols('b'); simplify(diff(b*diff(u,y),x)+diff(-b*diff(u,x),y))",
+    "asserts": "With constant coefficients, an antisymmetric conductivity part (a12=b, a21=-b) contributes 0 to the divergence-form equation (result 0)."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); u=Function('u')(x,y); f=Function('f')(x,y); simplify(diff(f*diff(u,y),x)+diff(-f*diff(u,x),y) - (diff(f,x)*diff(u,y)-diff(f,y)*diff(u,x)))",
+    "asserts": "With variable antisymmetric coefficient f, the extra contribution is f_x u_y - f_y u_x, which is nonzero in general (result 0 confirms the identity), so symmetry is a real restriction."
+   },
+   {
+    "sympy": "a11,a12,a22,p,q=symbols('a11 a12 a22 p q',real=True); expand((Matrix([[a11,a12],[a12,a22]])*Matrix([p,q])).dot(Matrix([p,q])) - (a11*p**2+2*a12*p*q+a22*q**2))",
+    "asserts": "Heat-flow dissipation -grad u·q equals the quadratic form sum a_ij u_i u_j, whose positivity is Riemann's condition (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The word before 'densitatem' is struck out and is not legible from the image; read 'productum ex calore specifico in densitatem' ('in' = multiplied by). The '[-in-]{+in+}' markup is doubtful.",
+   "The parenthetical '(Quam tamen disquisitionem ... oppositis. Tum)' is an interlinear later insertion that duplicates the restriction stated again below.",
+   "In eq. I the symbol on the right is h (written over a struck letter), consistent with the text 'h calorem specificum'.",
+   "The marginal '1' and 'Pariser Aufgabe. 1.' belong to the editorial German note and foliation, not to Riemann's text."
+  ]
+ }
+}

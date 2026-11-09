@@ -1,0 +1,58 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c168",
+ "label": "82r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000169/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of what became Art. 20 of Riemann's 1851 Göttingen dissertation (Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse). There, w = u + iv is a function of z = x + iy on the (possibly branched) surface T over the plane A. Each value w is represented by the point Q = (u, v) in a second plane B. The goal is to show that the image S of T is a surface spread over B that can serve as a geometric picture of T. This is preparatory to the mapping theorem in Art. 21.\n\nI. Claim: the points Q form a surface S. To each point Q there corresponds a point O that moves continuously with Q.\n- Riemann reduces this to showing that Q always moves when O moves.\n- That in turn follows from the lemma: a function w = u + iv of z cannot be constant along a line unless it is constant everywhere (the margin adds 'wenn sie nicht überall constant ist').\n- Proof of the lemma. Suppose w = a + bi on an arc L, with p the normal and s the arc length along L.\n  - Then u - a = 0 on L.\n  - The Cauchy–Riemann equations (written in the margin as u_x = v_y, u_y = -v_x), taken in the rotated frame (n, s), give d(u-a)/dp = dv/ds. This vanishes on L because v = b there.\n  - Also Δ(u - a) = (u-a)_xx + (u-a)_yy = 0 everywhere.\n  - Hence, by the uniqueness theorem of Art. 11 (Satz I), u - a ≡ 0. A harmonic function whose value and normal derivative both vanish on an arc vanishes identically.\n  - [mine] Then u_x = u_y = 0, so by Cauchy–Riemann v_x = v_y = 0. So v is constant, and equals b on L, giving v - b ≡ 0.\n  - This contradicts the hypothesis that w is not constant.\n\nII. Claim: S is 'schlicht', i.e. without folds (Umfaltungen), except at isolated points.\n- By Art. 12, dw/dz can become infinite only at the winding (branch) points of T.\n- By I, applied to dw/dz, it can vanish only at isolated points.\n- Now take a point Q' where dw/dz is finite (implicitly also nonzero), with preimage O'.\n  - Surround O' by a small simply connected piece of T, e.g. a disk.\n  - By Art. 3 (local conformality: similarity in the infinitely small), the image of this piece differs arbitrarily little in shape from the original, once the piece is small enough.\n  - So its boundary curve cuts out of B a region containing Q'.\n  - That is impossible if Q' lies on a fold of S.\n\nIII (begun): Therefore S has no folds. It also does not split along a line into sheets lying on top of each other. The sentence breaks off; the next page concludes that z, as a function of w on S, satisfies the conditions of Art. 5/12, i.e. it is the inverse function.",
+  "errors": [
+   "In II Riemann requires only that dw/dz be 'endlich' at Q'. The argument via Art. 3 also needs dw/dz ≠ 0. At a zero of dw/dz of order k the image is a (k+1)-fold winding point of S: no fold, but not schlicht either. The exceptional set should be the zeros together with the winding points, which matches his 'einzelne Punkte ausgenommen'. The omission is a slip of statement, not of substance.",
+   "Lemma I only excludes w being constant along an arc. It does not by itself show that the zeros of dw/dz are isolated, i.e. that they have no accumulation point in the interior. That would need the stronger identity theorem (or analyticity). This is a small gap in the inference 'nach I nur in einzelnen Punkten = 0'.",
+   "The sign in d(u-a)/dp = dv/ds depends on the orientation chosen for the normal p relative to s. This is immaterial here, since both sides vanish.",
+   "The proof of the lemma rests on the Cauchy-data uniqueness for harmonic functions (Art. 11). That is legitimate within Riemann's framework, which proves it via Green's identity and the regularity/representation of harmonic functions."
+  ],
+  "results": [
+   {
+    "what": "A holomorphic function constant along an arc is constant everywhere, proved via Cauchy–Riemann and uniqueness of the Cauchy problem for the Laplace equation.",
+    "modern_name": "Identity theorem (uniqueness of analytic continuation) for holomorphic/harmonic functions",
+    "usually_credited_to": "Cauchy/Weierstrass tradition; this proof via harmonic Cauchy data appears in Riemann's dissertation (1851)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The image of the Riemann surface T under a non-constant w is a surface S over the w-plane, locally schlicht except at zeros of w' and at branch points; local conformality is used to exclude folds.",
+    "modern_name": "Open mapping / local univalence where f' ≠ 0; the image Riemann surface of a holomorphic map",
+    "usually_credited_to": "Riemann, dissertation 1851, Art. 20",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of Art. 20 of Riemann's published 1851 dissertation, in content nearly identical to the printed text. It offers interesting draft wording and corrections, but nothing mathematically new or uncredited.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); w=expand((x+I*y)**3); u=re(w); v=im(w); simplify(diff(u,x)-diff(v,y))==0 and simplify(diff(u,y)+diff(v,x))==0",
+    "asserts": "The Cauchy–Riemann equations from the margin, u_x=v_y and u_y=-v_x, hold for a sample holomorphic w."
+   },
+   {
+    "sympy": "x,y,t=symbols('x y t',real=True); w=expand((x+I*y)**3); u=re(w); v=im(w); c,s=cos(t),sin(t); simplify((diff(u,x)*(-s)+diff(u,y)*c) - (diff(v,x)*c+diff(v,y)*s))==0",
+    "asserts": "In a frame rotated by angle t (tangent s=(cos t, sin t), normal p=(-sin t, cos t)), du/dp = dv/ds, the relation Riemann uses along the line."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); u=re(expand((x+I*y)**4)); simplify(diff(u,x,2)+diff(u,y,2))==0",
+    "asserts": "The real part of a holomorphic function is harmonic, so Δ(u-a)=0."
+   },
+   {
+    "sympy": "z=symbols('z'); solve(diff(z**3-3*z,z),z)",
+    "asserts": "The zeros of w' for a non-constant polynomial w are finitely many isolated points, the exceptional points of II where S is not schlicht."
+   }
+  ],
+  "transcription_corrections": [
+   "'nach Satz II, I' is more likely 'nach Satz 11, I' (i.e. Art. 11, theorem I, the uniqueness theorem for harmonic functions); the image reads '11' at the start of the line.",
+   "The clause reads 'so wären u-a und ∂(u-a)/∂p = ∂v/∂s für diese Linie = 0', with a struck-through 'und'. The '= 0' belongs to both quantities on the line, while the Laplacian is '= 0 überall'.",
+   "The margin note under the Cauchy–Riemann equations ('Punkt ... einer Ordnung') is uncertain. It possibly refers to points of higher order (zeros or winding points); it cannot be confirmed from the image.",
+   "Margin '(kann betrachtet werden)' is an alternative to the struck phrase in II ('als ein zusammenhängendes Abbild der Fläche T betrachtet werden kann'), not a separate note."
+  ]
+ }
+}

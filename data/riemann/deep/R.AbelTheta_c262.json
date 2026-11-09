@@ -1,0 +1,52 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c262",
+ "label": "130r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000263/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context and genre. The page is a re-used printed Bremen postal freight slip (Frachtzettel). It is covered with pencil drafts, several false starts and heavy deletions, of formal letters.\n\n(a) The top lines are headings for 'Bemerkungen' and 'Gegenbemerkungen' (remarks and counter-remarks) concerning remarks by some 'Herr Hofrath'. The name is uncertain: Riemann was never a Hofrath, so the machine reading 'Riemann' is doubtful. These lines involve a comparison ('-Vergleich') with Weierstrass's and someone else's results.\n\n(b) A thank-you note declines a friendly invitation. The machine reading of the destination is 'Hamburg'; the image looks more like 'Harzburg'. Riemann says circumstances, apparently the completion of a work, prevent him from coming.\n\n(c) The main draft is to 'Hochgeschätzter Herr Doctor'. It refers to a letter received via (or from) Dr. Borchardt, editor of Crelle's Journal since 1856. It concerns the printing ('Druck', 'Abhandlung ... in Crelle's Journal') of Riemann's paper. In context this is almost certainly 'Theorie der Abel'schen Functionen', Crelle 54 (1857), pp. 115-155. Riemann says he has adopted the suggested corrections ('Verbesserungen'), as far as possible. 'Diese bestehen I. 1) in der Verbesserung der falschen Formel S. 6 (S. 126)'. The next page continues with 2): a proposal on notation for the number of actually occurring simple branchings. So the letter is an errata/proof correspondence, with page references to the proof sheet ('S. 6') and the journal page ('126').\n\nThe mathematics. Let F(s,z)=0 be the algebraic equation defining s as a function of z. Let (alpha, beta) be a point on the curve, so F(alpha,beta)=0. The formula to be corrected is the Taylor expansion of F about that point:\n\nF(s,z) = F_s (s-alpha) + F_z (z-beta) + (1/2)[F_ss (s-alpha)^2 + 2 F_sz (s-alpha)(z-beta) + F_zz (z-beta)^2] + ...\n\nHere all derivatives are evaluated at (alpha,beta). Riemann notes that in the printed version he had written the quadratic terms without the factor 1/2 ('wo in den zweiten Gliedern der Factor 1/2 von mir weggelassen worden ist'). The page's own display copies the uncorrected form, i.e. without the 1/2, and ends with '+ ...' for higher terms.\n\nWhat the formula serves (my addition, consistent with the next page and with the structure of the 1857 paper): it is used to analyse the local behaviour of s near points where F_s=0. Suppose F_s=0 but F_z and F_ss are nonzero. Then to leading order F_z (z-beta) + (1/2) F_ss (s-alpha)^2 = 0. This gives s - alpha ~ sqrt(-2 F_z (z-beta)/F_ss), a simple (square-root) branch point. Counting such points yields the number w of simple branchings, which enters the relation w = 2(n-1) + 2p. The missing 1/2 changes only a constant in the local expansion, not the qualitative conclusion that the branch point is simple. That is why it is a harmless slip and was corrected as an erratum.",
+  "errors": [
+   "The printed formula (and the copy on this page) omits the factor 1/2 in front of the second-order Taylor terms. Riemann himself identifies and corrects this slip here. It does not affect the conclusion that the branch point is simple (square-root type).",
+   "The formula silently assumes F(alpha,beta)=0, which is why there is no constant term. This is correct in context, but implicit."
+  ],
+  "results": [
+   {
+    "what": "Second-order Taylor expansion of the defining polynomial F(s,z) about a point of the curve F=0, with the factor 1/2 restored. It is used to classify branch points where F_s=0.",
+    "modern_name": "Bivariate Taylor expansion; local analysis of a plane algebraic curve at a ramification point (simple branch point when F_s=0 and F_z, F_ss are nonzero)",
+    "usually_credited_to": "Taylor/Lagrange (expansion); Puiseux 1850 and Riemann 1857 (use for branch points)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Draft errata letter about the printing of Riemann's 'Theorie der Abel'schen Functionen' in Crelle's Journal (Borchardt mentioned)",
+    "modern_name": "Editorial/proof correspondence",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is an errata draft correcting a missing factor 1/2 in a routine Taylor expansion from Riemann's own published 1857 paper, plus personal letter drafts. It is of mild biographical/editorial interest only; there is no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "s,z,a=symbols('s z a'); F=s**2-z; b=a**2; Fs=diff(F,s).subs({s:a,z:b}); Fz=diff(F,z).subs({s:a,z:b}); Fss=diff(F,s,2); simplify(F-(Fs*(s-a)+Fz*(z-b)+Rational(1,2)*Fss*(s-a)**2))==0",
+    "asserts": "With the factor 1/2 the second-order expansion is exact for F=s^2-z about (a,a^2)."
+   },
+   {
+    "sympy": "s,z,a=symbols('s z a'); F=s**2-z; b=a**2; simplify(F-(2*a*(s-a)-(z-b)+2*(s-a)**2))!=0",
+    "asserts": "The uncorrected formula (without 1/2) is wrong for this example."
+   },
+   {
+    "sympy": "s,z,a,b,c,d,e=symbols('s z a b c d e'); F=c*(s-a)**2+d*(s-a)*(z-b)+e*(z-b)**2; simplify(Rational(1,2)*(diff(F,s,2)*(s-a)**2+2*diff(F,s,z)*(s-a)*(z-b)+diff(F,z,2)*(z-b)**2)-F)==0",
+    "asserts": "For a general quadratic form, the quadratic Taylor terms equal (1/2)(F_ss, 2F_sz, F_zz) times the monomials, confirming that the 1/2 is required."
+   }
+  ],
+  "transcription_corrections": [
+   "'Einladung nach Hamburg' is probably 'nach Harzburg' (the Harz spa near Göttingen); the image reads closer to 'Hazburg/Harzburg'.",
+   "The reading 'des Herrn Hofrath Riemann' in the headings is doubtful, since Riemann was not a Hofrath. The name should be marked uncertain; these headings may draft a reply to someone else's remarks.",
+   "The displayed formula on the page is the uncorrected one, without 1/2. The trailing '+' below indicates omitted higher-order terms.",
+   "The folio number '130' is written in the right margin."
+  ]
+ }
+}

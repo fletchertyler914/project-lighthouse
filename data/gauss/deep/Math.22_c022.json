@@ -1,0 +1,72 @@
+{
+ "bundle": "Math.22",
+ "page": "c022",
+ "label": "12r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000023/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Page headed 'Problemata Trigonometrica', with three items.\n\nI. Plane triangle ABC with AC = b, BC = a and included angle C. CD is the perpendicular from C to AB, and p = CD.\n- The area is (1/2) a b sin C, and it also equals (1/2) c p.\n- So p = a b sin C / c.\n- By the law of cosines (my step), c^2 = a^2 - 2ab cos C + b^2.\n- Hence p = sqrt( a^2 b^2 sin^2 C / (a^2 - 2ab cos C + b^2) ). This is exactly what Gauss writes.\n\nII. 'Manentibus denominationibus erit in triangulo sphaerico' (keeping the same names, in a spherical triangle). The sides are a = BC, b = AC, c = AB, the angle is C, and p = CD is the spherical altitude to AB. My derivation of the implicit steps:\n- In the right triangle CDB, sin p = sin a sin B.\n- By the spherical law of sines, sin B = sin b sin C / sin c.\n- Hence sin p = sin a sin b sin C / sin c.\n- Then sin^2 c is eliminated with the spherical law of cosines, cos c = cos a cos b + sin a sin b cos C:\n  sin^2 c = 1 - cos^2 a cos^2 b - 2 cos C cos a sin a cos b sin b - cos^2 C sin^2 a sin^2 b.\n- So sin^2 p = sin^2 a sin^2 b sin^2 C / [1 - cos^2 a cos^2 b - 2 cos C cos a sin a cos b sin b - cos^2 C sin^2 a sin^2 b].\n\nGauss writes this denominator with the letters b and c instead of a and b (see errors). This is the spherical analogue of I, and it reduces to I for small sides.\n\nIII. Marked with a margin sign ('55', '#'). Gauss writes\n c' c'' c''' ... c^N = (1/2^n) [ c(1+2+...+n) + c(1+2+...+(n-1) - n) + c(1+2+... - (n-1) - n) + ... ].\nMost plausibly c', c'', ... denote cosines of n angles numbered 1, 2, ..., n. Then 'c.1.2.3...n' means cos(theta_1 + ... + theta_n), and the following terms flip the signs of the last angles. This is the product-to-sum formula\n prod_{k=1}^n cos(theta_k) = 2^{-n} sum over epsilon in {+1,-1}^n of cos(sum_k epsilon_k theta_k).\n\n'Seu elegantius hoc modo' (or more elegantly this way): he groups the terms by the number of negative signs, (n) + ((n-1)-(1)) + ((n-2)-(2)) + &c. Here ((n-k)-(k)) stands for all terms with n-k angles added and k subtracted. 'Termini 2^n': there are 2^n terms in total, which agrees with sum_k binom(n,k) = 2^n.\n\nThe identity follows by induction from cos x cos y = (1/2)[cos(x+y) + cos(x-y)] (my step).",
+  "errors": [
+   "II: the denominator is written in terms of b and c (cos b^2 cos c^2, cos b sin b cos c sin c, sin b^2 sin c^2). To be consistent with the numerator sin a^2 sin b^2 sin C^2 and with the spherical law of cosines, it must use a and b: 1 - cos^2a cos^2b - 2 cosC cos a sin a cos b sin b - cos^2C sin^2a sin^2b (= sin^2 c). This is a letter slip by Gauss; as written, the formula is false.",
+   "III: the notation is very compressed and partly ambiguous (e.g. 'c.1.2.3 - n-1. - n', and an overwritten '(n-1)'). The grouping into classes ((n-k)-(k)) is only indicated by '&c.'. Under the cosine interpretation, the statement is correct with 2^n terms; they are pairwise equal, so there are 2^(n-1) distinct terms.",
+   "I: the symbol after 'cos' in the image resembles a phi-like C; it is clearly meant to be the angle C. No mathematical error."
+  ],
+  "results": [
+   {
+    "what": "Altitude of a plane triangle from two sides and the included angle: p = ab sinC / sqrt(a^2 - 2ab cosC + b^2)",
+    "modern_name": "altitude via area and law of cosines",
+    "usually_credited_to": "classical (Euclid / law of cosines; standard trigonometry)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Spherical altitude: sin p = sin a sin b sin C / sin c, with sin^2 c expanded via the spherical law of cosines",
+    "modern_name": "spherical altitude formula (Napier rules + spherical sine and cosine laws)",
+    "usually_credited_to": "standard spherical trigonometry (al-Battani, Regiomontanus, Napier, Euler)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Product of n cosines as 2^{-n} times the sum of cosines of all 2^n signed sums of the angles",
+    "modern_name": "product-to-sum formula for multiple cosines",
+    "usually_credited_to": "classical; Euler-era trigonometry (follows from Viète/Euler product formulas)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "All three items are standard trigonometric identities: the plane and spherical altitude and the product-to-sum expansion of a product of cosines. They are of interest only as working notes. One spherical formula contains a letter slip.",
+  "checkable": [
+   {
+    "sympy": "a,b,C=symbols('a b C',positive=True); c=sqrt(a**2+b**2-2*a*b*cos(C)); simplify((a*b*sin(C)/c)**2 - a**2*b**2*sin(C)**2/(a**2-2*a*b*cos(C)+b**2))",
+    "asserts": "Plane altitude from area: p^2 equals Gauss's expression (should print 0)."
+   },
+   {
+    "sympy": "a,b,C=symbols('a b C'); simplify(expand(1-(cos(a)*cos(b)+sin(a)*sin(b)*cos(C))**2) - (1-cos(a)**2*cos(b)**2-2*cos(C)*cos(a)*sin(a)*cos(b)*sin(b)-cos(C)**2*sin(a)**2*sin(b)**2))",
+    "asserts": "The corrected denominator (in a, b) equals sin^2 c, using cos c = cos a cos b + sin a sin b cos C (should print 0)."
+   },
+   {
+    "sympy": "a,b,C=symbols('a b C'); c=acos(cos(a)*cos(b)+sin(a)*sin(b)*cos(C)); B=asin(sin(b)*sin(C)/sin(c)); N((sin(a)*sin(B))**2 - sin(a)**2*sin(b)**2*sin(C)**2/(1-cos(a)**2*cos(b)**2-2*cos(C)*cos(a)*sin(a)*cos(b)*sin(b)-cos(C)**2*sin(a)**2*sin(b)**2)).subs({a:0.7,b:1.1,C:0.9})",
+    "asserts": "The spherical altitude sin p = sin a sin B matches the corrected formula numerically (should be about 0)."
+   },
+   {
+    "sympy": "a,b,C=symbols('a b C'); cc=cos(a)*cos(b)+sin(a)*sin(b)*cos(C); N((sin(a)**2*sin(b)**2*sin(C)**2/(1-cos(b)**2*cc**2-2*cos(C)*cos(b)*sin(b)*cc*sqrt(1-cc**2)-cos(C)**2*sin(b)**2*(1-cc**2))) - sin(a)**2*sin(b)**2*sin(C)**2/(1-cc**2)).subs({a:0.7,b:1.1,C:0.9})",
+    "asserts": "Gauss's formula as literally written (with b, c in the denominator) differs from the correct value (nonzero), confirming the letter slip."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); simplify(expand_trig(cos(x)*cos(y)*cos(z) - Rational(1,8)*sum(cos(x+s*y+t*z)+cos(-x+s*y+t*z) for s in (1,-1) for t in (1,-1))))",
+    "asserts": "Product-to-sum formula for n=3: cos x cos y cos z = 2^-3 * sum of the 2^3 signed cosines (should print 0)."
+   },
+   {
+    "sympy": "n=symbols('n',integer=True,positive=True); simplify(Sum(binomial(n,k),(k,0,n)).doit() - 2**n)",
+    "asserts": "Grouping by the number of minus signs, (n)+((n-1)-(1))+..., gives 2^n terms in total ('Termini 2^n')."
+   }
+  ],
+  "transcription_corrections": [
+   "Section I: in the image, the angle in 'aa - 2ab cos C + bb' is written with a phi-like C; it is clearly the angle C.",
+   "Section II: the transcription correctly reproduces the letters b and c in the denominator. This is Gauss's slip (it should be a and b), not a transcription error.",
+   "Section III: the marginal '55' with superscript strokes is faint and may be a later or different numbering mark. The '#' is a Gauss reference sign, not part of the formula.",
+   "Section III: in 'seu elegantius', the middle term ((n-1)-(1)) has an overwritten or struck character in the image ('(n+1)' corrected to '(n-1)'). The closing parenthesis of the first line should read ((c.1.2.3...n) + (c.1.2.3...-n) + (c.1.2.3...-(n-1)-n) + ...)."
+  ]
+ }
+}

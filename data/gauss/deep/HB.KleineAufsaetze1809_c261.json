@@ -1,0 +1,55 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c261",
+ "label": "[252]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000262/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page, f.251): Gauss is studying the 'harmonic pentagon' (the pentagramma mirificum). The angles phi^0..phi^4 are identified there as Jacobi amplitudes phi^j = am(u + 4jK/5), citing Jacobi, Fundamenta Nova p.31. The modulus k is built from the semi-axes of a conic. Gauss had shown that the five ratios tan(1/2)(phi^{j+1}-phi^{j+4}) / tan(1/2)(phi^{j+3}-phi^{j+2}) all equal one constant, xi*eta. Numerically he found log(xi*eta) = 0.73196, so xi*eta ≈ 5.395.\n\nThis page adds one statement. Use Jacobi's notation Delta(phi) = sqrt(1 - k^2 sin^2 phi), so that Delta(phi^0) = dn(u_0). Then the three quantities\n  tan(1/2)(phi^1 - phi^4) : tan(1/2)(phi^3 - phi^2) : Delta(phi^0)\nare in the ratio xi*eta : 1 : c, with log c = 9.74588 - 10 (c ≈ 0.5571). The same holds cyclically, e.g. for tan(1/2)(phi^2 - phi^0) : tan(1/2)(phi^4 - phi^3) : Delta(phi^1). Equivalently ('oder proportional tang Am') they are proportional to tangents of amplitudes.\n\nModern derivation (mine, filling the implicit step):\n1. Put phi = am(u+v) and psi = am(u-v). Write D = 1 - k^2 sn^2u sn^2v.\n2. From the standard product formulas: sin(phi - psi) = 2 sn v cn v dn u / D.\n3. Likewise cos(phi - psi) = (1 - sn^2v (1 + dn^2u)) / D.\n4. Hence 1 + cos(phi - psi) = 2 cn^2 v / D.\n5. Therefore tan((phi - psi)/2) = (sn v / cn v) * dn u = tan(am v) * Delta(am u).\n\nApply this with u = u_0 = u:\n- phi^1 and phi^4 are am(u_0 ± 4K/5), up to adding 2*pi. So tan(1/2)(phi^1 - phi^4) = tn(4K/5) * dn u_0.\n- phi^3 and phi^2 are am(u_0 - 8K/5) + 2*pi and am(u_0 + 8K/5). Using tn(8K/5) = -tn(2K/5), tan(1/2)(phi^3 - phi^2) = tn(2K/5) * dn u_0.\n\nSo the three quantities are proportional to tan am(4K/5) : tan am(2K/5) : 1. This gives xi*eta = tn(4K/5) / tn(2K/5) and 1/c = tan am(2K/5), i.e. c = cot am(2K/5). That is what 'proportional tang Am' abbreviates.\n\nNumerical check against f.251:\n- log tan(1/2)(phi^3 - phi^2) - log Delta(phi^0) = 0.06418 - (9.81007 - 10) = 0.25411. This matches 10 - 9.74588 = 0.25412.\n- log tan(1/2)(phi^1 - phi^4) - log Delta(phi^0) = 0.98609 = 0.73196 + 0.25412.\n- Second column: 9.43617 - 9.18261 = 0.25356, agreeing to about 6e-4 in the log, i.e. rounding in Delta(phi^1).\n- From Delta(phi^0) one gets k^2 ≈ 0.979. This reproduces log Delta(phi^1) ≈ 9.1836, against Gauss's 9.18261.",
+  "errors": [
+   "No mathematical error. The constant 9.74588 is consistent with the f.251 data to about 1e-5 in the log for the phi^0 column. The phi^1 column agrees only to about 6e-4, owing to rounding in log Delta(phi^1) = 9.18261.",
+   "'oder proportional tang Am' is elliptical: the arguments (2K/5, 4K/5, or equivalently 8K/5 up to sign) are not written."
+  ],
+  "results": [
+   {
+    "what": "tan(1/2)[am(u+v) - am(u-v)] = tan(am v) * Delta(am u).",
+    "modern_name": "Jacobi addition formula for amplitudes; half-angle form of am(u+v) - am(u-v)",
+    "usually_credited_to": "Jacobi (Fundamenta Nova, 1829) / Legendre-Jacobi addition theorem",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "For the pentagramma mirificum angles phi^j = am(u + 4jK/5): tan(1/2)(phi^{j+1} - phi^{j+4}) : tan(1/2)(phi^{j+3} - phi^{j+2}) : Delta(phi^j) = tn(4K/5) : tn(2K/5) : 1. Hence xi*eta = tn(4K/5)/tn(2K/5), and log cot am(2K/5) = 9.74588 for the example.",
+    "modern_name": "Elliptic-function parametrization of the pentagramma mirificum (Poncelet-type 5-periodicity)",
+    "usually_credited_to": "Gauss (Nachlass, Werke III, notes on Pentagramma mirificum); later discussed by Schering and Coxeter",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The link between Gauss's pentagramma mirificum and Jacobi amplitudes spaced by 4K/5 is already known from his Nachlass (Werke III). This page adds a neat proportionality with Delta(phi), which follows directly from the standard addition theorem. It is a notable detail but not a new result.",
+  "checkable": [
+   {
+    "sympy": "from mpmath import ellipfun, ellipk, mpf, tan, asin; m=mpf('0.9793'); u=mpf('0.37'); v=mpf('0.81'); am=lambda x: asin(ellipfun('sn',x,m)) if ellipfun('cn',x,m)>=0 else (mpf(3.141592653589793)-asin(ellipfun('sn',x,m))); lhs=tan((am(u+v)-am(u-v))/2); rhs=ellipfun('sn',v,m)/ellipfun('cn',v,m)*ellipfun('dn',u,m); lhs-rhs",
+    "asserts": "tan((am(u+v) - am(u-v))/2) = tn(v)*dn(u). The difference should be ~0 for these values; general u, v may need branch care."
+   },
+   {
+    "sympy": "from mpmath import log10, tan, sqrt, sin, radians; t=tan(radians(98.4347222/2)); d=sqrt(1-0.9793*sin(radians(50.4888889))**2); log10(t/d)",
+    "asserts": "log[tan(1/2)(phi^3 - phi^2) / Delta(phi^0)] ≈ 0.2541 = 10 - 9.74588, using f.251 data with k^2 ≈ 0.979."
+   },
+   {
+    "sympy": "from mpmath import ellipfun, ellipk, mpf; m=mpf('0.9793'); K=ellipk(m); tn=lambda x: ellipfun('sn',x,m)/ellipfun('cn',x,m); (tn(4*K/5)/tn(2*K/5), tn(2*K/5))",
+    "asserts": "xi*eta ≈ 5.395 (log 0.73196) and tan am(2K/5) ≈ 1.795 (log 0.25412) for k^2 ≈ 0.979. Approximate, since k is inferred."
+   },
+   {
+    "sympy": "from mpmath import ellipfun, mpf; m=mpf('0.6'); x=mpf('0.4'); K=__import__('mpmath').ellipk(m); tn=lambda y: ellipfun('sn',y,m)/ellipfun('cn',y,m); tn(8*K/5)+tn(2*K/5)",
+    "asserts": "tn(8K/5) = -tn(2K/5). The result should be 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 reads Delta(phi^0) = sqrt(1 - kk sin(phi^0)^2). Gauss wrote kk once, struck through, and rewrote it.",
+   "Third row of the right-hand column: (9.74588) is a logarithm (log c, with characteristic 9 meaning -10). It is not a raw number.",
+   "Previous page (f.251) table: '13.16.12,5' should read '15.16.12,5', since (1/2)(phi^4 - phi^3) = 15°16'12.5\" and its log tan is 9.43617."
+  ]
+ }
+}

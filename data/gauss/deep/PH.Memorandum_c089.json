@@ -1,0 +1,72 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c089",
+ "label": "[88]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000090/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page continues the running tabulation from fol. 87. For each triangulation station there is a set of n discrepancies a, apparently in a small unit such as tenths of an arc-second. The station names (Bremen, Garlste, Brillit, Zeven, Steinberg, Bottel, Litberg, Wilsede) point to Gauss's Hanoverian arc-measurement triangulation of the 1820s, in the Bremen–Zeven–Wilsede area. For each station Gauss records: the station name with n in parentheses; the signed sum Σa; a frequency table k | n_k, where n_k counts the discrepancies with |a| ≈ k (rounded to an integer); and the exact sum of squares Σaa. After each station he merges the new data into the running totals ('alle bisherigen'): N = ΣN, Σa = ΣΣa, Σaa = ΣΣaa, and the histograms are added bin by bin.\n\n(1) Steinberg, n = 45, Σa = +47.\n- Histogram (k: n_k): 0:2, 1:3, 2:3, 3:6, 4:4, 5:6, 6:5, 7:3, 8:5, 9:2, 10:3, 11:3. The counts sum to 45.\n- Σaa = 1754. The binned value Σk²n_k is 1755, so 1754 must come from the unrounded a.\n\n(2) Bottel, n = 8, Σa = +15.\n- The individual |a| are listed: 1, 3, 3, 5, 6, 7, 7, 11.\n- Σaa = 1+9+9+25+36+49+49+121 = 299.\n- Σ|a| = 43, so the negative values total 14, e.g. {3, 11} or {1, 6, 7} (my inference).\n\n(3) Running total 'alle bisherig' (685).\n- N: 632 + 45 + 8 = 685.\n- Σa: 25 + 47 + 15 = +87.\n- Σaa: 26611 + 1754 + 299 = 28664.\n- Histogram = fol. 87 cumulative + Steinberg + Bottel: 27, 60, 57, 55, 74, 78, 67, 75, 60, 44, 41, 20, 12, 8, 3, 2, 1 (k = 16), 1 (k = 19).\n\n(4) Litberg, n = 62, Σa = +1.\n- Histogram: 0:2, 1:8, 2:6, 3:9, 4:6, 5:3, 6:9, 7:2, 8:5, 9:7, 10:1, 11:2, 12:1, 17:1.\n- Σaa = 2438 (binned Σk²n_k = 2368).\n- Total 'alle' (747): Σa = +88, Σaa = 28664 + 2438 = 31102. Histogram updated accordingly, with a new bin k = 17.\n\n(5) Wilsede, n = 96, Σa = +16.\n- Histogram: 0:6, 1:8, 2:14, 3:8, 4:12, 5:10, 6:5, 7:10, 8:8, 9:3, 10:7, 11:3, 12:1, 13:0, 14:1.\n- Σaa = 3404 (binned 3406).\n- Total 'alle' 843: Σa = +104, Σaa = 34506.\n- Final histogram: 35, 76, 77, 72, 92, 91, 81, 87, 73, 54, 49, 25, 14, 8, 4, 2, 1, 1 (k = 17), 1 (k = 19).\n\nPurpose (my interpretation): this is an empirical study of the error distribution of the measurements. It amounts to assembling a frequency distribution of |a| to compare with the Gaussian law, and accumulating Σaa for the mean error.\n- Implied values (mine): mean error m = sqrt(34506/843) ≈ 6.40 units; mean a ≈ +0.12, negligible against m.\n- The low count in bin 0 is consistent with rounding: bin 0 covers only |a| < 0.5, half the width of the other bins.\n- With m = 6.4, a normal law predicts roughly 104 in bin 1 and 86 in bin 4. The observed 76 and 92 make the observed distribution flatter near zero than Gaussian. Gauss gives no comparison on this page.",
+  "errors": [
+   "No arithmetic errors. Every station count and every running total (N, Σa, Σaa, and all 19 histogram bins) checks exactly.",
+   "The small differences between the stated Σaa and the binned Σk²n_k are expected from rounding a to integer bins, not slips: Steinberg 1754 vs 1755, Litberg 2438 vs 2368, Wilsede 3404 vs 3406."
+  ],
+  "results": [
+   {
+    "what": "Station-by-station frequency distribution of absolute errors, accumulated into a pooled histogram of 843 errors with running Σa and Σaa.",
+    "modern_name": "Empirical frequency distribution / histogram test of the normal error law; pooled sum of squared residuals for the mean (root-mean-square) error",
+    "usually_credited_to": "Bessel (1818, Fundamenta Astronomiae, Bradley's observations) for the first empirical comparison of error frequencies with the normal law; Gauss (1809/1821-23) for the law and the mean error.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is careful bookkeeping of error statistics from Gauss's own triangulation, consistent with his known least-squares practice. An unpublished empirical error histogram of his geodetic data is a nice detail, but it is not a new method or result.",
+  "checkable": [
+   {
+    "sympy": "sum([2,3,3,6,4,6,5,3,5,2,3,3]) == 45",
+    "asserts": "Steinberg histogram totals 45 observations"
+   },
+   {
+    "sympy": "sum(k**2*n for k,n in zip(range(12),[2,3,3,6,4,6,5,3,5,2,3,3])) == 1755",
+    "asserts": "Binned sum of squares for Steinberg is 1755 (Gauss's exact value 1754)"
+   },
+   {
+    "sympy": "1+9+9+25+36+49+49+121 == 299",
+    "asserts": "Bottel Σaa from the listed values 1,3,3,5,6,7,7,11"
+   },
+   {
+    "sympy": "(632+45+8, 25+47+15, 26611+1754+299) == (685, 87, 28664)",
+    "asserts": "Running totals after Steinberg and Bottel"
+   },
+   {
+    "sympy": "sum([2,8,6,9,6,3,9,2,5,7,1,2,1,1]) == 62",
+    "asserts": "Litberg count"
+   },
+   {
+    "sympy": "(685+62, 87+1, 28664+2438) == (747, 88, 31102)",
+    "asserts": "Running totals after Litberg"
+   },
+   {
+    "sympy": "sum([6,8,14,8,12,10,5,10,8,3,7,3,1,0,1]) == 96",
+    "asserts": "Wilsede count"
+   },
+   {
+    "sympy": "(747+96, 88+16, 31102+3404) == (843, 104, 34506)",
+    "asserts": "Final running totals"
+   },
+   {
+    "sympy": "sum([35,76,77,72,92,91,81,87,73,54,49,25,14,8,4,2,1,1,1]) == 843",
+    "asserts": "Final pooled histogram totals 843"
+   },
+   {
+    "sympy": "sqrt(Rational(34506,843)).evalf()",
+    "asserts": "Mean error ≈ 6.398 units (implied, not written by Gauss)"
+   }
+  ],
+  "transcription_corrections": [
+   "In the Bottel list, '3.3' and '7.7' mean the values 3 and 7 each occur twice; the eight values are 1, 3, 3, 5, 6, 7, 7, 11.",
+   "In the 685 column, the bin 13 entry '8' is overwritten or inked heavily but reads 8, confirmed by the arithmetic.",
+   "In Wilsede, bin 13 is '—' (zero)."
+  ]
+ }
+}

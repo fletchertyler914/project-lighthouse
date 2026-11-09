@@ -1,0 +1,53 @@
+{
+ "bundle": "PH.Varia",
+ "page": "c004",
+ "label": "3r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382762:00000005/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a numerical conversion (look-up) table, not a derivation. It has two blocks. The left block covers arguments n = 575 to 600 and the right block covers n = 600 to 625. Next to each n is an angle in degrees, minutes and seconds, and a third column gives first differences in arcseconds.\n\nAll entries are reproduced exactly (to 0.1\") by one linear formula:\nA(n) = 17°17'50.0\" + 21.84\" · (n − 600).\n- A(575) = 17°8'44.0\".\n- A(625) = 17°26'56.0\".\n- The total change over 50 units is 18'12\" = 1092\", so the step is 21.84\" per unit.\n\nThe tabulated values are the exact linear values rounded to 0.1\". Examples: 9'5.84\" is written 9'5.8\"; 10'11.36\" is written 10'11.4\"; 12'0.56\" is written 12'0.6\"; 21'6.56\" is written 21'6.6\". So the writer most likely built the table by repeatedly adding 21.84\", then rounding.\n\nThe difference column (21.8 / 21.9) is just the differences of the rounded entries. Because 5 × 21.84\" = 109.2\" exactly, the differences repeat with period 5: 21.8, 21.9, 21.8, 21.9, 21.8.\n\nInterpretation (mine, plausible but not certain): this is a table converting scale readings of a declination magnetometer (mirror-and-scale reading, with a constant angular value of 21.84\" per scale division) into absolute magnetic declination near 17°.\n- About 17° is a plausible Göttingen west declination around 1850.\n- The previous page mentions Dase and Clausen's computations of π, which also fits a date in the late 1840s or 1850s.\n- If the scale divisions are millimetres, 21.84\" per division corresponds to a mirror-to-scale distance of about 206265/(2 · 21.84) ≈ 4722 mm. This assumes the doubling of the reflected angle and ignores any torsion correction.\n\nNothing deeper is computed on the page.",
+  "errors": [
+   "No computational errors found: every entry agrees with 17°17'50\" + 21.84\"(n−600) rounded to 0.1\".",
+   "In the left difference column, the transcription gives 21.9 for the step 582→583 (11'16.9\" → 11'38.7\"), but the actual difference is 21.8. The parallel right-hand step (607→608) is correctly 21.8. This is either a slip in the manuscript or a misreading of the image."
+  ],
+  "results": [
+   {
+    "what": "Linear conversion table A(n) = 17°17'50\" + 21.84\"·(n−600) for n = 575..625, built by repeated addition with rounding and a difference check column",
+    "modern_name": "Linear calibration / look-up table (scale reading to angle, presumably magnetometer declination)",
+    "usually_credited_to": "Routine observational practice; the mirror-scale magnetometer method is due to Gauss (1832–1834) and Gauss–Weber",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine arithmetic conversion table of the kind produced in magnetic-observatory work. It contains no mathematical content beyond linear interpolation and difference checking.",
+  "checkable": [
+   {
+    "sympy": "Rational(26*60+56,1) - Rational(8*60+44,1) == 50*Rational(2184,100)",
+    "asserts": "The total span 575→625 equals 50 × 21.84 arcseconds."
+   },
+   {
+    "sympy": "Rational(17*60+50,1) - Rational(8*60+44,1) == 25*Rational(2184,100)",
+    "asserts": "The 575→600 block is consistent with the same step of 21.84\"."
+   },
+   {
+    "sympy": "[round(float(17*60+50 + Rational(2184,100)*(n-600)) - 60*int((17*60+50 + Rational(2184,100)*(n-600))/60), 1) for n in range(575,626)]",
+    "asserts": "This reproduces the seconds part of every tabulated value (e.g. 5.8, 27.7, 49.5, 11.4, ...), with minutes = floor(total/60) relative to 17°."
+   },
+   {
+    "sympy": "5*Rational(2184,100) == Rational(1092,10)",
+    "asserts": "Five steps sum to 109.2\" exactly, which explains the period-5 pattern 21.8, 21.9, 21.8, 21.9, 21.8 in the differences."
+   },
+   {
+    "sympy": "Rational(38*10+7,10) - Rational(16*10+9,10) == Rational(218,10)",
+    "asserts": "The difference between 11'16.9\" and 11'38.7\" is 21.8, not 21.9 as transcribed."
+   }
+  ],
+  "transcription_corrections": [
+   "Each difference value sits between two rows and belongs to the interval (n−1 → n). The transcription attaches it to the lower row, which is acceptable but should be read that way.",
+   "The difference recorded for 582→583 in the left block should be 21,8 by computation; the transcription has 21,9. Re-check the image.",
+   "The left block's header value should read 17° 8' 44,0\" (degree sign omitted in the manuscript); the angles are in degrees, minutes and seconds throughout.",
+   "The struck-out header text '155 nf 19' is probably an archival or shelf mark, not mathematical content."
+  ]
+ }
+}

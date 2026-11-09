@@ -1,0 +1,47 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c067",
+ "label": "35v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000068/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Caveat: the ink on folio 35v is extremely faint, probably partly show-through. Only the layout, a few symbols and some line beginnings can be made out. No line can be read in full with confidence, so what follows is a contextual reconstruction, not a transcription.\n\nVisible structure:\n(a) Upper right quarter. About eight short formula lines with fractions and doubly-indexed letters (a with two subscripts, ∂ with s-subscripts). Their visual shape matches the previous page's identities for the metric a_{ιι'} = Σ ∂x/∂s_ι ∂x/∂s_ι' and its derivatives.\n(b) Middle. Two to four long lines, the first starting near the left margin with a factor 2 and a summation. The second begins with something like 'd... d... T ... − T ... d...'. One continuation line is indented and preceded by '='.\n(c) Lower middle. Short lines beginning '2 d ... =', '(d ... T ...' and '... T = ...', mostly in the left-centre. One line is struck through. Further down are two or three longer lines with products of differentials and fractions, one with a prefactor of the form a/(something).\n\nContext: the previous page (35r) contains three things.\n- The Christoffel-type quantities p_{ιι'ι''} = ∂a_{ιι'}/∂s_ι'' + ∂a_{ιι''}/∂s_ι' − ∂a_{ι'ι''}/∂s_ι, which are 2× the Christoffel symbols of the first kind.\n- The four-index curvature expression in terms of second derivatives of a and products p·p·α/A², with α/A² the inverse metric.\n- The start of the computation of δδ Σ a ds ds − 2 dδ Σ a ds δs + dd Σ a δs δs. This is exactly the combination Riemann uses in the 1861 Paris prize memoir on heat conduction (Commentatio mathematica ...) to define the curvature quadrinomial (ιι',ι''ι''').\n\nThe recurring letter T on this page is most plausibly a name for a quadratic form, e.g. T = ½ Σ a_{ιι'} ds_ι ds_ι' or a mixed form. On that reading the middle and lower lines would be the d- and δ-variations of T: dδT, ddT and δδT, written out with the coefficients a_{ιι'} and their derivatives. The aim would be to show that the combination δδ(ds²) − 2 dδ(ds δs) + dd(δs²), taken modulo first-variation terms that vanish on geodesics (cf. 35r: δds − d(Σ a ds δs / ds) = 0), equals Σ (ιι',ι''ι''') (ds_ι δs_ι' − ds_ι' δs_ι)(ds_ι'' δs_ι''' − ds_ι''' δs_ι''). The coefficient would be ½(second derivatives of a) − ¼ Σ p p α/A², i.e. the Riemann curvature tensor in Riemann's normalization.\n\nI mark all of this as my inference from context. The page itself does not legibly confirm any individual formula.",
+  "errors": [
+   "No individual step can be checked because the page is illegible at the available resolution. One line in the lower middle is struck through by Riemann himself, apparently a discarded attempt.",
+   "The machine transcription ('illegible') is honest. My reading of the recurring symbol as T and of the line structure is tentative."
+  ],
+  "results": [
+   {
+    "what": "Probable continuation of the computation of the second variations δδ, dδ, dd of the quadratic form Σ a_{ιι'} ds_ι ds_ι' (possibly named T), leading to the four-index curvature expression (ιι',ι''ι''')",
+    "modern_name": "Riemann curvature tensor via second variation / the Riemann quadrinomial in the Commentatio",
+    "usually_credited_to": "Riemann (Habilitationsvortrag 1854; Paris prize memoir 1861, published 1876); Christoffel 1869 for the symbols",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of Christoffel-type combinations p_{ιι'ι''} of metric derivatives and the inverse metric α/A² (from context)",
+    "modern_name": "Christoffel symbols of the first kind (times 2) and the inverse metric",
+    "usually_credited_to": "Christoffel 1869; Riemann 1861",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "As far as it can be identified, the page is working material for the curvature computation in Riemann's 1861 heat-conduction prize memoir. That result is well known and credited to him. The page is too faint to show anything beyond that.",
+  "checkable": [
+   {
+    "sympy": "u,v=symbols('u v'); E=Function('E')(u,v); G=Function('G')(u,v); a=Matrix([[E,0],[0,G]]); s=[u,v]; p=lambda i,j,k: diff(a[i,j],s[k])+diff(a[i,k],s[j])-diff(a[j,k],s[i]); ainv=a.inv(); R=Rational(1,2)*(diff(a[0,1],u,v)+diff(a[1,0],u,v)-diff(a[0,0],v,v)-diff(a[1,1],u,u)) - Rational(1,4)*sum((p(n,0,1)*p(m,1,0)-p(n,0,0)*p(m,1,1))*ainv[n,m] for n in range(2) for m in range(2)); simplify(R/(E*G))",
+    "asserts": "In 2D, Riemann's quadrinomial (12,12), built from second derivatives of a and from p·p·α/A², divided by det(a), gives the Gaussian curvature of ds² = E du² + G dv² up to sign convention. Compare with the Brioschi formula."
+   },
+   {
+    "sympy": "x=Function('x')(u,v); y=Function('y')(u,v); z=Function('z')(u,v); X=[x,y,z]; a00=sum(diff(f,u)**2 for f in X); a01=sum(diff(f,u)*diff(f,v) for f in X); simplify(2*sum(diff(f,u,v)*diff(f,u) for f in X) - (diff(a00,v)+diff(a01,u)-diff(a01,u)))",
+    "asserts": "The identity 2 Σ ∂²x/∂s_ι'∂s_ι'' ∂x/∂s_ι = p_{ιι'ι''} (from the previous page) holds for ι=ι'=0, ι''=1. The result should simplify to 0."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is not blank. It carries about 20–25 very faint formula lines, mostly in the right half and the centre, possibly partly show-through from the recto.",
+   "A recurring capital letter in the middle and lower lines looks like 'T' (e.g. a line beginning 'd... T ... − T ...'). This is a tentative reading.",
+   "One line in the lower middle is struck through by Riemann."
+  ]
+ }
+}

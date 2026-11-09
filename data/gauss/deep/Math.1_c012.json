@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.1",
+ "page": "c012",
+ "label": "7r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is the 13th sheet (red crayon '13'; circled '7' is the folio number) of a large tabulation that continues across sheets 12 (columns 509–659), 13 (this page) and 14 (columns 829–997). It contains no derivation, only a double-entry table.\n\nRows: the 42 consecutive primes p from 191 to 433 (191, 193, 197, 199, 211, 223, 227 | 229 … 263 | 269 … 307 | 311 … 349 | 353 … 389 | 397 … 433). They are grouped in blocks of 7 by horizontal rules.\n\nColumns: the 24 consecutive primes q from 661 to 827 (661, 673, …, 823, 827), repeated at the foot.\n\nEntries: a small circle at (p, q). Checking against Legendre symbols shows the rule is: circle iff (q/p) = +1, i.e. the column prime q is a quadratic residue modulo the row prime p. The case that decides between this and the other direction is row 191, column 691. There (691/191) = +1 but (191/691) = -1, and a circle is present. Every other cell I tested also fits (q/p) = +1:\n- Row 191: circles at 673 (673 ≡ 100 mod 191), 677 (≡ 104 = 8·13), 691, 701 (≡ 128), 709 (≡ 136), 727 (≡ 154), 733 (≡ 160), 743 (≡ 170), 757 (≡ 184), 769 (≡ 5), 773 (≡ 9) and 787 (≡ 23).\n- Row 191: no circle at 661 (≡ 88), 719 (≡ 146), 739 (≡ 166), 751 (≡ 178), 797 (≡ 33) or 827 (≡ 63). All of these give -1.\n- Row 197: circle at 661, since (70/197) = +1.\n- Row 199: the unbroken chain 677–727 consists of residues, e.g. 683 ≡ 86 and 719 ≡ 122 mod 199. Column 673 (≡ 76) is a non-residue and is blank.\n- Row 193: circle at 827, since (55/193) = +1.\n\nLines: circles in horizontally or vertically adjacent cells (consecutive primes in the row or column ordering) are joined by straight strokes. This turns the residue pattern into connected 'clusters': chains, L-shapes and closed rectangles. Isolated circles have no adjacent residue neighbour. The strokes carry no extra arithmetic content. They appear to be a visual device for seeing the distribution of residues and non-residues, perhaps to judge its irregularity, or as a reading aid.\n\nPurpose (my interpretation): a systematic empirical table of the quadratic character of the primes 509–997 with respect to the prime moduli 191–433. It belongs to Gauss's extensive Nachlass tables of quadratic residues among primes (cf. Disquisitiones Arithmeticae, art. 99 and Table II, which treat smaller ranges). Such tables serve as raw material for quadratic reciprocity, for the distribution of residues, and for class-number or form work.",
+  "errors": [
+   "No errors detected in roughly 25 cells checked by hand (Legendre symbols computed by reciprocity). Not every one of the ~1000 cells was checked. A full machine comparison is recommended.",
+   "Some circles sit slightly offset from their column axis (e.g. the row-191 circle drawn between 743 and 751). This is a placement issue only: arithmetic shows it belongs to 743."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic characters (q/p) for primes p in [191, 433] and q in [661, 827]; circle iff q is a quadratic residue mod p. Adjacent residues are linked into clusters.",
+    "modern_name": "Legendre-symbol / quadratic residue table among primes",
+    "usually_credited_to": "Quadratic residue tables: Legendre (1798) and Gauss, Disquisitiones (1801), Table II, for small ranges; later extensive tables by Jacobi (Canon arithmeticus, 1839) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Graphical joining of horizontally/vertically adjacent residue cells into connected figures",
+    "modern_name": "Visualisation of residue patterns (cluster/connectivity picture of a Legendre-symbol matrix)",
+    "usually_credited_to": "No standard attribution; a computational or visual aid",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's large manuscript tables of quadratic residues among primes are known in outline. This page is a routine computational table, with only the unusual cluster-drawing presentation as a minor curiosity.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; legendre_symbol(691,191)==1 and legendre_symbol(191,691)==-1",
+    "asserts": "Discriminating cell: circle at (191, 691) shows entries mean (column/row) = +1."
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [legendre_symbol(q,191) for q in [661,673,677,683,691,701,709,719,727,733,739,743,751,757,761,769,773,787,797,809,811,821,823,827]]",
+    "asserts": "Row 191 pattern. Expected +1 at 673, 677, 691, 701, 709, 727, 733, 743, 757, 769, 773, 787 (plus possibly further circles at 683, 761, 809, 811, 821, 823 not resolved in my reading). Expected -1 at 661, 719, 739, 751, 797, 827."
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; all(legendre_symbol(q,199)==1 for q in [677,683,691,701,709,719,727]) and legendre_symbol(673,199)==-1",
+    "asserts": "Row 199 horizontal chain 677–727 consists of residues and 673 is a non-residue."
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; legendre_symbol(661,197)==1 and legendre_symbol(827,193)==1",
+    "asserts": "Circles at (197, 661) and (193, 827)."
+   },
+   {
+    "sympy": "from sympy import primerange; list(primerange(191,434)) == [191,193,197,199,211,223,227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,367,373,379,383,389,397,401,409,419,421,431,433]",
+    "asserts": "Row headings are exactly the consecutive primes 191–433."
+   },
+   {
+    "sympy": "from sympy import primerange; list(primerange(661,828)) == [661,673,677,683,691,701,709,719,727,733,739,743,751,757,761,769,773,787,797,809,811,821,823,827]",
+    "asserts": "Column headings are exactly the consecutive primes 661–827."
+   }
+  ],
+  "transcription_corrections": [
+   "The table body is not merely 'circles with lines': each circle marks a pair (p, q) with q a quadratic residue mod p, i.e. Legendre symbol (q/p) = +1.",
+   "Red '13' is the sheet number in the series (previous 12, next 14). Circled '7' is the folio number. The faint top-right note '40el7' is uncertain (possibly an archival note)."
+  ]
+ }
+}

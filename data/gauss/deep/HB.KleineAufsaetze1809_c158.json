@@ -1,0 +1,53 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c158",
+ "label": "149",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000159/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): Gauss expands cos(2x cos φ) and sin(2x cos φ) in Fourier cosine series with coefficients A, B, C, ... These are Bessel functions: A = J_0(2x), B = J_1(2x), C = -J_2(2x), and so on. He then considers the differential equation d(x dy/dx)/dx = 4xy, i.e. x y'' + y' - 4xy = 0. This is the modified Bessel equation of order 0 in the variable 2x. Its regular solution is y = Σ x^{2n}/(n!)^2 = I_0(2x). He also gives the formal asymptotic solution e^{2x} x^{-1/2}(1 + 1/16 x^{-1} + ...).\n\nThis page has a single line. It continues the margin note at the end of the previous page ('y = e^{2x}('):\n\ny = e^{2x}(1 - 2x + (6/2)x^2 - (20/6)x^3 + (70/24)x^4 - (252/120)x^5 + ...).\n\nIn modern form: y = e^{2x} Σ_{n≥0} (-1)^n binom(2n,n) x^n / n!. The numerators 1, 2, 6, 20, 70, 252 are the central binomial coefficients, and the denominators are n!.\n\nWhat it represents: the same function y = I_0(2x) = Σ x^{2n}/(n!)^2, rewritten with the exponential factor e^{2x} pulled out. Gauss's motive is presumably to set this beside the asymptotic e^{2x} x^{-1/2} series on the previous page. In modern terms this is Kummer's transformation for this case:\nI_0(2x) = e^{2x} 1F1(1/2; 1; -4x) = e^{2x} Σ (1/2)_n (-4x)^n/(n!)^2,\nusing (1/2)_n 4^n / n! = binom(2n,n).\n\nA natural route to it (my reconstruction, not on the page):\n- Start from I_0(2x) = (1/π)∫_0^π e^{2x cos φ} dφ.\n- Write 2x cos φ = 2x - 4x sin^2(φ/2).\n- Expand e^{-4x sin^2(φ/2)} and use mean(sin^{2n}) = binom(2n,n)/4^n.\n\nThis fits his Fourier treatment of cos(2x cos φ) on the previous page.\n\nVerification by multiplying out (mine). The coefficients of e^{2x} are 1, 2, 2, 4/3, 2/3, 4/15, ... Convolving with 1, -2, 3, -10/3, 35/12, -21/10 gives:\n- x^1: 0\n- x^2: 2 - 4 + 3 = 1\n- x^3: -10/3 + 6 - 4 + 4/3 = 0\n- x^4: 35/12 - 20/3 + 6 - 8/3 + 2/3 = 1/4\n\nThese agree with 1 + x^2 + x^4/4 + ...",
+  "errors": [],
+  "results": [
+   {
+    "what": "I_0(2x) = Σ x^{2n}/(n!)^2 = e^{2x} Σ (-1)^n binom(2n,n) x^n/n!; the series in brackets is the confluent hypergeometric 1F1(1/2;1;-4x)",
+    "modern_name": "Kummer's transformation of the confluent hypergeometric function, case I_0(z) = e^{z} 1F1(1/2;1;-2z)",
+    "usually_credited_to": "E. E. Kummer (1836) for the general transformation; the special Bessel case is often derived via the Poisson/Bessel integral (19th c.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Recognition that the function solving d(x dy/dx)/dx = 4xy has the form e^{2x}·(power series), set beside its asymptotic e^{2x} x^{-1/2} expansion",
+    "modern_name": "Modified Bessel function I_0; exponential factorization / asymptotics",
+    "usually_credited_to": "Bessel (1824), Poisson (1823), Kummer (1836); asymptotics: Poisson, Hankel (1869)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a single correct series identity. It is an instance of Kummer's 1836 transformation for I_0, easily obtained from the integral representation. If dated around 1809 it slightly predates the standard Bessel/Kummer literature. Still, it is a routine calculation for someone of Gauss's skill, who was already deep into hypergeometric series (published 1812).",
+  "checkable": [
+   {
+    "sympy": "simplify(series(exp(2*x)*sum((-1)**n*binomial(2*n,n)*x**n/factorial(n) for n in range(12)), x, 0, 10).removeO() - sum(x**(2*n)/factorial(n)**2 for n in range(6)))",
+    "asserts": "e^{2x}·Σ(-1)^n C(2n,n)x^n/n! agrees with Σ x^{2n}/(n!)^2 through order x^9 (result 0)"
+   },
+   {
+    "sympy": "[binomial(2*n,n) for n in range(6)] == [1,2,6,20,70,252]",
+    "asserts": "the numerators on the page are central binomial coefficients"
+   },
+   {
+    "sympy": "simplify(series(besseli(0,2*x) - exp(2*x)*hyper([Rational(1,2)],[1],-4*x), x, 0, 10).removeO())",
+    "asserts": "I_0(2x) = e^{2x} 1F1(1/2;1;-4x) (Kummer transformation), result 0"
+   },
+   {
+    "sympy": "y = sum(x**(2*n)/factorial(n)**2 for n in range(10)); simplify(expand(diff(x*diff(y,x),x) - 4*x*y).as_poly(x).coeffs()[-1])",
+    "asserts": "the series satisfies d(x dy/dx)/dx = 4xy up to truncation (low-order coefficients vanish)"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is essentially correct. The line begins the formula left incomplete in the right margin of p. 148 ('y = e^{2x}(').",
+   "'6/2.xx' means (6/2)·x^2. The dot is a multiplication point.",
+   "The fragments '2Gcos6φ+', '5φ+...', 'x^{-1/2}...' and '45/64 x^{-1/2}...' at the left edge of the image belong to the facing page 148, not to page 149.",
+   "The rest of the page is blank apart from mirror-image show-through from page 150 (the 'Viereck' text)."
+  ]
+ }
+}

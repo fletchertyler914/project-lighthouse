@@ -1,0 +1,44 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c004",
+ "label": "2r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000005/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This folio is not a Riemann manuscript. It is the first page of a letter dated Königsberg, 2 March 1892, addressed to 'Hochgeehrter Herr Professor'. The addressee is almost certainly Heinrich Weber, who was then preparing the 2nd edition (1892) of Riemann's Gesammelte Werke; the writer refers to Weber's summer letter announcing a new edition. The writer is a Königsberg mathematician, plausibly Hilbert (or possibly Hurwitz), but this is unsure. 'Riemann 6' at top left is an archival annotation.\n\nContent on this page: the writer comments on Abhandlung XXI of the 1st edition of the Werke. That is the posthumous fragment 'Zwei allgemeine Lehrsätze über lineare Differentialgleichungen mit algebraischen Coefficienten', on the constant count for the Riemann–Hilbert problem. On p. 369, line 9, Riemann (or the editor) gives, in the writer's view, an incorrect reason why each monodromy substitution contributes only n^2 - n, not n^2, free quantities to the count.\n\nThe correct reason, given on the next page, is this. For each singular point the n exponents mu_1..mu_n are prescribed. The eigenvalues lambda_k of the substitution matrix A satisfy lambda_k = exp(2*pi*i*mu_k); the letter says 'logarithms'. The eigenvalues are the roots of det(A - lambda*I) = 0, so prescribing them imposes n relations on the n^2 entries A_i^(k). That leaves n^2 - n undetermined quantities. In modern terms, a conjugacy class of matrices with n distinct prescribed eigenvalues has dimension n^2 - n.\n\nThe next page also corrects a misprint on p. 369, line 5 from bottom: it should read 'mn(n-1) - n^2 + 1 Bedingungen'. That is: m substitutions times (n^2 - n) parameters, minus (n^2 - 1) for simultaneous conjugation modulo scalars. No derivation is actually carried out on this folio itself.",
+  "errors": [
+   "No mathematical error on this page. The claim that the stated reason in Werke XXI p. 369 is flawed is the letter-writer's, and is plausible.",
+   "Minor imprecision on the next page: the exponents are logarithms of the eigenvalues only up to the factor 2*pi*i, i.e. lambda = exp(2*pi*i*mu)."
+  ],
+  "results": [
+   {
+    "what": "Each monodromy matrix with prescribed local exponents (hence eigenvalues) contributes n^2 - n free parameters, because the characteristic equation imposes n relations.",
+    "modern_name": "Dimension of a regular semisimple conjugacy class in GL_n; parameter count for the Riemann–Hilbert problem / character variety",
+    "usually_credited_to": "Riemann's constant count (1857 fragment), corrected and clarified by later editors and commentators (Weber's 2nd edition, Hilbert's 21st problem context)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is an 1892 letter by a later mathematician to the editor of Riemann's Werke, not a Riemann manuscript. The mathematical point is a routine dimension count.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d,l=symbols('a b c d l'); expand(Matrix([[a,b],[c,d]]).charpoly(l).as_expr())",
+    "asserts": "For n=2 the characteristic polynomial yields 2 relations (trace and determinant), leaving 4-2 = 2 = n^2-n free entries."
+   },
+   {
+    "sympy": "n=3; D=diag(1,2,3); X=Matrix(3,3,symbols('x0:9')); len(solve(list(D*X-X*D), list(X)))",
+    "asserts": "The centralizer of a diagonal matrix with distinct entries has dimension n (6 of 9 entries forced to vanish), so its conjugacy class has dimension n^2 - n = 6."
+   },
+   {
+    "sympy": "m,n=symbols('m n'); simplify(m*(n**2-n)-(n**2-1) - (m*n*(n-1)-n**2+1))",
+    "asserts": "The corrected count mn(n-1) - n^2 + 1 equals m substitutions times (n^2-n), minus (n^2-1) for simultaneous conjugation modulo scalars (should return 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is essentially accurate. 'Grössen' is a superscript insertion above 'n^2 - n'.",
+   "'Riemann 6' (top left) is an archival pencil note, not part of the letter text.",
+   "The page is a letter (Königsberg, 2.3.1892), not in Riemann's hand. The bundle and folio attribution to Riemann's manuscripts should be understood as correspondence about the Werke edition."
+  ]
+ }
+}

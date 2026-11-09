@@ -1,0 +1,72 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c148",
+ "label": "143",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000149/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds a single numerical table and no derivation. Its argument runs from A = 0.000 to 0.185 in steps of 0.001, in five column pairs: 0.000–0.037, 0.037–0.074, 0.074–0.111, 0.111–0.148 and 0.148–0.185. Each pair's last row repeats the next pair's first row. The tabulated values are 7-place decimal logarithms (in the first column the leading '0.' is dropped).\n\nIdentification (mine, checked numerically):\n- The value at A = 0 is 0.3010300 = log10 2.\n- The first differences start at about 0.0005003 per 0.001, so the slope is about 1/2.\n- The second differences are about 6e-7 per step, i.e. a second derivative of about 0.58 ≈ ln10/4.\n- These are exactly the derivatives of C(A) = log10(1 + 10^A) at A = 0: the slope is 10^A/(1+10^A) = 1/2, and the second derivative is ln10·10^A/(1+10^A)^2 = ln10/4.\n- Direct checks agree: A = 0.100 gives log10(2.258925) = 0.3539019, and A = 0.185 gives log10(2.531087) = 0.4033072.\n\nSo the page is a table of the 'Gaussian' addition logarithm: C = log(1+x) as a function of A = log x. In the notation of Gauss's printed table this is C = A + B, with B = log(1 + 1/x). Its use is to get log(a+b) = log a + C(log b − log a) from the logarithms alone.\n\nContext: the previous page carries the same argument column in its margin, with values truncated to 4 places. The next page continues the table from 0.186 to 0.259 (with gaps), so the whole sequence is a manuscript working table under the index letter 'S'. The note at the bottom, '.189 4057312', is the entry for A = 0.189 (0.4057312), which agrees with the next page. That is a forward check or carry-over.\n\nThe header 'Mo- nath.' is unclear. It possibly refers to the Monatliche Correspondenz, where Gauss later (1812) printed his table, or to the source of the values; this is unsure. No derivation is present, and the table serves the computation of logarithms of sums and differences in astronomical reductions, such as those on the preceding page.",
+  "errors": [
+   "A = 0.005: the entry 0.3035374 appears to be 2 units of the 7th place too large. Direct evaluation gives log10(1+10^0.005) = 0.3035372, and the differences around it (5019, 5028, 5030) break the smooth run 5021, 5026, 5032 that the true value would give (my hand evaluation; please verify).",
+   "Small irregularities of about 1–2 units in the last place show up in the differences near A = 0.018 (3101232, overwritten in the manuscript), A = 0.024 (3131958) and A = 0.097 (3522328, overwritten). The true values may differ by 1–2 units there (unverified).",
+   "Several entries are visibly corrected in the manuscript: 0.002, 0.015, 0.017, 0.018, 0.029, 0.065, 0.066, 0.075/0.076 (argument rewritten), 0.078, 0.083, 0.111 (first row), 0.143, 0.144, 0.145, 0.156, 0.166, 0.170, 0.172, 0.182 and 0.185. This shows the values were checked, probably by differencing."
+  ],
+  "results": [
+   {
+    "what": "7-place table of C(A) = log10(1 + 10^A) for A = 0.000(0.001)0.185, continued on the next page",
+    "modern_name": "Gaussian (addition) logarithms / tables for log of a sum",
+    "usually_credited_to": "Z. Leonelli (proposed 1802/1803); Gauss published the standard table in Zach's Monatliche Correspondenz 26 (1812)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The addition-logarithm table is well known as Gauss's; he published it in 1812, crediting Leonelli. A manuscript working table in the 1805 brouillons merely documents his use or computation of such values before publication. That is of mild archival interest, but not mathematically surprising.",
+  "checkable": [
+   {
+    "sympy": "N(log(1+10**Rational(0,1000),10),8)",
+    "asserts": "Value at A=0 is 0.3010300 (log10 2)"
+   },
+   {
+    "sympy": "N(log(1+10**Rational(100,1000),10),8)",
+    "asserts": "Entry A=0.100 equals 0.3539019"
+   },
+   {
+    "sympy": "N(log(1+10**Rational(185,1000),10),8)",
+    "asserts": "Entry A=0.185 equals 0.4033072"
+   },
+   {
+    "sympy": "N(log(1+10**Rational(5,1000),10),8)",
+    "asserts": "True value at A=0.005 is 0.3035372, versus 0.3035374 on the page"
+   },
+   {
+    "sympy": "N(log(1+10**Rational(37,1000),10),8)",
+    "asserts": "Entry A=0.037 equals 0.3199240"
+   },
+   {
+    "sympy": "N(log(1+10**Rational(148,1000),10),8)",
+    "asserts": "Entry A=0.148 equals 0.3813042"
+   },
+   {
+    "sympy": "N(log(1+10**Rational(189,1000),10),8)",
+    "asserts": "Bottom note '.189 4057312' equals log10(1+10^0.189) = 0.4057312"
+   },
+   {
+    "sympy": "simplify(diff(log(1+10**A,10),A).subs(A,0))",
+    "asserts": "Slope at A=0 is 1/2, matching the first difference of about 0.0005003"
+   },
+   {
+    "sympy": "simplify(diff(log(1+10**A,10),A,2).subs(A,0) - log(10)/4)",
+    "asserts": "Second derivative at 0 is ln10/4 ≈ 0.576, matching second differences of about 6e-7"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 0.074–0.111: the argument entries 0.075 and 0.076 are overwritten or corrected in the manuscript, not deleted; the value 0.3401470 stands.",
+   "0.078 value: the manuscript shows heavy overwriting of the last digits; 0.3417788 is the correct value.",
+   "0.015 value: overwritten in the manuscript; 0.3085948 as written (true value about 0.3085947).",
+   "0.111 (top row, fourth pair): overwritten, reads 0.3600667, consistent with the bottom row of the third pair.",
+   "Header 'Nio/Nov Mor nah.' should probably read as two column headings ('No' / 'Mo- nath.'?) matching the next page's 'Mo- nath.'; the reading is uncertain.",
+   "Bottom note '.89 4057312' is '.189 4057312', the entry for A = 0.189 on the following page."
+  ]
+ }
+}

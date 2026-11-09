@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c112",
+ "label": "54r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000113/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a working draft of Riemann's 1851 Göttingen Inaugural Dissertation (Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse). The heading '§. 20' and the content correspond to the passages around §§18–21 of the printed text: the existence theorem with constant periods across cross-cuts, and the mapping theorem. The previous page is a private letter and a letter to a physician, so it gives no mathematical context. The next page continues the dissertation material (Dirichlet functional L / Ω, singular points).\n\n(1) Statement (first lines). If the surfaces T and T' are simply connected, then under certain (restrictive) conditions they can be related to each other so that to each point of one there corresponds a point of the other that moves continuously with it.\n- This is the germ of the mapping theorem (§21 of the printed dissertation): two simply connected plane surfaces can always be mapped onto each other, point corresponding to point, with similarity in the smallest parts, i.e. conformally.\n- In this draft the conformality clause is not yet written out.\n- The draft hedges with 'unter einschränkenden/beschränkenden Bedingungen'; the printed version says 'stets'.\n\n(2) Setup. A first attempt is struck out ('Man zerlegt die Fläche T durch Querschnitte in eine einfach zusammenhängende T*'). It is replaced by: let T be n-fold connected (Riemann's convention). Cut it by n−1 cross-cuts (Querschnitte) into a simply connected surface T*.\n- The boundary ∂T* consists partly of pieces of ∂T and partly of the cross-cuts.\n- Each piece of a cross-cut belongs to ∂T* twice, traversed in opposite directions (once along each bank).\n\n(3) Boundary data. Traverse ∂T* starting from an arbitrary point and prescribe a real quantity ω on it:\n- along pieces of ∂T, ω changes in an arbitrary continuous way;\n- along each cross-cut, on the first traversal ω undergoes an arbitrary continuous change Δ(s);\n- on the second traversal (opposite direction), it undergoes in every point the opposite change.\n\nConclusion: ω takes compatible values, hence is continuous along the whole of ∂T*. Along each cross-cut, its value on one bank exceeds its value on the other by a constant.\n- My explicit form: if ω₊(s) − ω₊(s₀) = Δ(s) and ω₋(s) − ω₋(s₀) = Δ(s), then ω₊(s) − ω₋(s) = ω₊(s₀) − ω₋(s₀) = const.\n\n(4) Interior extension and the Dirichlet-principle step. Extend ω into the interior of T* so that the relevant Dirichlet-type integral (Riemann's L/Ω, involving the derivatives of ω and of a companion quantity σ, 'über die ganze Fläche erstreckt') has a finite value.\n- Then, by the theorem of an earlier article (the Dirichlet-principle existence theorem, §18 of the print), the complex quantity ω + σi can be converted into a function ζ = ξ + ηi of z.\n- This function is continuous throughout T*.\n- Across each cross-cut it changes, from one bank to the other, by a constant complex quantity (a period).\n\nMy gloss on why the jump is constant: the real part jumps by a constant by construction. The harmonic conjugate is single-valued in the simply connected T*. Because the minimiser has continuous gradient across the cut, the conjugate's jump is also constant.\n\n(5) Closing fragment. Such functions, multivalued on T with constant periods across the cuts, are to form the starting point for investigating which properties a function can have ('... den Ausgangspunkt bilden. Wir werden ...').",
+  "errors": [
+   "No mathematical error. The constancy of the jump across each cross-cut follows correctly from prescribing opposite changes on the two traversals.",
+   "The continuity of the conjugate part's jump (needed for a constant complex period) depends on the Dirichlet-principle theorem. That theorem is itself unjustified by modern standards (Weierstrass's critique; later repaired by Hilbert). This is a gap inherited from Riemann's method, not a slip on this page.",
+   "The opening statement omits the conformality (similarity of smallest parts) condition and hedges with 'restrictive conditions'. This differs from the printed version; it is a draft-stage formulation, not an error."
+  ],
+  "results": [
+   {
+    "what": "Two simply connected plane surfaces can be mapped onto each other with continuous point correspondence (draft of the mapping theorem)",
+    "modern_name": "Riemann mapping theorem",
+    "usually_credited_to": "Riemann 1851 (statement); rigorous proofs by Osgood 1900, Koebe, Carathéodory",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Cutting an n-fold connected surface into a simply connected T* by n−1 cross-cuts; boundary of T* traverses each cut twice in opposite directions",
+    "modern_name": "Canonical dissection / connectivity via cross-cuts (homology basis of a bordered surface)",
+    "usually_credited_to": "Riemann 1851/1857",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Construction via the Dirichlet principle of a holomorphic function on T* continuous up to the cuts with constant complex jumps (periods) across each cross-cut",
+    "modern_name": "Existence of multivalued analytic functions / harmonic functions with prescribed periods (Dirichlet principle)",
+    "usually_credited_to": "Riemann 1851 (Dissertation §18–20)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of material printed in Riemann's 1851 dissertation (§§18–21). The only mildly interesting detail is the hedged draft formulation of the mapping theorem ('under restrictive conditions', no conformality clause), which documents the genesis of the published statement.",
+  "checkable": [
+   {
+    "sympy": "integrate((1/z).subs(z, exp(I*t))*diff(exp(I*t), t), (t, 0, 2*pi)) - 2*pi*I",
+    "asserts": "Model case (annulus, n=2, one cross-cut): log z has a constant complex period 2*pi*I across the cut. Evaluates to 0."
+   },
+   {
+    "sympy": "simplify(diff(log(x**2+y**2)/2, x, 2) + diff(log(x**2+y**2)/2, y, 2))",
+    "asserts": "The real part log|z| is harmonic and continuous across the cut. Evaluates to 0."
+   },
+   {
+    "sympy": "simplify(diff(log(x**2+y**2)/2, x) - diff(atan2(y, x), y))",
+    "asserts": "Cauchy-Riemann: the conjugate atan2(y,x) (which jumps by the constant 2*pi across the cut) pairs with log|z|. Evaluates to 0."
+   },
+   {
+    "sympy": "Eq((w0p + Delta) - (w0m + Delta), w0p - w0m)",
+    "asserts": "If both banks of a cut receive the same increment Delta, the bank difference stays the constant w0p - w0m. Evaluates to True."
+   }
+  ],
+  "transcription_corrections": [
+   "'unter beschränkenden[?] Bedingungen' is better read 'unter einschränkenden Bedingungen' (written as an interlinear insertion).",
+   "'in eine Function z = ξ + ηi von z' should be 'in eine Function ζ = ξ + ηi von z'. The new function is ζ, not z.",
+   "'Größe σ' / 'dσ': σ is the companion (conjugate) quantity forming ω + σi. The integral phrase reads roughly 'über die ganze Fläche erstreckt ... Integral ... daselbst einen endlichen Werth'.",
+   "'Lehrsatzes in Art.' refers to the earlier article containing the Dirichlet-principle theorem; the article number is left blank in the manuscript.",
+   "Final lines read approximately: 'welche für die Untersuchung der Eigenschaften, die einer Function zukommen können, den Ausgangspunkt bilden. Wir werden'.",
+   "'theils von Stücken der Begrenzung von T, theils von Querschnitten gebildet, und zwar so, dass jeder Theil eines Querschnitts zweimal in entgegengesetzter Richtung' is correct. The struck alternative is '... der Begrenzung angehört'."
+  ]
+ }
+}

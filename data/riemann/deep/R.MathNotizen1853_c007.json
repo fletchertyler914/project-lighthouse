@@ -1,0 +1,102 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c007",
+ "label": "4v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Notation (page): phi(r,n) = sum_{s=1}^{n} exp(2*pi*i*r*s^2/n), the quadratic Gauss sum. psi is Gauss's digamma, psi(x) = d/dx log Pi(x) with Pi(x) = Gamma(x+1). So psi(s/m - 1) = digamma(s/m) and psi(0) = -gamma.\n\nPART A: Gauss sums (top third of the page).\n(1) Definition: sum_s e^{s^2 (r/n) 2 pi i} = phi(r,n).\n(2) Multiplicativity for coprime m, n: phi(rm,n)*phi(rn,m) = phi(r,mn).\n(3) Powers of 2, r odd: phi(r,2^{2n}) = 2^n (1+i^r). A formula for phi(r,2^{2n+1}) is begun.\n(4) Gauss's evaluation: phi(1,n) = (1+i)sqrt(n), sqrt(n), 0, i sqrt(n) for n = 0, 1, 2, 3 mod 4.\n(5) For a prime p: phi(1,p) = i^{((p-1)/2)^2} sqrt(p), and phi(r,p) = (r/p) i^{((p-1)/2)^2} sqrt(p).\n(6) For two odd primes: phi(r,pp') = phi(rp',p) phi(rp,p') = (rp'/p)(rp/p') i^{((p-1)/2)^2+((p'-1)/2)^2} sqrt(pp').\n   Comparing with (4) for n = pp' gives (p'/p)(p/p') = (-1)^{(p-1)(p'-1)/4}. This uses ((p-1)/2+(p'-1)/2)^2 = ((pp'-1)/2)^2 mod 4, which follows from pp'-1 = (p-1)(p'-1) + (p-1) + (p'-1). The marginal congruence 'pp'-1 mod 8' belongs to this check.\n   This is Gauss's 1811 route from Gauss sums to quadratic reciprocity.\n(7) phi(r,2^alpha p) is begun: a factor (2^alpha/p) or (2/p)^alpha, a factor sqrt 2, and the value 0 for alpha = 1.\n\nPART B: the series Omega at rational points (main computation, continuing the previous page).\nOmega(x) = sum_{n>=1} e^{i n^2 x}/n with x = 2 pi r/m and gcd(r,m) = 1. The previous page had the real part, sum cos(n^2 x)/n, and noted it converges when the Gauss sum vanishes. The series is summed with the Abel-type factor rho^{n^2}, rho -> 1.\n\nStep 1. Split n = s + km with s = 1..m:\n   Omega = sum_s e^{2 pi i r s^2/m} * S_s, where S_s = sum_{k>=0} rho^{(s+km)^2}/(s+km).\n\nStep 2. Claim: S_s = -(1/(2m)) log(1-rho) - (1/m) psi(s/m - 1) + (1/(2m)) psi(0) - (1/m) log m + o(1).\n   Riemann's heuristic: replace the Gaussian damping by a cutoff at n = sqrt(a), and subtract A * sum_{n<=a} rho^n/n with A = 1/(2m).\n   The cutoff sum is sum_{k <= (sqrt(a)-s)/m} 1/(s+km) = (1/m) log((sqrt(a)-s)/m) - (1/m) psi(s/m - 1) + o(1).\n   The subtracted sum is A (log a - psi 0).\n   The log a terms cancel, leaving -(1/m) psi(s/m - 1) + (1/(2m)) psi 0 - (1/m) log m.\n   [My check: with rho = e^{-t}, a Mellin computation using Gamma(w) t^{-w} m^{-1-2w} zeta(1+2w, s/m) gives exactly this constant. So the heuristic result is correct.]\n\nStep 3. Integral form: int_0^1 (x^{m-1} - x^{s-1})/(1-x^m) dx = (1/m)(psi(s/m - 1) - psi 0).\n   Hence S_s = -(1/(2m)) log(1-rho) - (1/(2m)) psi 0 - (1/m) log m + int_0^1 (x^{s-1} - x^{m-1})/(1-x^m) dx.\n   This gives the displayed line Omega = sum_s e^{...}( -(1/(2m)) log(1-rho) - (1/(2m)) psi 0 - (1/m) log m ) + sum_s e^{...} int_0^1 (...).\n\nStep 4. Partial fractions over the m-th roots of unity alpha (valid for 1 <= s <= m):\n   x^{s-1}/(1-x^m) = (1/m) sum_alpha alpha^{1-s}/(1-alpha x).\n   Separating alpha = 1 gives\n   int_0^1 [ (1/m) dx/(1-x) - x^{m-1} dx/(1-x^m) ] - (1/m) sum_{alpha != 1} log(1-alpha) alpha^{-s},\n   where int_0^1 [ (1/m)/(1-x) - x^{m-1}/(1-x^m) ] dx = (1/m)[ -log(1-x) + log(1-x^m) ] at x = 1, which equals (1/m) log m.\n   [Implicit consequence: the log m terms cancel.]\n\nStep 5. Hence, with alpha = e^{2 pi i sigma r/m} for sigma = 1..m-1:\n   Omega = -(1/(2m)) phi(r,m) [ log(1-rho) + psi 0 ] - (1/m) sum_sigma log(1 - e^{2 pi i sigma r/m}) * T_sigma,\n   where T_sigma = sum_s e^{2 pi i r (s^2 - sigma s)/m}.\n\nStep 6. Complete the square.\n   sigma even: T_sigma = e^{-2 pi i r sigma^2/(4m)} phi(r,m).\n   sigma odd: put t = 2s - sigma, which runs over the odd residues mod 2m. Then T_sigma = e^{-2 pi i r sigma^2/(4m)} ( (1/2) phi(r,4m) - phi(r,m) ).\n   The page's two final lines, labelled 'gerade' and 'sigma ungerade', are exactly these two cases.\n\nConclusion. The Abel limit diverges logarithmically with coefficient -phi(r,m)/(2m). It is finite exactly when phi(r,m) = 0, i.e. m = 2 mod 4. In that case only odd sigma contribute:\n   Omega = -(1/m) sum_{sigma odd} log(1 - e^{2 pi i sigma r/m}) e^{-2 pi i r sigma^2/(4m)} (1/2) phi(r,4m).\n   Check, m = 2, r = 1: this gives -log 2 = sum (-1)^n/n. Correct.\n   Context: this is the boundary behaviour of the theta-type series sum q^{n^2}/n at roots of unity. It is plausibly related to Riemann's study of sum sin(n^2 x)/n^2.",
+  "errors": [
+   "The heuristic in Step 2 is not rigorous: it replaces Gaussian damping by a sharp cutoff at sqrt(a) and assumes the same rho in rho^{n^2} and rho^n. It nevertheless gives the correct constant, as a Mellin-transform check confirms (sum e^{-t n^2}/n = -(1/2) log t + gamma/2 + o(1)).",
+   "In the line '-1/m psi(s/m-1) 1/m log((sqrt a - s)/m) + A psi0 - A log a' a '+' sign is missing between the first two terms.",
+   "In Step 4 the term alpha = 1 must be excluded from sum log(1-alpha) alpha^{-s}; this is implicit on the page. The partial-fraction formula holds only for 1 <= s <= m.",
+   "The final line writes 'phi(r,m) - ...' as shorthand. The full constant term is -(1/(2m)) phi(r,m)(log(1-rho) + psi 0), and the log m terms cancel. This cancellation is not written explicitly but is correct.",
+   "The top formulas for phi(r,2^{2n+1}) and phi(r,2^alpha p) are fragmentary and cannot be checked fully."
+  ],
+  "results": [
+   {
+    "what": "Evaluation of quadratic Gauss sums phi(1,n) by n mod 4, phi(r,p) = (r/p) phi(1,p), multiplicativity phi(rm,n)phi(rn,m) = phi(r,mn), powers of 2",
+    "modern_name": "Quadratic Gauss sum evaluation and multiplicativity",
+    "usually_credited_to": "Gauss (1805/1811); Dirichlet (1835), Cauchy",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Deduction of quadratic reciprocity by comparing phi(r,pp') with phi(rp',p)phi(rp,p')",
+    "modern_name": "Gauss-sum proof of quadratic reciprocity (Gauss's 4th proof style)",
+    "usually_credited_to": "Gauss 1811",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Asymptotic constant: sum_k rho^{(s+km)^2}/(s+km) = -(1/(2m)) log(1-rho) - (1/m) digamma(s/m) - (1/m) log m - gamma/(2m) + o(1)",
+    "modern_name": "Abel/theta-regularized Hurwitz-type sum; constant term via Hurwitz zeta at 1",
+    "usually_credited_to": "standard (Gauss digamma 1812; Mellin-transform methods later)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Digamma via int_0^1 (x^{m-1}-x^{s-1})/(1-x^m) dx and partial fractions over roots of unity, giving logs log(1-alpha)",
+    "modern_name": "Gauss's digamma theorem at rational arguments",
+    "usually_credited_to": "Gauss 1812",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Closed-form limiting value of sum e^{i n^2 x}/n at x = 2 pi r/m: log divergence with coefficient -phi(r,m)/(2m), finite value as a Gauss-sum-weighted sum of log(1-e^{2 pi i sigma r/m}) when m = 2 mod 4, with completed-square split into sigma even/odd using phi(r,4m)",
+    "modern_name": "Boundary values of the theta-type series sum q^{n^2}/n at roots of unity (cf. Riemann's function sum sin(n^2 x)/n^2, Hardy-Littlewood 1914, Gerver, Duistermaat)",
+    "usually_credited_to": "Hardy & Littlewood (1914) for convergence of such series at rationals; explicit rational-point analysis of Riemann's function: Gerver (1970), Duistermaat (1991)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 4,
+  "surprise_reason": "The Gauss-sum material is classical. However, a complete Abel-limit evaluation of sum e^{i n^2 x}/n at all rational points is a notable unpublished detail: it shows convergence exactly when the Gauss sum vanishes and gives an explicit closed form via Gauss sums and logs of roots of unity. It ties directly to Riemann's (otherwise only secondhand-attested) study of sum sin(n^2 x)/n^2 and to his 'Grenzfälle' work on modular functions. The techniques are standard for the time, so this is not a major priority claim.",
+  "checkable": [
+   {
+    "sympy": "[simplify(sum(exp(2*pi*I*s**2/n) for s in range(n)).evalf() - v) for n, v in [(12, (1+I)*sqrt(12)), (13, sqrt(13)), (14, 0), (15, I*sqrt(15))]]",
+    "asserts": "Gauss sum phi(1,n) = (1+i)sqrt n, sqrt n, 0, i sqrt n for n = 0, 1, 2, 3 mod 4 (all four values should be ~0)"
+   },
+   {
+    "sympy": "[N(sum(exp(2*pi*I*r*s**2/16) for s in range(16)) - 4*(1+I**r)) for r in [1, 3, 5, 7]]",
+    "asserts": "phi(r,2^{2n}) = 2^n (1+i^r) for n = 2 (corrected reading)"
+   },
+   {
+    "sympy": "phi=lambda r,n: sum(exp(2*pi*I*r*s**2/n) for s in range(n)); N(phi(3*5,7)*phi(3*7,5) - phi(3,35))",
+    "asserts": "multiplicativity phi(rm,n) phi(rn,m) = phi(r,mn) for coprime m, n (should be ~0)"
+   },
+   {
+    "sympy": "N(Integral((x**4 - x**1)/(1 - x**5), (x, 0, 1)) - (digamma(Rational(2,5)) + EulerGamma)/5)",
+    "asserts": "int_0^1 (x^{m-1}-x^{s-1})/(1-x^m) dx = (1/m)(psi(s/m-1) - psi(0)) with m=5, s=2 (should be ~0)"
+   },
+   {
+    "sympy": "limit((-log(1-x) + log(1-x**5))/5, x, 1) - log(5)/5",
+    "asserts": "(1/m)(-log(1-x) + log(1-x^m)) at x=1 equals (1/m) log m (should be 0)"
+   },
+   {
+    "sympy": "m=5; s=2; simplify(x**(s-1)/(1-x**m) - sum(exp(2*pi*I*j/m)**(1-s)/(1-exp(2*pi*I*j/m)*x) for j in range(m))/m)",
+    "asserts": "partial fractions x^{s-1}/(1-x^m) = (1/m) sum_alpha alpha^{1-s}/(1-alpha x) (numerically zero)"
+   },
+   {
+    "sympy": "t=1e-4; m=3; s=1; N(sum(exp(-t*(s+k*m)**2)/(s+k*m) for k in range(0,3000)) + log(t)/(2*m) - (-digamma(Rational(s,m)) - log(m) - EulerGamma/2)/m)",
+    "asserts": "constant term of S_s with rho=e^{-t}: (1/m)(-digamma(s/m) - log m - gamma/2) (should be ~0)"
+   },
+   {
+    "sympy": "m=6; r=1; sig=3; phi=lambda r,n: sum(exp(2*pi*I*r*k**2/n) for k in range(n)); N(sum(exp(2*pi*I*r*(s**2 - sig*s)/m) for s in range(m)) - exp(-2*pi*I*r*sig**2/(4*m))*(phi(r,4*m)/2 - phi(r,m)))",
+    "asserts": "completed square for odd sigma: T_sigma = e^{-2 pi i r sigma^2/(4m)} ((1/2)phi(r,4m) - phi(r,m)) (should be ~0)"
+   },
+   {
+    "sympy": "phi=lambda r,n: sum(exp(2*pi*I*r*k**2/n) for k in range(n)); N(-Rational(1,2)*log(1-exp(pi*I))*exp(-2*pi*I/8)*(phi(1,8)/2 - phi(1,2)) + log(2))",
+    "asserts": "final formula for m=2, r=1 reproduces sum (-1)^n/n = -log 2 (should be ~0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: 'phi(r,2^{2n}) = 2^n (1+i)^r' should read 2^n (1+i^r). The exponent r sits on i, as phi(3,4) = 2(1-i) shows.",
+   "First line: the left side is the defining sum Sum e^{s^2 (r/n) 2 pi i} = phi(r,n), not e^{(n-1)/n 2 pi i}. The relation reads phi(rm,n) phi(rn,m) = phi(r,mn).",
+   "Final two lines: 'gerade' labels the lower-left line -(1/m) Sum log(1-e^{sigma r/m 2 pi i}) e^{-sigma^2/4 r/m 2 pi i} phi(r,m), with phi(r,m) as the trailing factor. 'sigma ungerade' labels the right-hand line, whose factor is ((1/2)phi(r,4m) - phi(r,m)). The transcription misplaces phi(r,m) and the labels.",
+   "The line '-1/m psi(s/m-1) 1/m log(...)' has an omitted '+' between the first two terms (on the page itself).",
+   "'phi(r,pp') = (r/pp') i^{(p-1)/2 (p'-1)/2}...' is probably i^{((p-1)/2)^2 + ((p'-1)/2)^2} or an equivalent exponent; partly illegible.",
+   "Struck formula: Omega = Sum_{1,infinity} cos(n^2 x)/n (crossed out), replaced by Omega = Sum e^{n^2 x i}/n."
+  ]
+ }
+}

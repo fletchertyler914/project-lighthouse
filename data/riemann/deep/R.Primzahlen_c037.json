@@ -1,0 +1,90 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c037",
+ "label": "19v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000038/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a working draft of the second half of Riemann's 1859 Monatsberichte paper 'Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse'. It continues directly from the previous page, which defined xi(t) and the zero count N(T). Almost every sentence reappears nearly verbatim in the printed paper.\n\n(0) Struck-out opening. The top lines are crossed out. They say Riemann made some estimates only fleetingly, and that a closer study seemed unnecessary for the immediate purpose of his investigation. This is the draft of the printed remark that he set aside a closer investigation of whether all zeros are real.\n\n(1) Product formula for xi. Let alpha run over the roots of xi(alpha)=0. Riemann claims\n  log xi(t) = sum_alpha log(1 - t^2/alpha^2) + log xi(0),\ni.e. xi(t) = xi(0) * prod (1 - t^2/alpha^2).\nHis argument:\n- The density of roots near t grows only like log(t/2pi). So the series converges and grows at most like t log t as t -> infinity.\n- Hence it differs from log xi(t) by a function of t^2 that stays finite and continuous for finite t.\n- Divided by t^2, that function tends to 0 at infinity. Therefore it is a constant.\n- The constant is fixed by setting t=0.\n\n(2) Setup for the prime count.\n- F(x) = pi(x) when x is not prime, and pi(x) - 1/2 when x is prime. Riemann writes 'um 1/2 grösser' (larger by 1/2), but his own normalization F(x) = (F(x+0)+F(x-0))/2 forces 'um 1/2 kleiner' (the printed paper's reading); see errors.\n- At jumps, F(x) = (F(x+0)+F(x-0))/2.\n- From the Euler product, log zeta(s) = -sum_p log(1-p^{-s}) = sum_p p^{-s} + (1/2) sum p^{-2s} + (1/3) sum p^{-3s} + ...\n- Insert p^{-ns} = s * int_{p^n}^oo x^{-s-1} dx (my explicit step: interchange sum and integral).\n- Result: log zeta(s)/s = int_1^oo f(x) x^{-s-1} dx, with f(x) = sum_n (1/n) F(x^{1/n}).\n- This is valid for Re s = a > 1.\n\n(3) Inversion via Fourier's theorem (Mellin inversion).\n- Suppose g(s) = int_0^oo h(x) x^{-s} dlog x for Re s = a, with h real.\n- Write g(a+bi) = g1(b) + i g2(b). Then\n  g1(b) = int h x^{-a} cos(b log x) dlog x,\n  i g2(b) = -i int h x^{-a} sin(b log x) dlog x.\n- Multiply by (cos(b log y) + i sin(b log y)) db and integrate over b in (-oo, oo).\n- By Fourier's theorem each yields pi h(y) y^{-a}. Adding and multiplying by i y^a gives\n  2 pi i h(y) = int_{a-ooi}^{a+ooi} g(s) y^s ds.\n- At a jump of h, the integral gives the mean of the two one-sided values. f has this property by construction, so\n  f(y) = (1/2pi i) int_{a-ooi}^{a+ooi} (log zeta(s)/s) y^s ds.\n\n(4) Substituting the product. Using xi(t) = Pi(s/2)(s-1) pi^{-s/2} zeta(s) with s = 1/2 + ti, so that t^2 = -(s-1/2)^2:\n  log zeta(s) = (s/2) log pi - log(s-1) - log Pi(s/2) + sum_alpha log(1 + (s-1/2)^2/alpha^2) + log xi(0).\nRiemann notes that the termwise integrals would not converge when extended to infinity. He therefore differentiates first:\n  d/ds [log zeta(s)/s] = -int_1^oo f(x) log x x^{-s} dlog x.\nThis is correct by differentiation under the integral. The plan is to write each term on the left in the form int h(x) x^{-s} dlog x.\n\n(5) Last, unfinished line. 'Man findet, wenn der reelle Theil von s positiv und der reelle Theil von beta kleiner, aber ebenfalls positiv ist':\n  int_1^oo x^{-s} ( int_0^x u^{beta-1} du / log u ) dlog x = ...\nThe inner integral is Li(x^beta). The page breaks off here.\nMy completion: with x = e^t this is the Laplace transform of Ei(beta t), which equals -(1/s) log(1 - s/beta) with the appropriate branch, for Re s > Re beta. Differentiated in s, this produces the beta-terms that lead to the Li(x^{1/2 +- alpha i}) terms of the explicit formula. In the printed paper this appears as the statement about -d/ds[(1/s) log(1 - s/beta)].",
+  "errors": [
+   "Product formula: Riemann's argument is heuristic and is the famous gap in the 1859 paper.\n- It uses only an asymptotic density of zeros and growth O(t log t).\n- It does not justify why an entire even function g(t^2) whose real part grows slowly must be constant (Borel–Carathéodory / Hadamard theory is needed).\n- The density claim (dN ~ (1/2pi) log(t/2pi) dt) was itself unproved; von Mangoldt proved it in 1895/1905.\n- The factorization was first proved by Hadamard in 1893.",
+   "In the Fourier step Riemann says each of the two equations yields pi h(y) y^{-a}. Strictly, with u = log x, v = log y and H(u) = h(e^u) e^{-au}:\n- the cosine equation gives pi[H(v) + H(-v)];\n- the sine equation gives pi[H(v) - H(-v)].\nOnly the sum, 2 pi H(v), is correct as stated. The same harmless imprecision is in the printed paper. For f(x) = 0 when x < 1, the H(-v) terms are of opposite sign and cancel.",
+   "In the definition of F the draft reads 'um 1/2 grösser' (larger by 1/2) at a prime. With the normalization F(x) = (F(x+0)+F(x-0))/2 and F counting primes < x, it should be smaller by 1/2. The printed paper has 'um 1/2 kleiner'. This is either a slip or a misreading of the hand.",
+   "Termwise integration of the Hadamard product is not justified on the page; Riemann himself notes the non-convergence. The differentiation trick alone does not make the beta-sum integrable termwise without further estimates. Rigorous treatment came from von Mangoldt in 1895."
+  ],
+  "results": [
+   {
+    "what": "Product representation xi(t) = xi(0) prod (1 - t^2/alpha^2) over zeros, justified by the zero density and growth order",
+    "modern_name": "Hadamard factorization of the Riemann xi function",
+    "usually_credited_to": "Stated by Riemann in 1859; proved by Hadamard in 1893",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "log zeta(s)/s = int_1^oo f(x) x^{-s-1} dx with f(x) = sum F(x^{1/n})/n (normalized prime-power counting)",
+    "modern_name": "Mellin transform of Riemann's prime-power counting function J(x)",
+    "usually_credited_to": "Riemann 1859",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Inversion 2 pi i h(y) = int_{a-ooi}^{a+ooi} g(s) y^s ds derived from Fourier's integral theorem, giving the mean value at jumps",
+    "modern_name": "Mellin inversion / Perron's formula",
+    "usually_credited_to": "Riemann 1859 (Mellin 1896, Perron 1908 in general form)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Expression of log zeta(s) through pi, Pi(s/2), (s-1) and the zeros, followed by differentiation to obtain convergent termwise inversion",
+    "modern_name": "Preparatory step for the explicit formula for J(x) / pi(x)",
+    "usually_credited_to": "Riemann 1859; rigorous form by von Mangoldt 1895",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Laplace/Mellin transform of Li(x^beta): int_1^oo Li(x^beta) x^{-s-1} dx = -(1/s) log(1 - s/beta)",
+    "modern_name": "Laplace transform of the exponential integral Ei",
+    "usually_credited_to": "Riemann 1859 (classical integral)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the published 1859 paper; the text and formulas match the printed version almost word for word. The only extra information is the struck-out opening remark and minor draft variants. Nothing here is unknown or attributable to anyone later.",
+  "checkable": [
+   {
+    "sympy": "s=symbols('s'); t=symbols('t'); simplify((1-t**2/a**2).subs(t,(s-Rational(1,2))/I) - (1+(s-Rational(1,2))**2/a**2))",
+    "asserts": "With s = 1/2 + t i, 1 - t^2/alpha^2 = 1 + (s-1/2)^2/alpha^2; should give 0"
+   },
+   {
+    "sympy": "s,p=symbols('s p',positive=True); simplify(s*integrate(x**(-s-1),(x,p,oo),conds='none') - p**(-s))",
+    "asserts": "p^{-s} = s int_p^oo x^{-s-1} dx for Re s > 0"
+   },
+   {
+    "sympy": "s,b=symbols('s b',positive=True); t=symbols('t',positive=True); simplify(laplace_transform(Ei(b*t),t,s,noconds=True) + log(s/b-1)/s)",
+    "asserts": "Laplace transform of Ei(beta t) is -(1/s) log(s/beta - 1) for s > beta > 0, i.e. int_1^oo Li(x^beta) x^{-s} dlog x = -(1/s) log(1 - s/beta) up to the branch constant"
+   },
+   {
+    "sympy": "x,y=symbols('x y',positive=True); a=Rational(2); h=Heaviside(x-1); g=lambda s: integrate(x**(-s-1),(x,1,oo)); simplify(g(symbols('s',positive=True)) - 1/symbols('s',positive=True))",
+    "asserts": "Test case for the inversion formula: h = indicator(x>1) gives g(s) = 1/s, and (1/2pi i) int_{a-ooi}^{a+ooi} y^s/s ds = 1 for y > 1, 1/2 at y = 1, 0 for y < 1"
+   },
+   {
+    "sympy": "s=symbols('s'); diff(log(zeta(s))/s,s) - (zeta(s).diff(s)/(s*zeta(s)) - log(zeta(s))/s**2)",
+    "asserts": "Differentiation identity underlying d/ds[log zeta(s)/s]; should simplify to 0"
+   },
+   {
+    "sympy": "s=symbols('s'); expand_func(gamma(s/2+1)*(s-1)*pi**(-s/2)*zeta(s)).subs(s,Rational(1,2)+I*2) - expand_func(gamma((1-s)/2+1)*(-s)*pi**(-(1-s)/2)*zeta(1-s)).subs(s,Rational(1,2)+I*2)",
+    "asserts": "Numerically (via N) checks the symmetry of xi under s -> 1-s at s = 1/2 + 2i, consistent with xi(t) being even in t; should be about 0"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3 opening 'Log [?] ...' reads 'Bezeichnet man nun durch alpha jede Wurzel der Gleichung xi(alpha)=0'.",
+   "'da die Dichtigkeit der Wurzeln [...] t mit t nur wie log t/2pi wächst' should read 'da die Dichtigkeit der Wurzeln, deren Grösse t ist, mit t nur wie log t/2pi wächst' (cf. the printed text).",
+   "'deren Werth man finden man t=0 setzt' should read 'deren Werth durch Einsetzung von t=0 bestimmt werden kann'. The duplicate line is a draft variant of the same clause.",
+   "'diese völlig allgemein [?] erfüllt [?] die dieselbe Eigenschaft' should read 'Bei der vorausgesetzten Bestimmungsweise der Function f(x) besitzt diese dieselbe Eigenschaft, und man hat daher völlig allgemein'.",
+   "'um 1/2 grösser' at a prime should read 'um 1/2 kleiner' in the printed version. The manuscript word is hard to read; check the image.",
+   "Last prose line: 'Man findet, wenn der reelle Theil von s positiv und der reelle Theil von beta kleiner, aber ebenfalls positiv ist'. The machine text's '[...] ist kleiner' omits 'von beta'.",
+   "'in die Form int^{a+ooi} h(x) x^{-s} dlog x' should have the upper limit oo (int_1^oo or int_0^oo); 'a+ooi' looks like a misreading of a struck-out bound."
+  ]
+ }
+}

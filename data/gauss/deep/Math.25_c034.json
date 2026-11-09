@@ -1,0 +1,92 @@
+{
+ "bundle": "Math.25",
+ "page": "c034",
+ "label": "17r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000035/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Goal (Part I): compute A = e^{-π} (the number whose natural, 'hyperbolic', logarithm is -π) to roughly 50 decimals using tables of natural logarithms of integers. The next page uses 48-50 digit values of ln 10, ln 11, ln 2281, ln 2144 and ln 972, probably from Wolfram's table in Vega's Thesaurus (1794).\n\n1. A provisional approximation is A ≈ 0.0432139182637. Multiplying by 11·10^10 gives 4753531009.01… The page then picks the nearby integer M = 4753531008 because it splits at once as M = 2^7·3^5·152827 = 128·243·152827. The open question is whether 152827 factors further.\n\n2. Trial division by small primes fails, so the author compares the number and some of its multiples with nearby squares. The page writes 552^2 ≡ 950 and 677^2 ≡ 152 (mod 152827). In fact 552^2 = 304704 = 2·152827 − 950 and 677^2 = 458329 = 3·152827 − 152. So the residues are −950 and −152; the minus signs are omitted, or not visible.\n\nMultiplying the first by 2^2 and the second by 5^2 gives 1104^2 ≡ 3385^2 ≡ (−)3800. This works because 950·152 = 380^2, so the two relations combine into a square.\n\nBoth 1104 and 3385 are less than 152827/2, and 1104 ≠ ±3385. A prime has only two square roots ±x of a residue, so 152827 cannot be prime (the page cites Disq. Arith.).\n\nThe factors are then found 'by the method taught in that work': 152827 = 67·2281. My note: the congruence also yields the factors directly. 3385 − 1104 = 2281 and 3385 + 1104 = 4489 = 67^2, so gcd(3385 − 1104, 152827) = 2281.\n\n3. Hence N = 128·243·67·2281/(11·10^10) has a logarithm obtainable from the tables. Since 128·243·67 = 2083968 = 2144·972, ln N = ln 2281 + ln 2144 + ln 972 − ln 11 − 10 ln 10. The page also asserts that ln N differs from −π only from the 10th decimal on.\n\nThen A = N e^{δ}, with δ = ln 11 + 10 ln 10 − ln 2281 − ln 2144 − ln 972 − π = −ln N − π. Here δ ≈ 2.1351443…·10^{-10}; this value is my check and agrees with the next page. The small factor e^{δ} is then evaluated by series, splitting δ into pieces whose antilogarithms are known, as done on the next page.",
+  "errors": [
+   "The residues are written as +950 and +152 (and +3800). Correctly, 552^2 ≡ −950 and 677^2 ≡ −152 (mod 152827), so 1104^2 ≡ 3385^2 ≡ −3800. The compositeness argument is unaffected, since both residues carry the same sign. This is either a sign omission or a faint minus not visible in the image.",
+   "Article numbers of Disq. Arith. are left blank on the page.",
+   "No substantive mathematical error: 4753531008 = 128·243·152827, 152827 = 67·2281, and 2144·972 = 128·243·67 all check. N agrees with e^{-π} to about 10 significant digits."
+  ],
+  "results": [
+   {
+    "what": "High-precision computation of e^{-π} as N·e^{δ}, choosing a smooth rational N near e^{-π} so that ln N comes from integer logarithm tables, plus a tiny correction δ",
+    "modern_name": "Argument reduction for the exponential function using tabulated logarithms",
+    "usually_credited_to": "Standard 18th/19th-century table technique (Briggs, Wolfram/Vega tables)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Proving 152827 composite by finding two squares 1104^2 ≡ 3385^2 with 1104 ≠ ±3385. The congruence is obtained by multiplying two small-residue relations (−950 and −152), whose product is a square.",
+    "modern_name": "Congruence of squares; combining relations into a square (Kraitchik / Dixon / quadratic-sieve idea)",
+    "usually_credited_to": "Fermat (difference of squares, 1643); Kraitchik (1920s) for combining relations; Dixon (1981); Morrison–Brillhart (1975)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Factorization 152827 = 67·2281 via the exclusion method of Disq. Arith.",
+    "modern_name": "Gauss's exclusion method using quadratic residues (D.A. arts. 329–334)",
+    "usually_credited_to": "Gauss 1801",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The e^{-π} computation itself is routine table work, and Gauss's interest in e^{-π} (AGM/lemniscatic context) is known. The mildly notable point is the explicit combination of two small quadratic residues (−950·−152 = 380^2) into a nontrivial congruence of squares. This is the Kraitchik/Dixon idea in miniature, here used only to certify compositeness; the factor 2281 = 3385−1104 is not extracted by gcd. Such hints in Gauss/Legendre-era factoring are partly recognized, and the impersonal style ('fand man') may indicate a fair copy or another hand.",
+  "checkable": [
+   {
+    "sympy": "128*243*152827 == 4753531008",
+    "asserts": "factorization of the chosen integer"
+   },
+   {
+    "sympy": "67*2281 == 152827 and isprime(2281) and isprime(67)",
+    "asserts": "prime factorization of 152827"
+   },
+   {
+    "sympy": "Mod(552**2, 152827) == 152827-950",
+    "asserts": "552^2 ≡ −950 (mod 152827)"
+   },
+   {
+    "sympy": "Mod(677**2, 152827) == 152827-152",
+    "asserts": "677^2 ≡ −152 (mod 152827)"
+   },
+   {
+    "sympy": "Mod(1104**2 - 3385**2, 152827) == 0",
+    "asserts": "1104^2 ≡ 3385^2 (mod 152827)"
+   },
+   {
+    "sympy": "950*152 == 380**2",
+    "asserts": "product of the two residues is a perfect square"
+   },
+   {
+    "sympy": "gcd(3385-1104, 152827) == 2281 and 3385+1104 == 67**2",
+    "asserts": "the congruence of squares yields the factors directly"
+   },
+   {
+    "sympy": "2144*972 == 128*243*67",
+    "asserts": "regrouping of factors used in the exponent"
+   },
+   {
+    "sympy": "N(exp(-pi), 30)",
+    "asserts": "≈ 0.0432139182637722497744177371…, matching the provisional value"
+   },
+   {
+    "sympy": "N(log(11) + 10*log(10) - log(2281) - log(2144) - log(972) - pi, 20)",
+    "asserts": "δ ≈ 2.13514432…e-10, so ln N and −π agree until the 10th decimal"
+   },
+   {
+    "sympy": "N(11*10**10*exp(-pi), 20)",
+    "asserts": "≈ 4753531009.0149…"
+   }
+  ],
+  "transcription_corrections": [
+   "The congruences should read 552^2 ≡ −950 and 677^2 ≡ −152, hence 1104^2 ≡ 3385^2 ≡ −3800; the page as transcribed shows no minus signs.",
+   "'950706' in the left margin near 4753531009,01… is a stray scratch note, not part of the text.",
+   "'der Logarithme' is corrected in the manuscript to 'der Logarithmus/Logarithm'; the inserted 'sich' replaces the struck 'man'.",
+   "Article numbers after 'art.' are blank in the manuscript, not lost in transcription."
+  ]
+ }
+}

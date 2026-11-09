@@ -1,0 +1,57 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c051",
+ "label": "25v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000052/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a section on the electrostatic potential of a Franklin plate (Franklinsche Tafel), i.e. a parallel-plate condenser. It consists of a dielectric plate with two circular metal coatings ('Belegungen') of radius R, separated by a small distance ε. The previous section treated points on the common axis. This page asks for the potential at a point off the axis.\n\nText, step by step:\n(1) The author states that a fully worked solution (reading 'Eine nur einigermaßen vollständige Lösung') is very difficult and leads only to complicated formulas. Because this case has far less practical importance than the axial one, only an approximate solution will be attempted.\n(2) A crossed-out passage (large X) begins with the remark that the problem can be solved 'easily and completely' only for three kinds of point:\n  a) points on the axis;\n  b) points on the lateral surface (mantle) of the right circular cylinder erected on one coating as base, i.e. at cylindrical radius ρ = R;\n  c) points in the plane between the coatings.\n  Case a was done in the previous section, so the author turns to case b.\n(3) For the 'first system', taking the surface density P on one coating and −P on the other, separated by ε, he begins writing the potential as a difference of two disk potentials:\n  V = P∬ r dr dθ / sqrt(x^2 + R^2 + r^2 − 2Rr cosθ) − P∬ r dr dθ / sqrt((x+ε)^2 + r^2).\n  Here x is the height of the field point above the first coating. The partly struck denominator of the first term is my reading of the scribble: the distance from the source point (r,θ) on the disk to a field point at radius R and height x, by the law of cosines. The second term, as written, is the axial-point formula from the previous section and was not adapted to the off-axis point.\n(4) The whole attempt is crossed out. On the next page the author abandons the analytic double integrals as 'hopelessly involved'. He switches to a geometric approach: he writes the potential of the system as F(x,y) − F(x+2ε,y) and Taylor-expands in the small separation ε, keeping the leading term (in modern terms, a dipole-layer approximation).\n\nImplicit step (mine): for the mantle point, the r-integral is elementary. It gives\n  ∫_0^R r dr / sqrt(r^2 − 2Rr c + R^2 + x^2) = sqrt(2R^2(1−c) + x^2) − sqrt(R^2 + x^2) + R c·log[(R(1−c) + sqrt(2R^2(1−c) + x^2)) / (sqrt(R^2 + x^2) − R c)], with c = cosθ.\n  The remaining θ-integral involves ∫ sqrt(4R^2 sin^2(θ/2) + x^2) dθ, which is a complete elliptic integral. So case b is 'complete' only in terms of elliptic integrals, not elementary functions.",
+  "errors": [
+   "The second integral uses the on-axis distance sqrt((x+ε)^2 + r^2). For a point on the cylinder mantle it should read sqrt((x+ε)^2 + R^2 + r^2 − 2Rr cosθ), matching the first term. The expression as written is inconsistent, which plausibly contributed to the deletion.",
+   "The claim that cases b and c are 'easily and completely' solvable is overstated. The potential of a uniform disk at its rim cylinder, or in its own plane, requires complete elliptic integrals. It is not elementary, unlike the axial case. The author himself abandons the approach.",
+   "(Next page, noted for context) The Taylor expansion F(x) − F(x+2ε) = −2εF' − 2ε^2 F'' − ... has second term coefficient 2ε^2, not ε^2 as written there. The leading-term approximation is unaffected."
+  ],
+  "results": [
+   {
+    "what": "Potential of a uniformly charged circular disk / pair of oppositely charged disks (parallel-plate condenser) at an off-axis point, written as a double integral over polar coordinates",
+    "modern_name": "Potential of a uniformly charged disk; finite parallel-plate capacitor (dipole layer)",
+    "usually_credited_to": "Classical potential theory (Laplace, Poisson, Green; disk potentials via elliptic integrals in the 19th century)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Observation that the off-axis disk potential is tractable only on the axis, on the rim cylinder and in the plane, and otherwise leads to complicated formulas",
+    "modern_name": "Disk potential expressible via complete elliptic integrals at special loci",
+    "usually_credited_to": "Standard 19th-century knowledge",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine, abandoned textbook-level electrostatics computation (potential of a finite Franklin-plate condenser). It is consistent with exercise or seminar material from Riemann's Göttingen period, when he worked on electricity. Nothing here goes beyond standard potential theory, and the attempt is crossed out.",
+  "checkable": [
+   {
+    "sympy": "x,R,r=symbols('x R r',positive=True); simplify(integrate(2*pi*r/sqrt(x**2+r**2),(r,0,R)) - 2*pi*(sqrt(x**2+R**2)-x))",
+    "asserts": "On-axis potential of a uniform unit-density disk equals 2*pi*(sqrt(x^2+R^2)-x) (case a); the result should be 0."
+   },
+   {
+    "sympy": "x,R,eps=symbols('x R epsilon',positive=True); V=lambda z: 2*pi*(sqrt(z**2+R**2)-z); series(V(x)-V(x+eps),eps,0,2)",
+    "asserts": "The axial potential of the pair of disks equals -eps*dV/dx + O(eps^2), i.e. leading term 2*pi*eps*(1 - x/sqrt(x^2+R^2))."
+   },
+   {
+    "sympy": "R,x,r,c=symbols('R x r c',positive=True); F=sqrt(r**2-2*R*r*c+R**2+x**2)+R*c*log(r-R*c+sqrt(r**2-2*R*r*c+R**2+x**2)); simplify(diff(F,r)-r/sqrt(r**2-2*R*r*c+R**2+x**2))",
+    "asserts": "An antiderivative in r of the integrand for the mantle point (case b) is elementary; the result should be 0."
+   },
+   {
+    "sympy": "e,x=symbols('epsilon x'); F=Function('F'); series(F(x)-F(x+2*e),e,0,3)",
+    "asserts": "F(x)-F(x+2eps) = -2eps F'(x) - 2eps^2 F''(x) + O(eps^3); the next page's coefficient eps^2 for the second term is off by a factor 2."
+   }
+  ],
+  "transcription_corrections": [
+   "The inserted line above 'vollständige Lösung' appears to read 'Eine nur einigermaßen' rather than 'Eine nur annähernde[?]', giving 'Eine nur einigermaßen vollständige Lösung dieser Frage ist mit großen Schwierigkeiten verknüpft'.",
+   "In b.), the manuscript seems to read 'des senkrechten' with 'sen' struck, giving 'rechten' (i.e. 'des rechten/geraden Cylinders'). No separate inserted word 'geraden' is clearly visible.",
+   "The struck-through denominator of the first integral contains 'x^2 + ... 2R r cos ... + r^2'. It is most likely 'x^2 + R^2 - 2Rr cos θ + r^2', the distance to a point at radius R, rather than an illegible '...'.",
+   "The second denominator reads sqrt((x+ε)^2 + r^2), as transcribed; the ε is clearly visible."
+  ]
+ }
+}

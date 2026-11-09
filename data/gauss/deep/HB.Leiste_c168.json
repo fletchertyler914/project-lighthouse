@@ -1,0 +1,65 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c168",
+ "label": "71",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000169/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is not a Gauss manuscript. It is a printed page (p. 71) of a textbook, very likely Christian Leiste's arithmetic/algebra text; the bundle name 'HB.Leiste' suggests Gauss's own copy. Gauss's handwriting appears only as marginal numbers and words.\n\n(0) Top line, ending §153: the square-pyramid shot pile, N = n(n+1)(2n+1)/6 = (2n^2+3n+1)n/6. For n = 7: (98+21+1)*7/6 = 140 = 1^2+...+7^2. The text remarks that cannon and mortar balls are stacked this way, so the formulas are useful.\n\n§154. Problem: count a free-standing pile of balls whose base is an oblong rectangle. Each lower layer has one more ball than the layer above, both in length and in breadth.\n\n(1) Let the top layer be a by b, so it holds ab balls. Counting down, layer k+1 (k = 0..m) holds (a+k)(b+k) = ab + k(a+b) + k^2.\n\n(2) The total therefore splits into two sums.\n- An arithmetic series with first term ab, common difference a+b (the old word 'Exponent') and m+1 terms. Its sum is (2ab + m(a+b))(m+1)/2.\n- The squares 1^2+...+m^2 = m^3/3 + m^2/2 + m/6 = (2m^3+3m^2+m)/6.\n\n(3) Let n = m+1 be the number of layers. Then:\n- 2m^3 = 2n^3 - 6n^2 + 6n - 2\n- 3m^2 = 3n^2 - 6n + 3\n- m = n - 1\nAdding gives (2m^3+3m^2+m)/6 = (2n^3-3n^2+n)/6.\n\n(4) The usual case is a = 1, a ridge pile whose top row has b balls. The arithmetic part becomes (2b + (n-1)(b+1))n/2 = (1/2)b(n^2+n) + (3/6)n^2 - (3/6)n.\n\n(5) Completed on p. 72: adding the square part gives the total N = (1/2)bn(n+1) + (1/3)(n^2-1)n. Example: b = 30, n = 10 gives 1650 + 330 = 1980.\n\nMarginal notes in Gauss's hand: '1/42[?] 1/6 +1', '280 346 188 244 6846', and fragments ending in something like '1/2 π circuli?'. These echo the numerical work on the previous page (a sin-lemn-type computation at 45°, logarithms, and the remark that e^{π/2} = 4.81048). They are unrelated to the printed shot-pile derivation.",
+  "errors": [
+   "No mathematical errors. The two direct checks (140 for the square pyramid, n = 7; 1980 for b = 30, n = 10) are correct.",
+   "Typographical only: in the 4th-layer line a parenthesis is missing ('ab+3 a+b)+9'); the '(m+1)ten' line lacks its opening parenthesis; the sign in 'n^2 - 2n + 1' is damaged or overprinted.",
+   "Terminology: 'Exponent' is used for the common difference of the arithmetic series (period usage, not an error)."
+  ],
+  "results": [
+   {
+    "what": "Number of balls in a square-based pyramid pile: sum k^2 = n(n+1)(2n+1)/6, with n = 7 giving 140",
+    "modern_name": "Square pyramidal numbers / sum of squares formula",
+    "usually_credited_to": "Ancient (Archimedes; Fibonacci); shot-pile formulas Harriot c. 1591",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Number of balls in a rectangular (oblong) shot pile with top layer a×b and n layers; for a = 1: N = b n(n+1)/2 + n(n^2-1)/3",
+    "modern_name": "Shot-pile (cannonball pile) formula for rectangular base",
+    "usually_credited_to": "Thomas Harriot (c. 1591); standard in 18th-century textbooks (e.g. Vega's tables)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is printed elementary textbook material (Leiste) on shot-pile counting, not Gauss's own work. His marginalia are stray numbers belonging to the computation on the previous page.",
+  "checkable": [
+   {
+    "sympy": "Eq((2*7**2+3*7+1)*7/Integer(6), 140)",
+    "asserts": "Square pyramid pile with n = 7 holds 140 balls"
+   },
+   {
+    "sympy": "simplify(summation((a+k)*(b+k),(k,0,m)) - ((2*a*b+m*(a+b))*(m+1)/2 + (2*m**3+3*m**2+m)/6))",
+    "asserts": "Rectangular pile total equals the arithmetic-series part plus the sum of squares (result 0)"
+   },
+   {
+    "sympy": "expand((2*m**3+3*m**2+m).subs(m,n-1) - (2*n**3-3*n**2+n))",
+    "asserts": "Substituting m = n-1 into the sum of squares (result 0)"
+   },
+   {
+    "sympy": "expand((2*b+(n-1)*(b+1))*n/2 - (b*(n**2+n)/2 + Rational(3,6)*n**2 - Rational(3,6)*n))",
+    "asserts": "Arithmetic part for a = 1 (result 0)"
+   },
+   {
+    "sympy": "simplify(summation((1+k)*(b+k),(k,0,n-1)) - (b*n*(n+1)/2 + (n**2-1)*n/3))",
+    "asserts": "Final ridge-pile formula (result 0)"
+   },
+   {
+    "sympy": "Eq(30*10*11/2 + (10**2-1)*10/3, 1980)",
+    "asserts": "Example b = 30, n = 10 gives 1980"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 of the layer list: the print reads 'ab+3  a+b)+9' with a missing opening parenthesis; the intended expression is ab+3(a+b)+9.",
+   "In step 3 the sign before 2n in m^2 = n^2 - 2n + 1 is damaged or overprinted in the image; it should be minus.",
+   "The margin entry transcribed '1142 16 +1' looks more like '1/42 1/6 +1' (fractions), possibly echoing series coefficients (1/12, 1/180, ...) from the previous page; reading uncertain.",
+   "The margin note near the bottom is likely 'Kraft' or similar, and the last line reads roughly '1/2 π circuli?' (cf. previous page '= 1/2 π circuli?') rather than 'Kreis'."
+  ]
+ }
+}

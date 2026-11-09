@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c218",
+ "label": "110r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000219/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is the opening draft of Riemann's essay 'Neue mathematische Principien der Naturphilosophie', dated 'Gefunden am 1. März 1853'. A cleaned version was published posthumously in the Gesammelte Werke (Dedekind/Weber, 1876).\n\n(1) Programme. Riemann wants to go beyond the foundations of astronomy and physics laid by Galilei and Newton, into the 'interior of nature'. The aim is a deeper philosophical foundation for mathematical physics. He concedes this speculation has no immediate practical use for astronomy.\n\n(2) Analogy from psychology (Herbartian). Every mental act leaves something permanent in the soul (a 'Vorstellungsmasse'). It enters the soul with the act and in the same instant vanishes from the world of appearances.\n\n(3) Physical hypothesis, made by analogy. Space is filled with a substance (an aether). It flows continuously into the ponderable atoms and there vanishes from the corporeal world. In modern terms, each atom is a sink.\n\n(4) Mathematical core: gravitation via Gauss's theorem.\n- The gravitational action in a region is completely determined once the Newtonian potential P of all ponderable masses is known there.\n- Equivalently, P is a function such that the mass enclosed by any closed surface S equals M_S = -(1/4π) ∮_S ∂P/∂p ds, with p the (outward) normal and ds the surface element.\n- On the page the prefactor is partly struck and written only as ∫ ∂P/∂p ds.\n- In differential form (my addition): ΔP = -4πρ, with P = Σ m/r.\n\n(5) Fluid model.\n- Assume the space-filling substance is an incompressible fluid without inertia.\n- Assume each atom absorbs, in equal times, equal amounts proportional to its mass m.\n- Then (my completion) incompressibility gives div v = 0 outside the atoms.\n- The flux through S is proportional to the enclosed mass: ∮ v·n ds = -k M_S.\n- Hence the velocity field can be taken as v = (k/4π) ∇P. For a single atom this is v = -k m r̂ /(4π r²).\n- The struck-off sentence 'so wird offenbar der Druck ...' is completed in the Werke as: the pressure the atom experiences is proportional to the flow velocity at its location.\n- So the force on an atom is proportional to ∇P, i.e. Newtonian attraction.\n\n(6) Conclusion. The gravitational action on an atom can be expressed through the pressure of the space-filling substance in its immediate neighbourhood, and thought of as dependent on it. A local, contact-action explanation of gravity.\n\n(7) Corollary. The same substance must propagate the vibrations we perceive as light and heat. This unifies gravitation and optics through one aether; it is continued on the next page with the retarded wave equation and the principal dilatations.",
+  "errors": [
+   "Physical gap: for a fluid 'without inertia' the Euler equation gives ∇p = 0, so pressure cannot be proportional to velocity unless a resistance (Darcy-type) law v ∝ -∇p is tacitly assumed. Riemann writes 'offenbar' without justification. Even with such a law, the pressure would be ∝ P and the force on the atom ∝ ∇p ∝ ∇P (a gradient law), not a pressure ∝ |v|; the step from flux to force is heuristic.",
+   "Sign/normalisation of Gauss's formula is incomplete on this draft (the -1/(4π) is struck or omitted); the correct statement for P = Σ m/r and outward normal is M = -(1/4π)∮ ∂P/∂n ds.",
+   "The sink hypothesis implies continual creation or annihilation of aether and gives no account of where the inflowing substance goes; this is philosophical rather than mathematical, but it is unaddressed."
+  ],
+  "results": [
+   {
+    "what": "Enclosed mass equals -(1/4π) times the flux of the potential gradient through a closed surface; gravity is determined by the potential P",
+    "modern_name": "Gauss's law for gravity / Gauss divergence theorem with Poisson equation ΔP = -4πρ",
+    "usually_credited_to": "Gauss (1813, 1839-40), Green (1828), Poisson (1813)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Gravitation explained as the effect of an incompressible aether flowing into atoms (sinks with strength ∝ mass), force via local pressure",
+    "modern_name": "Sink/fluid-flow (kinetic aether) models of gravitation",
+    "usually_credited_to": "Precursors: Euler and others; contemporaries/later: Challis, Bjerknes, Lord Kelvin; Riemann's version is known from the Werke (1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Unification: the same medium carries light and heat vibrations",
+    "modern_name": "Unified aether theory of gravitation and light",
+    "usually_credited_to": "Riemann's 1853 Naturphilosophie fragment (published 1876); also later Maxwell-era aether theories",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the well-known draft of 'Neue mathematische Principien der Naturphilosophie', published in Riemann's Werke and widely discussed; the mathematics (Gauss's law) is standard. The only new content is draft-level variants of known text.",
+  "checkable": [
+   {
+    "sympy": "r,th,ph,m=symbols('r theta phi m',positive=True); P=m/r; simplify(integrate(integrate(diff(P,r)*r**2*sin(th),(th,0,pi)),(ph,0,2*pi))*(-1/(4*pi)) - m)",
+    "asserts": "Gauss: -(1/4π)∮∂P/∂n ds over a sphere around a point mass m with potential m/r gives m (result 0)"
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); R=sqrt(x**2+y**2+z**2); simplify(diff(1/R,x,2)+diff(1/R,y,2)+diff(1/R,z,2))",
+    "asserts": "The Newtonian potential 1/r is harmonic away from the source, so flux is the same through any surface enclosing it"
+   },
+   {
+    "sympy": "x,y,z,k,m=symbols('x y z k m'); R=sqrt(x**2+y**2+z**2); v=[-k*m*x/R**3,-k*m*y/R**3,-k*m*z/R**3]; simplify(diff(v[0],x)+diff(v[1],y)+diff(v[2],z))",
+    "asserts": "The sink velocity field v ∝ m∇(1/r) of an incompressible fluid flowing into an atom is divergence-free outside the atom"
+   },
+   {
+    "sympy": "r,th,ph,k,m=symbols('r theta phi k m',positive=True); simplify(integrate(integrate(-k*m/r**2*r**2*sin(th),(th,0,pi)),(ph,0,2*pi)))",
+    "asserts": "Inflow rate into the atom equals -4πkm, i.e. proportional to the mass, as hypothesised"
+   }
+  ],
+  "transcription_corrections": [
+   "'{+Sein Zweck ist über die+}' should read 'Sein Zweck ist, über die von Galilei und Newton gelegten Grundlagen der Astronomie und Physik [hinaus] in's Innere der Natur zu dringen', so the inserted phrase connects to the following line.",
+   "'kann hat diese Speculation freilich unmittelbar keinen praktischen Nutzen haben' reads, in the corrected sense, 'kann diese Speculation zwar/freilich unmittelbar keinen praktischen Nutzen haben' ('hat' is superseded by 'kann').",
+   "'Theile des Raumes [?] vollständig bestimmt' should read approximately: '...ist bekanntlich in jedem Theile des Raumes vollständig bestimmt, wenn die Potentialfunction P aller ponderablen Massen für diesen Theil des Raumes gegeben ist'.",
+   "'und dass für jeden [?] die Function' reads approximately 'oder, was dasselbe ist, eine Function P, welche die Eigenschaft hat, dass die im Innern einer geschlossenen Fläche S enthaltenen ponderablen Massen = -1/(4π)∫∂P/∂p ds'; the formula sits on its own line at the left margin with a struck prefactor.",
+   "The fluid sentence should probably read 'eine incompressible homogene Flüssigkeit ohne Trägheit sei' (cf. the Werke text); 'homogene' may be present but missed.",
+   "'liegt [-etwas-]' at the top of the right column is a struck false start; the first right-column line is itself superseded by 'So beobachten wir.'"
+  ]
+ }
+}

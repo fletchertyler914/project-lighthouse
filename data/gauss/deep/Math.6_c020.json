@@ -1,0 +1,69 @@
+{
+ "bundle": "Math.6",
+ "page": "c020",
+ "label": "11r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376171:00000021/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. On the previous page Gauss studies a function φ given by power series. He sums two series at the argument 10. The first is 1 + 8.3333333 + 3.4722222 + 0.2755732 + 0.0068347 + … = 13.0880328, with successive term ratios 10²/12, 10²/240, 10²/1260, 10²/4032, i.e. 10²/((2k)²((2k)²−1)). The second sums to 13.1518250. Their difference, 0.0637922, is φ'(10). He then writes the local expansion φ(10+x) = 0.2288438 + 0.0637922x − 0.0146318x² − 0.0000878x³ + 0.0001327x⁴. In it, φ''(10) = −0.0292636, which corrects the cancelled '−0.0029263'. On this page he moves to the argument 7.5, where φ changes sign. The aim is to locate the zero of φ.\n\n(1) Local cubic model. He sets\nφ(7.5+x) = a + b·x + α·x² + β·x³,\nwith a = φ(7.5) = −0.0146336 and b = φ'(7.5) = 0.1278546. These were evidently computed elsewhere. b = 0.1278546 also appears on the next page under 'φ''.\n\n(2) Attempt to fix α and β by collocation (left unfinished). A first condition 'α + β = −0.0115659' is written and then struck through. α + β is what one gets by matching at x = 1, i.e. φ(8.5) − a − b; the previous page contains 0.1132210 = b + a. It is replaced by two templates whose right-hand sides are left blank:\n- α + (3/4)β = … This is (φ'(7.5+½) − b)/1, the derivative condition at x = ½: b + 2α(½) + 3β(¼) = φ'(8).\n- (1/4)α + (1/8)β = … This is the value condition at x = ½: a + b/2 + α/4 + β/8 = φ(8).\nMy reading is that he intended to fit α and β to φ(8) and φ'(8). The page does not complete this.\n\n(3) Working quadratic. He settles on a quadratic model:\nφ(7.5+x) ≈ −0.0146336 + 0.1278546x − 0.0150961x².\nHere α = −0.0150961 is plausibly φ''(7.5)/2, by analogy with −0.0146318 = φ''(10)/2 on the previous page. The page does not show how this value was obtained.\n\n(4) Root by fixed-point iteration. Setting the quadratic to zero gives\nx = 0.0146336 / (0.1278546 − 0.0150961x).\nIterating:\n- x₀ = 0.0146336/0.1278546 ≈ 0.11446 (my reconstruction, not written).\n- The denominator becomes 0.1278546 − 0.0150961·0.11446 ≈ 0.1261268. The scratch figure '12612' is this value.\n- The long division 14.6336 ÷ 12612 (remainders 2021…, 76…) gives x₁ ≈ 0.1160.\nThe zero of φ is therefore at about 7.5 + 0.1160 = 7.616. The next page indeed works with 7.62.",
+  "errors": [
+   "No arithmetic errors found. The denominator 0.1278546 − 0.0150961·0.11446 = 0.126127 ('12612') and the quotient 0.0146336/0.126127 = 0.11602 ('1160') are both correct.",
+   "The quotient 0.1160 agrees with the exact smaller root of the quadratic, 0.11604.",
+   "The struck-out condition α+β = −0.0115659 and the two collocation equations are left without right-hand sides. The cubic coefficient β is never determined.",
+   "The origin of α = −0.0150961 is not shown on the page. It is not equal to the values a quadratic fitted to φ(10) or φ'(10) would give (−0.01219 and −0.01281 respectively), so it presumably comes from a separately computed φ''(7.5)."
+  ],
+  "results": [
+   {
+    "what": "Local Taylor (cubic/quadratic) model of φ about 7.5, with coefficients to be fixed by value and derivative matching at 8",
+    "modern_name": "Taylor expansion / Hermite-type collocation for a local polynomial model",
+    "usually_credited_to": "Taylor (1715); Hermite interpolation (19th c.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Zero of the quadratic found by iterating x = a/(b − c·x)",
+    "modern_name": "Fixed-point iteration / successive substitution for a root (refinement of the Newton step)",
+    "usually_credited_to": "Classical (Newton, Raphson, Lagrange era)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine numerical root location for a transcendental function: a Taylor model followed by fixed-point iteration, carried out with Gauss's usual 7-figure care. The function φ, defined by series with term ratios x²/((2k)²((2k)²−1)), is not identified here. The method itself is standard for the period.",
+  "checkable": [
+   {
+    "sympy": "N(0.0146336/0.1278546, 7)",
+    "asserts": "First iterate x0 ≈ 0.11446"
+   },
+   {
+    "sympy": "N(0.1278546 - 0.0150961*0.0146336/0.1278546, 7)",
+    "asserts": "Denominator after one substitution ≈ 0.126127 (Gauss's 12612)"
+   },
+   {
+    "sympy": "N(0.0146336/(0.1278546 - 0.0150961*0.0146336/0.1278546), 6)",
+    "asserts": "Second iterate ≈ 0.1160"
+   },
+   {
+    "sympy": "N(min(solve(-0.0146336 + 0.1278546*x - 0.0150961*x**2, x)), 6)",
+    "asserts": "Exact smaller root of the quadratic ≈ 0.11604, so the zero of φ is near 7.616"
+   },
+   {
+    "sympy": "expand(Rational(1,2)**2*a + Rational(1,2)**3*b) - (a/4 + b/8)",
+    "asserts": "Value condition at x=1/2: alpha/4 + beta/8 equals 0 difference (template matches x=1/2)"
+   },
+   {
+    "sympy": "diff(A + B*x + a*x**2 + b*x**3, x).subs(x, Rational(1,2)) - (B + a + Rational(3,4)*b)",
+    "asserts": "Derivative condition at x=1/2 gives alpha + 3/4 beta (equals 0)"
+   },
+   {
+    "sympy": "N(-0.0146336 + 0.1278546, 7)",
+    "asserts": "a + b = 0.1132210, matching the number on the previous page used for the x=1 condition"
+   }
+  ],
+  "transcription_corrections": [
+   "The crossed-out line reads [α + β] = −0.0115659. The struck part is only the left side; the right-hand value is written once.",
+   "The scratch quotient is 0,0146336 / (1278546 − 0150961·x), the iteration formula, not a plain difference. The 'x' factor is implicit.",
+   "The '11' at the right margin is the folio number, not part of the computation."
+  ]
+ }
+}

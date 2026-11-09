@@ -1,0 +1,42 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c363",
+ "label": "183v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000364/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this continues the previous page on reducing binary quadratic forms (a,b,c) = a x^2 + 2b xy + c y^2 of negative determinant b^2 - ac = -D, with positive outer coefficients, using 'neighbouring' forms. The previous page defines a reduced form by (1) a <= c and (2) |2b| <= a. It also introduces the substitution x = Y, y = -X + δY, matrix [[0,1],[-1,δ]]. This substitution sends (a,b,a') to the right neighbour (a', b', a''), where b' = -b - a'δ (so b + b' ≡ 0 mod a') and a'' = (b'^2 + D)/a'. The freedom in δ is used to make |b'| as small as possible.\n\nThis page:\n(i) Write the chain (a,b,a') → (a',b',a'') → (a'',b'',a''').\n(ii) δ is chosen so that |2b'| <= a', i.e. b' is the absolutely least residue of -b mod a'. The neighbour (a',b',a'') then automatically satisfies reduction condition (2).\n(iii) The text reads roughly: 'Diese Form hat schon eine von den verlangten Eigenschaften; wenn a' ≦ a'', eine reducirte; wo nicht, also a' > a''.' So if a' <= a'', condition (1) also holds and (a',b',a'') is reduced.\n(iv) Otherwise a' > a''. One then passes to the next neighbour (a'',b'',a''') with |2b''| <= a'', and repeats.\n(v) [My completion] The first outer coefficients a', a'', ... form a strictly decreasing sequence of positive integers as long as the form is not reduced. So the process ends after finitely many steps at a reduced form equivalent to the original. This is the 'Aufgabe gelöst durch Bildung einer Reihe von benachbarten Formen' noted in the margin of the previous page.",
+  "errors": [
+   "No mathematical errors. The termination argument (strict decrease of a', a'', ...) is only implicit on the page. The inequality signs are meant for absolute values |2b'|, |2b''|."
+  ],
+  "results": [
+   {
+    "what": "Reduction of a positive definite binary quadratic form to a reduced form (|2b| <= a <= c) by repeatedly passing to the right-neighbouring form with least absolute middle coefficient; termination because the leading coefficients strictly decrease.",
+    "modern_name": "Lagrange–Gauss reduction of positive definite binary quadratic forms (neighbouring-form algorithm)",
+    "usually_credited_to": "Lagrange (1773), Gauss (Disquisitiones Arithmeticae 1801, art. 171ff); presented in this form in Dirichlet's lectures",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Standard textbook/lecture material, almost certainly notes following Gauss/Dirichlet. There is nothing new.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d,X,Y=symbols('a b c d X Y'); f=lambda x,y: a*x**2+2*b*x*y+c*y**2; expand(f(Y,-X+d*Y) - (c*X**2 + 2*(-b-c*d)*X*Y + (a+2*b*d+c*d**2)*Y**2))",
+    "asserts": "The substitution [[0,1],[-1,δ]] maps (a,b,c) to the neighbour (c, -b-cδ, a+2bδ+cδ^2); the result should be 0."
+   },
+   {
+    "sympy": "b,c,d=symbols('b c d'); a=symbols('a'); expand((-b-c*d)**2 - c*(a+2*b*d+c*d**2) - (b**2-a*c))",
+    "asserts": "The neighbouring form has the same determinant; the result should be 0."
+   },
+   {
+    "sympy": "(1**2 - 3*4, 2**2 - 5*3)",
+    "asserts": "Example: (5,2,3) with D=11 gives neighbour (3,1,4) (b' ≡ -2 mod 3, |2b'|<=3). Both forms have determinant -11, and (3,1,4) is reduced since 2<=3<=4."
+   }
+  ],
+  "transcription_corrections": [
+   "Second line, right part: '(2b'') ≧ a''' should read '(2b'') ≦ a''' (absolute value of 2b'' not exceeding a''), parallel to '(2b') ≦ a''.",
+   "Prose likely reads: 'Diese Form hat schon eine von den verlangten Eigenschaften, wenn a' ≦ a'', eine reducirte, wo nicht; also a' > a''' rather than '... sind ... also ... verdirbt ... muss'."
+  ]
+ }
+}

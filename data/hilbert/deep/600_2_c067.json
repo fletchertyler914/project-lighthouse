@@ -1,0 +1,57 @@
+{
+ "bundle": "600_2",
+ "page": "c067",
+ "label": "[62]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000068/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Part 1 continues a theorem begun on p. 61.\n\nTheorem (real setting). Let f(x,y) be single-valued. Suppose that for every constant x in an interval I, f(x,·) is a rational function of y. Suppose conversely that for every constant y, f(·,y) is rational in x, and in particular continuous in x. Then f is a rational function R(x,y).\n\nHilbert's proof, restated:\n\n(i) For each x in I, write the degree of f(x,·) as a pair d(x) = (deg numerator, deg denominator) in N^2. There are only countably many possible values of d, while I is uncountable. So some value d is taken for infinitely many (in fact uncountably many) x. Call this set E_d.\n\n(ii) For x in E_d, write the ansatz f(x,y) = (p_0(x)+...+p_k(x)y^k)/(q_0(x)+...+q_l(x)y^l), with unknown coefficients and a normalization, e.g. q_l = 1 [normalization is mine].\n\n(iii) Pick enough distinct values y_1,...,y_N. Each f(x,y_j) is a rational function of x by hypothesis. The linear system f(x,y_j)·Q(x,y_j) = P(x,y_j), j = 1..N, determines the coefficients uniquely. Cramer's rule then gives each p_i(x) and q_i(x) as a rational function of x. Hence f(x,y) = R(x,y) for all x in E_d and all y, with R rational in two variables.\n\n(iv) Hilbert asserts that E_d is everywhere dense in I. For each fixed y, both f(·,y) and R(·,y) are continuous and agree on a dense set, so f = R everywhere.\n\nPart 2 (after the rule) only opens a new topic: the 'basic problem of reduction', namely to reduce a system of n linear forms a_{i1}x_1+...+a_{in}x_n (i = 1..n) under integral unimodular substitutions of x. The next page continues with Minkowski's theorem that the reduced region in R^{n^2} is convex and bounded by finitely many hyperplanes, and with the volume question for A = det = 1.",
+  "errors": [
+   "Step (iv) has a gap. Uncountability of E_d gives only infinitely (indeed uncountably) many x. It does not give an everywhere dense set: an uncountable set can be nowhere dense, e.g. a Cantor set. A correct argument uses continuity in x for each fixed y to show that the sets E_{<=d} = {x : deg f(x,·) <= d} are closed. Their closedness follows from the vanishing of determinants in the values f(x,y_j), with care about poles. The Baire category theorem then gives an E_{<=d} containing a subinterval. From there one needs a further argument (continuation/identity of rational functions) to cover all of I. Hilbert does not supply this; Baire's theorem dates from 1899.",
+   "The ansatz needs a normalization (e.g. reduced form with monic denominator) for the coefficients to be 'eindeutig'. Hilbert leaves this implicit.",
+   "Poles: 'f stetig in x for constant y' is false at poles of f(·,y). Continuity must be understood off a finite exceptional set, or in the projective sense."
+  ],
+  "results": [
+   {
+    "what": "A function that is rational in y for each fixed x (in an interval) and rational in x for each fixed y is jointly rational",
+    "modern_name": "Separately rational implies rational (algebraic analogue of Hartogs' separate-analyticity theorem); Baire-category proof",
+    "usually_credited_to": "Polynomial case: F. W. Carroll (Amer. Math. Monthly 1961) and others. Rational/algebraic case: R. Palais, 'Some analogues of Hartogs' theorem in an algebraic setting' (Amer. J. Math. 1978). Earlier folklore is possible.",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Determination of the y-coefficients as rational functions of x by interpolation at finitely many y-values",
+    "modern_name": "Rational interpolation / Cramer's rule",
+    "usually_credited_to": "classical (Cauchy, Jacobi)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Statement of the reduction problem for n linear forms under GL_n(Z)",
+    "modern_name": "Minkowski reduction theory of lattice bases / quadratic forms",
+    "usually_credited_to": "H. Minkowski (1891-1905); Hermite before him",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 4,
+  "surprise_reason": "A clear 19th-century statement and proof sketch, from a Hilbert notebook (probably 1890s), of 'separately rational implies rational'. That theorem is usually cited from 20th-century papers (Carroll 1961, Palais 1978). The proof uses a pigeonhole-on-uncountable-sets argument that anticipates Baire category, though it is flawed at the density step. It is notable, but it is a sketch with a gap and may have been folklore. The reduction-theory part is only a setup of Minkowski's known theory.",
+  "checkable": [
+   {
+    "sympy": "x,y,a,b,c,d=symbols('x y a b c d'); f=(x*y+1)/(y+x**2); sol=solve([ (a*yv+b)-(f.subs(y,yv))*(yv+d) for yv in [0,1,2]],[a,b,d]); simplify(sol[a]-x), simplify(sol[b]-1), simplify(sol[d]-x**2)",
+    "asserts": "For fixed degree (1,1) with monic denominator, three y-values determine the coefficients uniquely, and they come out as rational functions of x (step iii)."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); f=(x**2*y+3)/(x*y**2+1); [simplify(f.subs(y,k)) for k in [0,1,2]]",
+    "asserts": "The specializations f(x,y_j) of a jointly rational function are rational in x, consistent with the hypothesis used in step (iii)."
+   },
+   {
+    "sympy": "x1,x2=symbols('x1 x2'); M=Matrix([[1,2],[3,4]]); U=Matrix([[1,1],[0,1]]); (M*U).det()==M.det()",
+    "asserts": "Unimodular integral substitutions of the variables x preserve the determinant A of the n linear forms (background to the reduction problem)."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is accurate. 'verschiedne' is Hilbert's spelling. The word 'rationale' is indeed an interlinear insertion above 'Darstellung'. In the last line of the formulas, the subscripts in 'a_{n1}x_1+...+a_{nn}x_n' are correctly read."
+  ]
+ }
+}

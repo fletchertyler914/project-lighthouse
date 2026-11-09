@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c115",
+ "label": "58v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000116/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a numerical table of the integer parts q(k) = floor(1000/k) for k = 1, 2, 3, ..., running down one column. It begins with [1000/1] = 1000 and [1000/2] = 500 and continues: 333, 250, 200, 166, 142, 125, 111, 100, 90, 83, 76, 71, 66, 58, 55, 52, 50, 47, 45, 43, 41, 40, 38, 36, 35, 34, 33, 32, 30, 30.\n\nAt the bottom left and bottom centre are four long divisions used to check the last entries.\n- 1000 : 30. 100 - 90 = 10; bring down 0 to get 100; 100 - 90 = 10. Quotient 33, remainder 10. Only the first quotient digit '3' is written.\n- 1000 : 31. 100 - 93 = 7; bring down 0 to get 70; 70 - 62 = 8. Quotient 32, remainder 8.\n- 1000 : 32. 100 - 96 = 4; bring down 0 to get 40; 40 - 32 = 8. Quotient 31, remainder 8.\n- 1000 : 33. 100 - 99 = 1; bring down 0 to get 10, which goes 0 times. Quotient 30, remainder 10.\n\nBeside the second-to-last '30' Riemann writes a symbol before [1000/32]. It is overwritten or crossed out, probably '=' struck through (my reading). The division 1000 : 32 = 31 shows he checked this entry and found it should be 31, not 30.\n\nWhy the table stops here (my interpretation):\n- The column ends at k = 32 or 33, right at sqrt(1000) ≈ 31.6. This is exactly the range needed for Dirichlet's hyperbola method: D(n) = sum_{k<=n} floor(n/k) = 2*sum_{k<=floor(sqrt n)} floor(n/k) - floor(sqrt n)^2.\n- With the correct values, sum_{k=1}^{31} floor(1000/k) = 4015. So D(1000) = 2*4015 - 31^2 = 7069, the number of pairs (a,b) with ab <= 1000.\n- The next page defines n_2 = sum [n/a] (pairs ab <= n) and n_3 = sum [n/(ab)]. It writes s_1 = n_1 - n_2/2 + n_3/3 - ... from log(1 + 2^{-s} + 3^{-s} + ...). This counts prime powers via log ζ, i.e. Riemann's J(x) = sum π(x^{1/m})/m, as an alternating sum of counts of factorizations into factors >= 2.\n- The previous page heuristically discusses sum log p ~ n. So the table is evidently test data for numerically evaluating such floor-function sums at n = 1000.",
+  "errors": [
+   "The value floor(1000/16) = 62 is omitted; the list jumps from 66 (k=15) to 58 (k=17). Every later entry is therefore displaced by one position.",
+   "floor(1000/27) = 37 is written as 36 (the entry after 38).",
+   "floor(1000/32) = 31 was first written as 30. Riemann's own side division 1000:32 = 31, remainder 8, corrects this, and the marking at [1000/32] signals the correction.",
+   "The entry for k=30, which should be 33, appears to have been overwritten from 32 to 33. The corrected value is right.",
+   "Apart from these, all entries match floor(1000/k): k = 1–15, 17–26 and 28–33."
+  ],
+  "results": [
+   {
+    "what": "Table of floor(1000/k) for k up to about sqrt(1000), with long-division checks near k ≈ 30–33. These are preparatory values for counting lattice points under the hyperbola ab <= 1000 (n_2 on the next page) and related prime-counting sums.",
+    "modern_name": "Divisor summatory function D(n) = sum floor(n/k); Dirichlet hyperbola method (truncation at sqrt n)",
+    "usually_credited_to": "Dirichlet (1849) for the hyperbola method and D(n) = n log n + (2γ-1)n + O(sqrt n)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Use of floor-function counts n_k of k-fold factorizations to compute prime-power counts via the log ζ expansion (context from the next page; on this page only the numerical input).",
+    "modern_name": "Combinatorial/Legendre-type evaluation of J(x) = sum π(x^{1/m})/m (Linnik-type identity)",
+    "usually_credited_to": "Legendre/Meissel for combinatorial prime counting; Linnik (1960s) for the identity in this form",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is purely arithmetical scratch work: integer parts of 1000/k with checking divisions, containing two small slips. Its only interest is as evidence that Riemann tried numerical prime- and divisor-counting at n = 1000 with a cutoff near sqrt(n). That suggests use of the hyperbola trick, which is routine and Dirichlet's.",
+  "checkable": [
+   {
+    "sympy": "[floor(Rational(1000,k)) for k in range(1,34)]",
+    "asserts": "True values [1000,500,333,250,200,166,142,125,111,100,90,83,76,71,66,62,58,55,52,50,47,45,43,41,40,38,37,35,34,33,32,31,30]. Comparing with the page shows 62 missing and 36 for 37."
+   },
+   {
+    "sympy": "divmod(1000,30) == (33,10) and divmod(1000,31) == (32,8) and divmod(1000,32) == (31,8) and divmod(1000,33) == (30,10)",
+    "asserts": "The four side long divisions are correct."
+   },
+   {
+    "sympy": "sum(floor(Rational(1000,k)) for k in range(1,32)) == 4015",
+    "asserts": "Partial sum of the corrected table up to floor(sqrt(1000)) = 31."
+   },
+   {
+    "sympy": "2*sum(floor(Rational(1000,k)) for k in range(1,32)) - 31**2 == sum(floor(Rational(1000,k)) for k in range(1,1001)) == 7069",
+    "asserts": "Hyperbola method gives D(1000) = 7069 from the tabulated range."
+   },
+   {
+    "sympy": "sum(divisor_count(m) for m in range(1,1001)) == 7069",
+    "asserts": "D(1000) = number of pairs (a,b) with ab <= 1000 = sum of d(m), m <= 1000."
+   }
+  ],
+  "transcription_corrections": [
+   "The list on the page omits floor(1000/16) = 62; this is a manuscript error, not a transcription error. The machine transcription faithfully reproduces 66 followed by 58.",
+   "The entry after 38 is '36' in the manuscript; the true value is 37.",
+   "'33[?]' is a 3 written over a 2 (32 corrected to 33).",
+   "'30 [-?-] = [1000/32]': the symbol is an overwritten or struck-through mark, probably '=' crossed out or 'is not equal'. The adjacent division shows 1000:32 = 31.",
+   "Side divisions: '1000|30, 90, 3, 100' is the start of 1000:30 = 33. '1000|31, 93, 32, 70' gives 32, remainder 8. '1000|32, 96, 31, 40' gives 31, remainder 8. '1000|33, 99, 3, 10' gives 30 (only the first digit '3' written)."
+  ]
+ }
+}

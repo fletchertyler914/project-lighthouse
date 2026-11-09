@@ -1,0 +1,90 @@
+{
+ "bundle": "Math.27",
+ "page": "c009",
+ "label": "5v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381841:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the preceding folio sets up the AGM a^(n+1)=(a^n+b^n)/2, b^(n+1)=sqrt(a^n b^n) and proves homogeneity, M(ka,kb)=k M(a,b). This page finds the partial derivatives of M(a,b) as series built from the AGM sequence, and checks them numerically for (a,b)=(2,1). The next page uses them for E/K and Legendre-relation work.\n\n(0) Top line, abandoned first attempt. It reads ∂M/∂a = a^∞/(2a²b²(a−b)) Σ ab²(a−b); a denominator 'M∂a' is struck. It is not dimensionally consistent and is not used again.\n\n(1) Functional equation in one variable. Write M(x)=M(x,1). Then\nM(x) = M((x+1)/2, √x) = √x · M(y), with y=(x+1)/(2√x).\n[my step] Differentiate, using y' = (x−1)/(4x√x) = ¼(1−1/x)/√x, and divide by √x. This gives\n¼((1−1/x)/√x) · M'((x+1)/(2√x)) = M'(x)/√x − ½ M(x)/(x√x),\nexactly as on the page.\n\n(2) Two-variable recursion. Set N'(a,b) := b ∂log M/∂a (my identification; it fits every subsequent line). Write a'=(a+b)/2, b'=√(ab).\n[my steps]\n- Since M(a,b)=M(a',b'), M_a = ½ M_1(a',b') + (b/(2b')) M_2(a',b').\n- Euler's relation a'M_1 + b'M_2 = M removes M_2 and gives M_a/M = 1/(2a) + ((a−b)/(4a)) · M_1(a',b')/M.\n- Hence N'(a,b) = b/(2a) + ¼ · (1−b/a)/√(a/b) · N'(a',b') = b/(2a) + ¼ · (a−b)b/(a b') · N'(a',b'), as on the page.\n\n(3) Iteration gives\nN' = (b/a)[½ + (1/8)(a−b)/a' + (1/32)(a−b)(a'−b')/(a'a'') + (1/128)(a−b)(a'−b')(a''−b'')/(a'a''a''') + …].\nAll coefficients are correct.\n\n(4) Conversion to c_n² = a_n² − b_n². The key facts are c_n² = (a_n−b_n)(a_n+b_n) = 2(a_n−b_n)a_{n+1} and (a−b)² = 4(a'²−b'²) = 8a''(a'−b').\n- The page writes 8a'(a'−b'); the correct identity has a''.\n- With it, the bracket becomes ½ + Σ_{n≥1} 2^{n−1} c_n²/c_0².\n- Equivalently N' = b/(2a(a−b)) · [(a−b) + 2(a'−b')a''/a' + 4(a''−b'')a'''/a' + …].\n- Final form: ∂log M/∂a = S/(2a(a²−b²)), with S = (a²−b²) + 2(a'²−b'²) + 4(a''²−b''²) + ….\n\n(5) The b-derivative. Lines 'b∂a/a = a∂b/bb' and '1/a, −1/b' are trials. Homogeneity a M_a + b M_b = M gives\n∂M = M · { ∂a/(2a(a²−b²)) · S + ∂b/(2b(a²−b²)) · [(a²−b²) − 2(a'²−b'²) − 4(a''²−b''²) − …] }.\nThis is correct. With a=1, b=k' it reproduces dK/dk = (E − k'²K)/(k k'²) via Σ 2^{n−1}c_n² = 1 − E/K.\n\n(6) Numerics for a=2, b=1.\n- AGM columns: 2, 1; 1.5, 1.41421; 1.45711, 1.45647. M(2,1) = 1.45679.\n- Series: 1 + 2(a'−b') = 1.17158; adding 4(a''−b'') ≈ 0.00256 gives 1.17414. Times b/(2a(a−b)) = ¼ this gives 0.293535. Here the factors a_{n+1}/a' were omitted.\n- Inserting those factors gives 1.1692, i.e. N' ≈ 0.2923.\n- Products: 145679 × 2 = 291358, × 9 = 1311111, × 29 = 4224691. So M · 0.2923 ≈ 0.42581 = ∂M/∂a at (2,1).\n- The long division 42581 ÷ 145679 → 2923 (remainders 13445, 334) confirms it. The 0.42581 is probably an independently obtained difference quotient, but this is unclear.\n- True values: ∂log M/∂a = 0.29228 and ∂M/∂a = 0.42579.",
+  "errors": [
+   "The line '(a−b)² = 8a'(a'−b')' is wrong as written; the correct identity, the one actually needed for the conversion, is (a−b)² = 8a''(a'−b'), equivalently (a−b)²/4 = a'²−b'².",
+   "In the line b/(2a(a−b))(a'/a [a−b] + 2[a'−b']a''/a' + …) the first factor should be a'/a' (=1), not a'/a; this may be a misreading of the image.",
+   "The first numerical evaluation (1.17414, 0.293535) omits the factors a''/a', a'''/a' and so overestimates. Gauss corrects this to 1.1692 → 0.2923, which matches the true 0.29228.",
+   "The top-line formula ∂M/∂a = a^∞/(2a²b²(a−b)) Σ ab²(a−b) is dimensionally inconsistent; it is an abandoned first attempt.",
+   "The intermediate line 'b/(a−b) a[½(1/a)(a−b) + 1/8(a'−b') + 2(a''−b'')' is garbled or incomplete; its coefficients do not follow the established pattern."
+  ],
+  "results": [
+   {
+    "what": "Functional equation for the derivative of M(x)=M(x,1): ¼(1−1/x)/√x · M'((x+1)/(2√x)) = M'(x)/√x − M(x)/(2x√x)",
+    "modern_name": "Differentiated Landen/Gauss transformation (invariance of the AGM)",
+    "usually_credited_to": "Gauss (AGM invariance, 1799 onward), Landen (1775)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Recursion b ∂log M/∂a (a,b) = b/(2a) + (a−b)b/(4ab') · [b' ∂log M/∂a](a',b'), and its iteration into a product series",
+    "modern_name": "Recursive computation of AGM partial derivatives",
+    "usually_credited_to": "Gauss Nachlass (AGM papers, Werke III); modern restatements e.g. Borwein & Borwein, Pi and the AGM (1987)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "∂log M/∂a = Σ2^n c_n²/(2a c_0²), ∂log M/∂b = (2c_0² − Σ2^n c_n²)/(2b c_0²), with c_n² = a_n²−b_n²",
+    "modern_name": "AGM derivative formula, equivalent to E/K = 1 − Σ2^{n−1}c_n² (Gauss–Legendre algorithm for complete elliptic integrals of the second kind)",
+    "usually_credited_to": "Gauss (Determinatio attractionis, 1818) and Legendre (Traité des fonctions elliptiques, 1825); used in Salamin–Brent (1976)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Numerical check for (2,1): M = 1.45679, ∂log M/∂a ≈ 0.2923, ∂M/∂a ≈ 0.4258",
+    "modern_name": "Numerical verification",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The c_n² series for the AGM derivatives is equivalent to the E/K series that Gauss published in 1818 and that appears throughout his AGM Nachlass. Seeing its derivation via a derivative recursion with a numerical check is a nice working detail, but not a new attribution.",
+  "checkable": [
+   {
+    "sympy": "a,b=symbols('a b',positive=True); a1=(a+b)/2; b1=sqrt(a*b); simplify(a1**2-b1**2-(a-b)**2/4)",
+    "asserts": "a'²−b'² = (a−b)²/4 (expected 0)"
+   },
+   {
+    "sympy": "a,b=symbols('a b',positive=True); a1=(a+b)/2; b1=sqrt(a*b); a2=(a1+b1)/2; simplify(expand((a-b)**2-8*a2*(a1-b1)))",
+    "asserts": "Correct identity (a−b)² = 8a''(a'−b'), expected 0; the page's 8a'(a'−b') version is not 0"
+   },
+   {
+    "sympy": "x=symbols('x',positive=True); M=lambda t: pi*t/(2*elliptic_k(1-1/t**2)); y=(x+1)/(2*sqrt(x)); e=Rational(1,4)*(1-1/x)/sqrt(x)*diff(M(x),x).subs(x,y) - (diff(M(x),x)/sqrt(x)-M(x)/(2*x*sqrt(x))); N(e.subs(x,3))",
+    "asserts": "The one-variable derivative identity on line 2 (M(x)=M(x,1) for x>1); expected ≈0. Caution: diff(...).subs(x,y) evaluates M' at y; implement as lambdify if needed."
+   },
+   {
+    "sympy": "a=symbols('a',positive=True); N(pi*a/(2*elliptic_k(1-1/a**2)).subs(a,2))",
+    "asserts": "M(2,1) ≈ 1.456791 (Gauss: 1.45679)"
+   },
+   {
+    "sympy": "a=symbols('a',positive=True); N(diff(log(pi*a/(2*elliptic_k(1-1/a**2))),a).subs(a,2))",
+    "asserts": "∂log M/∂a at (2,1) ≈ 0.29228 (Gauss: 0.2923)"
+   },
+   {
+    "sympy": "a=symbols('a',positive=True); N(diff(pi*a/(2*elliptic_k(1-1/a**2)),a).subs(a,2))",
+    "asserts": "∂M/∂a at (2,1) ≈ 0.42579 (Gauss: 0.42581)"
+   },
+   {
+    "sympy": "a0,b0=Float(2,30),Float(1,30); A=[a0];B=[b0]\nfor i in range(6): A.append((A[-1]+B[-1])/2); B.append(sqrt(A[-2]*B[-1]))\nS=sum(2**n*(A[n]**2-B[n]**2) for n in range(6)); S/(2*a0*(a0**2-b0**2))",
+    "asserts": "Series value ∂log M/∂a = S/(2a(a²−b²)) ≈ 0.29228 for (2,1), agreeing with the elliptic-integral value"
+   },
+   {
+    "sympy": "k=symbols('k',positive=True); bb=sqrt(1-k**2); M=pi/(2*elliptic_k(k**2)); lhs=diff(M,k)/diff(bb,k); rhs=M*(elliptic_e(k**2)/elliptic_k(k**2)-bb**2)/(bb*k**2); N((lhs-rhs).subs(k,Rational(1,2)))",
+    "asserts": "The ∂b formula at a=1 reduces to ∂M/∂b = M(E/K − k'²)/(k'k²); expected ≈0"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'b/(2a(a−b))(a'/a[a−b] …)': the first factor is most likely a'/a' (it cancels), matching the following a''/a', a'''/a'.",
+   "Line 'ba/(2a(aa−bb)){…}': the numerator is probably '∂a' (∂a/(2a(aa−bb))), as in the final formula, not 'ba'.",
+   "In '(a−b)² = 8a'(a'−b')' the image does show a', but mathematically it must be a''.",
+   "The scattered numbers belong together: 145679 = M(2,1)·10⁵; 291358, 1311111, 4224691 are 145679×2, ×9, ×29; 42581/145679 → 2923 is a long division with remainders 13445, 334.",
+   "'Grenz[?] 8' / 'Grenzen[?]' are marginal notes, probably 'Grenze' (limit), and not part of the formulas."
+  ]
+ }
+}

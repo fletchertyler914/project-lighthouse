@@ -1,0 +1,55 @@
+{
+ "bundle": "Math.12",
+ "page": "c001",
+ "label": "1v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376631:00000002/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Theorem (Lehrsatz): let a and b be coprime integers, and let x and y be arbitrary integers. Then the two numbers ax+by and ay−bx are either both divisible by N = a²+b², or neither is.\n\nProof as written.\n(1) Gauss writes down two identities:\n  (a−bi)(x+iy) = (ax+by) + (ay−bx)i\n  (a+bi)(α−βi) = (aα+bβ) + (bα−aβ)i\n(2) He multiplies them. The left side is (a−bi)(a+bi)(x+iy)(α−βi) = (a²+b²)[(αx+βy) + (αy−βx)i].\n(3) For the right side, put A = ax+by, B = ay−bx, C = aα+bβ, D = bα−aβ. Expanding (A+Bi)(C+Di) gives:\n  real part AC − BD = (aα+bβ)(ax+by) + (aβ−bα)(ay−bx)\n  imaginary part AD + BC = (aα+bβ)(ay−bx) + (ax+by)(bα−aβ)\n(4) Because gcd(a,b)=1, one can choose integers α, β with aα+bβ = 1 (Bézout). This is the only place the coprimality is used, and the step is left implicit. Comparing real and imaginary parts then gives:\n  (I)  (a²+b²)(αx+βy) + (bα−aβ)(ay−bx) = ax+by\n  (II) (a²+b²)(αy−βx) − (bα−aβ)(ax+by) = ay−bx\n(5) Equation (I) shows that if N divides ay−bx, it divides ax+by. Equation (II) gives the converse.\n\nWhat this serves (my interpretation): with N = a²+b², the identity is (a−bi)(x+iy) = A + Bi. The theorem says that N divides the real part of this product exactly when it divides the imaginary part, i.e. exactly when a+bi divides x+iy in Z[i]. Equivalently, for coprime a, b the ring Z[i]/(a+bi) behaves like Z/N, so a single rational congruence decides divisibility by the Gaussian integer a+bi.\n\nThis is a preparatory lemma for Gauss's theory of residues modulo a Gaussian integer a+bi. The neighbouring pages concern biquadratic reciprocity and complete residue systems mod a+ib. A shorter proof also exists (mine, not Gauss's): b(ax+by) + a(ay−bx) = Ny and a(ax+by) − b(ay−bx) = Nx. So if N divides one of the two numbers, N divides b times the other and a times the other, and gcd(a, b) = 1 lets you conclude via Bézout. Gauss's proof via Gaussian multiplication is, in effect, this argument.",
+  "errors": [
+   "No mathematical errors. The real part on the right of the product identity is (aα+bβ)(ax+by) + (aβ−bα)(ay−bx), which is consistent with the final equation (I). In the manuscript this term is visibly overwritten or corrected, but the surviving reading (aβ−bα) is correct.",
+   "The use of gcd(a,b)=1, namely the existence of α, β with aα+bβ=1, is implicit. It is valid by Bézout."
+  ],
+  "results": [
+   {
+    "what": "For coprime a, b, a²+b² divides ax+by if and only if it divides ay−bx. Proved by multiplying (a−bi)(x+iy) by (a+bi)(α−βi) with aα+bβ=1.",
+    "modern_name": "Elementary divisibility lemma in Z[i]: a Gaussian integer x+iy is divisible by a primitive a+bi iff N(a+bi) divides Re((a−bi)(x+iy)), equivalently Im. Related to Z[i]/(a+bi) ≅ Z/(a²+b²) for gcd(a,b)=1.",
+    "usually_credited_to": "Folklore elementary number theory. It is implicit in Gauss's own Theoria residuorum biquadraticorum (1828/1832) and in later Gaussian-integer theory.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine elementary lemma with a short proof. It is part of the groundwork for Gauss's well-known work on Gaussian integers and biquadratic residues, which is firmly credited to him. The only interest is seeing the auxiliary lemma worked out explicitly with Bézout coefficients.",
+  "checkable": [
+   {
+    "sympy": "expand((a-b*I)*(x+I*y) - (a*x+b*y + (a*y-b*x)*I)) == 0",
+    "asserts": "First identity"
+   },
+   {
+    "sympy": "expand((a+b*I)*(al-be*I) - (a*al+b*be + (b*al-a*be)*I)) == 0",
+    "asserts": "Second identity"
+   },
+   {
+    "sympy": "expand((a**2+b**2)*((al*x+be*y)+(al*y-be*x)*I) - ((a*al+b*be)*(a*x+b*y) + (a*be-b*al)*(a*y-b*x) + ((a*al+b*be)*(a*y-b*x) + (a*x+b*y)*(b*al-a*be))*I)) == 0",
+    "asserts": "Product identity with correct real part (aβ−bα)(ay−bx)"
+   },
+   {
+    "sympy": "expand(((a**2+b**2)*(al*x+be*y) + (b*al-a*be)*(a*y-b*x) - (a*x+b*y)).subs(al, (1-b*be)/a)) == 0",
+    "asserts": "Equation (I) under aα+bβ=1"
+   },
+   {
+    "sympy": "expand(((a**2+b**2)*(al*y-be*x) - (b*al-a*be)*(a*x+b*y) - (a*y-b*x)).subs(al, (1-b*be)/a)) == 0",
+    "asserts": "Equation (II) under aα+bβ=1"
+   },
+   {
+    "sympy": "all(((a*x+b*y)%(a*a+b*b)==0) == ((a*y-b*x)%(a*a+b*b)==0) for a in range(1,8) for b in range(1,8) if gcd(a,b)==1 for x in range(-20,21) for y in range(-20,21))",
+    "asserts": "Numerical check of the Lehrsatz for small values"
+   }
+  ],
+  "transcription_corrections": [
+   "The struck or garbled term '([-aβ-bα-])(ay-bx)' in the product identity should read '(aβ − bα)(ay − bx)'. The manuscript shows a correction over this term, and the corrected value is aβ−bα.",
+   "'identische Gleichungen' (Gauss's spelling 'identische Gleichungs/Gleichungen') and 'beweiset' are faithful to the manuscript. Otherwise the transcription agrees with the image."
+  ]
+ }
+}

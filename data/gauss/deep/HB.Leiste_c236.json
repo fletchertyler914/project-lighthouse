@@ -1,0 +1,74 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c236",
+ "label": "105",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000237/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Nature of the page: this is a printed page (Fraktur type, printed page number 105, printer's signature 'G 5', catchword 'Beweis.') from an 18th-century German algebra textbook. It is not Gauss's handwriting. The bundle name suggests it may be Gauss's copy of Christian Leiste's 'Arithmetik und Algebra' (1790), but that identification is unsure. No handwritten annotations by Gauss are visible on this page. The content is the textbook author's.\n\nProblem (end of the 'Auflösung' of a preceding Aufgabe): improve an approximate m-th root of x (a 'reine Gleichung' y^m = x).\n\n1. Let w be an approximation to x^(1/m), e.g. found from logarithms. Write x = (w+f)^m = w^m + m w^(m-1) f + m(m-1)/2 w^(m-2) f^2 + ...\n2. Since f is small, drop the f^2 term: x ≈ w^m + m w^(m-1) f, so f ≈ (x - w^m)/(m w^(m-1)). This is the Newton step.\n3. 'More accurately', keep the quadratic term but write it as f times a coefficient: x - w^m = f [m w^(m-1) + m(m-1)/2 w^(m-2) f], so f = (x - w^m)/(m w^(m-1) + m(m-1)/2 w^(m-2) f).\n4. In the second term of the denominator, substitute the Newton value f = (x - w^m)/(m w^(m-1)). Then m(m-1)/2 w^(m-2) f = (m-1)/2 (x - w^m)/w.\n5. Multiply numerator and denominator by w: f = w(x - w^m)/(m w^m + (m-1)(x - w^m)/2).\n6. Doubling gives f = 2w(x - w^m)/(2m w^m + (m-1)(x - w^m)) = 2w(x - w^m)/((m+1) w^m + (m-1) x).\n7. Hence x^(1/m) ≈ w + 2w(x - w^m)/((m+1) w^m + (m-1) x).\n8. For m = 3: x^(1/3) ≈ w + w(x - w^3)/(2w^3 + x).\n\nExample: take w = 8.30103 for the cube root of 572. My own check gives w^3 = 571.999896517502727, so x - w^3 = 0.000103482497273. The denominator 2w^3 + 572 = 1715.999793035. This gives f ≈ 5.005894e-7, matching the printed f = 0.0000005005894044. So the cube root of 572 ≈ 8.3010305005894044, which the text claims is 'correct except for the last digit'.\n\n§200, theorem: if 0 = A + Bx + Cx^2 + Dx^3 + ... identically, then every coefficient A, B, C, D, ... is zero. This is the basis of the method of undetermined coefficients. The proof on the next page uses x = 1/infinity and x = infinity, then 'interpolates' to all other x; it is heuristic.",
+  "errors": [
+   "No algebraic errors: every step from the truncated equation to f = 2w(x-w^m)/((m+1)w^m+(m-1)x) checks, and the m=3 specialisation is correct.",
+   "Methodological looseness: step 3 is presented as 'more exact', but the substitution of the Newton value is a heuristic. The resulting formula (Halley's rational method) has cubic error; the text gives no error analysis.",
+   "The proof of §200 (on the next page) is not rigorous by modern standards. It argues via x = 1/infinity and x = infinity, then extends to intermediate x without justification, and ignores convergence. It is typical 18th-century reasoning.",
+   "The numerical claim 'bis auf die letzte Zahl noch richtig' is plausible: Halley's error here is about 1e-19, far below the 16th digit. The printed f agrees with my hand computation to about 7 significant digits; the full 10 digits were not independently verified here."
+  ],
+  "results": [
+   {
+    "what": "Rational correction for m-th roots: x^(1/m) ≈ w + 2w(x-w^m)/((m+1)w^m+(m-1)x); for m=3: w + w(x-w^3)/(2w^3+x)",
+    "modern_name": "Halley's method (rational/third-order iteration) for nth roots; equivalently a Padé-type approximant of (1+t)^(1/m)",
+    "usually_credited_to": "Edmond Halley (1694, Phil. Trans.), with antecedents in Lagny; standard in 18th-century textbooks",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Newton linearisation f ≈ (x-w^m)/(m w^(m-1))",
+    "modern_name": "Newton's method for nth roots",
+    "usually_credited_to": "Newton / Raphson (17th c.), ancient Heron for square roots",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "If a power series vanishes identically then all coefficients vanish",
+    "modern_name": "Identity theorem for power series / method of undetermined coefficients",
+    "usually_credited_to": "Descartes/Newton/Euler (method of undetermined coefficients); rigorous form 19th c. (Cauchy, Weierstrass)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is a printed textbook page (Fraktur, printed pagination and signature), not Gauss's own work, and contains only standard 18th-century material: Halley's root formula and the uniqueness of power-series coefficients. No Gauss annotations are visible.",
+  "checkable": [
+   {
+    "sympy": "m,w,x=symbols('m w x',positive=True); simplify(w*(x-w**m)/(m*w**m+Rational(1,2)*(m-1)*(x-w**m)) - 2*w*(x-w**m)/((m+1)*w**m+(m-1)*x))",
+    "asserts": "The algebraic simplification to 2w(x-w^m)/((m+1)w^m+(m-1)x) is correct (result 0)"
+   },
+   {
+    "sympy": "m,w,x=symbols('m w x',positive=True); simplify((x-w**m)/(m*w**(m-1)+m*(m-1)/2*w**(m-2)*(x-w**m)/(m*w**(m-1))) - w*(x-w**m)/(m*w**m+Rational(1,2)*(m-1)*(x-w**m)))",
+    "asserts": "Substituting the Newton value into the denominator gives the stated intermediate form (result 0)"
+   },
+   {
+    "sympy": "w,x=symbols('w x',positive=True); simplify((2*w*(x-w**3)/(4*w**3+2*x)) - w*(x-w**3)/(2*w**3+x))",
+    "asserts": "The m=3 specialisation is correct (result 0)"
+   },
+   {
+    "sympy": "N(Rational('8.30103')*(572-Rational('8.30103')**3)/(2*Rational('8.30103')**3+572), 20)",
+    "asserts": "Equals approx 5.005894044e-7, the printed f"
+   },
+   {
+    "sympy": "N(cbrt(572), 20) - N(Rational('8.30103')+Rational('8.30103')*(572-Rational('8.30103')**3)/(2*Rational('8.30103')**3+572), 20)",
+    "asserts": "Halley-corrected value agrees with the true cube root of 572 to about 1e-16 or better"
+   },
+   {
+    "sympy": "t,m=symbols('t m'); series((1+t)**(1/m) - (1+2*t/((m+1)+(m-1)*(1+t))), t, 0, 3)",
+    "asserts": "Halley's formula, with w=1 and x=1+t, matches (1+t)^(1/m) through t^2 (third-order accuracy)"
+   }
+  ],
+  "transcription_corrections": [
+   "The page is printed text (Fraktur), not a Gauss manuscript; '105' is the printed page number and 'G 5' a printer's signature, with catchword 'Beweis.'",
+   "The superscript m before 'Auflösung' at the top left belongs to the radical sign: it is the index of the m-th root on the next line.",
+   "'m.m-1/1.2' in the binomial expansion should read m(m-1)/(1·2) (the printed vinculum covers m-1).",
+   "In the 'noch genauer' line the denominator is m w^(m-1) + [m(m-1)/2] w^(m-2) f; the transcription is correct in substance.",
+   "The sign before 0,0000005005894044 is a printed '+' (it looks like '÷' in the scan)."
+  ]
+ }
+}

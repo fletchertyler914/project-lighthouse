@@ -1,0 +1,65 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c036",
+ "label": "18r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000037/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page). Near a branch point a, the n-vector (y) of branches undergoes the monodromy substitution (A) under a positive loop. Assuming (A) has distinct eigenvalues, write (A) = (alpha) diag(lambda_1..lambda_n) (alpha)^{-1}. Put z = (alpha)^{-1} y. Then a positive loop sends z_k to lambda_k z_k. With mu = log(lambda)/(2 pi i), the function z_k (x-a)^{-mu} is single-valued near a. Hence it has a Laurent expansion in integer powers of (x-a).\n\nThis page.\n(1) Each z_k is a series sum_m c_{k,m} (x-a)^{log(lambda_k)/(2 pi i) + m}, with m ranging over the integers.\n(2) Hypothesis: the y never become 'infinite of infinitely high order', i.e. no essential singularities. In modern terms, a moderate-growth or regular-singular condition. Then each Laurent series terminates on the side of negative powers. Let mu_k be the lowest exponent actually occurring, so that z_k (x-a)^{-mu_k} is finite and nonzero at x=a. Thus mu_k is congruent to log(lambda_k)/(2 pi i) mod Z and lambda_k = exp(2 pi i mu_k).\n(3) Since the lambda_k are pairwise distinct, no difference mu_i - mu_j is an integer. Equivalently, exp(2 pi i mu_i) differs from exp(2 pi i mu_j).\n(4) Two systems of the same class have the same substitutions (A),...,(G). For them the lambda_k are the same, and (alpha) is the same up to diagonal scaling. So corresponding exponents differ only by integers. The exponents therefore serve to distinguish, or at least group, the systems within one class.\n(5) If the exponents are known, it suffices to give (alpha) instead of (A). The reason is A = (alpha) diag(exp(2 pi i mu_k)) (alpha)^{-1}, so the lambda are already fixed by the exponents. Riemann had first written '(A),(B),...,(G)' and deleted the latter part.\n(6) Notation: the system is characterised by the scheme P( a b ... g ; (alpha) (beta) ... (gamma) ; mu_1 nu_1 ... rho_1 ; ... ; mu_n nu_n ... rho_n | x ). Each column gives a branch point, its diagonalising substitution, and its n exponents. This is the n-th order generalisation of the P-symbol of the 1857 hypergeometric paper.\n(7) Remark: any system can be regarded as a special case of another system in which some or all corresponding exponents are lower. A lower bound on the exponents is a weaker condition.\n\nPurpose: this sets up exponent bookkeeping for the next page. There Riemann shows that any n+1 systems of one class satisfy a linear relation with polynomial coefficients. He bounds the order of the determinants Sigma ± y_1^(1) ... y_n^(n), and the exponent sums lead toward the Fuchs-type count of exponents.",
+  "errors": [
+   "No genuine mathematical error.",
+   "Minor gap: some z_k could vanish identically for a degenerate system. Then mu_k is undefined (effectively +infinity). This is only implicitly covered by the 'special case' remark.",
+   "Minor gap: the claim that exponents of same-class systems differ by integers assumes the z_k are matched by the same (alpha) and ordering of eigenvalues. This is legitimate because (alpha) is fixed by (A) up to diagonal factors and ordering, but it is left implicit.",
+   "'da die Größen lambda schon durch sie bestimmt sind': 'sie' must refer to the exponents mu, not to (alpha). The phrasing is slightly ambiguous but the mathematics is correct.",
+   "Riemann explicitly excludes repeated eigenvalues (non-diagonalisable monodromy, logarithmic terms), as stated on the previous page."
+  ],
+  "results": [
+   {
+    "what": "Under a no-essential-singularity hypothesis, the monodromy-diagonal solutions z_k near a branch point are (x-a)^{mu_k} times holomorphic nonvanishing functions, with exp(2 pi i mu_k) = lambda_k.",
+    "modern_name": "Local exponents at a regular singular point (Frobenius-type local form / indicial exponents via monodromy)",
+    "usually_credited_to": "Riemann 1857 (P-function paper; this fragment published posthumously in Werke 1876); Fuchs 1865-66 for the ODE-side theory",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Exponent differences are non-integer when the monodromy eigenvalues are distinct; within a class (fixed monodromy) the exponents are determined mod Z.",
+    "modern_name": "Exponents mod Z determined by local monodromy eigenvalues",
+    "usually_credited_to": "Riemann",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "P-scheme for n-th order systems listing branch points, diagonalising substitutions and exponents.",
+    "modern_name": "Generalised Riemann P-symbol / Riemann scheme",
+    "usually_credited_to": "Riemann (Nachlass fragment 'Zwei allgemeine Sätze über lineare Differentialgleichungen mit algebraischen Coefficienten', Werke 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page belongs to Riemann's 1857 Nachlass fragment on linear differential equations with algebraic coefficients. The fragment was printed in his Gesammelte Werke (1876) and is well studied. The exponent and P-scheme formalism is known to be his. Nothing here goes beyond the published text.",
+  "checkable": [
+   {
+    "sympy": "mu, m = symbols('mu m'); simplify(exp(2*pi*I*(mu+m)).subs(m,3) - exp(2*pi*I*mu)) == 0",
+    "asserts": "Exponents differing by an integer give the same monodromy factor."
+   },
+   {
+    "sympy": "lam = symbols('lam', nonzero=True); simplify(exp(2*pi*I*(log(lam)/(2*pi*I))) - lam) == 0",
+    "asserts": "mu = log(lambda)/(2 pi i) gives the factor lambda for (x-a)^mu under one positive loop."
+   },
+   {
+    "sympy": "mu1, mu2 = Rational(1,3), Rational(4,3); exp(2*pi*I*mu1) - exp(2*pi*I*mu2) == 0",
+    "asserts": "If mu1 - mu2 is an integer then lambda1 = lambda2. Contrapositive: distinct lambdas force non-integer exponent differences."
+   },
+   {
+    "sympy": "mus = symbols('m1 m2'); al = Matrix([[1,2],[3,5]]); D = diag(exp(2*pi*I*mus[0]), exp(2*pi*I*mus[1])); A = al*D*al.inv(); simplify(al.inv()*A*al - D) == zeros(2)",
+    "asserts": "(A) is recovered from (alpha) and the exponents, so (alpha) plus the exponents suffices instead of (A)."
+   }
+  ],
+  "transcription_corrections": [
+   "'dieselben[?] analogen Bedeutungen': in the image 'dieselben' appears struck through and replaced by 'analogen'. Read: 'die analogen Bedeutungen haben sollen'.",
+   "'statt (A) [-(B), ..., (G)-]': the deletion is confirmed; Riemann struck '(B), ..., (G)' after '(A)'.",
+   "The P-symbol is written with a large P (possibly script) and vertical bars. The second row reads '(alpha) (beta) ... (gamma)' as transcribed; the last entry is hard to read and may be a different Greek letter."
+  ]
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c044",
+ "label": "23r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000045/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a draft of Riemann's posthumously published fragment 'Mechanik des Ohres' (ed. Henle, Zeitschrift für rationelle Medicin 1866/67; reprinted in the Gesammelte Werke). The page contains no formulas. It is qualitative physical reasoning about the middle-ear transmission chain, in two parts.\n\nPART 1 (marked 'pag. 2?'/'23-24'). The task of the ossicle apparatus is to pass the smallest air-pressure changes to the labyrinth water, magnified in a constant ratio. In modern terms the transfer should be linear and time-invariant: p_lab(t) = k * p_air(t), with k constant. For this, the stapes must act on the labyrinth fluid always in the same way. Riemann states three necessary conditions:\n(1) The stapes pressure always acts on one and the same area, and the direction of motion is fixed. Force = p * A with A and the direction constant, so the pressure ratio stays fixed.\n(2) No attachments of the stapes to the rim of the oval window may noticeably affect its position or motion. Otherwise there would be extra, possibly nonlinear, forces.\n(3) The stapes must never stop pressing against the oval-window membrane. That is, contact must be unilateral but permanent.\nIf any condition fails, the air-pressure changes would act either not at all or by 'completely changed laws'. This would be clipping or nonlinearity, e.g. loss of contact when the net force becomes negative.\n\nTo secure condition (3), the tensor tympani pulls the manubrium of the malleus inward. This keeps a static preload P0 on the oval window larger than the largest acoustic pressure change: P0 > max|Δp_sound|, so P0 + Δp(t) > 0 always. Riemann conjectures that the tension or deflection of the window membranes (round or oval) is sensed, so that the muscle sets the pressure most favourable for hearing in each case. This is a feedback or regulation hypothesis.\n\nThe preload depends only on the position of the manubrium. Setting that position requires the muscle pull to balance exactly the restoring force of the tensed tympanic membrane (static equilibrium: muscle torque = membrane restoring torque about the ossicular axis). Whether the drum tension is larger or smaller is in itself irrelevant. It need only be large enough that only a very small part of the mechanical energy of the sound wave is lost inside the tympanic cavity.\n\nPART 2 (marked 'pag. 23'). A membrane stretched in free air and struck by a sound wave produces three effects:\n- membrane vibration;\n- a reflected wave;\n- a transmitted ('gebrochene') wave.\nHow the incident energy divides among these depends on the tension.\n- At very low tension, the first two effects are weak and the wave passes almost unchanged.\n- At very high tension, the membrane's excursions are tiny compared with the air-particle displacements in the incident wave. So it imparts only small motions to the air on the far side and changes the pressure there only slightly. Almost the whole pressure change on the front side is taken up by the membrane tension, and in free air a (nearly fully) reflected wave results.\n\nModern formalisation (mine): a thin partition of mechanical impedance per unit area Z (stiffness-dominated Z ≈ -iK/ω, with K growing with tension) lies between identical media of impedance ρc. Then\n- transmission t = p_t/p_i = 2ρc/(2ρc+Z);\n- reflection r = Z/(2ρc+Z).\nIf |Z| << ρc, then t ≈ 1 (passes unchanged). If |Z| >> ρc, then r ≈ 1 and t ≈ 0 (total reflection, pressure doubling on the front face). This argument motivates why the eardrum, backed by the ossicular load rather than free air, behaves differently.",
+  "errors": [
+   "Phrase 'fast die ganze lebendige Kraft ... zur Spannung der Membran verwendet' could be read as saying energy is absorbed by the stiff membrane. In steady state a lossless stiff membrane stores and returns energy, and the incident energy is reflected. Riemann's final sentence (reflected wave) corrects this, so it is at most a loose formulation in a draft.",
+   "The claim that the drum tension is 'ganz gleichgültig' is qualified within the text: it must still be large enough to limit losses. This is not an error, but the statement is draft-like and partly struck through.",
+   "No mathematical errors are possible to assess; there are no formulas on the page."
+  ],
+  "results": [
+   {
+    "what": "Conditions for linear, constant-ratio transmission of pressure by the ossicular chain: fixed area and direction, no constraining attachments, permanent contact via a static preload exceeding the acoustic amplitude",
+    "modern_name": "Linearity of the middle-ear transformer; static preload (bias) to avoid contact nonlinearity/clipping",
+    "usually_credited_to": "Helmholtz (Die Mechanik der Gehörknöchelchen, 1867) and Riemann's own 'Mechanik des Ohres' (1866/67)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Tensor tympani as a regulator setting the optimal stapes pressure, possibly via sensing of window-membrane tension",
+    "modern_name": "Middle-ear muscle regulation / acoustic reflex (feedback hypothesis)",
+    "usually_credited_to": "Discussed by Johannes Müller, Helmholtz, Riemann; the acoustic reflex was characterised in the 20th century",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Partition of incident sound energy at a tensioned membrane into vibration, reflection and transmission, depending on tension",
+    "modern_name": "Sound transmission through a partition; impedance mismatch (r = Z/(2ρc+Z), t = 2ρc/(2ρc+Z))",
+    "usually_credited_to": "Qualitatively 19th-century acoustics (Poisson, Helmholtz, Rayleigh, Theory of Sound 1877-78)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript draft of Riemann's known, posthumously published 'Mechanik des Ohres'. The content is qualitative physiological-acoustic reasoning already in his collected works.",
+  "checkable": [
+   {
+    "sympy": "rho,c,X=symbols('rho c X',positive=True); Z=I*X; t=2*rho*c/(2*rho*c+Z); r=Z/(2*rho*c+Z); simplify(Abs(t)**2+Abs(r)**2)",
+    "asserts": "Equals 1: for a lossless (purely reactive) membrane, energy is shared only between reflected and transmitted waves."
+   },
+   {
+    "sympy": "limit(2*rho*c/(2*rho*c+I*X), X, oo)",
+    "asserts": "Equals 0: a very tense (stiff) membrane transmits nothing."
+   },
+   {
+    "sympy": "limit(I*X/(2*rho*c+I*X), X, oo)",
+    "asserts": "Equals 1: a very tense membrane reflects fully (pressure doubling on the front face)."
+   },
+   {
+    "sympy": "limit(2*rho*c/(2*rho*c+I*X), X, 0)",
+    "asserts": "Equals 1: a slack membrane lets the wave pass unchanged."
+   }
+  ],
+  "transcription_corrections": [
+   "Page marker top-left reads 'pag. 2?' (likely 21 or 22, not clearly 24); the right margin has '23-24'.",
+   "Condition 3 likely reads: '3) [struck: Es muß stets ein gewisser] Der drückende Steigbügel darf nie aufhören gegen die Membran des Vorhofsfensters zu drücken.'",
+   "'Spandruck' is likely 'ihren Druck' (the pressure of the air on the far side).",
+   "'Wahrscheinlich wird ... die Spannung oder Ausbiegung der Membran des Schnecken- oder Vorhofsfensters empfunden' is a plausible reading of the garbled passage.",
+   "'Erhaltung (die Erregung)' is uncertain; it may be 'Ausbiegung'."
+  ]
+ }
+}

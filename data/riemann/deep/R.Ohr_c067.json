@@ -1,0 +1,56 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c067",
+ "label": "34v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000068/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft page of Riemann's study of the mechanics of the middle ear (published posthumously by Henle, 1867, as 'Mechanik des Ohres'). It is section III, on why the ossicles need temperature corrections, followed by the start of section IV. The page contains no formal calculation. It contains one quantitative physical argument based on a linear heat-conduction law stated on the previous page.\n\nThe law (previous page). For slowly varying external temperature, assume three things are constant in the relevant range: the specific heat, the conductivity, and the heat sources (the blood). Then at any point x the deviation from blood or brain temperature T_b is proportional to the external (skin) deviation:\n  T(x) - T_b = phi(x) * (T_ext - T_b), where phi(x) depends only on position.\n\nWhy this holds (my justification, not on the page). Let u = T - T_b. In the steady state, u satisfies a linear homogeneous equation, for example div(k grad u) - c*u = 0, where perfusion pulls tissue toward blood temperature. The boundary datum at the skin is u = T_ext - T_b. By linearity, u scales with T_ext - T_b. 1-D example: u'' = a^2 u with u(0) = U gives u = U*exp(-a x).\n\nStep 1. The petrous pyramid (the image reads 'Pyramidenknochen') keeps nearly brain temperature. Since the tympanic cavity is nevertheless cooler, the mucosal lining of the cavity must be a very poor heat conductor (and poor emitter).\n\nStep 2. The other bones around the cavity are not as warm as brain or pyramid. However:\n- they contain strong heat sources (sinuses, large arteries and veins);\n- like the pyramid, they are protected against cooling by the cavity.\nSo their temperature is higher than that of the cavity. The parenthetical, read uncertainly, says their deficit is only about 1/10 degree (or 1 degree) at an external temperature of 20 degrees.\n\nStep 3 (scaling argument). If the external temperature falls, then by the law every deviation from brain temperature grows in the same ratio. Riemann's example is doubling. With T_b about 37 C (my number), going from 20 C (deficit 17) to 3 C (deficit 34) doubles every deviation.\n- The tympanic cavity, whose deviation is already appreciable, cools appreciably.\n- The surrounding bones, with deviation about 0.1 to 1 degree, cool only by about the same small amount.\nConsequence: the ossicles, which sit in the cavity air, cool and contract noticeably while the cavity walls stay almost unchanged.\n\nStep 4 (stated limitation). Beyond 'ossicles cool and contract more than the walls', nothing more can be fixed, given how little is known of the structure and properties of the parts.\n\nStep 5 (start of IV). Riemann plans to find the change in ossicle position on cooling, treating the parts as rigidly joined. The ossicular part most firmly attached to the cavity wall is the incus-tympanic articulation (short process of the incus). On cooling, all distances within each bone shrink, so the distances of all points from this joint decrease. The next page uses this: the distance from that joint to the manubrium's attachment on the drum stays nearly fixed, while both distances to the malleus-incus joint shrink. Hence a small rotation of the malleus.",
+  "errors": [
+   "No mathematical errors. The proportionality law is exact only under the stated linearity assumptions: constant coefficients, perfusion acting as linear relaxation to blood temperature, and a uniform external temperature. Riemann himself flags it as only approximately valid.",
+   "The inference that the mucosa must be a very poor conductor is a plausibility argument without measurement.",
+   "The numerical parenthetical (about 1/10 degree or 1 degree at 20 C) is an estimate, not derived."
+  ],
+  "results": [
+   {
+    "what": "In the steady state, the deviation of tissue temperature from blood temperature at any point is proportional to the deviation of the external temperature (linear superposition in steady heat conduction).",
+    "modern_name": "Linearity/scaling of steady-state bioheat (Pennes-type) equation solutions",
+    "usually_credited_to": "Fourier (linear heat theory, 1822); bioheat formulation Pennes 1948",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Differential thermal contraction of the ossicles relative to the tympanic walls as a reason the middle ear needs position-regulating mechanisms.",
+    "modern_name": "Thermal-expansion argument in middle-ear mechanics",
+    "usually_credited_to": "Riemann, Mechanik des Ohres (publ. 1867 by Henle)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of Riemann's known physiological-acoustics paper 'Mechanik des Ohres'. The content is a qualitative application of linear heat conduction with no new mathematics. It is at most an unpublished draft variant of a known work.",
+  "checkable": [
+   {
+    "sympy": "u=Function('u'); a,U,x=symbols('a U x',positive=True); dsolve(Eq(u(x).diff(x,2),a**2*u(x)),u(x),ics={u(0):U})",
+    "asserts": "The general solution contains a growing exp(a*x) term, so this call alone does not pin it down. Imposing boundedness as x goes to infinity (my addition) selects u = U*exp(-a*x). That bounded solution is proportional to the boundary deviation U, the linear scaling law used by Riemann."
+   },
+   {
+    "sympy": "simplify((37-3)/(37-20) - 2) == 0",
+    "asserts": "With blood temperature 37 C, dropping the external temperature from 20 C to 3 C doubles all deviations (Riemann's 'auf das Doppelte')."
+   },
+   {
+    "sympy": "phi=Rational(1,17); simplify(phi*34 - 2*phi*17)==0",
+    "asserts": "A point whose deficit is 1 degree at 20 C (phi = 1/17) has deficit 2 degrees at 3 C: its absolute cooling equals its original small deficit."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 4: 'Wärmeleiter und Leiter' probably reads 'Wärmeleiter und Strahler' (poor conductor and radiator).",
+   "'Sie enthalten sich bedeutende Wärmequellen' should read 'Sie enthalten bedeutende Wärmequellen in den Blutleitern'.",
+   "'in Bezug auf denselben Verhältniss' more likely reads 'überall in demselben Verhältniss (auf das Doppelte steigen)'.",
+   "The parenthetical '([-etwa-] 1° oder höchstens [?] auf 20°)' is uncertain; the image suggests something like '(etwa 1/10° bei Steigerung auf 20°)'.",
+   "'damit [?] alle zu bestimmenden Theile des Apparats fest gegen einander zu schließen' probably reads 'wenn man alle ... Theile des Apparats fest gegen einander voraussetzt' (or similar).",
+   "Section IV, second sentence: the sense is 'Der Theil der Gehörknöchelchen, welcher am festesten mit der Wand der Paukenhöhle verbunden ist, ist das Ambos-Paukengelenk. Durch Abkühlung werden alle Entfernungen in jedem Knochen kleiner, also auch die Entfernungen von diesem Gelenk.'",
+   "'bei unserer geringen Bekanntschaft mit der Struktur [?] seiner [?] Eigenschaften' likely reads 'mit der Structur und den Eigenschaften seiner Bestandtheile'."
+  ]
+ }
+}

@@ -1,0 +1,52 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c193",
+ "label": "[184]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000194/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Gauss's galvanic and magnetic notes. On the previous page (183) he states the Biot–Savart/Ampère law for a current element acting on a magnetic pole, and the equivalence of a closed current with a magnetic double layer. This page (184, printed in Werke V p. 609) gives his law of induction, with the note 'found 23 January 1835, 7 a.m. (before getting up)'.\n\nI. Gauss's statement: a rheophore element (current element) gamma is a vector quantity, current strength times directed length element ('wo gamma noch Größe und Richtung zu berücksichtigen ist'). It lies at distance r from a point P. The current-producing force (electromotive intensity) produced at P during dt is the value of gamma/r at time t minus its value at t+dt, divided by dt. In modern notation:\n  E(P) = - d/dt ( gamma / r ),\nwhere the time derivative covers both changes in the current strength and motion of the element (changes of r and of the direction of gamma).\n\nModern reading (my gloss): summing over all inducing elements of a circuit C' carrying current I' gives A(P) = sum gamma/r = I' * closed-integral ds'/r. This is the vector potential in Gaussian-type units, without the mu0/4pi or 1/c factors. Gauss's law is then E = -dA/dt.\n\nII. Ohm's law for the induced circuit: I = (closed-integral p . ds) / rho. Here p is the current-producing force at each element ds of the rheophore, and only its component along ds counts (implicit; mine). rho is the total resistance.\n\nCombining I and II (mine, not on the page): the EMF around circuit C is closed-integral E . ds = - d/dt [ I' * double-closed-integral (ds . ds')/r ] = - d(M I')/dt. Here M = double-closed-integral ds.ds'/r is exactly F. E. Neumann's 1845 mutual-inductance potential, and the induced current is -(1/rho) d(M I')/dt.\n\nConsistency with the previous page (mine): curl(gamma/r) = gamma x R / r^3, with R the vector from the element to P. Its magnitude is gamma sin(theta)/r^2, which is the field law Gauss wrote on p. 183. So his induction 'potential' gamma/r is the vector potential of his own Biot–Savart law.\n\nThe page ends with 'Fortsetzung zwei Seiten weiter' (continued two pages further on).",
+  "errors": [
+   "No outright error. A caveat: read pointwise, -d(gamma/r)/dt is not the physically correct local field when the induced conductor itself moves. The motional term v x B differs from -(v.grad)A by a gradient, grad(v.A). That gradient integrates to zero around a closed circuit, so the law is correct for closed induced circuits, which is all that II uses.",
+   "In II, p ds must be understood as the scalar product of p with the directed element ds (the tangential component). This is left implicit.",
+   "Constants are suppressed: no mu0/4pi or 1/c factors, and units are absorbed. This is typical of Gauss's absolute-unit style and is not an error."
+  ],
+  "results": [
+   {
+    "what": "Induced electromotive force at a point equals minus the time derivative of the sum of current elements divided by distance: E = -d/dt sum(gamma/r), with gamma a vector (current times directed length).",
+    "modern_name": "E = -dA/dt with A the magnetic vector potential; equivalent for closed circuits to Neumann's induction law EMF = -d(M I)/dt with the Neumann mutual-inductance formula",
+    "usually_credited_to": "F. E. Neumann (1845, 1847); W. Weber (1846); vector potential later formalized by Kirchhoff, W. Thomson and Maxwell. Faraday for the empirical law (1831).",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Induced current equals the line integral of the electromotive force around the circuit divided by the total resistance.",
+    "modern_name": "Ohm's law for a closed circuit (I = EMF/R)",
+    "usually_credited_to": "G. S. Ohm (1827)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The note is remarkable in content: a vector-potential form of the induction law dated 1835, ten years before Neumann. However, this exact page is printed in Gauss's Werke V p. 609 and is regularly cited by historians of electrodynamics as Gauss's unpublished anticipation of Neumann's law. It is therefore already known as his.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,gx,gy,gz=symbols('x y z gx gy gz'); r=sqrt(x**2+y**2+z**2); A=Matrix([gx/r,gy/r,gz/r]); B=Matrix([diff(A[2],y)-diff(A[1],z), diff(A[0],z)-diff(A[2],x), diff(A[1],x)-diff(A[0],y)]); simplify(B - Matrix([gy*z-gz*y, gz*x-gx*z, gx*y-gy*x])/r**3)",
+    "asserts": "curl(gamma/r) = gamma x R / r^3 (zero vector expected), i.e. Gauss's potential gamma/r generates the Biot–Savart field of the previous page."
+   },
+   {
+    "sympy": "x,y,z,gx,gy,gz=symbols('x y z gx gy gz'); r=sqrt(x**2+y**2+z**2); g=Matrix([gx,gy,gz]); R=Matrix([x,y,z]); simplify((g.cross(R)).norm()**2/r**6 - (g.dot(g)*r**2-(g.dot(R))**2)/r**6)",
+    "asserts": "|gamma x R|/r^3 = gamma sin(theta)/r^2 (squared difference is 0), matching the magnitude mu*sin(R'RP)/RR'^2 on p. 183."
+   },
+   {
+    "sympy": "x,y,z,vx,vy,vz=symbols('x y z vx vy vz'); Ax,Ay,Az=[Function(n)(x,y,z) for n in ('Ax','Ay','Az')]; A=Matrix([Ax,Ay,Az]); v=Matrix([vx,vy,vz]); curlA=Matrix([diff(Az,y)-diff(Ay,z), diff(Ax,z)-diff(Az,x), diff(Ay,x)-diff(Ax,y)]); grad=lambda f: Matrix([diff(f,x),diff(f,y),diff(f,z)]); vdotgradA=Matrix([v.dot(grad(c)) for c in A]); simplify(v.cross(curlA) - (grad(v.dot(A)) - vdotgradA))",
+    "asserts": "v x (curl A) = grad(v.A) - (v.grad)A for constant v. So the motional EMF v x B and Gauss's -(v.grad)A differ by a gradient, which vanishes around closed circuits."
+   }
+  ],
+  "transcription_corrections": [
+   "'Morgens 7U.' should be read as 'Morgens 7^U' (7 Uhr, 7 o'clock). '(v. d. Aufst.)' abbreviates 'vor dem Aufstehen' (before getting up).",
+   "The resistance symbol in II is written as a rho-like letter (rho/varrho). The machine transcription's varrho is acceptable; the denominator is not a theta.",
+   "Page label 'V p 609' in the upper left refers to Gauss Werke vol. V, p. 609, where the page is printed."
+  ]
+ }
+}

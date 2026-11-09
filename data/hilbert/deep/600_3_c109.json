@@ -1,0 +1,71 @@
+{
+ "bundle": "600_3",
+ "page": "c109",
+ "label": "[106]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000110/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This folio contains no formal derivations. It holds four short reflective notes in Hilbert's notebook style. They continue the previous page's remarks on axiomatization and lead into the next page's reflections on axioms.\n\n(1) Empirical status of the geometric axioms. Hilbert asks to what percentage the axioms of geometry are correct according to present geodesy, astronomy and physics. He then asks how one could even obtain a measure of how exactly an axiom is fulfilled. His answer is that one can only do so by treating some axioms as exactly or almost exactly fulfilled. Any empirical test of one axiom presupposes others as the frame of measurement. This is a Duhem/Poincaré-style holism about testing geometry, in the tradition of Gauss's triangulation and Lobachevsky's stellar parallax arguments. There is no computation.\n\n(2) Methodological remark. Every theory must have an aim, a 'Pointe'. Whole theories have mostly grown out of individual critical, outstanding 'Pointen' (key problems or results).\n\n(3) Existence = consistency. The statement 'every equation has a root' means only this: assuming a root never leads to a contradiction with the arithmetic axioms. In modern terms, Exists x P(x) is mathematically justified iff Axioms + {P(c)} is consistent.\n- The parallel example: 'there is no singularity-free surface of negative constant curvature' is proved by assuming such a surface exists and deriving a contradiction. This is Hilbert's own 1901 theorem: there is no complete regular surface in R^3 with K = const < 0.\n- Conclusion: 'The mathematical concept of existence coincides completely with that of consistency.'\n- [My remark] In the root example 'equation' is presumably a polynomial equation, and the arithmetic axioms are those of a (complex) number field, as in Hilbert's 'Über den Zahlbegriff' (1900).\n\n(4) Helmholtz and Lilienthal. Helmholtz (1873, on geometrically similar fluid motions and steerable balloons) argued from similarity that the largest naturally occurring birds are roughly the heaviest masses that can sustain flight by muscle power.\n- [Implicit argument, mine] Weight scales like L^3. Lift ~ rho v^2 L^2 = weight gives v ~ L^(1/2). Required power ~ weight*v ~ L^(7/2). Available muscle power scales at most like L^3. So required/available ~ L^(1/2) grows with size, and an upper size limit exists.\n- Hilbert says Lilienthal, who flew himself (1891-96), refuted this. He adds that experiment always leads to new ideas, and that Helmholtz had not taken the motion of the air into account (updrafts and wind, i.e. soaring).",
+  "errors": [
+   "The Helmholtz/Lilienthal claim is overstated. Lilienthal's flights were gliding flights powered by gravity and moving air, not muscle-powered flight. They therefore do not refute Helmholtz's scaling claim about sustained flight by muscle power alone. Hilbert's own diagnosis (Helmholtz neglected air motion) actually changes the problem rather than refuting the original theorem.",
+   "The phrase 'existence coincides completely with consistency' is a programmatic thesis, not a proven statement. Gödel's incompleteness theorems later showed the consistency side cannot generally be established by finitary means within the theory. As a philosophical note it is not an 'error' on the page."
+  ],
+  "results": [
+   {
+    "what": "Mathematical existence equals consistency (existence of a root = non-contradictoriness of assuming one with the arithmetic axioms)",
+    "modern_name": "Hilbert's 'existence = consistency' thesis (formalist conception of existence; cf. the model existence/completeness theorem)",
+    "usually_credited_to": "David Hilbert (letter to Frege, 29 Dec 1899; 'Über den Zahlbegriff' 1900; Paris problem 2, 1900)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Non-existence of a complete singularity-free surface of constant negative curvature in R^3, proved by contradiction",
+    "modern_name": "Hilbert's theorem (1901) on surfaces of constant negative curvature",
+    "usually_credited_to": "David Hilbert (1901, Trans. AMS)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Empirical testing of geometric axioms necessarily presupposes other axioms as exactly valid",
+    "modern_name": "Holism of empirical testing of geometry (Duhem–Quine / Poincaré conventionalism)",
+    "usually_credited_to": "Poincaré (1890s-1902), Duhem (1906); Gauss/Lobachevsky for empirical tests",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Helmholtz's similarity argument that large birds are near the maximum mass for muscle-powered flight, and its supposed refutation by Lilienthal",
+    "modern_name": "Scaling (allometric) limit for powered flight; dimensional/similarity analysis",
+    "usually_credited_to": "Hermann von Helmholtz (1873)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The existence-equals-consistency thesis and the reference to his own constant-negative-curvature theorem are well-documented Hilbert positions from c. 1899-1901. The remarks on empirical axioms and on Helmholtz/Lilienthal are informal philosophical asides of modest biographical interest only.",
+  "checkable": [
+   {
+    "sympy": "L,rho,g=symbols('L rho g',positive=True); v=solve(Eq(rho*v_**2*L**2, rho*g*L**3), v_) if False else sqrt(g*L); simplify((rho*g*L**3*sqrt(g*L))/L**3) ",
+    "asserts": "With weight ~ L^3 and v ~ L^(1/2), required power/weight scales like L^(1/2). This is the core of Helmholtz's size limit."
+   },
+   {
+    "sympy": "L=symbols('L',positive=True); simplify((L**Rational(7,2))/(L**3)) == sqrt(L)",
+    "asserts": "Ratio of required power (~L^(7/2)) to available muscle power (~L^3) is L^(1/2), increasing with size."
+   },
+   {
+    "sympy": "x=symbols('x'); solve(x**2+1, x)",
+    "asserts": "Illustrates 'every equation has a root': x^2+1=0 has roots ±I once complex numbers are admitted consistently."
+   },
+   {
+    "sympy": "u,v=symbols('u v',positive=True); E=1/u**2; G=1/u**2; K=-1/(2*sqrt(E*G))*(diff(diff(G,u)/sqrt(E*G),u)+diff(diff(E,v)/sqrt(E*G),v)); simplify(K)",
+    "asserts": "The Poincaré half-plane metric (du^2+dv^2)/u^2 has constant curvature -1. By Hilbert's theorem it admits no complete isometric immersion into R^3."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'so zu beweisen wird' should read 'so bewiesen wird' (a stray letter before 'bewiesen', perhaps a struck 'z').",
+   "'giebt' is underlined in both occurrences ('Es giebt für jede Gl.' and 'es giebt keine singularitätenfreie Fläche'), marking emphasis on existence claims.",
+   "The first word of the third paragraph is a struck-through word (possibly 'Dass'), followed by 'giebt'. The reading 'Es giebt' is plausible but the initial word is uncertain.",
+   "'Lilienthal' shows an overwritten letter in the manuscript (written roughly as 'Lilienthahl' corrected); the intended name is Lilienthal.",
+   "In 'Meist sind {+nur+} aus einzelnen...' the inserted word before 'aus' is a small superscript mark and is uncertain."
+  ]
+ }
+}

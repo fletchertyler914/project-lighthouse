@@ -1,0 +1,48 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c035",
+ "label": "17v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000036/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the end of Art. 19 of the draft of Riemann's 1851 Inaugural-Dissertation ('Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse'). The page is numbered 28, continuing p. 27. It finishes the argument that a function may be prescribed to have an isolated singularity, and it counts the free constants.\n\nSetting: T is a surface over the z-plane, z = x + iy. A function w = u + iv is to be determined, holomorphic in T except at one interior point a. There a singular function phi(z) is given, and w - phi must be continuous.\n\nStep 1 (end of p. 27): build a trial function alpha + i*beta.\n- Inside a small disk K around a, put alpha + i*beta = phi(z).\n- Outside K, choose alpha and beta by the earlier rules (smooth, matching the boundary data).\n- Since phi is analytic in K minus {a}, the Cauchy-Riemann equations hold there. Hence the integrand (alpha_x - beta_y)^2 + (alpha_y + beta_x)^2 vanishes identically on K.\n- On T minus K everything is smooth, so the integral is finite.\n- Therefore Omega(alpha, beta) = ∫_T [(alpha_x - beta_y)^2 + (alpha_y + beta_x)^2] dT is finite.\n\nStep 2 (this page): apply the theorem of the previous article (Art. 18), i.e. the Dirichlet-principle minimization.\n- The minimizer differs from alpha + i*beta by a function that is continuous at a.\n- The result is a function u + iv holomorphic on T minus {a} with w - phi continuous at a: 'eine Function mit den verlangten Eigenschaften'.\n\nStep 3 (this page): count constants using the theorem of Art. 13.\n- That theorem: an isolated singularity where (z - a)w -> 0 is removable. More generally, w becomes infinite of order n exactly when w - sum_{k=1}^n c_k (z-a)^{-k} is continuous at a.\n- So allowing an infinity of order at most n at a means the singular part is determined by n complex coefficients c_1, ..., c_n.\n- That is 2n real constants (Re c_k, Im c_k) that remain freely disposable.\n- My gloss: for each choice of them, Step 2 yields a function, and it is unique once the boundary conditions are fixed.\n- Conclusion: 'eine Anzahl von 2n Constanten verfügbar wird.'",
+  "errors": [
+   "No mathematical slip on the page.",
+   "The underlying Dirichlet-principle step (existence of a minimizer of Omega, Art. 18) is the well-known gap later criticized by Weierstrass (1870). It was repaired by Hilbert (1900/1904). It is not a slip specific to this page.",
+   "Small detail in the construction (not on this page): the trial function must be patched smoothly across the circle bounding K, which Riemann leaves implicit."
+  ],
+  "results": [
+   {
+    "what": "Existence of a holomorphic function on T with a prescribed singular part at an interior point, by Dirichlet's principle applied to a trial function equal to the singular part near the point",
+    "modern_name": "Existence of meromorphic functions/differentials with prescribed principal parts via the Dirichlet principle (Riemann existence theorem, local form)",
+    "usually_credited_to": "Riemann (Dissertation 1851; Abelsche Functionen 1857); rigorous form by Hilbert/Weyl",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "A pole of order at most n contributes 2n disposable real constants (n complex principal-part coefficients)",
+    "modern_name": "Dimension count of principal parts / Laurent principal part",
+    "usually_credited_to": "Riemann 1851 (counting); Laurent/Cauchy for expansions",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the draft of the published text of Riemann's 1851 dissertation, end of Art. 19, nearly verbatim. Both results are well known as his.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); n=3; f=1/(x+I*y)**n; a=re(expand_complex(f)); b=im(expand_complex(f)); simplify((diff(a,x)-diff(b,y))**2+(diff(a,y)+diff(b,x))**2)",
+    "asserts": "The Dirichlet integrand vanishes for alpha+i*beta = z^{-n} (Cauchy-Riemann holds away from 0), so the integral over the small disk contributes 0. Expected output: 0."
+   },
+   {
+    "sympy": "z,a=symbols('z a'); c=symbols('c1:4'); w=sum(c[k]/(z-a)**(k+1) for k in range(3)); limit((z-a)**3*w, z, a)",
+    "asserts": "A function infinite of order 3 at a has singular part with 3 complex coefficients, i.e. 6 = 2n real constants. The leading coefficient is recovered as c3."
+   }
+  ],
+  "transcription_corrections": [
+   "Page number at top reads '28' (continuing p. 27), not '23[?]'.",
+   "'eine Anzahl von 2n[?] Constanten': the reading 2n is correct, matching the printed dissertation and the mathematics. The handwritten '2n' can resemble '23'.",
+   "'im Art. 13.': confirmed."
+  ]
+ }
+}

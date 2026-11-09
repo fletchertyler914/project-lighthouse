@@ -1,0 +1,97 @@
+{
+ "bundle": "600_3",
+ "page": "c056",
+ "label": "53",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000057/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT (previous page). Hilbert wants test cases for irrationality proofs: entire transcendental functions that satisfy inhomogeneous linear first-order ODEs. His model is y' - x y = 1 with y = e^{x^2} ∫_0^x e^{-t^2} dt, and he gives the integral representation ∫_0^∞ e^{-u}/sqrt(u+x^2) du via the substitution t^2 = u + x^2.\n\n(1) Opening remark. He notes that the continued fraction for the Stieltjes-type integral ∫_0^∞ e^{-u}/(1+u) du is in Stieltjes, p.108. This is the classical continued fraction for f(x) = ∫_0^∞ e^{-u}/(x+u) du = e^x E_1(x), which goes back to Laguerre and Stieltjes.\n\nThe function y should be expanded, i.e. approximated, simultaneously with e^{x^2}. One could also get the continued fraction for y directly from its power series. At x=0 this would give the irrationality of sqrt(π). [My reading: this only works for the complementary function e^{x^2} ∫_x^∞ e^{-t^2} dt = (1/2) ∫_0^∞ e^{-u} u^{-1/2}... at x=0, i.e. (1/2)∫_0^∞ e^{-u}(u+x^2)^{-1/2} du, whose value at 0 is sqrt(π)/2. The function as defined with ∫_0^x vanishes at x=0.]\n\nIn parentheses: from the integral representation one gets an ODE of the form dy/dx - y = (±)1/x. For f(x) = ∫_0^∞ e^{-u}/(x+u) du, integration by parts gives f' = f - 1/x.\n\nFurther examples he lists:\n- Bessel functions.\n- 'dy/dx = xy', which via z = y'/y reduces to a first-order equation. [This reduction only makes sense for a second-order equation, so presumably y'' = x y (Airy). It becomes the Riccati equation z' + z^2 = x.]\n\n(2) Main program: a 'ternary chain (continued-fraction) algorithm' for irrationality. Take\n- y = e^{x^2} ∫_0^x e^{-t^2} dt and z = e^{-x^2},\n- 'so that' y' = x y + 1 and z' = x z. [These ODEs actually hold for y = e^{x^2/2}∫_0^x e^{-t^2/2}dt and z = e^{x^2/2}; see errors.]\n\nSeek polynomials A, B, C of degree n such that the remainder P(x) = A y + B z + C = x^{3n} + a x^{3n+1} + ... starts as late as possible. This is Hermite–Padé approximation of type I for (y, z, 1). [Count, mine: 3(n+1) unknown coefficients, homogeneous, so vanishing of x^0..x^{3n+1} is attainable, i.e. order ≥ 3n+2.]\n\nThen, by his method (black notebook II p.43), differentiate:\n- P' = (A' + xA) y + (B' + xB) z + (C' + A).\n- Likewise P'' and P''' are linear forms in y, z, 1 with polynomial coefficients.\n- Four forms in three quantities means y, z, 1 can be eliminated. This gives a linear homogeneous third-order ODE for P, whose coefficients he guesses are of degree 1 or 2 in x (n entering as a parameter).\n\nHe also expects that his 'method of inner unramifiedness' gives ODEs for C, A·y and B·z separately.\n\nNext steps he plans:\n- set up the recursion formulas in n;\n- derive from them a PDE for the generating function Σ P_n(x) u^n;\n- carry out the irrationality proof.\n\nAlternative: set up the continued-fraction algorithm directly from the power series of e^x and of [t ∫_0^t e^{s^2} ds]_{t^2=x} = Σ_k x^{k+1}/(k!(2k+1)). The substitution x = t^2 makes both companions power series in x.\n\nThe page is a research plan (Hermite–Padé / simultaneous approximation of solutions of linear ODEs as a route to irrationality), not a completed proof.",
+  "errors": [
+   "With y = e^{x^2}∫_0^x e^{-t^2}dt one has y' = 2xy + 1, not xy + 1 (the same slip is on the previous page). y' = xy + 1 holds for y = e^{x^2/2}∫_0^x e^{-t^2/2}dt.",
+   "With z = e^{-x^2}, z' = -2xz, not xz. z' = xz holds for z = e^{x^2/2}. Also the page's opening sentence pairs y with e^{x^2}, not e^{-x^2}.",
+   "Previous-page integral representation: the substitution t^2 = u + x^2 gives e^{x^2}∫_x^∞ e^{-t^2}dt = (1/2)∫_0^∞ e^{-u}/sqrt(u+x^2) du. This is the complementary (erfc) function, with a factor 1/2, not ∫_0^x.",
+   "'For x=0 one gets irrationality of sqrt(pi)' applies only to the erfc-type function. Moreover it is a trivial consequence of Lambert's irrationality of π, and the associated expansion is asymptotic and divergent, not convergent.",
+   "The ODE for ∫_0^∞ e^{-u}/(x+u)du is f' - f = -1/x; the page has +1/x (sign slip, or partly struck text).",
+   "'dy/dx = xy reduced by z = y'/y to a first-order ODE' only makes sense for a second-order equation such as y'' = xy (Airy → Riccati z' + z^2 = x).",
+   "Order count: degree-n A, B, C allow P = O(x^{3n+2}), not just x^{3n} (conservative, not wrong). Parity of y (odd) and z (even) may further affect the count.",
+   "The guess that the third-order ODE has coefficients of degree ≤ 2 is unproven (explicitly marked 'wahrscheinlich')."
+  ],
+  "results": [
+   {
+    "what": "Continued fraction for ∫_0^∞ e^{-u}/(x+u)du and its ODE f' = f - 1/x",
+    "modern_name": "Stieltjes/Laguerre continued fraction for the exponential integral; Stieltjes moment problem",
+    "usually_credited_to": "Laguerre (1879), Stieltjes (1894)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Choose polynomials A,B,C of degree n with A y + B z + C vanishing to maximal order at 0, for y an erf-type function and z an exponential",
+    "modern_name": "Hermite–Padé approximation of type I (simultaneous approximation of solutions of linear ODEs)",
+    "usually_credited_to": "Hermite (1873), Padé (1892–94); systematized for irrationality/transcendence by Siegel (1929, E-functions) and Shidlovskii",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Differentiate the remainder P and eliminate y, z, 1 to get a linear 3rd-order ODE for P; then derive recursions in n and a PDE for the generating function Σ P_n u^n",
+    "modern_name": "Differential equation / recurrence for Padé remainders (holonomic approach to Padé approximants)",
+    "usually_credited_to": "Hermite, Padé; later Siegel, Mahler; modern holonomic methods",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Proposal to prove irrationality of values of erf-type functions, Bessel functions and Airy-type solutions via simultaneous approximation",
+    "modern_name": "Siegel's E-function program (Siegel–Shidlovskii)",
+    "usually_credited_to": "C.L. Siegel (1929)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Reduction of y''=xy via z=y'/y to a first-order (Riccati) ODE",
+    "modern_name": "Riccati substitution",
+    "usually_credited_to": "classical (Riccati, Euler)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 4,
+  "surprise_reason": "The page is a plan, not a result, and it contains slips. Still, it shows Hilbert, apparently around 1901 (the next page mentions Boy's surface), explicitly proposing a Hermite–Padé 'ternary chain algorithm' for irrationality of values of solutions of linear ODEs. His test cases are erf-type functions together with exponentials, Bessel and Airy-type functions, plus differential equations and generating-function PDEs for the remainders. That anticipates the program Siegel carried out in 1929 (E-functions, Bessel values). It is a notable unpublished detail of Hilbert's interests, but no theorem is proved, and Hermite/Padé methods were already well established.",
+  "checkable": [
+   {
+    "sympy": "x,t=symbols('x t'); y=exp(x**2)*integrate(exp(-t**2),(t,0,x)); simplify(diff(y,x)-2*x*y-1)",
+    "asserts": "Equals 0: the correct ODE for y=e^{x^2}∫_0^x e^{-t^2}dt is y'=2xy+1 (not xy+1)."
+   },
+   {
+    "sympy": "x,t=symbols('x t'); y=exp(x**2/2)*integrate(exp(-t**2/2),(t,0,x)); simplify(diff(y,x)-x*y-1)",
+    "asserts": "Equals 0: y'=xy+1 holds with the scaling x^2/2."
+   },
+   {
+    "sympy": "x=symbols('x'); simplify(diff(exp(x**2/2),x)-x*exp(x**2/2))",
+    "asserts": "Equals 0: z'=xz holds for z=e^{x^2/2} (for z=e^{-x^2}, z'=-2xz)."
+   },
+   {
+    "sympy": "u=symbols('u',positive=True); integrate(exp(-u)/sqrt(u),(u,0,oo))/2 - sqrt(pi)/2",
+    "asserts": "Equals 0: at x=0 the representation (1/2)∫_0^∞ e^{-u}/sqrt(u+x^2)du gives sqrt(pi)/2."
+   },
+   {
+    "sympy": "x=symbols('x',positive=True); u=symbols('u',positive=True); f=exp(x)*expint(1,x); simplify(diff(f,x)-f+1/x)",
+    "asserts": "Equals 0: f(x)=∫_0^∞ e^{-u}/(x+u)du = e^x E_1(x) satisfies f' = f - 1/x."
+   },
+   {
+    "sympy": "x,s=symbols('x s',positive=True); t=sqrt(x); series(t*integrate(exp(s**2),(s,0,t)),x,0,5)",
+    "asserts": "Returns x + x**2/3 + x**3/10 + x**4/42 + O(x**5), i.e. Σ x^{k+1}/(k!(2k+1)), a power series in x."
+   },
+   {
+    "sympy": "n=symbols('n'); 3*(n+1)-1 - (3*n+1)",
+    "asserts": "Equals 1 (>0): with 3(n+1) coefficients one can kill x^0..x^{3n+1}, so P=O(x^{3n+2})."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: reference reads 'vgl. Stieltjes S. 108' (handwriting ambiguous; the Stieltjes continued fraction fits the context).",
+   "'Will man nach sovie[?] Allgemeinem' should read 'Will man nach soviel Allgemeinem'.",
+   "'dy/dx = xy' in the 'Fernere Beispiele' line: the Riccati substitution implies a second-order equation (likely d²y/dx² = xy); check the image.",
+   "The parenthetical ODE line contains struck-out text before '= 1/x'; the sign is uncertain.",
+   "Last sentence: 'aufzustellen mittels durch den Potenzreihenentwickelung' should read 'aufstellen mittels der Potenzreihenentwickelung'. The bracket expression appears as '[t ∫ e^{t^2} dt]_{t^2=x}'.",
+   "'deren Coefficienten wahrscheinlich' has a stray struck character before 'wahrscheinlich'."
+  ]
+ }
+}

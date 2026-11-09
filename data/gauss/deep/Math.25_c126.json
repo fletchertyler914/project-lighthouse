@@ -1,0 +1,60 @@
+{
+ "bundle": "Math.25",
+ "page": "c126",
+ "label": "62v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000127/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): a, b are given with a' = (a+b)/2, b' = sqrt(ab), and so on; mu is the arithmetic-geometric mean (AGM) of a and b. Write Delta = sqrt(a^2 sin^2 T + b^2 cos^2 T) and F(T) = int_0^T dT/Delta = theta/mu. There theta was obtained as the limit of the scheme tan T' = sqrt(a/b) tan T, tan 2T'' = sqrt(a'/b') tan 2T', tan 4T''' = sqrt(a''/b'') tan 4T'', and so on.\n\nThis page, part 1 ('Eine independente Rechnung ist folgende'):\n(1) Define U by tan U = (a/b) tan T.\n(2) For n >= 0, with T^(0) = T and U^(0) = U, set\n    tan(2^n T^(n+1)) = sqrt( tan(2^n T^(n)) * tan(2^n U^(n)) ),\n    U^(n+1) = (T^(n) + U^(n))/2.\n(3) Then T^(inf) = U^(inf) = theta.\nSo each level combines a geometric mean of tangents with an arithmetic mean of angles.\n\nWhy it agrees with the previous page [my verification]:\n- Level 0: sqrt(tan T tan U) = sqrt(a/b) tan T, which is the old rule.\n- Level 1: tan(2U') = tan(T+U) = (1 + a/b) tan T / (1 - (a/b) tan^2 T). Also tan 2T' = 2 sqrt(a/b) tan T / (1 - (a/b) tan^2 T). Their ratio is (a+b)/(2 sqrt(ab)) = a'/b'.\n- Hence (2T', 2U') satisfies the same relation with (a', b') that (T, U) satisfied with (a, b). Then tan 2T'' = sqrt(a'/b') tan 2T', and by induction every level matches.\n- 'Independent' therefore means that, after the first step, neither a/b nor the AGM sequence is needed. Only angles are iterated.\n\nWhy the limit gives F [mine]:\n- Each step is the Gauss/Landen transformation J(a,b,psi) = (1/2) J(a',b',2psi'), where J(a,b,psi) = int_0^psi dpsi/Delta.\n- Hence J(a,b,T) = J(a_n, b_n, 2^n T^(n)) / 2^n, which tends to theta/mu.\n- Since a_n/b_n -> 1 quadratically, 2^n (U^(n) - T^(n)) -> 0, so T^(n) and U^(n) share the limit theta.\n\nPart 2, the incomplete integral of the second kind:\nE(T) = int_0^T sqrt(a^2 sin^2 T + b^2 cos^2 T) dT\n     = (theta/mu) [a'^2 - 2(a''^2 - b''^2) - 4(a'''^2 - b'''^2) - ...]\n       + (1/2)(a-b) sin 2U' - (1/2)(a'-b') sin 4U'' - (1/2)(a''-b'') sin 8U''' - (1/2)(a'''-b''') sin 16U^IV - ...\n\nModern form, with c_n^2 = a_n^2 - b_n^2:\n- One has a'^2 = a^2 - c_0^2/2 - c_1^2.\n- So the bracket equals a^2 - sum 2^(n-1) c_n^2, which is Gauss's/Legendre's AGM expression for the complete E/K ratio.\n- The trigonometric terms are c_(n+1) sin(2^(n+1) U^(n+1)), with c_(n+1) = (a_n - b_n)/2. The angles 2^(n+1) U^(n+1) = 2^n (T^(n) + U^(n)) are the Landen angles.\n\nThe next page carries out the same idea for the integrand a^2 cos^2 + b^2 sin^2 and applies it numerically to the rectification of the meridian ellipse.",
+  "errors": [
+   "Sign of the first periodic term. To first order in eps = a/b - 1:\n- the left side is bT + eps*b*T/2 - (eps*b/4) sin 2T;\n- the page gives theta ~ T + (eps/4) sin 2T and mu ~ a', so (theta/mu) a'^2 ~ bT + eps*b*T/2 + (eps*b/4) sin 2T;\n- matching requires -(1/2)(a-b) sin 2U', not +.\nThe written '+' (its 1/2 appears overwritten) is therefore a slip. All subsequent terms correctly carry '-', and the terms form a uniform series -sum (1/2)(a_n - b_n) sin(2^(n+1) U^(n+1)).",
+   "The second-kind formula is stated without derivation. The convergence claim T^inf = U^inf = theta is likewise unproved on the page, though it is true.",
+   "Minor: the bracket ends in '...' without a stated general term. From the pattern, the general term is -2^(n-1)(a^(n)^2 - b^(n)^2)."
+  ],
+  "results": [
+   {
+    "what": "Angle-only form of the Landen/Gauss transformation. Iterating tan T^(n+1) = sqrt(tan T^(n) tan U^(n)) (scaled by 2^n) together with U^(n+1) = (T^(n)+U^(n))/2, from tan U = (a/b) tan T, gives the amplitude theta = mu*F(T). The AGM ratios a_n/b_n are not needed after the start.",
+    "modern_name": "Landen (descending/Gauss) transformation for the incomplete elliptic integral of the first kind; AGM algorithm for F(phi,k)",
+    "usually_credited_to": "Landen (1775), Lagrange (1784), Legendre (Exercices 1811 / Traité 1825); Gauss's AGM for the complete case (1799 notes; published 1818)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Incomplete integral of the second kind via the AGM: E = (theta/mu)(a^2 - sum 2^(n-1) c_n^2) - sum c_(n+1) sin(2^(n+1) U^(n+1)).",
+    "modern_name": "AGM / Landen evaluation of the incomplete elliptic integral E(phi,k) (as in King's or Abramowitz-Stegun 17.6)",
+    "usually_credited_to": "Legendre (Traité des fonctions elliptiques, 1825); the complete-case series is Gauss/Legendre",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's AGM treatment of elliptic integrals, including incomplete ones and ellipse rectification, is well documented in his Nachlass (Werke III/X). The formulas match Landen-Legendre theory. The only slightly unusual feature is presenting the iteration purely in angles ('independent' of a, b after the first step), which is an elegant but equivalent reformulation.",
+  "checkable": [
+   {
+    "sympy": "a,b,T=symbols('a b T',positive=True); U=atan(a/b*tan(T)); T1=atan(sqrt(a/b)*tan(T)); simplify(expand_trig(tan(T+U)) - (a+b)/(2*sqrt(a*b))*expand_trig(tan(2*T1)))",
+    "asserts": "Should be 0: tan 2U' = (a'/b') tan 2T', so the angle-only recursion reproduces the previous page's scheme."
+   },
+   {
+    "sympy": "a0,b0,T0=2.0,1.0,0.7; T,U=T0,atan(a0/b0*tan(T0)); A,B=a0,b0\nfor n in range(8):\n  A,B=(A+B)/2,sqrt(A*B)\n  T,U=atan(sqrt(tan(2**n*T)*tan(2**n*U)))/2**n,(T+U)/2\nmu=A; theta=T; N(theta/mu - Integral(1/sqrt(a0**2*sin(x)**2+b0**2*cos(x)**2),(x,0,T0)))",
+    "asserts": "Should be ~0 (branch of atan is fine for small T): F(T) = theta/mu."
+   },
+   {
+    "sympy": "a0,b0,T0=2.0,1.0,0.7; As=[a0];Bs=[b0]\nfor n in range(8): As.append((As[-1]+Bs[-1])/2); Bs.append(sqrt(As[-2]*Bs[-1]))",
+    "asserts": "Setup only: builds the AGM sequences. Use Bs[-1]=sqrt(As[-2]*Bs[-2]) as intended, i.e. b_(n+1) = sqrt(a_n b_n). Then evaluate E_num = (theta/mu)*(As[1]**2 - sum(2**(n-1)*(As[n]**2-Bs[n]**2) for n>=2)) - sum((As[n]-Bs[n])/2*sin(2**(n+1)*U_(n+1))) and compare with Integral(sqrt(a0**2*sin(x)**2+b0**2*cos(x)**2),(x,0,T0)). Agreement holds with a minus sign on the first periodic term."
+   },
+   {
+    "sympy": "a,b=symbols('a b',positive=True); simplify(a**2-(a**2-b**2)/2-((a-b)/2)**2-((a+b)/2)**2)",
+    "asserts": "Should be 0: the leading coefficient a'^2 equals a^2 - c0^2/2 - c1^2 (Gauss/Legendre E/K series)."
+   },
+   {
+    "sympy": "e,T,b=symbols('e T b',positive=True); a=b*(1+e); lhs=series(integrate(sqrt(b**2+(a**2-b**2)*sin(T)**2).series(e,0,2).removeO(),(T,0,T)),e,0,2)",
+    "asserts": "First-order check that the first periodic term must be -(1/2)(a-b) sin 2U'. The left side is b*T + e*b*T/2 - e*b*sin(2T)/4."
+   }
+  ],
+  "transcription_corrections": [
+   "'U^alpha' in the image is U^infinity: 'dann ist T^infty = U^infty = theta'.",
+   "The coefficient of the first sine term looks like '1/2' written over a '2'. The reading +1/2(a-b) sin 2U' is what is written, but mathematically the sign should be '-'.",
+   "In the previous-page transcription, 'sqrt(4T''')' and 'sqrt(8T^iv)' should read tg 4T''' and tg 8T^iv."
+  ]
+ }
+}

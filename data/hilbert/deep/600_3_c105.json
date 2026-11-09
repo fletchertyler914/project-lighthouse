@@ -1,0 +1,76 @@
+{
+ "bundle": "600_3",
+ "page": "c105",
+ "label": "[102]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000106/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has no calculations. It is a methodological reflection, continuing the previous page's remark that physical facts depend on the choice of axioms (temperature has an absolute zero, time does not).\n\n(1) Analogy. Assuming Newton's law of gravitation and then stating Kepler's first law as a separate law is redundant, because the elliptic orbit follows from the inverse-square law. Modern form (my addition): the inverse-square force gives Binet's equation u'' + u = GM/h^2 with u = 1/r. Its solution r = p/(1 + e cos θ) is a conic.\n\n(2) Heat conduction. The general law is the heat equation u_t = k u_xx; in general dimension, u_t = k Δu. Two simple, often-observed special cases are mentioned:\n(a) A rod 0 ≤ x ≤ L with its ends held at temperatures T0 and T1 admits an equilibrium. This is the stationary solution u_s(x) = T0 + (T1 − T0) x / L, with u_s'' = 0.\n(b) With the same boundary conditions, every initial temperature distribution tends to the stationary state as t → ∞. In modern terms (my addition): write u = u_s + w. Then w(x,t) = Σ b_n exp(−k n²π² t / L²) sin(nπx/L) → 0, with b_n the Fourier sine coefficients of u(x,0) − u_s.\nHilbert's point: (a) and (b) are purely logical consequences of the conduction law. Treating them as 'obvious' or as separate laws of nature betrays the scientific character of physics.\n\n(3) Consistency of physical axioms. Whoever sets up a general law of nature must check that it is consistent with itself and with the simplest observed facts. In higher dimensions an equilibrium is a solution of Laplace's equation Δu = 0 in a region with prescribed boundary values: the Dirichlet problem. Before C. Neumann and H. A. Schwarz proved that this boundary value problem is solvable, it was not clear that the heat law did not contradict the observed occurrence of temperature equilibria. The same holds for electrostatics. Hence the Neumann–Schwarz existence proof is indispensable for heat theory and is also a physical achievement: it establishes the consistency of the axioms of heat conduction. This anticipates the next page's claim that existence of solutions to boundary value problems and eigenfunction expansions matter to physicists. It is an instance of the programme of Hilbert's 6th problem.\n\n(4) A new paragraph begins. What Gordan and Klein want, to reduce everything to 7 operations, is exactly the aim of Hilbert's axiomatic method. Every correct mathematical fact could then be proved and checked mechanically, and every error detected; the reading 'Erbsen' is uncertain. The page breaks off at 'Nur der Anlass-'.",
+  "errors": [
+   "No mathematical errors, since there are no computations.",
+   "Historically, Kepler's first law follows from Newton's law only in the two-body idealisation. Hilbert's 'is a consequence' is the usual simplification.",
+   "Calling the Dirichlet-problem existence proof 'Neumann–Schwarz' is somewhat loose. C. Neumann (method of the arithmetic mean, 1870/1877) and Schwarz (alternating method, 1870) gave different proofs for different classes of domains. Neither covers all domains, and later work (Poincaré, Hilbert's own revival of the Dirichlet principle in 1900) was needed for more general ones."
+  ],
+  "results": [
+   {
+    "what": "Kepler's first law (elliptic orbits) as a logical consequence of Newton's inverse-square law",
+    "modern_name": "Kepler problem / Binet equation",
+    "usually_credited_to": "Newton (Principia, 1687)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Existence of a stationary temperature distribution in a rod with fixed end temperatures, and convergence of the transient solution to it as t → ∞",
+    "modern_name": "Steady state and exponential decay to equilibrium for the 1D heat equation with Dirichlet boundary conditions (Fourier series solution)",
+    "usually_credited_to": "Fourier (1807/1822)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Solvability of the Dirichlet problem as a consistency proof for the axioms of heat conduction and electrostatics",
+    "modern_name": "Existence theory for the Dirichlet problem (Neumann's arithmetic-mean method, Schwarz alternating method) viewed as consistency of physical axioms; part of Hilbert's 6th problem programme",
+    "usually_credited_to": "C. Neumann and H. A. Schwarz (c. 1870) for the existence proofs; the epistemological framing is Hilbert's",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Axiomatic method as making every mathematical fact mechanically provable and checkable (comparison with Gordan/Klein reducing everything to a few operations)",
+    "modern_name": "Formalism / mechanical proof checking (Hilbert programme precursor)",
+    "usually_credited_to": "Hilbert (formalist programme, 1900s–1920s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "These are philosophical notes. Hilbert's view that existence proofs for boundary value problems ensure the consistency of physical axioms is known from his lectures on the axiomatisation of physics (Corry) and the 6th problem. The explicit pairing of the Neumann–Schwarz proof with the consistency of heat-conduction axioms, and the Gordan/Klein remark, are nice unpublished details but not new results.",
+  "checkable": [
+   {
+    "sympy": "x,L,T0,T1=symbols('x L T0 T1'); u=T0+(T1-T0)*x/L; [diff(u,x,2), u.subs(x,0)-T0, u.subs(x,L)-T1]",
+    "asserts": "The linear profile is the stationary solution of the heat equation with end temperatures T0 and T1 (all three expressions equal 0)."
+   },
+   {
+    "sympy": "x,t,k,L=symbols('x t k L',positive=True); n=symbols('n',integer=True,positive=True); w=exp(-k*n**2*pi**2*t/L**2)*sin(n*pi*x/L); simplify(diff(w,t)-k*diff(w,x,2))",
+    "asserts": "Each Fourier mode satisfies the heat equation (result 0) and vanishes at x=0 and x=L."
+   },
+   {
+    "sympy": "limit(exp(-k*n**2*pi**2*t/L**2),t,oo)",
+    "asserts": "Each transient mode decays to 0 as t → ∞, so the solution tends to the stationary state (Hilbert's case b)."
+   },
+   {
+    "sympy": "th,p,e,G,M,h=symbols('theta p e G M h',positive=True); u=(1+e*cos(th))/p; simplify((diff(u,th,2)+u-G*M/h**2).subs(p,h**2/(G*M)))",
+    "asserts": "The conic r = p/(1+e cos θ) solves Binet's equation u''+u = GM/h^2 for the inverse-square law (result 0), i.e. Kepler I follows from Newton."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); u=x**2-y**2; diff(u,x,2)+diff(u,y,2)",
+    "asserts": "Example of a harmonic function. Stationary heat states satisfy Laplace's equation, whose Dirichlet problem is the boundary value problem whose solvability Neumann and Schwarz proved."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: 'ohne sich damit ab-[?]' is followed in the image by 'dass dies eine Folge ist', so a word such as 'abzugeben' or 'abzufinden' is meant; the reading remains uncertain.",
+   "'am vielsten beobachteten' matches the image (Hilbert's colloquial form of 'meisten').",
+   "'durch Erbsen[?] beweise' is very uncertain in the image; the sense is 'mechanically prove/check', and possible readings like 'durch Rechnen' or 'Proben' cannot be confirmed.",
+   "Line 5: 'Naturgesetz[-x-]' is a struck-through mark after the word, correctly flagged.",
+   "The final sentence breaks off with 'Nur der Anlass-' and continues on a page not given; the given next page begins a new paragraph."
+  ]
+ }
+}

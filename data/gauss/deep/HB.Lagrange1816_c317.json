@@ -1,0 +1,52 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c317",
+ "label": "314",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000318/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Heading: 'Drehung um zwei Axen' (rotation about two axes). The sketch shows an offset a, then an offset b at right angles to it, and then a ray of length ρ. Gauss is modelling a point on an instrument (a telescope or sight line) carried on a mount with two rotation axes whose axes and sight line do not intersect. The neighbouring pages concern a mercury-horizon reduction and heliometer/hour-circle observations of Aug. 1815, so this is probably the geometry of the instrument's parallactic mount.\n\nModel (my reconstruction of the structure, verified by expansion):\n1. In the frame of the second (inner) axis, the target point has coordinates\n   u = ρ cos N cos h − a' sin h,\n   v = ρ sin N + b,\n   w = ρ cos N sin h + a' cos h.\n   Here (ρ cos N, a') is rotated through the angle h in the u–w plane, so h is the rotation about the inner axis. N is the angle of the ray out of that plane, a' is a perpendicular offset of the ray, and b is the offset along the inner axis.\n2. That frame is rotated through the angle M about the x-axis (the outer axis) and shifted by a along x:\n   x = u + a,\n   y = v cos M − w sin M,\n   z = v sin M + w cos M.\n3. Expanding gives exactly Gauss's three forward formulas:\n   x = ρ cos h cos N + a − a' sin h\n   y = ρ(cos M sin N − sin h sin M cos N) + b cos M − a' cos h sin M\n   z = ρ(sin h cos M cos N + sin M sin N) + b sin M + a' cos h cos M\n4. Inversion: undo the M-rotation and the translations.\n   y cos M + z sin M − b = ρ sin N (= v − b)\n   −y sin M + z cos M = ρ cos N sin h + a' cos h (= w)\n   x − a = ρ cos N cos h − a' sin h (= u)\n   From these one can recover N, and h together with ρ cos N, for given M, a, b, a'. For example, (x−a)² + (−y sin M + z cos M)² = ρ² cos² N + a'² (my addition; not on the page).\n\nThe page stops here.",
+  "errors": [
+   "The last line reads '− a' sin h²' in the manuscript. The correct term is − a' sin h. The '2' is either a stray mark or a slip; with sin² h the identity fails.",
+   "No other errors: the first two inverse relations follow exactly from the forward formulas via cos²M + sin²M = 1."
+  ],
+  "results": [
+   {
+    "what": "Coordinates of a point on a sight line carried by two non-intersecting rotation axes with offsets a, b, a', angles M (outer axis), h (inner axis), N (ray elevation out of the plane), and the inversion by undoing the outer rotation",
+    "modern_name": "Composition of rigid motions (rotation matrices plus translations); forward and inverse kinematics of a two-axis mount with offsets (instrument-error geometry of an equatorial/altazimuth mount)",
+    "usually_credited_to": "Standard coordinate geometry (Euler, Lagrange, 18th century); instrument-error theory of mounts developed by Bessel, Hansen and others in the 19th century",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is elementary rotation-plus-translation coordinate geometry for an instrument mount, worked out for Gauss's own practical astronomy. It is correct and routine, with no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "rho,h,N,M,a,b,ap=symbols('rho h N M a b ap'); x=rho*cos(h)*cos(N)+a-ap*sin(h); y=rho*(cos(M)*sin(N)-sin(h)*sin(M)*cos(N))+b*cos(M)-ap*cos(h)*sin(M); z=rho*(sin(h)*cos(M)*cos(N)+sin(M)*sin(N))+b*sin(M)+ap*cos(h)*cos(M); simplify(y*cos(M)+z*sin(M)-b-rho*sin(N))",
+    "asserts": "y cos M + z sin M − b = ρ sin N (should simplify to 0)"
+   },
+   {
+    "sympy": "simplify(-y*sin(M)+z*cos(M)-(rho*cos(N)*sin(h)+ap*cos(h)))",
+    "asserts": "−y sin M + z cos M = ρ cos N sin h + a' cos h (should be 0)"
+   },
+   {
+    "sympy": "simplify(x-a-(rho*cos(N)*cos(h)-ap*sin(h)))",
+    "asserts": "x − a = ρ cos N cos h − a' sin h (should be 0; the version with sin(h)**2 is not)"
+   },
+   {
+    "sympy": "u=rho*cos(N)*cos(h)-ap*sin(h); v=rho*sin(N)+b; w=rho*cos(N)*sin(h)+ap*cos(h); simplify(Matrix([u+a, v*cos(M)-w*sin(M), v*sin(M)+w*cos(M)])-Matrix([x,y,z]))",
+    "asserts": "The forward formulas equal a rotation by h in the u–w plane, followed by a rotation by M about the x-axis and a shift by a (zero vector)"
+   },
+   {
+    "sympy": "simplify((x-a)**2+(-y*sin(M)+z*cos(M))**2-(rho**2*cos(N)**2+ap**2))",
+    "asserts": "Invariant usable to recover ρ cos N independently of h (should be 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The final term '− a' sin h²' should be read as '− a' sin h'; the superscript 2 is a slip or stray mark and is mathematically wrong.",
+   "Folio number at top left is '314'.",
+   "Sketch: a vertical segment a, a horizontal segment b, and a ray ρ rising from the end of b; that is, offsets between the two axes and the sight line."
+  ]
+ }
+}

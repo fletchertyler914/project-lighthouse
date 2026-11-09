@@ -1,0 +1,63 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c239",
+ "label": "53v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000240/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a short scratch note on the auxiliary-angle (harmonic addition) method: writing a linear combination of two sines of C minus fixed angles as one sine with a computed amplitude. This was a routine tool for Gauss, for example in astronomical reductions. The nearby printed algebra text on the facing page (§202 on series for √(a+x)) is unrelated.\n\n(1) The written formula. Line 1 reads a·sin(C−A) − b·sin(C°−B). The degree mark on the second C looks like a notational variant; the computation only makes sense if both are the same C.\n\nThe written right-hand side is\nsin( C − arctan[(a sinA + b sinB)/(a cosA + b cosB)] ) × (a sinA − b sinB)/(a sinA + b sinB) × √(aa + bb + 2ab cos(A−B)).\n\n(2) The standard derivation (my reconstruction; it is implicit on the page). Expand:\n- a sin(C−A) + b sin(C−B) = sinC·(a cosA + b cosB) − cosC·(a sinA + b sinB).\n- Define R and θ by R cosθ = a cosA + b cosB and R sinθ = a sinA + b sinB.\n- Then tanθ = (a sinA + b sinB)/(a cosA + b cosB).\n- R² = a² + b² + 2ab cos(A−B).\n- Hence a sin(C−A) + b sin(C−B) = R·sin(C−θ).\n\n(3) The crossed-out fragments. They show Gauss first writing the amplitude as (a cosA + b cosB)/cosθ = (a cosA + b cosB)·√(1 + tan²θ). He then replaced this with the clean closed form √(aa + bb + 2ab cos(A−B)).\n\n(4) Quadrant rule (Latin text). The root is taken positive, and the angle θ must then be determined:\n- between 0° and 90° or between 270° and 360°(=0°) if a cosA + b cosB > 0;\n- between 90° and 270° if a cosA + b cosB < 0.\nThis is exactly the condition sign(cosθ) = sign(R cosθ) when R > 0.\n\nA cancelled first version based the half-plane choice on the sign of the sine numerator: 0–180° versus 180–360°. That rule is equally valid.\n\n(5) The closing remark: 'Nequimus uti hac formula quando a sinA + b sinB = 0 …' ('we cannot use this formula when a sinA + b sinB = 0'). The quantities a sinA + b sinB and √(aa + bb + 2ab cos A−B) are then to be removed ('eiciantur'). This exception is tied to the extra factor with denominator a sinA + b sinB in line 2. For the clean R·sin(C−θ) form, the genuinely awkward case is instead a cosA + b cosB = 0, where tanθ is infinite and θ = ±90°.\n\n(6) The difference case. For the difference actually written in line 1, the correct statement replaces b by −b:\n- a sin(C−A) − b sin(C−B) = R'·sin(C−θ');\n- tanθ' = (a sinA − b sinB)/(a cosA − b cosB);\n- R'² = a² + b² − 2ab cos(A−B).",
+  "errors": [
+   "As written, the identity a sin(C−A) − b sin(C−B) = sin(C − arctan((a sinA + b sinB)/(a cosA + b cosB)))·(a sinA − b sinB)/(a sinA + b sinB)·√(a²+b²+2ab cos(A−B)) is false in general. It holds when A = B. It fails for a = b = 1, A = 0°, B = 90°: the left side is √2·sin(C+45°), the right side is −√2·sin(C−45°).",
+   "The amplitude √(aa+bb+2ab cos(A−B)) and the angle tan⁻¹((a sinA + b sinB)/(a cosA + b cosB)) belong to the sum a sin(C−A) + b sin(C−B). For the difference they should be √(aa+bb−2ab cos(A−B)) and tan⁻¹((a sinA − b sinB)/(a cosA − b cosB)). The page seems to mix the two cases, possibly a slip in the sign of line 1 or a draft factor left standing.",
+   "The stated exceptional case a sinA + b sinB = 0 arises only from the extra factor. For the clean auxiliary-angle form the problematic case is a cosA + b cosB = 0 (tangent infinite), which the note does not treat.",
+   "The quadrant rule itself (sign of a cosA + b cosB decides the half-plane when the root is positive) is correct."
+  ],
+  "results": [
+   {
+    "what": "Reduction of a sin(C−A) + b sin(C−B) to R sin(C−θ), with R = √(a²+b²+2ab cos(A−B)) and tanθ = (a sinA + b sinB)/(a cosA + b cosB)",
+    "modern_name": "harmonic addition / auxiliary angle (phasor sum of two sinusoids)",
+    "usually_credited_to": "standard 18th-century trigonometry (Euler-era astronomical practice); no single originator",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Quadrant determination of the auxiliary angle from the sign of a cosA + b cosB with a positive root",
+    "modern_name": "atan2(R sinθ, R cosθ) branch selection",
+    "usually_credited_to": "standard practice; no single originator",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine auxiliary-angle trigonometric reduction of the kind used constantly in 18th–19th century astronomy. The written version even contains a sign/factor confusion. Nothing here is non-standard.",
+  "checkable": [
+   {
+    "sympy": "simplify(expand_trig(a*sin(C-A)+b*sin(C-B) - (sin(C)*(a*cos(A)+b*cos(B)) - cos(C)*(a*sin(A)+b*sin(B))))) == 0",
+    "asserts": "expansion underlying the auxiliary-angle method"
+   },
+   {
+    "sympy": "simplify((a*cos(A)+b*cos(B))**2 + (a*sin(A)+b*sin(B))**2 - (a**2+b**2+2*a*b*cos(A-B))) == 0",
+    "asserts": "R^2 = a^2 + b^2 + 2ab cos(A-B)"
+   },
+   {
+    "sympy": "N((1*sin(C-0) - 1*sin(C-pi/2)) - (sin(C-atan(1))*(-1)*sqrt(2))).subs(C, pi/3) != 0",
+    "asserts": "the formula as literally written fails for a=b=1, A=0, B=pi/2"
+   },
+   {
+    "sympy": "simplify(expand_trig(a*sin(C-A)-b*sin(C-B) - (sin(C)*(a*cos(A)-b*cos(B)) - cos(C)*(a*sin(A)-b*sin(B))))) == 0",
+    "asserts": "the correct difference version uses a cosA − b cosB and a sinA − b sinB, with R'^2 = a^2+b^2−2ab cos(A−B)"
+   },
+   {
+    "sympy": "simplify((a-b)*sin(C-A) - sin(C-A)*(a*sin(A)-b*sin(A))/(a*sin(A)+b*sin(A))*sqrt(a**2+b**2+2*a*b)) == 0  # for a,b>0",
+    "asserts": "the written formula does hold in the special case A = B"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'C°' on the second sine appears to be the same angle C with a superscript mark; the formula is only meaningful with identical C.",
+   "Line 2: 'C − A.tg.' should be read as C − Arc.tang.(…), i.e. C minus the arctangent of the fraction, not C − A·tg.",
+   "The radicand should be read as aa + bb + 2ab cos(A−B), the cosine of the difference A−B.",
+   "'Signum radic: positivum Ang. ita determinandus' = 'taking the sign of the root positive, the angle is to be determined so that it lies …'.",
+   "'eiciantur' is probably 'ejiciantur' ('let them be removed/cast out'); the reading is uncertain, and 'evanescunt' is not excluded."
+  ]
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "bundle": "600_2",
+ "page": "c009",
+ "label": "[4]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page continues a list of research problems or exercises, in the same notebook style as the Minkowski item on the previous page. The previous page ends with: 'Gauss determined, for mechanical quadrature, those n arguments which...'. This page completes the sentence and poses a new problem.\n\n(0) Recalled background. Gauss (1814) chose n nodes x_1..x_n and weights w_i so that the rule ∫_0^1 f dx ≈ Σ w_i f(x_i) is exact whenever f is a polynomial of degree ≤ 2n−1.\n\n(1) Problem posed. Carry out the analogous investigation when f is an arbitrary linear combination of sin kx and cos kx for multiples k = 1, 2, ..., 2n−1 (implicitly also the constant). The interval is [0,1] in the ordinary variable x, so it is a proper sub-interval of the period 2π, not the full period.\n\n(2) Method proposed.\n(a) Take a trigonometric polynomial of degree n:\n   φ(x) = b_0 + Σ_{k=1}^n (a_k sin kx + b_k cos kx).\n   It has 2n+1 coefficients.\n(b) Its coefficients can always be chosen so that φ(α_i) = A_i for 2n+1 prescribed nodes α_i and values A_i. This is trigonometric interpolation. It is uniquely solvable whenever the α_i are distinct mod 2π, which holds automatically for nodes in [0,1].\n(c) Write the interpolant in Lagrange form:\n   φ(x) = Σ_{i=1}^{2n+1} A_i φ_i(x, α).\n   Here φ_i(α_j) = δ_ij. Hilbert does not write φ_i explicitly. [Mine:] the explicit form is φ_i(x) = Π_{j≠i} sin((x−α_j)/2) / sin((α_i−α_j)/2), Gauss's trigonometric interpolation formula; a product of 2n half-angle sines is a trigonometric polynomial of degree n.\n(d) Integrating term by term gives\n   ∫_0^1 φ dx = Σ A_i ∫_0^1 φ_i(x, α) dx.\n   This is an interpolatory quadrature rule with weights w_i(α) = ∫_0^1 φ_i dx.\n\n(3) Continuation on the next page. The rule is exact for trigonometric polynomials of degree ≤ n. One then imposes exactness also for sin(n+1)x, cos(n+1)x, ..., which gives nonlinear equations for the α_i. Hilbert suggests using exponentials, and aims to transfer Gauss's and Jacobi's theory from polynomials to these functions.\n\n[Mine:] Parameter count. 2n+1 free nodes plus 2n+1 weights give 4n+2 parameters. So the natural Gauss analogue is exactness up to trigonometric degree 2n (dimension 4n+1). The modern theorem (Turetskii 1959) states that m+1 nodes with positive weights give exactness for trigonometric degree m on a sub-interval of the period.",
+  "errors": [
+   "Degree mismatch: the page asks for exactness on multiples 1..2n−1. With 2n+1 interpolation nodes the natural Gauss analogue is exactness up to multiple 2n (4n+1 conditions for 4n+2 parameters). The '2n−1' appears carried over from the polynomial case, where there are n nodes rather than 2n+1. This is a slip of formulation, not of mathematics.",
+   "In the final displayed formula the first integral's upper limit was overwritten, and 'dx' is missing or inserted above the line. The intended identity is clearly ∫_0^1 φ dx = Σ A_i ∫_0^1 φ_i dx.",
+   "'offenbar' (obviously) for unique solvability of the interpolation requires the α_i to be distinct mod 2π. This is fine on [0,1] but unstated.",
+   "The functions φ_i are not defined explicitly. Their meaning (Lagrange-type cardinal functions, φ_i(α_j)=δ_ij) is only implicit."
+  ],
+  "results": [
+   {
+    "what": "Gauss quadrature: n nodes exact for polynomials of degree ≤ 2n−1 (recalled)",
+    "modern_name": "Gauss(-Legendre) quadrature",
+    "usually_credited_to": "Gauss 1814; Jacobi 1826 (orthogonal-polynomial interpretation)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Trigonometric interpolation at 2n+1 arbitrary nodes and the resulting interpolatory quadrature with weights ∫φ_i",
+    "modern_name": "Trigonometric Lagrange interpolation / interpolatory trigonometric quadrature",
+    "usually_credited_to": "Gauss (c.1805, Theoria interpolationis), Lagrange",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Research problem: Gaussian-type quadrature (optimal free nodes) for trigonometric polynomials on an interval [0,1] that is a sub-interval of the period",
+    "modern_name": "Trigonometric Gaussian quadrature on sub-intervals of the period",
+    "usually_credited_to": "A. H. Turetskii (1959); later Da Fies & Vianello (2013), Bortolotti et al.",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Only the problem and the standard interpolatory setup appear here, with no solution. The idea is nonetheless natural and non-trivial: Gauss quadrature for trigonometric polynomials on a proper sub-interval of the period. Its first systematic treatment is usually dated to Turetskii (1959). Seeing Hilbert formulate it decades earlier is a modestly interesting unpublished detail, but it is a programme sketch, not a result.",
+  "checkable": [
+   {
+    "sympy": "x,a,b=symbols('x a b'); simplify(expand_trig(sin((x-a)/2)*sin((x-b)/2) - (cos((a-b)/2) - cos(x-(a+b)/2))/2))",
+    "asserts": "A product of two half-angle sines is a trigonometric polynomial of degree 1 in x. So the Gauss-Lagrange cardinal function for 2n+1 nodes, a product of 2n half-angle sines, lies in the span of 1, sin kx, cos kx, k≤n (case n=1). Should simplify to 0."
+   },
+   {
+    "sympy": "x=symbols('x'); al=[Rational(1,5),Rational(1,2),Rational(4,5)]; phi1=sin((x-al[1])/2)*sin((x-al[2])/2)/(sin((al[0]-al[1])/2)*sin((al[0]-al[2])/2)); [simplify(phi1.subs(x,t)) for t in al]",
+    "asserts": "The cardinal function φ_1 takes the values [1, 0, 0] at the nodes α_1, α_2, α_3 (n=1, 2n+1=3 nodes)."
+   },
+   {
+    "sympy": "w,t,om=symbols('w t omega',positive=True); sol=solve([2*w-2*om, 2*w*cos(t)-2*sin(om)],[w,t]); sol",
+    "asserts": "Smallest trigonometric Gauss rule on [-ω,ω]: nodes ±t and weight w exact for 1, cos x, sin x gives w=ω and cos t = sin(ω)/ω. This is a 2-node, degree-1 instance of the problem Hilbert poses (sin x is automatic by symmetry)."
+   },
+   {
+    "sympy": "x=symbols('x'); n=3; N=2*n+1; nodes=[2*pi*j/N for j in range(N)]; [simplify(sum(2*pi/N*cos(k*s) for s in nodes) - integrate(cos(k*x),(x,0,2*pi))) for k in range(0,N)]",
+    "asserts": "Contrast case: on the full period, equally spaced nodes (trapezoidal rule) are exact up to degree N−1. So the problem is only nontrivial on a proper sub-interval such as [0,1], as Hilbert writes. All entries should be 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'zind' should read 'sind'.",
+   "'animmt' is Hilbert's slip for 'annimmt'.",
+   "'cossin.' is an abbreviation for 'Cosinus/cosin.'.",
+   "At the start of the φ(x) display there is a struck-out symbol (looks like φ with a subscript), correctly marked as deleted.",
+   "First integral of the last line: the upper limit is overwritten or scribbled out (apparently intended as 1, matching the other integrals ∫_0^1). It is not clearly π.",
+   "The '(dx)' after the first integrand on the right is written above the line as an insertion; it should be read as ∫_0^1 φ_1(x,α) dx.",
+   "'Sin. und cossin. des 1, 2, 3 ..., 2n−1 fachen Argumentes' is correctly read; '2n−1' is what Hilbert wrote (see errors)."
+  ]
+ }
+}

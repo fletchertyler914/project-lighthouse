@@ -1,0 +1,71 @@
+{
+ "bundle": "600_3",
+ "page": "c133",
+ "label": "[130]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000134/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. On the previous page Hilbert says a computational problem counts as 'solved' only when the number of arithmetic operations is bounded in advance by a number independent of the data. His examples: 1+2+...+n costs n operations, but the closed form n(n+1)/2 costs a fixed number. Likewise sum x^k to a given accuracy costs a number of operations depending on x, while 1/(1-x) costs 3. The key notion is 'Gleichmässigkeit der Berechnung' (uniformity of computation). This page carries the same idea over from computation to proof.\n\n(1) Claim. It is an essential and tangible difference whether a proof uses the Archimedean axiom (Archimedes: for segments a, b there is n with n·a > b). His example is whether Desargues' theorem needs Archimedes or not.\n\n(2) Error thought-experiment. Suppose the axioms hold only approximately, so that each application of an axiom may introduce a small error ε. (My reading: 'so dass ich ... einen kleinen Fehler ε machen kann'.) A derivation with N axiom applications then carries a worst-case error of about N·ε. This accumulation is implicit, not written by Hilbert.\n\n(3) Archimedean proofs. In continuity arguments the number n of uses of Archimedes depends on the data (the kind of numbers, the position of the segments). By suitable choice of data n can be made arbitrarily large, so the accumulated error n·ε is unbounded. Hilbert cites two of his own proofs:\n- his proof of commutativity of multiplication from the other axioms plus Archimedes. This is the Grundlagen 1899 theorem that an Archimedean ordered (Desarguesian) segment arithmetic or skew field is commutative.\n- his proof of the isosceles-triangle (base-angle) theorem using Archimedes. This is the 1902/03 Proc. London Math. Soc. paper / Grundlagen Appendix II, on base angles under weakened congruence.\n\nModern restatement: Archimedes is the infinite disjunction 'n·a > b for some n'. Using it means iterating a construction n times with n data-dependent. A proof using only the first-order axioms is a fixed finite derivation of length L, so error ≤ L·ε uniformly over all figures.\n\n(4) Conclusion. For non-Archimedean reasoning, a fixed number of inferences, independent of the particular figure or case, always suffices to prove a given theorem. The inference is therefore 'uniform' ('gleichmässig'), exactly parallel to the uniform bound on operations on the previous page.\n\n(5) Programme. Devise a general method by which every problem can be formulated definitely. It should then always be decidable whether a problem has been solved, e.g. 'is the three-body problem solved or not?' No indefinite problem statements. A sentence beginning 'If it is demanded to compute something, then ...' continues on the next page.\n\nNo computations appear on this page. It is conceptual, foundational methodology (c. 1902–1905, judging by the base-angle reference).",
+  "errors": [
+   "No mathematical errors; the page is programmatic. Caveat: 'number of applications of Archimedes' must be read as the number of iterations of segment-laying (the n in n·a > b). A formal proof invokes the Archimedean axiom only a fixed number of times; what is unbounded is the data-dependent witness n and the resulting chain of constructions.",
+   "The error-propagation argument (N steps, error ≤ N·ε) is heuristic and left implicit. Hilbert does not specify how an ε-error in an axiom propagates through an inference.",
+   "The sentence 'so dass sich bei jedesmaliger Anwendung ... einen kleinen Fehler machen kann' is ungrammatical as transcribed; 'so dass ich' fits better."
+  ],
+  "results": [
+   {
+    "what": "Distinction between proofs whose length is uniformly bounded independent of the figure (non-Archimedean) and proofs needing a data-dependent number of steps (Archimedean). Motivated by robustness under approximately valid axioms (error ε per step).",
+    "modern_name": "Uniformity / bounded proof length; first-order vs. infinitary (Archimedes as non-first-order) reasoning; proto-idea of proof complexity and robustness",
+    "usually_credited_to": "Later logic: compactness and uniform-bound phenomena (Gödel, Herbrand 1930s; Kreisel's unwinding; Kohlenbach's proof mining). Hilbert's foundations of geometry for the Archimedean-dependence analysis itself.",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Commutativity of multiplication follows from the other axioms plus Archimedes",
+    "modern_name": "Hilbert's theorem: an Archimedean ordered division ring is commutative",
+    "usually_credited_to": "Hilbert, Grundlagen der Geometrie 1899",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Base-angle theorem for isosceles triangles under weakened congruence requires Archimedes",
+    "modern_name": "Hilbert's base-angle independence result",
+    "usually_credited_to": "Hilbert, Proc. London Math. Soc. 1902/03 (Grundlagen Appendix II)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Demand for a general method to formulate every problem definitely and decide whether it has been solved (example: three-body problem)",
+    "modern_name": "Precise problem specification / criteria of solvability; precursor of the Entscheidungsproblem attitude",
+    "usually_credited_to": "Hilbert (Paris 1900 address on solvability of every problem; later Entscheidungsproblem 1928)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The parallel between uniform computational complexity (previous page) and uniform proof length is a notable unpublished articulation. Equally so is the 'approximately valid axioms with error ε per step' argument for why Archimedean reasoning differs. It anticipates later themes (non-first-order character of Archimedes, bounded-length proofs, proof mining). Notebook 600:3 is already known to scholars (e.g. Thiele's discovery of the 24th problem there), and the cited results are Hilbert's published ones. So this is an interesting but not revolutionary detail.",
+  "checkable": [
+   {
+    "sympy": "simplify(summation(k,(k,1,n)) - n*(n+1)/2) == 0",
+    "asserts": "Closed form for the arithmetic series cited on the previous page (uniform number of operations)."
+   },
+   {
+    "sympy": "simplify(summation(x**k,(k,0,oo)).args[0][0] - 1/(1-x)) == 0",
+    "asserts": "Geometric series sum equals 1/(1-x) for |x|<1 (previous-page example)."
+   },
+   {
+    "sympy": "limit(n*eps, n, oo) == oo*sign(eps)",
+    "asserts": "With fixed per-step error eps>0, an unbounded number n of Archimedean steps gives unbounded accumulated error."
+   },
+   {
+    "sympy": "Le(L*eps, L*eps)",
+    "asserts": "A fixed proof length L gives the uniform error bound L*eps, independent of the figure (trivial, formalizing Hilbert's 'gleichmässig')."
+   }
+  ],
+  "transcription_corrections": [
+   "'so dass sich bei jedesmaliger Anwendung' is probably 'so dass ich bei jedesmaliger Anwendung'.",
+   "'des Desargues Satzes [-#-] d. Archimedes' is probably 'des Desargues'schen Satzes den Archimedes' (the struck mark is a correction).",
+   "'Das [-..-] {+gegeben+} Schliessen' is uncertain; the superscript word may be 'gegeben', but the core sentence reads 'Das Schliessen könnte man sagen ist im Nicht Archimedischen Falle ein gleichmässiges'.",
+   "'Methode' in 'Stelle eine allgemeine Methode auf' is overlined/emphasized in the manuscript."
+  ]
+ }
+}

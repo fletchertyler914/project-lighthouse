@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c326",
+ "label": "165r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000327/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a lecture manuscript on Naturphilosophie/mechanics. The previous page covers Joule's experiments on the mechanical equivalent of heat. It also states the principle that the total work done by unknown (molecular, electrical) forces is 0 once all particles return to the same relative positions.\n\n(1) Riemann concludes that the principle may be regarded as experimentally established.\n\n(2) He then reports the second argument used by the founders of the mechanical theory of heat: the impossibility of a perpetuum mobile. Suppose the work W = \\oint \\sum_i (X_i dx_i + Y_i dy_i + Z_i dz_i) over some motion returning the mass system to its initial configuration were not 0. Then one could run that closed path in whichever direction makes W > 0 and repeat it indefinitely. This would produce unlimited work or vis viva without expending any work, which is impossible. Hence \\oint \\sum (X dx + Y dy + Z dz) = 0 for every closed path in configuration space.\n\n(3) Path independence. Take two paths C1 and C2 from configuration a to configuration b. Going out along C1 and back along C2 is a closed path, so \\int_{C1,a}^{b} + \\int_{C2,b}^{a} = 0. Traversing C2 in the opposite direction flips the sign of every element of the integral, so \\int_{C2,b}^{a} = -\\int_{C2,a}^{b}. Therefore \\int_{C1,a}^{b} - \\int_{C2,a}^{b} = 0. These are exactly the marginal formulas \\int_a^b + \\int_b^a = 0 and \\int_a^b - \\int_a^b = 0.\n\n(4) Consequently the work done, counted from a fixed initial configuration, depends only on the final positions of the points of application. It is a function P(x_1, y_1, z_1, ..., x_n, y_n, z_n). The virtual moment (virtual work) for an infinitesimal displacement equals the work done in it: \\sum (X \\delta x + Y \\delta y + Z \\delta z) = \\delta P, so X_i = \\partial P/\\partial x_i, and so on. Riemann calls P 'the potential'. This is the Gauss/Green-era sign convention, i.e. a force function; the modern potential energy is V = -P.\n\n(5) Energy conservation (filled in by me; it is derived explicitly on the next page). From m_i \\ddot x_i = \\partial P/\\partial x_i we get d/dt(\\tfrac12 \\sum m_i v_i^2) = \\sum (X_i \\dot x_i + Y_i \\dot y_i + Z_i \\dot z_i) = dP/dt. Hence \\tfrac12 \\sum m v^2 - P = const.\n\n(6) Interpretation, footnote 4. The sum of actual and potential energy (the English terminology, Rankine/Thomson) is constant in all natural processes. Equivalently, the sum of 'lebendige Kraft' and 'Spannkraft' (Helmholtz 1847) is constant. With V = -P the constant quantity is T + V.",
+  "errors": [
+   "No mathematical errors. The perpetuum-mobile argument is physical, not a proof: it presupposes that the forces depend only on configuration (no velocity/time dependence, no dissipation).",
+   "Path independence and the existence of a single-valued P implicitly require the closed-loop condition for all loops, and a connected configuration space. This is not stated; it is a standard omission for the period.",
+   "Sign convention: P is the force function (work done), so the conserved quantity is T - P. This is consistent with Riemann's convention and is not an error, but P is the negative of the modern potential energy."
+  ],
+  "results": [
+   {
+    "what": "Work around every closed cycle vanishes (impossibility of perpetuum mobile), hence the work integral is path independent",
+    "modern_name": "Conservative force field / path independence of line integrals (exactness of the work 1-form)",
+    "usually_credited_to": "Physical principle: Helmholtz 1847 (Über die Erhaltung der Kraft), building on earlier perpetuum-mobile arguments; mathematical form: Lagrange, Green, Gauss",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Existence of a potential (force function) P with virtual work = dP",
+    "modern_name": "Potential function / force function; exact differential",
+    "usually_credited_to": "Lagrange (1773), Laplace; 'potential' named by Green (1828) and Gauss (1840)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "1/2 Σ m v^2 - P = const; sum of actual and potential energy constant",
+    "modern_name": "Conservation of mechanical energy / first law (energy conservation)",
+    "usually_credited_to": "Mayer (1842), Joule (1843-50), Helmholtz (1847); terminology 'potential energy' Rankine (1853), 'actual energy' Rankine/Thomson",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are standard lecture notes presenting textbook material: the perpetuum-mobile argument, path independence, the potential, and conservation of energy. Riemann explicitly attributes the terminology to the English authors and to Helmholtz. Nothing here is novel.",
+  "checkable": [
+   {
+    "sympy": "t=symbols('t'); m=symbols('m',positive=True); x=Function('x')(t); P=Function('P'); E=Rational(1,2)*m*diff(x,t)**2 - P(x); simplify(diff(E,t).subs(diff(x,t,2), diff(P(x),x)/m))",
+    "asserts": "Along solutions of m x'' = P'(x), d/dt(1/2 m x'^2 - P) = 0 (result 0)"
+   },
+   {
+    "sympy": "s=symbols('s'); x,y=symbols('x y'); P=x**2*y+sin(y); X=diff(P,x); Y=diff(P,y); integrate((X*diff(cos(s),s)+Y*diff(sin(s),s)).subs({x:cos(s),y:sin(s)}),(s,0,2*pi))",
+    "asserts": "The work of a gradient field around a closed loop (unit circle) is 0"
+   },
+   {
+    "sympy": "s=symbols('s'); integrate(((-sin(s))*(-sin(s)) + cos(s)*cos(s)),(s,0,2*pi))",
+    "asserts": "The non-conservative field (X,Y)=(-y,x) has circulation 2*pi around the unit circle, so no potential exists. This is the case the perpetuum-mobile argument excludes."
+   },
+   {
+    "sympy": "s=symbols('s'); x,y=symbols('x y'); P=x**2*y; X=diff(P,x); Y=diff(P,y); I1=integrate((X*1+Y*1).subs({x:s,y:s}),(s,0,1)); I2=integrate((X*2*s+Y*1).subs({x:s,y:s**2}),(s,0,1)); simplify(I1-I2)",
+    "asserts": "The work from (0,0) to (1,1) along two different paths is equal (∫_a^b - ∫_a^b = 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: probably 'Man kann also das Princip wohl als experimentell bewiesen ansehen'. The '[?] ein' is doubtful.",
+   "Perpetuum-mobile sentence: 'dass ins Unendliche unsere Kräfte [?] verrichtete Arbeit oder {+lebendige+} Erzeugung[?]' more likely reads roughly 'dass ins Unendliche unendlich viel Kraft (verrichtete Arbeit oder lebendige Kraft) gewonnen würde, ohne einen Verbrauch von Arbeitskraft'. The insertion above the line is 'lebendige'.",
+   "'Diese Function also das Potential' follows 'Änderung dieser Function' on the same line. The marginal integrals ∫_a^b+∫_b^a=0 and ∫_a^b−∫_a^b=0 belong to the path-independence paragraph.",
+   "In the energy line the deleted word is 'actuellen' and the inserted word 'gesammten'; '(n. Engländern)' and '(n. Helmholtz)' are abbreviations for 'nach'."
+  ]
+ }
+}

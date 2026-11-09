@@ -1,0 +1,63 @@
+{
+ "bundle": "Math.16",
+ "page": "c048",
+ "label": "20r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376639:00000049/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the opening of Gauss's note 'Mutationen des Raumes' (printed in Werke VIII, pp. 357ff., which the editors date to about 1819). The page sets up what we now call quaternion (Euler-Rodrigues) parameters for rotations combined with a uniform dilation.\n\n§1 Definition. A 'mutation' of a space is a displacement of it inside another, fixed space, combined with a uniform enlargement or reduction that preserves similarity. One point O, the 'Nullpunkt', stays fixed. In modern terms the mutation is x -> k*R*x with R in SO(3) and k > 0, i.e. an element of the group R_{>0} x SO(3) of orientation-preserving linear similarities. Gauss says he has long encoded every mutation by four numbers (a,b,c,d), the 'Mutationsscale'.\n\n§2 Meaning of the four numbers. Take orthonormal axes 01, 02, 03 in the fixed space.\n- Put rho = sqrt(b^2+c^2+d^2).\n- The quantities b/rho, c/rho, d/rho are the direction cosines of a line OP with respect to 01, 02, 03. So the unit vector along OP is n = (b,c,d)/rho.\n- OP is the line that keeps the same position before and after the mutation, i.e. the rotation axis.\n- Put k = sqrt(a^2+rho^2) = sqrt(a^2+b^2+c^2+d^2). Gauss calls k the linear magnification of the mutated space.\n- Write a = k cos(theta), rho = k sin(theta). Then 2*theta is the rotation about OP which, combined with the magnification k, produces the mutation.\n\nHence (a,b,c,d) = k*(cos theta, sin theta * n). This is exactly k times the unit quaternion of a rotation by angle 2*theta about n, i.e. the Euler-Rodrigues half-angle parameters scaled by k.\n\nImplicit (mine, not on this page): with the standard quadratic Euler-Rodrigues matrix M(a,b,c,d), the following hold:\n- M fixes the direction (b,c,d).\n- M^T M = (a^2+b^2+c^2+d^2)^2 * I.\n- trace M = 3a^2-b^2-c^2-d^2 = k^2(1+2cos 2theta).\n- Composition of mutations corresponds to quaternion multiplication, which Gauss develops in the following sections of the printed text.\n\nThe page itself contains only the definitions; no computation is carried out.",
+  "errors": [
+   "No outright error on the page; the definitions are self-consistent.",
+   "Caveat: if the mutation is later realised by the polynomial (quadratic) Euler-Rodrigues matrix in a,b,c,d, its linear scale factor is a^2+b^2+c^2+d^2 = k^2, not k. Calling k the 'linear magnification' is consistent only if the matrix is divided by k, or the scale is defined via |q|. This should be checked against the continuation; it cannot be decided from this page.",
+   "The sense (orientation) of the rotation 2*theta about OP is not specified.",
+   "The degenerate case rho = 0 (pure dilation, axis undefined) is not addressed."
+  ],
+  "results": [
+   {
+    "what": "Parametrization of a rotation-plus-uniform-dilation about a fixed point by four numbers (a,b,c,d). The axis has direction cosines (b,c,d)/rho, the magnification is k = sqrt(a^2+b^2+c^2+d^2), and the rotation angle is 2*theta with a = k cos theta, rho = k sin theta.",
+    "modern_name": "Quaternion / Euler-Rodrigues parameters (half-angle representation of SO(3), extended to similarities R_{>0} x SO(3) = H^*/{+-1})",
+    "usually_credited_to": "Euler (1770, quadratic parametrization of orthogonal matrices); Olinde Rodrigues (1840, geometric meaning and composition); Hamilton (1843, quaternions)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Interpretation of the half-angle: the scalar part is k cos(theta) and the vector part is k sin(theta) times the axis, where 2*theta is the rotation angle.",
+    "modern_name": "Half-angle (spinor) representation of rotations",
+    "usually_credited_to": "Rodrigues 1840 / Hamilton-Cayley 1840s",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the well-known Gauss fragment 'Mutationen des Raumes', printed in Werke VIII (1900). It is routinely cited as Gauss's unpublished anticipation of quaternion/Rodrigues parameters (c. 1819). The anticipation of Rodrigues and Hamilton is therefore already credited to Gauss in the literature, and nothing on this page goes beyond the known printed text.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d=symbols('a b c d',real=True); M=Matrix([[a**2+b**2-c**2-d**2,2*(b*c-a*d),2*(b*d+a*c)],[2*(b*c+a*d),a**2-b**2+c**2-d**2,2*(c*d-a*b)],[2*(b*d-a*c),2*(c*d+a*b),a**2-b**2-c**2+d**2]]); simplify(M*Matrix([b,c,d]) - (a**2+b**2+c**2+d**2)*Matrix([b,c,d]))",
+    "asserts": "The direction (b,c,d), i.e. the line OP, is invariant under the mutation (result is the zero vector)."
+   },
+   {
+    "sympy": "simplify(M.T*M - (a**2+b**2+c**2+d**2)**2*eye(3))",
+    "asserts": "The Euler-Rodrigues matrix is a similarity with linear scale a^2+b^2+c^2+d^2 = k^2 (zero matrix). Relevant to whether k or k^2 is the linear magnification."
+   },
+   {
+    "sympy": "k,t=symbols('k theta',positive=True); simplify((3*a**2-b**2-c**2-d**2).subs({a:k*cos(t)}).subs(b**2+c**2+d**2,(k*sin(t))**2) - k**2*(1+2*cos(2*t)))",
+    "asserts": "With a = k cos(theta) and rho = k sin(theta), trace M = k^2(1+2cos 2theta), so the rotation angle is 2*theta (expected 0; may need manual substitution b^2+c^2+d^2 -> k^2 sin^2 theta)."
+   },
+   {
+    "sympy": "simplify(sqrt((k*cos(t))**2+(k*sin(t))**2) - k)",
+    "asserts": "The relations a = k cos(theta), rho = k sin(theta) are consistent with k = sqrt(a^2+rho^2)."
+   },
+   {
+    "sympy": "simplify(((b/sqrt(b**2+c**2+d**2))**2+(c/sqrt(b**2+c**2+d**2))**2+(d/sqrt(b**2+c**2+d**2))**2) - 1)",
+    "asserts": "b/rho, c/rho, d/rho are legitimate direction cosines (squares sum to 1)."
+   }
+  ],
+  "transcription_corrections": [
+   "The struck words in the line after 'Diese gerade Linie,' look like '[-wird in-] [-unbeschadet ihre Punk-/te-]' rather than 'unbeständige'. They are followed by 'haben', corrected to 'hat' by striking 'haben' and inserting a 't'. Intended reading: 'Diese gerade Linie hat in dem bewegten Raume nach der Mutation dieselbe Lage wie vor derselben.'",
+   "'eine [-Linie-] gerade 0P' is correct; the struck word appears to be 'Linie' (or 'linea').",
+   "The marginal '157b/7' and the 'Cd 1' at the upper right are archival/shelf marks, both struck through; they are not part of the text.",
+   "'In dem festen Raume' is written as 'Jndem festen Raume' in the manuscript (one word with initial J); the meaning is 'In dem'.",
+   "'ist k die linearische Vergrösserung des mutirten Raumes' is confirmed; the final word runs into the margin."
+  ]
+ }
+}

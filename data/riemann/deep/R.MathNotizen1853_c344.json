@@ -1,0 +1,59 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c344",
+ "label": "173r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000345/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Content: the page has three groups. (A) A rotated block of formulas on the right. (B) Pencil sketches on the left: a hexagram with vertices numbered 1–9, triangles, a prism or box and an I-shaped figure. These sketches carry no derivation. (C) A Cauchy–Riemann computation in four real variables at the bottom.\n\n(A) Metric in new coordinates. Riemann writes dx^2+dy^2+da^2+db^2 = ds^2 for the Euclidean line element in four real variables x, y, a, b, i.e. R^4 = C^2. He then expands it in new coordinates. The next page names these coordinates rho, s, alpha, beta; that identification is mine, inferred from that page. In modern form, with X = (x, y, a, b) and xi = (xi_1..xi_4):\n  ds^2 = sum_{i,j} g_ij dxi_i dxi_j, where g_ij = sum_k (dX_k/dxi_i)(dX_k/dxi_j).\nHe writes out the terms one at a time: dxi_1^2 (sum of squares), then 2 dxi_1 dxi_2 (sum of products), 2 dxi_1 dxi_3 (...), dxi_2^2 (...), 2 dxi_3 dxi_4 (...), and so on. He breaks off with '+2d...'. This is the pull-back of the flat metric. On the next page it is used to invert the Jacobian, for example d rho/dx = (dx/d rho)/rho'^2 for orthogonal coordinates.\n\n(C) Conjugate function in two complex variables.\n1. He writes the total differential dv = v_x dx + v_y dy + v_a da + v_b db.\n2. He states the Cauchy–Riemann equations in the pair (x, y): u_x = v_y and u_y = -v_x. A first attempt is crossed out.\n3. In complex form: the derivative of u+iv is independent of direction, (du+i dv)/dx = (du+i dv)/(i dy).\n4. He imposes the same equations in the second pair (a, b): u_a = v_b, u_b = -v_a. Combining both gives\n   dv = -u_y dx + u_x dy - u_b da + u_a db.\n   So u+iv is to be holomorphic in z = x+iy and in w = a+ib separately.\n5. For this 1-form to be exact, its mixed partials must agree (my completion of his step). Comparing the dx and da coefficients gives d/da(-u_y) = d/dx(-u_b), i.e. u_ya - u_bx = 0, which is the equation he writes.\n   The remaining integrability conditions, which he does not write, are:\n   - u_xa + u_yb = 0;\n   - u_xx + u_yy = 0;\n   - u_aa + u_bb = 0.\n   Together these say u_{z wbar} = u_{z zbar} = u_{w wbar} = 0, i.e. u is pluriharmonic, the real part of a holomorphic function of two complex variables.\n\nPurpose (from the next page): he sets up a Dirichlet-type integral M = ∫ (u_xa^2 + u_xb^2 + u_ya^2 + u_yb^2) dx dy da db and varies it, using the new coordinates (rho, s, alpha, beta) adapted to a boundary. This is an attempt to carry his Dirichlet-principle approach to complex function theory over to functions of two complex variables.",
+  "errors": [
+   "No mathematical errors on the visible part.",
+   "Only one of the integrability conditions for v is written: u_ya - u_bx = 0. The others (u_xa + u_yb = 0, u_xx + u_yy = 0, u_aa + u_bb = 0) are needed for v to exist but are not stated.",
+   "The metric expansion is incomplete; it breaks off at '+2d...'."
+  ],
+  "results": [
+   {
+    "what": "Euclidean line element of R^4 expressed in curvilinear coordinates: g_ij = sum_k dX_k/dxi_i dX_k/dxi_j",
+    "modern_name": "Pull-back of the flat metric / first fundamental form in n dimensions",
+    "usually_credited_to": "Gauss (2D, 1827); Lamé, Jacobi (curvilinear coordinates)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Cauchy–Riemann equations in each of two complex variables, and the integrability condition u_ya = u_bx for the conjugate function v",
+    "modern_name": "Pluriharmonicity conditions: real part of a holomorphic function of two complex variables (u_{z wbar} = 0)",
+    "usually_credited_to": "Poincaré (1883, 1898) and later Wirtinger and others for the systematic theory of pluriharmonic functions",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Plan (continued on the next page) of a Dirichlet-type variational principle for functions of two complex variables",
+    "modern_name": "Dirichlet principle / boundary-value problem in C^2",
+    "usually_credited_to": "No classical standard credit; the several-variables boundary problem was developed by Poincaré, Levi and later authors",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Cauchy–Riemann equations and metric expansions are routine. Seeing Riemann, around 1853, derive a pluriharmonic integrability condition and apparently try to extend his Dirichlet-principle method to C^2 is a notable unpublished detail. It is still only a fragmentary exploration with no stated theorem.",
+  "checkable": [
+   {
+    "sympy": "x,y,a,b=symbols('x y a b',real=True); u=re(expand((x+I*y)**2*(a+I*b))); simplify(diff(u,y,a)-diff(u,b,x))",
+    "asserts": "Equals 0: the real part of a holomorphic function of z = x+iy and w = a+ib satisfies u_ya - u_bx = 0."
+   },
+   {
+    "sympy": "x,y,a,b=symbols('x y a b',real=True); u=(x**2-y**2)*a-2*x*y*b; [simplify(diff(u,x,a)+diff(u,y,b)), simplify(diff(u,x,2)+diff(u,y,2)), simplify(diff(u,a,2)+diff(u,b,2))]",
+    "asserts": "All three are 0: the remaining integrability conditions for v hold for a pluriharmonic u."
+   },
+   {
+    "sympy": "x,y,a,b=symbols('x y a b',real=True); u=(x**2-y**2)*a-2*x*y*b; v=im(expand((x+I*y)**2*(a+I*b))); [simplify(diff(v,x)+diff(u,y)), simplify(diff(v,y)-diff(u,x)), simplify(diff(v,a)+diff(u,b)), simplify(diff(v,b)-diff(u,a))]",
+    "asserts": "All 0: dv = -u_y dx + u_x dy - u_b da + u_a db, as written on the page."
+   }
+  ],
+  "transcription_corrections": [
+   "The variables in the rotated metric block are probably the new coordinates (rho, s, alpha, beta) used on the next page, i.e. dxi_i dxi_j coefficients. They are not dx dy repeated as the machine transcription suggests.",
+   "The final formula reads ∂²u/(∂y∂a) − ∂²u/(∂b∂x) = 0, as transcribed.",
+   "The left half of the page holds geometric sketches (a hexagram labelled 1–9, triangles, a prism) that the transcription omits."
+  ]
+ }
+}

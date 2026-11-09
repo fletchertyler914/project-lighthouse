@@ -1,0 +1,107 @@
+{
+ "bundle": "Math.17",
+ "page": "c009",
+ "label": "4v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376641:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page continues a table of the decimal expansions of 1/p, the same kind of table as on the previous and next pages. It covers the primes p = 797, 787, 773, 769, 761, 757, 751 and 743, listed in descending order. The previous page covers 823, 821 and 811; the next covers 739 down to 691.\n\nFormat of each entry. The digits of 1/p are written in blocks of ten, starting after the leading zeros. For example, 1/797 = 0.00|1254705144 2910915934 ... Gauss keeps writing until the period begins again, underlines the restart, and adds '...'. The underlined restart is 001 for 797, 0012706480 for 787, 001293661 for 773, 0013003901 for 769, 1314060446 for 761, 00132 for 757, 0013315 for 751 and 0013458950 for 743.\n\nHow the period is read off (my bookkeeping). Take the period length L to be the position, counted from the first decimal place including the two leading zeros, at which the expansion restarts, minus one. Equivalently, L = ord_p(10), the least L with 10^L ≡ 1 (mod p).\n- 797: 197 written digits before the restart '001', plus the 2 leading zeros, give L = 199. Here 796 = 4·199.\n- 787: L should be 393, since 786 = 2·3·131. The written blocks give 392 if all blocks have ten digits, so one block (probably the corrected '5108050825' in line 5) must carry an extra digit.\n- 773: L = 193; 772 = 4·193.\n- 769: L = 192; 768 = 2^8·3.\n- 761: L = 380; 760 = 2·380.\n- 757: L = 27; 756 = 28·27.\n- 751: L = 125; 750 = 6·125.\n- 743: L = 742, so 10 is a primitive root mod 743; 742 = 2·7·53.\n\nHow such a table is computed. It can be produced by ordinary long division, i.e. the remainders r_{k+1} = 10·r_k mod p. Alternatively, as Gauss explains in Disquisitiones Arithmeticae Art. 312-318, it can be produced by combining the periods of a few base fractions via indices. Either way, one period of 1/p gives the decimal expansion of every fraction a/p: it is a cyclic shift of that period, or of one of the (p-1)/L cosets.\n\nPurpose. This is part of Gauss's 'Tafel zur Verwandlung gemeiner Brüche mit Nennern aus dem ersten Tausend in Decimalbrüche', a table for converting common fractions with denominators under 1000 into decimals. It is announced in D.A. Art. 316-317 and printed in Werke II.",
+  "errors": [
+   "787: if every block has ten digits, the written string gives a period of 392. That is impossible, because the period must divide 786, and the correct period is 393. One block, apparently the corrected/overwritten '5108050825' in line 5 (marked with an insertion stroke), must contain an extra digit. This is a transcription or legibility issue, not necessarily an error by Gauss.",
+   "743: the transcription reads one block as 11 digits ('90982503364'). If that were so, the period would come out as 743, which is impossible. The correct period is 742, so either the stray '4' belongs elsewhere or another block is short.",
+   "797 line 3: Gauss visibly corrected a digit ('549[5 over 4]608...'), a self-correction.",
+   "No substantive mathematical errors can be detected beyond these. The leading digits of every entry agree with 1/p."
+  ],
+  "results": [
+   {
+    "what": "Full repeating decimal periods of 1/p for p = 797, 787, 773, 769, 761, 757, 751, 743, with period lengths 199, 393, 193, 192, 380, 27, 125, 742 (= ord_p(10)).",
+    "modern_name": "Tables of decimal periods / multiplicative order of 10 modulo p (repetends of reciprocals of primes)",
+    "usually_credited_to": "Gauss (D.A. 1801, Art. 312-318; table in Werke II). Other tables by J. H. Lambert, J. Burckhardt (1817 table of periods), and later Reuschle, Cunningham.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Observation implicit in the table that 10 is a primitive root mod 743 (period 742) but not mod the other primes on the page.",
+    "modern_name": "Primitive roots / Artin-type data for base 10",
+    "usually_credited_to": "Gauss (D.A. Art. 315-317 and the published table)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a page of Gauss's well-known table of decimal periods of 1/p for primes below 1000. He announced it in Disquisitiones Arithmeticae Art. 316-317 and it was published in Werke II. It is purely computational and routine.",
+  "checkable": [
+   {
+    "sympy": "n_order(10, 797) == 199",
+    "asserts": "Period of 1/797 has length 199"
+   },
+   {
+    "sympy": "n_order(10, 787) == 393",
+    "asserts": "Period of 1/787 has length 393"
+   },
+   {
+    "sympy": "n_order(10, 773) == 193",
+    "asserts": "Period of 1/773 has length 193"
+   },
+   {
+    "sympy": "n_order(10, 769) == 192",
+    "asserts": "Period of 1/769 has length 192"
+   },
+   {
+    "sympy": "n_order(10, 761) == 380",
+    "asserts": "Period of 1/761 has length 380"
+   },
+   {
+    "sympy": "n_order(10, 757) == 27",
+    "asserts": "Period of 1/757 has length 27"
+   },
+   {
+    "sympy": "n_order(10, 751) == 125",
+    "asserts": "Period of 1/751 has length 125"
+   },
+   {
+    "sympy": "n_order(10, 743) == 742",
+    "asserts": "10 is a primitive root mod 743; period of 1/743 is 742"
+   },
+   {
+    "sympy": "floor(10**22/797) == 12547051442910915934",
+    "asserts": "First digits of 1/797 as written"
+   },
+   {
+    "sympy": "floor(10**22/787) == 12706480304955527318",
+    "asserts": "First digits of 1/787 as written"
+   },
+   {
+    "sympy": "floor(10**22/773) == 12936610608020698576",
+    "asserts": "First digits of 1/773"
+   },
+   {
+    "sympy": "floor(10**22/769) == 13003901170351105331",
+    "asserts": "First digits of 1/769"
+   },
+   {
+    "sympy": "floor(10**22/761) == 13140604467805519053",
+    "asserts": "First digits of 1/761"
+   },
+   {
+    "sympy": "(10**27 - 1)/757 == 1321003963011889035667107",
+    "asserts": "The complete 27-digit period of 1/757 is 001321003963011889035667107"
+   },
+   {
+    "sympy": "floor(10**22/751) == 13315579227696404793",
+    "asserts": "First digits of 1/751"
+   },
+   {
+    "sympy": "floor(10**22/743) == 13458950201884253028",
+    "asserts": "First digits of 1/743"
+   }
+  ],
+  "transcription_corrections": [
+   "797 line 3: the block reads '5495608531' (and similar), with 5 written over 4. The '[?]' marks are a correction, not illegible digits.",
+   "787 line 5: the last block '5108050825' carries an insertion/overwrite mark. For the period to be 393 it must contain 11 digits (one digit inserted).",
+   "787 last block: underlined repeat '0012706480' (the start of the period 00127064803...).",
+   "743 line 2, last block: transcribed as '90982503364' (11 digits). Given that the period is 742, the digit count is inconsistent; check the image (likely '9098250336' with a separate or misread trailing mark).",
+   "The marginal '5' and '10' in the 743 entry are Gauss's line counters, not part of the digit string."
+  ]
+ }
+}

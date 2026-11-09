@@ -1,0 +1,57 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c044",
+ "label": "21r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000045/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page finishes the proof of Satz 3 of Art. 8 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1854, published posthumously by Dedekind in 1867) and opens Art. 9.\n\nSatz 3 states: if the coefficients a_n, b_n tend to 0, then mu^2 * Int_b^c F(x) cos mu(x-a) lambda(x) dx -> 0 as mu -> infinity. Here F(x) = C + C'x + A_0 x^2/2 - sum_{n>=1} A_n(x)/n^2 is Riemann's twice-integrated series, and lambda, lambda' vanish at b and c.\n\nSet-up from the previous page:\n- Phi is the series with general term -(mu^2/n^2) Int A_n cos mu(x-a) lambda dx.\n- Each product cos mu(x-a) A_n is split as B_{mu+n} + B_{mu-n}, with B'' = -(mu +/- n)^2 B.\n- Two integrations by parts turn the general term into mu^2/(n^2 (mu+n)^2) Int B_{mu+n} lambda'' dx + mu^2/(n^2 (mu-n)^2) Int B_{mu-n} lambda'' dx.\n- Each integral Int B_{mu +/- n} lambda'' dx -> 0 uniformly in n.\n\nThis page:\n\n(1) Excluded terms. Leave aside the finitely many n with -c' < n < c'' or mu - c''' < n < mu + c^{IV}. Each of these terms tends to 0: the factor mu^2/(mu +/- n)^2 stays bounded, n is bounded or comparable to mu, and the integral tends to 0. (The n = 0 term, i.e. A_0, is treated separately in Riemann's set-up.)\n\n(2) Remaining terms. |Phi_rest| <= sum' mu^2/((mu-n)^2 n^2) * max_n |Int B_{mu +/- n} lambda'' dx|. The maximum tends to 0, so it suffices that the sum stays bounded. For the terms with mu+n the analogous sum mu^2/((mu+n)^2 n^2) is handled the same way or is dominated; this is implicit and my addition.\n\n(3) Boundedness, for constants c > 1:\n- Rewrite mu^2/((mu-n)^2 n^2) = (1/mu) * (1/mu) / ((1-n/mu)^2 (n/mu)^2).\n- So the sum is (1/mu) times a Riemann sum, with step 1/mu, of g(x) = 1/(x^2 (1-x)^2) at the points x = n/mu.\n- g has no interior maximum on each piece (it is monotone on each side of 0 and of 1, decreasing on (0,1/2), increasing on (1/2,1)). So each sample value is the minimum of g on an adjacent cell of length 1/mu, and the lower sum is at most the integral.\n- Shifting the cut-offs by one cell gives the limits (-inf, -(c'-1)/mu), ((c''-1)/mu, 1-(c'''-1)/mu), (1+(c^{IV}-1)/mu, inf). Hence c > 1 is needed.\n\n(4) The integral:\n- Partial fractions: 1/(x^2(1-x)^2) = 1/x^2 + 2/x + 1/(1-x)^2 + 2/(1-x).\n- Antiderivative: -1/x + 1/(1-x) + 2 log x - 2 log(1-x) (absolute values understood).\n- At the inner limits the rational parts give O(mu), which times 1/mu is O(1). The logarithms give O(log mu), which times 1/mu tends to 0.\n- So the bound stays finite as mu -> infinity. Hence Phi -> 0, which proves Satz 3.\n\n(5) Art. 9, I: a necessary condition for representability.\n- Suppose a 2pi-periodic f is represented by a trigonometric series whose terms tend to 0 at every x.\n- Then there must exist a continuous F with [F(x+a+b) - F(x+a-b) - F(x-a+b) + F(x-a-b)]/(4ab) -> f(x) as a, b -> 0 with a/b bounded.\n- This is Satz 1 applied to Riemann's F. The second condition, from Satz 3, continues on the next page.",
+  "errors": [
+   "No substantive error.",
+   "Minor imprecisions: absolute values are omitted in the logarithms of the antiderivative, and Phi is bounded in absolute value rather than by 'kleiner als'.",
+   "The sum with (mu+n)^2 in the denominator is not discussed explicitly. It is dominated by the same kind of estimate, so this is harmless.",
+   "The claim that g 'nowhere has a maximum' between the integration limits is correct piecewise: g is monotone on (-inf,0) and (1,inf), and has only a minimum at x=1/2 on (0,1)."
+  ],
+  "results": [
+   {
+    "what": "Bounding sum over n of mu^2/((mu-n)^2 n^2), with neighbourhoods of n=0 and n=mu removed, by (1/mu) times an integral of 1/(x^2(1-x)^2); the sum stays bounded as mu -> infinity",
+    "modern_name": "integral-comparison (Riemann-sum) estimate of a lattice sum; step in the proof of Riemann's second lemma (localization/Riemann's Satz 3)",
+    "usually_credited_to": "Riemann, Habilitationsschrift 1854 (publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Necessary condition for representability: existence of continuous F whose symmetric second difference quotient Delta^2 F/(4 alpha beta) tends to f",
+    "modern_name": "Riemann's first lemma / Riemann summability theory of trigonometric series (Riemann's theory of trigonometric series)",
+    "usually_credited_to": "Riemann 1854/1867",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a manuscript page of Riemann's published Habilitationsschrift on trigonometric series (Art. 8 end, Art. 9 beginning). The content matches the 1867 published text and is well known as his.",
+  "checkable": [
+   {
+    "sympy": "simplify(mu**2/((mu-n)**2*n**2) - (1/mu)*(1/mu)/((1-n/mu)**2*(n/mu)**2))",
+    "asserts": "the rewriting of the summand equals 0, i.e. the identity holds"
+   },
+   {
+    "sympy": "simplify(diff(-1/x + 1/(1-x) + 2*log(x) - 2*log(1-x), x) - 1/(x**2*(1-x)**2))",
+    "asserts": "Riemann's antiderivative is correct (result 0)"
+   },
+   {
+    "sympy": "apart(1/(x**2*(1-x)**2), x)",
+    "asserts": "partial fractions 1/x**2 + 2/x + 1/(x-1)**2 - 2/(x-1)"
+   },
+   {
+    "sympy": "N(Sum(Rational(10**6)**2/((10**6-n)**2*n**2), (n, 2, 10**6-2)))",
+    "asserts": "the truncated sum stays bounded (about 2*zeta(2) ~ 3.3) for large mu = 10**6, illustrating boundedness"
+   }
+  ],
+  "transcription_corrections": [
+   "The integrals in the manuscript use the round d ('\\partial x'), as on the previous page, not 'dx'.",
+   "In the rewriting, the image could be read as '\\frac{1}{\\mu}\\sum\\frac{\\mu}{...}'. The correct and published form, consistent with the subsequent integral bound, is (1/mu) * sum (1/mu)/((1-n/mu)^2 (n/mu)^2), as transcribed.",
+   "The integral on the page is written '\\frac{1}{\\mu}\\int\\frac{dx}{(1-x)^2 x^2}' first and later 'x^2(1-x)^2'; both appear in the image and the transcription is fine."
+  ]
+ }
+}

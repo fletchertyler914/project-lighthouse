@@ -1,0 +1,68 @@
+{
+ "bundle": "Math.28",
+ "page": "c049",
+ "label": "25r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000050/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Heading: 'Fundamental theorem for the integration of the differential equations of dynamics.' The theorem is Poisson's theorem proved by means of the Jacobi identity. The next page ends 'Nach Hamilton ...' and is signed 'J.', so the note is almost certainly by C.G.J. Jacobi, or Gauss's copy of a communication from Jacobi, rather than Gauss's own work.\n\n(1) Let U, V be arbitrary functions of q_1..q_m, p_1..p_m. Define the Poisson bracket [U,V] = sum_{i=1}^m (dU/dq_i dV/dp_i - dU/dp_i dV/dq_i). If W is any third function of the same variables, then identically [U,[V,W]] + [V,[W,U]] + [W,[U,V]] = 0. This is the Jacobi identity, stated without proof on the page.\n\n(2) Take the canonical (Hamiltonian) system dq_i/dt = dH/dp_i, dp_i/dt = -dH/dq_i.\n- [Step implicit, mine:] for a function U(q,p) not depending explicitly on t, dU/dt = sum(U_qi q_i' + U_pi p_i') = sum(U_qi H_pi - U_pi H_qi) = [U,H].\n- Hence U = const is a first integral iff [U,H] = 0 identically. The '= 0' is omitted on the page for U but written for V.\n- If V = const is a second integral, then [V,H] = 0.\n- By (1) with W = H: [H,[U,V]] = -[U,[V,H]] - [V,[H,U]] = -[U,0] - [V,0] = 0. This line is on the next page.\n- So [U,V] = const is a third integral (Poisson's theorem).\n\nThe next page adds two claims:\n- Continuing in this way one 'in general' obtains all the integrals.\n- By Hamilton, the dynamical equations can always be brought into this form when conservation of vis viva holds.",
+  "errors": [
+   "After [U,H] the '= 0' is omitted (slip); it is supplied for [V,H] = 0.",
+   "Implicit restriction: 'identically [U,H] = 0' presupposes U has no explicit t-dependence. Otherwise the condition is dU/dt + [U,H] = 0. The theorem still holds in that case, but the stated form does not cover it.",
+   "The Jacobi identity is asserted without proof.",
+   "Next page: 'one generally obtains all integrals' is overstated. Iterated brackets frequently give constants, functions of known integrals, or nothing new (as Jacobi and Bertrand later recognized).",
+   "Next page: tying Hamiltonian form to conservation of vis viva is too restrictive or loose. Hamilton's canonical form holds for any system with a force function, including time-dependent ones; energy conservation is a consequence for time-independent H, not the condition for canonical form."
+  ],
+  "results": [
+   {
+    "what": "Identity [U,[V,W]]+[V,[W,U]]+[W,[U,V]]=0 for Poisson brackets",
+    "modern_name": "Jacobi identity (Poisson bracket Lie algebra)",
+    "usually_credited_to": "C.G.J. Jacobi, c. 1838-1842 (Nova methodus, published posthumously 1862; announced in letters and notes c. 1840)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "First integral criterion dU/dt=[U,H]=0 for canonical equations",
+    "modern_name": "Poisson bracket characterization of conserved quantities",
+    "usually_credited_to": "Poisson (1809), Hamilton (1834-35), Jacobi",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Bracket of two first integrals is a first integral",
+    "modern_name": "Poisson's theorem (Poisson-Jacobi theorem)",
+    "usually_credited_to": "S.D. Poisson 1809; Jacobi gave the proof via the Jacobi identity and the name 'Fundamentaltheorem' c. 1840",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the standard Poisson-Jacobi theorem in Jacobi's own formulation and terminology ('Fundamentaltheorem', 'Nach Hamilton'), and the note is signed 'J.'. It is almost certainly a note by or from Jacobi preserved among Gauss's papers, not an original Gauss result. Its presence documents Gauss-Jacobi contact on Hamiltonian dynamics, which is of mild archival interest only.",
+  "checkable": [
+   {
+    "sympy": "q1,q2,p1,p2=symbols('q1 q2 p1 p2'); U,V,W=[Function(n)(q1,q2,p1,p2) for n in 'UVW']; PB=lambda A,B: sum(diff(A,q)*diff(B,p)-diff(A,p)*diff(B,q) for q,p in [(q1,p1),(q2,p2)]); simplify(PB(U,PB(V,W))+PB(V,PB(W,U))+PB(W,PB(U,V)))==0",
+    "asserts": "Jacobi identity holds for arbitrary functions (m=2)"
+   },
+   {
+    "sympy": "t=symbols('t'); q=Function('q')(t); p=Function('p')(t); H=Function('H'); U=Function('U'); expr=diff(U(q,p),t).subs({diff(q,t):diff(H(q,p),q.diff(t)*0+q) if False else Derivative(H(q,p),p), diff(p,t):-Derivative(H(q,p),q)}); simplify(expr-(Derivative(U(q,p),q)*Derivative(H(q,p),p)-Derivative(U(q,p),p)*Derivative(H(q,p),q)))==0",
+    "asserts": "Along Hamilton's equations dU/dt = [U,H] (m=1)"
+   },
+   {
+    "sympy": "x,y,z,px,py,pz=symbols('x y z px py pz'); PB=lambda A,B: sum(diff(A,a)*diff(B,b)-diff(A,b)*diff(B,a) for a,b in [(x,px),(y,py),(z,pz)]); Lx=y*pz-z*py; Ly=z*px-x*pz; Lz=x*py-y*px; simplify(PB(Lx,Ly)-Lz)==0",
+    "asserts": "Example of Poisson's theorem: bracket of integrals Lx, Ly of a central-force problem gives the integral Lz"
+   },
+   {
+    "sympy": "r=sqrt(x**2+y**2+z**2); H=(px**2+py**2+pz**2)/2+Function('f')(r); [simplify(PB(L,H)) for L in (Lx,Ly,Lz)]==[0,0,0]",
+    "asserts": "Lx, Ly, Lz are first integrals ([L,H]=0) for a central potential"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 of the theorem reads 'Es seien U, V irgend welche Functionen von'; 'U,V' is inserted above, and the original word before 'Functionen' is struck and replaced by 'welche'.",
+   "'so[?] ist identisch' — in the image the word looks like '1, ist identisch' or 'so ist identisch'; sense is 'so ist identisch'.",
+   "After '[U, H]' the image shows only ';' (followed by 'i'/semicolon); the '= 0' is genuinely missing in the manuscript, not a transcription loss.",
+   "The struck word after 'identisch' (transcribed 'gleich[?]') is illegible; it is not essential.",
+   "The struck fragment before [U,V] appears to be a false start of the bracket definition (∂U/∂q_1 ∂V/∂p_1), not ∂H.",
+   "The next page's signature 'J.' indicates authorship by Jacobi; the hand also differs from Gauss's usual script."
+  ]
+ }
+}

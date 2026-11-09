@@ -1,0 +1,73 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c049",
+ "label": "24v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000050/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): Riemann computes the potential on the axis of a thin circular plate of radius R and thickness 2ε. The point is at distance x from the near face, so the far face is at distance x+2ε. He uses φ = arctan(R/x) and φ' = arctan(R/(x+2ε)). Then x·secφ = √(x²+R²) and (x+2ε)·secφ' = √((x+2ε)²+R²).\n\nThe assumed charge has two parts. (a) A uniform layer of density P on each face; this gives V1. (b) An 'edge-type' layer of density P1·R/√(R²−r²) on each face, i.e. the density of a free conducting disc; this gives V2. On the previous page the basic integral ∫_0^R r dr/√((R²−r²)(r²+x²)) = arctan(R/x) gives V2 = 2πP1·R(φ+φ').\n\nThe uniform part, with my reconstruction of the bracket, is V1 = 2πP[x(secφ−secφ') − 2ε·secφ' + 2ε]. This equals 2πP[(√(x²+R²) − x) − (√((x+2ε)²+R²) − (x+2ε))], i.e. two uniform discs at distances x and x+2ε with opposite sign. The final '+2ε' is cut off at the margin of this page but is needed for the later result.\n\nOn this page he inserts the densities P = ρ(1+2ε/R) and P1·R = ρε (the coefficient is written 2πρε/R with the R apparently struck). This gives\nV = 2πρ(1+2ε/R)[x(secφ−secφ') − 2ε·secφ' + 2ε] + 2πρε(φ+φ').\n\nCrossed-out attempt: he tried to approximate secφ − secφ' ≈ 2ε·sinφ, which would give V ≈ 4πρεx·sinφ − 4πρε·secφ + 4πρε + (8πρε²/R)x·sinφ − … He abandoned this (see errors).\n\nMain computation: the value at x = 0, the centre of the near face.\n- As x→0: x·secφ = √(x²+R²) → R and x·secφ' → 0, so x(secφ−secφ') → R.\n- 2ε·secφ' = √(R²+4ε²) ≈ R.\n- Hence the bracket → R − R + 2ε = 2ε, and the first term becomes 4περ(1+2ε/R).\n- φ → π/2 and φ' = arctan(R/2ε) ≈ π/2, so φ+φ' ≈ π and the second term becomes 2περ·π.\n- Dropping the small correction gives 4περ + 2π²ερ = 2περ(2 + 3.1415…).\n- He writes this as 8περ(1 + 2ε/R + 0.28…), using (2+π)/4 = 1.2854.\n\nThe final grey/pencil note 'folgen Berechnungen über die Dichtigkeit an einer Kugel vom Radius r' (followed by calculations on the density on a sphere of radius r) is a later or archival annotation announcing the next sheet. The purpose is an approximate electrostatic potential (capacity-type estimate) for a thin charged plate or condenser plate.",
+  "errors": [
+   "The crossed-out approximation secφ − secφ' ≈ 2ε·sinφ is wrong, even dimensionally. To first order in ε, secφ − secφ' ≈ 2εR²/(x²√(x²+R²)) = (2ε/x)·sinφ·tanφ. Riemann struck the passage.",
+   "Final line: 4περ(1+2ε/R) + 2π²ερ = 8περ(1 + ε/R + (π/4 − 1/2)) = 8περ(1.2854… + ε/R). The ε/R correction should carry coefficient 1, not 2, inside the 8περ bracket. The numerical constant 0.28… = π/4 − 1/2 = 0.2854 is correct.",
+   "Small corrections are silently dropped at x = 0. These are 2ε·secφ' = √(R²+4ε²) = R + 2ε²/R + …, and φ' = π/2 − 2ε/R + …, which makes φ+φ' = π − 2ε/R. The latter is of the same order as the retained 2ε/R term, so keeping 2ε/R while dropping it is inconsistent.",
+   "The bracket term '+2ε' needed for the x = 0 result is not visible on this page (cut at the margin). On the previous page the term is transcribed as '−2ε secφ + 2ε', where secφ should be secφ'."
+  ],
+  "results": [
+   {
+    "what": "Axial potential of uniformly charged discs: 2πσ(√(x²+R²) − x), written with φ = arctan(R/x)",
+    "modern_name": "on-axis potential of a uniformly charged disc",
+    "usually_credited_to": "classical (Laplace/Poisson era potential theory)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Axial potential of the conductor-type density R/√(R²−r²): 2π·arctan(R/x), from ∫_0^R r dr/√((R²−r²)(r²+x²)) = arctan(R/x)",
+    "modern_name": "potential of the equilibrium charge on a conducting disc (Green/Cavendish disc density)",
+    "usually_credited_to": "Green (1828) and others; standard in 19th-c. electrostatics",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Approximate potential at the centre of a thin plate of thickness 2ε: V ≈ 2περ(2+π) = 8περ(1.285…)",
+    "modern_name": "approximate capacity estimate for a thin charged plate",
+    "usually_credited_to": "routine calculation",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine electrostatic potential computation in Riemann's early (c.1853) physics notes, contemporary with his interest in electricity. No new mathematics; minor slips.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(r/sqrt((R**2-r**2)*(r**2+x**2)),(r,0,R)) - atan(R/x))  # with R,x positive",
+    "asserts": "basic integral equals arctan(R/x) (expected 0)"
+   },
+   {
+    "sympy": "limit(x*(sqrt(1+R**2/x**2)-sqrt(1+R**2/(x+2*e)**2)), x, 0, '+')",
+    "asserts": "x(secφ−secφ') → R at x=0 (expected R)"
+   },
+   {
+    "sympy": "simplify(2*e*sqrt(1+R**2/(2*e)**2) - sqrt(R**2+4*e**2))",
+    "asserts": "2ε secφ' at x=0 equals √(R²+4ε²) ≈ R (expected 0, e>0)"
+   },
+   {
+    "sympy": "N(2*pi*(2+pi)/(8*pi))",
+    "asserts": "2περ(2+π) = 8περ·1.2854"
+   },
+   {
+    "sympy": "expand(4*pi*e*rho*(1+2*e/R)+2*pi**2*e*rho - 8*pi*rho*e*(1+e/R+pi/4-Rational(1,2)))",
+    "asserts": "correct form has ε/R, not 2ε/R, inside the 8περ bracket (expected 0)"
+   },
+   {
+    "sympy": "series(sqrt(1+R**2/x**2)-sqrt(1+R**2/(x+2*e)**2), e, 0, 2)",
+    "asserts": "first-order term is 2εR²/(x²√(x²+R²)), not 2ε sinφ"
+   }
+  ],
+  "transcription_corrections": [
+   "First line: the bracket ends '−2ε secφ' + 2ε' (the '+2ε' is partly cut off at the right margin), consistent with the x=0 evaluation giving 4περ(1+2ε/R).",
+   "Second-term coefficient: the image shows 2πρε over a struck R, i.e. effectively 2πρε(φ+φ'), consistent with the later term 2περπ.",
+   "'4επρ(1+2ε/R)(' is followed by a struck symbol, then '+ 2περπ'; the line '+2περ·π = 2περ(2+3,1415…)' appears to be a restatement or simplification, not an additional term.",
+   "The final note in grey ink/pencil ('folgen Berechnungen über die Dichtigkeit an einer Kugel vom Radius r') is in a different, probably later or archival, hand."
+  ]
+ }
+}

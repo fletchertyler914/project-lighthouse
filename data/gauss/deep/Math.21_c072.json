@@ -1,0 +1,66 @@
+{
+ "bundle": "Math.21",
+ "page": "c072",
+ "label": "37r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000073/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Nothing on the page is a derivation; it is a finished numerical table. My decoding is below, and every step was checked against the entries.\n\nLayout. Rows are labelled by three-digit endings r = 001, 101, ..., 901, then 021, 121, ..., 921, then 041, ..., 441. Every row label is congruent to 1 mod 20. Columns k = 0, ..., 9 give the thousands digit, so each cell belongs to the four-digit integer N = 1000k + r. Column 0 holds a 7-digit number, written as 5 digits plus 2 separated digits. Columns 1-9 hold only 5 digits. As in an ordinary logarithm table where the leading figures are shared, here the TRAILING two figures are common to the whole row and are printed once in column 0.\n\nWhat is tabulated (my identification). Each entry is\n  L(N) = log_10adic(N)/10 mod 10^7, with log(1+x) = x - x^2/2 + x^3/3 - ...\nThe series is evaluated 10-adically, i.e. 2-adically and 5-adically at once, and reduced mod 10^8. For N = 1 mod 20 the series converges 10-adically and its value is divisible by 20, so all L are even (true of every two-digit tail on the page).\n\nGroup-theoretic meaning (my addition). log is an isomorphism from (1+20Z) mod 10^8 onto 20Z mod 10^8. That group is cyclic of order 64 * 78125 = 5*10^6. So L/2 is the index (discrete logarithm) of N in the unit group of numbers = 1 mod 20 modulo 10^8. The base g is the 10-adic exp(20), which converges both 2-adically and 5-adically.\n\nVerifications (mine):\n(a) Row 001. The series gives log(1+1000k) = 1000k - 500000k^2 mod 10^8, because the cubic term 10^9k^3/3 vanishes. Hence L = 100(k - 500k^2) mod 10^7: the five figures are k - 500k^2 mod 10^5 and the tail is 00. This reproduces 99501, 98002, 95503, ..., 59509 exactly.\n(b) Row 101, column 0. log(101) = 100 - 5000 + 10^6/3 - 10^8/4 + ... mod 10^8. Since 1/3 = 67 mod 100, this is 100 - 5000 + 67000000 - 25000000 = 41995100. Dividing by 10 gives 4199510, which is the entry 41995 10.\n(c) Tails. log(1+100a)/10 = 10a mod 100, giving 10, 20, ..., 90 for rows a01. For 21: log(21) = 20 - 200 = -180 mod 1000, giving 82. For 121: log(121) = 120 - 7200 = 920 mod 1000, giving 92. Both match.\n(d) Columns. Write c = 1/r mod 10^5. Then L(r+1000k) = L(r) + 100(ck - 500c^2k^2) mod 10^7. So within each row the first differences of the 5-figure parts fall by exactly 1000c^2 mod 10^5. Every one of the 25 rows obeys this:\n  - rows 001-901: second difference -1000;\n  - rows x21: second difference -61000 (since 1/21^2 = 61 mod 100);\n  - rows x41: second difference -21000.\n  The linear coefficients agree too, e.g. 9901 = 1/101 and 39801 = 1/201 mod 10^5, and 52381 for r = 21 (21*52381 = 1100001).\n(e) Multiplicativity. L(441) = 5987164 = 2*L(21) = 2*2993582, consistent with 441 = 21^2.\n\nPurpose. The page appears to be one sheet of a larger index/'logarithm' table for multiplication and division of residues mod 10^8. The rows stop at 441, and the folio number 38 suggests continuation elsewhere. Such a table would let one multiply, divide, extract roots or solve exponential congruences modulo 10^8 by addition. The entries were almost certainly built by the difference scheme: constant second differences per row.",
+  "errors": [
+   "No arithmetic errors found: all 25 rows have exactly the predicted constant second differences, the column-0 values checked (101, tails of 21, 121, 441=21^2) agree with the 10-adic logarithm series."
+  ],
+  "results": [
+   {
+    "what": "Table of L(N) = log(N)/10 mod 10^7 for N = 1000k + r, r = 1 mod 20, where log is the logarithmic series evaluated 10-adically (simultaneously 2-adic and 5-adic) mod 10^8; equivalently the index of N in the cyclic group (1+20Z)/(1+10^8 Z) with base exp(20)",
+    "modern_name": "p-adic (here 10-adic, i.e. 2-adic x 5-adic) logarithm / discrete-logarithm (index) table for the unit group mod 10^8",
+    "usually_credited_to": "Index tables: Gauss (Disquisitiones, 1801) for primes, Jacobi's Canon Arithmeticus (1839). The p-adic logarithm as a systematic object: Hensel (1897-1908), with Kummer's logarithmic derivatives as a precursor",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Construction of rows by constant second differences: L(r+1000k) = L(r) + 100*(k/r - 500 k^2/r^2) mod 10^7, i.e. a truncated log(1+x) series in the 10-adic metric",
+    "modern_name": "Truncated p-adic Taylor expansion of log / method of differences",
+    "usually_credited_to": "standard (difference method is classical)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 5,
+  "surprise_reason": "Index tables are well known as Gauss's. Here, though, the index for the composite modulus 10^8 has its base chosen so that the index equals the logarithmic power series evaluated 10-adically. That is an explicit computational use of a 2-adic/5-adic logarithm, decades before Kummer and Hensel. It is a notable unpublished detail, not a new theorem; it may be known to Nachlass specialists, and I am unsure whether it is in the literature.",
+  "checkable": [
+   {
+    "sympy": "sum(((-1)**(n+1)*Rational(100**n, n)).p * mod_inverse(((-1)**(n+1)*Rational(100**n, n)).q, 10**8) for n in range(1, 40)) % 10**8 == 41995100",
+    "asserts": "10-adic log(101) = 41995100 mod 10^8, so L(101) = 4199510 (entry '41995 10')"
+   },
+   {
+    "sympy": "(sum(((-1)**(n+1)*Rational(20**n, n)).p * mod_inverse(((-1)**(n+1)*Rational(20**n, n)).q, 10**8) for n in range(1, 60)) % 10**8) // 10 == 2993582",
+    "asserts": "L(21) = 2993582 (entry '29935 82')"
+   },
+   {
+    "sympy": "(sum(((-1)**(n+1)*Rational(440**n, n)).p * mod_inverse(((-1)**(n+1)*Rational(440**n, n)).q, 10**8) for n in range(1, 60)) % 10**8) // 10 == 5987164",
+    "asserts": "L(441) = 5987164 = 2*L(21) (entry '59871 64')"
+   },
+   {
+    "sympy": "[(k - 500*k**2) % 10**5 for k in range(10)] == [0, 99501, 98002, 95503, 92004, 87505, 82006, 75507, 68008, 59509]",
+    "asserts": "Row 001: L(1+1000k)/100 = k - 500k^2 mod 10^5"
+   },
+   {
+    "sympy": "[(41995 + 9901*k - 500*k**2) % 10**5 for k in range(10)] == [41995, 51396, 59797, 67198, 73599, 79000, 83401, 86802, 89203, 90604]",
+    "asserts": "Row 101 entries, with 9901 = 1/101 mod 10^5"
+   },
+   {
+    "sympy": "[(29935 + 52381*k - 500*52381**2*k**2) % 10**5 for k in range(10)] == [29935, 1816, 12697, 62578, 51459, 79340, 46221, 52102, 96983, 80864]",
+    "asserts": "Row 021 entries, with 52381 = 1/21 mod 10^5"
+   },
+   {
+    "sympy": "(101*9901) % 10**5 == 1 and (201*39801) % 10**5 == 1 and (21*52381) % 10**5 == 1",
+    "asserts": "Linear coefficients are reciprocals of the row labels"
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription agrees with the image; every row passes the second-difference test, so no digit errors were detected.",
+   "The row label after 001 is '101' (the first digit is blotted in the image).",
+   "Column 0 should be read as one 7-digit number (e.g. 4199510). Its last two figures are the common tail for the whole row, not a separate column."
+  ]
+ }
+}

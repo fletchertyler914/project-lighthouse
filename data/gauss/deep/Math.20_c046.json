@@ -1,0 +1,86 @@
+{
+ "bundle": "Math.20",
+ "page": "c046",
+ "label": "23r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000047/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a reused wrapper: the address side of a parcel cover from the Berlin Academy, dated 25 Nov 1842 and addressed to Gauss in Göttingen. It carries two unrelated groups of numerical work.\n\n(A) Root-finding blocks (upper half, right margin, and the upside-down part). Every block has the same scheme. For a trial value x the page gives:\n- 4x (written with '+400', meaning 4x grows by 400 units of 1e-5 when x grows by 0.001);\n- a tabulated decreasing function f(x), with its tabular difference per 0.001 (-57, -54, -48, -45, -36, -27, -21, ...);\n- the difference 4x - f(x), with the combined slope (400 + |Δf|, e.g. 457, 454, 448, 445, 433, 427, 421);\n- the discrepancy from a target c, followed by a linear-interpolation (Newton / regula-falsi) correction to x.\nSo Gauss is solving 4x - f(x) = c for several values of c.\n\nThe tabulated values of f are:\n- f(0.605)=0.28896, f(0.610)=0.28599, f(0.619)=0.28071, f(0.620)=0.28014\n- f(0.646)=0.26541, f(0.647)=0.26487\n- f(0.680)=0.24720, f(0.690)=0.24207\n- f(0.725)=0.22485, f(0.779)=0.20049, f(0.780)=0.20004\n- f(0.845)=0.17400, f(0.855)=0.17071\n- f(0.920)=0.14793, f(0.990)=0.12693, f(1.001)=0.12390, f(1.106)=0.09828\n\nI could not identify f in closed form. It behaves roughly like log10 of a quantity of order 1 + 0.33/x^2, but no simple formula fits. Its origin is unknown to me.\n\nThe blocks (my reading):\n1. c = 2.19369. At x=0.620: 2.48000 - 0.28014 = 2.19986, excess 617, slope 457. At x=0.619: 2.47600 - 0.28071 = 2.19529, excess 160, slope 460. Hence x ≈ 0.619 - 0.160/460·... = 0.61865.\n2. Implied c = 2.31823 (= 2.32313 - 0.00490). At x=0.647: 2.58800 - 0.26487 = 2.32313, excess 490. At x=0.646: 2.58400 - 0.26541 = 2.31859, excess 36. With slope 454, x ≈ 0.64592.\n3. c = 3.53209. At x=0.920: 3.68000 - 0.14793 = 3.53207, residual 2, so x ≈ 0.92000.\n4. c = 3.87821. At x=0.990: 3.96000 - 0.12693 = 3.83307, deficit 4514. At x=1.001: 4.00400 - 0.12390 = 3.88010, excess 189. With slope 427, 189/427 = 0.44, so x ≈ 1.00056.\n5. c = 2.67249. At x=0.725: 2.90000 - 0.22485 = 2.67515, excess 266. With slope 448, 266/448 = 0.59, so x ≈ 0.72441.\n6. c ≈ 2.91618. At x=0.780: 3.12000 - 0.20004 = 2.91996. At x=0.779: 3.11600 - 0.20049 = 2.91551. The final correction (written 64, 14) gives x ≈ 0.77914 to 0.77915.\n7. Margin block. At x=1.106 (transcribed '1406'): 4.42400 - 0.09828 = 4.32572, slope 421. The target is uncertain (perhaps 4.31186).\n8. Upside-down blocks:\n   - c = 2.12838. At x=0.610: 2.44000 - 0.28599 = 2.15401, excess 2563. At x=0.605: 2.42000 - 0.28896 = 2.13104, excess 266. With slope 460, x ≈ 0.60442.\n   - At x=0.690: 2.76000 - 0.24207 = 2.51793, excess 4414. At x=0.680: 2.72000 - 0.24720 = 2.47280, deficit 99. With slope 451, x ≈ 0.68022 (target 2.47379).\n   - At x=0.855: 3.42000 - 0.17071, then a deficit of 4504. At x=0.845: 3.38000 - 0.17400 = 3.20600, residual 195. Neither the target nor the final value is clear.\n\n(B) Trigonometric/logarithmic block (lower left). The angles are 22°30', 67°30', 112°30', 157°30' (θ = 22.5°(2k-1)). For each, Gauss computes three columns:\n- 1.4 + cos θ = 2.3238795, 1.7826834, 1.0173166, 0.4761205;\n- log10 of these = 0.3662136, 0.2510742, 0.0074561, 9.6777168 (i.e. -10);\n- 3·log = 1.0986408, 0.7532226, 0.0223683, 9.0331504 (the column at the right, partly misread in the transcription).\n\nThe next page repeats this for θ = 15, 75, 105, 165; 30, 60, 120, 150; 37.5, 52.5, 127.5, 142.5; 82.5, 97.5. That is, Gauss refines an equally spaced (trapezoid/midpoint) mechanical quadrature over the half circle for (1.4 + cos θ)^{±3}.\n\nCheck with the 4 nodes (my computation):\n- The mean of the cubes is 19.372/4 = 4.843. The exact mean of (a + cos θ)^3 is a^3 + 3a/2 = 4.844 for a = 1.4, so the 4-node mean agrees to the precision of the 7-place logarithms.\n- The mean of the inverse cubes is about 2.618, against the exact (2a^2+1)/(2(a^2-1)^(5/2)) = 2.724. This explains why more nodes are added on the next page.\n\nThe numbers 2.2210163 and 3.2270163 (the latter on the next page) are probably log-sums, but I cannot interpret them securely.",
+  "errors": [
+   "Block 0.855: 3.42000 - 0.17071 = 3.24929, but the transcription reads 3.24969. This is either a slip or a misreading.",
+   "f(0.845)=0.17400 is inconsistent with f(0.855)=0.17071 and a tabular difference of -36 per 0.001; the expected value is about 0.17431. It could also be a misreading; the arithmetic 3.38000 - 0.17400 = 3.20600 is consistent with what is written.",
+   "In block 6 the written correction '64' does not exactly match 2.91551 vs 2.91618 (difference 67); the target may have been 2.91615.",
+   "Otherwise every subtraction checked (2.19986, 2.19529, 2.32313, 2.31859, 3.53207, 3.83307, 3.88010, 2.67515, 2.91996, 2.91551, 4.32572, 2.47280, 2.13104, 2.51793, 2.15401) and every logarithm is correct."
+  ],
+  "results": [
+   {
+    "what": "Iterative solution of 4x - f(x) = c by trial values, tabular differences and linear-interpolation correction, for about 9 values of c.",
+    "modern_name": "Secant / regula falsi (Newton with finite-difference derivative)",
+    "usually_credited_to": "Classical (regula falsi, Newton-Raphson)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Evaluation of 1.4 + cos θ and its log and 3·log at equally spaced nodes θ = 22.5°(2k-1), to average a power of (a + cos θ) over the circle.",
+    "modern_name": "Trapezoidal/midpoint rule for periodic integrands (mechanical quadrature)",
+    "usually_credited_to": "Classical; spectral accuracy noted much later (e.g. Poisson; Davis 1959)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine numerical work: root-finding by interpolation and logarithmic tabulation for an equally spaced quadrature. The underlying physical or mathematical problem is not identifiable from this page.",
+  "checkable": [
+   {
+    "sympy": "4*Rational(620,1000) - Rational(28014,100000) - Rational(219986,100000)",
+    "asserts": "4·0.620 - 0.28014 = 2.19986 (gives 0)"
+   },
+   {
+    "sympy": "4*Rational(1001,1000) - Rational(12390,100000) - Rational(388010,100000)",
+    "asserts": "4·1.001 - 0.12390 = 3.88010 (gives 0)"
+   },
+   {
+    "sympy": "4*Rational(605,1000) - Rational(28896,100000) - Rational(213104,100000)",
+    "asserts": "4·0.605 - 0.28896 = 2.13104 (gives 0)"
+   },
+   {
+    "sympy": "Rational(342000,100000) - Rational(17071,100000)",
+    "asserts": "equals 3.24929, not 3.24969"
+   },
+   {
+    "sympy": "N(log(Rational(14,10)+cos(pi/8),10),8)",
+    "asserts": "≈ 0.3662136"
+   },
+   {
+    "sympy": "N(log(Rational(14,10)+cos(3*pi/8),10),8)",
+    "asserts": "≈ 0.2510742"
+   },
+   {
+    "sympy": "N(log(Rational(14,10)-cos(3*pi/8),10),8)",
+    "asserts": "≈ 0.0074561"
+   },
+   {
+    "sympy": "N(log(Rational(14,10)-cos(pi/8),10)+10,8)",
+    "asserts": "≈ 9.6777168"
+   },
+   {
+    "sympy": "N(sum((Rational(14,10)+cos((2*k-1)*pi/8))**3 for k in range(1,5))/4,8)",
+    "asserts": "4-node mean of (1.4+cosθ)^3 ≈ 4.844 = 1.4**3 + 3*1.4/2"
+   },
+   {
+    "sympy": "N((2*Rational(196,100)+1)/(2*(Rational(196,100)-1)**Rational(5,2)),8)",
+    "asserts": "exact mean of (1.4+cosθ)^(-3) ≈ 2.7243, for comparison with the node averages"
+   }
+  ],
+  "transcription_corrections": [
+   "Angles '12.30, 11.30, 7.30, 15.30' should read 22.30, 67.30, 112.30, 157.30 (degrees.minutes).",
+   "'2.23287 2.95' should read 2.3238795; '1.782683 4' is 1.7826834.",
+   "'0.0974561' should read 0.0074561.",
+   "'1.9677168' should read 9.6777168.",
+   "The column '1.6986808, 0.2722226, 0.2722683, 9.6331504' is most likely 1.0986408, 0.7532226, 0.0223683, 9.0331504 (3·log values).",
+   "'1406' in the right margin is the trial value 1.106 (4·1.106 = 4.424).",
+   "'47280 +451' is 2.47280.",
+   "'605 2.42000 +40' should read 0.605 ... +460 (slope)."
+  ]
+ }
+}

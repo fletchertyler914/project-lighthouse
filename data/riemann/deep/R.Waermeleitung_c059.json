@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c059",
+ "label": "31v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000060/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is scratch work for Riemann's 1861 Paris prize essay on heat conduction (the 'Commentatio mathematica ...'). The previous page is the Latin text of that essay. It classifies the cases in which the temperature u in a homogeneous body depends only on t and two variables alpha, beta. The page itself treats the case where u is linear in alpha.\n\n(1) General reduced equation. When u depends on (alpha, beta, t), the heat equation becomes an equation of the form\n  u_t = p u_bb + q u_b + r u_ab + s u_a\n(plus a u_aa term, which is dropped). Riemann imposes u_aa = 0. Here p, q, r, s are functions of alpha and beta.\n\n(2) Ansatz. u_aa = 0 means u = alpha*a(beta,t) + b(beta,t). Riemann lists the needed derivatives:\n- u_t = alpha a_t + b_t\n- u_b = alpha a_b + b_b\n- u_bb = alpha a_bb + b_bb\n- u_ab = a_b\n- u_a = a\n\n(3) Constraints on the coefficients. Differentiate the equation twice in alpha, using that u_aa and every derivative containing alpha twice vanish. The right side gives u_taa = 0, so\n  p_aa u_bb + q_aa u_b + 2 p_a u_bba + (2 q_a + r_aa) u_ab + s_aa u_a = 0.\nRiemann's implicit next step (my filling): treat u_bb, u_b, u_bba, u_ab, u_a as independent. Then\n- p_a = 0, so p = p(beta);\n- q_aa = 0, so q = k alpha + k1;\n- 2 q_a + r_aa = 0, so r = -k alpha^2 + m alpha + n;\n- s_aa = 0, so s = l alpha + (const in alpha).\nRiemann writes that last constant as 'q', reusing a letter. The coefficients k, k1, m, n, l, q, p are functions of beta.\n\n(4) Side calculation on the right of the page: the gauge freedom alpha = k alpha' + s, with k, s functions of beta. This substitution preserves linearity of u in alpha. From dalpha = k dalpha' + (alpha' k_b + s_b) dbeta, Riemann derives the change of partial derivative\n  (du/dbeta)_alpha = (du/dbeta)_alpha' - (alpha' k_b + s_b)(1/k) du/dalpha'.\nThe purpose (my reading) is to normalise some coefficients by such a change of variable.\n\n(5) Substitute the ansatz into the equation:\n  (-k alpha^2 + m alpha + n) a_b + (l alpha + q) a + p(alpha a_bb + b_bb) + (k alpha + k1)(alpha a_b + b_b) = alpha a_t + b_t.\nThe alpha^2 terms cancel (-k a_b + k a_b). Comparing powers of alpha gives the coupled linear parabolic system\n  a_t = p a_bb + (k1 + m) a_b + k b_b + l a\n  b_t = p b_bb + k1 b_b + n a_b + q a.\nThis reduces the 'two-variable, linear in alpha' case to a system for two functions of (beta, t).",
+  "errors": [
+   "Not an error but unjustified: concluding p_a = 0, q_aa = 0, 2q_a + r_aa = 0 and s_aa = 0 from one identity assumes u_bb, u_b, u_bba, u_ab, u_a are independent. That is natural for a general family of solutions but is not argued.",
+   "Notational slips: 'du/dalpha dalpha = k dalpha' + ...' and 'du/dbeta dbeta = dbeta' carry spurious du factors. They should simply read dalpha = k dalpha' + (alpha' k_b + s_b) dbeta and dbeta = dbeta. The resulting derivative formula is nevertheless correct.",
+   "The letter q is reused: it is the coefficient function q = k alpha + k1 and also the constant term in s = l alpha + q. The final system uses the latter meaning ('+ q a').",
+   "In the substituted equation Riemann first wrote (-2k alpha + m), i.e. r_a, as a factor and struck it out. The corrected line is right.",
+   "All other steps check: the twice-differentiated identity, the alpha^2 cancellation, and the two component equations are correct."
+  ],
+  "results": [
+   {
+    "what": "Reduction of the heat equation for temperatures depending on t and two variables, with u linear in alpha. The coefficient structure p(beta), q linear, r quadratic with r_aa = -2 q_a, s linear is forced, giving a coupled 2x2 linear parabolic system for a(beta,t), b(beta,t).",
+    "modern_name": "Ansatz / partial-symmetry reduction of a linear parabolic PDE; reduction to a coupled linear system",
+    "usually_credited_to": "Riemann, Commentatio mathematica (Paris prize essay 1861, publ. 1876), for this specific problem; the general method is standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Transformation alpha = k(beta) alpha' + s(beta) and the induced change of partial derivative in beta.",
+    "modern_name": "Change of independent variables / chain rule (gauge freedom of the linear ansatz)",
+    "usually_credited_to": "standard calculus",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine scratch computation supporting the classification of two-variable temperature distributions that Riemann announces in his 1861 Paris prize essay, which was published in his Werke. Nothing goes beyond what the essay itself states.",
+  "checkable": [
+   {
+    "sympy": "al,be,t=symbols('alpha beta t'); a=Function('a')(be,t); b=Function('b')(be,t); p=Function('p')(be); k=Function('k')(be); k1=Function('k1')(be); m=Function('m')(be); n=Function('n')(be); l=Function('l')(be); q0=Function('q0')(be); u=al*a+b; E=p*diff(u,be,2)+(k*al+k1)*diff(u,be)+(-k*al**2+m*al+n)*diff(u,al,be)+(l*al+q0)*diff(u,al)-diff(u,t); P=Poly(expand(E),al); simplify(P.coeff_monomial(al**2))==0",
+    "asserts": "the alpha^2 terms cancel for this choice of coefficients"
+   },
+   {
+    "sympy": "simplify(P.coeff_monomial(al) - (p*diff(a,be,2)+(k1+m)*diff(a,be)+k*diff(b,be)+l*a-diff(a,t)))==0 and simplify(P.coeff_monomial(1) - (p*diff(b,be,2)+k1*diff(b,be)+n*diff(a,be)+q0*a-diff(b,t)))==0",
+    "asserts": "the alpha^1 and alpha^0 coefficients give Riemann's system for a_t and b_t"
+   },
+   {
+    "sympy": "al,be,t=symbols('alpha beta t'); u=Function('u'); P,Q,R,S=[Function(N)(al,be) for N in 'PQRS']; U=Function('U')(be,t); V=Function('V')(be,t); uu=al*U+V; E=P*diff(uu,be,2)+Q*diff(uu,be)+R*diff(uu,al,be)+S*diff(uu,al)-diff(uu,t); simplify(diff(E,al,2) - (diff(P,al,2)*diff(uu,be,2)+diff(Q,al,2)*diff(uu,be)+2*diff(P,al)*diff(uu,be,2,al)+(2*diff(Q,al)+diff(R,al,2))*diff(uu,al,be)+diff(S,al,2)*diff(uu,al)))==0",
+    "asserts": "the twice-alpha-differentiated identity written on the page holds when u_aa = 0"
+   },
+   {
+    "sympy": "ap,be=symbols('alphap beta'); k=Function('k')(be); s=Function('s')(be); F=Function('F'); al_expr=k*ap+s; G=F(al_expr,be); simplify(diff(G,be) - (Subs(diff(F(symbols('x'),be),be),symbols('x'),al_expr).doit() + (ap*diff(k,be)+diff(s,be))*Subs(diff(F(symbols('x'),be),symbols('x')),symbols('x'),al_expr).doit()))==0",
+    "asserts": "(du/dbeta)_alpha' = (du/dbeta)_alpha + (alpha' k_b + s_b) du/dalpha, equivalent to Riemann's formula since du/dalpha' = k du/dalpha"
+   }
+  ],
+  "transcription_corrections": [
+   "Line '\\frac{\\partial u}{\\partial\\alpha}d\\alpha=k\\,d\\alpha'+...' : the leading du/dalpha appears to be a stray or struck symbol; the intended relation is dalpha = k dalpha' + (alpha' dk/dbeta + ds/dbeta) dbeta.",
+   "Line '\\frac{\\partial a}{\\partial\\beta} \\frac{\\partial a}{\\partial\\alpha}a[?]' : this most likely records u_ab = a_b and u_a = a, i.e. 'da/dbeta' and 'a', with a struck/garbled symbol before a.",
+   "First ansatz line: in the image it reads alpha da/dt + db/dt, with a struck 'beta' under the first t.",
+   "s = l alpha + q : the final symbol is overwritten in the image; it is used later as the constant 'q' in '+ q a'.",
+   "The struck '(-2k alpha + m)' under (-k alpha^2 + m alpha + n) in the long equation is r_a, written by mistake and deleted."
+  ]
+ }
+}

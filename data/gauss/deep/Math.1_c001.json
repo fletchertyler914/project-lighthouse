@@ -1,0 +1,71 @@
+{
+ "bundle": "Math.1",
+ "page": "c001",
+ "label": "[1v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000002/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is the second of three consecutive sheets that together form one table. It continues the previous page's title, 'Quadratorum numeris primis divisorum residua lateralia' (roughly, the 'side' or root values for which squares leave prime residues). Rows are the prime moduli p = 3, 5, 7, ..., 181, grouped in blocks of seven. Columns are the primes q = 97, 101, ..., 223. Page 1 has q = 2..89 and page 3 has q = 227..359.\n\nThe page contains no computation, only a grid. A small circle at (row p, column q) means that q is a quadratic residue mod p. In modern terms the circle means the Legendre symbol (q/p) = +1, i.e. x^2 ≡ q (mod p) is solvable.\n\nSpot checks (mine) confirm this reading:\n- Row 3: circles exactly at the q ≡ 1 (mod 3): 97, 103, 109, 127, 139, 151, 157, 163, 181, 193, 199, 211, 223.\n- Row 5: circles at q ≡ ±1 (mod 5): 101, 109, 131, 139, 149, 151, 179, 181, 191, 199, 211.\n- Row 7: circles at q ≡ 1, 2, 4 (mod 7): 107, 109, 113, 127, 137, 149, 151, 163, 179, 191, 193, 197, 211.\n- Row 11: circles at 97, 103, 113, 137, 157, 163, 179, 181, 191, 199, 223.\n- Row 13: circles at 101, 103, 107, 113, 127, 131, 139, 157, 173, 179, 181, 191, 199, 211.\n- Rows such as 103 and 127 match symbols computed by reciprocity, e.g. (103/127) = -(127/103) = -(24/103) = +1.\n\nWhere row and column prime coincide (p = q = 97, 101, 103, 107, 109, 113, 127, ...), a circle is drawn. Gauss evidently counts q ≡ 0 as a square residue.\n\nHorizontally or vertically adjacent circles are joined by short strokes. This produces chains and closed rectangles; a closed rectangle appears when (q/p) = (q'/p) = (q/p') = (q'/p') = 1 for neighbouring entries. Strokes run off the left edge (e.g. rows 73, 79, 89, 97, 101, 109, 167) and off the right edge (rows 53, 67, 89, 101, 163, 181, ...). They link to columns 89 and 227 on the neighbouring sheets, which confirms that the three sheets form one continuous chart.\n\nPurpose: this is an empirical, visual table of quadratic characters of primes with respect to prime moduli. It is the kind of inductive material from which Gauss says (Disquisitiones Arithmeticae, art. 131 and the historical remarks there; Tagebuch entry 2, 8 April 1796) he discovered and checked the fundamental theorem, i.e. quadratic reciprocity. Within the overlap 97 ≤ p, q ≤ 181, the reciprocity pattern can be read off by comparing (p,q) with (q,p). It is also related to DA Tabula II, which gives quadratic characters of small primes against prime moduli, though that table is laid out differently.\n\nNothing on the page is derived; it is a compiled table.",
+  "errors": [
+   "Possible omission (uncertain from the image): (107/103) = (4/103) = +1, so a circle is expected at row 103, column 107. The image appears to show circles in row 103 only at columns 97, 103, 131, 137, 139, 149. This should be checked on the original.",
+   "No other discrepancies found in the spot-checked rows 3, 5, 7, 11, 13, 97, 101, 103, 107, 109, 113, 127."
+  ],
+  "results": [
+   {
+    "what": "Table of the quadratic character (q/p) = +1 for primes q from 97 to 223 against prime moduli p from 3 to 181, displayed graphically as circles joined by lines; part of a three-sheet chart covering q up to 359",
+    "modern_name": "Table of Legendre symbols / quadratic residue table of primes",
+    "usually_credited_to": "Such tables were compiled by Euler, Legendre and Gauss; Gauss's empirical route to quadratic reciprocity (1795-96) is well documented",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Graphical device of connecting neighbouring residue entries into chains and rectangles to visualise the pattern of quadratic characters",
+    "modern_name": "Visual/heuristic display of a Legendre-symbol matrix",
+    "usually_credited_to": "unsure",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "It is a computational table of quadratic residues of primes, consistent with Gauss's well-known inductive work toward quadratic reciprocity in 1795-96. The graphical linking is a curiosity but contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "from sympy import legendre_symbol; Q=[97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223]; [q for q in Q if legendre_symbol(q,3)==1] == [97,103,109,127,139,151,157,163,181,193,199,211,223]",
+    "asserts": "Row 3 circles are exactly at the residues mod 3"
+   },
+   {
+    "sympy": "[q for q in Q if legendre_symbol(q,5)==1] == [101,109,131,139,149,151,179,181,191,199,211]",
+    "asserts": "Row 5 circles"
+   },
+   {
+    "sympy": "[q for q in Q if legendre_symbol(q,7)==1] == [107,109,113,127,137,149,151,163,179,191,193,197,211]",
+    "asserts": "Row 7 circles"
+   },
+   {
+    "sympy": "[q for q in Q if legendre_symbol(q,11)==1] == [97,103,113,137,157,163,179,181,191,199,223]",
+    "asserts": "Row 11 circles"
+   },
+   {
+    "sympy": "[q for q in Q if legendre_symbol(q,13)==1] == [101,103,107,113,127,131,139,157,173,179,181,191,199,211]",
+    "asserts": "Row 13 circles"
+   },
+   {
+    "sympy": "legendre_symbol(107,103) == 1",
+    "asserts": "A circle is expected at row 103, column 107 (possibly missing in the manuscript)"
+   },
+   {
+    "sympy": "[q for q in [97,101,107,109,113,127,131,137,139,149] if legendre_symbol(q,103)==1] == [97,107,131,137,139,149]",
+    "asserts": "Row 103 entries among the first columns, excluding the diagonal"
+   },
+   {
+    "sympy": "legendre_symbol(103,127) == 1 and legendre_symbol(127,103) == -1",
+    "asserts": "Reciprocity sign pattern for two primes both ≡ 3 mod 4, visible within the table"
+   }
+  ],
+  "transcription_corrections": [
+   "The circled '2' at top left is the sheet number; this is sheet 2 of a three-sheet table (sheet 3 is marked with a red '3', and a large red '2' is in the centre of this sheet).",
+   "A circle at (p,q) means q is a quadratic residue mod p, i.e. Legendre symbol (q/p) = 1; diagonal cells p = q are also marked.",
+   "Connecting strokes run off the left and right margins in several rows (e.g. 73, 79, 89, 97, 101, 109, 167 on the left; 53, 67, 89, 101, 163, 181 on the right), continuing the figures onto the adjacent sheets."
+  ]
+ }
+}

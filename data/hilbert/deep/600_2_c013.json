@@ -1,0 +1,72 @@
+{
+ "bundle": "600_2",
+ "page": "c013",
+ "label": "[8]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000014/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "(a) Lines 1-2 end a question begun on the previous page. If one approximates a definite root of an equation (for instance a transcendental number such as e or π) by a root of a quadratic equation, what does the other root approach? Hilbert speculates that it might approach e^2 or 2π. No computation is given. It is a heuristic question about the conjugate root of quadratic approximants.\n\n(b) Saalschütz proved by direct computation that the Maclaurin series f(x) = exp(-1/(1-x)) = Σ a_n x^n converges at every point of the unit circle. Hilbert says this follows from Fourier series theory and refers to his own 'Übungen zur Integralrechnung'. The steps are as follows.\n- Put x = e^{iφ}. Since 1 - e^{iφ} = -2i sin(φ/2) e^{iφ/2}, one gets 1/(1-e^{iφ}) = 1/2 + (i/2) cot(φ/2) (this intermediate step is mine).\n- Hence f(e^{iφ}) = exp(-1/2 - (i/2)cot(φ/2)) = e^{-1/2}[cos(cot(φ/2)/2) - i sin(cot(φ/2)/2)], which is the formula on the page.\n- The boundary function is bounded, with modulus e^{-1/2}. It is smooth except at φ = 0, where it oscillates infinitely often.\n- Implicit and mine: f is a bounded analytic function in the disc, because Re 1/(1-x) > 1/2 for |x| < 1, so |f| < e^{-1/2}. Therefore the a_n are the Fourier coefficients of the boundary function.\n- By Riemann localization, the Fourier series, i.e. the power series on |x| = 1, then converges at every φ ≠ 0 to the boundary value.\n- The point x = 1 itself needs separate treatment, as the next page says. In fact a_n = e^{-1} L_n^{(-1)}(1) and the partial sums equal e^{-1} L_n(1), which tends to 0. So the series also converges at x = 1, with sum 0.\n\n(c) General statement, continued on the next page. Suppose only finitely many singular points lie on the circle of convergence. Suppose that at each of them the function, approached along the periphery, becomes infinite of order lower than the first. Then the power series converges at every non-singular point of the circle; convergence at the singular points needs special study. The intended mechanism is the same: the boundary function is integrable with a finite set of bad points, and Fourier localization applies.",
+  "errors": [
+   "The trigonometric identity and the formula for exp(-1/(1-e^{iφ})) are correct.",
+   "The Fourier argument silently needs two further facts: that the power series coefficients coincide with the Fourier coefficients of the boundary values, and that the boundary values are attained (an H^1/H^∞-type condition). For exp(-1/(1-x)) this holds because the function is bounded in the disc, but Hilbert does not state it.",
+   "The general theorem as worded is false. It places the growth condition only on approach along the periphery. Counterexample: g(x) = exp(1/(1-x)) has |g(e^{iφ})| = e^{1/2}, bounded on the circle with one singular point x = 1. Yet its coefficients e·L_n^{(-1)}(-1) grow roughly like exp(2√n), so the series diverges everywhere on |x| = 1. A correct version needs a growth bound such as |f(x)| ≤ C|x-x0|^{-α} with α < 1 in the disc near each singular point, not just on the circle.",
+   "The e^2 / 2π remark is pure speculation with no basis. For a generic quadratic approximation of a number, the other root does not converge to any particular related constant."
+  ],
+  "results": [
+   {
+    "what": "Convergence of the power series of exp(-1/(1-x)) at every point of the unit circle, derived from Fourier series theory via x = e^{iφ} and 1/(1-e^{iφ}) = 1/2 + (i/2)cot(φ/2)",
+    "modern_name": "Boundary convergence of a bounded analytic function's Taylor series via Fourier localization (Riemann localization principle); the coefficients are Laguerre numbers L_n^{(-1)}(1)/e",
+    "usually_credited_to": "L. Saalschütz (direct computation, 1880s); the Fourier method is standard (Riemann localization, Fatou 1906)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "General criterion: finitely many boundary singularities of growth order < 1 imply convergence of the power series at all regular boundary points",
+    "modern_name": "Precursor of Fatou's and M. Riesz's theorems on convergence at regular boundary points (Fatou 1906; M. Riesz 1916, under a_n → 0) and of Pringsheim-type results",
+    "usually_credited_to": "P. Fatou (1906), M. Riesz (1916), A. Pringsheim",
+    "already_credited_to_author": "no",
+    "routine": false
+   },
+   {
+    "what": "Question whether the conjugate root of quadratic approximants to e or π tends to e^2 or 2π",
+    "modern_name": "Algebraic (quadratic) approximation of transcendental numbers; heuristic only",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "This is a young Hilbert's notebook entry from the Königsberg circle around Saalschütz. It gives a slick Fourier-series proof of Saalschütz's result and formulates a general boundary-convergence criterion that anticipates Fatou and M. Riesz (1906-1916). However, the criterion is stated loosely and is false as worded, since a growth bound in the disc is needed. It is a notable unpublished anticipation, not a major result.",
+  "checkable": [
+   {
+    "sympy": "simplify((1/(1-exp(I*phi))).rewrite(cos) - (Rational(1,2) + I/2*cot(phi/2)))",
+    "asserts": "1/(1-e^{iφ}) = 1/2 + (i/2)cot(φ/2); should simplify to 0"
+   },
+   {
+    "sympy": "N((exp(-1/(1-exp(I*phi))) - exp(-Rational(1,2))*(cos(cot(phi/2)/2) - I*sin(cot(phi/2)/2))).subs(phi, 0.7))",
+    "asserts": "The formula on the page at a sample point φ = 0.7; should be ≈ 0"
+   },
+   {
+    "sympy": "[series(exp(-1/(1-x)),x,0,8).coeff(x,n) - exp(-1)*assoc_laguerre(n,-1,1) for n in range(8)]",
+    "asserts": "The Taylor coefficients are a_n = e^{-1} L_n^{(-1)}(1); all entries should be 0"
+   },
+   {
+    "sympy": "[simplify(sum(exp(-1)*assoc_laguerre(k,-1,1) for k in range(n+1)) - exp(-1)*laguerre(n,1)) for n in range(8)]",
+    "asserts": "The partial sums at x = 1 equal e^{-1} L_n(1), which tends to 0, so the series converges at x = 1"
+   },
+   {
+    "sympy": "simplify(Abs(exp(Rational(1,2) + I/2*cot(phi/2))) - exp(Rational(1,2)))",
+    "asserts": "The counterexample exp(1/(1-x)) has constant modulus e^{1/2} on the unit circle; should give 0"
+   },
+   {
+    "sympy": "[N(exp(1)*assoc_laguerre(n,-1,-1)) for n in (10,50,100)]",
+    "asserts": "The coefficients of exp(1/(1-x)) grow without bound, so its series diverges on |x| = 1"
+   }
+  ],
+  "transcription_corrections": [
+   "After 'Wenn man' there is a struck-out word (rendered [-...-]); the text continues 'x = e^{iφ} setzt'.",
+   "'Fourriers' is Hilbert's own spelling (i.e. Fourier's); 'Uebun-gen zur Integralrechnung' is correct.",
+   "Otherwise the machine transcription matches the image, including 'Hi-neingehn', 'längs' and 'niedrer Ordnung'."
+  ]
+ }
+}

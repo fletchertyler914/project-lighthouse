@@ -1,0 +1,78 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c125",
+ "label": "61v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000126/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of §8 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published by Dedekind in 1867). Case I: the terms A_n = a_n sin nx + b_n cos nx tend to 0 (the coefficients a_n, b_n tend to 0), and A_0 = b_0/2. The page continues from the previous one, where F(x) = C + C'x + A_0 x^2/2 - sum_{n>=1} A_n/n^2 is formed by integrating each term of Omega twice.\n\n(a) Convergence and continuity of F. Let N be the partial sum through -A_n/n^2, R = -sum_{k>n} A_k/k^2 the remainder, and eps = sup_{m>n}|A_m|. Then |R| <= eps * sum_{k>n} 1/k^2 < eps/n. So the series converges. Continuity: the change of F is the change of N plus the change of R. First choose n so that R is small for every x. Then choose the increment of x so small that the change of the finite, continuous sum N is small. In modern terms this is uniform convergence, giving a continuous limit; hence F is integrable everywhere.\n\n(b) Lehrsatz 1 (Riemann's first lemma). If Omega converges at x to f(x), then\nDelta(alpha,beta) = [F(x+alpha+beta) - F(x+alpha-beta) - F(x-alpha+beta) + F(x-alpha-beta)]/(4 alpha beta) -> f(x)\nas alpha, beta -> 0 with beta/alpha bounded.\n\nComputation, term by term:\n- For e^{inx}, the double difference equals e^{inx}(2cos n(alpha+beta) - 2cos n(alpha-beta)) = -4 sin(n alpha) sin(n beta) e^{inx}.\n- So each -A_n/n^2 contributes A_n (sin n alpha/(n alpha))(sin n beta/(n beta)).\n- The term A_0 x^2/2 contributes 4 alpha beta A_0.\n- The linear terms cancel.\nHence Delta = A_0 + sum_n A_n (sin n alpha/(n alpha))(sin n beta/(n beta)).\nFor beta = alpha this reads [F(x+2alpha) - 2F(x) + F(x-2alpha)]/(4alpha^2) = sum_n A_n c_n, where c_n = (sin n alpha/(n alpha))^2 and c_0 = 1.\n\nProof for beta = alpha via Abel summation:\n- Write S_n = A_0 + ... + A_{n-1} = f + eps_n, with eps_n -> 0. Choose m so that |eps_n| < delta for n > m.\n- Then A_n = eps_{n+1} - eps_n, and (my filled step) eps_0 = -f with c_0 = 1.\n- This gives sum A_n c_n = f + sum_{n>=1} eps_n (c_{n-1} - c_n). The boundary term eps_{N+1} c_N -> 0.\n- Take alpha with m alpha < pi and let s = floor(pi/alpha). Split the series into three parts:\n  1. n = 1..m: finitely many terms, each -> 0 as alpha -> 0.\n  2. n = m+1..s: since sin t/t decreases on (0, pi), c_{n-1} - c_n > 0. The sum telescopes, so |part 2| < delta (c_m - c_s) <= delta.\n  3. n > s: treated on the next page. The bound is delta(1/(s alpha)^2 + 1/(s alpha)) -> delta(1/pi^2 + 1/pi).\n- Hence the limsup of the remainder is at most delta(1 + 1/pi + 1/pi^2) for every delta, so it is 0.\n\nThe general case beta ≠ alpha is reduced on the next page to the symmetric case. The added marginal note says it is advisable to state some lemmas about F in advance, so as not to interrupt the course of the investigation.",
+  "errors": [
+   "'den grössten Werth von A_m' and 'eps_n < delta' must be read in absolute value (|A_m|, |eps_n|).",
+   "Continuity argument: 'R small, was auch x sei' needs eps independent of x. Defining eps as the max of A_m at a fixed x does not give that; one needs sup over x, e.g. |A_m| <= |a_m| + |b_m| -> 0, i.e. the coefficient hypothesis. This is a minor gap in wording, not in substance.",
+   "The Abel-summation rewrite silently uses eps_0 = -f, c_0 = 1, and the vanishing of the boundary term eps_{N+1}c_N; this is correct but unstated.",
+   "No substantive mathematical errors; the bound sum_{k>n} 1/k^2 < 1/n and the telescoping bound in part 2 are correct."
+  ],
+  "results": [
+   {
+    "what": "Twice-integrated series F(x) = C + C'x + A_0x^2/2 - sum A_n/n^2 converges uniformly to a continuous function when the coefficients tend to 0",
+    "modern_name": "Riemann function F of a trigonometric series; uniform convergence (Weierstrass M-test style)",
+    "usually_credited_to": "Riemann (Habilitationsschrift 1854, publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Second symmetric (Schwarz/Riemann) difference of F equals sum A_n (sin n a/(n a))(sin n b/(n b)) and tends to f(x) wherever the series converges",
+    "modern_name": "Riemann's first lemma; Riemann summability method",
+    "usually_credited_to": "Riemann 1854",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Proof via Abel partial summation with the kernel (sin n a/(n a))^2 and a three-part split at n ~ m and n ~ pi/a",
+    "modern_name": "Regularity (Toeplitz-type) argument for Riemann summation",
+    "usually_credited_to": "Riemann 1854",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of §8 (Lehrsatz 1) of Riemann's well-known published Habilitationsschrift. The content and proof match the published version; only drafting details are new.",
+  "checkable": [
+   {
+    "sympy": "simplify(expand_trig(cos(n*(x+a+b)) - cos(n*(x+a-b)) - cos(n*(x-a+b)) + cos(n*(x-a-b)) + 4*sin(n*a)*sin(n*b)*cos(n*x)))",
+    "asserts": "Double difference of cos(nx) equals -4 sin(na) sin(nb) cos(nx) (zero result)"
+   },
+   {
+    "sympy": "simplify(expand_trig(sin(n*(x+a+b)) - sin(n*(x+a-b)) - sin(n*(x-a+b)) + sin(n*(x-a-b)) + 4*sin(n*a)*sin(n*b)*sin(n*x)))",
+    "asserts": "Same identity for sin(nx), so -A_n/n^2 contributes A_n sin(na)sin(nb)/n^2 * 4"
+   },
+   {
+    "sympy": "expand(((x+a+b)**2 - (x+a-b)**2 - (x-a+b)**2 + (x-a-b)**2)/2 - 4*a*b)",
+    "asserts": "The A_0 x^2/2 term contributes 4ab*A_0 (result 0)"
+   },
+   {
+    "sympy": "expand((x+a+b) - (x+a-b) - (x-a+b) + (x-a-b))",
+    "asserts": "Linear terms C + C'x cancel (result 0)"
+   },
+   {
+    "sympy": "summation(1/k**2, (k, n+1, oo)) < 1/n  # check numerically e.g. n=5: N(polygamma(1,6)) < 0.2",
+    "asserts": "Tail bound sum_{k>n} 1/k^2 < 1/n used for |R| < eps/n"
+   },
+   {
+    "sympy": "diff(sin(t)/t, t)  # negative on (0, pi): check N((t*cos(t)-sin(t))/t**2).subs(t, 2) < 0",
+    "asserts": "sin t/t decreases on (0,pi), so the factor c_{n-1} - c_n > 0 for n*alpha < pi"
+   },
+   {
+    "sympy": "Sum((e(n+1)-e(n))*c(n), (n,0,N)) == e(N+1)*c(N) - e(0)*c(0) + Sum(e(n)*(c(n-1)-c(n)), (n,1,N))",
+    "asserts": "Abel partial summation used to rewrite sum A_n c_n as f + sum eps_n (c_{n-1} - c_n)"
+   }
+  ],
+  "transcription_corrections": [
+   "First line: 'Glieder nach x ersetzt' should read approximately 'Gliedes nach x erhält' (continuing 'durch zweimalige Integration jedes Gliedes nach x erhält').",
+   "'ihre Änderung kann jede Kleinheit gegeben werden' should read 'ihrer Änderung kann jede Kleinheit gegeben werden'.",
+   "'A_1 sin α^2/α^2' denotes A_1 (sin α/α)^2.",
+   "The marginal note ('Es wird gut sein, einige Sätze über diese Function, deren Kenntniss den Gang der Untersuchung unterbrechen würde, voraufzuschicken') is a later insertion placed beside Lehrsatz 1, not part of the proof text.",
+   "The condition reads 'mα < π' (m, not n)."
+  ]
+ }
+}

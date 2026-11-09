@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c127",
+ "label": "61v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000128/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page finishes an estimate begun on the previous page (paragraph marked (61)). That paragraph matches the localization argument in Riemann's Habilitationsschrift on trigonometric series (1854, publ. 1867). There, mu^2 times an integral of F(x) cos mu(x-a) lambda(x) is expanded termwise. The coefficients are bounded by mu^2/((mu-n)^2 n^2) for the terms n lying outside two bounded windows -c' < n < c'' and mu-c''' < n < mu+c^IV, with all c > 1. Writing t = n/mu gives sum mu^2/((mu-n)^2 n^2) = (1/mu) sum (1/mu)/((1-t)^2 t^2). The integrand has no interior maximum, so a lower-step (Riemann-sum) comparison bounds this sum by (1/mu) times the integral of dx/(x^2(1-x)^2). The integral runs over (-inf, -(c'-1)/mu], [(c''-1)/mu, 1-(c'''-1)/mu] and [1+(c^IV-1)/mu, +inf).\n\nThis page:\n\n(1) Partial fractions, worked in the side computation at the bottom of the page. Since 1/(x(1-x)) = 1/x + 1/(1-x), squaring gives 1/(x^2(1-x)^2) = 1/x^2 + 1/(1-x)^2 + 2/(x(1-x)). The cross term is again 2/(x(1-x)) = 2/x + 2/(1-x).\n\n(2) Integration: (1/mu) * integral dx/(x^2(1-x)^2) = (1/mu)(-1/x + 1/(1-x) + 2 log x - 2 log(1-x)) + Const.\n\n(3) Conclusion: between the stated limits this has a value that does not become infinite with mu. Implicit step (mine): at x = (c''-1)/mu the term -1/x contributes mu/(c''-1). After the prefactor 1/mu this is the bounded quantity 1/(c''-1); the same holds at the other three finite endpoints. The logarithmic terms contribute O(log mu / mu), which tends to 0. At x = ±infinity, -1/x + 1/(1-x) tends to 0 and log|x/(1-x)| tends to 0. Hence the tail sum is O(1) as mu grows, roughly sum over the endpoints of 1/(c-1). This is what the localization argument needs.",
+  "errors": [
+   "No substantive error. Minor: the antiderivative should use log|x| and log|1-x|, since the ranges include x<0 and x>1; Riemann writes log x and log(1-x). The difference is harmless because only differences over intervals not containing 0 or 1 are taken.",
+   "The bound requires c > 1 so that the endpoints (c-1)/mu are positive; this matches the hypothesis on the previous page ('wenn die Grössen c > 1 sind')."
+  ],
+  "results": [
+   {
+    "what": "Partial fraction decomposition 1/(x^2(1-x)^2) = 1/x^2 + 1/(1-x)^2 + 2/x + 2/(1-x) and its antiderivative",
+    "modern_name": "Partial fraction integration",
+    "usually_credited_to": "Standard calculus (Leibniz/Johann Bernoulli/Euler era)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Bounding the tail sum of mu^2/((mu-n)^2 n^2), over n away from 0 and mu, by an integral that stays bounded as mu grows",
+    "modern_name": "Integral comparison (Riemann-sum) estimate within the proof of Riemann's localization principle for trigonometric series",
+    "usually_credited_to": "Riemann, Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is an elementary integration step in a draft of an estimate that appears in Riemann's published Habilitationsschrift (localization principle). Nothing goes beyond known material.",
+  "checkable": [
+   {
+    "sympy": "simplify(apart(1/(x**2*(1-x)**2), x) - (1/x**2 + 1/(x-1)**2 + 2/x - 2/(x-1)))",
+    "asserts": "The partial fraction decomposition 1/(x^2(1-x)^2) = 1/x^2 + 1/(1-x)^2 + 2/x + 2/(1-x); the result should be 0."
+   },
+   {
+    "sympy": "simplify(diff(-1/x + 1/(1-x) + 2*log(x) - 2*log(1-x), x) - 1/(x**2*(1-x)**2))",
+    "asserts": "Riemann's antiderivative is correct; the result should be 0."
+   },
+   {
+    "sympy": "simplify((1/x + 1/(1-x))**2 - 1/(x**2*(1-x)**2))",
+    "asserts": "The identity 1/(x(1-x)) = 1/x + 1/(1-x), squared, used for the decomposition; the result should be 0."
+   },
+   {
+    "sympy": "limit((1/mu)*(-1/x + 1/(1-x) + 2*log(x) - 2*log(1-x)).subs(x, (c-1)/mu), mu, oo)",
+    "asserts": "At the lower inner endpoint x=(c-1)/mu the contribution tends to the finite value -1/(c-1), i.e. it is bounded in mu (assume c>1)."
+   },
+   {
+    "sympy": "limit(-1/x + 1/(1-x) + 2*log(Abs(x)) - 2*log(Abs(1-x)), x, oo)",
+    "asserts": "The antiderivative (with absolute values) tends to 0 at infinity, so the infinite tails contribute finite amounts."
+   }
+  ],
+  "transcription_corrections": [
+   "The '+ Const' is written vertically in the right margin after the closing parenthesis.",
+   "In the integrand denominator, the exponent on x appears overwritten (x^2), and the (1-x) factor was enclosed and then squared; the reading x^2(1-x)^2 is correct.",
+   "Line 4 reads 'und folglich zwischen den obigen Grenzen einen Werth,' with no doubtful words; the [?] marks can be removed.",
+   "The bottom scratch line is a partial-fraction side computation: 1/x^2 + 1/(1-x)^2 + 2/(x(1-x)), with 2/(x(1-x)) expanded as 2/x + 2/(1-x). The opening parenthesis around 2/(x(1-x)) marks the term being expanded."
+  ]
+ }
+}

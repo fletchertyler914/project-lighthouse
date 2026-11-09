@@ -1,0 +1,93 @@
+{
+ "bundle": "Math.21",
+ "page": "c115",
+ "label": "55v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000116/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PURPOSE. Gauss wants log(1-n) (Briggsian, from a table of ordinary logarithms) for 0<n<1. Write X = -ln(1-n) = n + n^2/2 + n^3/3 + n^4/4 + n^5/5 + ... He builds approximations x, x', x'', x''' (and implicitly x'''') to X. Each step needs only the table log of the previous approximation plus a small additive correction, and each step gains one order in n.\n\nSCHEME (natural-log form; k is a scale constant, k = 1 for natural logs):\n- log x = log k + log n.\n- log x' = log x + x/2.\n- log x'' = log x + (x+5x')/12, equivalently log x' + (5/12)(x'-x).\n- log x''' = log x + (21x''+4x'+5x)/60, equivalently log x' + (21x''+4x'-25x)/60, equivalently log x'' + (7/20)(x''-x').\n- Equivalence check: log x' = log x + 30x/60 and log x'' = log x' + (25x'-25x)/60. The side computation '+21x'', +25x'-21x', -25x' is this rearrangement.\n- General form, written on the page: (x'''-x'')/x'' = e^{alpha'''(x''-x')} - 1, i.e. each step multiplies by exp(alpha times the last difference).\n\nDERIVATION OF THE COEFFICIENTS (series matching):\n1. With x = n: x' = n e^{n/2} = n + n^2/2 + n^3/8 + n^4/48 + n^5/384. The exponent is chosen to fit the n^2 term. This is the midpoint rule for dX/dn = e^X.\n2. The 5/12 is fixed so that the n^3 term becomes 1/3. Marginal work: (x+5x')/12 = n/2 + 5n^2/24 + 5n^3/96 + 5n^4/576 (+5n^5/4608). Exponentiating gives x'' = n + n^2/2 + n^3/3 + (17/96)n^4 + (49/576)n^5. The marginal sums 1/2+5/24+5/96, +1/8+5/48, +1/48 are the partial coefficients of e^u.\n3. Compare with X = n + n^2/2 + n^3/3 + (24/96)n^4: X - x'' = (7/96)n^4, so log X ≈ log x'' + (7/96)n^3.\n   - Since x''-x' = (5/24)n^3 + ..., we get (7/96)n^3 = (7/96)(24/5)(x''-x') = (7/20)(x''-x').\n   - Next order: x''-x' = (5/24)n^3 + (5/32)n^4 + (95/1152)n^5 (on the page).\n   - x''' = x''(1 + (7/20)(x''-x') + ...) adds 7/96 to the n^4 coefficient and 35/384 to the n^5 coefficient (written '7/96 + 35/384'; numerators 98 + 105 over 1152).\n   - Hence x''' = n + n^2/2 + n^3/3 + n^4/4 + (203/1152)n^5.\n4. (Implicit, mine but certain from the page.) X - x''' = (1/5 - 203/1152)n^5 = (137/5760)n^5 and x'''-x'' = (7/96)n^4 + ... Hence the next coefficient is (137/5760)/(7/96) = 137/420.\n   - The page lists the multiplier sequence 1/2, 5/12, 7/20, 137/420 and its successive differences 1/12, 1/15, 1/42.\n\nEXAMPLE: log 0.85, so n = 0.15. In Briggsian units k = M = 0.4342945 (log M = 9.6377843). With x = M n, the rules hold verbatim, the additive terms being read in units of the mantissa.\n- 5-place run: log x = 9.63778 + 9.17609 = 8.81387 (x = .065143).\n  - +x/2 gives 8.84644 (x' = .070217).\n  - +(5/12)(507.4) = 211.4 gives 8.84856 (x'' = .070560).\n  - +(7/20)(34.3) = 12.0 gives 8.84868 (x''' = .07058).\n  - Hence log 0.85 = 1 - 0.07058 = 9.92942 (-10). This is correct.\n- 7-place run (units 1e-7):\n  - 8.8138755, x = 651441.6.\n  - +325720.8 = x/2 gives 8.8464475.8, x' = 702178.5.\n  - +21140.4 = (5/12)·50736.9 gives 8.8485616.2, x'' = 705604.9.\n  - +1199.2 = (7/20)·3426.4 gives 8.8486815.4, x''' = 705799.7.\n  - +63.5 = (137/420)·194.8 gives 8.8486878.9. The side multiplication is 1948·137 = 266876, /420 ≈ 63.54.\n  - So -log10(0.85) ≈ 0.0705811, i.e. log 0.85 = 9.9294189.\n- An abortive trial block (8.8138755 + 3257.2, 6514.416 + 4.887 = 6519.303) adds x/2 at the wrong decimal place.\n- Bottom-left: a second example with log n = 8.54437 (n ≈ 0.035024): x = M n = .0152107, x/2 = 760.5, final 1548.35e-5. This agrees with -log10(1-n) ≈ 0.0154835. The intermediate 18975.5/18986.7/1547.95 are unclear to me.\n\nThe stars at the bottom (numbered 2-10) are doodles.",
+  "errors": [
+   "No substantive errors in the theory: all four rule forms are mutually consistent and all series coefficients (1/384, 17/96, 49/576, 95/1152, 35/384, 203/1152, 137/420) check.",
+   "Minor slip: in the expansion of x' the last term is written x^5 instead of n^5.",
+   "Trial block '8.8138755 + 3257.2 = 8142012.2' adds x/2 shifted by a factor 10 (correct increment 325720.8, used in the next block). Gauss abandoned it.",
+   "log 0.15 taken as 9.1760912 (true 9.17609126): negligible last-digit rounding.",
+   "The final 7-place value 8.8486879 differs from the true log10(0.0705811)=8.848688x by a few units in the 7th place. This is consistent with the neglected n^6 term and table rounding, not an error."
+  ],
+  "results": [
+   {
+    "what": "Iterative multiplicative scheme log x^{(k+1)} = log x^{(k)} + alpha_k (x^{(k)} - x^{(k-1)}), starting from x = n and log x' = log x + x/2, converging to X = -ln(1-n). The multipliers 1/2, 5/12, 7/20, 137/420 are determined by matching Taylor coefficients so each step gains one order.",
+    "modern_name": "Order-by-order (Runge-Kutta-like/extrapolation) acceleration of a fixed-point scheme; the first step is the midpoint rule for dX/dn = e^X. Constructing coefficients by matching Taylor series is the idea behind later Runge-Kutta order conditions.",
+    "usually_credited_to": "Systematic coefficient matching for one-step ODE methods: Runge (1895), Heun (1900), Kutta (1901). Logarithm-computation tricks of this kind go back to 17th-18th c. table-makers.",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Practical evaluation of log(1-n) (subtraction logarithm) to 5 and 7 places using only a log table plus small additive corrections (example log 0.85 = 9.92942).",
+    "modern_name": "Computation of subtraction (Gaussian) logarithms",
+    "usually_credited_to": "Leonelli (1802) and Gauss (1812) for addition/subtraction logarithm tables",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Series expansions n e^{n/2}, x'', x''' and the remainder X - x''' = 137/5760 n^5.",
+    "modern_name": "Power series of exp/log (routine)",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's interest in computing logarithms and subtraction logarithms is well known. The page is a private computational device of a kind he routinely devised. The systematic construction of accelerating multipliers by Taylor matching is a mildly interesting precursor of Runge-Kutta-style reasoning, but it is applied to a single function, not a general method. It is a notable but minor unpublished detail.",
+  "checkable": [
+   {
+    "sympy": "series(n*exp(n/2), n, 0, 6)",
+    "asserts": "x' = n + n**2/2 + n**3/8 + n**4/48 + n**5/384"
+   },
+   {
+    "sympy": "xp = n*exp(n/2); series(n*exp((n+5*xp)/12), n, 0, 6)",
+    "asserts": "x'' = n + n**2/2 + n**3/3 + 17*n**4/96 + 49*n**5/576"
+   },
+   {
+    "sympy": "xp = n*exp(n/2); xpp = n*exp((n+5*xp)/12); series(xpp*exp(Rational(7,20)*(xpp-xp)), n, 0, 6)",
+    "asserts": "x''' = n + n**2/2 + n**3/3 + n**4/4 + 203*n**5/1152"
+   },
+   {
+    "sympy": "xp = n*exp(n/2); xpp = n*exp((n+5*xp)/12); series(xpp-xp, n, 0, 6)",
+    "asserts": "x''-x' = 5*n**3/24 + 5*n**4/32 + 95*n**5/1152"
+   },
+   {
+    "sympy": "simplify((Rational(1,5)-Rational(203,1152))/Rational(7,96))",
+    "asserts": "next multiplier = 137/420"
+   },
+   {
+    "sympy": "simplify(x/2 + Rational(5,12)*(xp-x) - (x+5*xp)/12)",
+    "asserts": "the two forms of log x'' agree (=0)"
+   },
+   {
+    "sympy": "simplify(x/2 + Rational(5,12)*(xp-x) + Rational(7,20)*(xpp-xp) - (21*xpp+4*xp+5*x)/60)",
+    "asserts": "the three forms of log x''' agree (=0)"
+   },
+   {
+    "sympy": "[Rational(1,2)-Rational(5,12), Rational(5,12)-Rational(7,20), Rational(7,20)-Rational(137,420)]",
+    "asserts": "differences of multipliers are 1/12, 1/15, 1/42"
+   },
+   {
+    "sympy": "N(1+log(0.85,10), 8)",
+    "asserts": "log 0.85 = 9.9294189 - 10, matching Gauss's 9.92942"
+   },
+   {
+    "sympy": "N(-log(1-0.0350243)/log(10), 8)",
+    "asserts": "second example: approx 0.0154835, matching 1548.35e-5"
+   }
+  ],
+  "transcription_corrections": [
+   "Struck-out shelfmark reads '157d/53', not '757d/53'.",
+   "In the line for x' the last term is written 'x^5' on the page but means n^5 (1/384 n^5).",
+   "The line '5/24 n^3 + 5/32 n^4 + 95/1152 n^5' is the expansion of x''-x'.",
+   "'98' and '105' near '239848' are the numerators 98/1152 + 105/1152 = 203/1152.",
+   "The block '1948, 5844, 13636, 266876, ..., 6354' is the multiplication 194.8 × 137 / 420 ≈ 63.54 used in the last correction step.",
+   "'8142012.2' is the result of a misplaced trial addition (8.8138755 + 3257.2), not a further step of the main computation.",
+   "Row of digits '2 3 4 5 6 7 8 9 10' are labels under star doodles."
+  ]
+ }
+}

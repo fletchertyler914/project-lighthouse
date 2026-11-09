@@ -1,0 +1,77 @@
+{
+ "bundle": "Math.16",
+ "page": "c028",
+ "label": "-",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376639:00000029/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a numerical table from a geodetic adjustment, not a derivation. It belongs to the network of 21 stations (numbered 1–21; on the adjacent pages they are paired with the letters a…v, j omitted) that the previous and next pages treat with cot-formulas and complex coordinates.\n\nEach row reads 'i.j | A(i,j) | r(i,j)':\n- i.j is the line from station i to station j.\n- A(i,j) is its plane azimuth (direction angle) in degrees.minutes.seconds, with seconds given to 0.001\" (a decimal ',5' means 0.0005\").\n- r(i,j) is a number in units of 0.001\".\n\nWithin each station the rows are listed in increasing azimuth (cyclically). That is the order of a round of oriented directions observed at that station.\n\nMeaning of the right-hand column (reconstructed by me and verified on every line where both ends appear on the page):\nr(i,j) = A(j,i) − 180° − A(i,j), expressed in 0.001\". Consequently r(j,i) = −r(i,j).\nIn modern terms this is the forward/back-azimuth misclosure of each line. Each station's directions have been oriented separately, and in plane coordinates the reverse azimuth should differ from the forward one by exactly 180°. The residual measures how inconsistent the separately oriented stations are. It is the quantity such an adjustment drives to zero (or uses as the absolute term) when solving for the orientation and angle corrections δa, δab, … that appear on the neighbouring pages.\n\nWorked examples:\n- 1.2 = 1°17'40.542\" and 2.1 = 181°17'40.595\" give a difference of +0.053\", entered as +53 and −53.\n- 2.3 = 36°16'57.073\" and 3.2 = 216°16'57.011\" give −0.062\", entered as −62 and +62.\n- 3.4 gives +307 against 4.3 at −307.\n- 19.20 gives −632 against 20.19 at +632.\n- 18.19 gives −359.5 against 19.18 at +359.5.\n\nAll checkable pairs agree: 1-2, 2-3, 3-4, 3-5, 4-5, 4-6, 5-6, 5-7, 6-7, 6-8, 6-9, 6-10, 7-8, 8-9, 9-10, 9-11, 10-11, 10-12, 11-12, 11-13, 12-13, 12-14, 12-15, 12-16, 13-14, 14-15, 15-16, 15-17, 16-17, 16-18, 16-19, 17-18, 18-19, 18-20, 19-20, 1-20.\n\nThe lines to station 21 (1.21 −82, 2.21 +116, 3.21 −277, 4.21 +244, 19.21 +44?, 20.21 −443) cannot be checked here, because station 21's own rows are not on the page.\n\nThe network is a chain of triangles: 1-2-3-4-5-6-…-20, with node 21 tied to 1, 2, 3, 4, 19 and 20, and strong central nodes 6, 12 and 16. This matches the cyclic chain of triangles a…v on the previous page.\n\nContext from the previous page: Gauss there states the lemma (α−β)cot C + (α−γ)cot B = (γ−β)i for the complex vertices α, β, γ of a triangle in positive order. It is correct; for example α=0, β=1, γ=i gives −1−i on both sides. That lemma expresses coordinate or azimuth changes through the angle corrections, and this table supplies the numerical misclosures for that adjustment.",
+  "errors": [
+   "No arithmetic slips found: every pair with both ends on the page satisfies r(i,j) = A(j,i) − 180° − A(i,j) exactly, to 0.0005\".",
+   "Row 1.20: the overwritten entry must equal +31, since 20.1 = 304°13'47.263,5\" and 20.1 carries −31. The machine reading '+29' is wrong, or the figure was corrected to 31.",
+   "Row 19.21: the final digit of the correction is illegible (441 or 444?). It cannot be checked because the 21.19 row is absent."
+  ],
+  "results": [
+   {
+    "what": "Table of oriented plane azimuths for a 21-station triangulation chain, with forward/back azimuth misclosures r(i,j) = A(j,i) − 180° − A(i,j) in units of 0.001\"",
+    "modern_name": "Station orientation and reciprocal-azimuth (direction) misclosures in a least-squares adjustment of a triangulation network",
+    "usually_credited_to": "Gauss (least-squares adjustment of the Hannover triangulation, 1820s–1840s); standard geodetic practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "(Context, previous page) Complex-number triangle lemma: (α−β)cot C + (α−γ)cot B = (γ−β)i",
+    "modern_name": "Complex-coordinate expression of triangle geometry (cotangent relations between vertex differences)",
+    "usually_credited_to": "Elementary; Gauss's use of complex coordinates in geodesy is known",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine numerical working sheet from Gauss's well-documented geodetic adjustment work. It checks the consistency of oriented directions in a triangulation chain. Nothing here is mathematically novel.",
+  "checkable": [
+   {
+    "sympy": "Eq((181*3600+17*60+Rational(40595,1000)) - (1*3600+17*60+Rational(40542,1000)) - 180*3600, Rational(53,1000))",
+    "asserts": "Line 1-2 misclosure is +0.053\" (entries +53 / −53)"
+   },
+   {
+    "sympy": "Eq((216*3600+16*60+Rational(57011,1000)) - (36*3600+16*60+Rational(57073,1000)) - 180*3600, Rational(-62,1000))",
+    "asserts": "Line 2-3 misclosure is −0.062\""
+   },
+   {
+    "sympy": "Eq((278*3600+13*60+Rational(55381,1000)) - (98*3600+13*60+Rational(55074,1000)) - 180*3600, Rational(307,1000))",
+    "asserts": "Line 3-4 misclosure is +0.307\""
+   },
+   {
+    "sympy": "Eq((304*3600+13*60+Rational(472635,10000)) - (124*3600+13*60+Rational(472325,10000)) - 180*3600, Rational(31,1000))",
+    "asserts": "Line 1-20 misclosure is +0.031\", so the 1.20 entry should read +31"
+   },
+   {
+    "sympy": "Eq((49*3600+19*60+Rational(46490,1000)) + 360*3600 - (229*3600+19*60+Rational(47122,1000)) - 180*3600, Rational(-632,1000))",
+    "asserts": "Line 19-20 misclosure is −0.632\""
+   },
+   {
+    "sympy": "Eq((167*3600+18*60+Rational(424095,10000)) + 360*3600 - (347*3600+18*60+Rational(42769,1000)) - 180*3600, Rational(-3595,10000))",
+    "asserts": "Line 18-19 misclosure is −0.3595\""
+   },
+   {
+    "sympy": "Eq((354*3600+6*60+Rational(19745,10000)) - (174*3600+6*60+Rational(18485,10000)) - 180*3600, Rational(126,1000))",
+    "asserts": "Line 11-13 misclosure is +0.126\", confirming the reading 174.6.1.848,5"
+   },
+   {
+    "sympy": "simplify((0-1)*1 + (0-I)*1 - (I-1)*I) == 0",
+    "asserts": "Lemma from the previous page holds for the triangle 0, 1, i (A=90°, B=C=45°)"
+   }
+  ],
+  "transcription_corrections": [
+   "1.20: correction should read +31 (overwritten digits), not +29.",
+   "11.13: the azimuth 174.6.1.848,5 is confirmed by 13.11 (−126 / +126).",
+   "13.14: the +3,5 reading is confirmed by 14.13 = 6.16.21.919 (−3,5).",
+   "8.9: +2,5 is confirmed; 9.10: +53,5 is confirmed; 9.11: +3,5 is confirmed.",
+   "16.15: the minutes/seconds reading 142.58.7.183,5 is confirmed (the digit 7 is overwritten).",
+   "18.16: 59.21.2.593 is confirmed (first digits overwritten).",
+   "19.21: the correction's last digit is uncertain ('+44?').",
+   "The decimal format throughout is d.m.s,sss with ',5' meaning half a thousandth of a second; the corrections are in thousandths of a second."
+  ]
+ }
+}

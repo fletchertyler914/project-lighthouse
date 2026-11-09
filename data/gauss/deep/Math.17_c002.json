@@ -1,0 +1,87 @@
+{
+ "bundle": "Math.17",
+ "page": "c002",
+ "label": "1r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376641:00000003/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table, not a derivation. It gives the complete repeating decimal periods of 1/p for the four primes p = 997, 991, 983, 977. The prime is written in the left margin, the digits in groups of ten, and the small marginal figures 5 and 10 count rows. In each block Gauss drops the two leading zeros of the period (1/p = 0.00... for p between 100 and 1000). He writes the period through to its end, then writes the first digits again ('...1003', '...10090', '...00101', '...1023'). The repetition is underlined and followed by dots to show where the cycle closes.\n\n(1) 1/997 = 0.(001003009027 0812437311 ... 7983951855 5667) repeating.\n- 170 digits are written. The last group '5667001003' splits as 5667 | 00 | 1003, where 00 1003 is the restart.\n- So the period length is 164 written digits + 2 leading zeros = 166.\n- This means ord_997(10) = 166 = (997-1)/6.\n- Because 166 is even, 10^83 ≡ -1 (mod 997). The second half of the period should therefore be the 9-complement of the first half.\n- The page shows this. Position 83 of the period is the '2' at the start of the group '2998996990'. Positions 84 onward read 998996990972918..., which is exactly the 9-complement of the opening 001003009027081...\n\n(2) 1/991 = 0.(001009081735 6205852674 ... 9656912209 889) repeating.\n- 500 digits are written. The last group '8890010090' splits as 889 | 0010090, the restart.\n- So the period length is 493 + 2 = 495 = (991-1)/2.\n- This is consistent with 10 being a quadratic residue mod 991. By my check, (2/991) = +1 since 991 ≡ 7 (mod 8), and (5/991) = (991/5) = (1/5) = +1.\n\n(3) 1/983 = 0.(001017293997 9654120040 ... 3499491353) repeating.\n- There are 14 rows of 70 digits plus the restart '00101', so 980 + 2 = 982 = p-1.\n- 10 is a primitive root mod 983. By my check, 10 is a non-residue: (2/983) = 1 and (5/983) = (3/5) = -1. Since 982 = 2·491, the order of 10 is then 982.\n\n(4) 1/977 = 0.(001023541453 4288638689 ... 0450358239 5087) repeating.\n- 980 digits are written. The last group '5087001023' splits as 5087 | 00 | 1023.\n- So the period length is 974 + 2 = 976 = p-1, and 10 is a primitive root mod 977.\n\nPurpose: these are the computed base periods for the table of decimal expansions of fractions with prime denominators below 1000. It goes with Disquisitiones Arithmeticae arts. 312-318. There Gauss shows that from the period of 1/p (or a few periods, when 10 is not a primitive root) together with a table of indices, the expansion of every fraction a/p can be read off by cyclic shifting.\n\nThe note '(1) 4417' at top right appears to be an archival or foliation mark. It is not mathematics.",
+  "errors": [
+   "No errors detected in the portions I could check: the leading digits of all four expansions, the period lengths, and the 9-complement symmetry for 1/997. The digits must be computer-verified in full.",
+   "In 991, row 7, group 3 there is a struck or overwritten digit, so the correct reading is uncertain. The group should have 10 digits; it is likely 2472250252."
+  ],
+  "results": [
+   {
+    "what": "Full decimal periods of 1/997 (length 166), 1/991 (length 495), 1/983 (length 982), 1/977 (length 976)",
+    "modern_name": "Repeating decimal expansions / multiplicative order of 10 mod p (full-reptend primes 983, 977)",
+    "usually_credited_to": "Tables of periods by J. H. Lambert, Burckhardt and others in the 18th century. Gauss's own table of decimal periods for p < 1000 is printed in his Werke, vol. II.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Implicit use of the complement property: when the period length is even, the second half of the period is the 9-complement of the first half (visible for 1/997)",
+    "modern_name": "Midy's theorem",
+    "usually_credited_to": "E. Midy (1836); the property was known earlier in practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's tables of decimal periods for primes below 1000, made in connection with Disquisitiones arts. 312-318, are well known and published in his Werke. This page is simply part of the raw computation for p = 997, 991, 983, 977.",
+  "checkable": [
+   {
+    "sympy": "n_order(10, 997) == 166",
+    "asserts": "Period length of 1/997 is 166"
+   },
+   {
+    "sympy": "n_order(10, 991) == 495",
+    "asserts": "Period length of 1/991 is 495"
+   },
+   {
+    "sympy": "n_order(10, 983) == 982",
+    "asserts": "10 is a primitive root mod 983 (full period)"
+   },
+   {
+    "sympy": "n_order(10, 977) == 976",
+    "asserts": "10 is a primitive root mod 977 (full period)"
+   },
+   {
+    "sympy": "str(10**166 // 997).zfill(166)[:24] == '001003009027081243731193'",
+    "asserts": "Opening digits of the 1/997 period as written"
+   },
+   {
+    "sympy": "str(10**166 // 997).zfill(166)[-4:] == '5667'",
+    "asserts": "The 1/997 period ends in ...5667, before the restart 001003"
+   },
+   {
+    "sympy": "str(10**495 // 991).zfill(495)[:22] == '0010090817356205852674'",
+    "asserts": "Opening digits of the 1/991 period"
+   },
+   {
+    "sympy": "str(10**495 // 991).zfill(495)[440:452]",
+    "asserts": "Gives the true digits at the uncertain struck-out group (row 7, group 3) of 1/991, expected 2472250252 after the two-digit offset"
+   },
+   {
+    "sympy": "str(10**982 // 983).zfill(982)[-10:] == '3499491353'",
+    "asserts": "The 1/983 period ends with 3499491353"
+   },
+   {
+    "sympy": "str(10**976 // 977).zfill(976)[-4:] == '5087'",
+    "asserts": "The 1/977 period ends in ...5087"
+   },
+   {
+    "sympy": "pow(10, 83, 997) == 996",
+    "asserts": "10^83 ≡ -1 mod 997, which explains the 9-complement half-periods of 1/997"
+   },
+   {
+    "sympy": "legendre_symbol(10, 991) == 1 and legendre_symbol(10, 983) == -1 and legendre_symbol(10, 977) == -1",
+    "asserts": "Quadratic character of 10 consistent with the observed period lengths"
+   }
+  ],
+  "transcription_corrections": [
+   "991, row 7, third group: '2472[?]250252' contains an overwritten or struck digit. The intended group has 10 digits, probably 2472250252, to be confirmed by computation.",
+   "Top right '(1) 4417' is a circled archival or folio number with a struck-through numeral, not part of the table.",
+   "The marginal '5' and '10' are row counters, not data."
+  ]
+ }
+}

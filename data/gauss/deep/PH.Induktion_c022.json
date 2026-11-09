@@ -1,0 +1,82 @@
+{
+ "bundle": "PH.Induktion",
+ "page": "c022",
+ "label": "12r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382427:00000023/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a laboratory record of 12 March 1836 at the Göttingen observatory ('Sternwarte'), temperature +7.4 °C. It belongs to the Gauss–Weber magneto-electric induction experiments. A magnetized bar (magnetometer) swings inside a multiplier coil. 'Kette offen' means the circuit is open; 'Kette geschlossen' means it is closed. The aim is to measure the damping of the free oscillation in both states. With the circuit closed, the currents induced by the moving magnet add electromagnetic damping on top of the air and suspension damping.\n\nColumns, for swing number n:\n- the clock time, entered for the first swing of each group;\n- a scale reading of about 989 → 982, which is the equilibrium (middle) position of the scale and drifts slowly;\n- A_n, the arc or amplitude in scale divisions;\n- log10 A_n to 5 decimals. Checked: log10(1273.1) = 3.104862 and log10(749.7) = 2.874888.\n\nMethod (my restatement):\n1. Under linear damping A_n = A_0·exp(−λn), so log10 A_n is linear in n.\n2. Gauss averages the logs over 5 consecutive swings. The mean is the fitted value at the central swing, with reduced reading error:\n   - L(3) = mean(log A_1..A_5) = 15.50304/5 = 3.100608 (written 3.10060.8);\n   - L(20) = 15.31766/5 = 3.063532 (written 3.06353.2);\n   - L(28) = 15.09822/5 = 3.019644 (written 3.01964.4);\n   - L(45) = 14.45098/5 = 2.890196 (written 2.89019.6).\n3. The logarithmic decrement per swing ('D.L.' = decrementum logarithmicum), in units of 10^-5, is:\n   - circuit open: (3.100608 − 3.063532)/17 = 0.0021809, written 218.09;\n   - circuit closed: (3.019644 − 2.890196)/17 = 0.0076146, written 761.46.\n   The natural-log decrements are 0.005022 and 0.017533. The induced-current share is (761.46 − 218.09)·10^-5 = 0.0054337 (Briggs) per swing. This difference is the quantity needed downstream: it measures the induction effect and hence the circuit's resistance. That step is my inference; it is not on the page.\n4. Timing gives a period check:\n   - 17 swings from 10h46m0.0s to 10h58m0.15s give T = 720.15/17 = 42.362 s;\n   - 17 swings from 11h3m39.2s to 11h15m39.45s give T = 720.25/17 = 42.368 s;\n   - swings 1→26 (25 swings) give 1059.2/25 = 42.368 s.\n   The period is the same in both states, as expected for weak damping. Observation numbers are chosen so that times fall on near-whole minutes.\n\nThe page continues overleaf with further open/closed alternations.",
+  "errors": [
+   "log10(1260.85) = 3.100663, which rounds to 3.10066; Gauss wrote 3.10067 (1 unit in the 5th decimal, negligible). His mean 3.100608 uses 3.10067, so the entry is as written.",
+   "log10(1028.1) = 3.012035, which rounds to 3.01204; Gauss wrote 3.01203 (1 unit in the last place, negligible). His mean 3.019644 uses 3.01203.",
+   "All other logarithms, all four means, both decrements and the timing are correct to the last digit given."
+  ],
+  "results": [
+   {
+    "what": "Determination of the logarithmic decrement of a swinging magnet. Logs of successive amplitudes are averaged over blocks of 5 swings, and the difference of block means is divided by the number of intervening swings (17).",
+    "modern_name": "logarithmic decrement of a damped oscillator (block-mean estimate of the slope of log amplitude)",
+    "usually_credited_to": "Gauss and Weber, magnetic observations 1836–37 (Resultate aus den Beobachtungen des magnetischen Vereins); damping theory developed by Gauss and W. Weber",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Comparison of damping with the circuit open versus closed, isolating the damping due to induced currents (0.00218 vs 0.00761 per swing).",
+    "modern_name": "electromagnetic (eddy/induction) damping of a galvanometer/magnetometer; basis of later absolute resistance measurement",
+    "usually_credited_to": "Gauss and W. Weber (1830s); Weber's later damping-based absolute resistance determinations (1850s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine raw laboratory record of the Gauss–Weber induction and damping experiments, which are well documented. The arithmetic (logarithms, block means, logarithmic decrement) is standard for Gauss's magnetometric practice. Its only interest is as primary data.",
+  "checkable": [
+   {
+    "sympy": "[round(float(log(x,10)),5) for x in [1273.1,1267.0,1260.85,1254.45,1248.2]]",
+    "asserts": "Logs of the first open-circuit group: 3.10486, 3.10278, 3.10066 (Gauss 3.10067), 3.09845, 3.09628."
+   },
+   {
+    "sympy": "(Rational('3.10486')+Rational('3.10278')+Rational('3.10067')+Rational('3.09845')+Rational('3.09628'))/5",
+    "asserts": "Equals 3.100608."
+   },
+   {
+    "sympy": "(Rational('3.06789')+Rational('3.06562')+Rational('3.06350')+Rational('3.06141')+Rational('3.05924'))/5",
+    "asserts": "Equals 3.063532."
+   },
+   {
+    "sympy": "(Rational('3.100608')-Rational('3.063532'))/17*10**5",
+    "asserts": "Open-circuit logarithmic decrement ≈ 218.09 (×10^-5)."
+   },
+   {
+    "sympy": "(Rational('3.03487')+Rational('3.02723')+Rational('3.01966')+Rational('3.01203')+Rational('3.00443'))/5",
+    "asserts": "Equals 3.019644."
+   },
+   {
+    "sympy": "(Rational('2.90555')+Rational('2.89793')+Rational('2.89014')+Rational('2.88247')+Rational('2.87489'))/5",
+    "asserts": "Equals 2.890196, confirming that the second entry is 2.89793."
+   },
+   {
+    "sympy": "(Rational('3.019644')-Rational('2.890196'))/17*10**5",
+    "asserts": "Closed-circuit logarithmic decrement ≈ 761.46 (×10^-5)."
+   },
+   {
+    "sympy": "[round(float(log(x,10)),5) for x in [804.55,790.55,776.5,762.9,749.7]]",
+    "asserts": "Logs: 2.90555, 2.89793, 2.89014, 2.88247, 2.87489."
+   },
+   {
+    "sympy": "Rational('720.15')/17, Rational('720.25')/17, Rational('1059.2')/25",
+    "asserts": "Oscillation period ≈ 42.36–42.37 s, consistent across groups and circuit states."
+   },
+   {
+    "sympy": "Rational('0.0021809')*log(10).evalf(), Rational('0.0076146')*log(10).evalf()",
+    "asserts": "Natural-log decrements ≈ 0.005022 (open) and 0.017533 (closed)."
+   }
+  ],
+  "transcription_corrections": [
+   "Obs. 44, log column: read 2.89793, not 2.89797. The block mean 2.89019.6 requires 2.89793.",
+   "Obs. 26, log column: the digit after '3.0' is overwritten; the value is 3.03487 (= log10 1083.6).",
+   "Obs. 26 time: '11h 3' 39\".2' — the seconds digit is overwritten; 39.2 is consistent with the 17-swing interval to 15'39\".45.",
+   "Header: 'März' (written 'Marz'); 'Sternwarde' as written, meaning 'Sternwarte'.",
+   "D.L. = decrementum logarithmicum, in units of 10^-5 of Briggs logarithm per swing."
+  ]
+ }
+}

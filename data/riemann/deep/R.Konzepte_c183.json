@@ -1,0 +1,68 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c183",
+ "label": "89v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000184/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of §§11-12 of Riemann's Inaugural Dissertation (1851), 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse'.\n\nStanding hypotheses (end of §10, previous page): T is a domain spread simply over the plane A. u satisfies Δu = u_xx + u_yy = 0 except on a set containing no area. The discontinuities of u, u_x, u_y fill no line. At each exceptional point, ρ·u_x → 0 and ρ·u_y → 0 as the distance ρ → 0. Under these hypotheses u (after correcting values at isolated points) is C^∞ in the interior. It also satisfies the mean-value property u(O_0) = (1/2π)∫_0^{2π} u dφ on every circle about an interior point O_0, i.e. ∫_0^{2π}(u − u_0) dφ = 0.\n\n§11 consequences (on the page this block is struck through with a diagonal stroke, presumably to be rewritten):\n\nI. Extremum principle. u has no maximum or minimum at an interior point.\n- If u_0 were a strict extremum, then on a small circle u − u_0 would have one sign and not vanish identically.\n- Then ∫(u − u_0) dφ ≠ 0, contradicting the mean-value property.\n\nII. u cannot be constant on one part of T and take a different value on another part. Implicit reasoning (mine, following the published text):\n- Take a point O_0 in the region where u ≡ c, near its boundary.\n- Choose a circle about O_0 that leaves that region on an arc where u − c has one sign.\n- Then ∫(u − c) dφ ≠ 0, again a contradiction.\n\nIII. Uniqueness / identity theorem. If u is given on a part of T, it is determined on the whole of T.\n- The conditions are linear, so u_1 − u_2 also satisfies them.\n- If u_1 = u_2 on one part but not everywhere, then u_1 − u_2 is 0 on that part and nonzero elsewhere, contradicting II.\n\n§12. Return to w = u + iv, defined at every point O of T, varying continuously with O and satisfying the Cauchy–Riemann equations u_x = v_y, u_y = −v_x. Such a w is called a function of z = x + iy. First assumption: T is simply connected and simply (schlicht) spread over A.\n\nLehrsatz (Riemann's removable-singularity theorem). Suppose w(z):\n- has discontinuities that in any case do not lie along a line, and\n- for every point z' of T, (z − z')·w(z) → 0 as z → z'.\nThen w and all its derivatives are finite and continuous at every interior point of T.\n\nWriting z − z' = ρ e^{iφ}, the hypotheses split into conditions on u and v:\n1) u_x − v_y = 0 throughout T.\n2) u_y + v_x = 0 throughout T.\n3) u and v are not discontinuous along a line.\n4) ρu → 0 and ρv → 0 at each point O' (since |w(z − z')| = ρ|w|).\n5) (margin addition) Discontinuities removable by changing values at isolated points are excluded.\n\nThe proof (on the following pages of the dissertation) reduces to the harmonic-function theorem of §10.",
+  "errors": [
+   "Satz I is stated without the qualifier that u is non-constant (or that the extremum is strict); a constant u has trivial interior extrema. In context the intended meaning is a proper/strict extremum, and the argument only works in that sense.",
+   "Satz III tacitly needs T to be connected and the 'Theil' to have interior (be an area), not just a set of points or a curve. This is implicit in Riemann's setup.",
+   "Condition 4 for u and v alone (ρu, ρv → 0) is weaker in form than the §10 hypothesis on ρu_x, ρu_y. Bridging this requires the Cauchy–Riemann/harmonic argument given later. This is not an error on this page, only an unproved reduction at this point."
+  ],
+  "results": [
+   {
+    "what": "Harmonic function cannot have an interior strict maximum or minimum (via mean value property)",
+    "modern_name": "Maximum (and minimum) principle for harmonic functions",
+    "usually_credited_to": "Gauss (1840) / Riemann 1851 dissertation; standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Harmonic function constant on a subregion is constant everywhere; two harmonic functions agreeing on a subregion agree everywhere",
+    "modern_name": "Identity theorem / unique continuation for harmonic functions",
+    "usually_credited_to": "Riemann 1851 dissertation §11",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "If w is holomorphic away from a non-line-filling exceptional set and (z−z')w(z)→0 at each point, then w is holomorphic (with all derivatives continuous)",
+    "modern_name": "Riemann's theorem on removable singularities",
+    "usually_credited_to": "Riemann 1851 dissertation §12",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of §§11-12 of Riemann's published 1851 dissertation (maximum principle, identity theorem, removable singularity theorem). It is all well known as his. Only the drafting variants (the deleted block I–III, the marginal condition 5) are of minor archival interest.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); simplify(diff(log(sqrt(x**2+y**2)),x,2)+diff(log(sqrt(x**2+y**2)),y,2))==0",
+    "asserts": "log r is harmonic away from the origin (used for the mean-value formula)"
+   },
+   {
+    "sympy": "r,phi,x0,y0=symbols('r phi x0 y0',real=True); u=lambda X,Y: X**3-3*X*Y**2; simplify(integrate(u(x0+r*cos(phi),y0+r*sin(phi)),(phi,0,2*pi))/(2*pi)-u(x0,y0))==0",
+    "asserts": "Mean value property ∫(u−u0)dφ=0 for the harmonic polynomial x^3−3xy^2"
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); w=expand((x+I*y)**3); u=re(w); v=im(w); simplify(diff(u,x)-diff(v,y))==0 and simplify(diff(u,y)+diff(v,x))==0",
+    "asserts": "Cauchy-Riemann equations 1), 2) hold for w=z^3"
+   },
+   {
+    "sympy": "z=symbols('z'); limit(z*(1/z),z,0)",
+    "asserts": "Returns 1, not 0: w=1/z violates the hypothesis (z−z')w→0, consistent with it not being removable"
+   },
+   {
+    "sympy": "z=symbols('z'); limit(z*sin(z)/z,z,0)",
+    "asserts": "Returns 0: w=sin(z)/z satisfies the hypothesis and indeed has a removable singularity at 0"
+   }
+  ],
+  "transcription_corrections": [
+   "The whole block from 'I. Die Function u kann...' through '...dem Satz II zuwider.' is crossed out on the image by a long diagonal stroke; the transcription does not record this deletion.",
+   "'mit unendlicher Annäherung [?] Punktes O' should read 'mit unendlicher Annäherung des Punktes O' (presumably followed by 'an O'' as in the printed text).",
+   "The marginal condition 5) begins 'Für die ...' with an unclear abbreviation, probably standing for 'Functionen'. It is a later addition at the bottom right, written in a different (lighter) hand or pen.",
+   "In the right-margin replacement for §12, 'einen bestimmten Werth hat' is partly struck. The intended reading is '...für jeden Punkt O der Fläche T einen bestimmten, mit der Lage desselben stetig und den Gleichungen ... gemäss sich ändernden Werth hat, und bezeichnen'."
+  ]
+ }
+}

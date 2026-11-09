@@ -1,0 +1,69 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c056",
+ "label": "55",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000057/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page, 'Aufgabe'): a company issues shares at price A each. Every unredeemed share earns an annual dividend a. The shares are drawn by lot and redeemed at price B in equal portions over n years. x = 1+i is the break-even accumulation factor, the rate at which the enterprise makes neither gain nor loss. In modern terms x is the internal rate of return of a serial (equal-instalment) redemption scheme.\n\nDerivation (my reconstruction; Gauss gives only the result). Take one unit of shares and put v = 1/x, i = x-1. At the end of year k (k = 1..n) the fraction (n-k+1)/n is still outstanding and receives dividend a. A fraction 1/n is drawn and receives B. Equating present values:\n  A = sum_{k=1}^n [a(n-k+1)/n + B/n] v^k.\nWith a_n = sum v^k = (1-v^n)/i and the decreasing annuity sum_{k}(n-k+1)v^k = (n - a_n)/i:\n  A = (a/n)(n - a_n)/i + (B/n) a_n.\nMultiplying by n i gives n(Ai - a) = a_n (Bi - a), hence\n  1 - x^(-n) = n (x-1)(Ax - A - a)/(Bx - B - a).\nThis is the 'simplest form' when n is the unknown: 1 = x^(-n) + c n, with c = (x-1)(A(x-1)-a)/(B(x-1)-a).\n\nGauss writes the denominator as Bx - A - a. His numerical table, however, uses Bx - B - a (see errors).\n\nExample: A = 90, a = 3, B = 100. The first column is the percentage rate 100x - 100.\n- 3%: B(x-1) - a = 0, so c is infinite and there is no solution (crossed out). At 3% every share is worth exactly 100 > 90 whatever n is.\n- 3.5%: 1 = (200/207)^n + (21/2000) n, giving n = 91.0904.\n- 4%: 1 = (25/26)^n + (3/125) n, giving n = 27.492345.\n- 4.5%: 1 = (200/209)^n + (63/2000) n, giving n = 16.159.\n- 5%: 1 = (20/21)^n + (3/80) n, giving n = 11.307.\nEach coefficient equals (x-1)(90(x-1)-3)/(100(x-1)-3), e.g. 0.04*0.6/1 = 3/125. The nonzero root n of each transcendental equation was found numerically, presumably with logarithms.\n\nThe rest of the page is a bibliographic list headed 1844 (Herschel, Gabelsberger, Shortrede's log tables, Bade, Bissing, Pielsticker on the Hanoverian widows' fund).",
+  "errors": [
+   "The general formula as written has denominator Bx - A - a. The correct form, and the one actually used in all four numerical rows, is Bx - B - a = B(x-1) - a. For example, at x = 1.04, Bx - A - a = 11 would give c = 0.024/11, not 3/125. This is a slip of the pen in the general formula only.",
+   "Roots: my hand recomputation agrees with 27.492345 (4%) and 11.307 (5%) to the digits given. For 4.5% I get about 16.156 rather than 16.159. For 3.5% I get about 91.0895 rather than 91.0904. These are minor last-digit inaccuracies (not CAS-confirmed). They are amplified at 3.5% because f'(n) is small.",
+   "Implicit assumption: dividends are paid at year end on all shares outstanding at the start of that year, including those drawn that year. The formula depends on this convention, which is reasonable but not stated."
+  ],
+  "results": [
+   {
+    "what": "Break-even (IRR) equation for shares/loan redeemed in n equal annual lots with dividend on outstanding shares: 1 - x^(-n) = n(x-1)(A(x-1)-a)/(B(x-1)-a)",
+    "modern_name": "Yield/IRR of a serial loan; special case of Makeham's formula A = K + (g/i)(C - K)",
+    "usually_credited_to": "Actuarial folklore; general formula W. M. Makeham (1874)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Numerical solution of 1 = v^n + c n for n at several interest rates",
+    "modern_name": "Root-finding for a transcendental equation (annuity term solving)",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is competent but routine financial mathematics: the IRR of an equal-instalment redemption scheme. It is consistent with Gauss's known actuarial work of the 1840s (Göttingen widows' fund, bonds, railway shares). It anticipates the shape of Makeham's formula in a special case, but that case was standard actuarial practice.",
+  "checkable": [
+   {
+    "sympy": "A,a,B,x,n,k=symbols('A a B x n k',positive=True); v=1/x; simplify((summation((a*(n-k+1)/n+B/n)*v**k,(k,1,n)) - A).subs({A:90,a:3,B:100,n:10,x:Rational(104,100)}) - (90*Rational(4,100)*n/n*0) )",
+    "asserts": "Setup check of present-value equation (evaluate numerically against the closed form below)"
+   },
+   {
+    "sympy": "x=Rational(104,100); n=10; A,a,B=90,3,100; lhs=sum((a*Rational(n-k+1,n)+Rational(B,n))*x**(-k) for k in range(1,n+1)) - A; rhs_zero=(1-x**(-n)) - n*(x-1)*(A*(x-1)-a)/(B*(x-1)-a); simplify(lhs*n*(x-1)*(B*(x-1)-a)/(B*(x-1)-a)) ; simplify(n*(A*(x-1)-a) - (1-x**(-n))/(x-1)*(B*(x-1)-a) - n*(x-1)*lhs) == 0",
+    "asserts": "Equivalence of the PV equation with 1 - x^-n = n(x-1)(Ax-A-a)/(Bx-B-a)"
+   },
+   {
+    "sympy": "[ (x-1)*(90*(x-1)-3)/(100*(x-1)-3) for x in [Rational(1035,1000),Rational(104,100),Rational(1045,1000),Rational(105,100)] ] == [Rational(21,2000),Rational(3,125),Rational(63,2000),Rational(3,80)]",
+    "asserts": "Gauss's coefficients follow from denominator B(x-1)-a"
+   },
+   {
+    "sympy": "nsolve((Rational(25,26))**n + Rational(3,125)*n - 1, n, 27)",
+    "asserts": "root ≈ 27.492345"
+   },
+   {
+    "sympy": "nsolve((Rational(20,21))**n + Rational(3,80)*n - 1, n, 11)",
+    "asserts": "root ≈ 11.307"
+   },
+   {
+    "sympy": "nsolve((Rational(200,209))**n + Rational(63,2000)*n - 1, n, 16)",
+    "asserts": "root ≈ 16.159 (my estimate 16.156)"
+   },
+   {
+    "sympy": "nsolve((Rational(200,207))**n + Rational(21,2000)*n - 1, n, 91)",
+    "asserts": "root ≈ 91.0904 (my estimate 91.0895)"
+   }
+  ],
+  "transcription_corrections": [
+   "The formula is transcribed correctly as written (Bx - A - a), but this reflects Gauss's own slip; Bx - B - a is intended.",
+   "'Gabelsberger F. X.': the image reads 'Gabelsberger F.X.' (Franz Xaver); fine.",
+   "'Ivan v. Hear.[?] v. Bissingen' is probably 'Ivan ... v. Bissing'. Same author as 'die Familie Steinfels' on the previous page; reading uncertain.",
+   "The 'London 1838' entry carries the format mark '8.' (octavo)."
+  ]
+ }
+}

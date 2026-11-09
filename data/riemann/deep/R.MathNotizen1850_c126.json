@@ -1,0 +1,102 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c126",
+ "label": "71v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000127/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Notation: Riemann writes Pi(s) for Gamma(s+1). So Pi(1/2) = sqrt(pi)/2 and Pi(-1/2) = sqrt(pi). He writes xx, yy for squares and alpha alpha for alpha^2. The page treats the heat equation u_t = alpha^2 u_xx on the half-line x>0. It solves four boundary-value problems, each building on the previous one.\n\n(1) Data: u=0 at t=t0; u=Pi(1/2)=sqrt(pi)/2 at x=0; u=0 at x=infinity.\nSolution: u = int_{x/(2 alpha sqrt(t-t0))}^infty e^{-y^2} dy = (sqrt(pi)/2) erfc(x/(2 alpha sqrt(t-t0))). He calls this u_{t0}.\n\n(2) Data: u=0 at t=0; u=0 at x=infinity; u(0,t) = Pi(1/2) phi(t). He tacitly takes phi(0)=0.\n- Superposition (Duhamel): u = int_0^t u_tau phi'(tau) dtau.\n- Inserting (1) and interchanging the order of integration (my step): for fixed y, tau runs from 0 to t - x^2/(4 alpha^2 y^2), and y runs from x/(2 alpha sqrt t) to infinity. This gives\n  u = int_{x/(2 alpha sqrt t)}^infty e^{-y^2} phi(t - x^2/(4 y^2 alpha^2)) dy.\n- With s = t - tau, differentiating the lower limit gives\n  u_x = -(1/(2 alpha)) int_0^t e^{-x^2/(4 alpha^2 s)} phi'(t-s) s^{-1/2} ds.\n\n(3) Radiation (Robin) condition at x=0: u_x - nu u + a = 0, with zero initial data.\n- At x=0 the representation in (2) gives u = Pi(1/2) phi and u_x = -(1/(2 alpha)) int_0^t phi'(t-s) s^{-1/2} ds.\n- Hence phi satisfies an Abel integral equation of the second kind:\n  int_0^t phi'(t-s) ds/sqrt(s) = 2 alpha a - alpha nu Pi(-1/2) phi(t).\n- He rewrites the right side as A Pi(-1/2)^2 - beta Pi(-1/2) phi(t). Implicitly A = 2 alpha a/pi and beta = alpha nu.\n- Solution: phi(t) = A int_0^t e^{beta^2 (t-z)} z^{-1/2} dz + A (sqrt(pi)/beta)(1 - e^{beta^2 t}).\n- Using int_0^infty e^{-beta^2 z} z^{-1/2} dz = sqrt(pi)/beta, this becomes\n  phi(t) = A (sqrt(pi)/beta - int_t^infty e^{beta^2 (t-z)} z^{-1/2} dz) = (A sqrt(pi)/beta)(1 - e^{beta^2 t} erfc(beta sqrt t)).\n- Substituting into (2) gives\n  u = A Pi(-1/2) [ int_{q/(2 sqrt t)}^infty e^{-beta^2 y^2} dy - e^{beta^2 (t+q)} int_{q/(2 sqrt t) + sqrt t}^infty e^{-beta^2 y^2} dy ].\n  Here q (undefined on the page) must be x/(alpha beta) = x/(alpha^2 nu), so that beta^2 q = nu x.\n- In modern form this is u = (a/nu)[erfc(x/(2 alpha sqrt t)) - e^{nu x + alpha^2 nu^2 t} erfc(x/(2 alpha sqrt t) + alpha nu sqrt t)].\n- My checks: by Laplace transform, Phi(p) = A sqrt(pi)/(p (sqrt p + beta)). At x=0 the formula for u reduces to Pi(1/2) phi(t).\n\n(4) Constant flux at x=0: u_x(0,t) = -const * Pi(1/2)^2 = -const * pi/4.\n- The Abel equation of (2) requires phi'(tau) proportional to tau^{-1/2}, so phi = c sqrt t (my step).\n- Formula (2) then gives u = c sqrt t int_{x/(2 alpha sqrt t)}^infty e^{-y^2} sqrt(1 - x^2/(4 y^2 alpha^2 t)) dy.\n- My check: this equals c sqrt t (pi/2) ierfc(x/(2 alpha sqrt t)), the classical constant-flux solution. Then u_x(0) = -c pi/(4 alpha), so c = alpha * const.",
+  "errors": [
+   "The symbol q in the last formula of problem (3) is never defined. It must be q = x/(alpha beta) = x/(alpha^2 nu), with beta = alpha nu; with this reading the formula is exactly correct.",
+   "A and beta are introduced without definition. Matching coefficients gives A = 2 alpha a/pi and beta = alpha nu.",
+   "The condition phi(0)=0 is needed for u = int_0^t u_tau phi'(tau) dtau to equal the phi-integral formula. It is tacit, and is satisfied by the phi actually found in (3).",
+   "Last line: the radicand reads xx/(4yy alpha t). Dimensionally and by derivation from (2) it should be xx/(4yy alpha alpha t). This is likely a writing slip, or a doubled alpha that is hard to read.",
+   "In problems (3) and (4) the coefficients in front of the final formulas (before e^{beta beta(t+q)} and before sqrt t) are struck out or illegible. The structure of the formulas is correct regardless.",
+   "No substantive mathematical error was found. The Abel-equation solution, both forms of phi, and the final Robin-problem solution all check."
+  ],
+  "results": [
+   {
+    "what": "Error-function solution of the half-line heat equation with constant boundary value",
+    "modern_name": "erfc solution for a semi-infinite solid (Dirichlet)",
+    "usually_credited_to": "Fourier/Laplace/Poisson, early 19th c.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Time-dependent boundary value by superposition, u = int u_tau phi'(tau) dtau, converted to an integral over y with phi(t - x^2/(4 alpha^2 y^2))",
+    "modern_name": "Duhamel's principle / Duhamel superposition integral",
+    "usually_credited_to": "J.-M.-C. Duhamel (1833)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Reduction of the radiation (Robin) boundary condition to an Abel integral equation of the second kind for the boundary values, solved in closed form as (A sqrt(pi)/beta)(1 - e^{beta^2 t} erfc(beta sqrt t))",
+    "modern_name": "Second-kind Abel equation with kernel s^{-1/2}; resolvent via Mittag-Leffler E_{1/2} / Laplace transform",
+    "usually_credited_to": "Abel (1823) for the first-kind equation; second-kind closed forms in later integral-equation literature (Volterra era); heat-conduction use in Carslaw–Jaeger tradition",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Closed-form solution u = (a/nu)[erfc(xi) - e^{nu x + alpha^2 nu^2 t} erfc(xi + alpha nu sqrt t)] of the semi-infinite heat problem with radiation boundary condition",
+    "modern_name": "Semi-infinite solid with Newton-cooling/Robin boundary (Carslaw–Jaeger §2.7 type formula)",
+    "usually_credited_to": "19th-century heat conduction theory (standard in Carslaw & Jaeger; earlier forms attributed variously)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Constant-flux solution written as c sqrt t int e^{-y^2} sqrt(1 - xi^2/y^2) dy",
+    "modern_name": "Constant-flux solution, proportional to sqrt t * ierfc(xi)",
+    "usually_credited_to": "classical (19th c.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The page is classical half-line heat conduction: erfc solution, Duhamel superposition, and the constant-flux case. Riemann taught such material, and his lectures on PDE (published by Hattendorff) cover heat conduction. The slightly non-standard element is the elegant route for the Robin condition: reduce it to a second-kind Abel equation and solve it explicitly, giving the e^{beta^2 t} erfc(beta sqrt t) resolvent. This is neat, correct and early-ish, but the resulting formula is well known in 19th-century heat theory. It is therefore a nice unpublished detail rather than a priority claim.",
+  "checkable": [
+   {
+    "sympy": "x,t,al=symbols('x t alpha',positive=True); u=sqrt(pi)/2*erfc(x/(2*al*sqrt(t))); simplify(diff(u,t)-al**2*diff(u,x,2))",
+    "asserts": "Problem (1) solution satisfies u_t = alpha^2 u_xx (result 0); u(0,t)=sqrt(pi)/2"
+   },
+   {
+    "sympy": "b,z=symbols('b z',positive=True); integrate(exp(-b**2*z)/sqrt(z),(z,0,oo))",
+    "asserts": "equals sqrt(pi)/b, which links the two forms of phi(t)"
+   },
+   {
+    "sympy": "p,b,A=symbols('p b A',positive=True); simplify(A/(p-b**2)*sqrt(pi/p) + A*sqrt(pi)/b*(1/p-1/(p-b**2)) - A*sqrt(pi)/(p*(sqrt(p)+b)))",
+    "asserts": "Laplace transform of Riemann's phi equals A*sqrt(pi)/(p*(sqrt(p)+b)) (result 0)"
+   },
+   {
+    "sympy": "p,b,A=symbols('p b A',positive=True); Phi=A*sqrt(pi)/(p*(sqrt(p)+b)); simplify(p*Phi*sqrt(pi/p) - (A*pi/p - b*sqrt(pi)*Phi))",
+    "asserts": "Phi solves the transformed Abel equation L[int_0^t phi'(t-s) s^(-1/2) ds] = A*pi/p - b*sqrt(pi)*Phi (result 0)"
+   },
+   {
+    "sympy": "t,b,A=symbols('t b A',positive=True); phi=A*sqrt(pi)/b*(1-exp(b**2*t)*erfc(b*sqrt(t))); [limit(phi,t,0), simplify(phi - (A*integrate(exp(b**2*(t-Symbol('z',positive=True)))/sqrt(Symbol('z',positive=True)),(Symbol('z',positive=True),0,t)) + A*sqrt(pi)/b*(1-exp(b**2*t))))]",
+    "asserts": "phi(0)=0, and the erfc form agrees with Riemann's first integral form of phi"
+   },
+   {
+    "sympy": "x,t,al,nu,a=symbols('x t alpha nu a',positive=True); xi=x/(2*al*sqrt(t)); u=a/nu*(erfc(xi)-exp(nu*x+al**2*nu**2*t)*erfc(xi+al*nu*sqrt(t))); [simplify(diff(u,t)-al**2*diff(u,x,2)), simplify((diff(u,x)-nu*u+a).subs(x,0))]",
+    "asserts": "Robin-problem solution satisfies the heat equation and u_x - nu*u + a = 0 at x=0 (both 0)"
+   },
+   {
+    "sympy": "x,t,al,b,A=symbols('x t alpha b A',positive=True); q=x/(al*b); y=symbols('y'); uR=A*sqrt(pi)*(Integral(exp(-b**2*y**2),(y,q/(2*sqrt(t)),oo)) - exp(b**2*(t+q))*Integral(exp(-b**2*y**2),(y,q/(2*sqrt(t))+sqrt(t),oo))); simplify(uR.doit() - A*sqrt(pi)/(2*b)*(erfc(x/(2*al*sqrt(t))) - exp(b**2*(t+q))*erfc(x/(2*al*sqrt(t))+b*sqrt(t))))",
+    "asserts": "Riemann's final formula with q = x/(alpha*b) equals the standard erfc form; with A = 2*alpha*a/pi and b = alpha*nu, A*sqrt(pi)/(2b) = a/nu"
+   },
+   {
+    "sympy": "w=Rational(7,10); y=symbols('y'); N(Integral(exp(-y**2)*sqrt(1-w**2/y**2),(y,w,oo))) - N(pi/2*(exp(-w**2)/sqrt(pi) - w*erfc(w)))",
+    "asserts": "int_w^oo e^{-y^2} sqrt(1-w^2/y^2) dy = (pi/2)*ierfc(w), so the constant-flux u is c*sqrt(t)*(pi/2)*ierfc(x/(2 alpha sqrt t)) (numerical result ~0)"
+   },
+   {
+    "sympy": "s,t=symbols('s t',positive=True); integrate(1/(2*sqrt(t-s))/sqrt(s),(s,0,t))",
+    "asserts": "equals pi/2, so phi = c*sqrt(t) gives constant flux u_x(0) = -c*pi/(4*alpha)"
+   }
+  ],
+  "transcription_corrections": [
+   "Problem (3), last line: the image's 'A Pi(t 1/2)' is Pi(-1/2) = sqrt(pi); the transcription's reading Pi(-1/2) is right.",
+   "'(Pi - 1/2)' throughout problem (3) means Pi(-1/2), not Pi minus 1/2.",
+   "Last formula: the radicand reads 1 - xx/(4yy alpha t) on the page; mathematically it should be 1 - xx/(4yy alpha alpha t).",
+   "Problem (3), last line: the struck mark before e^{beta beta (t+q)} is a cancelled symbol; the intended sign is minus.",
+   "Problem (4): the boundary condition reads du/dx = -(struck coefficient)(Pi 1/2)^2, and the factor before sqrt t is also struck out (possibly an alpha-coefficient)."
+  ]
+ }
+}

@@ -1,0 +1,87 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c226",
+ "label": "217",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000227/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Title: 'Berechnung gedämpfter Bewegungen der Magnetnadel' (calculation of damped motions of the magnetic needle). This belongs to the Gauss–Weber magnetometer work, with Weber's damper, c. 1837 or later, despite the bundle label 1809.\n\nNotation on the page:\n- T is the observed, damping-lengthened oscillation time ('vergrösserte Schwingungsdauer'), i.e. the time between successive turning points.\n- a:b is the ratio of successive arcs.\n- t and t+T are two reading times; A and A+Δ are the readings ('Stand') at those times.\n- k is the modulus of Briggsian logarithms, 0.4342945.\n\nModel (my reconstruction). The needle obeys x'' + 2ε x' + ω0² x = ω0² C(t). Here C(t) is the rest position, which drifts slowly: C(t) = C0 + c t (e.g. the variation of declination).\n- Free solution: e^{-εt}·(α cos ωt + β sin ωt), with ω = π/T.\n- Arc ratio over one T: e^{εT} = a/b. Put λ = εT = ln(a/b) = log10(a/b)/k.\n- Then ω0² = ω² + ε² = (π² + λ²)/T².\n- The free part satisfies x_free(t+T) = -(b/a)·x_free(t) for every phase, not only at turning points.\n- So the combination (b·x(t) + a·x(t+T))/(a+b) = A + aΔ/(a+b) removes the oscillation exactly.\n\nEffect of the drift (my reconstruction). The forced solution is x_p = C0 + c t - 2εc/ω0², i.e. it lags the moving rest point. Therefore\nA + aΔ/(a+b) = C0 + c·(t + aT/(a+b) - 2ε/ω0²).\n\nGauss's statement. The computed rest position A + aΔ/(a+b) belongs to the epoch\nτ = t + (a/(a+b) - 2λ/(π² + λ²))·T.\nIn Briggs logs L = log10(a/b) the correction term is 2kL/(k²π² + L²).\n\nSubstitution. Put tan φ = L/(kπ) = λ/π. Then:\n- T cos φ = πT/√(π² + λ²) = π/ω0, the undamped oscillation time (as Gauss states).\n- 2λ/(π² + λ²) = (2 tan φ/(1 + tan²φ))/π = sin 2φ/π.\n- Hence τ = t + (a/(a+b) - sin2φ/π)·T.\n\nNumerics:\n- kπ = 1.364376 and log10(kπ) = 0.1349342.\n- a:b = 3:2: φ = 7°21'15'', τ = t + 0.519184 T (exact value 0.5191815).\n- a:b = 2:1: φ = 12°26'32'', τ = t + 0.53273 T (exact 0.532726).\n- a:b = 43:20: φ = 13°41'37''. The time is left unfinished; it would be t + 0.53612 T.",
+  "errors": [
+   "The first displayed formula is ambiguous or slightly inconsistent as written. With Briggs logs the correct correction term is 2k·log(a/b)/(k²π² + (log a/b)²). The written form 2 log(a/b)/(k(·· + (log a/b)²)) only matches if the partly struck denominator is read appropriately. The final form sin2φ/π is correct.",
+   "For 3:2 the value 0.519184 differs from the exact 0.5191815 by about 2.5e-6, a minor last-digit slip. The angle 7°21'15'' is correct.",
+   "The 43:20 case is left incomplete; the time coefficient is not computed. It should be ≈ 0.53612."
+  ],
+  "results": [
+   {
+    "what": "Combination A + aΔ/(a+b) of two readings taken one damped half-period apart eliminates a damped oscillation of any phase and gives the rest position.",
+    "modern_name": "Rest-point determination from damped oscillation readings, using the logarithmic decrement",
+    "usually_credited_to": "Gauss and W. Weber, Resultate aus den Beobachtungen des magnetischen Vereins (1837 onward)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Undamped period T0 = T cos φ with tan φ = λ/π, where λ is the logarithmic decrement (natural log of the arc ratio).",
+    "modern_name": "Relation between damped and undamped period: ω0² = ω² + γ²",
+    "usually_credited_to": "Gauss / Weber (1837–38, damped magnetometer)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Epoch to which the computed rest position belongs when the rest point drifts linearly: t + (a/(a+b) - sin2φ/π)T. The term sin2φ/π equals the lag 2γ/ω0² of a damped oscillator following a linearly moving equilibrium.",
+    "modern_name": "Steady-state lag (velocity error) of a damped harmonic oscillator under ramp forcing",
+    "usually_credited_to": "Gauss–Weber magnetic observation practice; specific epoch formula unsure",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a working note on the reduction of damped magnetometer readings, squarely within the known Gauss–Weber programme of 1837 onward. The epoch-correction formula for a drifting rest point is a neat, perhaps unpublished, detail, but it is elementary oscillator theory in a context where Gauss's authorship is expected.",
+  "checkable": [
+   {
+    "sympy": "N(atan(log(Rational(3,2))/pi)*180/pi)  # ≈ 7.35418 deg = 7°21'15''",
+    "asserts": "φ for a:b = 3:2"
+   },
+   {
+    "sympy": "N(Rational(3,5) - sin(2*atan(log(Rational(3,2))/pi))/pi)  # ≈ 0.519181",
+    "asserts": "time coefficient for 3:2 (Gauss: 0.519184)"
+   },
+   {
+    "sympy": "N(atan(log(2)/pi)*180/pi)  # ≈ 12.4422 deg = 12°26'32''",
+    "asserts": "φ for a:b = 2:1"
+   },
+   {
+    "sympy": "N(Rational(2,3) - sin(2*atan(log(2)/pi))/pi)  # ≈ 0.532726",
+    "asserts": "time coefficient for 2:1"
+   },
+   {
+    "sympy": "N(atan(log(Rational(43,20))/pi)*180/pi)  # ≈ 13.6937 deg = 13°41'37''",
+    "asserts": "φ for a:b = 43:20"
+   },
+   {
+    "sympy": "N(Rational(43,63) - sin(2*atan(log(Rational(43,20))/pi))/pi)  # ≈ 0.53612",
+    "asserts": "the missing time coefficient for 43:20"
+   },
+   {
+    "sympy": "N(pi/log(10)), N(log(pi/log(10),10))  # 1.364376, 0.1349342",
+    "asserts": "kπ with k = 1/ln 10, and its Briggs log"
+   },
+   {
+    "sympy": "simplify(sin(2*atan(l/pi))/pi - 2*l/(pi**2+l**2))  # == 0",
+    "asserts": "sin2φ/π = 2λ/(π²+λ²) when tan φ = λ/π"
+   },
+   {
+    "sympy": "simplify(cos(atan(l/pi)) - pi/sqrt(pi**2+l**2))  # == 0",
+    "asserts": "T cos φ equals the undamped period πT/√(π²+λ²)"
+   },
+   {
+    "sympy": "g,w,c,C0,t=symbols('g w c C0 t',positive=True); xp=C0+c*t-2*g*c/(w**2+g**2); simplify(diff(xp,t,2)+2*g*diff(xp,t)+(w**2+g**2)*xp-(w**2+g**2)*(C0+c*t))  # == 0",
+    "asserts": "particular solution under linear drift has lag 2γ/ω0²"
+   }
+  ],
+  "transcription_corrections": [
+   "The struck item before t in the first time formula is 'T', correctly marked as deleted.",
+   "The denominator of the first formula appears as k(<struck> + (log a/b)²). The struck part is illegible; mathematically it should yield k²π² + (log a/b)² with k in the numerator, or equivalently π² + λ² in natural logs.",
+   "The pencil 'W. Weber[?]' at the bottom is a later pencil annotation, probably not by Gauss's hand."
+  ]
+ }
+}

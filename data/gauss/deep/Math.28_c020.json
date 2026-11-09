@@ -1,0 +1,58 @@
+{
+ "bundle": "Math.28",
+ "page": "c020",
+ "label": "10r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000021/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous leaf deals with degree-5 modular equations for theta-type quantities p,q,P,Q. The next leaf contains spherical trigonometry and numerics. This leaf is a short, unfinished 'Theorema' on composing and inverting power series.\n\nNotation (my reading): 'P x n' means the n-th coefficient of the series P. 'Q^k x(n-k+1)' means the (n-k+1)-th term of Q^k. Since Q^k begins with y^k, that term is the coefficient of y^n. So all terms on the right of the stated relation are coefficients of the same power n.\n\nStatement:\n- Let P = A x + B x^2 + C x^3 + ... and Q = A' y + B' y^2 + C' y^3 + ....\n- Suppose for every n: [P]_n = α[Q]_n + β[Q^2]_n + γ[Q^3]_n + ....\n- In modern terms (my restatement): P = f(Q), where f(u) = αu + βu^2 + γu^3 + ... is formal composition with the same argument variable.\n- Gauss's claim: if t = f(u) inverts ('conversa') to u = g(t) = α't + β't^2 + γ't^3 + ..., then [Q]_n = α'[P]_n + β'[P^2]_n + γ'[P^3]_n + ....\n- That is, Q = g(P). This holds because composition of formal power series with zero constant term is associative and g∘f = id.\n\nThe remainder is a start on writing [Q]_n explicitly in terms of A, B, ... and the coefficients of the inverse series. Primes are dropped, so the letters α, β stand generically for the coefficients of the series applied to P.\n- First two coefficients of α P + β P^2 + ...: they are αA and αB + βA^2.\n- Leading coefficient of the square: (αA)^2, written 'ααA', presumably meaning α^2A^2.\n- General m-th power: (αA x + (αB+βA^2) x^2 + ...)^m has leading term α^m A^m x^m.\n- Its next coefficient (x^{m+1}) is m(αA)^{m-1}(αB+βA^2) = m(α^m A^{m-1} B + α^{m-1} β A^{m+1}).\n- This is exactly what is written. Such power coefficients are what one needs to iterate the substitution or to obtain the inverse coefficients.\n\nThe last line, roughly 'α ∝ Qxn.Qx1', is fragmentary. It may relate α to a ratio of first coefficients (e.g. α = A/A' from n = 1). The page breaks off there.",
+  "errors": [
+   "No mathematical errors in what is written; the computations shown are correct.",
+   "The 'theorem' is essentially immediate (inverse of a composition) and the page gives no proof; the general coefficient formula for Q x n is left unfinished.",
+   "The 'ααA' entry is presumably meant as α^2 A^2 (leading coefficient of the square); as written it is incomplete. The sign or mark before 'm(' is not a minus in substance: the coefficient is +m(...)."
+  ],
+  "results": [
+   {
+    "what": "If P = f(Q) coefficientwise (P_n = Σ_k α_k [Q^k]_n), then Q = f^{-1}(P) with the coefficients of the reverted series",
+    "modern_name": "Composition and reversion (Lagrange inversion setting) of formal power series",
+    "usually_credited_to": "Newton / Lagrange (1770) for series reversion; standard 18th-century analysis",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Coefficient of x^{m+1} in (αP + βP^2 + ...)^m equals m(α^m A^{m-1} B + α^{m-1} β A^{m+1})",
+    "modern_name": "Multinomial/binomial coefficient extraction for powers of a power series",
+    "usually_credited_to": "standard (de Moivre, Euler)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine formal manipulation of series composition and reversion, well known in Gauss's time. It is likely auxiliary to his series work on modular equations, as the previous page suggests, and contains nothing new.",
+  "checkable": [
+   {
+    "sympy": "A,B,C,al,be,ga,x=symbols('A B C al be ga x'); P=A*x+B*x**2+C*x**3; expand(al*P+be*P**2+ga*P**3).coeff(x,2) - (al*B+be*A**2)",
+    "asserts": "Second coefficient of αP+βP^2+... is αB+βA^2 (should be 0)"
+   },
+   {
+    "sympy": "m=4; expand((al*(A*x+B*x**2)+be*(A*x+B*x**2)**2)**m).coeff(x,m+1) - m*(al**m*A**(m-1)*B + al**(m-1)*be*A**(m+1))",
+    "asserts": "Coefficient of x^{m+1} in (f(P))^m matches the page's formula for m=4 (should be 0)"
+   },
+   {
+    "sympy": "u,t=symbols('u t'); f=al*u+be*u**2+ga*u**3; g=t/al - be*t**2/al**3 + (2*be**2-al*ga)*t**3/al**5; series(f.subs(u,g),t,0,4).removeO() - t",
+    "asserts": "The reversion coefficients α'=1/α, β'=-β/α^3, γ'=(2β^2-αγ)/α^5 invert t=f(u) (should be 0)"
+   },
+   {
+    "sympy": "y=symbols('y'); Q=symbols('a1')*y+symbols('a2')*y**2+symbols('a3')*y**3; Pc=expand(f.subs(u,Q)); series(g.subs(t,Pc),y,0,4).removeO() - Q",
+    "asserts": "If P=f(Q) then Q=g(P), the theorem as stated (should be 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The letter rendered \\mathfrak{b} is Gauss's β (the second Greek coefficient after α), likewise β' in the inverted series.",
+   "'P x n', 'Q^2 x(n-1)', 'Q^3 x(n-2)' are Gauss's coefficient notation (n-th coefficient of P; (n-1)-th term of Q^2; ...), not products with x.",
+   "'α α A' is likely meant as α^2 A^2 (possibly an incomplete 'ααAA').",
+   "The mark before 'm(' in the last formula line is likely not a minus sign; the parenthesis is unclosed in the original.",
+   "Final line 'α ∝ Qxn.Qx1' is uncertain; the first symbol may be 'α =' or a word; illegible fragment."
+  ]
+ }
+}

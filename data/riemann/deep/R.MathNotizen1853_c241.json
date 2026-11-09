@@ -1,0 +1,39 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c241",
+ "label": "121v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000242/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds a single formula fragment and a small sketch.\n\n(1) Formula. As written it reads: d( a_{11} du/dx_1 + a_{12} du/dx_2 + a_{13} du/dx_3 ) / dx_1 + ...\nThe derivative symbols are round (partial) d's. The trailing '+ .' means 'and so on'.\n\nIn modern notation this is the first of three terms of the second-order operator in divergence form:\nL u = sum_{i=1}^{3} d/dx_i ( sum_{j=1}^{3} a_{ij} du/dx_j ) = div(A grad u),\nwith coefficient matrix A = (a_{ij}). Completing the '+ ...' with the i = 2 and i = 3 terms is my reading; it is certain from the index pattern.\n\nThis is the operator of heat conduction (or potential theory) in an anisotropic, possibly inhomogeneous, medium. The heat equation would be du/dt = L u; the stationary problem is L u = 0.\n\nContext:\n- The previous page (121r) computes components X, Y of the attraction of a homogeneous ellipsoid. It uses the confocal parameter s, the largest root sigma of the confocal quadric equation, and elliptic-type integrals from sigma to infinity.\n- The letter on the next page is dated 5 October 1861.\n- 1861 is the year of Riemann's Paris prize memoir on heat conduction (Commentatio mathematica). That memoir treats exactly the system d/dx_i(a_{ij} du/dx_j) and asks when it can be reduced to the isotropic case by a change of variables.\n- For constant symmetric a_{ij}, a linear change of variables turns L into the Laplacian. The fundamental solution and the potentials of ellipsoidal bodies then become the natural tools, which fits the ellipsoid computation on the previous page.\nThis link to the Commentatio is plausible but conjectural; the page itself contains no derivation.\n\n(2) Sketch. A horizontal line with a vertical line dropping from its right portion, forming a T. There are two dots above the horizontal line and two below it, to the left of the vertical. It may be a schematic of a boundary or corner configuration, or a reckoning or tally layout. It is not interpretable with certainty.",
+  "errors": [
+   "No mathematical errors: the page contains only the beginning of a standard operator and does not complete it."
+  ],
+  "results": [
+   {
+    "what": "Second-order operator in divergence form sum_i d/dx_i( sum_j a_ij du/dx_j ), i.e. the anisotropic heat-conduction / generalized Laplace operator, probably in connection with heat flow in anisotropic bodies (1861).",
+    "modern_name": "Divergence-form elliptic operator div(A grad u); anisotropic heat equation",
+    "usually_credited_to": "Fourier, Duhamel, Lamé (anisotropic conduction, 1820s-1830s); Riemann's 1861 Paris memoir for the transformation question",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Only the first term of a standard operator is written. It is well known that Riemann used exactly this operator in his 1861 Commentatio on heat conduction, so the fragment adds nothing new.",
+  "checkable": [
+   {
+    "sympy": "x1,x2,x3=symbols('x1 x2 x3'); u=Function('u')(x1,x2,x3); a=symbols('a11 a12 a13 a22 a23 a33'); A=Matrix([[a[0],a[1],a[2]],[a[1],a[3],a[4]],[a[2],a[4],a[5]]]); X=[x1,x2,x3]; L=sum(diff(sum(A[i,j]*diff(u,X[j]) for j in range(3)),X[i]) for i in range(3)); simplify(L - sum(A[i,j]*diff(u,X[i],X[j]) for i in range(3) for j in range(3)))==0",
+    "asserts": "For constant symmetric coefficients the divergence-form operator equals sum a_ij u_{x_i x_j}."
+   },
+   {
+    "sympy": "y1,y2,y3=symbols('y1 y2 y3'); P=Matrix([[2,0,0],[1,1,0],[0,0,3]]); A=P*P.T; w=Function('w'); Y=P.inv()*Matrix([x1,x2,x3]); U=w(Y[0],Y[1],Y[2]); L=sum(A[i,j]*diff(U,X[i],X[j]) for i in range(3) for j in range(3)); Lap=sum(diff(w(y1,y2,y3),v,2) for v in (y1,y2,y3)).subs({y1:Y[0],y2:Y[1],y3:Y[2]}); simplify(L-Lap)==0",
+    "asserts": "If A = P*P^T is constant positive definite, the substitution y = P^{-1} x turns the operator into the ordinary Laplacian in y (worked example)."
+   }
+  ],
+  "transcription_corrections": [
+   "The coefficients are written a_{11}, a_{12}, a_{13} with subscripts but no commas.",
+   "The struck-through item before du/dx_1 is an overwritten or corrected denominator of the first term (dx_1 written over another symbol), not a separate deleted du/dx.",
+   "The trailing '+ ·' is '+ .', signalling continuation with the analogous terms for x_2 and x_3."
+  ]
+ }
+}

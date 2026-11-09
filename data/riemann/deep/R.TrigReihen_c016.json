@@ -1,0 +1,52 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c016",
+ "label": "8r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000017/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is the autograph of part of section 1 (the historical survey) of Riemann's Habilitationsschrift 'Ueber die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854; published posthumously by Dedekind in 1867). The page number '11' appears at the top right. The page contains no derivation of Riemann's own. It is historiography that sets up a mathematical reading of a formula by Lagrange.\n\n(a) The opening sentence finishes the account of the Euler–d'Alembert–Bernoulli era. Someone (Euler, in context) inserts a 'so-called discontinuous function', meaning the ordinate of a broken polygonal line, into the coefficient formula. This yields a series that in fact always gave the value of the function.\n\n(b) Fourier, in his first heat memoir to the Paris Academy (21 Dec. 1807; reported in Bull. Soc. Philomath. I, p.112), first asserted that a completely arbitrary, graphically given function can be expressed by a trigonometric series. The aged Lagrange opposed this decisively. Footnote 2 says that, according to an oral communication from Dirichlet, a document about this is said to exist in the Academy archive.\n\n(c) Poisson nevertheless refers, for example in Traité de mécanique no. 323, p.638, to a passage in Lagrange's vibrating-string papers as containing this mode of representation. Riemann ascribes this to the Fourier–Poisson rivalry; footnote 4 notes that Poisson wrote the Bulletin report on Fourier's memoir. Riemann proposes to refute the claim.\n\n(d) He quotes Lagrange, Misc. Taur. III, pars math., p.261:\ny = 2∫Y sin(Xπ)dX · sin(xπ) + 2∫Y sin(2Xπ)dX · sin(2xπ) + … + 2∫Y sin(nXπ)dX · sin(nxπ),\nso that y = Y when x = X.\n\nThe mathematical point is completed on the next page, and I spell it out here. Lagrange's ∫ ... dX is a finite sum Σ ... ΔX, taken over the nodes X_k = k/(n+1), k = 1..n, with ΔX = 1/(n+1). The formula therefore solves a finite problem: find the sine polynomial y(x) = Σ_{m=1}^n a_m sin(mπx) with prescribed values Y_k at the nodes x = X_k. The solution is\na_m = (2/(n+1)) Σ_{k=1}^n Y_k sin(mπk/(n+1)).\nThis follows from the discrete orthogonality relation\nΣ_{k=1}^n sin(mπk/(n+1)) sin(lπk/(n+1)) = ((n+1)/2) δ_{ml}, for 1 ≤ m, l ≤ n.\nIn modern terms this is the type-I discrete sine transform, which is its own inverse up to the factor 2/(n+1). Letting n → ∞ turns the sum into the Fourier coefficient 2∫_0^1 Y(X) sin(mπX) dX. Riemann's argument is that Lagrange never took this step, nor believed that arbitrary functions could be represented this way.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "The quoted formula is correct as a discrete interpolation formula only when ∫ dX is read as Σ ΔX over the n equally spaced nodes; read literally as an integral it would be the Fourier sine-series partial sum, and the claim 'y = Y when x = X' would then be false for finite n. Resolving this ambiguity is exactly Riemann's point.",
+   "Historical details check out: the memoir date 21 Dec 1807, the Bulletin philomathique report by Poisson, and Lagrange's opposition are standard. The archive claim is explicitly hearsay, credited to Dirichlet."
+  ],
+  "results": [
+   {
+    "what": "Lagrange's finite trigonometric interpolation formula: a sine polynomial of degree n through prescribed values at x = k/(n+1)",
+    "modern_name": "Discrete sine transform (DST-I) / trigonometric interpolation via discrete orthogonality",
+    "usually_credited_to": "Lagrange (1762–65, Misc. Taur. III); also Euler and Clairaut for related discrete formulas",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical analysis showing that Lagrange's formula is a discrete sum, not Fourier's integral formula, refuting Poisson's priority claim for Lagrange",
+    "modern_name": "Historiography of Fourier series (Riemann's Habilitationsschrift, §1)",
+    "usually_credited_to": "Riemann, Habilitationsschrift 1854 (publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the manuscript of the well-known, published historical introduction to Riemann's 1854 Habilitationsschrift. Its content, including the Dirichlet anecdote and the Lagrange/Poisson discussion, appears essentially verbatim in the published text.",
+  "checkable": [
+   {
+    "sympy": "n=5; all(simplify(sum(sin(m*pi*k/(n+1))*sin(l*pi*k/(n+1)) for k in range(1,n+1)) - (Rational(n+1,2) if m==l else 0))==0 for m in range(1,n+1) for l in range(1,n+1))",
+    "asserts": "Discrete orthogonality of sin(mπk/(n+1)) on the nodes k = 1..n with norm (n+1)/2, which underlies Lagrange's formula."
+   },
+   {
+    "sympy": "n=3; Y=symbols('Y1:4'); a=[Rational(2,n+1)*sum(Y[k-1]*sin(m*pi*k/(n+1)) for k in range(1,n+1)) for m in range(1,n+1)]; [simplify(sum(a[m-1]*sin(m*pi*j/(n+1)) for m in range(1,n+1)) - Y[j-1]) for j in range(1,n+1)]",
+    "asserts": "Lagrange's formula with ∫ dX read as Σ ΔX (ΔX = 1/(n+1)) reproduces the prescribed values: y = Y at x = X_j (should give [0,0,0])."
+   },
+   {
+    "sympy": "limit(Sum(2*f(k/n)*sin(m*pi*k/n)/n,(k,1,n-1)), n, oo)  # conceptually -> 2*Integral(f(X)*sin(m*pi*X),(X,0,1))",
+    "asserts": "As n → ∞ the discrete coefficients become Fourier sine coefficients (Riemann-sum limit); conceptual check."
+   }
+  ],
+  "transcription_corrections": [
+   "The page number '11.' at the top right of the image is not in the transcription.",
+   "The machine transcription otherwise matches the image well. The final formula term reads '+ &c. + 2∫Y sin nXπ dX × sin nxπ', and the French tail 'de sorte que, lorsque x = X, on aura y = Y, Y étant l'ordonnée qui répond à l'abscisse X.' is correctly rendered.",
+   "Footnote 1 reads 'Bulletin des sciences p. la soc. philomathique Tome I. pag. 112.' The marginal duplicate 'pag. 112.' attached to the next page belongs to this footnote's line break."
+  ]
+ }
+}

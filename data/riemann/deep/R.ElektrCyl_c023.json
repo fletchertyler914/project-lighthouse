@@ -1,0 +1,73 @@
+{
+ "bundle": "R.ElektrCyl",
+ "page": "c023",
+ "label": "10v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173043:00000024/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page (folio 10v, the verso of the leaf whose recto is the 'previous page') carries only very faint pencil traces. The legible fragments match the formulas on 10r and on the fair-copy lecture text of 11r: an encircled sheet number at the top; a fraction-like expression; a large parenthesised expression of the form ((dg/dx - dh/dy)^2 + (dg/dy + dh/dx)^2) dx dy, i.e. a Dirichlet-type integral; something like d^2u/dx^2 + d^2u/dy^2 (the Laplace equation); a line resembling dv/dy dx - dv/dx dy = du; and at the lower left a table 'w K1 K2, g = alpha w + beta w' + w''', with w', w'' rows below. It cannot be decided from the image whether this is independent faint pencil work or show-through from 10r. The fragments are not mirrored, which favours faint independent pencil, possibly a first draft of 10r. Either way the content can only be reconstructed by appeal to 10r and 11r.\n\nProblem served (from 11r, a lecture): find an analytic function w = u + iv of z = x + iy in the plane exterior to several circles with centres p, p1, p2 and radii r, r1, r2. Its real part must take arbitrarily prescribed values on the circles (the Dirichlet problem for a multiply connected domain, used for electrostatics of parallel cylinders, cf. the bundle title 'ElektrCyl').\n\nMethod as far as recoverable:\n(1) Elementary building block. For the circle |z-p| = r, take G = log((z-p-r e^{i beta})/(z-p-r e^{i alpha})) = g + i h. For z on the circle, the argument of (z-a)/(z-b), with a and b on the circle, is constant on each of the two arcs (inscribed angle theorem). So the imaginary part is piecewise constant on the boundary, jumping where z = p + r e^{i alpha} and z = p + r e^{i beta}, and logarithmically singular there. 11r states the requirement: imaginary part = 0 on the boundary, infinite at z - p = r e^{alpha i}, otherwise continuous everywhere, and continuous in 1/z at infinity.\n(2) Harmonic functions and conjugates. v is harmonic, d^2v/dx^2 + d^2v/dy^2 = 0. The conjugate is obtained by integrating du = (dv/dy) dx - (dv/dx) dy, which is exact by the Laplace equation (Cauchy-Riemann).\n(3) Dirichlet principle. The minimum of the integral of ((dg/dx - dh/dy)^2 + (dg/dy + dh/dx)^2) over the domain is zero exactly when g + ih is analytic (Cauchy-Riemann). This is the Dirichlet functional Riemann uses to establish existence.\n(4) Periods. In the multiply connected exterior domain the conjugate u has periods (cyclic moduli) K1, K2 around the circles. Riemann takes three solutions w, w', w'' with periods (K1,K2), (K1',K2'), (K1'',K2''). He forms g = alpha w + beta w' + w'' and chooses alpha, beta from the linear system alpha K1 + beta K1' + K1'' = 0 and alpha K2 + beta K2' + K2'' = 0, so that g is single-valued.\n\nNothing on 10v itself goes beyond these fragments.",
+  "errors": [
+   "No determinable errors: the page is too faint for step-by-step checking.",
+   "The matching formulas on 10r/11r are correct where checkable. (dg/dx - dh/dy)^2 + (dg/dy + dh/dx)^2 = 0 is exactly the Cauchy-Riemann condition. du = v_y dx - v_x dy is closed iff v is harmonic. The period-elimination system is a correctly posed 2x2 linear system, solvable provided K1 K2' - K2 K1' != 0; Riemann does not address this nondegeneracy in the visible material."
+  ],
+  "results": [
+   {
+    "what": "Dirichlet problem for the exterior of several circles, solved via analytic functions whose real/imaginary part is prescribed on the circles (electrostatics of parallel cylinders)",
+    "modern_name": "Dirichlet problem in multiply connected circular domains; 2D electrostatics via conformal methods",
+    "usually_credited_to": "Classical (Green, Dirichlet, Thomson/Kelvin); Riemann in lectures on electrostatics",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Logarithm of a ratio of linear factors whose argument is piecewise constant on a circle (inscribed angle), used as a building block with jump/log singularity",
+    "modern_name": "Poisson-kernel-type building block / harmonic measure of an arc",
+    "usually_credited_to": "Classical (Poisson, Schwarz for the circle)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Dirichlet integral of (g_x - h_y)^2 + (g_y + h_x)^2 vanishing iff Cauchy-Riemann",
+    "modern_name": "Dirichlet principle",
+    "usually_credited_to": "Riemann (1851 dissertation), named after Dirichlet",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Eliminating periods (cyclic moduli) K1, K2 of the conjugate function by a linear combination of three solutions",
+    "modern_name": "Normalisation of periods of harmonic conjugates in multiply connected domains (harmonic measures / periods matrix)",
+    "usually_credited_to": "Riemann (1857 Abelian functions; multiply connected surfaces)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is nearly illegible faint pencil (or show-through) duplicating material from 10r/11r. That material is a routine application of Riemann's own known methods (Dirichlet principle, conjugate functions, period elimination) to electrostatics of cylinders.",
+  "checkable": [
+   {
+    "sympy": "x,y,a,b=symbols('x y a b',real=True); p=x+I*y; t=symbols('t',real=True); z=exp(I*t); simplify(diff(arg((z-exp(I*a))/(z-exp(I*b))),t))",
+    "asserts": "On the unit circle the argument of (z-e^{ia})/(z-e^{ib}) is locally constant in t away from a and b (derivative 0), i.e. the imaginary part of the log is piecewise constant on the circle (inscribed angle theorem)."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); v=log(sqrt(x**2+y**2)); simplify(diff(v,x,2)+diff(v,y,2))",
+    "asserts": "log|z| is harmonic away from 0 (example of d^2v/dx^2 + d^2v/dy^2 = 0)."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); v=x**3-3*x*y**2; P=diff(v,y); Q=-diff(v,x); simplify(diff(P,y)-diff(Q,x)+0) == simplify(-(diff(v,x,2)+diff(v,y,2)))",
+    "asserts": "du = v_y dx - v_x dy is closed (d/dy(v_y) = d/dx(-v_x)) exactly when v is harmonic."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); f=expand((x+I*y)**3); g=re(f); h=im(f); simplify((diff(g,x)-diff(h,y))**2+(diff(g,y)+diff(h,x))**2)",
+    "asserts": "The Dirichlet integrand vanishes identically for an analytic g+ih (Cauchy-Riemann)."
+   },
+   {
+    "sympy": "al,be,K1,K2,K1p,K2p,K1pp,K2pp=symbols('alpha beta K1 K2 K1p K2p K1pp K2pp'); solve([al*K1+be*K1p+K1pp, al*K2+be*K2p+K2pp],[al,be])",
+    "asserts": "alpha, beta are uniquely determined when K1*K2p - K2*K1p != 0, making g = alpha w + beta w' + w'' single-valued."
+   }
+  ],
+  "transcription_corrections": [
+   "The page contains more than the transcription records. Visible faint fragments include an encircled sheet number at top centre, a squared-sum Dirichlet integral of the form ((dg/dx - dh/dy)^2 + (dg/dy + dh/dx)^2) dx dy, a line resembling 'dv/dy dx - dv/dx dy = du', and at lower left a table 'w K1 K2 ... g = alpha w + beta w' + w''' with w', w'' rows. These mirror the content of the previous page.",
+   "The library stamp reads 'EX BIBLIOTHECA REGIA ACADEM. GEORGIAE AUG.'; it is correctly transcribed but is not part of Riemann's text.",
+   "In the next-page transcription, 'e^{alpha-beta}(...)' is very likely 'log(...)'. On the previous page, '(dg/dx + dv/dy)' is likely '(dg/dx - dh/dy)', as in the next page's version."
+  ]
+ }
+}

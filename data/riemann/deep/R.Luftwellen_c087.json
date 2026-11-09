@@ -1,0 +1,61 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c087",
+ "label": "57v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000088/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the opening of the derivation in Riemann's memoir on plane air waves of finite amplitude (draft of 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite', Göttingen Abh. 8, 1860). Here the gas is isothermal (Mariotte/Boyle law). The page sets up the exact one-dimensional gas equations and begins the reduction to characteristic form.\n\nSetup. The x-axis points in the direction of the original motion. rho(x,t) is density, p is pressure, u(x,t) is velocity, and omega is an area element of the plane with abscissa x. The constant a^2 is defined by p = a^2 rho; a is the isothermal (Newtonian) sound speed.\n\nMass balance. A right cylinder on omega of height dx has volume omega dx and mass omega rho dx. In time dt its mass changes by omega (d rho/dt) dt dx. This must equal the net inflow, -omega d(rho u)/dx dx dt. Hence\n  rho_t = -(rho u)_x.\n\nMomentum. The material acceleration is u_t + u u_x. The force in the +x direction on the slab is -p_x omega dx = -a^2 rho_x omega dx. Hence\n  rho (u_t + u u_x) = -a^2 rho_x.\n\nDividing by rho gives system (1):\n  u_t + u u_x = -a^2 (log rho)_x,\n  (log rho)_t + u (log rho)_x = -u_x.\n\nRiemann variables. Multiply the second equation by +a or -a and add it to the first (step completed by me). Writing L = log rho:\n  (u ± aL)_t + (u ± a)(u ± aL)_x = 0.\n\nThe page then introduces, as abbreviations (2):\n  u + a log rho = 4a p,  u - a log rho = 4a q.\nThe symbol p is now reused; it no longer means pressure.\n\nThe next page completes the step:\n  (3) p_t = -(u+a) p_x,  q_t = -(u-a) q_x.\nThat is, p is constant along dx/dt = u+a and q along dx/dt = u-a. Also u = 2a(p+q) and log rho = 2(p-q). These are the Riemann invariants of isothermal gas dynamics. The next page goes on to the hodograph (p,q)-linearisation and the potential w.",
+  "errors": [
+   "No mathematical errors on this page. Every step checks.",
+   "Notational clash: p first denotes pressure (p = a^2 rho) and is then reused in (2) for the Riemann variable u + a log rho = 4ap. The published version avoids this by using r and s.",
+   "The normalisation 4a in (2) is unusual but consistent. It gives u = 2a(p+q), as used on the next page."
+  ],
+  "results": [
+   {
+    "what": "Exact 1D isentropic/isothermal Euler equations (continuity and momentum) for an ideal gas with p = a^2 rho, derived from a control-cylinder balance",
+    "modern_name": "One-dimensional compressible Euler equations (isothermal)",
+    "usually_credited_to": "Euler (1755-57); Lagrange; Poisson (1808) for the 1D gas case",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Combination of the equations with ±a to obtain transport equations for u ± a log rho along dx/dt = u ± a",
+    "modern_name": "Riemann invariants / characteristic form of the isothermal gas equations",
+    "usually_credited_to": "Riemann (1860), with Earnshaw (1858-60) independently close; Poisson (1808) and Stokes (1848) for simple waves",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of Riemann's famous 1860 paper on finite-amplitude air waves. The Riemann invariants introduced here are exactly what the literature already credits to him. The only novelty is the draft notation (4ap, 4aq and the isothermal specialisation).",
+  "checkable": [
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); u=Function('u')(x,t); L=Function('L')(x,t); E1=diff(u,t)+u*diff(u,x)+a**2*diff(L,x); E2=diff(L,t)+u*diff(L,x)+diff(u,x); R=u+a*L; simplify(E1+a*E2-(diff(R,t)+(u+a)*diff(R,x)))",
+    "asserts": "Adding a times the continuity equation (in log rho) to the momentum equation gives (u+a log rho)_t + (u+a)(u+a log rho)_x; the result is 0."
+   },
+   {
+    "sympy": "S=u-a*L; simplify(E1-a*E2-(diff(S,t)+(u-a)*diff(S,x)))",
+    "asserts": "The minus combination gives the transport equation for u - a log rho with speed u - a; the result is 0."
+   },
+   {
+    "sympy": "rho=Function('rho')(x,t); simplify((diff(rho,t)+diff(rho*u,x))/rho - (diff(log(rho),t)+u*diff(log(rho),x)+diff(u,x)))",
+    "asserts": "The continuity equation divided by rho equals the log-form second equation of (1); the result is 0."
+   },
+   {
+    "sympy": "simplify((rho*(diff(u,t)+u*diff(u,x))+a**2*diff(rho,x))/rho - (diff(u,t)+u*diff(u,x)+a**2*diff(log(rho),x)))",
+    "asserts": "The momentum equation divided by rho equals the first equation of (1); the result is 0."
+   },
+   {
+    "sympy": "P,Q=symbols('P Q'); solve([Eq(u+a*L,4*a*P),Eq(u-a*L,4*a*Q)],[u,L])",
+    "asserts": "The definitions (2) give u = 2a(P+Q) and log rho = 2(P-Q), consistent with the next page."
+   }
+  ],
+  "transcription_corrections": [
+   "Marginal note at top right, transcribed '[x, 71x.]': the image shows something like '[x, 71x.' in brackets. It is probably an archival or page reference, not part of the text.",
+   "In (2), '4ap' and '4aq' are confirmed by the next page's u = 2a(p+q). The '[?]' flags can be removed.",
+   "'durch [-durch-] die in ihn einströmende Masse': the first word written was struck out and rewritten. The reading is correct in sense.",
+   "First line: probably 'Man denke sich rechtwinklige Coordinatenaxen eingeführt'. This is consistent with the image."
+  ]
+ }
+}

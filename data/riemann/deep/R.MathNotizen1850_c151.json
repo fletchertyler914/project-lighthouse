@@ -1,0 +1,55 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c151",
+ "label": "85v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000152/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is not a calculation. It is a German prose draft of the opening of Riemann's paper on the Gauss series, 'Beiträge zur Theorie der durch die Gauss'sche Reihe F(α,β,γ,x) darstellbaren Functionen' (Abh. Göttingen, 1857). The phrasing resembles that paper and its self-announcement (Selbstanzeige) in the Göttingische gelehrte Anzeigen, 1857. That resemblance is my recollection and has not been checked against the printed texts. The neighbouring folios are Riemann's two-sphere potential computations of Feb. 1856. Those reduce to Riemann P-functions and a Gauss series, which explains why this draft sits here.\n\nThe draft text, translated and paraphrased: 'The subject of this paper is the transcendental function represented by the hypergeometric series F, as long as that series converges. Euler was already led to treat it. He remarked that the solution of a differential equation of the form\n  a·d²y/(d log x)² + b·dy/d log x + c·y = x^ε·(a'·d²y/(d log x)² + b'·dy/d log x + c'·y),\nwith a,b,c,a',b',c',ε arbitrary constants, can be expanded in powers of x. Here x enters only algebraically and in two different dimensions. The exponents of that expansion form an arithmetic progression with difference ε. Apart from a factor common to all terms, these series are, in today's notation, hypergeometric series with fourth element (a'/a)·x^ε.'\n\nModern reconstruction (the steps are mine; the page only states the result). Let θ = x·d/dx = d/d log x. Factor the two quadratics:\n- L(s) = a s² + b s + c = a(s−r1)(s−r2);\n- M(s) = a' s² + b' s + c' = a'(s−p1)(s−p2).\nThe equation reads L(θ)y = x^ε·M(θ)y.\n\nStep 1. Insert y = Σ_k c_k x^{r1+kε}. This gives L(r1+kε)·c_k = M(r1+(k−1)ε)·c_{k−1}, with L(r1)=0 for the leading term.\n\nStep 2. Compute the coefficient ratio:\nc_k/c_{k−1} = (a'/a) · (k−1+α)(k−1+β) / (k(k−1+γ)),\nwith α=(r1−p1)/ε, β=(r1−p2)/ε, γ=1+(r1−r2)/ε.\n\nStep 3. Hence y = x^{r1}·F(α,β,γ; (a'/a)x^ε). This is exactly Riemann's statement: exponents in arithmetic progression with difference ε, a common factor x^{r1}, and fourth element (a'/a)x^ε.\n\nEquivalent view: put t = x^ε, so that θ_x = ε·θ_t. The equation then becomes Gauss's hypergeometric equation in the variable (a'/a)t.\n\nThe stray formula at the lower centre (read as 'F x/a'' or similar) is an isolated jotting and cannot be interpreted with confidence.",
+  "errors": [
+   "No mathematical errors in the statement as written.",
+   "Riemann leaves implicit the conditions a ≠ 0 and ε ≠ 0, and that (r1−r2)/ε is not a negative integer (otherwise the second solution may involve logarithms or fail to have this form). These omissions are normal for an introduction.",
+   "The transcription's 'a/a x^ε' should be a'/a·x^ε; the derivation requires the primed coefficient in the numerator."
+  ],
+  "results": [
+   {
+    "what": "Equations of the form L(θ)y = x^ε·M(θ)y, with L and M quadratic in θ = x d/dx, are solved by x^r·F(α,β,γ;(a'/a)x^ε). The exponents run in an arithmetic progression with step ε.",
+    "modern_name": "Reduction of a two-term (Euler-type) recurrence ODE to the Gauss hypergeometric equation by the substitution t = x^ε; Frobenius-type series solution",
+    "usually_credited_to": "Euler (Institutiones calculi integralis, vol. II, 1769, and papers of the 1770s-1778); Gauss (1812) for the series notation F(α,β,γ,x)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical framing of the 1857 hypergeometric paper by appeal to Euler's equation class",
+    "modern_name": "Draft introduction / Selbstanzeige of Riemann's 1857 P-function paper",
+    "usually_credited_to": "Riemann 1857 (the published text is known)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the known introduction to Riemann's 1857 hypergeometric paper; it is an explicitly historical remark credited to Euler. The only interest is archival: it shows the draft placed among the Feb. 1856 two-sphere potential notes, which motivated the P-function work.",
+  "checkable": [
+   {
+    "sympy": "k,eps,a,ap,r1,r2,p1,p2=symbols('k eps a ap r1 r2 p1 p2'); L=lambda s: a*(s-r1)*(s-r2); M=lambda s: ap*(s-p1)*(s-p2); al=(r1-p1)/eps; be=(r1-p2)/eps; ga=1+(r1-r2)/eps; simplify(M(r1+(k-1)*eps)/L(r1+k*eps) - (ap/a)*(k-1+al)*(k-1+be)/(k*(k-1+ga)))",
+    "asserts": "Equals 0: the coefficient ratio of the power series solution is the Gauss hypergeometric ratio with argument (a'/a)x^ε."
+   },
+   {
+    "sympy": "x,t,eps=symbols('x t eps',positive=True); f=Function('f'); y=f(x**eps); simplify(x*diff(y,x) - eps*(t*diff(f(t),t)).subs(t,x**eps))",
+    "asserts": "Equals 0: θ_x = ε·θ_t under t = x^ε, so the equation reduces to a hypergeometric equation in t."
+   },
+   {
+    "sympy": "x=symbols('x'); a,b,c,ap,bp,cp=2,-3,1,1,1,-6; eps=1; r1=1; th=lambda F: x*diff(F,x); y=x**r1*hyper([ (r1-2)/eps, (r1+3)/eps ],[1+(r1-Rational(1,2))/eps],(Rational(ap,a))*x**eps); simplify(a*th(th(y))+b*th(y)+c*y - x**eps*(ap*th(th(y))+bp*th(y)+cp*y))",
+    "asserts": "Numerical instance (L=2s²−3s+1 with roots 1 and 1/2; M=s²+s−6 with roots 2 and −3; ε=1): x·F(−1,4;3/2;x/2) satisfies the equation (should simplify to 0). F terminates here since α=−1."
+   }
+  ],
+  "transcription_corrections": [
+   "A page number '4' is written at the top centre.",
+   "First line: probably 'der Gegenstand dieser Abhandlung bildet die Transcendente, welche durch die hypergeometrische Reihe F dargestellt wird, so lange diese Reihe convergirt'. The words read as '; dem Ausdruck' are uncertain, and a phrase in lighter ink is struck through.",
+   "'vierten Element a/a x^ε' should read 'a'/a x^ε' (a-prime over a).",
+   "'in welcher a,b,c,...' is struck out and replaced by 'und'; 'sind' is struck before 'und (also x nur algebraisch ...)'.",
+   "Equation as written uses (d log x)² in the second-derivative denominators on both sides (a' d²y/(d log x)²); the transcription is correct in substance.",
+   "The bottom-centre jotting ('F x/a'') is illegible and may be F with sub/superscripts; treat it as uncertain."
+  ]
+ }
+}

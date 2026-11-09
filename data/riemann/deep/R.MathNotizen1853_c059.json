@@ -1,0 +1,52 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c059",
+ "label": "29v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000060/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (from this and the neighbouring pages). A plane circular plate (disc) of radius R carries a uniformly distributed 'Agens' (attracting mass or charge) of unit surface density. Riemann uses polar coordinates (r, θ) on the plate. For a field point, x is the distance from the plate plane (along the plate axis) and y is the distance from the axis. The distance from the plate element to the field point is rho = sqrt(r^2 + y^2 - 2 r y cos θ + x^2). The component of the inverse-square attraction perpendicular to the plate is\n  F(x,y) = ∫_0^{2π} ∫_0^R x r dr dθ / rho^3.\nRiemann calls this the 'horizontal' component, presumably because the plate is imagined vertical.\n\nLine 1. Curves (surfaces of revolution) of equal normal component are defined by F(x,y) = Const.\n\nLine 2 (substitution). Put y^2 = c^2 - x^2, i.e. restrict the field point to the sphere of radius c about the plate centre. Then x^2 + y^2 = c^2 and rho^2 = r^2 + c^2 - 2 r cos θ sqrt(c^2 - x^2). F becomes a function of the single variable x along a meridian of that sphere.\n\nLine 3 (pairing; my filling). Riemann pairs the elements at θ and θ+π, i.e. symmetric about the plate centre. The integrand then becomes the 'Summe'\n  x/(r^2+c^2+2r cos θ sqrt(c^2-x^2))^{3/2} + x/(r^2+c^2-2r cos θ sqrt(c^2-x^2))^{3/2},\nintegrated over θ in (0, π) and over r. He first wrote 'Differenz' and corrected it to 'Summe'. As written, the second sign should be minus; see errors.\n\nLine 4 (conclusion). From the behaviour of this sum along the sphere as one moves from the axis (x = c) toward the plate plane, he concludes: 'also the level surface in this sense [constant normal component] falls outside the sphere'. This means the surface F = F(c,0) through the axis point at distance c lies outside the sphere of radius c. The word 'auch' parallels the potential level surfaces just discussed, which lie outside the hemisphere; the next page bounds them between a hemisphere and an oblate spheroid with focal circle the plate rim.\n\nCheck of the conclusion (my computation). On the axis, E(x) = F(x,0) = 2π(1 - x/sqrt(x^2+R^2)). Near the axis, Laplace's equation for the axisymmetric component gives F ≈ E(x) - (y^2/4) E''(x). On the sphere, x ≈ c - y^2/(2c). Hence\n  F|_sphere ≈ E(c) + y^2 [ -E'(c)/(2c) - E''(c)/4 ] = E(c) + y^2 · π R^2 (2R^2 - c^2) / (2c (c^2+R^2)^{5/2}).\nSo for c < √2·R the normal component grows as one leaves the axis along the sphere. The level surface must then bulge outward, and Riemann's claim holds. For c > √2·R the coefficient is negative and the level surface lies inside the sphere near the axis. Also, for c > R the component tends to 0 at the plate plane, below its axis value. The claim is therefore true only for spheres not too large compared with the plate (near-plate regime).\n\nThe page gives no argument for the monotonicity: in the pair-sum, the factor x decreases off-axis while the bracket increases, so the sign is not evident termwise.",
+  "errors": [
+   "Both terms of the 'Summe' are written with +2r cos θ sqrt(c^2-x^2). After pairing θ with θ+π, one term must carry -2r cos θ sqrt(c^2-x^2); otherwise the sum is just twice one term and the pairing is pointless. Likely a slip, or the minus is illegible.",
+   "The conclusion that the level surface of constant normal component lies outside the sphere is not justified on the page and is not generally true. A second-order analysis near the axis gives the coefficient ∝ (2R^2 - c^2), so it holds only for c < √2·R. For c > R the normal component vanishes at the plate plane, below the axis value, so the surface must cut inside the sphere there.",
+   "The original integrand has -2ry cos θ while the substituted terms show +2r cos θ sqrt(c^2-x^2). This is harmless only because θ runs over the full circle."
+  ],
+  "results": [
+   {
+    "what": "Normal (axial) component of the attraction of a uniformly charged/massive disc expressed as a double integral in polar coordinates, and its restriction to a sphere about the disc centre via y^2 = c^2 - x^2 with symmetric pairing of elements.",
+    "modern_name": "Electric field of a uniformly charged disc; potential-theory estimate of level surfaces of a field component",
+    "usually_credited_to": "Classical potential theory (Laplace, Poisson, Gauss, Green; 18th–early 19th c.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Claim that surfaces of constant normal field component of a uniformly charged disc lie outside the concentric sphere through the same axis point.",
+    "modern_name": "Qualitative comparison of level surfaces of a field component with spheres (valid near the disc, c < √2 R)",
+    "usually_credited_to": "No specific attribution; elementary exercise",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine potential-theory computation in a physics-oriented note (probably related to experiments with a charged or acting plate). It contains a sketchy and only partially valid qualitative conclusion. Nothing non-standard.",
+  "checkable": [
+   {
+    "sympy": "x,r,R=symbols('x r R',positive=True); simplify(2*pi*integrate(x*r/(r**2+x**2)**Rational(3,2),(r,0,R)) - 2*pi*(1-x/sqrt(x**2+R**2)))",
+    "asserts": "On-axis normal component of a uniform unit-density disc is 2π(1 - x/sqrt(x^2+R^2)) (result should be 0)."
+   },
+   {
+    "sympy": "c,R=symbols('c R',positive=True); x=symbols('x',positive=True); E=2*pi*(1-x/sqrt(x**2+R**2)); k=(-diff(E,x)/(2*x)-diff(E,x,2)/4).subs(x,c); simplify(k - pi*R**2*(2*R**2-c**2)/(2*c*(c**2+R**2)**Rational(5,2)))",
+    "asserts": "Coefficient of y^2 in the normal component along the sphere x^2+y^2=c^2 near the axis is πR^2(2R^2-c^2)/(2c(c^2+R^2)^(5/2)) (result 0), so the level surface lies outside the sphere iff c < √2 R."
+   },
+   {
+    "sympy": "r,c,x,t=symbols('r c x t',positive=True); f=x*r/(r**2+c**2-2*r*cos(t)*sqrt(c**2-x**2))**Rational(3,2); simplify(f.subs(t,t+pi) - x*r/(r**2+c**2+2*r*cos(t)*sqrt(c**2-x**2))**Rational(3,2))",
+    "asserts": "Pairing θ with θ+π flips the sign of the cosine term, so the 'Summe' must contain one + and one - term (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Second line of the sum: one of the two denominators should read r^2+c^2-2r cos θ sqrt(c^2-x^2). The manuscript appears to show + in both, which is likely Riemann's slip.",
+   "'= Const.' is written cursively (looks like 'Costan'/'Cotan'), but 'Const.' is the correct reading.",
+   "'Differenz' is struck through and replaced by 'Summe', which matches the transcription's markup."
+  ]
+ }
+}

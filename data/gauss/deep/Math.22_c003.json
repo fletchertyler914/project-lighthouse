@@ -1,0 +1,51 @@
+{
+ "bundle": "Math.22",
+ "page": "c003",
+ "label": "2v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000004/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page, headed 'Lagranges Lehrsatz'): x is defined implicitly by x = t + u·φ(x). Then ∂x/∂t = 1/(1−uφ'(x)) and ∂x/∂u = φ(x)/(1−uφ'(x)). Hence for any function f, ∂f(x)/∂u = φ(x)·∂f(x)/∂t (*). If F' = φ·f', i.e. F = ∫φ(x) df(x), then ∂f/∂u = ∂F/∂t.\n\nThis page. Goal: the u-derivatives of ψ(x) for an arbitrary ψ, i.e. the coefficients of ψ(x) as a power series in u (Lagrange's series).\n\nStep 1. Take f = ψ in (*): ∂ψ(x)/∂u = ∂/∂t [∫ φ(x) ψ'(x) dx].\n\nStep 2. Take f = F1 := ∫φ dψ. Then f' = φψ', and the associated F is ∫φ·φψ' dx = ∫φ^2 dψ. So ∂F1/∂u = ∂/∂t ∫φ^2 dψ. Differentiating Step 1 by u and interchanging ∂u and ∂t (implicit, mine) gives ∂²ψ/∂u² = ∂/∂t ∂F1/∂u = ∂²/∂t² ∫φ(x)^2 ψ'(x) dx. (Gauss writes φx^2 for (φx)^2.)\n\nStep 3. Induction (Gauss only says 'u. allgemein'; the inductive step, applying (*) to F_k = ∫φ^k dψ with F_k' = φ^kψ', is mine): ∂^nψ/∂u^n = ∂^n/∂t^n ∫φ(x)^n ψ'(x) dx. Carrying out one t-derivative of the integral gives ∂^{n−1}/∂t^{n−1} [φ(x)^n ψ'(x) ∂x/∂t].\n\nStep 4. The derivatives are wanted at u = 0, where x = t identically in t, so ∂x/∂t = 1. Since the remaining derivatives are in t only, u = 0 can be set first. This gives [∂^nψ(x)/∂u^n] at u=0 = d^{n−1}/dt^{n−1} [φ(t)^n ψ'(t)].\n\nImplicit consequence (stated on the next page, not here): ψ(x) = ψ(t) + Σ_{n≥1} u^n/n! · d^{n−1}/dt^{n−1}[φ(t)^n ψ'(t)]. This is the Lagrange inversion series.",
+  "errors": [
+   "The interchange of ∂/∂u and ∂/∂t, and the induction step, are used without comment. Both are legitimate for analytic functions.",
+   "The first equation uses d instead of ∂ (dψx/du). This is a purely notational inconsistency.",
+   "In the last expression of the general line, the image shows an extra '∂' before φx^n ('∂^{n−1}. ∂φx^n.ψ'x.∂x/∂t'). Read literally this would be one derivative too many. The intended and correct expression is ∂^{n−1}[φ(x)^n ψ'(x) ∂x/∂t]/∂t^{n−1}. It is probably a slip or residue of the ∂^n·∫ form.",
+   "The page gives only the derivatives. The factor 1/n! and the constant term ψ(t) of the Taylor series in u are left implicit (they appear on the next page)."
+  ],
+  "results": [
+   {
+    "what": "For x = t + uφ(x): ∂^nψ(x)/∂u^n at u=0 equals d^{n−1}/dt^{n−1}[φ(t)^n ψ'(t)], derived via the PDE ∂f/∂u = φ(x)∂f/∂t and the representation ∂^nψ/∂u^n = ∂^n/∂t^n ∫φ^n dψ",
+    "modern_name": "Lagrange inversion theorem / Lagrange–Bürmann formula (Laplace's proof via the identity ∂F/∂u = φ ∂F/∂t)",
+    "usually_credited_to": "J.-L. Lagrange (1770); this method of proof is due to Laplace (1777) and was standard in textbooks such as Lacroix",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "A textbook reproduction (Gauss himself labels it 'Lagranges Lehrsatz') of the standard Laplace-style proof of Lagrange's series. These are student-era study notes with nothing non-standard.",
+  "checkable": [
+   {
+    "sympy": "t,u=symbols('t u'); x=Function('x')(t,u); phi=Function('phi'); eq=x-t-u*phi(x); simplify(idiff(eq, x, u) if False else (diff(x,u) - phi(x)*diff(x,t)).subs({diff(x,t):1/(1-u*phi(x).diff(x)), diff(x,u):phi(x)/(1-u*phi(x).diff(x))}))",
+    "asserts": "The basic identity ∂x/∂u = φ(x)·∂x/∂t for x = t + uφ(x), using the implicit derivatives from the previous page."
+   },
+   {
+    "sympy": "u=symbols('u'); n=symbols('n'); simplify(series(-LambertW(-u),u,0,8).removeO() - sum(k**(k-1)*u**k/factorial(k) for k in range(1,8)))",
+    "asserts": "For t=0, φ=exp, ψ=id, x = u·e^x: coefficients d^{n−1}/dt^{n−1}[e^{nt}]/n! at t=0 give n^{n−1}/n!. The result should be 0."
+   },
+   {
+    "sympy": "u=symbols('u'); t=symbols('t'); xs=solve(Symbol('X')-t-u*Symbol('X')**2, Symbol('X'))[0]; simplify(series(xs.subs(t,1)**3,u,0,5).removeO() - (1+sum(u**k/factorial(k)*diff(Symbol('s')**(2*k)*3*Symbol('s')**2, Symbol('s'), k-1).subs(Symbol('s'),1) for k in range(1,5))))",
+    "asserts": "For φ(x)=x^2, ψ(x)=x^3, t=1: ψ(x) = ψ(t) + Σ u^n/n! d^{n−1}/dt^{n−1}[φ(t)^nψ'(t)] (choose the root analytic at u=0, i.e. the one with x→t). Should give 0 up to O(u^5)."
+   },
+   {
+    "sympy": "s=symbols('s'); n=3; diff(integrate(s**(2*n)*3*s**2, s), s, n) - diff(s**(2*n)*3*s**2, s, n-1)",
+    "asserts": "The formal step at u=0: d^n/dt^n ∫φ^n ψ' dt = d^{n−1}/dt^{n−1}(φ^n ψ') (here φ=s^2, ψ=s^3, n=3). Should be 0."
+   }
+  ],
+  "transcription_corrections": [
+   "The second-derivative line has a marginal left-hand side '∂∂ψx/∂u²' written at the left edge. The numerator before ∫ reads 'd∂.' (overwritten), i.e. ∂∂.",
+   "'für [-...-] den x = t': the struck word at the end of the line is probably 'u=0'. The next line likely reads 'oder x = t' rather than 'den x = t', i.e. 'für u=0 oder x=t'.",
+   "In the general formula, the integrand is (φx)^n ∂ψx under a vinculum (overline), consistent with the earlier lines.",
+   "In the last member, the image shows '∂φx^n.ψ'x.∂x/∂t' with an apparently superfluous ∂, and the denominator is ∂t^{n−1}."
+  ]
+ }
+}

@@ -1,0 +1,63 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c039",
+ "label": "34v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000040/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the draft of the derivation section of Riemann's 1860 memoir 'Ueber die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'. The task is one-dimensional (plane-wave) isentropic gas flow with a general pressure-density law p = phi(rho), left unspecified as the previous page says.\n\n1. Notation. rho is the density, p = phi(rho) the pressure, u(x,t) the velocity along x, and omega an area element of a plane x = const.\n\n2. Mass balance. The cylinder of base omega and height dx contains mass omega*rho*dx. Its change in time dt, omega*(d rho/dt) dt dx, equals the net inflow -omega*d(rho u)/dx dx dt. This gives d rho/dt = -d(rho u)/dx.\n\n3. Momentum balance. The acceleration of the fluid element is du/dt + u du/dx. The net pressure force along +x is -dp/dx omega dx = -phi'(rho) d rho/dx omega dx. Newton's law gives rho(du/dt + u du/dx) = -phi'(rho) d rho/dx.\n\n4. Rewriting in log rho. Dividing the momentum equation by rho, and expanding d(rho u)/dx = u d rho/dx + rho du/dx in the mass equation then dividing by rho (my step), gives system (1):\n   u_t + u u_x = -phi'(rho) (log rho)_x,\n   (log rho)_t + u (log rho)_x = -u_x.\n\n5. Definitions.\n   f(rho) = Int sqrt(phi'(rho)) d log rho, so df/d log rho = sqrt(phi'), i.e. f'(rho) = sqrt(phi'(rho))/rho.\n   2r = f(rho) + u and 2s = f(rho) - u.\n\n6. Diagonalisation. Multiply the second equation by +/- sqrt(phi') and add it to the first. The following steps are mine:\n   - By the chain rule, sqrt(phi') (log rho)_t = f_t and sqrt(phi') (log rho)_x = f_x.\n   - The left side becomes (u +/- f)_t + u (u +/- f)_x.\n   - The right side becomes -phi'(log rho)_x -/+ sqrt(phi') u_x = -/+ sqrt(phi') (u +/- f)_x.\n   Hence (u+f)_t + (u + sqrt(phi'))(u+f)_x = 0, and (u-f)_t + (u - sqrt(phi'))(u-f)_x = 0.\n   In terms of r and s this is system (3):\n   r_t = -(u + sqrt(phi'(rho))) r_x,\n   s_t = -(u - sqrt(phi'(rho))) s_x,\n   where u = r - s and f(rho) = r + s, so u and rho are expressed through r and s via (2).\n\nInterpretation: r and s are constant along the characteristics dx/dt = u +/- c, with c = sqrt(phi'(rho)) the local sound speed. The left column holds a rough draft of the same definitions. It ends with the fragment 'durch die Gleichungen (2) bestimmte Functionen von r und s sind', which belongs to the sentence completed on the right.",
+  "errors": [
+   "No mathematical errors. The mass-flux, pressure-force and acceleration terms all have correct signs, and the diagonalised equations (3) follow exactly.",
+   "Numbering is inconsistent: the label (1) is used both for the log-rho system and for the definition of f(rho). The definitions are then called (1) and (2) on the right, and the system is labelled (3). This is a drafting artefact.",
+   "The deleted 'dt' in the force expression -dp/dx omega dt dx was a slip, correctly struck. Force is not multiplied by dt.",
+   "Step 4 (dividing by rho and expanding d(rho u)/dx) is left implicit but is trivial."
+  ],
+  "results": [
+   {
+    "what": "1D Euler equations (continuity and momentum) for barotropic flow p = phi(rho), derived by a control-volume argument",
+    "modern_name": "One-dimensional compressible Euler equations, barotropic/isentropic",
+    "usually_credited_to": "Euler (1755); the 1D form appears in Poisson (1808), Stokes (1848), Earnshaw (1858/60)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Definition f(rho) = Int sqrt(phi'(rho)) d log rho and r = (f+u)/2, s = (f-u)/2, which diagonalise the system into r_t + (u+c) r_x = 0 and s_t + (u-c) s_x = 0",
+    "modern_name": "Riemann invariants; characteristic form of 1D gas dynamics",
+    "usually_credited_to": "Riemann (1860, Luftwellen memoir), partly anticipated by Earnshaw (1858/1860)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is essentially the draft of the published derivation of the Riemann invariants in Riemann's 1860 Luftwellen paper. The result is famous and named after him; the page adds only drafting details (alternative numbering, crossed-out phrasing).",
+  "checkable": [
+   {
+    "sympy": "x,t=symbols('x t'); rho=Function('rho')(x,t); u=Function('u')(x,t); phi=Function('phi'); c=sqrt(phi(rho).diff(rho)) if False else None",
+    "asserts": "Placeholder setup only; see the concrete checks below."
+   },
+   {
+    "sympy": "x,t,a,k=symbols('x t a k',positive=True); R=Function('R')(x,t); U=Function('U')(x,t); phi=lambda q:a**2*q**k; c=sqrt(diff(phi(R),R)); f=2*a*sqrt(k)/(k-1)*R**((k-1)/2); e1=diff(U,t)+U*diff(U,x)+diff(phi(R),R)*diff(log(R),x); e2=diff(log(R),t)+U*diff(log(R),x)+diff(U,x); r=(f+U)/2; simplify((diff(r,t)+(U+c)*diff(r,x)) - (e1 + c*e2)/2)",
+    "asserts": "For phi = a^2 rho^k, f = 2c/(k-1). The r-equation is half of (eq1 + c*eq2), so it holds whenever system (1) holds. Expected output: 0."
+   },
+   {
+    "sympy": "x,t,a,k=symbols('x t a k',positive=True); R=Function('R')(x,t); U=Function('U')(x,t); phi=lambda q:a**2*q**k; c=sqrt(diff(phi(R),R)); f=2*a*sqrt(k)/(k-1)*R**((k-1)/2); e1=diff(U,t)+U*diff(U,x)+diff(phi(R),R)*diff(log(R),x); e2=diff(log(R),t)+U*diff(log(R),x)+diff(U,x); s=(f-U)/2; simplify((diff(s,t)+(U-c)*diff(s,x)) - (c*e2 - e1)/2)",
+    "asserts": "The s-equation, s_t + (u - c) s_x = 0, is a linear combination of system (1). Expected output: 0."
+   },
+   {
+    "sympy": "q,a,k=symbols('q a k',positive=True); simplify(diff(2*a*sqrt(k)/(k-1)*q**((k-1)/2),q) - sqrt(diff(a**2*q**k,q))/q)",
+    "asserts": "f'(rho) = sqrt(phi'(rho))/rho, i.e. df/d log rho = sqrt(phi'), for the polytropic law. Expected output: 0."
+   },
+   {
+    "sympy": "q,a=symbols('q a',positive=True); simplify(diff(a*log(q),q) - sqrt(diff(a**2*q,q))/q)",
+    "asserts": "In the isothermal (Boyle-Mariotte) case phi = a^2 rho, f(rho) = a log rho. Expected output: 0."
+   }
+  ],
+  "transcription_corrections": [
+   "The crossed-out first line most likely reads '[-ausgehen und bezeichnen durch ρ die Dichtigkeit, p den Druck-]', not 'φ die Dichtigkeit, ρ durch'.",
+   "'ein Element der Ebene vom Coordinate x' probably reads 'ein Element der Ebene von der Coordinate x', i.e. an area element of the plane x = const.",
+   "The label before the first displayed system (u_t + u u_x = -φ'(ρ) ∂log ρ/∂x) looks like '(4' / '(1)' with a stray mark. It is better read as an inconsistent draft label rather than definitively '(1)'.",
+   "On the left, '[-f(ρ)+-]' is crossed out before ∫√φ'(ρ) d log ρ = f(ρ), consistent with the transcription.",
+   "The doubled 'wenn' is actually 'oder wenn' with a struck word: ', oder wenn φ'(ρ) die Derivirte von φ(ρ) bezeichnet,'."
+  ]
+ }
+}

@@ -1,0 +1,92 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c315",
+ "label": "312",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000316/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Purpose (heading): 'For computing a special table for the reduction of the Pole Star at lower culmination.' The observations on the previous page (Göttingen, 1817, Polaris at lower culmination, meridian zenith distance about 40°8', latitude about 51°31'48\") were taken off the meridian. Each one must be reduced to the meridian zenith distance. This page builds a table of that reduction x as a function of the hour angle h, counted from the lower meridian.\n\nDerivation (implicit steps are mine). At hour angle h past lower culmination the true hour angle is t = 180° + h, so\ncos z' = sin(phi) sin(delta) - cos(phi) cos(delta) cos h.\nThe meridian value is cos z0 = sin(phi) sin(delta) - cos(phi) cos(delta). Subtracting:\ncos z' - cos z0 = 2 cos(phi) cos(delta) sin^2(h/2).\nPut x = z0 - z' (the star stands higher off the meridian at lower culmination). Since cos z' - cos z0 = 2 sin((z0+z')/2) sin((z0-z')/2), we get\nsin(x/2) = cos(phi) cos(delta) sin^2(h/2) / sin(z - x/2), with z = z0.\nThis is Gauss's formula; his 'sin ½h²' means sin²(h/2). It is exact, not a series, and is solved by iteration. x/2 is small, so sin(x/2) is replaced by x/2 expressed in arcseconds:\nx'' = 2 * 206264.8 * cos(phi) cos(delta) sin^2(h/2) / sin(z - x/2).\n\nConstants: phi = 51°31'47\", delta = 88°19'56\", z = 40°8'17\".\nLogarithms:\n- log cos(phi) = 9.7938661\n- log cos(delta) = 8.4639542\n- log 2 = 0.3010300\n- log 206264.8 = 5.3144251\n- Sum: 3.8732754 (mod 10).\n- log sin z = 9.8093195.\n- Quotient: K0 = 4.0639559.\n\nThe dependence on x in the denominator is linearized:\nlog sin(z - x/2) ≈ 9.8093195 - 12.5x, in units of the 7th decimal, x in arcseconds.\nThe coefficient is M * cot(z) / 2 / 206265 * 1e7 ≈ 12.48. Hence the constant becomes K = 4.0639559 + 12.5x (7th-decimal units).\n\nTable: h runs over minutes of time, 2^m to 40^m in steps of 2^m (h/2 = 15' of arc per minute of time). For each h Gauss writes:\n- log sin^2(h/2), e.g. 5.27963 for 2^m, 7.8805920 for 40^m;\n- the constant K;\n- x'' = 10^(log sin^2(h/2) + K - 10).\n\nFor h ≤ 18^m he uses K = 4.06396 to 4.06398 (5 places). From 22^m on (7 places) K is iterated with the previous x: e.g. 22^m gives x = 26.673 and K = 4.0639559 + 0.0000333 = 4.0639892.\nResults: 0.221, 0.882, 1.985, 3.529, 5.514, 7.940, 10.806, 14.113, 17.859, 22.047, 26.673, 31.739, 37.244, 43.188, 49.570, 56.389, 63.646, 71.340, 79.470, 88.036 (arcseconds).\n\nSide computations for particular hour angles, presumably actual observation times:\n- 24^m40^s gives 33.525\"\n- 7^m20^s gives 2.9655\"\n- 21^m0^s gives 24.305\"\n- 10^m20^s gives 5.8876\"\n- 7^m40^s: log sin² 6.44675 only, x not written (would be ≈3.24\")\n- 6^m20^s gives 2.212\"\n- 38^m40^s gives 82.28\"\n- 39^m0^s gives 83.70\" (K = 4.06406).",
+  "errors": [
+   "No substantive errors found. I spot-checked all log sin^2(h/2) values (2,4,6,10,40 min, 7m20s, 7m40s, 6m20s, 10m20s, 38m40s, 39m) and all antilogarithms; they agree to the last place given.",
+   "The notation 'sin ½h²' is a shorthand for sin^2(h/2), not an error of substance.",
+   "For h ≤ 18^m the constant is kept at 5 decimals (4.06396 to 4.06398), with the 12.5x correction only roughly applied. The effect is below 0.001\" and immaterial.",
+   "Using x/2 in arcseconds in place of sin(x/2) is a negligible approximation for x < 90\"."
+  ],
+  "results": [
+   {
+    "what": "Exact reduction-to-meridian formula for a circumpolar star at lower culmination: sin(x/2) = cos(phi) cos(delta) sin^2(h/2) / sin(z - x/2), solved iteratively by linearizing log sin(z - x/2)",
+    "modern_name": "Reduction to the meridian (circummeridian zenith distances), exact closed form instead of the series in sin^2(h/2)",
+    "usually_credited_to": "Standard in late-18th/early-19th-century practical astronomy (Delambre, Bohnenberger and others); folklore",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Numerical table of the reduction x (arcseconds) for Polaris at lower culmination at Göttingen, h = 2^m to 40^m",
+    "modern_name": "Special reduction table for circumpolar star observations (latitude determination)",
+    "usually_credited_to": "Routine observatory computation",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine observatory computation: an exact form of the standard reduction to the meridian, tabulated by logarithms for Gauss's own 1817 Polaris observations. Nothing here is mathematically new or unexpected for Gauss.",
+  "checkable": [
+   {
+    "sympy": "N(log(cos(rad(51+31/60+47/3600.)),10)+10, 10)",
+    "asserts": "log cos(phi) = 9.7938661"
+   },
+   {
+    "sympy": "N(log(cos(rad(88+19/60+56/3600.)),10)+10, 10)",
+    "asserts": "log cos(delta) = 8.4639542"
+   },
+   {
+    "sympy": "N(log(206264.806,10), 10)",
+    "asserts": "log 206265 = 5.3144251"
+   },
+   {
+    "sympy": "N(log(sin(rad(40+8/60+17/3600.)),10)+10, 10)",
+    "asserts": "log sin z ≈ 9.8093195"
+   },
+   {
+    "sympy": "N(log(2*206264.806*cos(rad(51+31/60+47/3600.))*cos(rad(88+19/60+56/3600.))/sin(rad(40+8/60+17/3600.)),10), 10)",
+    "asserts": "constant K0 ≈ 4.0639559"
+   },
+   {
+    "sympy": "N(0.4342945*cot(rad(40+8/60+17/3600.))/2/206264.806*1e7, 5)",
+    "asserts": "linearization coefficient ≈ 12.5 units of 7th decimal per arcsecond"
+   },
+   {
+    "sympy": "N(log(sin(rad(0.25))**2,10)+10, 7)",
+    "asserts": "log sin^2(h/2) for h=2 min of time = 5.27963"
+   },
+   {
+    "sympy": "N(log(sin(rad(5))**2,10)+10, 8)",
+    "asserts": "log sin^2(h/2) for h=40 min = 7.8805920"
+   },
+   {
+    "sympy": "N(10**(7.8805920+4.0640659-10), 6)",
+    "asserts": "x(40 min) = 88.036 arcsec"
+   },
+   {
+    "sympy": "nsolve(x - 2*206264.806*cos(rad(51+31/60+47/3600.))*cos(rad(88+19/60+56/3600.))*sin(rad(5))**2/sin(rad(40+8/60+17/3600.) - x/2/206264.806), x, 88)",
+    "asserts": "the iterated solution for h=40 min ≈ 88.04 arcsec"
+   },
+   {
+    "sympy": "N(log(sin(rad(4+50/60.))**2,10)+10, 6)",
+    "asserts": "log sin^2(h/2) for h=38m40s = 7.85122"
+   },
+   {
+    "sympy": "N(10**(7.4613764+4.0639978-10), 6)",
+    "asserts": "x(24m40s) = 33.525 arcsec"
+   }
+  ],
+  "transcription_corrections": [
+   "Formula: 'sin^2 ½h^2' should be read as sin^2(h/2) (Gauss writes sin ½h²).",
+   "Column 4': the corrected value written above is 5.88168, not 4.88168 (log sin^2(0.5°) = 5.88168).",
+   "Column 10'20\": the first log is 6.70598 (or 6.70599), consistent with x = 5.8876; the machine reading '6.7053[?]8' is garbled.",
+   "Column 7'20\": second line 4.0639696 is correct (= 4.0639559 + 12.5 × 2.97 × 1e-7 → ...696); the [?] can be removed.",
+   "Column 28: x = 43.188 (the image shows 43.18 with a final 8 written over the last digit), consistent with the antilog of 1.6353605.",
+   "The units of h in the table headings are minutes of time (2' = 2^m, i.e. 30' of arc), not minutes of arc. The '32°', '34°' headings are minutes of time, not degrees."
+  ]
+ }
+}

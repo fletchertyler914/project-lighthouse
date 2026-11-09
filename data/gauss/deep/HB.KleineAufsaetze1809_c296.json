@@ -1,0 +1,66 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c296",
+ "label": "287",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000297/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This folio is effectively blank. Its only visible text is faint mirror-image show-through of the following leaf, 287.a, headed 'Ableitung der Gleichungen pag. 287' (derivation of the equations of p. 287). The reconstruction below is therefore of that show-through derivation. Its task is to solve cos(f − i g) = p + i q for real f and g, i.e. to invert the cosine of a complex argument (equivalently, to express arccos(p+iq) in real terms).\n\nSetup:\n- c = cos f, s = sin f.\n- γ = cos(ig) = cosh g, and sin(ig) = iσ with σ = sinh g.\n- Expanding cos f cos(ig) + sin f sin(ig) = cγ + i(sσ) gives four relations:\n  (1) c² + s² = 1\n  (2) γ² − σ² = 1\n  (3) cγ = p\n  (4) sσ = q\n\nEliminating s and σ:\n- Squaring (4) and using (1), (2): (1 − c²)(γ² − 1) = q².\n- Expanding and using (3): γ² + c² − 1 − c²γ² = q², hence γ² + c² = 1 + p² + q².\n- Adding and subtracting 2cγ = 2p (step made explicit by me): (γ + c)² = (1+p)² + q² and (γ − c)² = (1−p)² + q².\n- So γ + c = √((1+p)² + q²) and γ − c = √((1−p)² + q²).\n\nThe sums for s and σ:\n- s² + σ² = γ² − c² = (γ+c)(γ−c) = √(((1+p)² + q²)((1−p)² + q²)).\n- s² − σ² = 2 − c² − γ² = 1 − p² − q² (no square root).\n\nPolar forms:\n- 1 + p = a cos A, q = a sin A, so a = |1 + z| with z = p + iq.\n- 1 − p = b cos B, q = b sin B, so b = |1 − z|.\n- Then s² + σ² = ab.\n- Also ab cos(A+B) = (1+p)(1−p) − q² = 1 − p² − q², so s² − σ² = ab cos(A+B).\n- Half-angle formulas give s² = ab cos²((A+B)/2) and σ² = ab sin²((A+B)/2).\n- Hence s = √(ab)·cos((A+B)/2) and σ = √(ab)·sin((A+B)/2).\n- The signs are consistent with (4), because sσ = (ab/2) sin(A+B) = (q(1−p) + q(1+p))/2 = q.\n\nFinal result:\n- γ = cosh g = (a+b)/2 = (|1+z| + |1−z|)/2.\n- c = cos f = (a−b)/2 = (|1+z| − |1−z|)/2.\n\nThis is the classical real-variable formula for arccos of a complex number. Geometrically, the point (p, q) lies on the confocal ellipse with foci ±1 given by g = const and on the confocal hyperbola given by f = const (elliptic coordinates). Context on the previous page is unrelated: determinant identities and the binomial mean error √(αβn).",
+  "errors": [
+   "The image shows nothing written directly on this folio; all legible matter is reversed show-through of 287.a.",
+   "Transcription (both this page and the next) gives s² − σ² = √(1 − p² − q²). Mathematically it equals 1 − p² − q² with no square root. Either Gauss slipped or the root sign belongs to the transcription; it does not affect the following lines, which correctly use ab cos(A+B).",
+   "The next-page transcription gives s² + σ² = √(ab); correct is ab, as the show-through on this page reads.",
+   "The step from γ² + c² = 1 + p² + q² to γ ± c = √((1±p)² + q²) silently uses 2cγ = 2p. This is correct.",
+   "Choosing positive roots for γ ± c presumes g ≥ 0 and the branch with γ + c ≥ 0 and γ − c ≥ 0. This is fine, since cosh g ≥ |cos f|."
+  ],
+  "results": [
+   {
+    "what": "Solution of cos(f − i g) = p + i q: cosh g = (|1+z| + |1−z|)/2, cos f = (|1+z| − |1−z|)/2, with sin f and sinh g given by √(ab)·cos and √(ab)·sin of (A+B)/2, where A = arg(1+z) and B = arg(1−z).",
+    "modern_name": "Real/imaginary parts of the complex arccosine (arccos z via |z+1| and |z−1|); elliptic coordinates with foci ±1",
+    "usually_credited_to": "Classical complex trigonometry (Euler, later 18th–19th c.); the |z±1| form is standard in handbooks (e.g. Abramowitz–Stegun 4.4.37)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine inversion of the cosine of a complex argument, of a kind Gauss used in conformal mapping and geodesy. Nothing beyond standard early-19th-century complex trigonometry. The folio itself is blank apart from show-through.",
+  "checkable": [
+   {
+    "sympy": "f,g=symbols('f g',real=True); simplify(expand_complex(cos(f-I*g)) - (cos(f)*cosh(g) + I*sin(f)*sinh(g)))",
+    "asserts": "cos(f−ig) = cos f cosh g + i sin f sinh g, so p = cγ and q = sσ (should simplify to 0)."
+   },
+   {
+    "sympy": "c,s,gam,sig=symbols('c s gamma sigma',real=True); simplify(((1-c**2)*(gam**2-1)) - (gam**2+c**2-1-(c*gam)**2))",
+    "asserts": "(1−c²)(γ²−1) = γ² + c² − 1 − c²γ² (should be 0)."
+   },
+   {
+    "sympy": "f,g=symbols('f g',real=True); p=cos(f)*cosh(g); q=sin(f)*sinh(g); simplify((cosh(g)+cos(f))**2 - ((1+p)**2+q**2))",
+    "asserts": "(γ + c)² = (1+p)² + q² (should be 0)."
+   },
+   {
+    "sympy": "f,g=symbols('f g',real=True); p=cos(f)*cosh(g); q=sin(f)*sinh(g); simplify((cosh(g)-cos(f))**2 - ((1-p)**2+q**2))",
+    "asserts": "(γ − c)² = (1−p)² + q² (should be 0)."
+   },
+   {
+    "sympy": "f,g=symbols('f g',real=True); p=cos(f)*cosh(g); q=sin(f)*sinh(g); simplify(sin(f)**2 - sinh(g)**2 - (1-p**2-q**2))",
+    "asserts": "s² − σ² = 1 − p² − q², with no square root (should be 0)."
+   },
+   {
+    "sympy": "a,b,A,B=symbols('a b A B',positive=True); simplify(expand_trig(a*b*cos(A+B)) - ((a*cos(A))*(b*cos(B)) - (a*sin(A))*(b*sin(B))))",
+    "asserts": "ab cos(A+B) = (1+p)(1−p) − q·q when 1+p = a cos A, 1−p = b cos B, q = a sin A = b sin B (should be 0)."
+   },
+   {
+    "sympy": "p,q=Rational(3,10),Rational(7,10); z=p+I*q; a=Abs(1+z); b=Abs(1-z); w=acos((a-b)/2)-I*acosh((a+b)/2); N(cos(w)-z)",
+    "asserts": "Numeric check: f = arccos((a−b)/2), g = arccosh((a+b)/2) satisfy cos(f − ig) = p + iq for p > 0, q > 0 (result ≈ 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "This folio carries no direct writing; the 'tentative reading' is mirror-reversed show-through of leaf 287.a.",
+   "The heading line is cos(f − i g) = p + i q, not 'cos f − … = p + … q'.",
+   "'ee' should read cc (c = cos f) and 'y' should read γ (= cos ig = cosh g).",
+   "Line read as 'ss − σσ = … = √(1−pp−qq)' is written as ss − σσ = 2 − cc − γγ; the mathematically correct right side is 1 − pp − qq, without a root.",
+   "On this show-through ss + σσ = ab (the next-page transcription's √(ab) is wrong).",
+   "The pencil folio number at the top right reads 287; '285' is struck through in magenta."
+  ]
+ }
+}

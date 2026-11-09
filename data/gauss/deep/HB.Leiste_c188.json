@@ -1,0 +1,65 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c188",
+ "label": "81",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000189/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a printed page, p. 81, of an elementary German algebra textbook. Its handwritten marginal fragments on the left continue Gauss's computation from the facing (previous) page.\n\nPRINTED TEXT (routine definitions of determinate and indeterminate equations):\n(a) 4x+6=20 is determinate: x=(20-6)/4. In general ax+b=c gives x=(c-b)/a when a, b, c are known.\n(b) x+y=20 is indeterminate unless y is given. Adding x:y=4:1, i.e. x=4y, gives 5y=20, so y=4 and x=16.\n(c) Suppose y=(a-x)m=am-mx and x+y=c, so y=c-x. Then am-mx=c-x. Adding mx-c to both sides gives am-c=mx-x=(m-1)x, so x=(am-c)/(m-1).\n(d) y could equally be given as a^2, sqrt(a) or log a; in each case x=c-y.\n(e) The remaining sections are definitions:\n- §172: one needs as many independent equations as unknowns; more makes the system overdetermined.\n- §173: definitions of coefficient and term.\n- §174: definition of a simple (linear) equation, continued on the next page.\n\nMANUSCRIPT MARGIN (Gauss): the fragments read '…α … η p.', '…6^3 … 1764·6^2/2 … +720·6 …' and '36·41/(720·7) = 41/140'. They are the right-hand ends of lines on the previous page. There Gauss computes the Newton–Cotes weight for 7 nodes (6 subintervals), labelled α…η.\n\nReconstruction of the computation:\n1. With nodes t=0,…,6, the Lagrange weight of the endpoint α is (1/6!) ∫_0^6 (t-1)(t-2)…(t-6) dt; the sign (-1)^6 is +.\n2. Expanding the product with Stirling numbers of the first kind (the triangle 1; 1,3,2; 1,6,11,6; … written on the previous page) gives t^6 - 21t^5 + 175t^4 - 735t^3 + 1624t^2 - 1764t + 720.\n3. Integrating term by term: [6^7/7 - 21·6^6/6 + 175·6^5/5 - 735·6^4/4 + 1624·6^3/3 - 1764·6^2/2 + 720·6]/720.\n4. Gauss factors out 36. The bracket becomes 36×(1110 6/7 - 4536 + 7560 - 6615 + 3248 - 882 + 120).\n5. Grouping: positives 12038 6/7, negatives 12033, difference 41/7.\n6. Hence the coefficient is 36·41/(720·7) = 41/140. This is the weight per unit step, i.e. per h.\n\nThe next page's margin repeats the computation for other nodes ('Corr…'). It also checks that the weights sum to 6: 82+432+54+272=840=6·140. That uses the full weight set (41, 216, 27, 272, 27, 216, 41)/140.",
+  "errors": [
+   "No errors in the printed algebra: from am-mx=c-x, adding mx-c gives am-c=(m-1)x, which is correct (it requires m≠1, unstated).",
+   "No errors in Gauss's marginal arithmetic: each term divided by 36 is correct (7776/7, 4536, 7560, 6615, 3248, 882, 120). The sum 41/7 and the result 41/140 are correct.",
+   "Minor imprecision in printed §172: 'as many particular equations as unknowns' needs independence/consistency, which is not stated."
+  ],
+  "results": [
+   {
+    "what": "Solving linear equations and simple 2x2 linear systems by substitution (printed textbook text)",
+    "modern_name": "Elementary linear algebra / substitution method",
+    "usually_credited_to": "Traditional (textbook material)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Endpoint weight 41/140 of the 7-point closed Newton–Cotes rule, computed as (1/720)∫_0^6 ∏_{k=1}^6 (t-k) dt via Stirling-number expansion",
+    "modern_name": "Newton–Cotes quadrature coefficients (closed 7-point rule, weights 41,216,27,272,27,216,41 over 140)",
+    "usually_credited_to": "Newton (1676/1711), Roger Cotes (Harmonia mensurarum, 1722)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The printed text is a routine textbook. The marginal computation of Cotes coefficients is standard; Gauss discussed Cotes' coefficients explicitly in his 1814 'Methodus nova integralium valores per approximationem inveniendi', so his computing them is expected.",
+  "checkable": [
+   {
+    "sympy": "expand(prod([t-k for k in range(1,7)])) - (t**6-21*t**5+175*t**4-735*t**3+1624*t**2-1764*t+720)",
+    "asserts": "Stirling-number expansion of (t-1)...(t-6); should be 0"
+   },
+   {
+    "sympy": "integrate(prod([t-k for k in range(1,7)]), (t,0,6))/factorial(6) - Rational(41,140)",
+    "asserts": "Endpoint Newton–Cotes weight for 7 nodes is 41/140; should be 0"
+   },
+   {
+    "sympy": "Rational(6**7,7)-21*6**6/6+175*Rational(6**5,5)-735*Rational(6**4,4)+1624*Rational(6**3,3)-1764*Rational(6**2,2)+720*6 - 36*Rational(41,7)",
+    "asserts": "Bracket equals 36*41/7; should be 0"
+   },
+   {
+    "sympy": "[integrate(prod([t-j for j in range(7) if j!=i]), (t,0,6))/prod([i-j for j in range(7) if j!=i]) for i in range(7)] == [Rational(n,140) for n in (41,216,27,272,27,216,41)]",
+    "asserts": "Full 7-point Newton–Cotes weights; their sum 840/140=6 matches the next-page check 82+432+54+272=840"
+   },
+   {
+    "sympy": "solve(Eq(a*m-m*x, c-x), x)[0] - (a*m-c)/(m-1)",
+    "asserts": "Printed solution x=(am-c)/(m-1); should simplify to 0"
+   },
+   {
+    "sympy": "solve([x+y-20, x-4*y],[x,y]) == {x:16, y:4}",
+    "asserts": "Printed example x=16, y=4"
+   }
+  ],
+  "transcription_corrections": [
+   "Margin fragments are cut-off line ends of the previous page's computation, not independent notes. '6^3 [?] 1764.6^2/2' should read '…+1624·6^3/3 − 1764·6^2/2 + 720·6]'.",
+   "'+720.' in the margin is '+720·6' followed by ']:720' (the division by 6!).",
+   "The marginal fragment near §172, read as 'α ,, η p.', is the end of 'Bestimmung der Coefficienten für 7 Glieder α … η p. 13' from the previous page; it was omitted from the margin transcription.",
+   "Printed text is transcribed essentially correctly; 'ausgedruckt' is period spelling, not an error."
+  ]
+ }
+}

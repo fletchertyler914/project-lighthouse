@@ -1,0 +1,69 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c068",
+ "label": "32r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000069/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the opening articles of Riemann's 1851 dissertation 'Grundlagen fuer eine allgemeine Theorie der Functionen einer veraenderlichen complexen Groesse' (Art. 1-3). It deals with the definition of a complex function and the property that the mapping is similar in its smallest parts. The previous page set up a point map between two planes or spaces, with u, v (w) as functions of x, y (z). This page argues that the 'Satz in Rede' is not a consequence of mere continuity or differentiability of a two-variable map. It needs an extra condition, which becomes the defining property of a function of a complex variable.\n\n(1) Opening (deleted and rewritten several times). 'As long as one restricts oneself to infinitely small quantities, the theorem in question follows immediately from the existence of a differential (quotient) and the concept of a continuous function.' In modern terms: if u, v are differentiable, the map is locally affine up to higher-order terms.\n\n(2) The contrast ('Dagegen'). Let w = u + v i depend on z = x + y i so that it changes continuously with z. This does NOT give the required property, namely that the ratio of an increment of x to the corresponding increment of w equals the ratio of the increment of yi to the corresponding increment of w. In modern form the property is\n  dw/dx = dw/d(iy), i.e. w_x = (1/i) w_y = -i w_y.\nThis is exactly the Cauchy-Riemann system u_x = v_y, u_y = -v_x.\n\n(3) Justification ('In der That'). Assume only that corresponding changes of w and z are infinitesimals of the same order. Then, to first order, du and dv are linear expressions in dx and dy:\n  du = a dx + b dy, dv = c dx + d dy,\nwith four coefficients a = u_x, b = u_y, c = v_x, d = v_y that do not depend on dx, dy.\nThe quotient dw/dz then still takes different values according to the ratio dx : dy.\n\n[My completion, certain from the dissertation, Art. 1]\n  dw/dz = ((u_x + i v_x) dx + (u_y + i v_y) dy) / (dx + i dy).\nWrite dz = r e^{i phi}. Then\n  dw/dz = w_z + w_zbar e^{-2 i phi},\nwhere w_z = (w_x - i w_y)/2 and w_zbar = (w_x + i w_y)/2.\nThis is independent of the direction phi if and only if w_zbar = 0. That is w_x = -i w_y, i.e. u_x = v_y and u_y = -v_x. This is precisely the condition stated in words in (2).\n\n(4) Closing lines (heavily corrected, partly illegible). The theorem in question therefore imposes a genuine restriction. It turns the general dependence of w on z into a 'Function einer veraenderlichen Groesse' (continued on the next page). The next page asks whether this property should be taken into the definition of a function. Riemann's eventual answer in the dissertation was yes: he defines w as a function of z when dw/dz is independent of dz.",
+  "errors": [
+   "No mathematical error. The sentence beginning 'Dagegen folgt aus der Voraussetzung...' must in context mean 'does NOT follow' (the negation is lost in the draft or the transcription). The 'In der That' paragraph shows that continuity or same-order infinitesimals only give a direction-dependent quotient dw/dz.",
+   "The claim that the coefficients are independent of dx, dy presupposes total differentiability of u, v. Riemann tacitly assumes this, as he also does in the dissertation."
+  ],
+  "results": [
+   {
+    "what": "Under mere differentiability, dw is linear in dx, dy with four real coefficients, so dw/dz depends on the direction dx:dy.",
+    "modern_name": "Wirtinger decomposition dw = w_z dz + w_zbar dzbar; R-linear vs C-linear differential",
+    "usually_credited_to": "Riemann 1851 (dissertation Art. 1) for the argument; Wirtinger (1927) for the dz/dzbar formalism",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Direction-independence of dw/dz is equivalent to dw/dx = dw/d(iy), i.e. the Cauchy-Riemann equations.",
+    "modern_name": "Cauchy-Riemann equations / complex differentiability as the definition of analytic function",
+    "usually_credited_to": "d'Alembert, Euler, Cauchy; adopted as the definition of a function of a complex variable by Riemann 1851",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The conformality ('Aehnlichkeit in den kleinsten Theilen') of the map is not implied by continuity alone and requires this condition.",
+    "modern_name": "Conformality of holomorphic maps",
+    "usually_credited_to": "Gauss (1822/25) for conformal maps; Riemann 1851 in this function-theoretic form",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of Art. 1-3 of Riemann's 1851 dissertation, which is famous for exactly this argument: direction-independence of dw/dz is the defining property, equivalent to Cauchy-Riemann. It is of interest only for showing his drafting process, i.e. his hesitation over whether to build the property into the definition.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); z=x+I*y; w=z**3+exp(z); simplify(diff(w,x) - diff(w,y)/I)",
+    "asserts": "For an analytic w, dw/dx = dw/d(iy); the expression simplifies to 0."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); u=Function('u')(x,y); v=Function('v')(x,y); w=u+I*v; expand(diff(w,x)+I*diff(w,y))",
+    "asserts": "The condition w_x = -i w_y expands to (u_x - v_y) + i(v_x + u_y) = 0, i.e. the Cauchy-Riemann equations."
+   },
+   {
+    "sympy": "x,y,phi=symbols('x y phi',real=True); w=(x+I*y)*(x-I*y)**0+x**2; q=(diff(w,x)*cos(phi)+diff(w,y)*sin(phi))/(cos(phi)+I*sin(phi)); simplify(diff(q,phi))",
+    "asserts": "For a non-analytic w (here containing x**2), dw/dz depends on the direction phi; the derivative is nonzero."
+   },
+   {
+    "sympy": "x,y,phi=symbols('x y phi',real=True); z=x+I*y; w=z**2; q=(diff(w,x)*cos(phi)+diff(w,y)*sin(phi))/(cos(phi)+I*sin(phi)); simplify(diff(q,phi))",
+    "asserts": "For analytic w = z**2, dw/dz is independent of the direction phi; the result is 0."
+   },
+   {
+    "sympy": "a,b,c,d,phi=symbols('a b c d phi',real=True); q=((a+I*c)*cos(phi)+(b+I*d)*sin(phi))*exp(-I*phi); A=((a+I*c)-I*(b+I*d))/2; B=((a+I*c)+I*(b+I*d))/2; simplify(expand(q-(A+B*exp(-2*I*phi)),complex=True).rewrite(exp))",
+    "asserts": "dw/dz = w_z + w_zbar*e^{-2 i phi} for a general linear du, dv with four coefficients a, b, c, d; the difference is 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'die entsprechenden Q_2 Grössen' is probably 'die entsprechenden Aenderungen (Grössen)' of w and z; there is no symbol Q_2.",
+   "'Theil von dw' should read the fraction 'Bruch dw/dz': the image shows dw written over dz.",
+   "'nur, dass ... in der ersten linearen Ausdruck' is better read as 'nur, dass du und dv (or: die Aenderungen) linearen Ausdrücken von dx u. dy gleich werden, in denen die vier Coefficienten von dx, dy unabhängig sind'. The phrase 'ganz von einer verschwindenden Grösse' is doubtful; the sense is that the coefficients do not depend on the infinitesimals.",
+   "'erhält aber ... Werth, je nach den unendlich kleinen Grössen dx u. dy' is probably 'je nach dem Werthe des Verhältnisses der unendlich kleinen Grössen dx u. dy'.",
+   "The 'Dagegen folgt ...' sentence must contain or imply a negation ('folgt ... nicht') for the paragraph to make sense; check the image for 'nicht' or 'keineswegs'.",
+   "Line 4: 'aus der Existenz eines Differentialquotienten' may be 'eines Differentials'; the '[?]' is justified."
+  ]
+ }
+}

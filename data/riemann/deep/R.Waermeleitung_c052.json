@@ -1,0 +1,62 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c052",
+ "label": "28r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000053/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to the draft of Riemann's Paris Prize essay, the 'Commentatio mathematica, qua respondere tentatur quaestioni ab Ill.ma Academia Parisiensi propositae' (submitted 1861, published posthumously in the Werke in 1876). The Academy's question asked for the conditions under which heat flow in a homogeneous anisotropic body admits a system of isothermal surfaces that stays isothermal in time.\n\nThe heat equation is sum_{i,i'} d/ds_i ( b_{i,i'} du/ds_{i'} ) = du/dt, with conductivity form B = (b_{i,i'}).\n\nThe previous page classified the possible forms of u when it depends on t and on at most two space variables alpha, beta. The cases depend on the number m of second-order equations into which F=0 splits. The resulting forms include:\n- finite sums of f(t) e^{lambda t};\n- phi(beta,t) chi(alpha,beta) + alpha phi_1 + phi_2;\n- alpha e^{lambda t} + beta e^{mu t} + const;\n- (alpha + beta t) e^{lambda t} + const.\n\nThis page (first paragraph, Latin):\n1. Once the admissible forms of u are known, the differential equations f_v = 0 which u must satisfy are 'very easy to form' in each case. Riemann omits them for brevity.\n2. From these equations one reads off, in each case, the coefficient form written in Gauss's notation. Top row: b_{1,1}, b_{2,2}, b_{3,3}. Bottom row: b_{2,3}, b_{3,1}, b_{1,2} (read from the image). One also reads off its adjoint form (beta_{1,1}, beta_{2,2}, ...). In modern terms the adjoint is beta = adj(B) = det(B) B^{-1}, up to normalization. This is the metric Sum beta_{i,i'} ds_i ds_{i'} in which the heat operator becomes the Laplace-Beltrami-type operator.\n3. Substitute arbitrary functions s_i = s_i(x_1, x_2, x_3) into Sum beta ds ds. Under the change of variables the form transforms by the Jacobian rule: a = J^T beta J with J = (ds_i/dx_k). This yields all forms in which u can be a function of time and only two variables, so the 'first question' is solved (my paraphrase of 'unde quaestio prior soluta erit').\n4. It remains to decide when a given form Sum beta ds ds can be transformed into a given form Sum a_{i,i'} dx_i dx_{i'}. This is the equivalence problem for quadratic differential forms. In the Commentatio's Pars secunda Riemann answers it with the four-index quantities (ii', i''i''') = curvature tensor: a form is equivalent to a constant-coefficient form iff these vanish.\n\nThe rest of the page is non-mathematical:\n- (a) A French draft of the cover letter to Élie de Beaumont, secrétaire perpétuel of the Académie. It submits the mémoire with the epigraph 'Et his principiis via sternitur ad majora'. It apologizes for the lack of detailed calculations and for writing in Latin. It asks that the mémoire be returned via a Districtsactuar in Schwerin if it is not admitted.\n- (b) Drafts of lecture announcements, in Latin and German: 'de integralibus definitis', four times weekly at 11. Under the pressure of 'Zeitumstände' this is replaced by 'Theorie der Functionen einer veränderlichen complexen Grösse', unentgeltlich.\n- (c) A quotation from Cicero, Pro Archia 16: 'haec studia ... adversis [rebus] perfugium ac solacium praebent' ('these studies offer refuge and comfort in adversity').",
+  "errors": [
+   "No mathematical errors on this page. The derivations of the f_v = 0 equations and of the coefficient forms are only asserted ('facillimae sunt formatu'), not carried out; that is a gap in exposition, not an error.",
+   "The claim that substituting arbitrary functions s(x) yields ALL admissible forms tacitly assumes the classification on the previous page was exhaustive. It is acceptable within Riemann's argument."
+  ],
+  "results": [
+   {
+    "what": "Determination of the conductivity form b and its adjoint beta from the admissible forms of u, followed by generation of all solutions via arbitrary coordinate changes s_i = s_i(x)",
+    "modern_name": "Pulling back a metric under diffeomorphisms; classification up to coordinate change",
+    "usually_credited_to": "Riemann, Commentatio (1861, publ. 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Formulation of the problem: when can Sum beta ds ds be transformed into a given Sum a dx dx",
+    "modern_name": "Equivalence problem for Riemannian metrics (Christoffel-Lipschitz problem); solved via the Riemann curvature tensor",
+    "usually_credited_to": "Riemann (Commentatio 1861), Christoffel and Lipschitz (1869-70)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Cover letter for the Paris Prize submission, epigraph 'Et his principiis via sternitur ad majora'",
+    "modern_name": "Biographical/archival document",
+    "usually_credited_to": "Riemann",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the published Commentatio (Werke, 1876), whose pivot to the metric-equivalence problem is famous and well documented. The letter to Élie de Beaumont and the epigraph are known. The lecture-announcement drafts are minor biographical details.",
+  "checkable": [
+   {
+    "sympy": "B=Matrix(3,3,symbols('b11 b12 b13 b12 b22 b23 b13 b23 b33')); simplify(B.adjugate()-B.det()*B.inv())==zeros(3,3)",
+    "asserts": "The adjoint (adjugate) form beta of the conductivity form b equals det(b) times b^{-1}."
+   },
+   {
+    "sympy": "x1,x2,x3=symbols('x1 x2 x3'); s=Matrix([x1*cos(x2),x1*sin(x2),x3]); J=s.jacobian([x1,x2,x3]); simplify(J.T*eye(3)*J)",
+    "asserts": "Example of the substitution rule a = J^T beta J: Euclidean beta pulled back to cylindrical coordinates gives diag(1, x1**2, 1)."
+   },
+   {
+    "sympy": "t,a,b,c,l,m=symbols('t a b c lambda mu'); u=a*exp(l*t)+b*exp(m*t)+c; simplify(diff(u,t,3)-(l+m)*diff(u,t,2)+l*m*diff(u,t))==0",
+    "asserts": "The form u = alpha e^{lambda t} + beta e^{mu t} + const from the m=4 case satisfies a constant-coefficient third-order ODE a u''' + b u'' + c u' = 0."
+   }
+  ],
+  "transcription_corrections": [
+   "The second row of the b-form should read b_{2,3}, b_{3,1}, b_{1,2} (Gauss notation), not 'b_{1,2} b_{3,2} b_{1,2}'.",
+   "'solutionem[?] ni perfugium[?]' should be 'solatium ac perfugium' (Cicero, Pro Archia: 'adversis perfugium ac solacium praebent').",
+   "'M. Liegelkow[?]' is more likely 'M. Siggelkow'.",
+   "The French address line reads 'à Suérin [Schwerin], Grand-Duché de Mecklenbourg'. The German variant reads 'zu Schwerin, Grossherzogthum Mecklenburg-Schw[erin]'.",
+   "'Ja[?] die[?] ... Zeitumstände' is probably 'Für die ... Zeitumstände' / 'In den jetzigen Zeitumständen'; uncertain.",
+   "'litter[?] perscribere' is likely 'singulatim' or 'hic' perscribere; uncertain.",
+   "The final 'rein[?]' is likely the end of '[re]nvoyer' / 'remettre'; uncertain."
+  ]
+ }
+}

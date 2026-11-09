@@ -1,0 +1,53 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c407",
+ "label": "208v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000408/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: a mechanical variational principle for a system with generalized coordinates x_ι (ι = 1..n) and velocities x'_ι = dx_ι/dt. The aim of the page is to derive the Lagrange equations and then check the energy (vis viva) identity when V is a quadratic form in the velocities.\n\n(1) Riemann writes δ∫(U + T + V) dt = 0. He starts to vary term by term: ∫(δU + ∂T/∂x δx ...). This line is struck out.\n\n(2) He varies the velocity-dependent part V(x, x'). Integrating by parts in t (boundary terms dropped, my addition), the coefficient of δx_ι in the integrand is ∂V/∂x_ι − d/dt(∂V/∂x'_ι).\n\n(3) Collecting the contribution of the position-dependent terms into a generalized force X_ι (e.g. X_ι = ∂(U+T)/∂x_ι; this reading is mine), the equations of motion are\nX_ι + ∂V/∂x_ι − d/dt(∂V/∂x'_ι) = 0.\nThese are Lagrange's equations of the second kind.\n\n(4) He specializes to V = Σ_{ι,ι'} a_{ι,ι'}(x) x'_ι x'_{ι'}, with a symmetric and summed over all ordered pairs, so there is no factor 1/2. Then\n- ∂V/∂x_{ι''} = Σ ∂a_{ι,ι'}/∂x_{ι''} x'_ι x'_{ι'}\n- ∂V/∂x'_{ι''} = 2 Σ_ι a_{ι,ι''} x'_ι.\nHe multiplies the Lagrange expression by x'_{ι''} and sums over ι'':\nΣ_{ι''} ( Σ ∂a_{ι,ι'}/∂x_{ι''} x'_ι x'_{ι'} − d/dt[2 Σ a_{ι,ι''} x'_ι] ) x'_{ι''}.\n\n(5) Evaluating this:\n- The first term gives Σ (da_{ι,ι'}/dt) x'_ι x'_{ι'}, by the chain rule da/dt = Σ ∂a/∂x_{ι''} x'_{ι''}.\n- The second term gives −2 Σ (da_{ι,ι''}/dt) x'_ι x'_{ι''} − 2 Σ a_{ι,ι''} x''_ι x'_{ι''}.\nThis matches his last line. The small '−2' mark over the first sum appears to note that combining the first two sums gives net coefficient −1.\n\n(6) Implicit conclusion (mine): the total is −Σ (da/dt) x'x' − 2 Σ a x'' x' = −dV/dt. Hence Σ X_ι x'_ι = dV/dt, and if X_ι = −∂Π/∂x_ι this gives d(V + Π)/dt = 0, i.e. conservation of energy.\n\nThis is a routine scratch derivation of the energy integral from the Lagrange equations for a quadratic kinetic energy. The previous page (Green/Stokes-type line integral over an annulus) and the next page (algebra) are unrelated.",
+  "errors": [
+   "No mathematical errors. The step of multiplying by x'_{ι''}, summing, and using the chain rule is correct, and ∂V/∂x'_{ι''} = 2Σ a_{ι,ι''} x'_ι correctly uses the symmetry of a.",
+   "The final simplification to −dV/dt is not written out; it is left implicit.",
+   "The roles of U and T are not specified on the page. The struck-out line suggests an abandoned first attempt at the variation."
+  ],
+  "results": [
+   {
+    "what": "Euler–Lagrange equations X_ι + ∂V/∂x_ι − d/dt ∂V/∂x'_ι = 0 from δ∫(U+T+V)dt = 0",
+    "modern_name": "Lagrange's equations of the second kind / Hamilton's principle",
+    "usually_credited_to": "Euler and Lagrange (Mécanique analytique, 1788); Hamilton (1834–35)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "For V = Σ a_{ιι'}(x) x'_ι x'_{ι'}, Σ_k x'_k (∂V/∂x_k − d/dt ∂V/∂x'_k) = −dV/dt, giving the energy integral",
+    "modern_name": "Energy conservation for a quadratic kinetic energy (Euler's homogeneous function theorem applied to the Lagrangian / Jacobi energy integral)",
+    "usually_credited_to": "Lagrange (vis viva integral); Jacobi, Hamilton",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Textbook analytical mechanics (Lagrange's equations and the energy integral for a quadratic kinetic energy) that was standard well before 1853; it is a scratch computation with nothing novel.",
+  "checkable": [
+   {
+    "sympy": "t=symbols('t'); x1,x2=[Function(n)(t) for n in ('x1','x2')]; a11=Function('a11')(x1,x2); a12=Function('a12')(x1,x2); a22=Function('a22')(x1,x2); X=[x1,x2]; Xd=[diff(x1,t),diff(x2,t)]; V=a11*Xd[0]**2+2*a12*Xd[0]*Xd[1]+a22*Xd[1]**2; p=[symbols('p1 p2')]; expr=sum(Xd[k]*(diff(V,X[k]) - diff(diff(V,Xd[k]),t)) for k in range(2)); simplify(expr + diff(V,t))",
+    "asserts": "Equals 0: the sum Σ x'_k(∂V/∂x_k − d/dt ∂V/∂x'_k) equals −dV/dt for a symmetric quadratic V. (Differentiating a function of t with respect to diff(x,t) works in sympy.)"
+   },
+   {
+    "sympy": "simplify(diff(V,Xd[0]) - 2*(a11*Xd[0]+a12*Xd[1]))",
+    "asserts": "Equals 0: ∂V/∂x'_1 = 2 Σ_ι a_{ι,1} x'_ι, Riemann's term inside d/dt."
+   },
+   {
+    "sympy": "simplify(sum(Xd[k]*diff(V,X[k]) for k in range(2)) - (diff(a11,t)*Xd[0]**2+2*diff(a12,t)*Xd[0]*Xd[1]+diff(a22,t)*Xd[1]**2))",
+    "asserts": "Equals 0: Σ_k x'_k ∂V/∂x_k = Σ (da_{ιι'}/dt) x'_ι x'_{ι'} by the chain rule, as in Riemann's first term."
+   }
+  ],
+  "transcription_corrections": [
+   "The line '∫ + ∂V/∂x_ι − d(∂V/∂x'_ι)/dt' is an incomplete integrand: the δx_ι factor and the force term are left blank, with the gap left before '+'.",
+   "Above the first sum on the last line there is a small overlined mark '−2' (or '2') written over x'_ι x'_{ι'}. It is not in the transcription and appears to record that the first two sums combine to coefficient −1.",
+   "In the bracketed line the second term reads '− d(2Σ a_{ι,ι''} x'_ι)/dt', with the 2 inside the d/dt, consistent with ∂V/∂x'_{ι''}.",
+   "The struck line reads approximately '∫ δU + ∂T/∂x δx' and is crossed out."
+  ]
+ }
+}

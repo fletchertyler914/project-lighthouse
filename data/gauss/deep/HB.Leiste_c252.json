@@ -1,0 +1,76 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c252",
+ "label": "113",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000253/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a printed page, p. 113 of a small German arithmetic textbook (the imprint on the next page reads Wolfenbüttel, Bindseil, 1790, with a reference to Hellwig 1777). It is bound into the Leiste bundle. The handwriting cut off in the left margin belongs to the facing manuscript page: Gauss's French note criticising Legendre (Mém. Paris 1785, p. 520) and his lemma on mμ+nν+pπ=0. The printed text itself is not by Gauss. Its subject is approximating a fraction by the convergents of its regular continued fraction.\n\n(1) A proper fraction m/(am+n) is written as 1/(a+n/m). The text then gives the successive truncations 1/(a+1/p) and 1/(a+1/(p+1/t)), i.e. the continued fraction [0; a, p, t, ...].\n\n(2) First convergent: 1/(a+1/p) = p/(pa+1), obtained by multiplying numerator and denominator by p.\n\n(3) Second convergent: put α = 1/t. Then 1/(a+1/(p+α)) = (p+α)/(a(p+α)+1) = (tp+1)/(atp+t+a). The last step multiplies through by t.\n\n(4) Example 345/437. Since 345 = 15·23 and 437 = 19·23, this equals 15/19 (the gcd 23 is my addition). Its continued fraction is 15/19 = [0;1,3,1,3], so a=1, p=3, t=1, u=3.\n- 1/(1+1/3) = 3/4, and 15/19 − 3/4 = 3/76, so 3/4 is too small.\n- (tp+1)/(atp+t+a) = 4/5, and 4/5 − 15/19 = 1/95, so 4/5 is too large.\nThis illustrates that the convergents alternate around the value.\n\n(5) Third level: put α = 1/(t+1/u) = u/(ut+1). Then (p+α)/(a(p+α)+1) = (p(ut+1)+u)/(a(put+p+u)+ut+1). This is the full fraction in lowest terms, i.e. 345/437 with the common greatest divisor r (=23) removed.\n- Check with a=1, p=3, t=1, u=3: numerator 3·4+3 = 15; denominator 9+3+3+3+1 = 19.\n\n(6) Second example: diameter/circumference = 10^10/31415926536 ≈ 1/π = [0;3,7,15,1,292,...]. First convergent 1/(3+1/7) = 7/22. The page continues on p.114 with 106/331 and 113/355; 113/355 is below the given fraction by less than 3·10^-8 (actual ≈ 2.7·10^-8).",
+  "errors": [
+   "The second-convergent denominator (shown on this page twice) prints as 'atp+t+n' in the image; it should be atp+t+a (the a=1 evaluation 4/5 is consistent with the correct form). Likely a typesetting slip, or the machine transcription silently corrected it.",
+   "Not an error, but implicit: the step 345/437 = 15/19 (common factor 23) is not shown on the page.",
+   "The phrase 'in den kleinsten Zahlen, die möglich sind' is correct, since continued-fraction convergents are automatically in lowest terms, but no justification is given."
+  ],
+  "results": [
+   {
+    "what": "Convergents of the regular continued fraction 1/(a+1/(p+1/(t+1/u))) expressed as explicit rational functions; approximating 345/437=15/19 by 3/4, 4/5, 15/19 with alternating errors 3/76 and 1/95",
+    "modern_name": "Continued fraction convergents (best rational approximations), alternation property",
+    "usually_credited_to": "Huygens, Wallis, Euler (17th–18th c.); textbook material by 1790",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Convergents of 1/π: 7/22, 106/331, 113/355",
+    "modern_name": "Continued fraction expansion of π (Metius' approximation 355/113)",
+    "usually_credited_to": "Zu Chongzhi / Adriaan Metius; continued fraction of π by Wallis/Huygens/Euler",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed elementary textbook page (1790), not Gauss's own work. It presents standard continued-fraction convergents; the only Gauss trace is marginal handwriting spilling over from the facing manuscript page.",
+  "checkable": [
+   {
+    "sympy": "Rational(345,437) - Rational(15,19)",
+    "asserts": "345/437 reduces to 15/19 (equals 0)"
+   },
+   {
+    "sympy": "Rational(15,19) - Rational(3,4)",
+    "asserts": "3/4 is too small by 3/76"
+   },
+   {
+    "sympy": "Rational(4,5) - Rational(15,19)",
+    "asserts": "4/5 is too large by 1/95"
+   },
+   {
+    "sympy": "simplify(1/(a+1/(p+1/t)) - (t*p+1)/(a*t*p+t+a))",
+    "asserts": "second convergent formula (equals 0)"
+   },
+   {
+    "sympy": "simplify(1/(a+1/(p+1/(t+1/u))) - (p*(u*t+1)+u)/(a*(p*u*t+p+u)+u*t+1))",
+    "asserts": "third-level convergent formula (equals 0)"
+   },
+   {
+    "sympy": "1/(1+1/(3+1/(1+Rational(1,3)))) - Rational(15,19)",
+    "asserts": "15/19 = [0;1,3,1,3] (equals 0)"
+   },
+   {
+    "sympy": "continued_fraction(Rational(15,19))",
+    "asserts": "returns [0, 1, 3, 1, 3]"
+   },
+   {
+    "sympy": "1/(3+Rational(1,7)) - Rational(7,22)",
+    "asserts": "first convergent of 1/pi is 7/22 (equals 0)"
+   },
+   {
+    "sympy": "N(Rational(10**10,31415926536) - Rational(113,355))",
+    "asserts": "113/355 is below the given ratio by about 2.7e-8 (< 3e-8)"
+   }
+  ],
+  "transcription_corrections": [
+   "In both occurrences on the page, the image shows the second-convergent denominator as 'atp+t+n' (the printed final letter looks like n, probably a misprint for a). The transcription gives 'atp+t+a', which is the mathematically correct form.",
+   "The marginal fragments on the left ('seulement', 'me An-1 qui', '1785. p. 520', 'cela ou de ne', 'tion en marge', 'p = mμ'+nν'...', 'C.') are bleed-through or overhang from the facing manuscript page (Gauss's note on Legendre and his lemma), not part of this page's content.",
+   "The page is printed type (Fraktur), not Gauss's manuscript; '113' is the printed page number."
+  ]
+ }
+}

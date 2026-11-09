@@ -1,0 +1,79 @@
+{
+ "bundle": "Math.1",
+ "page": "c015",
+ "label": "[8v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000016/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "**What the page is.** This folio continues the previous one. It is a table of quadratic-residue characters.\n\n- **Rows:** the prime moduli p = 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521 in black, then 523 and 541 in red. These are all the primes from 439 to 541.\n- **Columns:** the primes q = 97, 101, …, 223. The previous page has q = 2, …, 89 and the next page q = 227, …, 359.\n- **Meaning of a circle:** a circle in cell (p, q) means the column prime q is a quadratic residue mod the row prime p, i.e. the Legendre symbol (q/p) = +1. Blank means q is a non-residue.\n- **Direction of the symbol:** the reading is (q/p), not (p/q). This shows where both primes are ≡ 3 (mod 4). For example (103/439) = +1 and is marked, while (439/103) = −1. The previous page agrees: 7 is marked for 439 because (7/439) = +1, although (439/7) = −1.\n- **Connecting strokes:** horizontal and vertical strokes join circles that sit in adjacent cells, in the same row or the same column. They form chains and rectangles. This appears to be a visual reading aid, not mathematical content. In row 443, for instance, 103-107-109-113 and 131-137-139-149-151 are runs of consecutive column primes that are all residues.\n- **Unfilled rows:** rows 509 and 521 are blank on this page, although they are filled on the previous page.\n\n**How each entry is computed (my reconstruction of the implicit method).** Reduce p mod q, factor the remainder, and apply quadratic reciprocity together with the supplements for −1 and 2.\n\n- (q/p) = (p/q) if p or q ≡ 1 (mod 4).\n- (q/p) = −(p/q) if p ≡ q ≡ 3 (mod 4).\n- Worked example: (127/439) = −(439/127) = −(58/127) = −(2/127)(29/127) = −(1)(−1) = +1, so 127 is marked.\n\n**Purpose.** This is an empirical extension of the kind of table Gauss printed as Table II of the Disquisitiones Arithmeticae (1801). That table has columns only up to 97. Gauss used such tables for induction on residue behaviour (reciprocity, distribution of residues and non-residues). Here the columns are carried to 359 for moduli 439–541.\n\n**My verification.**\n- I recomputed every cell for rows 443, 449, 457, 461, 467, 503, 523 and 541. All agree with the page. For example, row 523 has 13 residues and row 503 only 7, exactly as drawn.\n- For row 439 I computed each symbol: 103, 109, 113, 127, 137, 139, 167, 191, 199, 211 are residues and are marked. 97, 101, 107, 131, 149, 151, 157, 163, 173, 179, 181, 197 are non-residues and are unmarked.\n- Rows 463, 479, 487, 491 and 499 were not checked.",
+  "errors": [
+   "Row 439, column 193: a circle appears to be drawn at 193 (joined to the one at 191), but (193/439) = (439/193) = (53/193) = (193/53) = (34/53) = (2/53)(17/53) = (−1)(+1) = −1. 193 is a non-residue mod 439, so this looks like a slip or a mis-placed circle. It should be checked against the image, since the position of the pair near the thick rule at 191 is slightly ambiguous.",
+   "Row 439, column 223: (223/439) = −(439/223) = −(216/223) = −(6/223) = −(2/223)(3/223) = −(1)(−1) = +1. 223 is a residue mod 439, but no circle is visible at the right edge of row 439 (cells 461, 467, 491, 503 do show one there). Either it is omitted, or it is lost at the page edge or under the faint red marks at top right."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic residue characters (q/p) for primes q = 97..223 modulo primes p = 439..541, with residues marked by circles and adjacent residues linked by strokes",
+    "modern_name": "Table of Legendre symbols / quadratic residue table",
+    "usually_credited_to": "Gauss himself (Disquisitiones Arithmeticae 1801, Table II); earlier residue tables by Euler and Legendre",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of quadratic reciprocity (with supplements) to fill the table efficiently",
+    "modern_name": "Law of quadratic reciprocity",
+    "usually_credited_to": "Euler/Legendre (conjecture), Gauss (first proof 1796)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a computational extension of the published Disquisitiones Table II to larger column primes, which is exactly the kind of table Gauss is known to have kept. The linking strokes are a presentational device. The content is routine, with high accuracy and one apparent slip.",
+  "checkable": [
+   {
+    "sympy": "from sympy import primerange; from sympy.ntheory import legendre_symbol; [q for q in primerange(97,224) if legendre_symbol(q,523)==1] == [107,109,131,137,149,151,157,173,179,181,191,193,223]",
+    "asserts": "Red row 523 is exactly the set of residues among primes 97..223"
+   },
+   {
+    "sympy": "[q for q in primerange(97,224) if legendre_symbol(q,541)==1] == [101,103,109,137,139,151,173,179,211]",
+    "asserts": "Red row 541 is exactly the set of residues"
+   },
+   {
+    "sympy": "[q for q in primerange(97,224) if legendre_symbol(q,503)==1] == [97,113,131,173,197,199,223]",
+    "asserts": "Row 503 (only 7 residues) is correct"
+   },
+   {
+    "sympy": "[q for q in primerange(97,224) if legendre_symbol(q,461)==1] == [97,103,107,109,113,137,139,151,157,163,167,181,191,193,199,223]",
+    "asserts": "Row 461 is correct"
+   },
+   {
+    "sympy": "[q for q in primerange(97,224) if legendre_symbol(q,443)==1] == [103,107,109,113,131,137,139,149,151,163,167,181,191,197]",
+    "asserts": "Row 443 is correct"
+   },
+   {
+    "sympy": "[q for q in primerange(97,224) if legendre_symbol(q,449)==1] == [97,101,127,137,167,181,191,193,197,199]",
+    "asserts": "Row 449 is correct"
+   },
+   {
+    "sympy": "legendre_symbol(193,439) == -1",
+    "asserts": "The circle at (439,193) is erroneous"
+   },
+   {
+    "sympy": "legendre_symbol(223,439) == 1",
+    "asserts": "A circle is expected at (439,223)"
+   },
+   {
+    "sympy": "[q for q in primerange(97,224) if legendre_symbol(q,439)==1] == [103,109,113,127,137,139,167,191,199,211,223]",
+    "asserts": "Correct residue row for 439 (compare the page: 193 present, 223 absent)"
+   },
+   {
+    "sympy": "legendre_symbol(103,439) == 1 and legendre_symbol(439,103) == -1",
+    "asserts": "The table records (q/p) (column residue mod row prime), not (p/q)"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 439: the circle read at 193 should be checked against the image; mathematically it should not be there. Conversely, 223 should be a residue but no circle is transcribed or visible.",
+   "The connecting strokes are not arbitrary: they join circles in adjacent cells, horizontally within a row or vertically within a column. They visualise runs of consecutive residues.",
+   "Circles mean 'column prime q is a quadratic residue modulo row prime p'. This could be stated in the transcription header."
+  ]
+ }
+}

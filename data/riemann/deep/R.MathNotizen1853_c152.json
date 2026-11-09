@@ -1,0 +1,72 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c152",
+ "label": "76r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000153/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Overall: the page is scratch work on second-order linear ODEs that arise from separating variables in a variable-coefficient vibration equation. There is a formal-adjoint computation, the Riccati reduction, and several trial substitutions u = (factor)*(new unknown). The physical context, judging from the adjacent pages, is elasticity (Lamé 1852) and heat/vibration kernels.\n\n(1) Starting equation: u_tt = p(x) u_xx + q(x) u_x. This is a wave or vibration equation with variable coefficients, for example a string of variable density or sound in a tube of variable cross-section. [Mine:] The time-harmonic ansatz u = U(x) e^{i mu t} gives p U'' + q U' + mu^2 U = 0.\n\n(2) Adjoint step. He writes Int v (p u_xx + mu mu u) dx and then the integrand ((p v)_xx + mu mu v) u. [Mine:] Integrating by parts twice gives\nv(p u'' + mu^2 u) - u((p v)'' + mu^2 v) = d/dx[ p v u' - u (p v)' ].\nSo the formal adjoint of L = p d^2/dx^2 + mu^2 is L* v = (p v)'' + mu^2 v. The q u_x term has been dropped in this line: either q = 0 is assumed, or that term is set aside.\n\n(3) Normal form u_xx + p u = 0. Here p has a new meaning, effectively the normalized coefficient. He writes u = e^{Int v dx}. He writes du/dx = v, but this should read u'/u = v. That gives the Riccati equation v^2 + v_x + p = 0, which is correct.\n\n(4) Right margin: the expression phi''/phi + chi phi, probably intended as phi''/phi + chi, i.e. the comparison equation phi'' + chi phi = 0. Next he tries v = phi'/phi + v' with a new unknown v' (prime here is a label, not a derivative). [Mine:] Substitution gives\n(phi'/phi + v')^2 + (phi'/phi + v')_x = phi''/phi + 2 v' phi'/phi + v'^2 + v'_x.\nThe written condition 2 v' phi_x + phi_xx = phi chi' isolates the cross term plus phi''. This is how one would relate the Riccati equation for p to one for a modified potential.\n\n(5) Left column trials. First, v -> v/phi gives (v/phi)^2 + (v/phi)_x = v^2/phi^2 + v_x/phi - v phi_x/phi^2, which is correct. Then the quantity phi_x + v phi is formed. Applying (d/dx + v) to it gives\nv(phi_x + v phi) + phi_xx + v phi_x + v_x phi = phi_xx + 2 v phi_x + (v^2 + v_x) phi.\nThe extra terms are recorded as 'v 2 phi_x + phi_xx'. [Mine:] This is the identity e^{-Int v}(e^{Int v} phi)'' = phi'' + 2 v phi' + (v^2 + v') phi. So with u = e^{Int v} phi, the equation u'' + p u = 0 becomes phi'' + 2 v phi' + (v^2 + v' + p) phi = 0.\n\n(6) Bottom lines. He writes v' = -2 (phi_x/phi)/(...) + phi chi'. The last line, after a crossed-out (phi'/phi)^2 term, combines 2 phi''/phi, v'^2 and -phi''/phi into an expression set = 0. This is an attempt to choose the new unknown so that the transformed equation has a prescribed form. It is inconclusive and partly illegible.\n\n(7) Upside-down ink note: rho = phi Int_1^0 ... It is unrelated or illegible; not reconstructed.",
+  "errors": [
+   "'du/dx = v' should be (du/dx)/u = v (i.e. d log u/dx = v), as implied by u = e^{Int v dx} and the following Riccati equation.",
+   "In the adjoint computation the q u_x term of the original equation is silently omitted.",
+   "The letter p is reused: first as the coefficient of u_xx, then as the potential in u'' + p u = 0.",
+   "'phi''/phi + chi phi' is probably meant as phi''/phi + chi, with an extra phi as a slip or misreading.",
+   "The final lines (v' = -2 phi'/phi ... + phi chi' and the last equation) are inconsistent or incomplete scratch; no definite result is reached."
+  ],
+  "results": [
+   {
+    "what": "Formal adjoint of p d^2/dx^2 + mu^2 via integration by parts: (p v)'' + mu^2 v",
+    "modern_name": "Formal (Lagrange) adjoint / Lagrange identity",
+    "usually_credited_to": "Lagrange (1760s); Green's identity",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Reduction of u'' + p u = 0 via u = exp(Int v) to the Riccati equation v^2 + v' + p = 0",
+    "modern_name": "Riccati substitution / logarithmic derivative",
+    "usually_credited_to": "Euler, D. Bernoulli, Riccati (18th c.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Product substitution u = e^{Int v} phi giving phi'' + 2 v phi' + (v^2 + v' + p) phi = 0, and shifts v -> phi'/phi + w of Riccati solutions",
+    "modern_name": "Gauge/product transformation of linear ODE; Riccati shift (related to Liouville transformation, later Darboux)",
+    "usually_credited_to": "Liouville (1837); Darboux (1882) for the Darboux transformation",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are standard manipulations: adjoint by integration by parts, Riccati reduction, and product substitutions. They were all well known by the 1850s, and the page reaches no completed new transformation. The final lines are inconclusive scratch, not a Darboux-type theorem.",
+  "checkable": [
+   {
+    "sympy": "x=symbols('x'); v=Function('v')(x); u=exp(Integral(v,x)); simplify(diff(u,x,2)/u - (v**2+diff(v,x)))",
+    "asserts": "u=exp(Int v) gives u''/u = v^2 + v', hence u''+p u=0 iff v^2+v'+p=0 (result 0)"
+   },
+   {
+    "sympy": "x,mu=symbols('x mu'); p,u,v=[Function(n)(x) for n in 'puv']; simplify(v*(p*diff(u,x,2)+mu**2*u) - u*(diff(p*v,x,2)+mu**2*v) - diff(p*v*diff(u,x) - u*diff(p*v,x),x))",
+    "asserts": "Lagrange identity: adjoint of p d^2/dx^2 + mu^2 is (p v)'' + mu^2 v (result 0)"
+   },
+   {
+    "sympy": "x=symbols('x'); v,phi=Function('v')(x),Function('phi')(x); E=exp(Integral(v,x)); simplify(diff(E*phi,x,2)/E - (diff(phi,x,2)+2*v*diff(phi,x)+(v**2+diff(v,x))*phi))",
+    "asserts": "(d/dx+v)(phi'+v phi) = phi''+2v phi'+(v^2+v')phi, i.e. product substitution identity (result 0)"
+   },
+   {
+    "sympy": "x=symbols('x'); w,phi=Function('w')(x),Function('phi')(x); V=diff(phi,x)/phi+w; simplify(V**2+diff(V,x) - (diff(phi,x,2)/phi + 2*w*diff(phi,x)/phi + w**2 + diff(w,x)))",
+    "asserts": "Riccati shift v = phi'/phi + w (result 0)"
+   },
+   {
+    "sympy": "x=symbols('x'); v,phi=Function('v')(x),Function('phi')(x); simplify((v/phi)**2+diff(v/phi,x) - (v**2/phi**2 + diff(v,x)/phi - v*diff(phi,x)/phi**2))",
+    "asserts": "Substitution v -> v/phi line on the page (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "'du/dx = v [?]' : the image shows du/dx = v, but the intended meaning is d log u/dx = v.",
+   "'v ∓ v/phi', 'v ∓ phi_x + v phi', '∂∓' : the '∓' glyphs are Riemann's equals/substitution sign (v = v/phi, v = phi_x + v phi), not minus-or-plus.",
+   "'𝔍v + phi_x ∓ v' : probably '∂v + ...' or a struck-through fragment, not a Fraktur J.",
+   "'(76)' in the right margin is the folio number, not an equation number.",
+   "'phi''/phi + chi phi' is likely phi''/phi + chi.",
+   "In the last line the primes on v' and chi' denote new unknowns or labels, not derivatives."
+  ]
+ }
+}

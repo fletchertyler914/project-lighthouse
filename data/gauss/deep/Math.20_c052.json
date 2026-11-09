@@ -1,0 +1,70 @@
+{
+ "bundle": "Math.20",
+ "page": "c052",
+ "label": "26r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000053/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Heading: 'Wurzeln d. Gl: x^7+28x^4-80=0', i.e. the roots of the equation f(x)=x^7+28x^4-80=0. The page is a fair-copy table of all seven roots. It is very likely the end result of the trial computations on the previous page. That page tries argument values 7.5, 172.5, 180, 90, 45 and 135 degrees, uses log10(28)=1.4471580 and a recurring constant 3.2270163, and interpolates. This fits a polar-form (modulus/argument, logarithmic) method for trinomial equations x^(m+n)+a x^m+b=0 of the kind Gauss treated around 1849.\n\n(A) Rectangular form.\n- Three real roots: x1=+1.2770094, x2=-1.3288832, x3=-3.0004806.\n- First complex pair: 1.5512875 ± 2.6312679 i. The digits are heavily overwritten.\n- Second complex pair: -0.0251107 ± y i. The first value y=1.9874234 is struck out and replaced by a value read as 1.295464.\n\n(B) Polar form. For each root the table gives log10|x| and the argument in degrees, minutes, seconds and decimal seconds:\n- x1: 0.1061941, 0\n- x2: 0.1234868, 180\n- x3: 0.4771908, 180\n- first pair: 0.4849423, 59°28'41.301\" and 300°31'18.699\"\n- second pair: 0.1131668, 91°6'31.572\" and 268°53'28.428\"\n\n(C) Faint pencil at the bottom: 9.9991187 [read 9.9999187] + 0.1131668 = ... This is (my reconstruction) log sin(91°6'31.6\") + log r = 9.9999187 + 0.1131668 = 0.1130855 (mod 10). That gives Im = r sin(theta) ≈ 1.297434. It is the computation that produced the correction of the imaginary part of the second pair.\n\nImplicit relations (mine):\n- Vieta's relations: sum of roots = 0 (no x^6 term), sum of squares = 0 (e1=e2=0), product of roots = 80.\n- In logs: sum of log10|x_k| = log10(80) = 1.9030900. The table gives 0.1061941+0.1234868+0.4771908+2(0.4849423)+2(0.1131668) = 1.9030899. This checks.\n- Real part of the first pair: from the sum of roots, a = (3.0523544 + 2·0.0251107)/2 = 1.5512879, consistent with 1.551288-1.551291 from the polar data.\n- Conjugate arguments sum to 360°, as required.",
+  "errors": [
+   "The struck-out imaginary part 1.9874234 of the pair -0.0251107 ± y i was wrong. With it, |x|=1.9876 would contradict log|x|=0.1131668 and the product of roots = 80.",
+   "The corrected imaginary part as transcribed (1.295464) does not agree with Gauss's own polar data. log|x|=0.1131668 and arg=91°6'31.572\" give r=1.297677 and Im=1.297434. The sum of squares of roots is ≈0 with 1.297434 but ≈+0.010 with 1.295464. So either the handwriting reads 1,297434 (likely misread) or Gauss made a copying slip. The polar entries themselves are correct.",
+   "The overwritten real part of the first complex pair is transcribed as 1.5512875. The sum of roots requires 1.5512879, and the polar data give ≈1.551290. The discrepancy is in the last digit only, within the precision of 7-place logarithms."
+  ],
+  "results": [
+   {
+    "what": "Complete numerical solution (all 7 roots, real and complex) of the trinomial equation x^7+28x^4-80=0, to about 7 places, in both rectangular and logarithmic-polar form (log modulus, argument to 0.001 arc-second)",
+    "modern_name": "Numerical root-finding for trinomial equations via polar/logarithmic method (cf. Gauss's treatment of trinomial equations with Gaussian logarithms)",
+    "usually_credited_to": "C. F. Gauss, 'Beiträge zur Theorie der algebraischen Gleichungen' (1849), section on trinomial equations; general numerical methods of Newton, Lagrange, Graeffe/Lobachevsky/Dandelin",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of root-moduli product and conjugate arguments as consistency checks (sum log|x_k| = log 80)",
+    "modern_name": "Vieta's formulas as numerical check",
+    "usually_credited_to": "Viète / Girard (classical)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a worked numerical example of solving a trinomial equation completely, real and complex roots, by logarithmic polar computation. Gauss is known to have developed and published such a method (1849), and numerical examples of this kind are characteristic of him. Whether this particular example appears in print is uncertain, but it carries no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "Poly(x**7+28*x**4-80, x).nroots(n=10)",
+    "asserts": "Roots are ≈ 1.2770094, -1.3288832, -3.0004806, 1.551289±2.631268i, -0.0251107±1.297434i."
+   },
+   {
+    "sympy": "N((1.2770094)**7+28*(1.2770094)**4-80)",
+    "asserts": "x=1.2770094 is a root to about 1e-5 relative precision."
+   },
+   {
+    "sympy": "N(0.1061941+0.1234868+0.4771908+2*0.4849423+2*0.1131668 - log(80,10))",
+    "asserts": "The sum of log10 moduli equals log10(80) (product of roots = 80); result ≈ 0."
+   },
+   {
+    "sympy": "N(10**0.4849423*cos(pi*(59+28/60+41.301/3600)/180)), N(10**0.4849423*sin(pi*(59+28/60+41.301/3600)/180))",
+    "asserts": "The polar data reproduce 1.55129 + 2.63127 i."
+   },
+   {
+    "sympy": "N(10**0.1131668*cos(pi*(91+6/60+31.572/3600)/180)), N(10**0.1131668*sin(pi*(91+6/60+31.572/3600)/180))",
+    "asserts": "The polar data give -0.025111 + 1.297434 i, so the imaginary part is 1.297434 rather than 1.295464."
+   },
+   {
+    "sympy": "N(1.2770094**2+1.3288832**2+3.0004806**2+2*(1.5512879**2-2.6312679**2)+2*(0.0251107**2-1.297434**2))",
+    "asserts": "Sum of squares of roots ≈ 0 (Newton identity, since the x^6 and x^5 coefficients are 0)."
+   },
+   {
+    "sympy": "N(log(cos(pi*(1+6/60+31.572/3600)/180),10)+10)",
+    "asserts": "log sin(91°6'31.572\") + 10 = 9.9999187 (the faint pencil entry)."
+   }
+  ],
+  "transcription_corrections": [
+   "Faint pencil line 1 is most likely 9.9999187 (log sin 91°6'31.6\"), not 9.9991187.",
+   "Faint pencil result is probably 0.1130855 (log of the imaginary part, giving 1.297434), not 0.9982904; uncertain owing to faintness.",
+   "The corrected imaginary part of the second complex pair, transcribed 1,295464, is probably 1,297434 (Gauss's own log/angle data require 1.297434).",
+   "The overwritten real part of the first complex pair should be about 1.551288-1.551291 (transcription 1.5512875 is uncertain in the last digits); the imaginary part 2.6312679 is consistent with the polar data.",
+   "The '45b/27' at top right is a struck-out older shelf/folio number; '(26)' is the current folio number."
+  ]
+ }
+}

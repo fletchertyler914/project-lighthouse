@@ -1,0 +1,47 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c049",
+ "label": "25v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000050/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This folio is not a Riemann derivation. It is page 2 of a 3-page letter signed K. Hattendorff (next page). Hattendorff edited Riemann's posthumous memoir 'Über die Fläche vom kleinsten Inhalt bei gegebener Begrenzung' (Abh. Ges. Wiss. Göttingen 13, 1867). In this letter he answers an editor's queries about corrections to that text. The addressee is probably H. Weber, or possibly Schwarz, for the Gesammelte Werke of 1876; that is my inference. The letter's page and line references are to Hattendorff's printed memoir. The mathematical content is only described, not computed.\n\n(1) The previous page admits an error on p.14. The substitution there was dv/dt = phi'(t)/sqrt(chi(t)). Here Hattendorff explains how it arose:\n- Riemann had crossed out three examples (p.31 top) in the manuscript.\n- The passage just before them was left standing, and it discusses only the singular points c.\n- The function k_1 stays continuous at all other points, so Hattendorff did not recompute the quantity (1/k) d^2k/dv^2 there.\n- That omission produced the error. It also explains why he could not find the mistake in the crossed-out material.\n\nHis proposed fix: drop the first ansatz entirely and keep only dv/dt = 1/sqrt(phi(t) chi(t)). With this choice the investigation can be carried through in full generality.\n\nModern context (my reconstruction): in Riemann's treatment of minimal surfaces bounded by straight lines, the functions k_1, k_2 satisfy a linear second-order ODE d^2k/dv^2 = Q k. Q = (1/k) d^2k/dv^2 must be single-valued, with singularities only at the boundary vertices.\n- Put D = d/dv = w(t) d/dt with w = dt/dv. Then d^2k/dv^2 = w^2 k'' + w w' k'.\n- For w = sqrt(P), P = phi*chi: (1/k) d^2k/dv^2 = (P k'' + P' k'/2)/k. This is a Fuchsian-type form with singularities only at the zeros of P.\n- For w = sqrt(chi)/phi': w^2 = chi/phi'^2. The resulting expression acquires poles at the zeros of phi'(t). These are points other than the vertices c, where k_1 itself is regular but Q need not be.\n- This is very likely the overlooked error: an unchecked spurious singularity. That identification is my inference.\n\n(2) Examples, p.16. Hattendorff keeps the old presentation because it follows Riemann's manuscript calculation. He concedes that the angles beta*pi and gamma*pi must carry opposite signs.\n\n(3) p.12, line 25 from bottom. He declines to add a remark on the sign of the angle, since the sign of A already shows at which boundary line the rotation starts.\n\n(4) p.17. Begins: 'Auch hier habe ich eine Änderung' and continues on the next page as 'nicht vorgenommen'.",
+  "errors": [
+   "No computational errors on this page; it is editorial correspondence. It reports a past error in Hattendorff's edition (the substitution dv/dt = phi'(t)/sqrt(chi(t)) on p.14), caused by not checking (1/k) d^2k/dv^2 away from the points c.",
+   "The explanation of why the phi'-ansatz fails (spurious poles at zeros of phi') is my inference, not stated explicitly on the page."
+  ],
+  "results": [
+   {
+    "what": "Correction: replace the ansatz dv/dt = phi'/sqrt(chi) by dv/dt = 1/sqrt(phi(t)chi(t)) in reducing Riemann's minimal-surface problem (polygonal boundaries) to a linear second-order ODE with singularities only at the vertices",
+    "modern_name": "Change of independent variable in a Fuchsian ODE / Riemann's treatment of the Plateau problem for polygonal contours via linear ODEs (precursor of Schwarz-Christoffel / Garnier methods)",
+    "usually_credited_to": "Riemann (memoir posthumously edited by Hattendorff 1867); Schwarz and Weierstrass for the polygonal Plateau problem",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Sign convention: angles beta*pi and gamma*pi in the examples must have opposite signs",
+    "modern_name": "Orientation of vertex angles in conformal mapping of polygons",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is Hattendorff's editorial letter about corrections to the printed edition of Riemann's minimal-surface memoir. It contains no new mathematics and is not by Riemann. It is of minor value for editorial history: it shows Riemann crossed out the p.31 examples and how the p.14 error arose.",
+  "checkable": [
+   {
+    "sympy": "t=symbols('t'); P=Function('P')(t); k=Function('k')(t); w=sqrt(P); simplify(w*diff(w*diff(k,t),t) - (P*diff(k,t,2)+diff(P,t)*diff(k,t)/2))",
+    "asserts": "With dv/dt = 1/sqrt(P), P = phi*chi: d^2k/dv^2 = P k'' + P'k'/2, which is single-valued with singularities only at zeros of P (should simplify to 0)."
+   },
+   {
+    "sympy": "t=symbols('t'); chi=Function('chi')(t); phi=Function('phi')(t); k=Function('k')(t); w=sqrt(chi)/diff(phi,t); expand(simplify(w*diff(w*diff(k,t),t)))",
+    "asserts": "With dv/dt = phi'/sqrt(chi): d^2k/dv^2 = (chi/phi'^2)k'' + (1/2)(chi/phi'^2)' k'. Denominators in phi' show possible extra singularities at zeros of phi'."
+   }
+  ],
+  "transcription_corrections": [
+   "'Beispiele' is underlined in the manuscript as a section heading.",
+   "'M. S. [?]' is indeed 'M. S.' (Manuskript); the [?] can be removed.",
+   "Transcription otherwise agrees with the image."
+  ]
+ }
+}

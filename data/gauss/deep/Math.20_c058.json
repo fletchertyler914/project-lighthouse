@@ -1,0 +1,79 @@
+{
+ "bundle": "Math.20",
+ "page": "c058",
+ "label": "29r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000059/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table for a periodic function of an angle phi. phi runs from 0 deg to 180 deg in steps of 7.5 deg, giving 25 rows. If the function is even with period 360 deg, these rows correspond to 48 equidistant points over the full circle.\n\nFor each phi the page records a complex number z(phi) = x + i y. The printed header '+1.6843159 ± 2.6637914 i' indicates it is one member of a conjugate pair of complex roots. The pair belongs to some equation whose coefficients depend on phi. That equation is not on this page.\n\nColumns 2 and 3 give z in polar form:\n- Column 2 is the argument, psi = atan(y/x). Example: atan(2.6637914/1.6843159) = 57 deg 41' 41.37''.\n- Column 3 is log10|z|. Example: |z|^2 = 2.83692 + 7.09579 = 9.93271, so log10|z| = 0.4985337.\n- The last row also checks: atan(2.6312679/1.5512875) = 59 deg 28' 41.3'' and log10|z| = 0.48494.\n- Columns 2 and 3 are therefore just the polar form of columns 4 and 5. Presumably that polar form was the working form during the root computation. That is my inference.\n\nColumns 4 and 5 give x(phi) and y(phi) separately. Both vary smoothly, symmetric about phi = 0 and phi = 180 deg:\n- x falls from 1.6843 to 1.5513.\n- y falls from 2.6638 to 2.6313.\n\nThe two right-hand columns are Fourier cosine coefficients. Row k (k = 0, ..., 24) gives the coefficient of cos(k phi), in units of 1e-7 except for the k = 0 terms. The 48-point trigonometric interpolation of an even function is\n\nx(phi) = a0 + sum_{k=1}^{24} a_k cos(k phi),\ny(phi) = b0 + sum_{k=1}^{24} b_k cos(k phi).\n\nThe coefficients are:\n- a0 = 1.6208500 as written. My recomputation shows it should be 1.6209500; see the errors list.\n- a1 = +0.0664071, a2 = -0.0031573, a3 = +0.0001094, a4 = +0.0000087, a5 = ±0.0000027 (sign blotted), a6 = +3e-7.\n- Thereafter the a_k are ±0 to 3 units of 1e-7. That is numerical noise from the 7-decimal values.\n- b0 = 2.6458802, b1 = +0.0165307, b2 = +0.0016229 (the sign must be +; see the errors list), b3 = -0.0002676, b4 = +0.0000268, b5 = -0.0000016, b6 = -1e-7.\n- Thereafter the b_k are noise of 0 to 2 units.\n\nVerification (my computation):\n- With a0 = 1.62095, the series reproduces x(0) = 1.6843159, x(90) = 1.6241161 (sum 1.6241162) and x(180) = 1.5512875 to about 1e-6. With a5 = -27 the agreement at 0 is about 1e-6.\n- With b2 = +16229, the series gives y(0) = 2.66379, y(90) = 2.6442848 and y(180) = 2.6312685, matching the table.\n\nSo the page converts a phi-dependent complex root into rapidly convergent cosine series for its real and imaginary parts. The ratio of successive coefficients is about 1/20 to 1/10. This is the kind of auxiliary expansion Gauss used in perturbation or attraction computations, where a quantity depending on an anomaly is tabulated at 7.5 deg intervals and harmonically analysed.\n\nThe physical or analytic problem cannot be identified from this page alone. The previous page carries a similar 7.5-deg table with another cosine series whose coefficients alternate in sign. The previous page is mirror bleed-through and its readings are uncertain.",
+  "errors": [
+   "The constant term of the real-part series is written (or reads) 1.6208500. Every check (phi = 0, 90, 180 deg) requires 1.6209500, a uniform offset of +1.000e-4. Either the digit is misread, or Gauss made a copying slip (8 for 9) in the final entry. The tabulated values themselves are consistent.",
+   "In the k = 2 row, the sign in front of 16229 (imaginary-part series) appears as '−' in the image. The data require b2 = +0.0016229. With −16229, y(0) would come out 2.66055 instead of 2.66379. The real-part coefficient −31573 is correct with its minus sign. So either the second sign is misplaced or misread, or it is a slip.",
+   "Higher coefficients (k >= 7) are of order 1 to 3 units of the 7th decimal with irregular signs. They are rounding noise, not real harmonics. This is harmless and Gauss evidently computed them only as a check.",
+   "Some signs are blotted (k = 5 and k = 11 real, k = 14). A negative sign for a5 (−27) gives slightly better agreement at phi = 0 (1.6843169 vs 1.6843159)."
+  ],
+  "results": [
+   {
+    "what": "Conversion of a complex number (complex root) to polar form, with argument in sexagesimal and log10 of the modulus, for 25 values of a parameter",
+    "modern_name": "polar/logarithmic representation of complex numbers",
+    "usually_credited_to": "standard (Euler, Gauss, Argand era)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Harmonic analysis of the real and imaginary parts of a parameter-dependent complex root from 48 equidistant samples (even function, 25 independent values), giving cosine coefficients up to order 24",
+    "modern_name": "discrete cosine/Fourier transform (trigonometric interpolation at equidistant nodes)",
+    "usually_credited_to": "Clairaut, Lagrange; Gauss (Theoria interpolationis, c.1805, posthumously published 1866) for the systematic method",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine numerical worksheet: complex roots in polar form, followed by 48-point cosine analysis. Gauss's mastery of trigonometric interpolation, and his use of it in perturbation and attraction computations, is well documented. The underlying problem is not identifiable from this page, and nothing here goes beyond known Gaussian practice.",
+  "checkable": [
+   {
+    "sympy": "N(log(sqrt(1.6843159**2 + 2.6637914**2), 10))",
+    "asserts": "log10 modulus of the phi=0 root equals 0.4985337"
+   },
+   {
+    "sympy": "N(atan(2.6637914/1.6843159)*180/pi)",
+    "asserts": "argument of the phi=0 root equals 57.69482 deg = 57 deg 41' 41.37''"
+   },
+   {
+    "sympy": "N(atan(2.6312679/1.5512875)*180/pi)",
+    "asserts": "argument at phi=180 deg equals 59 deg 28' 41.3'' (about 59.47814 deg)"
+   },
+   {
+    "sympy": "N(log(sqrt(1.5512875**2 + 2.6312679**2), 10))",
+    "asserts": "log10 modulus at phi=180 equals 0.4849423"
+   },
+   {
+    "sympy": "1.6209500 + 0.0664071 - 0.0031573 + 0.0001094 + 0.0000087 - 0.0000027 + 0.0000003",
+    "asserts": "real-part series at phi=0 reproduces 1.6843159 to about 1e-6 (requires constant 1.62095, not 1.62085)"
+   },
+   {
+    "sympy": "1.6209500 - 0.0664071 - 0.0031573 - 0.0001094 + 0.0000087 + 0.0000027 + 0.0000003",
+    "asserts": "real-part series at phi=180 reproduces 1.5512875 to about 1e-6"
+   },
+   {
+    "sympy": "2.6458802 + 0.0165307 + 0.0016229 - 0.0002676 + 0.0000268 - 0.0000016 - 0.0000001",
+    "asserts": "imaginary-part series at phi=0 reproduces 2.6637914 (requires b2 = +16229)"
+   },
+   {
+    "sympy": "2.6458802 - 0.0165307 + 0.0016229 + 0.0002676 + 0.0000268 + 0.0000016 - 0.0000001",
+    "asserts": "imaginary-part series at phi=180 reproduces 2.6312679 (to about 6e-7)"
+   },
+   {
+    "sympy": "2.6458802 - 0.0016229 + 0.0000268 + 0.0000001",
+    "asserts": "imaginary-part series at phi=90 reproduces 2.6442848 (odd harmonics vanish)"
+   }
+  ],
+  "transcription_corrections": [
+   "Columns 2–3 are the argument and log10 modulus of the complex number in columns 4–5. The ± i in the header belongs to the whole pair (x ± i y).",
+   "The final two columns are cosine coefficients indexed by row number k = 0..24, in units of 1e-7 for k >= 1. They are not values attached to the angle in that row.",
+   "Constant term of real series: probably 1.6209500, not 1.6208500 (check against tabulated values).",
+   "Row 15 deg (k = 2), imaginary coefficient: should be +16229, not −16229.",
+   "Row 45 deg: the argument should read 57 53 24.780 (overwritten digits); log modulus 0.4966118 is consistent."
+  ]
+ }
+}

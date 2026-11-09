@@ -1,0 +1,51 @@
+{
+ "bundle": "D.RationaleZahlen",
+ "page": "c006",
+ "label": "3r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234961:00000007/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Notation (as on the previous folio): for rationals x, y, … the bracket [x, y, …] is the Z-module they generate in Q. A cyclic module [g] is identified with its positive generator g, so for integers [m, n] = gcd(m, n).\n\n(1) Order of the element (r/a, s/b) in Q/Z × Q/Z.\n- Let a, b, r, s be integers. Write [r/a, s/b, 1] = [1/c].\n- Then r/a = r'/c, s/b = s'/c and 1 = c/c, with [r', s', c] = 1, i.e. gcd(r', s', c) = 1.\n- Put a_1 = gcd(a, r) and b_1 = gcd(b, s).\n- Then [1, r/a] = a_1/a = 1/a_2, so a_2 = a/a_1 is the reduced denominator of r/a. Likewise [1, s/b] = 1/b_2 with b_2 = b/b_1.\n- Implicit step (mine): [1, r/a, s/b] = [1, r/a] + [1, s/b] = [1/a_2, 1/b_2].\n- Hence [1/c] = [1/a_2, 1/b_2] = (1/(a_2 b_2))·[b_2, a_2] = ∂/(a_2 b_2), where ∂ = gcd(a_2, b_2).\n- So c = a_2 b_2/∂ = lcm(a_2, b_2). This c is the least positive integer with c·r/a and c·s/b both integral.\n\n(2) Group-theoretic reading.\n- Let α, β be elements of an abelian group, of orders a and b (tacitly; presumably independent). Put γ = α^r β^s.\n- Then γ^x = α^{rx} β^{sx}.\n- γ^c = 1, because rc = a r' and sc = b s'. If α and β are independent, c is exactly the order of γ.\n\n(3) Normalisation question.\n- Can one pick c' with gcd(c', c) = 1 such that γ^{c'} = α^{rc'} β^{b_1}? In other words, can γ be replaced by another generator of the same cyclic group ⟨γ⟩ whose β-exponent is the divisor b_1 = gcd(b, s)?\n- The condition is s c' ≡ b_1 (mod b). Dividing by b_1 (b = b_1 b_2) gives (s/b_1) c' ≡ 1 (mod b_2).\n- Since gcd(b, s) = b_1, we have gcd(b_2, s/b_1) = 1. So the congruence fixes c' uniquely mod b_2: c' ≡ c'_0 (mod b_2).\n- Implicit (mine): c'_0 is a unit mod b_2.\n- Since c = (a_2/∂)·b_2, b_2 divides c. The reduction map (Z/c)^* → (Z/b_2)^* is surjective with fibres of size φ(c)/φ(b_2).\n- Hence there are always exactly φ(c)/φ(b_2) classes c' mod c, each prime to c, that do the job. Answer: yes.\n\nPurpose: this continues the 'rationale Zahlclassen' study of cosets (a, r) = [a] + r. It amounts to bookkeeping for cyclic subgroups of Z/a × Z/b (equivalently of Q/Z × Q/Z): normalising a generator of ⟨α^r β^s⟩ so that its β-component becomes β^{gcd(b,s)}. This is a step toward basis or subgroup normal forms for finite abelian groups.",
+  "errors": [
+   "No mathematical errors found.",
+   "Tacit assumptions: a, b, r, s are integers; α and β have orders a and b. For γ^c = 1 only ord(α) | a and ord(β) | b are needed; exactness of the order c needs independence.",
+   "c = a_2 b_2/∂ is called the 'kl. gem. Multipl.' of a_2, b_2: correct (lcm)."
+  ],
+  "results": [
+   {
+    "what": "[1, r/a, s/b] = [1/c] with c = lcm(a/gcd(a,r), b/gcd(b,s)); this is the order of (r/a, s/b) in Q/Z × Q/Z, and of α^r β^s for independent α, β of orders a, b.",
+    "modern_name": "order of an element in a product of cyclic groups / lcm of reduced denominators",
+    "usually_credited_to": "folklore (Gauss era onward)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "There exists c' prime to c with γ^{c'} = α^{rc'} β^{gcd(b,s)}; the number of such classes mod c is φ(c)/φ(b_2).",
+    "modern_name": "surjectivity of (Z/c)^* → (Z/d)^* for d | c, with fibre size φ(c)/φ(d); normalising a generator of a cyclic subgroup",
+    "usually_credited_to": "folklore; elementary number theory (Gauss, Dirichlet)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine elementary number theory and finite abelian group bookkeeping in Dedekind's module notation. It fits his well-known style; nothing non-standard is here.",
+  "checkable": [
+   {
+    "sympy": "a,r,b,s=12,8,18,15; from sympy import gcd, ilcm, Rational; a2=a//gcd(a,r); b2=b//gcd(b,s); c=ilcm(a2,b2); assert all((c*Rational(x,y)).is_integer for x,y in [(r,a),(s,b)]) and c==6",
+    "asserts": "c = lcm(a_2, b_2) clears both denominators r/a and s/b (example a=12, r=8, b=18, s=15)."
+   },
+   {
+    "sympy": "from sympy import totient, gcd; c,b2=12,4; cs=[x for x in range(c) if gcd(x,c)==1 and x%b2==1]; assert len(cs)==totient(c)/totient(b2)",
+    "asserts": "The number of units mod c lying over a given unit mod b_2 equals φ(c)/φ(b_2)."
+   },
+   {
+    "sympy": "from sympy import gcd, mod_inverse; b,s=18,15; b1=gcd(b,s); b2=b//b1; c0=mod_inverse(s//b1,b2); assert (s*c0-b1)%b==0",
+    "asserts": "The solution of (s/b_1)c' ≡ 1 mod b_2 satisfies s c' ≡ b_1 mod b."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'Kann man eine relative Primzahl c' zu c so wählen': the words 'relative Primzahl' are underlined in the manuscript; otherwise the transcription matches the image.",
+   "In the bracket [1/c] = [1/a_2, 1/b_2] = (1/(a_2 b_2))[a_2, b_2], the module written is literally [a_2, b_2] (equal to [b_2, a_2]); fine as transcribed."
+  ]
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c048",
+ "label": "38r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000049/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a draft of the opening of Riemann's paper 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite' (Abh. Ges. Wiss. Göttingen 8, 1860). It is mostly prose (the motivation for the paper) and ends with the first attempt at the equation of motion. The derivation continues on folio 38v/39.\n\n(a) Prose. The page is headed 'Über die Fortpflanzung von Luftschwingungen'. The differential equations for the motion of a gas obeying the Mariotte (Boyle) law have long been known. Their integration has, however, only been carried out when the pressure differences are infinitesimal fractions of the total pressure, keeping first powers only, i.e. linear acoustics. Only very recently has Helmholtz included second-order terms and explained the objective origin of combination tones (Helmholtz 1856, Pogg. Ann. 99). For the theory of sound the previous treatment suffices completely. Still, the results may give some guidance to (meteorology? or experimental research?), and, apart from the theoretical interest of treating nonlinear differential equations, justify publication. This matches the published introduction almost phrase by phrase. One exception: the published text speaks of giving 'der experimentellen Forschung einige Anhaltspunkte'.\n\n(b) Formula. Setup, as on the next page: plane motion along x, density ρ, velocity u(x,t), cross-section element ω, and the isothermal law p = a^2 ρ. Momentum balance for the cylinder of base ω and height dx:\n\n- mass ρ ω dx\n- acceleration Du/Dt = u_t + u u_x\n- net pressure force -(∂p/∂x) ω dx = -a^2 (∂ρ/∂x) ω dx\n\nHence ρ ω dx (u_t + u u_x) = -a^2 ρ_x ω dx.\n\nThe first version written, ω dx u_t = -a^2 ρ_x dx, is the linearized (and density-less) form. It is evidently abandoned and replaced by the full nonlinear form with the convective term u u_x.\n\nThe struck 'und Log.' anticipates the form used on the next page. Dividing by ρ gives u_t + u u_x = -a^2 (log ρ)_x [my step]. Together with continuity ρ_t + (ρu)_x = 0, i.e. (log ρ)_t + u (log ρ)_x = -u_x (next page), this leads in the published paper to the Riemann invariants u ± a log ρ. These are constant along the characteristics dx/dt = u ± a; the invariants themselves are not on this page.",
+  "errors": [
+   "The first formula ω dx ∂u/∂t = -a^2 ∂ρ/∂x dx omits the density factor ρ on the left (mass ρ ω dx) and the convective term. As written it is dimensionally inconsistent unless read as linearized with ρ absorbed. Riemann replaces it.",
+   "In the second formula a stray 'dt' appears in front ('dt ω ρ (u_t + u u_x)'). The left side should be ω dx ρ (u_t + u u_x); the right side correctly has ω dx. This is a slip in a draft line.",
+   "No substantive mathematical error otherwise; the corrected momentum equation is right for p = a^2 ρ."
+  ],
+  "results": [
+   {
+    "what": "One-dimensional Euler momentum equation for an isothermal (Boyle–Mariotte) gas: ρ(u_t + u u_x) = -a^2 ρ_x, derived by a control-volume force balance",
+    "modern_name": "1D compressible Euler equations (isothermal)",
+    "usually_credited_to": "Euler (1757); Poisson (1808) for the plane-wave case",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Motivating remarks: linear acoustics versus finite amplitude; Helmholtz's second-order theory of combination tones; interest in nonlinear PDEs",
+    "modern_name": "Nonlinear acoustics / finite-amplitude waves (introduction to Riemann 1860)",
+    "usually_credited_to": "Riemann 1860 (published introduction), Helmholtz 1856",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the introduction and first equation of Riemann's published 1860 paper on finite-amplitude air waves. The prose closely matches the printed text, and the equation is the standard Euler equation. The only minor novelty is the draft wording (Mariotte law explicitly, a possible mention of meteorology), which is of philological interest only.",
+  "checkable": [
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); rho=Function('rho')(x,t); u=Function('u')(x,t); simplify((rho*(diff(u,t)+u*diff(u,x))+a**2*diff(rho,x))/rho - (diff(u,t)+u*diff(u,x)+a**2*diff(log(rho),x)))",
+    "asserts": "Dividing the momentum equation by ρ gives u_t + u u_x = -a^2 (log ρ)_x (result 0)"
+   },
+   {
+    "sympy": "simplify((diff(rho,t)+diff(rho*u,x))/rho - (diff(log(rho),t)+u*diff(log(rho),x)+diff(u,x)))",
+    "asserts": "Continuity ρ_t + (ρu)_x = 0 is equivalent to (log ρ)_t + u (log ρ)_x = -u_x (next page's form); result 0"
+   },
+   {
+    "sympy": "r=u+a*log(rho); M=diff(u,t)+u*diff(u,x)+a**2*diff(log(rho),x); C=diff(log(rho),t)+u*diff(log(rho),x)+diff(u,x); simplify(diff(r,t)+(u+a)*diff(r,x) - (M + a*C))",
+    "asserts": "Riemann invariant u + a log ρ is transported at speed u + a: its characteristic derivative equals momentum residual + a·continuity residual (result 0)"
+   },
+   {
+    "sympy": "s=u-a*log(rho); simplify(diff(s,t)+(u-a)*diff(s,x) - (M - a*C))",
+    "asserts": "Riemann invariant u - a log ρ is transported at speed u - a (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "'Obwohl' is more likely 'Obgleich' (as in the printed text: 'Obgleich die Differentialgleichungen, nach welchen sich die Bewegung ... bestimmt').",
+   "The word read as 'Meteorologie' is uncertain. The printed version reads 'der experimentellen Forschung einige Anhaltspunkte gewähren'; the image shape may support 'Naturforschung' or similar. 'Aufschluß' is likely 'Anhaltspunkte'.",
+   "'Druckschiede' should be 'Druckverschiedenheiten'; the next line is likely 'und man hat sich bis auf die neueste Zeit begnügt, nur die ersten Potenzen dieser Bruchtheile zu berücksichtigen'.",
+   "'Es lassen sich indeß für den Fall' continues in print as '...dass die anfängliche Bewegung allenthalben in gleicher Richtung stattfindet ... die exacten Differentialgleichungen vollständig integriren'.",
+   "The marginal note reads approximately 'abgesehen von dem theoretischen Interesse, das die Behandlung nicht linearer Diff.gl. gewährt'.",
+   "First formula: the image shows ω dx ∂u/∂t = -a^2 ∂ρ/∂x dx followed by the corrected dt? ωρ(∂u/∂t + u ∂u/∂x) = -a^2 ∂ρ/∂x ω dx; the 'u' before ∂u/∂x is over a smudged/struck insertion."
+  ]
+ }
+}

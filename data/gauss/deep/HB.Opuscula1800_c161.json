@@ -1,0 +1,69 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c161",
+ "label": "[156]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000162/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The top of the page continues the observation table of the previous page: dates Dec 17, 21 and 28 (probably 1823), an angle 270°39'49.02\" (then ...50.14\", ...54.55\") with numbers +2117, +1995, +3788, and a final value 52.79. Beside it is a separate entry '* 36°36'0\" - 37°32'32\"' with the subsidiary figures 35.30 and 32.30 (or 31.30). These are geodetic or astronomical readings and are unrelated to the mathematics below. The marginal 'St' is probably an archival or editorial mark.\n\nMain content: parametrising a 3x3 rotation by four numbers (the 'Mutationen des Raumes' material).\n\n(1) Given the diagonal entries p, q, r of an orthogonal coordinate transformation, Gauss defines\n a = sqrt((1-p-q-r)/2),\n b = sqrt((1-p+q+r)/2),\n c = sqrt((1+p-q+r)/2),\n d = sqrt((1+p+q-r)/2).\n[Mine] It follows that a^2+b^2+c^2+d^2 = 2 and p = (c^2+d^2-a^2-b^2)/2, q = (b^2+d^2-a^2-c^2)/2, r = (b^2+c^2-a^2-d^2)/2.\n\n(2) He claims that\n [[p, ad+bc, bd-ac],\n  [bc-ad, q, ab+cd],\n  [ac+bd, cd-ab, r]]\nis 'das allgemeine Transformationsschema der Raum-Coordinaten', i.e. the general orthogonal transformation of space coordinates.\n\n(3) Homogeneous form: for arbitrary a, b, c, d the transformation is proportional to\n G = [[(cc+dd-aa-bb)/2, ad+bc, bd-ac],\n      [bc-ad, (bb+dd-aa-cc)/2, ab+cd],\n      [ac+bd, cd-ab, (bb+cc-aa-dd)/2]].\nThe scale factor is (a^2+b^2+c^2+d^2)/2. The previous page interprets the general case as an enlargement a^2+b^2+c^2+d^2 combined with a rotation.\n\nModern reading. This is the Euler–Rodrigues (unit-quaternion) parametrisation of SO(3), normalised so that a^2+b^2+c^2+d^2 = 2. The page serves as a first attempt. The next page begins 'Besser auf folgende Weise' and takes a = sqrt((1+p+q+r)/2), b = sqrt((1+p-q-r)/2), and so on. That gives a correct matrix, together with the quaternion composition law and the half-angle/axis interpretation.\n\n[Mine] Comparison with the standard matrix. Let R be the standard rotation matrix of the quaternion (w,x,y,z) = (a,b,c,d)/sqrt(2). Then:\n- the off-diagonal entries of G are exactly those of R^T;\n- the diagonal entries of G are the negatives of those of R^T.\nSo G = R^T - 2*diag(R), which is not orthogonal in general.",
+  "errors": [
+   "The scheme as written is not orthogonal in general. Row1·Row2 = 2(bcd^2 - a^2bc + ab^2d - ac^2d), which is generally nonzero.",
+   "Its determinant is not even of constant sign. For a=b=1, c=d=0 the matrix is orthogonal with det -1. For a=b=c=d=1/sqrt(2) it is a cyclic permutation matrix with det +1.",
+   "The cause is a sign mismatch. Choosing a^2=(1-p-q-r)/2 corresponds to the negated trace, i.e. to minus a rotation, but the off-diagonal signs are those of R^T rather than -R^T.",
+   "Correct alternatives: flip the diagonal signs, giving (aa+bb-cc-dd)/2 etc., which yields R^T, a proper rotation. Or negate all off-diagonal entries, which yields -R^T, an improper orthogonal map.",
+   "Gauss evidently noticed the problem: the next page restarts with 'Besser auf folgende Weise' and a corrected, orthogonal scheme with det +1.",
+   "Taking unspecified signs of the square roots in step (1) is also unjustified. The signs of a, b, c, d must be chosen consistently with the off-diagonal entries, not freely.",
+   "Minor point in the numeric header: 52.79 is neither the plain mean (51.24) nor the mean weighted by 2117/1995/3788 (51.95) of 49.02, 50.14, 54.55. Its meaning is unclear."
+  ],
+  "results": [
+   {
+    "what": "Parametrisation of a general (scaled) orthogonal transformation of 3-space by four parameters a,b,c,d, quadratic in the parameters, recovered from the diagonal entries by square roots of (1±p±q±r)/2",
+    "modern_name": "Euler–Rodrigues parametrisation / unit-quaternion rotation matrix (with scaling: rotation-dilation via quaternions)",
+    "usually_credited_to": "Euler (1770s), Olinde Rodrigues (1840), Hamilton/Cayley (quaternions 1843-45)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Recovery of the four parameters from the diagonal entries (trace formulas)",
+    "modern_name": "Extraction of a quaternion from a rotation matrix (Shepperd/Klumpp-type formulas, w^2 = (1+tr R)/4)",
+    "usually_credited_to": "Euler/Rodrigues; algorithmic form 20th c.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's 'Mutationen des Raumes' (c. 1819-1823), with its four-parameter rotation scheme and quaternion-like composition, was printed in Werke VIII (1900) and is well known as an anticipation of Rodrigues and Hamilton. This page is a draft (and flawed) version of that material, corrected on the next page. It is of interest as working evidence (a sign error then corrected) rather than as a new attribution.",
+  "checkable": [
+   {
+    "sympy": "p,q,r=symbols('p q r'); a2=(1-p-q-r)/2; b2=(1-p+q+r)/2; c2=(1+p-q+r)/2; d2=(1+p+q-r)/2; simplify(a2+b2+c2+d2)==2",
+    "asserts": "The four parameters satisfy a^2+b^2+c^2+d^2 = 2."
+   },
+   {
+    "sympy": "simplify((c2+d2-a2-b2)/2 - p)==0 and simplify((b2+d2-a2-c2)/2 - q)==0 and simplify((b2+c2-a2-d2)/2 - r)==0",
+    "asserts": "The diagonal entries of the homogeneous scheme reproduce p, q, r."
+   },
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); G=Matrix([[(c**2+d**2-a**2-b**2)/2, a*d+b*c, b*d-a*c],[b*c-a*d,(b**2+d**2-a**2-c**2)/2, a*b+c*d],[a*c+b*d, c*d-a*b,(b**2+c**2-a**2-d**2)/2]]); expand((G.row(0)*G.row(1).T)[0])",
+    "asserts": "Equals 2*(b*c*d**2 - a**2*b*c + a*b**2*d - a*c**2*d), which is nonzero, so the page's scheme is not orthogonal."
+   },
+   {
+    "sympy": "G.subs({a:1,b:1,c:0,d:0}).det(), G.subs({a:1/sqrt(2),b:1/sqrt(2),c:1/sqrt(2),d:1/sqrt(2)}).det()",
+    "asserts": "Gives -1 and +1 respectively, so the determinant is not constant and the scheme is not a valid parametrisation."
+   },
+   {
+    "sympy": "Gc=Matrix([[(a**2+b**2-c**2-d**2)/2, a*d+b*c, b*d-a*c],[b*c-a*d,(a**2-b**2+c**2-d**2)/2, a*b+c*d],[a*c+b*d, c*d-a*b,(a**2-b**2-c**2+d**2)/2]]); simplify(Gc*Gc.T - ((a**2+b**2+c**2+d**2)/2)**2*eye(3))",
+    "asserts": "Flipping the diagonal signs gives a correct scaled rotation (zero matrix expected)."
+   },
+   {
+    "sympy": "N=Matrix([[(a**2+b**2-c**2-d**2)/2, -a*d-b*c, -a*c+b*d],[a*d-b*c,(a**2-b**2+c**2-d**2)/2,-a*b-c*d],[a*c+b*d, a*b-c*d,(a**2-b**2-c**2+d**2)/2]]); simplify(N*N.T - ((a**2+b**2+c**2+d**2)/2)**2*eye(3)), factor(N.det())",
+    "asserts": "The next page's corrected scheme is orthogonal up to the scale (a^2+b^2+c^2+d^2)/2 with positive determinant ((a^2+b^2+c^2+d^2)/2)^3."
+   }
+  ],
+  "transcription_corrections": [
+   "In the first (p,q,r) scheme, the top-right entry may read 'bd+ac' in the image rather than 'bd-ac'. The lower scheme clearly has 'bd-ac'. Either way the scheme is not orthogonal.",
+   "The figure '32[?]. 30' under the star entry is likely '31.30' or '32.30'. The digit is overwritten.",
+   "'St' is a marginal mark (probably archival or editorial), not part of the mathematics.",
+   "Last line of the German text: 'oder a, b, c, d bedeuten was sie wollen, proportional folgende' — the reading is correct, and the last word is likely 'folgende'."
+  ]
+ }
+}

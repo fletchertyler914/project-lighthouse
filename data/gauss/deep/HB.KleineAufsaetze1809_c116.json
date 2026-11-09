@@ -1,0 +1,59 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c116",
+ "label": "107",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000117/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the page stands alone between a surveying problem (previous page) and a numerical table (next page). It is a memorandum of Cardano's formula for the general cubic written with binomial coefficients, a x^3 + 3b x^2 + 3c x + d = 0.\n\n(1) Removing the quadratic term (implicit step, mine). Put y = a x + b, so x = (y-b)/a, and multiply the equation by a^2. This gives\ny^3 + 3(ac - b^2) y + (2b^3 - 3abc + a^2 d) = 0.\nThis is the reduced cubic y^3 + 3p y + q = 0 with p = ac - b^2 and q = 2b^3 - 3abc + a^2 d.\n\n(2) Cardano's formula (implicit, mine). The root is y = cbrt(-q/2 + sqrt(q^2/4 + p^3)) + cbrt(-q/2 - sqrt(q^2/4 + p^3)). The two cube roots must be chosen so that their product is -p.\n\n(3) Translating back into a, b, c, d.\n- -q/2 = -b^3 + (3/2)abc - (1/2)a^2 d. This agrees with the page.\n- q^2/4 + p^3 = (a^2/4)(4ac^3 + 4b^3 d + a^2 d^2 - 6abcd - 3b^2 c^2).\n- Hence sqrt(q^2/4 + p^3) = (1/2) a sqrt(4ac^3 + 4b^3 d + a^2 d^2 - 6abcd - 3b^2 c^2).\nThe radicand is the discriminant-type invariant of the binary cubic form (a, b, c, d). It equals -(1/27) times the usual discriminant of a x^3 + 3b x^2 + 3c x + d.\n\n(4) Final formula. a x = -b + cbrt(-b^3 + (3/2)abc - (1/2)a^2 d + (1/2) a sqrt(Δ)) + cbrt(same with -(1/2) a sqrt(Δ)), where Δ = 4ac^3 + 4b^3 d + a^2 d^2 - 6abcd - 3b^2 c^2.\n\n(5) Gauss's remark: the product of the two cube roots is always b^2 - ac. This is correct, since it equals -p. It is the rule for pairing the cube roots, including in the casus irreducibilis (Δ < 0, three real roots), where the radicands are complex conjugates.",
+  "errors": [
+   "The page writes '+ a sqrt(...)' and '- a sqrt(...)' before the radical. The correct coefficient is (1/2) a, because q^2/4 + p^3 = (a^2/4)Δ.",
+   "As written, the two cube-root radicands A ± aΔ^(1/2) have product A^2 - a^2 Δ = q^2/4 - 4(q^2/4 + p^3) rather than -p^3. So the stated product b^2 - ac would not hold for the formula exactly as written.",
+   "With the factor 1/2 restored, everything on the page is correct, including the product rule. This is evidently a copying slip, not a conceptual error."
+  ],
+  "results": [
+   {
+    "what": "Root of a x^3+3bx^2+3cx+d=0 via the substitution y=ax+b and Cardano's formula, with radicand 4ac^3+4b^3d+a^2d^2-6abcd-3b^2c^2",
+    "modern_name": "Cardano (del Ferro–Tartaglia) formula for the general cubic; radicand = discriminant of the binary cubic form (a,b,c,d)",
+    "usually_credited_to": "del Ferro/Tartaglia, published by Cardano (Ars Magna, 1545); this discriminant of binary cubic forms in this notation is associated with Gauss/Eisenstein (Eisenstein 1844) and Cayley",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Product of the two cube roots equals b^2 - ac (pairing condition)",
+    "modern_name": "Cube-root pairing condition uv = -p in Cardano's formula",
+    "usually_credited_to": "Cardano/Bombelli tradition (16th century)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is textbook Cardano material, rewritten for binomial-coefficient notation, apart from a factor-of-2 slip. The only mildly interesting feature is the appearance of the cubic-form discriminant 4ac^3+4b^3d+a^2d^2-6abcd-3b^2c^2, which Gauss would have known well from his work on forms.",
+  "checkable": [
+   {
+    "sympy": "expand(a**2*(a*((y-b)/a)**3 + 3*b*((y-b)/a)**2 + 3*c*((y-b)/a) + d) - (y**3 + 3*(a*c-b**2)*y + 2*b**3 - 3*a*b*c + a**2*d))",
+    "asserts": "Equals 0: the substitution y = a x + b reduces the cubic to y^3 + 3(ac-b^2)y + (2b^3-3abc+a^2 d) = 0."
+   },
+   {
+    "sympy": "expand((2*b**3-3*a*b*c+a**2*d)**2/4 + (a*c-b**2)**3 - a**2/4*(4*a*c**3+4*b**3*d+a**2*d**2-6*a*b*c*d-3*b**2*c**2))",
+    "asserts": "Equals 0: q^2/4 + p^3 = (a^2/4)Δ, so the coefficient of the square root should be a/2, not a."
+   },
+   {
+    "sympy": "expand((-b**3+Rational(3,2)*a*b*c-Rational(1,2)*a**2*d)**2 - (a**2/4)*(4*a*c**3+4*b**3*d+a**2*d**2-6*a*b*c*d-3*b**2*c**2) - (b**2-a*c)**3)",
+    "asserts": "Equals 0: with the corrected factor 1/2, the product of the two cube-root radicands is (b^2-ac)^3, so the product of the cube roots is b^2-ac."
+   },
+   {
+    "sympy": "expand((-b**3+Rational(3,2)*a*b*c-Rational(1,2)*a**2*d)**2 - a**2*(4*a*c**3+4*b**3*d+a**2*d**2-6*a*b*c*d-3*b**2*c**2) - (b**2-a*c)**3)",
+    "asserts": "Nonzero: with the coefficient a as written on the page, the product rule fails, confirming the slip."
+   },
+   {
+    "sympy": "expand(discriminant(a*x**3+3*b*x**2+3*c*x+d, x) + 27*(4*a*c**3+4*b**3*d+a**2*d**2-6*a*b*c*d-3*b**2*c**2))",
+    "asserts": "Equals 0: the radicand Δ is -1/27 times the polynomial discriminant."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is essentially correct. In the first line of the formula, the term '-3bbcc' is written beneath the radicand as a continuation line, but it belongs to the same square root. In the second line the radicand ends with '-3bbcc', where the letters are cramped near the edge.",
+   "The image indeed shows '+ a√' and '- a√' with no factor 1/2 before the square root. The error is in the original, not in the transcription."
+  ]
+ }
+}

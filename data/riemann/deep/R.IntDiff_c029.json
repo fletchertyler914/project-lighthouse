@@ -1,0 +1,65 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c029",
+ "label": "14v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000030/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to Riemann's student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (dated 1847). It was printed posthumously in the Gesammelte Werke (1876, ed. Weber/Dedekind). Notation: Π(s)=Γ(s+1) (Gauss). ∂_x^ν z (later 𝔇_x^ν z) is the ν-th 'Ableitung' (derivative of arbitrary order). On p.24/25 it was defined through the generalized Taylor series (formula 2):\nz(x+h) = Σ_{n∈Z} h^{ν+n}/Π(ν+n) · ∂_x^{ν+n} z,\nwith negative-order terms read as repeated integrals. This leads to the Riemann–Liouville form\n∂_x^ν z = 1/Π(-ν-1) ∫_k^x (x-t)^{-ν-1} z(t) dt + C^ν,\nwhere the 'complementary function' C^ν is built from arbitrary constants k, K, K_1, ... (for example terms K_n x^{m-n}/Π(m-n) in formula 3).\n\n(a) Definition. Values of ∂_x^ν z and ∂_x^μ z in which all the arbitrary constants k, K, K_1, ... are the same are called 'corresponding values' (correspondirende Werthe). All values belonging to one and the same expansion of z(x+h) are corresponding.\n\n(b) Footnote 1 (note to p.24). An equivalent definition is\n∂_x^ν z = Σ_{n=0}^∞ z^{(n)}(k) (x-k)^{n-ν}/Γ(n-ν+1) + C^ν.\nRiemann says it is identical with the given one and would contain all values. He nevertheless prefers the chosen form because of its greater flexibility ('Geschmeidigkeit').\nImplicit step (mine): expand z(t)=Σ z^{(n)}(k)(t-k)^n/n! and integrate term by term. The Beta integral gives\n1/Γ(-ν) ∫_k^x (x-t)^{-ν-1}(t-k)^n dt = n!/Γ(n-ν+1) · (x-k)^{n-ν},\nwhich yields the series.\n\n(c) Footnote 2 (note to p.25). Does the general formula contain all solutions of equation 2? That holds exactly when the functions C are the only functions w which, substituted for ∂_x^ν z, make the series in 2 vanish identically. That is the homogeneous problem\nΣ_{n∈Z} h^{ν+n}/Π(ν+n) D^n w = 0.\nRiemann states that one can show without difficulty that no algebraic function of x not contained in C does this. He admits he could not decide whether any function at all (beyond C) satisfies the condition.\n\n(d) The last line announces the next topic: computing derivatives of specific functions, beginning with x^μ on the next page.",
+  "errors": [
+   "No outright error on this page. The claim that the series in note 1 is 'identical' with the integral definition requires z to be analytic at k and the Taylor series to converge on the segment [k,x]. Riemann does not state this hypothesis.",
+   "The claim that no algebraic function outside C annihilates series 2 is asserted without proof ('ohne Schwierigkeit').",
+   "Implicit issue (my analysis): the bilateral series 2, applied to a complementary term such as x^{-ν-m}, generally does not converge in both directions at once. Example: ν=1/2, m=1 gives a bilateral geometric series in (-h/x). It vanishes only formally, e.g. by summing each half via analytic continuation. So 'making series 2 zero' is not well posed without a summation convention. This is part of the known later criticism of Riemann's complementary function (Cayley 1880).",
+   "Riemann himself flags the completeness question as open, so the page contains an honest gap rather than an error."
+  ],
+  "results": [
+   {
+    "what": "Representation of the fractional derivative/integral of an analytic function as a term-by-term series Σ z^{(n)}(k)(x-k)^{n-ν}/Γ(n-ν+1), plus complementary function",
+    "modern_name": "Riemann–Liouville fractional derivative applied to a Taylor series (term-by-term fractional differentiation)",
+    "usually_credited_to": "Riemann (1847 essay, publ. 1876); related ideas in Liouville (1832)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Notion of 'corresponding values': values of derivatives of different orders sharing the same arbitrary constants",
+    "modern_name": "Consistent choice of lower terminal and complementary function (semigroup consistency of fractional operators)",
+    "usually_credited_to": "Riemann (Werke, 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Open question whether the complementary functions C exhaust all solutions of the homogeneous bilateral Taylor series equation; claim that no algebraic function outside C works",
+    "modern_name": "Complementary function problem in Riemann's fractional calculus; bilateral (Riemann–Hardy) Taylor series",
+    "usually_credited_to": "Riemann; later discussed by Cayley (1880) and Hardy (1945, 'Riemann's form of Taylor's series')",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a page of Riemann's 1847 student essay on fractional integration and differentiation, published in his Werke (1876). Its footnotes on the series definition and on the complementary-function question are part of that known text.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; x,t=symbols('x t',positive=True); nu=Rational(-1,2); n=2; simplify(integrate((x-t)**(-nu-1)*t**n,(t,0,x))/gamma(-nu) - gamma(n+1)/gamma(n-nu+1)*x**(n-nu))",
+    "asserts": "Term-by-term step behind note 1 (k=0, ν=-1/2, n=2): the Riemann–Liouville integral of t^n equals n!/Γ(n-ν+1)·x^{n-ν}. Should return 0."
+   },
+   {
+    "sympy": "from sympy import *; x=symbols('x',positive=True); n=symbols('n',integer=True,nonnegative=True); N(Sum(x**(n+Rational(1,2))/gamma(n+Rational(3,2)),(n,0,oo)).subs(x,2).doit() - (exp(x)*erf(sqrt(x))).subs(x,2))",
+    "asserts": "Note-1 series for z=e^x, k=0, ν=-1/2 gives Σ x^{n+1/2}/Γ(n+3/2). This equals the RL half-integral e^x·erf(√x). Numerically ≈ 0."
+   },
+   {
+    "sympy": "from sympy import *; x=symbols('x',positive=True); nu=Rational(-1,2); simplify(integrate((x-symbols('t'))**(-nu-1)*exp(symbols('t')),(symbols('t'),0,x))/gamma(-nu) - exp(x)*erf(sqrt(x)))",
+    "asserts": "The integral form of the definition gives the same value as the series form in note 1 (identity of the two definitions for e^x)."
+   },
+   {
+    "sympy": "from sympy import *; j=symbols('j',integer=True); r=symbols('r',positive=True); simplify(Sum((-r)**j,(j,0,oo)).doit().subs(r,Rational(1,2)) + Sum((-1/r)**j,(j,1,oo)).doit().subs(r,3))",
+    "asserts": "Illustration of the convergence caveat: the two halves of the bilateral series for a complementary term converge in disjoint regions (r<1 vs r>1). Their analytic continuations, 1/(1+r) and -1/(1+r), cancel only formally."
+   }
+  ],
+  "transcription_corrections": [
+   "First line: the red interlinear insertion above 'k, K, ee' reads 'k, k_1, etc. etc.', clarifying the list of constants.",
+   "In note 1 the derivative was corrected from a different letter to z: (d^n z/dx^n)_k. The original notation ^x∂^ν_z is struck through on the page and replaced (red) by the later 𝔇/∂ notation.",
+   "Margin: the first red note '𝔇_x^ν z ∂_x^ν z) xx) (zu Seite 24) Note unter dem Text' marks note 1 as the footnote xx) to p.24. The second, 'xxx) Note unter dem Text (zu Seite 25) ∂_x^ν z 𝔇_x^ν z', marks note 2 as footnote xxx) to p.25.",
+   "In note 2, 'Functionen C' appears as 'Functionen C' with C written like the symbol C^ν. Also 'von' before 'x' in the penultimate line of the box is struck out, consistent with the transcription."
+  ]
+ }
+}

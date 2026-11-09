@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c250",
+ "label": "126v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000251/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page restates Gauss's principle of least constraint. Riemann multiplies by dt^4/4 and obtains the quantity (1/4) Σ m (d(dx/dt))^2 − P_{t+dt}, which the motion makes as small as possible. He reads this as two 'strivings': each unit of mass strives to keep its state of motion, and a second action strives to keep −P small (i.e. to make P = ∬ dm dm'/r as large as possible). For continuously distributed mass he writes P = ∬ dm dm'/r. The page breaks off saying this second action can be decomposed into actions between immediately neighbouring parts. This page supplies that decomposition by trading the double (action-at-a-distance) integral for a single local field integral.\n\nStep 1 (implicit, mine). Define the potential V(x,y,z) = ∫ dm'/r. Then ∫ V dm = ∬ dm dm'/r = P, the double integral taken over ordered pairs as on the previous page.\n\nStep 2 (stated). V satisfies, 'as is well known', (∂²V/∂x² + ∂²V/∂y² + ∂²V/∂z²) dx dy dz = −4π dm. That is Poisson's equation ΔV = −4πρ with dm = ρ dx dy dz.\n\nStep 3 (stated). V is therefore determined by three conditions:\n- it is everywhere continuous (the interlinear insertion, as best read);\n- it vanishes at infinite distance from all masses;\n- it makes Ω[V] = ∭ |∇V|² dx dy dz − 8π ∫ V dm a minimum.\n\nStep 4 (verification, mine).\n- First variation: δΩ = 2∫ ∇V·∇δV dτ − 8π∫ ρ δV dτ = −2∫ (ΔV + 4πρ) δV dτ. The boundary term vanishes because δV → 0 at infinity, and enough regularity is assumed.\n- So δΩ = 0 for all δV exactly when ΔV = −4πρ.\n- Since Ω[V+h] = Ω[V] + ∫ |∇h|² dτ, the stationary point is a strict minimum among admissible functions: h is continuous, vanishes at infinity, and is not identically constant.\n- At the minimum, ∫ |∇V|² = −∫ V ΔV = 4π ∫ V dm. Hence Ω_min = −4π ∫ V dm = −4πP.\n\nPurpose (inference, mine). Minimising −P, a double integral over pairs of distant mass elements, is equivalent to minimising a single volume integral of the local density |∇V|² plus a local coupling term V dm. So the 'striving' that produces gravitational attraction can be decomposed into actions between immediately adjacent parts of a space-filling medium. This is a Dirichlet-principle reformulation used to argue that action at a distance is mediated. The next page continues with the comparison with Herbart and the question whether all actions at a distance are mediated.",
+  "errors": [
+   "No mathematical error found. The sign and factor are consistent: the functional −8π∫V dm pairs with the coefficient 1 on |∇V|² to give ΔV = −4πρ.",
+   "Existence of the minimiser is assumed in the Dirichlet-principle manner, as in Riemann's other work (later criticised by Weierstrass). Here the solution is explicitly known as V = ∫ dm/r, so the gap is harmless.",
+   "The identification ∫V dm = P depends on P being summed over ordered pairs (no factor 1/2). This is consistent with the previous page's P = ∬ dm dm'/r but is not stated on this page."
+  ],
+  "results": [
+   {
+    "what": "Potential of a mass distribution satisfies (ΔV) dx dy dz = −4π dm",
+    "modern_name": "Poisson's equation",
+    "usually_credited_to": "Poisson (1813); Gauss (1840) for rigorous treatment",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "V is characterised as the continuous function vanishing at infinity that minimises ∭|∇V|² dτ − 8π∫V dm",
+    "modern_name": "Dirichlet principle / variational (energy) characterisation of the Newtonian potential; field-energy formulation of gravitostatics",
+    "usually_credited_to": "Gauss (1840), W. Thomson (1847), Dirichlet (lectures); named 'Dirichlet principle' by Riemann (1857)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of the field-energy form to recast the attraction term P = ∬ dm dm'/r as a sum of local (contiguous) actions, within a Gauss-least-constraint reformulation of mechanics",
+    "modern_name": "Local field-theoretic reformulation of action at a distance (field energy density |∇V|²/8π)",
+    "usually_credited_to": "Faraday/Maxwell tradition for the field idea; this specific fragment is Riemann's Naturphilosophie, published in part in his Werke (1876)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The mathematics is standard (Poisson's equation and the Dirichlet principle), and Riemann's use of the Dirichlet principle is famous. Using a variational field formulation to make gravitational action at a distance a contiguous action fits his known Naturphilosophie fragments in the Werke. At most this is a minor draft variant.",
+  "checkable": [
+   {
+    "sympy": "r=sqrt(x**2+y**2+z**2); simplify(diff(1/r,x,2)+diff(1/r,y,2)+diff(1/r,z,2))  # == 0",
+    "asserts": "1/r is harmonic away from the source, so V = ∫dm/r satisfies Laplace outside the masses"
+   },
+   {
+    "sympy": "rho,R=symbols('rho R',positive=True); V=2*pi*rho*(R**2-(x**2+y**2+z**2)/3); simplify(diff(V,x,2)+diff(V,y,2)+diff(V,z,2)+4*pi*rho)  # == 0",
+    "asserts": "Inside a homogeneous ball the potential satisfies ΔV = −4πρ (the page's equation)"
+   },
+   {
+    "sympy": "r=symbols('r',positive=True); M=4*pi/3; Ein=integrate((4*pi*r/3)**2*4*pi*r**2,(r,0,1)); Eout=integrate((M/r**2)**2*4*pi*r**2,(r,1,oo)); W=integrate(2*pi*(1-r**2/3)*4*pi*r**2,(r,0,1)); simplify(Ein+Eout-4*pi*W)  # == 0",
+    "asserts": "For the unit ball (ρ=1) ∭|∇V|² = 4π∫V dm, so the minimum value of the functional is −4π∫V dm = −4πP"
+   },
+   {
+    "sympy": "eps=symbols('eps'); h=Function('h'); # Omega(V+eps*h)-Omega(V) = eps**2*Integral(|grad h|**2) when Laplacian(V)=-4*pi*rho (after integration by parts)",
+    "asserts": "The first variation vanishes iff ΔV = −4πρ, and the second variation is positive, so the stationary point is a minimum"
+   }
+  ],
+  "transcription_corrections": [
+   "The phrase 'in unendlicher Entfernung von sämtlichen Massen' appears twice in the machine transcription. In the image the interlinear insertion is a separate short addition above the line, apparently '[allenthalben/überall] stetig zu sein' (partly illegible). The 'unendlicher Entfernung ... = 0 zu sein' clause occurs only once, in the main line.",
+   "After '−4π dm' there is a struck-out symbol (looks like a deleted '∫' or fraction) before 'so kann diese durch die Bedingungen ...'. The opening of the clause reads roughly 'und kann daher' / 'so kann diese'.",
+   "In the functional, something is struck out immediately before '8π'. The final term reads '− 8π ∫ V dm', with 'zu einem Minimum zu machen' following.",
+   "The first word is 'Die Function V genügt dann bekanntlich der Gleichung'; the integrand uses squared first derivatives (∂V/∂x)² etc., as transcribed."
+  ]
+ }
+}

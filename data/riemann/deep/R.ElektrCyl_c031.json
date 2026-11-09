@@ -1,0 +1,63 @@
+{
+ "bundle": "R.ElektrCyl",
+ "page": "c031",
+ "label": "14v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173043:00000032/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The surrounding pages concern conformal mapping. The next page is a lecture draft on finding a function outside three given circles whose real part takes prescribed values on the circumferences; this is the problem of the cylinder-electrostatics bundle. The previous page establishes the setting. The different values Z that the map can take, for one and the same value of the auxiliary variable, are related by a linear fractional transformation Z -> (aZ+b)/(cZ+d). Under it, Z' = dZ/d(var) goes to (ad-bc)Z'/(cZ+d)^2, so 1/sqrt(Z') and Z/sqrt(Z') transform linearly.\n\nThis page restates that observation and draws the consequence.\n\n(1) Definitions. Let q be the independent variable; it is probably the fraktur 𝔷 of the previous page, see corrections. Set\n  y = (dz/dq)^(-1/2),  y1 = z (dz/dq)^(-1/2).\n\n(2) Transformation law. Under z -> (az+b)/(cz+d), the pair (y, y1) transforms linearly, with the factor 1/sqrt(ad-bc).\n- Correct form (my computation): y -> (c y1 + d y)/sqrt(ad-bc) and y1 -> (a y1 + b y)/sqrt(ad-bc).\n- On the page, the coefficient letter read as '∂' is Riemann's d in the first line and most likely his b in the second.\n- Riemann's sign '∓' (or ‡) means 'goes over into' or 'corresponds to'.\n\n(3) Wronskian. Since y1 = z y:\n  y y1' - y1 y' = y^2 (y1/y)' = y^2 z' = 1.\nRiemann writes both forms: y y1' - y1 y' = 1 with y1 = zy, and y^2 dz/dq = 1.\n\n(4) Second derivatives. Differentiating the constant Wronskian gives\n  y y1'' - y1 y'' = 0, i.e. y1''/y1 = y''/y.\nSo y and y1 are two independent solutions of a single linear second-order equation without first-derivative term, y'' + P(q) y = 0 (the naming of P is mine). The map z is the quotient y1/y of two solutions.\n\n(5) The invariant. Because (y, y1) only undergo a linear substitution of determinant 1 when z undergoes a Möbius map, P = -y''/y is the same for all the values of z. Explicitly (my completion):\n  y''/y = -(1/2)[z''' / z' - (3/2)(z''/z')^2] = -(1/2){z,q},\nwhere {z,q} is the Schwarzian derivative.\n\n(6) Cancelled line. A struck-out line 'd²y/dq² + p dy1/dq' at the right looks like an abandoned start at writing this differential equation with a coefficient p.\n\nPurpose. For mapping the exterior of three circles (a circular-arc region), z is many-valued with Möbius ambiguity, but P(q) is single-valued. Determining z thus reduces to determining the single-valued coefficient of a linear ODE and taking a quotient of solutions. This is the Schwarz–Christoffel / Schwarzian method for circular-arc polygons.",
+  "errors": [
+   "Line 2–3 as written ('y ∓ cy + dy1', 'y1 ∓ ay + [b]y1') has the subscripts swapped relative to the correct law y -> (c y1 + d y)/sqrt(ad-bc), y1 -> (a y1 + b y)/sqrt(ad-bc). This follows from 1/sqrt(W') = (cz+d)/(sqrt(ad-bc) sqrt(z')). It is either a slip or a transcription/reading ambiguity, since y and y with subscript are hard to distinguish in the hand. The previous page has it correctly (c·Z/sqrt + d·1/sqrt).",
+   "The remaining steps (Wronskian = 1, its derivative giving y y1'' - y1 y'' = 0, and the equal ratio y''/y = y1''/y1) are correct.",
+   "The final ODE and the identification of the common ratio with the Schwarzian are not written out; the last attempt is crossed out."
+  ],
+  "results": [
+   {
+    "what": "(z')^(-1/2) and z (z')^(-1/2) transform linearly (factor (ad-bc)^(-1/2)) under Möbius change of z",
+    "modern_name": "Transformation of the solution pair of the associated Schwarzian ODE / weight -1/2 forms under PSL2",
+    "usually_credited_to": "Schwarz (1869–1873), Kummer (1836) implicitly; standard in the theory of the hypergeometric equation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Wronskian y y1' - y1 y' = 1 and the consequence y''/y = y1''/y1, so z = y1/y is a quotient of solutions of y'' + P y = 0",
+    "modern_name": "Representation of a locally univalent function as ratio of solutions of y'' + (1/2){z,q} y = 0; Schwarzian derivative as Möbius invariant",
+    "usually_credited_to": "H. A. Schwarz (1869/1873); earlier Lagrange and Kummer. Riemann's posthumous minimal-surface paper (1867, ed. Hattendorff) and his Nachlass on conformal mapping by circular arcs already use the equivalent differential expression.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Riemann's use of the Möbius-invariant expression is already documented. Its relation to linear second-order ODEs (the Schwarzian in all but name) appears in his posthumous minimal-surface memoir and in the circle-mapping / cylinder-electrostatics Nachlass, as noted by historians such as J. Gray. This page is a clean, short derivation of that known tool, applied to the three-circle problem. It is a nice confirmation, not a new attribution.",
+  "checkable": [
+   {
+    "sympy": "q=symbols('q'); z=Function('z')(q); y=1/sqrt(diff(z,q)); y1=z/sqrt(diff(z,q)); simplify(y*diff(y1,q)-y1*diff(y,q))",
+    "asserts": "Wronskian equals 1"
+   },
+   {
+    "sympy": "simplify(y*diff(y1,q,2)-y1*diff(y,q,2))",
+    "asserts": "equals 0, so y''/y = y1''/y1"
+   },
+   {
+    "sympy": "zp=diff(z,q); S=diff(z,q,3)/zp-Rational(3,2)*(diff(z,q,2)/zp)**2; simplify(diff(y,q,2)/y + S/2)",
+    "asserts": "y''/y = -(1/2) * Schwarzian {z,q}, returns 0"
+   },
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); w=(a*z+b)/(c*z+d); simplify(1/sqrt(diff(w,q)) - (c*y1+d*y)/sqrt(a*d-b*c))",
+    "asserts": "transformation law of y (zero, assuming positive branches of the square roots)"
+   },
+   {
+    "sympy": "simplify(w/sqrt(diff(w,q)) - (a*y1+b*y)/sqrt(a*d-b*c))",
+    "asserts": "transformation law of y1 (zero, assuming positive branches of the square roots)"
+   }
+  ],
+  "transcription_corrections": [
+   "The independent variable transcribed as 'q' (written like 'g') is very likely Riemann's fraktur 𝔷, matching the ∂Z/∂𝔷 of the previous page.",
+   "Line 2 likely reads 'y ∓ c y1 + d y' (or as Riemann wrote, 'cy + dy1' with subscripts ambiguous); the '∂' is the coefficient d, not a differential.",
+   "Line 3: the second coefficient '∂' is most likely the letter b (Riemann's b resembles ∂), i.e. 'y1 ∓ a y + b y1' as written, with the intended law a y1 + b y.",
+   "In line 4 the right-hand side after the scribble is '= 1'.",
+   "In line 5 the struck-out leading symbol precedes y^2 dz/dq = 1.",
+   "The crossed-out formula at right is 'd²y/dq² + p dy1/dq' (cancelled)."
+  ]
+ }
+}

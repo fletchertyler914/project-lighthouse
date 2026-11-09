@@ -1,0 +1,61 @@
+{
+ "bundle": "R.Varia",
+ "page": "c005",
+ "label": "3v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173054:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): Riemann treats heat conduction u_t = a^2 Δu in an ellipsoid with semi-axes sqrt(α), sqrt(β), sqrt(γ), with u = 0 on the surface. He uses confocal ellipsoidal coordinates λ, μ, ν (the roots of Σ x^2/(α+λ) = 1) and writes Θ(s) = (α+s)(β+s)(γ+s). In these coordinates the heat equation becomes (3):\n -(μ-ν)(ν-λ)(λ-μ) u_t = 4a^2 Σ_cyc (μ-ν) sqrt(Θ(λ)) ∂_λ( sqrt(Θ(λ)) ∂_λ u ).\n\nThis page:\n\n(4) Product ansatz u = exp(-4a^2 g^2 t) U_λ(λ) U_μ(μ) U_ν(ν), with g an arbitrary constant. Then u_t = -4a^2 g^2 u.\n\n(5) Substitute into (3) and divide by 4a^2 u [my step]:\n g^2 (μ-ν)(ν-λ)(λ-μ) = (μ-ν) 𝔘_λ + (ν-λ) 𝔘_μ + (λ-μ) 𝔘_ν,\n where 𝔘_λ = sqrt(Θλ)/U_λ · d/dλ( sqrt(Θλ) dU_λ/dλ ), and likewise for μ, ν. The manuscript first wrote 4gg and then appears to have struck the 4; the correct coefficient is g^2.\n\nSeparation step: differentiate (5) twice with respect to λ. The μ- and ν-terms are linear in λ and vanish. Also ∂_λ^2[(ν-λ)(λ-μ)] = -2. This gives\n -2 g^2 (μ-ν) = (μ-ν) 𝔘_λ''.\n Hence 𝔘_λ = -g^2 λ^2 - h λ - k, and similarly 𝔘_μ = -g^2 μ^2 - h' μ - k' and 𝔘_ν = -g^2 ν^2 - h'' ν - k''.\n\nConverse: substituting back, the quadratic terms reproduce the left side, because Σ_cyc (μ-ν) λ^2 = -(λ-μ)(μ-ν)(ν-λ). The linear and constant terms cancel because Σ(μ-ν)λ = 0 and Σ(μ-ν) = 0, but only if h and k are the same in all three factors. Riemann states exactly this condition.\n\n(6) Each factor therefore satisfies the same ODE:\n sqrt(Θ(s)) d/ds( sqrt(Θ(s)) dU/ds ) + (g^2 s^2 + h s + k) U = 0,\n equivalently Θ(s) U'' + (1/2) Θ'(s) U' + (g^2 s^2 + h s + k) U = 0.\n The variable s ranges over different intervals for λ, μ and ν. This is the algebraic form of the ellipsoidal wave equation, i.e. the separated Helmholtz equation ΔV = -4g^2 V in ellipsoidal coordinates. With g = 0 it reduces to Lamé's equation. The page stops before the eigenvalue/boundary problem that would fix g, h, k.",
+  "errors": [
+   "The first-written coefficient '4gg' in (5) is a slip: dividing (3) by 4a^2 u gives g^2, not 4g^2. Riemann appears to have struck the 4 both in (5) and in the expression for 𝔘_λ, and the subsequent equations (-2gg, -g^2λ^2) are consistent with g^2.",
+   "Minor: in (6) the dependent variable is written as lowercase u rather than U_λ; this is notational only.",
+   "The uniqueness argument is fine. Twice differentiating fixes only the λ^2 coefficient; the requirement that h and k be common to all three factors comes from substituting back, which Riemann notes. There are no substantive errors."
+  ],
+  "results": [
+   {
+    "what": "Separation of variables of the heat equation in confocal ellipsoidal coordinates via the product ansatz e^{-4a^2g^2t} U(λ)U(μ)U(ν), reducing to one common ODE with separation constants h, k.",
+    "modern_name": "Separation of the Helmholtz/heat equation in ellipsoidal coordinates; ellipsoidal wave equation Θ(s)U'' + ½Θ'(s)U' + (g^2 s^2 + h s + k)U = 0",
+    "usually_credited_to": "Lamé (1837-39) for the Laplace case (Lamé functions). The time-dependent/Helmholtz ellipsoidal case is generally associated with later work: Niven (1880s-1891), Heine's Handbuch, and later Möglich and Arscott.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Identity Σ_cyc (μ-ν)λ^2 = -(λ-μ)(μ-ν)(ν-λ), together with Σ(μ-ν)λ = Σ(μ-ν) = 0, used to show that quadratic 𝔘's with common h, k satisfy (5).",
+    "modern_name": "Vandermonde-type identity (Stäckel-type separability condition)",
+    "usually_credited_to": "Classical (Lamé/Jacobi era)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The method is standard Lamé–Jacobi separation. Riemann's lectures on partial differential equations (Hattendorff 1869) and the heat problem are known, and the page header suggests these are student notes from the 1855 lectures. Writing down the ellipsoidal wave equation (the Lamé equation with an added λ^2 term) for the transient heat problem in 1855 is an early, notable detail. However, it follows mechanically from Lamé's framework and stops before any analysis of the eigenfunctions.",
+  "checkable": [
+   {
+    "sympy": "l,m,n=symbols('l m n'); simplify((m-n)*l**2+(n-l)*m**2+(l-m)*n**2 + (l-m)*(m-n)*(n-l))",
+    "asserts": "Equals 0: Σ(μ-ν)λ^2 = -(λ-μ)(μ-ν)(ν-λ)"
+   },
+   {
+    "sympy": "l,m,n,g,h,k=symbols('l m n g h k'); U=lambda s: -g**2*s**2-h*s-k; simplify((m-n)*U(l)+(n-l)*U(m)+(l-m)*U(n) - g**2*(m-n)*(n-l)*(l-m))",
+    "asserts": "Equals 0: quadratic 𝔘's with common h, k satisfy equation (5)"
+   },
+   {
+    "sympy": "l,m,n,g=symbols('l m n g'); simplify(diff(g**2*(m-n)*(n-l)*(l-m),l,2) + 2*g**2*(m-n))",
+    "asserts": "Equals 0: the second λ-derivative of the left side of (5) is -2g^2(μ-ν)"
+   },
+   {
+    "sympy": "s,al,be,ga=symbols('s alpha beta gamma'); U=Function('U'); Th=(al+s)*(be+s)*(ga+s); simplify(sqrt(Th)*diff(sqrt(Th)*diff(U(s),s),s) - (Th*diff(U(s),s,2)+Rational(1,2)*diff(Th,s)*diff(U(s),s)))",
+    "asserts": "Equals 0: the two forms of equation (6) are equivalent"
+   },
+   {
+    "sympy": "t,a,g=symbols('t a g'); simplify(diff(exp(-4*a**2*g**2*t),t)/exp(-4*a**2*g**2*t) + 4*a**2*g**2)",
+    "asserts": "Equals 0: the time factor gives u_t = -4a^2g^2 u, so dividing (3) by 4a^2 u yields coefficient g^2 in (5)"
+   }
+  ],
+  "transcription_corrections": [
+   "In (5) the leading coefficient appears as a struck/overwritten 4 before gg; the intended coefficient is gg = g^2, consistent with the later -2gg.",
+   "In 𝔘_λ = -[-4-]g^2λ^2 - hλ - k the 4 is struck, so read 𝔘_λ = -g^2λ^2 - hλ - k.",
+   "The equation label before (6) appears struck ('[-(6)-]'); the alternate form is added after 'oder' as an insertion.",
+   "The verb before 'abhängen' at the line break reads as a hyphenated 'ab-/hängen' ('und wenn ... Functionen resp. nur von λ, μ, ν abhängen'); 'ergiebt sich' follows."
+  ]
+ }
+}

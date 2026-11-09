@@ -1,0 +1,90 @@
+{
+ "bundle": "Math.28",
+ "page": "c024",
+ "label": "12r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000025/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a finished 7-place table of common logarithms of the lemniscatic sine. It continues the computation set up on the previous page. There the heading reads log f n° = log(nϖ'/90) - (k/10)(ϖ'/90)^4 n^4 + (k/300)(ϖ'/90)^8 n^8 - …, where k is the modulus M = log10 e (log M = 9.6377843 appears repeatedly). The quantity ϖ'/90 is (ϖ/2)/90, where ϖ/2 = ∫_0^1 dt/sqrt(1-t^4) = 1.3110287771… and log10(ϖ/2) = 0.1176122227. The quadrant of the lemniscatic sine sl is divided into 90 'degrees', and the table gives log10 sl(n·ϖ/180) for n = 0, 3, 6, …, 90, written with characteristic +10.\n\nThe method can be reconstructed from this page and its neighbours.\n(a) For small and middle n, Gauss uses the series sl x = x - x^5/10 + x^9/120 - 11x^13/15600 + …. Its logarithm is log sl x = log x - x^4/10 + x^8/300 - x^12/4875 + …; the x^12 coefficient is my own derivation. Converted to base 10 this gives log10 sl x = log10 x - M(x^4/10 - x^8/300 + …).\n(b) Example n = 12, from the previous page. log10 x = 8.1633697133 + log10 12 = 9.2425509593. The correction terms are -0.0000405497 and +0.0000000013. The result is 9.2425104, as in the table.\n(c) Near 90 he uses the complement relation sl(ϖ/2 - u) = cl u. The next page has log cl u = -u^2 - (2/15)u^6 - …. That series follows from cl^2 = (1 - sl^2)/(1 + sl^2) (my identification). Example n = 84: -M(u^2 + 2u^6/15) with u = 0.0874019 gives 9.9966824.\n(d) The value at 45 is exact: sl(ϖ/4) = sqrt(√2 - 1), so log10 = (1/2)log10(√2 - 1) = 9.8086122. The next page checks this against a series value of 9.8086125.5.\n(e) The value at 90 is log 1 = 0.\n\nThe left-margin scraps (630, 587, 78, …) are line-ends of the logarithm columns of the preceding sheet (7.1606630, 3.3069587, …). They do not belong to this table.",
+  "errors": [
+   "Entry n=27: the table gives 9.5936908. The series gives log10 sl(27ϖ/180) = 9.5936951, so the entry is low by about 43 units in the 7th place. This is confirmed independently by the identity sl^2+cl^2+sl^2cl^2=1 with the correct entry at 63 (9.9326029): with the tabulated 27-value the sum is 0.999995.",
+   "Entry n=48: the transcription reads 9.8343167, but the correct value is 9.8343117. In the manuscript the final digits are overwritten (bold 7), so this may be a misreading of '117'. Otherwise it is a 50-unit error.",
+   "Entry n=81: the transcription reads 9.9925549, but the correct value is 9.9925351, from cl of 9 units: -M(u^2 + 2u^6/15) with u = 0.1311029. It is possibly a misreading of 9.9925349; otherwise it is a slip of about 2e-5.",
+   "All other entries spot-checked (3, 6, 9, 12, 15, 18, 21/69, 24, 30, 33/57, 36/54, 39, 42, 45, 60, 63, 72, 75, 78, 84, 87, 90) agree with modern values to within 1 unit of the 7th place."
+  ],
+  "results": [
+   {
+    "what": "Table of log10 sl(n·ϖ/180), n = 0(3)90, quadrant of the lemniscate divided into 90 parts, 7 decimals",
+    "modern_name": "Table of the lemniscatic sine (logarithmic)",
+    "usually_credited_to": "Gauss (unpublished Nachlass on lemniscatic functions, c. 1797-1800); Fagnano and Euler for lemniscate arc theory",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "log sl x = log x - x^4/10 + x^8/300 - …, from sl x = x - x^5/10 + x^9/120 - …",
+    "modern_name": "Maclaurin series of the logarithm of the lemniscatic sine",
+    "usually_credited_to": "Gauss (series for sl in Nachlass, 1797)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Complement relation sl(ϖ/2 - u) = cl u with log cl u = -u^2 - (2/15)u^6 - … for entries near 90; exact value sl(ϖ/4) = sqrt(√2 - 1)",
+    "modern_name": "Lemniscatic complement formula / special value",
+    "usually_credited_to": "Gauss (1797); special value implicit in Fagnano's lemniscate bisection",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "It is well documented that Gauss worked extensively on the lemniscatic functions and computed them numerically. This page is a routine computational table supporting that work, with a couple of small slips.",
+  "checkable": [
+   {
+    "sympy": "N(log(gamma(Rational(1,4))**2/(4*sqrt(2*pi)),10),12)",
+    "asserts": "log10(ϖ/2) = 0.1176122227 (the base value 0.1176122226.97 on the previous page)"
+   },
+   {
+    "sympy": "x=symbols('x'); series(log(1 - x**4/10 + x**8/120 - 11*x**12/15600), x, 0, 16)",
+    "asserts": "equals -x**4/10 + x**8/300 - x**12/4875 + O(x**16), i.e. the series log(sl x/x)"
+   },
+   {
+    "sympy": "u=symbols('u'); s=u-u**5/10; series(log((1-s**2)/(1+s**2))/2, u, 0, 8)",
+    "asserts": "log cl u = -u**2 - 2*u**6/15 + O(u**8)"
+   },
+   {
+    "sympy": "W=gamma(Rational(1,4))**2/(4*sqrt(2*pi)); x=3*W/90; N(10+log(x-x**5/10+x**9/120,10),10)",
+    "asserts": "entry n=3 is 8.6404908"
+   },
+   {
+    "sympy": "W=gamma(Rational(1,4))**2/(4*sqrt(2*pi)); x=27*W/90; N(10+log(x-x**5/10+x**9/120-11*x**13/15600,10),10)",
+    "asserts": "correct entry n=27 is 9.5936951 (table has 9.5936908)"
+   },
+   {
+    "sympy": "W=gamma(Rational(1,4))**2/(4*sqrt(2*pi)); x=48*W/90; N(10+log(x-x**5/10+x**9/120-11*x**13/15600+211*x**17/3536000,10),10)",
+    "asserts": "correct entry n=48 is 9.8343117"
+   },
+   {
+    "sympy": "N(10+log(sqrt(sqrt(2)-1),10),10)",
+    "asserts": "entry n=45 is 9.8086122 since sl(ϖ/4)=sqrt(√2-1)"
+   },
+   {
+    "sympy": "W=gamma(Rational(1,4))**2/(4*sqrt(2*pi)); u=9*W/90; N(10-(u**2+2*u**6/15)*log(E,10),10)",
+    "asserts": "correct entry n=81 is 9.9925351"
+   },
+   {
+    "sympy": "s=10**(9.6389089-10); c=10**(9.9166533-10); N(s**2+c**2+s**2*c**2)",
+    "asserts": "entries 30 and 60 satisfy sl^2+cl^2+sl^2 cl^2 = 1 to about 1e-7"
+   },
+   {
+    "sympy": "s=10**(9.5936908-10); c=10**(9.9326029-10); N(s**2+c**2+s**2*c**2)",
+    "asserts": "about 0.999995, exposing the error in entry 27"
+   }
+  ],
+  "transcription_corrections": [
+   "Row label '87[?]' is 87, written over another digit; the value 9.9991706 is correct for 87.",
+   "Entry 48 may read 9.8343117 (last digits overwritten) rather than 9.8343167; 9.8343117 is the correct value.",
+   "Entry 81 '9.9925549' should be checked against the image; the correct value is 9.9925351, so the '5' may be a '3'.",
+   "The left-margin fragments are line-ends of the previous sheet's logarithm columns (e.g. 7.1606630, 3.3069587), not part of this table.",
+   "On the previous page '9.24155 09593.06' should read 9.24255 09593.06 (= log10(12ϖ/180))."
+  ]
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c153",
+ "label": "[144]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000154/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page, Werke IX p.180f): a series for the ellipsoid of revolution in powers of a small parameter f, apparently for Gauss's conformal projection of the Hannover survey. The meridian-curvature check below forces e^2 = 16 f^2 exactly (f = e/4). The argument psi is the rectifying latitude. The previous page's coefficients reproduce phi = psi + (6f^2+48f^4+426f^6+...) sin2psi + (21f^4+336f^6+...) sin4psi + (302/3 f^6+...) sin6psi + 1097/2 f^8 sin8psi. With n = (a-b)/(a+b) = 4f^2+32f^4+320f^6+3584f^8+..., this is the standard series phi = mu + (3n/2-27n^3/32) sin2mu + (21n^2/16-55n^4/32) sin4mu + 151n^3/96 sin6mu + 1097n^4/512 sin8mu. Units are chosen so that the rectifying radius A = 1, i.e. M dphi = dpsi.\n\n(1) Substituting phi(psi) into log(1-e^2 sin^2 phi) and expanding to f^8 gives the first Fourier series. At lowest order it is -16f^2 sin^2psi = -8f^2 + 8f^2 cos2psi. [My check] At f^4 it is -96 sin^2(2psi) - 128 sin^4(psi) f^4, giving -96, +64, +32 for the constant, cos2psi and cos4psi terms, as on the page.\n\n(2) The Gaussian curvature is K = (1-e^2 sin^2phi)^2 / (a^2 (1-e^2)). So log K = -2 log a - log(1-e^2) + 2 log(1-e^2 sin^2phi). [My step] -log(1-e^2) = 16f^2 + 128f^4 + 4096/3 f^6 + 16384 f^8. Adding this to twice series (1) gives exactly the page's -64f^4 - 1024f^6 - 14464f^8 and doubled cosine coefficients. (Here 'a' is the semi-axis, not the coefficient a of the previous page.)\n\n(3) The radius of the parallel r = a cos phi / sqrt(1-e^2 sin^2phi) = N cos phi satisfies dr = -M sin phi dphi = -sin phi dpsi. Hence r = -∫ sin phi dpsi, with the integration constant fixed by r(90°) = 0. Expanding sin phi = sin(psi+delta) and integrating termwise gives r = (1+3f^2+15f^4+87f^6+528f^8) cos psi + (f^2+10f^4+88f^6+745f^8) cos3psi + (3f^4+158/3 f^6+672f^8) cos5psi + (37/3 f^6+312f^8) cos7psi + 59f^8 cos9psi. Together with psi (the meridian arc) and lambda, r serves to compute the plane coordinates x, y of the projection.",
+  "errors": [
+   "No errors found.",
+   "Series (1): coefficients at each order sum to 0 at psi=0, and the alternating sum equals log(1-e^2) at psi=90°, through f^8.",
+   "Series (2): reproduced exactly from (1) and e^2=16f^2.",
+   "Series (3): f^2, f^4 and f^6 coefficients were rederived by hand.",
+   "Series (3): the cos9psi f^8 coefficient 59 was rederived.",
+   "Series (3): at psi=0 the sum at each order equals a/A = (1+n)/(1+n^2/4+n^4/64) = 1+4f^2+28f^4+240f^6+2316f^8. This confirms the f^8 column 528+745+672+312+59 = 2316."
+  ],
+  "results": [
+   {
+    "what": "Fourier series of log(1-e^2 sin^2 phi) in the rectifying latitude psi to O(e^8)",
+    "modern_name": "series expansion of the radius-of-curvature factor in rectifying latitude",
+    "usually_credited_to": "19th-c. geodesy (Bessel, Helmert 1880 for systematic n-series)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Fourier series of the logarithm of the Gaussian curvature of the ellipsoid in rectifying latitude",
+    "modern_name": "Gaussian curvature K=1/(MN) expanded in rectifying latitude",
+    "usually_credited_to": "Gauss (curvature measure, Disquisitiones generales 1827); expansion routine",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Radius of parallel N cos phi as a function of rectifying latitude, via r = -∫ sin phi dpsi (with M dphi = dpsi), to O(f^8)",
+    "modern_name": "parallel radius in terms of rectifying latitude (used in Gauss conformal / Gauss-Krüger-type projection)",
+    "usually_credited_to": "Gauss (Hannover projection; published Werke IX), later Krüger 1912",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are correct but routine high-order series computations for Gauss's conformal projection of the Hannover survey, using rectifying latitude. The adjacent page is already cited as printed in Werke IX p.180f, so the material is known as Gauss's.",
+  "checkable": [
+   {
+    "sympy": "f,psi=symbols('f psi'); e2=16*f**2; n=4*f**2+32*f**4+320*f**6+3584*f**8; phi=psi+(3*n/2-27*n**3/32)*sin(2*psi)+(21*n**2/16-55*n**4/32)*sin(4*psi)+151*n**3/96*sin(6*psi)+1097*n**4/512*sin(8*psi); S=series(log(1-e2*sin(phi)**2),f,0,10).removeO(); simplify(expand_trig(S-(-8*f**2-96*f**4-Rational(3584,3)*f**6-15424*f**8+(8*f**2+64*f**4+520*f**6+4288*f**8)*cos(2*psi)+(32*f**4+512*f**6+Rational(18944,3)*f**8)*cos(4*psi)+(Rational(488,3)*f**6+3904*f**8)*cos(6*psi)+Rational(2752,3)*f**8*cos(8*psi))))==0",
+    "asserts": "Series (1) for log(1-e^2 sin^2 phi) in rectifying latitude psi, with e^2=16f^2"
+   },
+   {
+    "sympy": "series((1-sqrt(1-16*f**2))/(1+sqrt(1-16*f**2)),f,0,10)",
+    "asserts": "n = 4f^2+32f^4+320f^6+3584f^8+... when e^2=16f^2"
+   },
+   {
+    "sympy": "series(-log(1-16*f**2),f,0,10)",
+    "asserts": "equals 16f^2+128f^4+4096/3 f^6+16384 f^8; added to 2*(series 1) this gives series (2) for log K + 2 log a"
+   },
+   {
+    "sympy": "r=-integrate(series(sin(phi),f,0,10).removeO(),psi); compare r - r.subs(psi,pi/2) with (1+3*f**2+15*f**4+87*f**6+528*f**8)*cos(psi)+(f**2+10*f**4+88*f**6+745*f**8)*cos(3*psi)+(3*f**4+Rational(158,3)*f**6+672*f**8)*cos(5*psi)+(Rational(37,3)*f**6+312*f**8)*cos(7*psi)+59*f**8*cos(9*psi)",
+    "asserts": "Series (3) for the parallel radius r = -∫ sin phi dpsi to O(f^8)"
+   },
+   {
+    "sympy": "series((1+n)/(1+n**2/4+n**4/64),f,0,10)",
+    "asserts": "equals 1+4f^2+28f^4+240f^6+2316f^8, the sum of the cos-coefficients of series (3) (r at psi=0 equals a/A)"
+   }
+  ],
+  "transcription_corrections": [
+   "The f^8 coefficient of cos3psi, transcribed '745[?]', is 745. This is confirmed by the check r(0) = a/A, whose f^8 term is 2316 = 528+745+672+312+59.",
+   "Opening parentheses are omitted in the manuscript (e.g. '+32f^4+...)cos4psi', '+488/3 f^6+3904f^8 cos6psi'); each line means (…)cos kpsi.",
+   "In the curvature series the line '-2 log a  -64f^4-1024f^6-14464f^8' is the constant term (no f^2 term, since it cancels)."
+  ]
+ }
+}

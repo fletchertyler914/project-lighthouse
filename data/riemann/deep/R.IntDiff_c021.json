@@ -1,0 +1,65 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c021",
+ "label": "10v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000022/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to Riemann's student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (1847). It was published posthumously in the Gesammelte Werke (1876). The essay defines derivatives of arbitrary order ∂^ν_x z ('Ableitungen') as coefficients in a generalized Taylor expansion of z(x+h). On the previous page he imposed the law (5), ∂^μ ∂^ν z = ∂^{μ+ν} z. That law forces a normalizing factor l(ν) to satisfy l(μ+ν) = l(μ) l(ν). From this he derived l(mν) = l(ν)^m for integer m, then l((m/n)ν) = l(ν)^{m/n}. By 'the known law of interpolation' (i.e. tacitly, continuity) he extended this to l(μν) = l(ν)^μ for all real μ.\n\nStep 1 (top line). Ordinary differentiation must be a special case. So for integer ν we need l(ν) = 1, and in particular l(1) = 1. Then l(ν) = l(1·ν) = l(1)^ν = 1^ν. Here 1^ν is understood multivalued, as e^{2πikν} with k an integer.\n\nStep 2. Hence, if laws (4) and (5) are to hold for derivatives in general and ordinary differentiation is to be included, the derivatives must be chosen among functions of x satisfying\n  z(x+h) = Σ 1^ν h^ν/Π(ν) ∂^ν_x z = Σ h^ν/Π(ν) ∂^ν_x z,\nwhere Π(ν) = Γ(ν+1). The sum runs over ν in an arithmetic progression ν0 + n, n ∈ Z. The red marginal corrections replace an earlier symbol 𝔇 (fraktur D) by ∂.\n\nStep 3 (choice of normalization). Among all such admissible expansions, one should pick those most convenient for calculation. Trying to expand some functions of x+h in series of fractional powers of h shows that the easiest and simplest expansions are those in which the coefficient of h^{ν+1}/Π(ν+1) is the x-derivative of the coefficient of h^ν/Π(ν). That is,\n  ∂^{ν+1}_x z = d/dx (∂^ν_x z).\n(Mine: the typical example is z = x^a with ∂^ν x^a = Π(a)/Π(a−ν) x^{a−ν}. Its successive coefficients do differentiate into each other.)\n\nStep 4. He therefore restricts the definition. ∂^ν_x z shall denote the coefficient of h^ν/Π(ν) not in every possible expansion of z(x+h), but only in those expansions with the property of Step 3. The sentence continues on the next page. There, together with a footnote, he argues that a given value of ∂^ν z can belong to only one such expansion, modulo the lower terms, which are fixed up to complementary functions.",
+  "errors": [
+   "The passage from rational to all real exponents ('nach dem bekannten Gesetz der Interpolation') tacitly assumes continuity or regularity of l. Without that, the Cauchy-type equation l(μ+ν) = l(μ)l(ν) has pathological solutions. With continuity, l(ν) = c^ν, and l(1) = 1 gives c^ν = e^{2πikν}. Riemann's multivalued '1^ν' is the correct expression of this.",
+   "Only l(1) = 1 is needed. Requiring l(ν) = 1 for all integers ν is then automatic, so the argument is slightly redundant but not wrong.",
+   "Convergence of the bilateral series Σ h^{ν+n}/Π(ν+n) ∂^{ν+n} z is not addressed. For z = x^a the bilateral binomial series converges in general only for |h| = |x|. This is the point later examined by Hardy (1945). So 'satisfy the equation' is formal here."
+  ],
+  "results": [
+   {
+    "what": "Normalizing factor of the generalized Taylor expansion forced by the index law: l(ν) = 1^ν (multivalued e^{2πikν})",
+    "modern_name": "Solution of the exponential Cauchy functional equation; the multivaluedness of fractional derivatives",
+    "usually_credited_to": "Cauchy (functional equation, 1821); in this context Riemann's 1847 essay",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Generalized Taylor series z(x+h) = Σ_n h^{ν+n}/Γ(ν+n+1) D^{ν+n} z(x), over an arithmetic progression of fractional orders",
+    "modern_name": "Riemann's generalized (fractional) Taylor series",
+    "usually_credited_to": "Riemann (1847, publ. 1876); analysed by G. H. Hardy (1945, 'Riemann's form of Taylor's series')",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Normalization requiring successive coefficients to be ordinary derivatives of each other: D^{ν+1} = d/dx D^ν",
+    "modern_name": "Compatibility of fractional derivative with integer differentiation (part of the semigroup/index law)",
+    "usually_credited_to": "Riemann (1847); Liouville (1832) for related axioms",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft page of Riemann's published 1847 student essay on fractional integration and differentiation (Werke, 1876). The generalized Taylor series and the 1^ν normalization are well known as his. The only minor interest is draft-level detail, such as the 𝔇 → ∂ notation change and wording.",
+  "checkable": [
+   {
+    "sympy": "simplify(exp(2*pi*I*k*mu)*exp(2*pi*I*k*nu) - exp(2*pi*I*k*(mu+nu)))",
+    "asserts": "l(ν) = 1^ν = e^{2πikν} satisfies l(μ+ν) = l(μ)l(ν); result should be 0."
+   },
+   {
+    "sympy": "simplify(exp(2*pi*I*k*1).subs(k,3)) == 1",
+    "asserts": "l(1) = 1 holds for integer k, so ordinary differentiation is included."
+   },
+   {
+    "sympy": "simplify(diff(gamma(a+1)/gamma(a-nu+1)*x**(a-nu), x) - gamma(a+1)/gamma(a-nu)*x**(a-nu-1))",
+    "asserts": "For z = x^a, the coefficient of h^{ν+1}/Π(ν+1) is the x-derivative of the coefficient of h^ν/Π(ν), i.e. the Step 3 property; result should be 0."
+   },
+   {
+    "sympy": "Sum(binomial(Rational(1,2), n)*h**n*x**(Rational(1,2)-n), (n,0,oo))",
+    "asserts": "Sanity check of the ν = 0 (integer) case: the series reduces to the ordinary binomial/Taylor series of sqrt(x+h) for |h| < x."
+   }
+  ],
+  "transcription_corrections": [
+   "The first line reads 'l_(ν) = 1 … so ist l_ν = 1^ν', with the letter l as on the previous page, not 'b'.",
+   "In the formula, the struck fraktur 𝔇^ν_x z is replaced by ∂^ν_x z through the red marginal corrections; the transcription's markup is right.",
+   "The text writes 'Functionen von x+k … gebrochenen Potenzen von k' but uses h in the formulas. This inconsistency (k for h) is the manuscript's own.",
+   "'obige Begränzung[?]' is uncertain; from context it may read 'Bestimmung'. The meaning, a restriction of the definition of the derivatives, is unaffected.",
+   "'geschmeidigsten' appears correct, meaning 'most convenient/pliant'."
+  ]
+ }
+}

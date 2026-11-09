@@ -1,0 +1,61 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c086",
+ "label": "57r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000087/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 57r contains no computation. It is the title and introductory paragraph of the manuscript draft of Riemann's 1860 memoir 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite' (Abh. Ges. Wiss. Göttingen 8, 1860).\n\nContent of the page, in modern terms:\n(i) The equations of motion of a gas obeying Mariotte's (Boyle's) law p = a^2*rho, i.e. isothermal compressible Euler flow, have long been known.\n(ii) Their integration has essentially been carried out only in the acoustic (linearized) approximation. There the pressure differences are infinitesimal fractions of the total pressure and only first powers are kept.\n(iii) Helmholtz recently included second-order terms and explained, or in the marginal variant 'showed the possibility of', the objective generation of combination tones.\n(iv) In the planar case the exact nonlinear equations can be integrated completely. This is the case where the motion is everywhere in one direction and velocity and pressure are constant on planes perpendicular to it.\n(v) For acoustics the linear theory suffices, but the exact results might offer some footholds ('Anhaltspunkte') for meteorology. Together with the theoretical interest of treating nonlinear differential equations, this justifies publication.\n\nWhat the page serves (from the next folio): the system rho_t + (rho*u)_x = 0 and u_t + u*u_x = -a^2*(log rho)_x is set up. Adding and subtracting the continuity equation multiplied by ±a gives the Riemann invariants u ± a*log(rho). Each is transported along the characteristics dx/dt = u ± a, i.e. (d/dt + (u±a) d/dx)(u ± a log rho) = 0.\n\nDraft versus print [my comparison with the printed text]:\n- The printed version replaces Mariotte's law by a general p = phi(rho), with Poisson's adiabatic law as the main case.\n- The motivation is changed from meteorology to future acoustic experiments in the wake of Helmholtz's experimental progress.\n- 'nicht linearer Differentialgleichungen' becomes 'nicht linearer partieller Differentialgleichungen'.\n- The marginal rewording about combination tones ('dadurch die Möglichkeit ... nachgewiesen') shows Riemann softening the claim; the print in fact retains 'daraus ... erklärt'.",
+  "errors": [
+   "No mathematical errors, since the page has no computation.",
+   "Restricting to Mariotte's (isothermal) law is physically inaccurate for sound, because Laplace's adiabatic correction is needed. Riemann himself generalized this in the printed version to arbitrary p = phi(rho).",
+   "The claim of 'complete integration' of the exact equations is justified by the method that follows (Riemann invariants, hodograph/Riemann function). Strictly, smooth solutions break down and discontinuities (shocks) must be admitted, which Riemann treats later in the paper."
+  ],
+  "results": [
+   {
+    "what": "Statement that the 1D planar compressible Euler equations (isothermal, p = a^2 rho) can be integrated exactly, without linearization",
+    "modern_name": "Riemann invariants / method of characteristics for 1D gas dynamics; Riemann's method for hyperbolic PDE",
+    "usually_credited_to": "Bernhard Riemann 1860 (with precursors Poisson 1808, Stokes 1848, Earnshaw 1858-60)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reference to Helmholtz's second-order theory of objective combination tones",
+    "modern_name": "Nonlinear acoustics, second-order perturbation theory of combination tones",
+    "usually_credited_to": "H. von Helmholtz 1856 ('Über Combinationstöne', Ann. Phys. 99)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Draft motivation via meteorology and restriction to Mariotte's law (differs from the printed version)",
+    "modern_name": "Isothermal Euler equations; finite-amplitude atmospheric waves",
+    "usually_credited_to": "n/a (draft variant of Riemann 1860)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the draft introduction of Riemann's well-known 1860 shock-wave paper. The only novelties are textual variants: the meteorological motivation, the isothermal Mariotte law instead of a general phi(rho), and the softened phrasing on Helmholtz. They are of minor philological interest.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; x,t,a=symbols('x t a',positive=True); u=Function('u')(x,t); r=Function('rho')(x,t); cont=diff(r,t)+diff(r*u,x); mom=diff(u,t)+u*diff(u,x)+a**2*diff(log(r),x); R=u+a*log(r); expr=diff(R,t)+(u+a)*diff(R,x)-(mom+a*cont/r); simplify(expand(expr))==0",
+    "asserts": "Under the isothermal Euler equations, the Riemann invariant u + a*log(rho) is constant along dx/dt = u + a."
+   },
+   {
+    "sympy": "from sympy import *; x,t,a=symbols('x t a',positive=True); u=Function('u')(x,t); r=Function('rho')(x,t); cont=diff(r,t)+diff(r*u,x); mom=diff(u,t)+u*diff(u,x)+a**2*diff(log(r),x); S=u-a*log(r); expr=diff(S,t)+(u-a)*diff(S,x)-(mom-a*cont/r); simplify(expand(expr))==0",
+    "asserts": "Under the isothermal Euler equations, the Riemann invariant u - a*log(rho) is constant along dx/dt = u - a."
+   },
+   {
+    "sympy": "from sympy import *; x,t,a=symbols('x t a',positive=True); u=Function('u')(x,t); r=Function('rho')(x,t); simplify(expand(diff(log(r),t)+u*diff(log(r),x)+diff(u,x) - (diff(r,t)+diff(r*u,x))/r))==0",
+    "asserts": "The continuity equation is equivalent to (log rho)_t + u (log rho)_x = -u_x (the second form of eq. (1) on the next page)."
+   }
+  ],
+  "transcription_corrections": [
+   "Title: the last word is hard to read. It may be 'Luftschwingungen' or 'Luftwellen' rather than 'Luftströmungen'; the printed title has 'ebener Luftwellen'. Keep it marked uncertain.",
+   "Author line reads 'von B. Riemann.' (the image shows a cursive initial); acceptable.",
+   "'luft-förmiger[-?-]': the struck fragment is probably a cancelled ending. The intended reading is 'luftförmiger, dem Mariotte'schen Gesetz gehorchender Flüssigkeiten'.",
+   "The marginal 'kann' and the marginal sentence 'dadurch die Möglichkeit einer objectiven Entstehung von Combinationstönen nachgewiesen' are alternative wordings for 'daraus die objective Entstehung von Combinationstönen erklärt'. They are not additional text.",
+   "The next page's '(2) u+a log rho = 4ap, u - a log rho = 4aq' is doubtful ('4a' and 'p' would clash with pressure p). It likely reads e.g. '2ar', '2as' or similar."
+  ]
+ }
+}

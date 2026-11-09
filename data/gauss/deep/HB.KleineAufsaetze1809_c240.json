@@ -1,0 +1,62 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c240",
+ "label": "231",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000241/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem: solve directly for the two unknown angles P, Q the pair of equations\n(1) sin(P-A) = k sin(Q-B)\n(2) sin(P-A') = k' sin(Q-B').\nThe page sits in a notebook whose previous page is on lens dioptrics. The equations themselves are generic; they are the kind that arise in astronomy, geodesy or optics.\n\nStep 1 (componendo et dividendo / tangent rule). Put u = P-A and v = Q-B. Then sin u = k sin v gives\n(sin u + sin v)/(sin u - sin v) = (k+1)/(k-1).\nThe left side equals tan((u+v)/2)/tan((u-v)/2) [identity supplied by me]. Hence\ntan ½(P+Q-A-B) = ((k+1)/(k-1)) tan ½(P-Q-A+B).\nLikewise from (2):\ntan ½(P+Q-A'-B') = ((k'+1)/(k'-1)) tan ½(P-Q-A'+B').\n\nStep 2 (abbreviations). Gauss sets:\n- x = ½(P+Q-A-B), y = ½(P-Q-A+B)\n- α = ½(A+B-A'-B'), β = ½(A-B-A'+B')\n- m = (k+1)/(k-1), n = (k'+1)/(k'-1)\nThen ½(P+Q-A'-B') = x+α and ½(P-Q-A'+B') = y+β [check mine]. The system becomes\n(3) tan x = m tan y\n(4) tan(x+α) = n tan(y+β).\nThis is two equations in the two unknowns x, y.\n\nStep 3 (exponential form). Writing tan in exponentials, the factor i cancels on both sides of (3):\n(e^{ix}-e^{-ix})/(e^{ix}+e^{-ix}) = m (e^{iy}-e^{-iy})/(e^{iy}+e^{-iy}).\nWith T = right side, e^{2ix} = (1+T)/(1-T). Clearing denominators gives\ne^{2ix} = [(1+m)e^{iy}+(1-m)e^{-iy}] / [(1-m)e^{iy}+(1+m)e^{-iy}],\nand from (4) the analogue\ne^{2i(x+α)} = [(1+n)e^{i(y+β)}+(1-n)e^{-i(y+β)}] / [(1-n)e^{i(y+β)}+(1+n)e^{-i(y+β)}].\n\nStep 4 (eliminate x). Write the first fraction as N1/D1 and the second as N2/D2. Then e^{2iα} = (N2/D2)/(N1/D1). Cross-multiplying and splitting e^{2iα} as e^{iα}/e^{-iα} gives\nN1·D2·e^{iα} = D1·N2·e^{-iα},\nexactly the equation written at the foot of the page. The page ends with \"oder wenn man entwickelt und mit 2 dividirt\" (expanding and dividing by 2).\n\nContinuation (next page, verified by me). Expanding, the products of the exponentials e^{±iy}, e^{±i(y+β)} give terms in e^{±i(2y+β)} and e^{±iβ}. After division by 2:\ne^{i(2y+β)}[(m-n)cosα + i(1-mn)sinα] - e^{-i(2y+β)}[(m-n)cosα - i(1-mn)sinα] = 2i[(m+n)cosα sinβ - (1+mn) sinα cosβ].\nAuxiliary quantities:\n- g cos G = (m-n)cosα, g sin G = (1-mn)sinα\n- h cos H = (m+n)cosα, h sin H = (1+mn)sinα\nThese turn the equation into\n(5) g sin(2y+β+G) = h sin(β-H).\nThis is a single sine equation giving two values of 2y+β+G modulo 2π, i.e. the two solutions y. Then x follows from (3), and P = x+y+A, Q = x-y+B.",
+  "errors": [
+   "No error on this page; every step checks.",
+   "In the first tangent line the sign before A is overwritten with a blot. The correct (and apparently intended) reading is ½(P-Q-A+B).",
+   "Next page, as transcribed: e^{-i(2y-b)} should be e^{-i(2y+β)}. Gauss's own correction of -1 to +1 in (1+mn) is right.",
+   "Next page, k-form of the auxiliary quantities. Let D = (k-1)(k'-1). Then m-n = 2(k'-k)/D but 1-mn = -2(k+k')/D. So the pair (k'-k)cosα = g* cosG, (k'+k)sinα = g* sinG has an inconsistent sign: one of the two should be negated. The h* pair, (kk'-1)cosα and (kk'+1)sinα, is correct. This may also be a transcription slip; it does not concern the page under study."
+  ],
+  "results": [
+   {
+    "what": "sin u = k sin v  ⇔  tan½(u+v) = ((k+1)/(k-1)) tan½(u-v)",
+    "modern_name": "componendo-dividendo / tangent-rule transformation of a sine equation",
+    "usually_credited_to": "classical trigonometry (Napier, Euler era); standard in astronomical computing",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reduction of the system tan x = m tan y, tan(x+α) = n tan(y+β) via complex exponentials to the single equation g sin(2y+β+G) = h sin(β-H)",
+    "modern_name": "elimination with auxiliary angles (Hülfswinkel) to obtain a closed-form two-root solution",
+    "usually_credited_to": "standard auxiliary-angle technique of 18th-19th c. astronomical computation (Euler, Lagrange, Gauss)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a correct but routine trigonometric elimination of the kind Gauss performed constantly in astronomical and geodetic computation. The use of e^{ix} to clear tangents is elegant but standard for the period. Nothing here anticipates later results.",
+  "checkable": [
+   {
+    "sympy": "simplify((tan((u+v)/2)*(sin(u)-sin(v)) - tan((u-v)/2)*(sin(u)+sin(v))).rewrite(exp))",
+    "asserts": "tan½(u+v)/tan½(u-v) = (sin u+sin v)/(sin u-sin v); result should be 0. Combined with sin u = k sin v this gives the page's first formula."
+   },
+   {
+    "sympy": "simplify((((1+m)*exp(I*y)+(1-m)*exp(-I*y))/((1-m)*exp(I*y)+(1+m)*exp(-I*y)) - (1+I*m*tan(y))/(1-I*m*tan(y))).rewrite(exp))",
+    "asserts": "The page's expression for e^{2ix} equals (1+i tan x)/(1-i tan x) with tan x = m tan y; result should be 0."
+   },
+   {
+    "sympy": "N1=(1+m)*exp(I*y)+(1-m)*exp(-I*y); D1=(1-m)*exp(I*y)+(1+m)*exp(-I*y); N2=(1+n)*exp(I*(y+b))+(1-n)*exp(-I*(y+b)); D2=(1-n)*exp(I*(y+b))+(1+n)*exp(-I*(y+b)); simplify(expand((N1*D2*exp(I*a)-D1*N2*exp(-I*a))/2 - (exp(I*(2*y+b))*((m-n)*cos(a)+I*(1-m*n)*sin(a)) - exp(-I*(2*y+b))*((m-n)*cos(a)-I*(1-m*n)*sin(a)) - 2*I*((m+n)*cos(a)*sin(b)-(1+m*n)*sin(a)*cos(b)))).rewrite(exp))",
+    "asserts": "The expansion announced at the foot of the page (carried out on the next page) is exact; result should be 0."
+   },
+   {
+    "sympy": "simplify(g*cos(G)*(exp(I*X)-exp(-I*X)) + I*g*sin(G)*(exp(I*X)+exp(-I*X)) - 2*I*g*sin(X+G))",
+    "asserts": "Introducing g cos G, g sin G collapses the left side to 2i g sin(2y+β+G), with X = 2y+β; result should be 0."
+   },
+   {
+    "sympy": "m=(k+1)/(k-1); n=(kp+1)/(kp-1); [simplify((m-n)*(k-1)*(kp-1)), simplify((1-m*n)*(k-1)*(kp-1)), simplify((m+n)*(k-1)*(kp-1)), simplify((1+m*n)*(k-1)*(kp-1))]",
+    "asserts": "Gives 2(kp-k), -2(k+kp), 2(k*kp-1), 2(k*kp+1). This exposes the sign issue in the next page's g* definition."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 of the tangent formulas: the image shows a blotted sign before A in ½(P-Q-A+B). Reading -A is correct, as the later definition of y confirms.",
+   "In the expression for e^{2ix}, the exponent of the second numerator term (written over a blot) is -iy, as transcribed.",
+   "'tang' is Gauss's notation for tan; '\\tang' is not valid LaTeX.",
+   "The 'b' on the next page is Gauss's β (written like a 6/ℓ), and e^{-i(2y-b)} there should read e^{-i(2y+β)}."
+  ]
+ }
+}

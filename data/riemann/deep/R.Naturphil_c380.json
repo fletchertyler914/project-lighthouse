@@ -1,0 +1,70 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c380",
+ "label": "192r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000381/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a reading excerpt, not original research. It continues Riemann's notebook of journal excerpts on natural philosophy. The neighbouring pages cover Chebyshev-type bounds for psi(x) before and Wilson's pyrometer and Pasteur's work on hemihedry after.\n\nBibliographic entries:\n(a) Poggendorff's Annalen LXXXVII.2: 'Über den Zusammenhang der Lehre vom Diamagnetismus mit der Lehre von dem Magnetismus und der Elektricität'. This title matches W. Weber's paper, Pogg. Ann. 87 (1852), as far as I recall. Riemann gives only the title.\n(b) Dingler's Polytechnisches Journal CXXV.6: M. H. Jacobi, 'Über die Theorie der elektromagnetischen Maschinen'. This is an abstract by Dr. H. Hammer of Jacobi's memoir in the Bulletin de la Classe physico-mathématique of the St. Petersburg Academy, T. IX, Nos. 19-20.\n\nRiemann quotes Jacobi's description of the machine. Its parts are insulated wire coils with or without soft-iron cores, arranged as a moving and a fixed system. A commutator reverses or breaks the current whenever the poles meet. A galvanic battery drives it. Whether the motion is rotary or oscillating is irrelevant.\n\nThe geometry is held fixed. The free variables are:\n- the battery's electromotive force (k per cell, n cells);\n- the number of windings beta (taken equal in the moving and fixed electromagnets);\n- the total resistance rho;\n- the speed v, which is set by the mechanical load.\n\nFor the machine held at rest:\n1) i = n k / rho (Ohm's law, as written).\n2) Zinc consumed per unit time: q = n i = n^2 k / rho (Faraday: each of the n cells dissolves zinc in proportion to i).\n3) Magnetism of each electromagnet system: m = beta i = beta n k / rho (Lenz-Jacobi law: magnetism proportional to ampere-turns).\n4) Mutual attraction: mu = m^2 = beta^2 n^2 k^2 / rho^2.\n\nQuantities at speed v carry primes. Motion induces a magneto-electric counter-current:\n(5) i_1 = i - i'.\n(6) i_1 is proportional to m', beta and v and inversely to rho, so i_1 = kappa m' beta v / rho = kappa beta^2 i' v / rho.\n\nHere kappa is independent of these quantities. For a given shape it depends on the coercive force of the electromagnets and only slightly on the coil resistance. Jacobi takes kappa as the measure of coercive force.\n\nImplicit step (mine; it is stated on the next page): from i - i' = kappa beta^2 i' v / rho one gets\n- i' = n k / (rho + kappa beta^2 v),\n- m' = beta n k / (rho + kappa beta^2 v).\n\nThe next page continues:\n- Load R = mu' = m'^2.\n- Useful work J = R v = v (beta n k)^2 / (rho + kappa beta^2 v)^2 = (beta n k sqrt(R) - R rho) / (kappa beta^2).\n- The maximum is at R_0 = beta^2 n^2 k^2 / (4 rho^2), i.e. v_0 = rho / (kappa beta^2), with J_0 = n^2 k^2 / (4 rho kappa).\n- Then q_0' = n^2 k / (2 rho) and the duty is epsilon = J_0 / q_0' = k / (2 kappa).\n\nThe purpose is Jacobi's optimisation of the efficiency of electric motors, essentially the maximum-power-transfer result: at maximum work the current falls to half its standstill value.",
+  "errors": [
+   "No mathematical errors on this page. Formulas 1)-6) are internally consistent: m' = beta i' turns kappa m' beta v / rho into kappa beta^2 i' v / rho.",
+   "Physically, eq. 2) treats zinc consumption as n times the current, i.e. it counts all n cells. This is Jacobi's convention, not a slip.",
+   "Treating mu = m^2 as the force (the product of two equal magnetisms) is Jacobi's idealisation of the Lenz-Jacobi law. It ignores saturation, which Jacobi himself acknowledged."
+  ],
+  "results": [
+   {
+    "what": "Current, zinc consumption and electromagnet strength at standstill: i = nk/rho, q = n^2 k/rho, m = beta i, mu = m^2",
+    "modern_name": "Ohm's law, Faraday's electrolytic law, Lenz-Jacobi law (magnetisation proportional to ampere-turns)",
+    "usually_credited_to": "Ohm (1827), Faraday (1834), Lenz and Jacobi (1839-1844)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Back-EMF (counter-current) proportional to speed, magnetism and turns: i_1 = kappa beta^2 i' v / rho",
+    "modern_name": "Back-EMF of a DC motor (induced counter-EMF proportional to speed and flux)",
+    "usually_credited_to": "M. H. Jacobi (1850-51), building on Lenz",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Optimisation of the motor's useful work and duty (continued on the next page): J_0 = n^2 k^2/(4 rho kappa), epsilon = k/(2 kappa)",
+    "modern_name": "Jacobi's maximum power theorem (maximum power transfer)",
+    "usually_credited_to": "M. H. Jacobi (c. 1840-1851)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a faithful reading excerpt of Jacobi's published theory of electromagnetic engines from Dingler's Polytechnisches Journal, plus a bibliographic note on Weber's paper on diamagnetism. It is useful only as evidence of Riemann's reading in electromagnetism around 1852; there is no original content.",
+  "checkable": [
+   {
+    "sympy": "n,k,rho,kappa,beta,v=symbols('n k rho kappa beta v',positive=True); ip=symbols('ip'); simplify(solve(Eq(n*k/rho-ip, kappa*beta**2*ip*v/rho), ip)[0] - n*k/(rho+kappa*beta**2*v))",
+    "asserts": "The counter-current equation (5)-(6) gives i' = nk/(rho+kappa beta^2 v); result 0."
+   },
+   {
+    "sympy": "J=v*(beta*n*k)**2/(rho+kappa*beta**2*v)**2; solve(diff(J,v),v)",
+    "asserts": "Maximum useful work occurs at v0 = rho/(kappa*beta**2)."
+   },
+   {
+    "sympy": "simplify(J.subs(v,rho/(kappa*beta**2)) - n**2*k**2/(4*rho*kappa))",
+    "asserts": "The maximum work is J0 = n^2 k^2/(4 rho kappa), independent of beta; result 0."
+   },
+   {
+    "sympy": "simplify((n**2*k**2/(4*rho*kappa))/(n*(n*k/(rho+kappa*beta**2*(rho/(kappa*beta**2))))) - k/(2*kappa))",
+    "asserts": "The duty is epsilon = J0/q0' = k/(2 kappa), with q0' = n i0' = n^2 k/(2 rho); result 0."
+   },
+   {
+    "sympy": "R=(beta*n*k/(rho+kappa*beta**2*v))**2; simplify(R*v - (beta*n*k*sqrt(R)-R*rho)/(kappa*beta**2))",
+    "asserts": "Two equivalent forms of the useful work, R v = (beta n k sqrt(R) - R rho)/(kappa beta^2); result 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Header year: the Annalen volume LXXXVII appeared in 1852, so '1850.10' may be a misreading of '1852' (or the digit is ambiguous in the image).",
+   "'den Stärkezustand der Magnetismus' should probably read 'den Stärkegrad des Magnetismus' or similar, i.e. the strength of magnetism.",
+   "The kappa sentence likely reads: 'kappa von diesen Grössen unabhängig ist und nur noch abhängt von der Coercitivkraft der Elektromagnete, wenn ihre Gestalt gegeben ist, und in geringem Maße vom Widerstand der Spirale'.",
+   "'(wo der Einfachheit wegen beyde gleich annimmt)' should probably read '(welche der Einfachheit wegen gleich angenommen)': the windings in the moving and fixed systems are taken as equal.",
+   "'Es bildet nun' should probably read 'Es bildet sich nun', i.e. a magneto-electric counter-current arises during the motion.",
+   "'untersucht die Werthe' should probably read 'unterscheidet die Werthe dieser Grössen bei der Geschwindigkeit v der Maschine durch Accente', i.e. primes mark the values at speed v."
+  ]
+ }
+}

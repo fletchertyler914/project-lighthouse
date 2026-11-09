@@ -1,0 +1,72 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c020",
+ "label": "10r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000021/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page carries the archival label 'Lin. Diff. Gl. / Form β' and is the opening of the draft 'Zwei allgemeine Lehrsätze über lineare Differentialgleichungen mit algebraischen Coefficienten'. That text was published posthumously in Riemann's Werke (1876), with the editors dating it to February 1857. The page contains no computation. It is a set of preliminary remarks that fix the setting for the monodromy theorems stated on the following pages. The previous page derived the Riemann P-equation; the next page sets up branch points a,…,g and substitution matrices (A),…,(G).\n\n(1) Superposition. Let L(y) = y^(m) + p_1(x) y^(m-1) + … + p_m(x) y = 0. Every solution has the form y = c_1 y_1 + … + c_m y_m with constants c_i, where y_1,…,y_m are linearly independent particular solutions.\n\n(2) Rational coefficients p_i ∈ C(x). The solutions are in general multivalued. Cut the plane along suitable lines (in modern terms, pass to a simply connected cut domain). One can then choose m functions η_1,…,η_m that are single-valued ('eindeutig bestimmt') for every x. Every branch of every solution is a constant-coefficient linear combination of η_1,…,η_m. The η_i cannot be continuous everywhere: per the marginal addition, they must be discontinuous along certain line segments, the cuts. Across a cut they jump by constant linear substitutions, which is the monodromy.\n\n(3) Algebraic coefficients. Suppose p_i = R_i(x,s) with R_i rational and s an n-valued algebraic function of x, i.e. F(x,s)=0 of degree n in s. To each of the n branches s_k there belongs a fundamental system (a 'Gruppe') of m independent particular solutions, giving nm single-valued (cut) functions in total. Every branch of a solution is a linear expression in at most m of these single-valued functions ('höchstens' is a marginal addition). Any such expression only ever involves the m functions belonging to one group, namely the group of the branch of s in question. In modern language, the equation lives on the Riemann surface of s, or equivalently it can be rewritten as a system over C(x) of total order nm whose solution space splits by branch.\n\n(4) Reduction of the inhomogeneous case (marginal addition, mine made explicit). Take L(y) = f with f algebraic and f ≠ 0. Then y satisfies d/dx( L(y)/f ) = 0. This is homogeneous linear of order m+1, and its coefficients are again algebraic in x and s.\n\nConclusion drawn on the page: the theorems that follow, which concern systems of functions y_1,…,y_n transforming linearly under circuits around the branch points, cover all linear differential equations with algebraic coefficients.",
+  "errors": [
+   "No mathematical errors. All claims are standard and correct.",
+   "Reduction (4) is stated without proof. It needs f ≠ 0 (f ≡ 0 is already homogeneous). The resulting (m+1)-order equation also has extra solutions, namely those of L(y) = C·f for arbitrary constants C. Riemann's purpose is only to embed the solutions, so this is harmless.",
+   "The statement 'höchstens m' single-valued functions per branch is correct but loosely phrased. The precise point is that the nm cut functions split into n groups of m, and only one group enters a given branch."
+  ],
+  "results": [
+   {
+    "what": "General solution of a homogeneous linear ODE of order m is a constant-coefficient linear combination of m independent particular solutions",
+    "modern_name": "superposition principle / fundamental system",
+    "usually_credited_to": "Lagrange, d'Alembert, Euler (18th c.); Cauchy, Fuchs for rigorous complex-analytic form",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Multivalued solutions of an ODE with rational coefficients represented on a cut plane by m single-valued functions discontinuous along cuts, with branches related by constant linear substitutions",
+    "modern_name": "fundamental system on simply connected cut domain; monodromy representation",
+    "usually_credited_to": "Riemann (1857 Beiträge and this posthumous 1857 fragment); Fuchs 1865/66",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Equations with coefficients algebraic in x: one group of m solutions per branch of the n-valued algebraic function",
+    "modern_name": "linear ODE on the Riemann surface of an algebraic function / restriction of scalars to C(x)",
+    "usually_credited_to": "Riemann (this fragment, published in Werke 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Inhomogeneous linear ODE L(y)=f reduced to homogeneous of order m+1 via d/dx(L(y)/f)=0",
+    "modern_name": "homogenization of linear ODE",
+    "usually_credited_to": "folklore (18th–19th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the published introduction to Riemann's 1857 fragment 'Zwei allgemeine Lehrsätze…' (Werke, 1876). That fragment is well known as the origin of the monodromy and Riemann–Hilbert problem. This page has only standard preliminary remarks and no new derivation.",
+  "checkable": [
+   {
+    "sympy": "x,C=symbols('x C'); y=-x-1+C*exp(x); simplify(diff(y,x)-y-x)==0",
+    "asserts": "y=-x-1+C e^x solves the inhomogeneous equation y'-y=x"
+   },
+   {
+    "sympy": "x,C=symbols('x C'); y=-x-1+C*exp(x); simplify(diff((diff(y,x)-y)/x,x))==0",
+    "asserts": "the same y satisfies the homogeneous second-order equation d/dx((y'-y)/x)=0, illustrating the reduction of order m inhomogeneous to order m+1 homogeneous"
+   },
+   {
+    "sympy": "x,C1,C2,C3=symbols('x C1 C2 C3'); y=-x-1+C1*exp(x)+C3*x*0; f=Function('Y'); Y=f(x); eq=expand(diff((diff(Y,x)-Y)/x,x)*x**2); simplify(eq.subs(Y,C2*x*0+C1*exp(x)-x-1).doit())==0",
+    "asserts": "homogenized equation x(Y''-Y')-(Y'-Y)=0 holds for solutions of Y'-Y=x"
+   },
+   {
+    "sympy": "x,C=symbols('x C'); Y=C*(-x-1); simplify(diff((diff(Y,x)-Y)/x,x))==0",
+    "asserts": "the homogenized equation also admits solutions of L(y)=C*f (extra solutions), here C*(-x-1)"
+   }
+  ],
+  "transcription_corrections": [
+   "Marginal note likely reads '(denn [sie] längs gewisser Linienstücke unstetig sein müssen)'. The machine reading 'längs einer gewissen Linienstück[?]' is ungrammatical; the intended sense is discontinuity along certain line segments (cuts).",
+   "'der unabhängig Veränderlichen x' is probably 'der unabhängig veränderlichen [Grösse] x' or 'unabhängigen Veränderlichen'; the meaning is the independent variable.",
+   "Header in blue pencil 'Lin. Diff. Gl. / Form β.' is an archival or editorial label, not part of Riemann's text.",
+   "The insertion '{+nicht+}' belongs before 'homogene': '(da sich jede nicht homogene lineare Differentialgleichung leicht in eine homogene von der nächst höheren Ordnung verwandeln lässt)'. 'nicht' and 'lineare' are superscript insertions above the line.",
+   "'(höchstens)' is a marginal insertion attached to 'je m', giving 'von je m (höchstens) eindeutigen Functionen'."
+  ]
+ }
+}

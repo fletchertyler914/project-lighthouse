@@ -1,0 +1,61 @@
+{
+ "bundle": "Math.34",
+ "page": "c030",
+ "label": "13r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382187:00000031/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Goal (stated as heading 'V'): prove without Euclid's parallel axiom (the '11th axiom' in the older numbering) that the angle sum of a triangle cannot exceed 180°. This is the Saccheri–Legendre theorem.\n\nSetup. Take triangle ABC with base AB. Write α = ∠CAB, β = ∠ABC, γ = ∠ACB, a = BC, b = AC, c = AB. Extend AB indefinitely ('in infin.'). On the extension lay off BD = AB, DF = AB, and so on. On each segment erect a copy of the triangle: BDE ≅ ABC, DFG ≅ ABC, …, the last one with base ending at M and apex N. The apexes C, E, G, …, N lie on the same side of the line.\n\nStep 1 (my explicit filling). The angles at B on the straight line give ∠ABC + ∠CBE + ∠EBD = 180°. Since ∠EBD = α by congruence, ∠CBE = 180° − α − β.\n\nStep 2. The hypothesis α + β + γ > 180° is equivalent to γ > 180° − α − β. So ∠CBE < ∠ACB, which is what Gauss writes ('per hyp.').\n\nStep 3. Compare triangles ACB and EBC (my filling of the side identifications). They share CB, and BE = AC by congruence. So two sides are equal in pairs, with included angles ∠CBE < ∠BCA. By Euclid I.24 (the hinge theorem) the third sides satisfy CE < AB.\n\nStep 4. By congruence of the successive configurations, EG = CE, and likewise for every later apex-to-apex segment ('Ebenso EG = CE u.s.w.').\n\nStep 5 (my explicit count). Suppose there are n repetitions, i.e. n+1 triangles. Then:\n- The straight segment is AM = (n+1)c.\n- The broken line is A C E G … N M = b + n·CE + a, since NM = BC = a.\n- Their difference is broken − straight = (a + b − c) − n(c − CE).\n\nSince c − CE > 0, the Archimedean property gives an n with a + b − c < n(c − CE). For that n the straight line AM is longer than the broken line ACEG…NM. This contradicts the fact that the straight line is the shortest connection (Euclid I.20, repeated triangle inequality, which is independent of the parallel postulate). That n suffices is exactly Gauss's closing criterion AC + CB − AB < n(AB − CE). Hence α + β + γ ≤ 180°. The note is dated 'gefunden 1828 Nov. 18'.",
+  "errors": [
+   "No mathematical error. Several justifications are left implicit: why ∠CBE = 180° − α − β, the use of Euclid I.20 for the contradiction, and the Archimedean axiom that guarantees n exists.",
+   "The argument tacitly assumes lines are infinitely extendable and that Euclid I.16/I.24 hold, i.e. it excludes elliptic geometry. This is standard for the Saccheri–Legendre theorem and is signalled by 'in infin.'.",
+   "'Ebenso EG = CE' is phrased as if parallel to the inequality CE < AB. In fact it is a congruence equality, not another application of I.24. This is a matter of wording only.",
+   "Counting convention: 'n-malige Wiederholung' means n copies added to the original triangle (n+1 triangles in total). With that reading the bound AC + CB − AB < n(AB − CE) is exact."
+  ],
+  "results": [
+   {
+    "what": "In absolute (neutral) geometry the angle sum of a triangle is at most 180°. Proof by laying copies of the triangle along a line, applying Euclid I.24 to get CE < AB, and comparing the straight base with the broken line through the apexes, with an explicit bound on the number of repetitions needed.",
+    "modern_name": "Saccheri–Legendre theorem (Legendre's 'chain of triangles' proof)",
+    "usually_credited_to": "G. Saccheri (1733); A.-M. Legendre, Éléments de géométrie (1794 and later editions), whose chain-of-triangles proof is essentially this one",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Explicit sufficient number of repetitions: n with AC + CB − AB < n(AB − CE).",
+    "modern_name": "Archimedean step / quantitative form of the Legendre argument",
+    "usually_credited_to": "Implicit in Legendre",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the well-known Saccheri–Legendre theorem, proved essentially as Legendre published it. Gauss's familiarity with it, and with neutral geometry by 1828, is thoroughly documented. A note of this kind may well be printed among his foundations-of-geometry papers in Werke VIII, but I cannot confirm that. The dated record is of mild biographical interest only.",
+  "checkable": [
+   {
+    "sympy": "Eq(pi - (pi - alpha - beta), alpha + beta)",
+    "asserts": "∠CBE = π − α − β, since ∠ABC + ∠CBE + ∠EBD = π with ∠EBD = α, ∠ABC = β (tautological check of the angle bookkeeping)."
+   },
+   {
+    "sympy": "simplify((gamma > pi - alpha - beta) == (alpha + beta + gamma > pi))",
+    "asserts": "The hypothesis A+B+C > 180° is equivalent to ∠CBE < ∠ACB."
+   },
+   {
+    "sympy": "simplify((a**2 + b**2 - 2*a*b*cos(gamma)) - (a**2 + b**2 - 2*a*b*cos(theta)) - 2*a*b*(cos(theta) - cos(gamma)))",
+    "asserts": "Euclidean illustration of I.24: AB^2 − CE^2 = 2ab(cos θ − cos γ), which is positive when 0 < θ < γ < π. So CE < AB (θ = ∠CBE)."
+   },
+   {
+    "sympy": "simplify((b + n*e + a) - (n + 1)*c - ((a + b - c) - n*(c - e)))",
+    "asserts": "Broken line minus straight line equals (a+b−c) − n(c−e), with e = CE. This is 0, confirming the bookkeeping."
+   },
+   {
+    "sympy": "solve((a + b - c) - n*(c - e) < 0, n)",
+    "asserts": "For c > e, the broken line is shorter than the straight line once n > (a+b−c)/(c−e). This is Gauss's criterion."
+   }
+  ],
+  "transcription_corrections": [
+   "The pencil note at top right is barely legible. '[Schweikart als …]' is uncertain and probably an archivist's or editor's annotation, not Gauss's text.",
+   "Reading '(Eucl. I. 24)' for the abbreviation written 'Ü.I.24' / 'E.I.24' is correct: it is Euclid Elements I.24.",
+   "The rest of the transcription agrees with the image: 'in infin.', 'per hyp.', 'Eine n malige Wiederholung reicht hin', '(gefunden. 1828 Nov. 18)'."
+  ]
+ }
+}

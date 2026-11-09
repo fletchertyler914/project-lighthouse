@@ -1,0 +1,71 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c014",
+ "label": "9",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000015/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: section II of a set of notes ('Litt. B'). Section I (art. 1-9) dealt with multiple-angle series. Section II takes up the summation of the 'Euler–Lagrange interpolation sum'.\n\nSetup (art. 10). Let a_1=a, a_2=b, a_3=c, ... be m distinct indeterminates. Define\n  S^n := sum_{i=1}^m a_i^n / prod_{j!=i} (a_i - a_j).\nHere S^n is a label, not a power. Let\n  f(x) = prod_i (x - a_i) = x^m - A x^{m-1} + B x^{m-2} - C x^{m-3} + ... ± L x ∓ M.\nThe upper signs hold for odd m and the lower for even m. So A=e_1, B=e_2, ..., L=e_{m-1}, M=e_m are the elementary symmetric functions, m of them, as Gauss notes.\n\nClaim (art. 10). The S^n satisfy a linear recurrence with the coefficients of f. The reason given: every root satisfies\n  a_i^n - A a_i^{n-1} + B a_i^{n-2} - ... = 0.\n[My fill-in: this is a_i^{n-m} f(a_i) = 0, valid for n >= m. Divide the i-th equation by prod_{j!=i}(a_i-a_j) and add.] The result is\n  S^n - A S^{n-1} + B S^{n-2} - C S^{n-3} + ... ∓ M S^{n-m} = 0  (n >= m).\nThe page writes this line with all '+' signs; see errors.\n\nTheorem (art. 11). For every integer n with 0 <= n < m-1 (n=0 added in a marginal insertion), S^n = 0.\n\nProof (begun here, finished on the next page).\n- The denominators contain m(m-1) differences a_i - a_j.\n- These pair off as opposites, leaving m(m-1)/2 distinct differences for indeterminate a_i.\n- Let P = prod_{i<j}(a_i - a_j), the Vandermonde product, of degree m(m-1)/2.\n- Next page: put 𝔄_i = P / prod_{j!=i}(a_i - a_j). These are polynomials of degree (m-1)(m-2)/2.\n- Then Q := P S^n = sum_i 𝔄_i a_i^n is a polynomial of degree (m-1)(m-2)/2 + n. Since n < m-1, this is less than m(m-1)/2.\n- Q is divisible by each a_i - a_j. Hence it is divisible by P, so Q = 0 and S^n = 0. This last step is my completion of the evident plan.\n\nConsequences (mine, not on this page). Together with S^{m-1} = 1, the corrected recurrence gives S^{m-1+k} = h_k(a_1,...,a_m), the complete homogeneous symmetric polynomial. Equivalently, S^n is the divided difference x^n[a_1,...,a_m].",
+  "errors": [
+   "Sign slip in the recurrence line ('Hiedurch wird S^n + A S^{n-1} + B S^{n-2} + C S^{n-3} + D S^{n-4} + etc. = 0'). Summing the displayed root relations a^n - A a^{n-1} + B a^{n-2} - ... = 0 gives alternating signs: S^n - A S^{n-1} + B S^{n-2} - C S^{n-3} + ... = 0. The heavy ink blots before A, C, ... in the polynomial and root lines look like '+' overwritten into '-'. The same correction was evidently not made in the S-line. (Alternatively the line is right only if A, B, C, ... are the signed coefficients.)",
+   "Unstated range: the root relations a^n - A a^{n-1} + ... = 0 hold only when they are read as a^{n-m} f(a) = 0, i.e. n >= m with terms ending at ∓M a^{n-m}. For smaller n the truncated expression is not zero. The page leaves this implicit.",
+   "No error in the theorem itself. The bound n < m-1 is sharp, since S^{m-1} = 1."
+  ],
+  "results": [
+   {
+    "what": "sum_i a_i^n / prod_{j!=i}(a_i-a_j) = 0 for 0 <= n <= m-2, proved via the Vandermonde product and a degree/divisibility argument",
+    "modern_name": "Euler's identity / vanishing of divided differences of low-degree monomials (Lagrange interpolation identity)",
+    "usually_credited_to": "Euler (Institutiones calculi integralis, c. 1768, and correspondence); also Lagrange; later Jacobi/Cauchy in the alternant setting",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Linear recurrence for S^n with the elementary symmetric coefficients of prod(x-a_i), derived from a_i^{n-m} f(a_i) = 0",
+    "modern_name": "Newton-type recurrence for the complete homogeneous symmetric polynomials h_k = S^{m-1+k}",
+    "usually_credited_to": "Classical (Newton/Euler/Lagrange era)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Proof technique: the antisymmetric numerator P*S^n has degree below that of the Vandermonde P yet is divisible by every a_i-a_j, hence vanishes",
+    "modern_name": "Vandermonde/alternant divisibility argument",
+    "usually_credited_to": "Cauchy (1815) for alternants; Vandermonde (1772)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are classical identities due to Euler and Lagrange, here given a clean Vandermonde-divisibility proof. Gauss used such sums, e.g. in quadrature and interpolation work, and the editor's pencil cross-reference to Werke III p. 265 suggests related material appears in print. Nothing here would surprise a specialist.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); S=lambda n: a**n/((a-b)*(a-c)*(a-d))+b**n/((b-a)*(b-c)*(b-d))+c**n/((c-a)*(c-b)*(c-d))+d**n/((d-a)*(d-b)*(d-c)); [simplify(S(k)) for k in range(3)] == [0,0,0]",
+    "asserts": "Theorem 11 for m=4: S^0=S^1=S^2=0"
+   },
+   {
+    "sympy": "simplify(S(3)) == 1",
+    "asserts": "Boundary case n=m-1 gives 1, so the bound n<m-1 is sharp"
+   },
+   {
+    "sympy": "e1=a+b+c+d; e2=a*b+a*c+a*d+b*c+b*d+c*d; e3=a*b*c+a*b*d+a*c*d+b*c*d; e4=a*b*c*d; simplify(S(5)-e1*S(4)+e2*S(3)-e3*S(2)+e4*S(1)) == 0",
+    "asserts": "Corrected (alternating-sign) recurrence of art. 10 for m=4, n=5"
+   },
+   {
+    "sympy": "simplify(S(5)+e1*S(4)+e2*S(3)+e3*S(2)+e4*S(1)) != 0",
+    "asserts": "The all-plus recurrence as written on the page fails"
+   },
+   {
+    "sympy": "expand((x-a)*(x-b)*(x-c)) == x**3-(a+b+c)*x**2+(a*b+a*c+b*c)*x-a*b*c",
+    "asserts": "Sign convention ±Lx ∓M: for odd m=3 the x-term is +L and the constant is -M"
+   },
+   {
+    "sympy": "simplify(S(4)-(a+b+c+d)) == 0",
+    "asserts": "S^{m} = h_1 = sum of the a_i (consequence of the recurrence)"
+   }
+  ],
+  "transcription_corrections": [
+   "The recurrence line reads 'S^n + AS^{n-1} + BS^{n-2} + CS^{n-3} + DS^{n-4} + etc. = 0' in the image. The page does carry the all-plus signs (which are mathematically wrong); this is not a transcription error, but note the inconsistency with the minus signs (dark overwritten blots) in the lines above and below.",
+   "In the polynomial line, the signs before C x^{m-3} and before 'etc.' are heavy ink blots = '-'. The leading sign after x^m is also a corrected '-'.",
+   "Header: the top-left date fragment is uncertain ('18?0 Mo-nath'). The next page header '18. Nov. ... Monath' suggests a date entry ('18. ... Monath'). The pencil note reads 'Vergl. III S. 265. Schl.' (likely an editor's cross-reference to Gauss Werke vol. III, p. 265, probably Schlesinger)."
+  ]
+ }
+}

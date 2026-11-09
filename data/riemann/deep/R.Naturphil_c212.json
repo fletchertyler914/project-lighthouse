@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c212",
+ "label": "107r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000213/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This page belongs to Riemann's natural-philosophy fragment on gravitation as a motion of a space-filling substance (the ether). It is the section 'a. Bewegung, welche die Gravitationserscheinungen hervorruft' of the piece printed in the Nachlass part of the Werke (Weber–Dedekind) under 'Neue mathematische Principien der Naturphilosophie' / 'Gravitation und Licht'.\n\nSet-up from the previous page.\n- The substance has constant density 1.\n- Its velocity splits as v = u + w, where u is the part responsible for gravity.\n- Gravity is grad V. The potential V is fixed up to a constant by ΔV, with ΔV dx1 dx2 dx3 = -4π dm, plus Dirichlet or Neumann data on the boundary.\n- When ΔV vanishes outside a bounded region, the boundary condition can be replaced by the decay condition R·∂V/∂x_i → 0 as R → ∞.\n- The hypothesis is u = grad V. This gives (1) curl u = 0 and (2) div u dx1 dx2 dx3 = -4π dm.\n\nThis page: the converse statement. If u satisfies (1) and (2), then u equals the gravitational force components, provided one of two conditions holds:\n- (a) ponderable bodies lie only in a finite part of space, and R u1, R u2, R u3 → 0 as R → ∞; or\n- (b) on the boundary of the region considered, the velocity components are known to equal the gravity components.\n\nProof as given.\n1. Condition (1) is the integrability condition for the Pfaffian form u1 dx1 + u2 dx2 + u3 dx3. Hence there is a function U with dU = u1 dx1 + u2 dx2 + u3 dx3, i.e. ∂U/∂x_i = u_i.\n2. (Filled in by me.) Condition (2) then reads ΔU dx = -4π dm, the same equation that V satisfies.\n3. (Filled in by me.) The boundary conditions match. In case (a) the decay of R·grad U is exactly the decay condition used for V. In case (b), grad U = grad V on the boundary, so the normal derivatives agree, which is the Neumann data.\n4. By the uniqueness theorem stated on the previous page, U = V + const. Hence u = grad V, the gravitational force.\n\nIn modern terms: a curl-free field with prescribed divergence and prescribed boundary or decay behaviour is a gradient, and it is uniquely determined. This is the uniqueness part of the Helmholtz decomposition.",
+  "errors": [
+   "Step 1 (curl u = 0 implies a global potential U) silently assumes the region is simply connected. In a multiply connected region U could be many-valued. For all of space minus nothing this is harmless.",
+   "Condition (b) asks that all velocity components equal the gravity components on the boundary. Uniqueness only needs the normal component (Neumann data), so the condition is stronger than necessary, but not wrong.",
+   "The uniqueness theorem invoked from the previous page is stated without proof (it is Green's theorem / Dirichlet principle material); it is not an error in the argument, only an omitted justification. Regularity assumptions (no surface discontinuities) are carried over from the previous page.",
+   "In case (a) the decay condition R u_i → 0 gives uniqueness only up to a constant in U. That is all that is claimed, so this is consistent."
+  ],
+  "results": [
+   {
+    "what": "A curl-free vector field derives from a potential: dU = u·dx exists when the integrability conditions (1) hold.",
+    "modern_name": "Poincaré lemma / closed 1-form is exact on a simply connected domain",
+    "usually_credited_to": "Classical (Euler, Clairaut integrability conditions); 18th century",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "A field u with curl u = 0, div u = -4πρ, and either decay at infinity or prescribed boundary values equals grad V, the gravitational field.",
+    "modern_name": "Uniqueness for the div–curl system (uniqueness part of the Helmholtz decomposition) via uniqueness for the Poisson equation",
+    "usually_credited_to": "Green (1828), Gauss (1840), Helmholtz (1858) for the decomposition; Stokes (1849)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Ether-flow model of gravitation: the gravitational force is identified with the velocity field u of the space-filling substance.",
+    "modern_name": "Riemann's ether-flow (sink) model of gravity",
+    "usually_credited_to": "Riemann (Nachlass fragment 'Gravitation und Licht', printed in the Werke 1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is part of Riemann's known and published natural-philosophy fragment (Werke, Nachlass). The mathematics is a routine converse argument: curl-free means a potential exists, and uniqueness for the Poisson equation does the rest.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; x1,x2,x3=symbols('x1 x2 x3'); V=Function('V')(x1,x2,x3); u=[diff(V,v) for v in (x1,x2,x3)]; simplify(diff(u[1],x3)-diff(u[2],x2))",
+    "asserts": "The first component of curl(grad V) vanishes; this is condition (1) for u = grad V."
+   },
+   {
+    "sympy": "from sympy import *; x1,x2,x3=symbols('x1 x2 x3'); r=sqrt(x1**2+x2**2+x3**2); V=1/r; simplify(diff(V,x1,2)+diff(V,x2,2)+diff(V,x3,2))",
+    "asserts": "The potential of a point mass is harmonic outside the mass, i.e. div u = 0 away from ponderable bodies."
+   },
+   {
+    "sympy": "from sympy import *; x1,x2,x3,R=symbols('x1 x2 x3 R',positive=True); r=sqrt(x1**2+x2**2+x3**2); u1=diff(1/r,x1); limit((R*u1).subs({x1:R,x2:0,x3:0}),R,oo)",
+    "asserts": "R·u_i → 0 as R → ∞ for the field of a bounded mass distribution (the decay condition in case (a)); the limit is 0."
+   },
+   {
+    "sympy": "from sympy import *; x,y,z=symbols('x y z'); U=x**2-y**2; simplify(diff(U,x,2)+diff(U,y,2)+diff(U,z,2))",
+    "asserts": "A nonconstant harmonic function exists. Uniqueness therefore really needs boundary or decay conditions: grad U is unbounded and violates R·u_i → 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 should read approximately 'entweder nur in einem endlichen Stücke des Raumes ponderable Körper vorhanden sind, wenn [or 'deren'] R u1, R u2, R u3 für R=∞ unendlich klein sind'. The final word of the line is 'ponderable' (hyphenated), not 'von Null verschiedene Werthe'.",
+   "Line 2: the word read as 'haben [?]' is 'Körper'; the phrase continues with 'vorhanden sind', so the inserted 'haben' is spurious.",
+   "'wo dann bekannt ist die Geschwindigkeitscomponenten gleich den Schwerkraftscomponenten sind': the doubtful '[?]' after 'Schwerkraftscomponenten' is not needed.",
+   "'u. also die Differential.' is an abbreviation of 'Differentialquotienten': '∂U/∂x = u'."
+  ]
+ }
+}

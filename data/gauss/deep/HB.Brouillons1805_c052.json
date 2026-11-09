@@ -1,0 +1,72 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c052",
+ "label": "47",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000053/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "WHAT THE TABLE IS (my identification, checked numerically). The page is a single 10-decimal table with argument h = 0.000, 0.004, ..., 0.600 (written as 0, 4, ..., 600 in thousandths). The tabulated quantity is log10(y^2), written in units of 10^-10, where y is the root near 1 of Gauss's equation from the problem of the ratio of sector to triangle (Theoria Motus, arts. 88-93):\n\n(y - 1)*y^2 = h*(y + 1/9), i.e. y^3 - y^2 - h*y - h/9 = 0.\n\nThis cubic is the form the sector-triangle equation takes when the small correction xi is neglected. It links to the previous page as follows. Setting u = h/y^2 and alpha*u^2 = 1/y turns the cubic exactly into the previous page's equation 1 - u = (1/9)*alpha*u^2*(9 + u). The bracket there presumably read u = h/yy rather than u = h.\n\nNUMERICAL CHECKS (mine).\n- For small h the cubic gives y ≈ 1 + (10/9)h, so d(log10 y^2)/dh at 0 is 2*(10/9)/ln 10 ≈ 0.9651. The table agrees: first difference 0.0038332329 plus half the second difference 0.0000531950 gives a slope at 0 of about 0.0038598/0.004 ≈ 0.9650.\n- h = 0.2: y ≈ 1.18468, log10(y^2) ≈ 0.14719. Table: 1471869184.\n- h = 0.6: y ≈ 1.44664, log10(y^2) ≈ 0.32073. Table: 3207073742.\n\nThis is the 10-place working computation behind Table II of Theoria Motus (1809). There the published table gives log yy to 7 places for h from 0 to 0.6.\n\nLAYOUT AND METHOD. The page has three blocks: 0.000-0.200, 0.200-0.400 and 0.400-0.600. Each value is followed by its first, second, third and fourth differences, the fourth carried only partly. This is the standard way of checking a computed table: the differences must run smoothly. Spot checks I made:\n- 76132708 - 38332329 = 37800379 (first difference).\n- 38332329 - 37800379 = 531950; 531950 - 515635 = 16315 (second and third differences).\n- 1494940288 - 1471869184 = 23071104; 2472577768 - 2455716296 = 16861472.\n\nThe ink blots and overwritten digits (near h = 0.236-0.240, 0.472-0.480, 0.596) show Gauss correcting values where the differences exposed irregularities.\n\nThe headings 'Ao Monat', 'Litt.' and 'Fo' are printed ledger column heads (Anno, Monat, Littera, Folio) of the reused account-book paper. They are not mathematical. The figures in the far left margin are bleed-through or neighbouring-page material from the previous page's table.",
+  "errors": [
+   "At h=0.236 the value 1673487601 (as transcribed) gives irregular differences: second differences 155214, 152814, 150507 and third differences 2436, 2400, 2307. The value 1673487607 makes everything smooth: second differences 155208, 152826, 150501; third 2382, 2325, 2272; fourth 60, 57, 53. The written second difference 155208 and the blotted digit fit 607. The neighbouring written second difference '150491' should probably be 150501.",
+   "Around h=0.476 the entry 2761928859 does not match the written first difference 15342868 (2777271717 - 2761928859 = 15342858). The value 2761928849 fits the written differences 15342868 and 71842 better. The digit is overwritten in the manuscript and remains uncertain.",
+   "At h=0.596 the value must be 3193612462, not ...492. Only then do the written first differences 13516035 and 13461280 and the second differences 55234, 54755, 54282 agree. The corrected value is 3207073742 - 13461280 = 3193612462. Probably a transcription misreading rather than Gauss's error.",
+   "The small irregularities in third differences near h = 0.47-0.48 (744, 731, 720) are within the rounding of the last digit. They are not substantive errors."
+  ],
+  "results": [
+   {
+    "what": "10-decimal table of log10(y^2) for h = 0..0.6 (step 0.004), where y^3 - y^2 - h*y - h/9 = 0. This is the auxiliary table for the ratio of sector to triangle in orbit determination from two radii vectores.",
+    "modern_name": "Gauss's sector-to-triangle ratio table (Theoria Motus Table II, log yy vs h); Gauss's method for the Lambert-type two-position problem",
+    "usually_credited_to": "Gauss, Theoria Motus (1809), arts. 88-93 and Table II",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Checking the table by running differences up to fourth order",
+    "modern_name": "difference-table verification of mathematical tables",
+    "usually_credited_to": "standard tabulation practice (Briggs onward)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the working computation (1805/06) of the table later printed as Table II in Theoria Motus. It is of interest for dating and for showing Gauss's 10-place difference checking, but the result itself is known and credited to him.",
+  "checkable": [
+   {
+    "sympy": "y=symbols('y'); r=nsolve(y**3-y**2-Rational(1,5)*y-Rational(1,5)/9, y, 1.2); N(log(r**2,10),12)",
+    "asserts": "≈ 0.1471869184 (table value at h=0.200)"
+   },
+   {
+    "sympy": "y=symbols('y'); r=nsolve(y**3-y**2-Rational(2,5)*y-Rational(2,5)/9, y, 1.3); N(log(r**2,10),12)",
+    "asserts": "≈ 0.2455716296 (table value at h=0.400)"
+   },
+   {
+    "sympy": "y=symbols('y'); r=nsolve(y**3-y**2-Rational(3,5)*y-Rational(3,5)/9, y, 1.45); N(log(r**2,10),12)",
+    "asserts": "≈ 0.3207073742 (table value at h=0.600)"
+   },
+   {
+    "sympy": "y=symbols('y'); r=nsolve(y**3-y**2-Rational(1,250)*y-Rational(1,250)/9, y, 1.0); N(log(r**2,10),12)",
+    "asserts": "≈ 0.0038332329 (table value at h=0.004)"
+   },
+   {
+    "sympy": "y=symbols('y'); r=nsolve(y**3-y**2-Rational(59,250)*y-Rational(59,250)/9, y, 1.2); N(log(r**2,10),12)",
+    "asserts": "decides between 0.1673487601 and 0.1673487607 at h=0.236 (smoothness argues for ...607)"
+   },
+   {
+    "sympy": "y=symbols('y'); r=nsolve(y**3-y**2-Rational(149,250)*y-Rational(149,250)/9, y, 1.45); N(log(r**2,10),12)",
+    "asserts": "≈ 0.3193612462 at h=0.596"
+   },
+   {
+    "sympy": "u,a,yy,h=symbols('u a yy h'); simplify((1-u-a*u**2*(9+u)/9).subs({u:h/yy**2, a:yy**3/h**2})*9*yy**3 - (-(9*yy+1)*h + 9*yy**3 - 9*yy**2))",
+    "asserts": "== 0: with u = h/y^2 and alpha = 1/(y u^2), the previous page's equation is equivalent to the cubic y^3 - y^2 - h y - h/9 = 0"
+   }
+  ],
+  "transcription_corrections": [
+   "Headings 'Ae Mo-nat', 'Litt. F' are printed ledger column heads 'Ao Monat', 'Litt.', 'Fo' (Anno, Monat, Littera, Folio). They are not mathematical.",
+   "h=0.596: value should read 3193612.462 (not .492). This is consistent with the written differences 13516035 and 13461280.",
+   "h=0.600 first difference: '13461 280' is correct; the difference list is consistent with 3193612462.",
+   "h=0.604 partially written value is 3220480 740 (= 3207073742 + 13406998).",
+   "h=0.236 value is overwritten; the most likely reading or intended value is 1673487 607 (not 601).",
+   "The stray marginal figures at the far left (0,536, 0,70918 ..., 8,77492 ..., 9,70151 ...) belong to the previous page's table, not this one."
+  ]
+ }
+}

@@ -1,0 +1,82 @@
+{
+ "bundle": "Math.16",
+ "page": "c000",
+ "label": "1r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376639:00000001/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a table header page. Notation: p is an odd prime modulus. The letters x, y, z, x', x'', x''' range over all residues 0..p-1. The letters t, u range over the nonzero residues 1..p-1. R is a fixed quadratic residue and N a fixed non-residue. Where an entry has two values, the first is for p≡1 and the second for p≡3 (mod 4). The table gives the number of solutions of each congruence.\n\nModern frame (mine): let chi be the Legendre symbol mod p.\n\n(a) Binary case. The number of (x,y) with x^2 - a y^2 ≡ 0 is 1 + (p-1)(1+chi(a)). For c≢0, the number of (x,y) with x^2 - a y^2 ≡ c is p - chi(a).\n- xx≡0: 1.\n- xx+yy≡0: 2p-1 when -1 is a residue (p≡1), else 1.\n- xx-yy≡0: 2p-1.\n- xx+yy+R≡0 and xx+yy+N≡0: p-chi(-1), giving p-1 or p+1 in both cases.\n- xx-yy±R/N≡0: p-chi(1) = p-1.\n\n(b) Restricting to t,u ≠ 0 (inclusion–exclusion, my step). Subtract the solutions with x=0 or y=0. Each such axis contributes 1+chi(·) solutions.\n- tt+uu+R: x=0 gives u^2≡-R and t=0 gives t^2≡-R, each with 1+chi(-R) solutions. So the count is p-chi(-1)-2(1+chi(-R)): p-5 for p≡1, p+1 for p≡3.\n- tt+uu+N: subtract 2(1+chi(-N)), giving p-1 or p-3.\n- tt+uu≡0: 2(p-1) = 2p-2 or 0.\n- tt-uu+R (t^2-u^2≡-R): subtract (1+chi(R)) + (1+chi(-R)), giving p-5 or p-3.\n- tt-uu+N: subtract (1+chi(N)) + (1+chi(-N)), giving p-1 or p-3.\n- tt-uu≡0: 2p-2.\n\n(c) Ternary and quaternary diagonal forms. These match the standard counts for a nondegenerate form Q in n variables with determinant D.\n- n odd, Q=0: p^{n-1}. Hence xx+yy±zz≡0 has pp solutions.\n- n=3, Q=c≠0: p^2 + p·chi(-cD).\n  - Sum of three squares with c=-R: chi(R)=1, giving pp+p.\n  - Sum of three squares with c=-N: giving pp-p.\n  - xx+yy-zz (D=-1): chi(-R·1)... more precisely chi(-c·D)=chi(-1)chi(R) for c=-R, giving pp+p or pp-p. With N the values swap: pp-p or pp+p.\n- n=4, Q=0: p^3 + chi(D)(p^2-p).\n  - Four squares (D=1): p^3+pp-p for all p.\n  - xx+x'x'+x''x''-x'''x''' (D=-1): chi(-1) gives p^3+pp-p or p^3-pp+p.\n\nThe page states results only, without derivations. It is evidently preparatory material, perhaps for the Lagrange-type four-square / descent reasoning begun on the next page, or for counting arguments in quadratic or biquadratic residue theory.",
+  "errors": [
+   "No mathematical errors found: every entry checks against the standard formulas and brute force for small primes.",
+   "Expository nit: the header says the double entries distinguish p≡1 and p≡3 (mod 4), but entries independent of p mod 4 are given only once. That is consistent, not an error."
+  ],
+  "results": [
+   {
+    "what": "Number of solutions of x^2+y^2≡c and x^2-y^2≡c mod p (c=0 and c≠0), depending on chi(-1)",
+    "modern_name": "Point counts on conics over F_p / Jacobsthal-type character sums",
+    "usually_credited_to": "Classical; implicit in Gauss, Disquisitiones (1801) art. 358 and in his work on biquadratic residues (1828, cyclotomic numbers (00),(01)...); Lebesgue 1837",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Counts with variables restricted to nonzero residues (tt+uu+R etc.), via inclusion–exclusion",
+    "modern_name": "Cyclotomic numbers of order 2 (counts of consecutive residue/non-residue patterns)",
+    "usually_credited_to": "Gauss (cyclotomy, Theoria residuorum biquadraticorum 1828)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Number of solutions of diagonal ternary and quaternary quadratic congruences: p^2, p^2±p, p^3±(p^2-p)",
+    "modern_name": "Number of points on quadrics over F_p (Lebesgue–Jordan formula for a1x1^2+...+anxn^2=b)",
+    "usually_credited_to": "V.-A. Lebesgue (1837/38), C. Jordan (1866); later Minkowski, Dickson",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "All counts are correct and elementary; the binary ones are well-known Gaussian material. The ternary and quaternary counts are special cases of the general formula published by Lebesgue (1837). Gauss having these few explicit cases undated is a minor documented detail, not a priority claim of significance.",
+  "checkable": [
+   {
+    "sympy": "all(len([1 for x in range(p) for y in range(p) if (x*x+y*y)%p==0])==(2*p-1 if p%4==1 else 1) for p in [5,7,11,13,17,19])",
+    "asserts": "xx+yy≡0 has 2p-1 or 1 solutions"
+   },
+   {
+    "sympy": "all(len([1 for t in range(1,p) for u in range(1,p) if (t*t+u*u+R)%p==0])==(p-5 if p%4==1 else p+1) for p in [5,7,11,13,17,19] for R in [r for r in range(1,p) if pow(r,(p-1)//2,p)==1])",
+    "asserts": "tt+uu+R≡0 has p-5 or p+1 solutions"
+   },
+   {
+    "sympy": "all(len([1 for t in range(1,p) for u in range(1,p) if (t*t+u*u+N)%p==0])==(p-1 if p%4==1 else p-3) for p in [5,7,11,13,17,19] for N in [r for r in range(1,p) if pow(r,(p-1)//2,p)==p-1])",
+    "asserts": "tt+uu+N≡0 has p-1 or p-3 solutions"
+   },
+   {
+    "sympy": "all(len([1 for t in range(1,p) for u in range(1,p) if (t*t-u*u+R)%p==0])==(p-5 if p%4==1 else p-3) for p in [5,7,11,13,17,19] for R in [r for r in range(1,p) if pow(r,(p-1)//2,p)==1])",
+    "asserts": "tt-uu+R≡0 has p-5 or p-3 solutions"
+   },
+   {
+    "sympy": "all(len([1 for t in range(1,p) for u in range(1,p) if (t*t-u*u+N)%p==0])==(p-1 if p%4==1 else p-3) for p in [5,7,11,13,17,19] for N in [r for r in range(1,p) if pow(r,(p-1)//2,p)==p-1])",
+    "asserts": "tt-uu+N≡0 has p-1 or p-3 solutions"
+   },
+   {
+    "sympy": "all(len([1 for x in range(p) for y in range(p) for z in range(p) if (x*x+y*y+z*z+R)%p==0])==p**2+p for p in [5,7,11,13] for R in [r for r in range(1,p) if pow(r,(p-1)//2,p)==1])",
+    "asserts": "xx+yy+zz+R≡0 has pp+p solutions"
+   },
+   {
+    "sympy": "all(len([1 for x in range(p) for y in range(p) for z in range(p) if (x*x+y*y-z*z+N)%p==0])==(p**2-p if p%4==1 else p**2+p) for p in [5,7,11,13] for N in [r for r in range(1,p) if pow(r,(p-1)//2,p)==p-1])",
+    "asserts": "xx+yy-zz+N≡0 has pp-p or pp+p solutions"
+   },
+   {
+    "sympy": "all(len([1 for a in range(p) for b in range(p) for c in range(p) for d in range(p) if (a*a+b*b+c*c+d*d)%p==0])==p**3+p**2-p for p in [3,5,7,11])",
+    "asserts": "sum of four squares ≡0 has p^3+p^2-p solutions"
+   },
+   {
+    "sympy": "all(len([1 for a in range(p) for b in range(p) for c in range(p) for d in range(p) if (a*a+b*b+c*c-d*d)%p==0])==(p**3+p**2-p if p%4==1 else p**3-p**2+p) for p in [3,5,7,11])",
+    "asserts": "xx+x'x'+x''x''-x'''x'''≡0 has p^3±(p^2-p) solutions"
+   }
+  ],
+  "transcription_corrections": [
+   "Third-from-last block: 'xx+yy•zz+R' in the image is 'xx+yy−zz+R'; the minus sign is blotted.",
+   "In the quaternary line, the second value p^3−pp+p was corrected in place: the sign before p was overwritten to '+'. The transcription's p^3−pp+p is right.",
+   "'einen bestimmte Quadratischen Rest' is Gauss's own wording (sic: einen bestimmten quadratischen Rest)."
+  ]
+ }
+}

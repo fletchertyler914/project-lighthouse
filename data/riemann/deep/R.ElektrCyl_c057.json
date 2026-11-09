@@ -1,0 +1,70 @@
+{
+ "bundle": "R.ElektrCyl",
+ "page": "c057",
+ "label": "27v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173043:00000058/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Riemann reduces the problem of potentials on parallel cylinders (2D Dirichlet problem in a plane domain S with n boundary curves) to finding a conformal map. On the previous page, zeta = zeta(z) is real on all boundary curves of S, has one simple pole on each boundary curve, and is otherwise finite. It takes every value of the upper half-plane exactly n times in S. So zeta maps S onto an n-sheeted surface T over the upper half zeta-plane.\n\n(1) Boundary and branch points of T. T is bounded by n lines lying over the real zeta-axis. S and T must have the same connectivity (n-fold connected). Hence T has 2n-2 simple interior branch points. [My check via Euler characteristic/Riemann–Hurwitz: chi(S) = 2-n. chi(T) = n*chi(half-plane) - w = n - w. Setting these equal gives w = 2n-2.] Riemann cites Theorie der Abelschen Functionen, Art. 7.\n\n(2) Reduced problem. Find a function on T whose real part u takes prescribed values on the n boundary lines of T.\n\n(3) Green's function representation. Suppose one knows a function varpi = psi + i g on T with these properties:\n- it is logarithmically infinite at an arbitrary interior point epsilon;\n- its imaginary part g is continuous in T except at epsilon;\n- g vanishes on the boundary of T.\nThen Green's theorem (Grundlagen, Art. 10) gives u_epsilon = -(1/(2 pi)) * Integral of u * (dg/d eta) d xi, taken over the n boundary lines. These lie on the real axis, so ds = d xi and d/d eta is the normal derivative. [Sign check, mine: take g ~ +log|zeta-epsilon| near epsilon, i.e. g = -G with G the positive Green function. In the one-sheeted half-plane case, g = log|zeta-epsilon| - log|zeta-conj(epsilon)| reproduces the Poisson kernel exactly.]\n\n(4) Construction of g by reflection. Extend T to the lower half-plane by adding the mirror image of T. This gives a closed surface covering the whole zeta-sphere n times, with 2*(2n-2) = 4n-4 simple branch points. It therefore belongs to a class of algebraic functions of genus p = n-1. [Mine: 2-2p = 2n - (4n-4).] This is the Schottky double.\n\n(5) Identifying g. g is the coefficient of i (the imaginary part) of an abelian integral of the third kind with logarithmic singularities at epsilon and at its mirror point epsilon'. All its periodicity moduli are real. [Mine: such an integral exists and is unique up to an additive constant. Start from any third-kind integral and add a combination of the p first-kind integrals; the 2p real coefficients can be chosen to make all 2p periods real. Solvability follows from the Riemann bilinear relations. Reality of the periods makes g single-valued. Reflection symmetry plus uniqueness force g to vanish on the fixed curves (the boundary of T).]\n\nConclusion: the Dirichlet problem is solved once the map zeta(z) is found. The next page treats this for circular boundaries via repeated inversion.",
+  "errors": [
+   "No mathematical errors. The branch-point count 2n-2, the doubled count 4n-4 and genus p = n-1 are all correct.",
+   "The step 'g vanishes on the boundary' for the integral with real periods relies on the reflection symmetry and uniqueness. Riemann leaves this implicit.",
+   "The sign in u_epsilon = -(1/(2 pi)) Integral u (dg/d eta) d xi presupposes the normalization g ~ +log|zeta-epsilon| at epsilon. This is consistent but not stated explicitly.",
+   "On a multi-sheeted T the orientation and normal direction on the boundary lines need care; the formula is stated without that discussion."
+  ],
+  "results": [
+   {
+    "what": "Conformal map of an n-connected plane domain onto an n-sheeted surface over the half-plane, with 2n-2 branch points",
+    "modern_name": "Riemann–Hurwitz count for a proper holomorphic map of degree n (Ahlfors/Grunsky-type circular-slit or half-plane map)",
+    "usually_credited_to": "Riemann (count); existence of such maps: Riemann/Schottky, later Ahlfors (1950) for degree-n proper maps",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Representation of the Dirichlet solution via the normal derivative of the Green function",
+    "modern_name": "Green's representation formula / Poisson integral",
+    "usually_credited_to": "Green (1828), Riemann Grundlagen (1851)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Doubling the bordered surface by reflection into a closed surface of genus n-1; Green function as the imaginary part of a third-kind abelian integral with poles at epsilon and its mirror point, with all periods real",
+    "modern_name": "Schottky double; Green's function via normalized abelian differential of the third kind with real periods",
+    "usually_credited_to": "Schottky (1877), Klein (1882); this Riemann paper is known as a precursor",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a copy, by H. Weber, of Riemann's fragment 'Gleichgewicht der Electricität auf Cylindern mit kreisförmigem Querschnitt und parallelen Axen'. It was published in Riemann's Gesammelte Werke (1876) and is known as an anticipation of the Schottky double and of Schottky groups. The content on this page is therefore already attributed to Riemann.",
+  "checkable": [
+   {
+    "sympy": "n,w=symbols('n w'); solve(Eq(2-n, n*1 - w), w)",
+    "asserts": "Euler characteristic count gives w = 2n-2 branch points of T"
+   },
+   {
+    "sympy": "n,p=symbols('n p'); solve(Eq(2-2*p, 2*n - (4*n-4)), p)",
+    "asserts": "Doubled n-sheeted sphere cover with 4n-4 simple branch points has genus p = n-1"
+   },
+   {
+    "sympy": "xi,eta,a=symbols('xi eta a',real=True); b=symbols('b',positive=True); g=log(sqrt((xi-a)**2+(eta-b)**2))-log(sqrt((xi-a)**2+(eta+b)**2)); simplify(-diff(g,eta).subs(eta,0)/(2*pi) - b/(pi*((xi-a)**2+b**2)))",
+    "asserts": "In the one-sheeted case, -(1/(2pi)) dg/deta at eta=0 equals the Poisson kernel (result 0)"
+   },
+   {
+    "sympy": "xi,a=symbols('xi a',real=True); b=symbols('b',positive=True); integrate(b/(pi*((xi-a)**2+b**2)),(xi,-oo,oo))",
+    "asserts": "The kernel integrates to 1, confirming the sign convention of u_epsilon = -(1/2pi) Integral u dg/deta dxi"
+   }
+  ],
+  "transcription_corrections": [
+   "'gleich and[?] sich zusammenhängend sein müssen, nämlich [-...-] [?] sind' should read approximately 'gleich vielfach zusammenhängend sein müssen, nämlich n fach'.",
+   "'eine von T umgrenzte Function' is likely 'eine in T ...' or 'eine von T abhängige Function'. The reading is uncertain, but the sense is a function defined on T.",
+   "'varpi = xi + i eta' should be 'varpi = psi + i g'. The imaginary part is denoted g, not eta, which is already Im zeta.",
+   "'im Innern von S^T' should read 'im Innern von T'; S appears overwritten by T.",
+   "'deren imaginärer Theil eta' should read 'deren imaginärer Theil g'.",
+   "The formula should read 'u_epsilon = -(1/(2 pi)) Integral u (dg/d eta) d xi', not '(d eta/d nu) ds'.",
+   "'Die Function eta aber' should read 'Die Function g aber'; likewise 'Die Function g ist nun der Factor von i in einem Integral dritter Gattung'.",
+   "'eine die ganze Ebene zeta einfach bedeckende Fläche' should very likely read 'n fach bedeckende Fläche', since the doubled surface has n sheets.",
+   "'Factor von i in einem Integral' replaces the crossed-out 'imaginäre Theil'."
+  ]
+ }
+}

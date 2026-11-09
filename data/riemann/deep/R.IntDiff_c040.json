@@ -1,0 +1,59 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c040",
+ "label": "20r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000041/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is folio 20r of the manuscript of Riemann's student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (dated 1847). It was printed posthumously in the Gesammelte Werke (1876, ed. Weber/Dedekind).\n\nThe previous page sets things up. Ordinary derivatives are defined recursively, and that definition cannot reach non-integer orders. So Riemann proposes an 'independent' definition through Taylor's theorem (1): z(x+h) = sum_{p>=0} (1/p!) z^{(p)}(x) h^p. Under this definition the n-th derivative is the coefficient of h^n multiplied by a factor depending only on n, namely n!.\n\nThis page generalises that definition.\n\n(a) A new operation is introduced, written ∂^ν, which contains both differentiation and integration.\n- The notation dy/dx and the name 'differential quotient' are dropped. On this approach the interpretation as a limit or quotient of vanishing quantities makes no sense.\n- Following Lagrange's 'fonctions dérivées', he calls the operation 'Ableitung' (derivation).\n\n(b) Definition. Write ^x∂^ν z, 'the ν-th Ableitung of z with respect to x'. It is the coefficient of h^ν in an expansion of z(x+h) with these properties:\n- the expansion is in powers of h whose exponents differ from one another by integers, i.e. ν runs over a class μ+Z;\n- it runs to infinity in both directions;\n- the coefficient is multiplied by a factor that does not depend on x and depends only on ν.\n\nIn formulas, (2): z(x+h) = sum_{ν=-∞}^{+∞} k_ν · ^x∂^ν z · h^ν.\n\n(c) Normalisation requirement. k_ν must be chosen so that, when the exponents are integers, (2) reduces to (1). This forces k_n = 1/n! for n = 0, 1, 2, … (my explicit restatement). Only then are ordinary derivatives special cases of Ableitungen.\n\nFor negative integers, the coefficients ^x∂^{-n} z must vanish (or the terms must drop out) so that (2) matches (1). This makes sense with 1/k_{-n} = 0, i.e. k_ν = 1/Γ(ν+1). That is my anticipation of the following pages and of the Werke text, not stated here.\n\nIf no such k_ν exists, the definition would fail its purpose and another route would be needed. The determination of k_ν is postponed. The next page first discusses bilateral series of form (2) and Riemann's formalist defence of using divergent series.\n\nIn the printed essay Riemann goes on to obtain k_ν = 1/Γ(ν+1). He also derives the integral formula that is now called the Riemann(-Liouville) fractional integral, with its complementary function.",
+  "errors": [
+   "No mathematical error on this page; it is a definition plus a requirement.",
+   "The requirement 'k_n = 1/n! for integers' does not determine k_ν for non-integer ν. Some additional principle is needed; Riemann later supplies it via composition/consistency arguments. The page acknowledges that the existence of a suitable k_ν is still open.",
+   "Well-definedness is not addressed: (i) uniqueness of a bilateral expansion in powers h^{μ+n}; (ii) which class μ mod 1 is to be used when ν is given; (iii) convergence. Bilateral series of this kind, e.g. the generalized binomial series for (x+h)^a, generally diverge. Riemann defends formal use of such series on the next page, but in a non-rigorous way.",
+   "The verbal phrase 'coefficient multiplied by a factor depending on ν' corresponds to ∂^ν z = coefficient / k_ν, so the factor is 1/k_ν. Formula (2) is consistent with this. On the previous page the factor is written '1···p' where n is meant; this is a slip of index letter."
+  ],
+  "results": [
+   {
+    "what": "Definition of a derivative of arbitrary (real) order ν as the normalized coefficient of h^ν in a bilateral generalized Taylor expansion z(x+h) = Σ_{ν∈μ+Z} k_ν ∂^ν z h^ν, with k_n = 1/n! for integer n",
+    "modern_name": "Generalized (fractional) Taylor series; Riemann's approach to fractional calculus, leading to the Riemann–Liouville fractional integral/derivative",
+    "usually_credited_to": "Fractional derivatives: Leibniz/Euler (idea), Lacroix (1819), Abel (1823), Liouville (1832–37); the Riemann–Liouville integral is credited partly to Riemann via this 1847 essay (published 1876). Generalized Taylor series of this type are associated with Riemann (and later Hardy, Watanabe, Osler).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Adoption of Lagrange's 'fonctions dérivées' terminology ('Ableitung') for a purely algebraic, limit-free definition of derivatives via series coefficients",
+    "modern_name": "Lagrange's algebraic (Taylor-coefficient) definition of derivatives",
+    "usually_credited_to": "Lagrange (Théorie des fonctions analytiques, 1797)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the manuscript of Riemann's 1847 student essay on fractional differentiation. It was published in his Werke in 1876 and is the well-known source for his share in the name 'Riemann–Liouville'. The page contains only the defining equation (2) and the normalisation requirement, both in the printed text.",
+  "checkable": [
+   {
+    "sympy": "gamma(n+1) - factorial(n)  # for n in range(0,10), simplify to 0",
+    "asserts": "k_ν = 1/Γ(ν+1) (Riemann's eventual choice) agrees with k_n = 1/n! required for (2) to reduce to Taylor series (1)"
+   },
+   {
+    "sympy": "series(exp(x+h), h, 0, 8) - sum(exp(x)*h**n/factorial(n) for n in range(8))",
+    "asserts": "Equation (1) with k_n = 1/n! and ∂^n z = z^{(n)}: Taylor expansion of exp(x+h) (difference is O(h**8))"
+   },
+   {
+    "sympy": "limit(1/gamma(-n+1), n, 3)  # equals 0",
+    "asserts": "1/Γ(ν+1) vanishes at negative integers ν, so with k_ν=1/Γ(ν+1) negative-integer terms in (2) can drop out, consistent with reduction to (1)"
+   },
+   {
+    "sympy": "simplify(gamma(a+1)/(gamma(nu+1)*gamma(a-nu+1)) - binomial(a, nu))",
+    "asserts": "With k_ν=1/Γ(ν+1) and ∂^ν x^a = Γ(a+1)/Γ(a-ν+1) x^{a-ν}, the coefficient k_ν ∂^ν x^a in (2) equals binomial(a,ν) x^{a-ν}, i.e. (2) becomes a bilateral generalized binomial series for (x+h)^a"
+   }
+  ],
+  "transcription_corrections": [
+   "'als Durchgänge des Ausdrucks verschwindender Größen': the sense, and probably the hand, requires something like 'als Grenze des Quotienten (Verhältnisses) verschwindender Größen', i.e. limit of a ratio of vanishing quantities. Verify against the image and the Werke text.",
+   "The bracket opened with '[' before 'da die Bezeichnung' is closed with ')' after 'keinen Sinn hat'; it should be a matching parenthesis '('.",
+   "'multiplicirt in einen nach x constanten … Faktor' is what the manuscript shows. The sense is 'multiplied by a factor', i.e. 1/k_ν in terms of (2).",
+   "Formula (2): the notation is ^x∂^ν_z, a left superscript x for the variable with a subscript z, as transcribed; summation from ν=-∞ to ν=+∞ over a class of exponents differing by integers.",
+   "Previous page: the factor '1···p' should read '1···n', a slip of index letter."
+  ]
+ }
+}

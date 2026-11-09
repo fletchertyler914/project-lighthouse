@@ -1,0 +1,69 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c267",
+ "label": "132v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000268/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from fol. 132r, section 'No 10'). An algebraic function s of z is defined by F(s,z) = a0 s^n + a1 s^(n-1) + ... + an = 0, where each a_k is a polynomial of degree m in z. Branch points can only occur where two or more of the n roots s_1..s_n coincide, that is, where F = F_s = 0. Riemann forms the symmetric function\n\nQ(z) = a0^(n-2) * F'(s_1) F'(s_2) ... F'(s_n).\n\nSince F'(s_i) = a0 * prod_{j != i} (s_i - s_j), we get Q = ± a0^(2n-2) prod_{i<j} (s_i - s_j)^2, which is the discriminant of F with respect to s. It is a polynomial in z of degree 2m(n-1). If F_ss != 0 and F_z != 0 at a common zero of F and F_s, then s - alpha ~ (z - beta)^(1/2). The discriminant then has a simple zero there, and the point is a simple branch point. Generically there are therefore 2m(n-1) simple branch points.\n\nThis page (132v) has three parts, much of it heavily cancelled and partly illegible.\n\n(1) General procedure. Suppose several roots of F(s) = 0 coincide at z = gamma. To decide how many simple branch points 'coalesce' there, Riemann proceeds as follows:\n- expand each of these roots in ascending (fractional) powers of z - gamma, i.e. Puiseux expansions;\n- for each root, determine the order to which F'(s) becomes infinitely small;\n- the sum of these orders is the multiplicity of the factor (z - gamma) in Q(z).\nIn modern terms: ord_{z=gamma} Disc = sum over i != j of ord(s_i - s_j). This multiplicity counts the coalesced simple branch points.\n\n(2) Classification of the generic cases.\n- Simple branch point: two roots s_1, s_2 differ by a quantity of order 1/2. The two ordered pairs (1,2) and (2,1) then give total order 1 in Q.\n- Double point (F = F_s = F_z = 0, ordinary node): the two roots stay separate (no branching) but differ by a quantity of first order. This gives order 2 in Q, i.e. it absorbs two of the 2m(n-1) simple branch points.\nIf w is the number of genuine simple branch points and v the number of double points, Riemann writes\n\nw + 2v = 2(n-1)m.\n\nHere the double points are understood as those value-pairs with F = F_s = F_z = 0 and Hessian F_ss F_zz - F_sz^2 != 0, i.e. two distinct tangents/branches. All other coincidences (cusps, higher singularities, tangencies) are treated as limiting cases ('Grenzfälle') of these. They are counted by the multiplicity of the corresponding factors of Q, obtained from the series expansions.\n\n(3) The last lines are mostly cancelled and only fragmentarily legible. They speak of the number of simple branch points, and of difference functions becoming infinitely small of first order. They appear to prepare using w to obtain the connectivity/genus, i.e. p = w/2 - n + 1, hence p = (n-1)(m-1) - v. That step is my completion and is not legible on the page.\n\nThe next page (133) begins a new outline: 'Theorie eines Systems gleichverzweigter algebraischer Functionen'.",
+  "errors": [
+   "No mathematical error is visible in what is legible. The normalisation a0^(n-2) prod F'(s_i) equals the discriminant only up to sign (-1)^(n(n-1)/2). This is irrelevant for counting zeros.",
+   "Treating all non-nodal singularities as 'Grenzfälle' without a precise multiplicity rule is heuristic. The rigorous count (discriminant order = sum of branch contributions + 2*delta invariants) needs the Puiseux analysis that Riemann only indicates.",
+   "The text says branch points 'zusammenfallen' in the double-point case. Strictly, a node contributes 2 to the discriminant without any branching. This is a convention of counting, which Riemann clearly intends."
+  ],
+  "results": [
+   {
+    "what": "Discriminant Q(z) = a0^(n-2) prod F'(s_i) of a bidegree (n,m) polynomial has degree 2m(n-1) in z; its zeros locate the possible branch points.",
+    "modern_name": "Discriminant of a plane curve with respect to projection; degree count",
+    "usually_credited_to": "Classical (Euler/Sylvester for the discriminant); use for branch points: Riemann 1857, Puiseux 1850",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Local multiplicity of the discriminant computed from Puiseux expansions of the coinciding roots via the order of F'(s_i).",
+    "modern_name": "Order of discriminant = sum of valuations of root differences (Puiseux/Newton analysis)",
+    "usually_credited_to": "Puiseux (1850), Newton polygon tradition",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "w + 2v = 2m(n-1): simple branch points plus twice the number of ordinary double points (F = F_s = F_z = 0, Hessian != 0) equals the discriminant degree; other singularities are limits of these.",
+    "modern_name": "Branch-point count / Riemann–Hurwitz for plane curves with nodes, leading to p = (n-1)(m-1) - v",
+    "usually_credited_to": "Riemann, Theorie der Abel'schen Functionen (1857), §12; genus formula with singularities later refined by Clebsch, Noether, Plücker-type formulas",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of material Riemann published in 1857 ('Theorie der Abel'schen Functionen', counting branch points 2(n-1)m minus contributions of double points, genus (n-1)(m-1)-r). The extra detail is the explicit Puiseux-based multiplicity procedure and the Hessian condition for nodes, which is standard.",
+  "checkable": [
+   {
+    "sympy": "s,z=symbols('s z'); F=s**2-z; factor(discriminant(F,s))",
+    "asserts": "Simple branch point: discriminant 4*z has a simple zero at z=0 (contributes 1)."
+   },
+   {
+    "sympy": "s,z=symbols('s z'); F=s**2-z**2-z**3; factor(discriminant(F,s))",
+    "asserts": "Ordinary node at (0,0): the discriminant 4*z**2*(1+z) has a double zero at z=0 (contributes 2), with no branching there."
+   },
+   {
+    "sympy": "s,z=symbols('s z'); a=[Poly(sum(Symbol('c%d_%d'%(k,j))*z**j for j in range(3)),z).as_expr() for k in range(4)]; F=sum(a[k]*s**(3-k) for k in range(4)); degree(discriminant(F,s),z)",
+    "asserts": "Generic n=3, m=2: discriminant degree in z is 2*m*(n-1) = 8."
+   },
+   {
+    "sympy": "n,m,v=symbols('n m v'); w=2*m*(n-1)-2*v; simplify(w/2-n+1-((n-1)*(m-1)-v))",
+    "asserts": "From w + 2v = 2m(n-1) and Riemann–Hurwitz p = w/2 - n + 1 one gets p = (n-1)(m-1) - v (result is 0)."
+   },
+   {
+    "sympy": "s,z=symbols('s z'); F=s**2-z**2-z**3; [F.subs({s:0,z:0}), diff(F,s).subs({s:0,z:0}), diff(F,z).subs({s:0,z:0}), (diff(F,s,2)*diff(F,z,2)-diff(F,s,z)**2).subs({s:0,z:0})]",
+    "asserts": "Node conditions F=F_s=F_z=0 hold and the Hessian F_ss*F_zz - F_sz**2 = -8 != 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: read 'wenn für z=γ mehrere Wurzeln der Gleichung F(s)=0 gleich werden, zu entscheiden, wie viele einfache Verzweigungspunkte ... zusammenfallen' (the marginal addition top right reads 'einfache Verzw.').",
+   "Line 4: 'so muss man diese Wurzeln nach steigenden Potenzen (von z-γ) entwickeln'. The parenthetical insertion is '(nach den Potenzen von z-γ)'.",
+   "The formula line reads 'w + 2v = 2(n-1)m ist', followed by 'für die ersten v Werthsysteme ... ∂²F/∂s² ∂²F/∂z² - (∂²F/∂s∂z)² ≠ 0' (likely '= 0 nicht'). It is not '≷ 0'.",
+   "'F=0, ∂F/∂s=0, ∂F/∂z=0' refers to the double-point (Doppelpunkt) value-systems; the following lines describe 'die übrigen als Grenzfälle' of these.",
+   "The phrase 'die Differenz zweier Wurzeln unendlich klein von der ersten Ordnung wird, und für ... einfachen Verzweigungspunkt ... von der Ordnung ½' contrasts node vs. branch point. The transcription is correct in substance."
+  ]
+ }
+}

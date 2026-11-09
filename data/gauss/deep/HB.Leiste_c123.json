@@ -1,0 +1,103 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c123",
+ "label": "24v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000124/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two unrelated parts.\n\nPART A (top): coefficients for mechanical quadrature.\nOrdinates y = alpha, beta, gamma, delta, ... are given at x = 0, 1, 2, 3, ... (unit step). The aim is to find int y dx over the panels [0,1] and [1,2] by integrating the interpolating polynomial through the first n ordinates. The successive rows for [0,1] are:\n- 1 point: alpha.\n- 2 points: (1/2)alpha + (1/2)beta (trapezoid rule).\n- 3 points: (5/12)alpha + (2/3)beta - (1/12)gamma. To the right is the same quadratic integrated over [1,2]: -(1/12)alpha + (2/3)beta + (5/12)gamma.\n- 4 points: begun as (3/8)alpha + ... The completion is mine: 3/8 alpha + 19/24 beta - 5/24 gamma + 1/24 delta. The middle column -1/24 alpha starts the [1,2] value, which I complete as -1/24 alpha + 13/24 beta + 13/24 gamma - 1/24 delta.\n- A second '-1/24 alpha' stands further right. Its intended interval is unclear: the [2,3] panel of the cubic starts with +1/24.\n- 5 points: begun as (251/720)alpha + ... The full row (mine) is (251 alpha + 646 beta - 264 gamma + 106 delta - 19 epsilon)/720.\nRead backwards, these are exactly the Adams–Moulton (implicit Adams) weights, which equal the Gregory/Newton backward-difference quadrature weights.\n\nA second small block reads: alpha; alpha+beta; (1/2)alpha + 2beta - (1/2)gamma | -1/2 + 2 + 5/2. I could not fit this to any integral of the quadratic over an interval. Taken as integrals over an interval, the row sums (2 on the left, 4 on the right) are inconsistent with the row 'alpha'.\n- The right row -1/2, ., 5/2 equals 6 x (-1/12, ., 5/12).\n- So this may be a rescaled (x6) scratch of the 3-point weights, with the first entry possibly 5/2 and the middle entry should then be 4.\n- This interpretation is uncertain.\n\nPART B (bottom): functions invariant under the Landen/Gauss transformation x -> 2 sqrt(x)/(1+x).\nHere Kx = complete elliptic integral of the first kind with modulus x.\n1. K(2 sqrt x/(1+x)) = (1+x) K(x). This is the ascending Landen transformation.\n2. Define Hx = K(sqrt(1-x^2)) = K'(x).\n3. Put y = (1-x)/(1+x). Then 2 sqrt y/(1+y) = sqrt(1-x^2). Also (1-x)/(1+x) is the complementary modulus of 2 sqrt x/(1+x). Hence K((1-x)/(1+x)) = H(2 sqrt x/(1+x)).\n4. A crossed-out attempt H(xx) = 2/(1+x) H(...) is abandoned.\n5. Using the descending Landen transformation, H(2 sqrt x/(1+x)) = ((1+x)/2) H(x).\n6. Define Gx = x^2. Then G(2 sqrt x/(1+x)) = 4x/(1+x)^2 = 4/(x(1+x)^2) * G(x).\n7. Define N by Gx Hx Kx = 1/Nx, i.e. N(x) = 1/(x^2 K K').\n8. Multiplying the three laws gives the factor (2/x). So N(2 sqrt x/(1+x)) = (x/2) N(x): N solves the homogeneous functional equation.\n9. Gauss now seeks U with the inhomogeneous law U(2 sqrt x/(1+x)) = 1/2 + (1/2) x U(x). The general solution is U = M + alpha N, where M is one particular solution.\n10. To get M, invert the transformation: x' is defined by x = 2 sqrt(x')/(1+x'), so x' = (1 - sqrt(1-x^2))/(1 + sqrt(1-x^2)). The descending moduli x'' etc. are formed likewise.\n11. Iterating M(x) = 1/2 + (1/2) x' M(x') gives M(x) = 1/2 + (1/2)x'(1/2 + (1/2)x''(1/2 + ...)), that is, M(x) = 1/2 + (1/4)x' + (1/8)x'x'' + ... This converges quadratically, since x' ~ x^2/4.\n\nIdentification (mine, not on the page): M(x) = (K - E)/(x^2 K).\n- Proof: put g = 1 - E/K. Landen's law for E, E(k~) = (2E - k'^2 K)/(1+k), gives g~/k~^2 = 1/2 + (1/2) k (g/k^2).\n- Hence E/K = 1 - x^2 (1/2 + x'/4 + x'x''/8 + ...). This is the Landen-modulus form of the AGM formula for E.\n- The homogeneous solution 1/(x^2 K K') is the freedom that Legendre's relation fixes.\n- The crossed fraction xx/(Kx K sqrt(1-xx)) near the bottom looks like a trial variant of N.",
+  "errors": [
+   "Nested form written as 1/2 + (1/4)x'(1/2 + (1/2)x''(1/2 ...: consistency requires 1/2 + (1/2)x'(1/2 + ...). The final series 1/2 + x'/4 + x'x''/8 + ... is correct; the '1/4' may be an overwritten 2 or a slip.",
+   "The crossed-out line H(xx) = 2/(1+x) H(2 sqrt x/(1+x)) is false and was rightly deleted. The correct law is H(2 sqrt x/(1+x)) = (1+x)/2 H(x).",
+   "The second quadrature block (1/2 alpha + 2 beta - 1/2 gamma | -1/2 + 2 + 5/2) does not match any polynomial-interpolation integral. If it is meant as 6x the 3-point weights, the middle coefficient should be 4 and the first 5/2.",
+   "The far-right '-1/24 alpha' cannot be the [2,3] cubic panel, whose alpha-weight is +1/24. Its purpose is unclear, possibly a duplicate of the [1,2] value.",
+   "The x' fraction appears with '1+' in the numerator in the image; it must be (1 - sqrt(1-xx))/(1 + sqrt(1-xx))."
+  ],
+  "results": [
+   {
+    "what": "Weights for integrating the interpolating polynomial over the first and second panel: 1/2,1/2; 5/12,2/3,-1/12; -1/12,2/3,5/12; 3/8,...; -1/24,...; 251/720,...",
+    "modern_name": "Adams–Moulton / Gregory (backward-difference) quadrature coefficients",
+    "usually_credited_to": "J. Gregory/Newton (difference quadrature); as ODE method Bashforth & Adams 1883",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "K(2sqrt x/(1+x)) = (1+x)K(x) and K'(2sqrt x/(1+x)) = (1+x)/2 K'(x)",
+    "modern_name": "Landen (Gauss) transformation of complete elliptic integrals",
+    "usually_credited_to": "Landen 1775, Lagrange, Legendre; Gauss (AGM, 1799)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "N = 1/(x^2 K K') satisfies N(2sqrt x/(1+x)) = (x/2) N(x); general solution of U(T x) = 1/2 + x/2 U(x) is M + alpha N",
+    "modern_name": "Functional-equation characterization of E/K under Landen transformation (homogeneous solution tied to Legendre relation)",
+    "usually_credited_to": "Gauss (AGM Nachlass), Legendre",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "M(x) = 1/2 + x'/4 + x'x''/8 + ... with descending Landen moduli; equals (K-E)/(x^2 K)",
+    "modern_name": "Series for E/K via descending Landen moduli (equivalent to AGM formula E = K(1 - sum 2^(n-1) c_n^2))",
+    "usually_credited_to": "Legendre (Traité 1825), Gauss (Determinatio attractionis 1818, Nachlass)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Both topics are well documented in Gauss's work. Adams-type quadrature weights were used in his perturbation and mechanical-quadrature practice. Landen/AGM transformations and the AGM formula for E are in his published 1818 paper and his Nachlass. The functional-equation viewpoint is a nice unpublished detail but not new.",
+  "checkable": [
+   {
+    "sympy": "x=symbols('x'); L=interpolate([0,1,2],[0]*0) if False else None; a,b,c=symbols('a b c'); p=interpolate([(0,a),(1,b),(2,c)],x); simplify(integrate(p,(x,0,1)) - (Rational(5,12)*a+Rational(2,3)*b-Rational(1,12)*c))",
+    "asserts": "3-point weights over [0,1] are 5/12, 2/3, -1/12 (expect 0)"
+   },
+   {
+    "sympy": "a,b,c,x=symbols('a b c x'); p=interpolate([(0,a),(1,b),(2,c)],x); simplify(integrate(p,(x,1,2)) - (-Rational(1,12)*a+Rational(2,3)*b+Rational(5,12)*c))",
+    "asserts": "3-point weights over [1,2] (expect 0)"
+   },
+   {
+    "sympy": "a,b,c,d,x=symbols('a b c d x'); p=interpolate([(0,a),(1,b),(2,c),(3,d)],x); expand(integrate(p,(x,0,1)))",
+    "asserts": "gives 3/8 a + 19/24 b - 5/24 c + 1/24 d"
+   },
+   {
+    "sympy": "a,b,c,d,x=symbols('a b c d x'); p=interpolate([(0,a),(1,b),(2,c),(3,d)],x); expand(integrate(p,(x,1,2)))",
+    "asserts": "gives -1/24 a + 13/24 b + 13/24 c - 1/24 d"
+   },
+   {
+    "sympy": "a,b,c,d,e,x=symbols('a b c d e x'); p=interpolate([(0,a),(1,b),(2,c),(3,d),(4,e)],x); expand(integrate(p,(x,0,1)))",
+    "asserts": "coefficient of a is 251/720 (full: 251,646,-264,106,-19 over 720)"
+   },
+   {
+    "sympy": "x=Rational(3,10); N(elliptic_k((2*sqrt(x)/(1+x))**2) - (1+x)*elliptic_k(x**2), 30)",
+    "asserts": "ascending Landen K(2sqrt x/(1+x)) = (1+x)K(x) (sympy elliptic_k takes m=k^2); expect 0"
+   },
+   {
+    "sympy": "x=Rational(3,10); k1=2*sqrt(x)/(1+x); N(elliptic_k(1-k1**2) - (1+x)/2*elliptic_k(1-x**2), 30)",
+    "asserts": "H(2sqrt x/(1+x)) = (1+x)/2 H(x); expect 0"
+   },
+   {
+    "sympy": "x=symbols('x',positive=True); simplify(2*sqrt((1-x)/(1+x))/(1+(1-x)/(1+x)) - sqrt(1-x**2))",
+    "asserts": "with y=(1-x)/(1+x), 2sqrt(y)/(1+y) = sqrt(1-x^2); expect 0"
+   },
+   {
+    "sympy": "x=Rational(3,10); k1=2*sqrt(x)/(1+x); Nf=lambda k: 1/(k**2*elliptic_k(k**2)*elliptic_k(1-k**2)); N(Nf(k1) - x/2*Nf(x), 30)",
+    "asserts": "N(2sqrt x/(1+x)) = (x/2)N(x) for N=1/(x^2 K K'); expect 0"
+   },
+   {
+    "sympy": "x=Rational(3,10); k1=2*sqrt(x)/(1+x); Mf=lambda k: (elliptic_k(k**2)-elliptic_e(k**2))/(k**2*elliptic_k(k**2)); N(Mf(k1) - (Rational(1,2)+x/2*Mf(x)), 30)",
+    "asserts": "M=(K-E)/(x^2 K) satisfies M(2sqrt x/(1+x)) = 1/2 + x/2 M(x); expect 0"
+   },
+   {
+    "sympy": "x=Rational(1,2); xs=[x]; [xs.append((1-sqrt(1-xs[-1]**2))/(1+sqrt(1-xs[-1]**2))) for i in range(6)]; S=Rational(1,2)+sum(Rational(1,2**(n+1))*prod(xs[1:n+1]) for n in range(1,6)); N(S - (elliptic_k(x**2)-elliptic_e(x**2))/(x**2*elliptic_k(x**2)), 20)",
+    "asserts": "series 1/2 + x'/4 + x'x''/8 + ... equals (K-E)/(x^2 K); expect ~0"
+   }
+  ],
+  "transcription_corrections": [
+   "'Nx + alpha Nx = Ux' should read 'Mx + alpha Nx = Ux' (particular solution M plus multiple of homogeneous solution N).",
+   "'2x^{1/2}/(1+x) = x^{pm}' is most likely the definition of x' via x = 2 sqrt(x')/(1+x'), i.e. the transformation of x' gives x.",
+   "In the x' fraction the image shows '1+' in the numerator; it must be (1 - sqrt(1-xx))/(1 + sqrt(1-xx)) = x'.",
+   "'[-H(xx)-] = ...' is a struck-out line; the struck symbol inside may be H(x x) or H(X xx).",
+   "In the second quadrature block the first coefficient may be 5/2 rather than 1/2 (uncertain).",
+   "The nested series is written '1/2 + 1/4 x'(1/2 + 1/2 x''(1/2'; the 1/4 may be an overwritten 1/2."
+  ]
+ }
+}

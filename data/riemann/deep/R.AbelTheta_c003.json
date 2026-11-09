@@ -1,0 +1,61 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c003",
+ "label": "1v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000004/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a short exercise on the Neumann problem for Laplace's equation and its variational (Dirichlet-principle) form. It has nothing to do with the theta-function and linear-relation computations on the neighbouring pages (dated April 1858).\n\n(1) Problem posed. Find u in a region T with boundary surface S such that\n  u_xx + u_yy + u_zz = 0 in T,\n  ∂u/∂p − N = 0 on S.\nHere p is the normal to S and N is a prescribed function on S.\n\n(2) Variational identity. Riemann writes\n  −∭ δu Δu dx dy dz + ∭ (∂δu/∂x ∂u/∂x + ∂δu/∂y ∂u/∂y + ∂δu/∂z ∂u/∂z) dx dy dz + ∮ δu ∂u/∂p dS = 0.\nUnder the boundary term he notes that, by the boundary condition, it equals ∮ δu N dS.\nMy filled-in step: the identity comes from the divergence theorem applied to δu ∇u. The correct form is\n  ∭ ∇δu·∇u dV + ∭ δu Δu dV = ∮ δu ∂u/∂n_out dS.\nWith p the inward normal (∂/∂p = −∂/∂n_out) this becomes\n  ∭ ∇δu·∇u + ∭ δu Δu + ∮ δu ∂u/∂p dS = 0.\nInside T we have Δu = 0, so\n  ∭ ∇δu·∇u dV + ∮ δu N dS = 0 for all variations δu.\n\n(3) Functional. The last relation is exactly\n  δ[ ½ ∭ (u_x² + u_y² + u_z²) dx dy dz + ∮ u N dS ] = 0.\nThis is the line beginning 'δ.' (an initial 'z' and an initial 'u' are struck through). So the solution of the Neumann problem is the function that makes\n  E(u) = ½∫|∇u|² + ∮ uN dS\nstationary (in fact minimal). This is Dirichlet's principle adapted to the second boundary-value problem; the boundary condition appears as the natural boundary condition.\n\n(4) Solvability condition. Riemann writes ∮ N dS = 0.\nMy filled-in reasons, two equivalent ones:\n- Replacing u by u + c changes E by c∮N dS. So E is bounded below (a minimum can exist) only if ∮N dS = 0.\n- Equivalently, by Gauss, ∮ ∂u/∂p dS = −∭ Δu dV = 0.\nThis is the compatibility condition of the Neumann problem.",
+  "errors": [
+   "In the first integral identity the relative sign is wrong. For either orientation of the normal p, the terms ∭δuΔu and ∭∇δu·∇u must enter with the same sign: ∭∇δu·∇u + ∭δuΔu = ∮δu ∂u/∂n_out. Riemann writes −∭δuΔu + ∭∇δu·∇u. The slip is harmless because Δu = 0, and the remaining relation (gradient term + ∮δu ∂u/∂p = 0, with p the inward normal) is correct and gives the stated functional.",
+   "The normal direction p is not specified. The signs used are consistent only if p is the inward normal (or if N is understood with the corresponding sign).",
+   "Two implicit points are not addressed: that the stationary point is a minimum, and that existence of a minimizer is simply assumed. This is the usual Dirichlet-principle gap later criticized by Weierstrass."
+  ],
+  "results": [
+   {
+    "what": "Green's first identity / integration by parts for the first variation of the Dirichlet integral, with the boundary term expressed through the normal derivative.",
+    "modern_name": "Green's first identity (divergence theorem)",
+    "usually_credited_to": "George Green (1828); Gauss; Ostrogradsky",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The Neumann problem Δu = 0, ∂u/∂p = N is the Euler–Lagrange condition of the functional ½∭|∇u|² + ∮uN dS, with the Neumann condition arising as the natural boundary condition.",
+    "modern_name": "Dirichlet principle (variational formulation) for the Neumann problem; natural boundary conditions",
+    "usually_credited_to": "Dirichlet principle: Gauss, Thomson (Kelvin), Dirichlet; named and popularized by Riemann (1851, 1857). The Neumann problem is named after C. Neumann (1870s).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Compatibility condition ∮ N dS = 0 for solvability of the Neumann problem.",
+    "modern_name": "Neumann compatibility (solvability) condition",
+    "usually_credited_to": "Classical potential theory (Gauss's flux theorem); standard by mid-19th century",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Riemann is famous for using and naming the Dirichlet principle. Variational treatments of boundary-value problems with prescribed normal derivative appear in his lectures on gravitation, electricity and magnetism (edited by Hattendorff). The page is a routine sketch of this standard material, with a harmless sign slip; the only mild interest is that it is a scratch note sitting among the 1858 theta-function computations.",
+  "checkable": [
+   {
+    "sympy": "x,y,z=symbols('x y z'); u=x**2-y**2+z; v=x*y*z+x; lhs=integrate(diff(v,x)*diff(u,x)+diff(v,y)*diff(u,y)+diff(v,z)*diff(u,z)+v*(diff(u,x,2)+diff(u,y,2)+diff(u,z,2)),(x,0,1),(y,0,1),(z,0,1)); rhs=integrate((v*diff(u,x)).subs(x,1)-(v*diff(u,x)).subs(x,0),(y,0,1),(z,0,1))+integrate((v*diff(u,y)).subs(y,1)-(v*diff(u,y)).subs(y,0),(x,0,1),(z,0,1))+integrate((v*diff(u,z)).subs(z,1)-(v*diff(u,z)).subs(z,0),(x,0,1),(y,0,1)); simplify(lhs-rhs)==0",
+    "asserts": "Green's first identity with outward normal on the unit cube: ∭(∇v·∇u + vΔu) = ∮ v ∂u/∂n_out. This shows that the volume terms enter with the same sign, contrary to Riemann's line."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); u=x**2-y**2+z; flux=integrate(diff(u,x).subs(x,1)-diff(u,x).subs(x,0),(y,0,1),(z,0,1))+integrate(diff(u,y).subs(y,1)-diff(u,y).subs(y,0),(x,0,1),(z,0,1))+integrate(diff(u,z).subs(z,1)-diff(u,z).subs(z,0),(x,0,1),(y,0,1)); flux==0",
+    "asserts": "For a harmonic u the boundary flux of the normal derivative vanishes. This is the compatibility condition ∮N dS = 0."
+   },
+   {
+    "sympy": "x,y,z,c=symbols('x y z c'); u=x**2-y**2+z; N_in=None; E=lambda w: Rational(1,2)*integrate(diff(w,x)**2+diff(w,y)**2+diff(w,z)**2,(x,0,1),(y,0,1),(z,0,1)); simplify(E(u+c)-E(u))==0",
+    "asserts": "The Dirichlet integral is invariant under adding a constant. Hence the functional E(u+c) − E(u) = c∮N dS, and a minimum requires ∮N dS = 0."
+   }
+  ],
+  "transcription_corrections": [
+   "First equation: the denominator of the first term is written over a correction (∂x² overwritten); the reading ∂²u/∂x² is correct.",
+   "Riemann writes the volume element as '∂x ∂y ∂z' (with ∂), not dx dy dz; the transcription's use of ∂ is faithful.",
+   "The note '∫ δu N dS' sits directly under the boundary term '∫ δu ∂u/∂p dS' as a substitution for it, not as a separate equation.",
+   "Line 'δ. [-z-]': a struck 'z' follows δ. The δ applies to the whole functional on the next line, i.e. δ[½∭(u_x² + u_y² + u_z²) dx dy dz + ∮ uN dS] = 0.",
+   "In the boundary integral of the functional the struck-through letter is an initial 'u' (or 'w') overwritten; the intended reading is ∫ u N dS."
+  ]
+ }
+}

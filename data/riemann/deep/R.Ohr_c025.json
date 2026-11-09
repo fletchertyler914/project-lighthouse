@@ -1,0 +1,54 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c025",
+ "label": "13v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000026/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is folio 13v of Riemann's posthumous fragment 'Mechanik des Ohres', published by Henle in Zeitschrift für rationelle Medicin, 3. R., Bd. 29 (1867), and reprinted in the Gesammelte Werke. On the previous page Riemann sets out his method: from the anatomy, infer what each part of the ear contributes. Then, for each part, start from the task it must solve and derive the conditions needed for a satisfactory solution. This page finishes that sentence ('...anzusehen, deren Erfüllung zu einer genügenden Lösung der Aufgabe erforderlich ist') and opens section 2, 'Paukenhöhle' (tympanic cavity, i.e. the middle ear).\n\nContent, in modern terms:\n(i) Known function. The middle-ear apparatus (tympanic membrane plus ossicles) transmits the air pressure to the labyrinth fluid in amplified form.\n(ii) Method. From the ear's observed performance we must infer the conditions this transmission has to satisfy. These come mainly from two facts:\n  - the ear's fineness in perceiving 'Klang' (timbre);\n  - its great acuity, especially in the 'unspoiled' ear of 'savages' and desert dwellers.\n(iii) Definition. Klang is the property of a sound that does not depend on its strength or direction.\n(iv) Sufficient condition. Let p(t) be the air-pressure change at the eardrum and P(t) the pressure change in the labyrinth water. Timbre is transmitted perfectly faithfully if P(t) = k·p(t) for all t, with k > 1 a constant (the underlined phrase: 'die Druckänderung der Luft in jedem Augenblick in constantem Verhältniß vergrößert').\n\nImplicit step (mine): write p(t) = Σ a_n cos(nωt + φ_n). Then P(t) = Σ k·a_n cos(nωt + φ_n). All partial amplitudes are multiplied by the same factor k, so the amplitude ratios a_n/a_m, which define the timbre in Helmholtz's sense, are unchanged. Only the overall loudness changes, and loudness is by definition irrelevant to Klang.\n\nIn modern language, the middle ear is required to act as a distortion-free linear amplifier (a pressure transformer) with a frequency-independent gain. The next page goes on to the second requirement, extreme sensitivity, which he estimates from the inverse-square decay of sound intensity.",
+  "errors": [
+   "No mathematical errors; the page is qualitative.",
+   "The condition P = k·p is sufficient but stronger than necessary for preserving timbre. A constant time delay, P(t) = k·p(t − τ), also preserves it. Under Helmholtz's phase-insensitivity, any linear transfer with constant gain magnitude and arbitrary phase would too. Riemann's 'offenbar ... wenn' states it as sufficient, so this is not a logical slip.",
+   "Defining Klang as independent of 'Richtung' (direction) is a heuristic, not a precise acoustic definition.",
+   "The remark about the 'unspoiled ear of savages and desert dwellers' is an empirical claim typical of its time and is unsupported on the page."
+  ],
+  "results": [
+   {
+    "what": "The middle ear transmits air pressure to the labyrinth fluid in amplified form.",
+    "modern_name": "Middle-ear pressure gain / impedance matching (ossicular lever and area ratio)",
+    "usually_credited_to": "Helmholtz, 'Die Mechanik der Gehörknöchelchen und des Trommelfells' (1868); earlier ideas from E.H. Weber and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Faithful transmission of timbre requires the instantaneous pressure change to be reproduced in constant proportion (linear, distortion-free transmission with frequency-independent gain).",
+    "modern_name": "Distortionless linear transmission (flat frequency response, no harmonic distortion)",
+    "usually_credited_to": "Standard in acoustics and signal theory; Helmholtz's Tonempfindungen (1863) supplies the Fourier-based theory of timbre",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page belongs to Riemann's 'Mechanik des Ohres', which Henle published in 1867 and which appears in the Gesammelte Werke. The content is qualitative and its ideas are known as Riemann's. The constant-ratio linear-transmission requirement is a natural, routine formulation.",
+  "checkable": [
+   {
+    "sympy": "t,w,k,a1,a2,a3=symbols('t w k a1 a2 a3',positive=True); p=a1*cos(w*t)+a2*cos(2*w*t)+a3*cos(3*w*t); P=k*p; simplify(integrate(P*cos(2*w*t),(t,0,2*pi/w))/integrate(P*cos(w*t),(t,0,2*pi/w)) - a2/a1)==0",
+    "asserts": "Proportional transmission P = k·p preserves the ratio of the 2nd to the 1st harmonic amplitude, so the timbre is unchanged."
+   },
+   {
+    "sympy": "t,w,k,c,a=symbols('t w k c a',positive=True); p=a*cos(w*t); P=k*p+c*p**2; simplify(integrate(P*cos(2*w*t),(t,0,2*pi/w)))",
+    "asserts": "A nonlinear transmission adds a 2nd harmonic absent from the input (result c*a**2*pi/(2*w) ≠ 0), so it would alter Klang; this motivates the constant-ratio condition."
+   },
+   {
+    "sympy": "t,w,k,tau,a1,a2=symbols('t w k tau a1 a2',positive=True); p=lambda s: a1*cos(w*s)+a2*cos(2*w*s); P=k*p(t-tau); c1=integrate(P*exp(-I*w*t),(t,0,2*pi/w)); c2=integrate(P*exp(-2*I*w*t),(t,0,2*pi/w)); simplify(Abs(c2)/Abs(c1)-a2/a1)==0",
+    "asserts": "A constant delay also preserves the harmonic amplitude ratios, so Riemann's condition is sufficient but not necessary."
+   }
+  ],
+  "transcription_corrections": [
+   "'M. als Ueberschrift' and 'Lt.' are later pencil/editorial marginalia, not Riemann's text. They mark '2. Paukenhöhle' as a heading to be set ('Lt.' possibly a typesetting note) and should be separated from the running sentence '...der Aufgabe erforderlich ist.'",
+   "'Aufgabe' is underlined in the original by the same marginal (editorial) hand.",
+   "The phrase 'die Druckänderung der Luft in jedem Augenblick in constantem Verhältniß vergrößert' is underlined in the manuscript; the transcription omits this emphasis.",
+   "Folio number '10' in the top left is a page numbering; the rest of the transcription matches the image."
+  ]
+ }
+}

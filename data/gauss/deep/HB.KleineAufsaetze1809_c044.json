@@ -1,0 +1,58 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c044",
+ "label": "35",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000045/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 35 is a pure numerical table. It continues folio 34 (A = 2.00 … 2.80) and runs from A = 2.80 to 3.40 in steps of 0.01, then from 3.4 to 5.0 in steps of 0.1. It has no derivations.\n\nIdentification (mine, verified numerically): this is Gauss's table of addition logarithms (\"Gaussian logarithms\"). The columns are:\n- A = log10 x, the argument;\n- B = log10(1 + 1/x) = log10(1 + 10^(-A)), rounded to 5 decimals;\n- C = A + B = log10(1 + x), written out in full;\n- a column of first differences of B, in units of 10^-5;\n- a column of first differences of C, in units of 10^-5.\n\nThe difference columns follow from ΔC = ΔA − |ΔB|. With step 0.01 this gives ΔC = 1000 − |ΔB| (so 998, 999 or 1000). With step 0.1 it gives ΔC = 10000 − |ΔB| (so 9997 … 10000).\n\nPurpose: given log a and log b with a ≥ b, set A = log a − log b. Then log(a + b) = log a + B(A) = log b + C(A). So the logarithm of a sum is found from the logarithms of the summands without passing back to the numbers. Difference tables serve the analogous subtraction problem.\n\nComputation behind each entry (my reconstruction): for large A, put u = 10^(-A). Then B ≈ M·(u − u²/2), with M = log10 e = 0.4342945. Each entry follows from this. Examples:\n- A = 2.80: u = 0.0015849, B = 0.000688, tabulated 0.00069.\n- A = 3.00: B = 0.000434, tabulated 0.00043.\n- A = 4.0: B = 0.0000434, tabulated 0.00004.\n- A = 5.0: B = 0.0000043, tabulated 0.00000.\n\nThe tail is the regime where B ≈ M·10^(-A) falls below half a unit in the fifth decimal, which is why the table can stop at A = 5. The preceding folio covers 2.00–2.80, so this is the final sheet of a five-place table. The next folio begins the unrelated hypergeometric-series memoir (F(α,β,γ), contiguous relations).\n\nI recomputed every entry on the page to about 10^-8. All agree with correct rounding except A = 3.23 (see errors).",
+  "errors": [
+   "A = 3.23: true B = log10(1 + 10^(-3.23)) = 0.000255657, which rounds to 0.00026, not the tabulated 0.00025. C should therefore be 3.23026, not 3.23025.",
+   "Knock-on effect of the 3.23 slip: the differences around it should read ΔB 0 then 1 and ΔC 1000 then 999 (3.22→3.23→3.24), instead of the written 1 then 0 and 999 then 1000. All other difference entries are internally consistent with the tabulated B and C values.",
+   "Several entries lie close to the rounding boundary but are correctly rounded: 3.10 (0.0003448), 2.93 (0.00050995), 4.1 (0.0000345). These show the values were computed to more than 5 places."
+  ],
+  "results": [
+   {
+    "what": "Five-place table of B(A) = log10(1 + 10^(-A)) and C(A) = A + B = log10(1 + 10^A) for A = 2.80–5.0, with first differences; tail of a full addition-logarithm table.",
+    "modern_name": "Gaussian logarithms (addition/subtraction logarithms); in modern terms the softplus / log-sum-exp function in base 10",
+    "usually_credited_to": "Idea due to Z. Leonelli (Supplément logarithmique, 1802/1803). The first practical table is Gauss's 'Tafel zur bequemern Berechnung des Logarithmen der Summe oder Differenz zweier Grössen…', Monatliche Correspondenz 26 (1812), hence the name 'Gaussian logarithms'.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript of (or a draft for) Gauss's well-known 1812 table of addition logarithms, which already bears his name. The only non-routine detail is a single last-digit rounding slip at A = 3.23, which may or may not have survived into print; I am unsure whether it did.",
+  "checkable": [
+   {
+    "sympy": "[ (a, round(float(log(1+10**(-Rational(a))), 10)), 5)) for a in ['2.80','2.85','2.90','3.00','3.10','3.20','3.30','3.40'] ]",
+    "asserts": "Recomputes B(A) = log10(1 + 10^(-A)) at sample arguments, for comparison with 0.00069, 0.00061, 0.00055, 0.00043, 0.00034, 0.00027, 0.00022, 0.00017."
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(323,100)),10), 12)",
+    "asserts": "Returns ≈ 0.000255657, so the correctly rounded table value at A = 3.23 is 0.00026 (the manuscript has 0.00025)."
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(324,100)),10), 12)",
+    "asserts": "Returns ≈ 0.000249839, so 0.00025 at A = 3.24 is correct."
+   },
+   {
+    "sympy": "[N(log(1+10**(-Rational(k,10))),10),8) for k in range(34,51)]",
+    "asserts": "Gives B for A = 3.4, 3.5, …, 5.0, to compare with 0.00017, 0.00014, 0.00011, 0.00009, 0.00007, 0.00005, 0.00004, 0.00003, 0.00003, 0.00002, 0.00002, 0.00001 (×5), 0.00000."
+   },
+   {
+    "sympy": "simplify(Rational(5,2) + log(1+10**(-Rational(5,2)),10) - log(1+10**Rational(5,2),10))",
+    "asserts": "Checks C = A + B = log10(1 + 10^A) (should simplify to 0)."
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(5)),10),10) < Rational(5,10**6)",
+    "asserts": "At A = 5 the value B < 0.5·10^-5, so the table legitimately ends with B = 0.00000."
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription's column layout (A | B | ΔB | A+B | Δ(A+B)) matches the image. The difference entries for ΔB and Δ(A+B) are written between rows, as transcribed.",
+   "The value at A = 3.23 is indeed written 0,00025 / 3,23025 in the manuscript; this is the author's rounding slip, not a transcription error.",
+   "At A = 3.26, B is written with a corrected last digit (0,00024, the 4 overwritten). The value 0,00024 is correct.",
+   "The page number in the upper right is 35 in red ink."
+  ]
+ }
+}

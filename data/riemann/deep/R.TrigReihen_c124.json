@@ -1,0 +1,68 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c124",
+ "label": "61r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000125/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the transition into §8 of Riemann's Habilitationsschrift (\"Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe\", written 1854, published 1867). The top-right marginal heading, \"Untersuchung der Darstellbarkeit einer Function durch eine trigonometrische Reihe ohne besondere Voraussetzungen über die Natur der Function\", corresponds to the published section heading.\n\n(1) Methodological paragraph. Earlier work (Fourier, Dirichlet and others) aimed to prove Fourier series for the functions that occur in nature. It could therefore start from an arbitrary function and impose convenient restrictions on it. Riemann's own aim is different: he wants to impose only conditions that are necessary for representability. So he first looks for necessary conditions and then selects sufficient conditions from among them. This is the 'inverse question': if f is represented by a trigonometric series, what follows about its behaviour (its 'Gang') under continuous change of the argument?\n\n(2) Setup. The given series is\nΩ = b_0/2 + Σ_{n≥1} (a_n sin nx + b_n cos nx) = A_0 + A_1 + A_2 + …,\nwith A_0 = b_0/2 and A_n = a_n sin nx + b_n cos nx (stated in the right margin). The function f(x) is the sum of Ω and exists only where Ω converges.\n\n(3) Case split. Convergence requires A_n → 0.\n- If a_n, b_n → 0, then A_n → 0 for every x, since |A_n| ≤ sqrt(a_n² + b_n²).\n- 'Otherwise this can happen only for special values of x.' This is an unproved assertion; it is essentially the later Cantor–Lebesgue lemma.\nThe two cases must be treated separately. A crossed-out heading, 'Erster Fall …', is replaced on the page by the marginal heading 'I. … deren Glieder für jeden Argumentwerth zuletzt unendlich klein werden'.\n\n(4) Start of §8 (marked '8.'). In the first case (A_n → 0 for every x) the series\nF(x) = C + C'x + A_0 x²/2 − A_1 − A_2/4 − A_3/9 − … = C + C'x + A_0 x²/2 − Σ_{n≥1} A_n/n²\nconverges. It arises from Ω by integrating each term twice with respect to x.\n- Check (mine): d²/dx²[−(a_n sin nx + b_n cos nx)/n²] = A_n, and d²/dx²[A_0 x²/2] = A_0.\n- The proof of convergence and continuity follows on the next page: the tail is bounded by ε Σ_{m>n} 1/m² < ε/n, with ε = sup_{m>n} |A_m|.\n- Implicit (mine): uniformity in x needs a_n, b_n → 0, which is exactly the case assumption.",
+  "errors": [
+   "Right margin: 'a_2 sin 2x + b_2 sin 2x = A_2' should read b_2 cos 2x. This is a slip, by Riemann or the transcriber.",
+   "The claim that, if a_n, b_n do not tend to 0, the terms can tend to 0 only for 'besondere Werthe von x' is asserted without proof. A rigorous version is the Cantor–Lebesgue theorem (Cantor 1870): terms → 0 on a set of positive measure implies coefficients → 0. Riemann leaves the claim vague here, as he also does in the published text.",
+   "Minor: the convergence of F for all x needs A_n to be bounded uniformly in x. This follows from a_n, b_n → 0, but the page phrases the hypothesis as 'A_n → 0 for every x', which is only pointwise. The two hypotheses coincide only via the unproved lemma above."
+  ],
+  "results": [
+   {
+    "what": "Programmatic reversal: derive necessary conditions from representability, then pick sufficient ones (the problem for arbitrary trigonometric series rather than Fourier series)",
+    "modern_name": "Riemann's theory of general trigonometric series",
+    "usually_credited_to": "Riemann 1854 (publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "If coefficients → 0 the terms → 0 for all x; otherwise only for special x",
+    "modern_name": "Cantor–Lebesgue theorem (converse direction)",
+    "usually_credited_to": "Cantor 1870; Lebesgue (measure form)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Twice term-wise integrated series F(x) = C + C'x + A_0x²/2 − Σ A_n/n², convergent and continuous",
+    "modern_name": "Riemann function F of a trigonometric series (Riemann's formal double integral)",
+    "usually_credited_to": "Riemann 1854/1867",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the published §§7–8 of Riemann's Habilitationsschrift: the methodological introduction and the definition of F. All of it is well known as his. Only the drafting variants (crossed-out headings, phrasing) are of minor philological interest.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(-(a*sin(n*x)+b*cos(n*x))/n**2, x, 2) - (a*sin(n*x)+b*cos(n*x)))",
+    "asserts": "Integrating A_n twice in x gives -A_n/n^2 (result 0)"
+   },
+   {
+    "sympy": "simplify(diff(C + Cp*x + A0*x**2/2, x, 2) - A0)",
+    "asserts": "The x-polynomial part of F integrates the constant term A_0 twice (result 0)"
+   },
+   {
+    "sympy": "summation(1/m**2, (m, n+1, oo)) < 1/n  # check numerically for n=1..50",
+    "asserts": "Tail bound Σ_{m>n} 1/m² < 1/n, used for convergence of F"
+   },
+   {
+    "sympy": "simplify(((-(sin(n*(x+2*al)))/n**2) - 2*(-(sin(n*x))/n**2) + (-(sin(n*(x-2*al)))/n**2))/(4*al**2) - sin(n*x)*(sin(n*al)/(n*al))**2)",
+    "asserts": "The second symmetric difference of F reproduces A_n times (sin nα/(nα))² (basis of Lehrsatz 1 on the next page); result 0"
+   },
+   {
+    "sympy": "simplify(trigsimp((a*sin(n*x)+b*cos(n*x))**2 - (a**2+b**2)*sin(n*x+atan2(b,a))**2))",
+    "asserts": "|A_n| ≤ sqrt(a_n²+b_n²), so coefficients → 0 implies terms → 0 uniformly in x (should simplify to 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Right margin: 'b_2 sin 2x' should be 'b_2 cos 2x', at least in intent.",
+   "In the series for F the leading terms read 'C + C'x' (the machine reading is fine). The terms are −A_1 − A_2/4 − A_3/9; the third term may appear as A_2/9 in the hand, but A_3 is intended.",
+   "'mit wachsendem n [-unendlich-] unendlich klein werden': the struck word sits above, and the correction plus 'werden' is split across the line.",
+   "The final marginal line ('Lassen wir für diese Untersuchungen ...' / 'Unter dieser Voraussetzung convergirt die Reihe') is faint pencil. The reading is uncertain."
+  ]
+ }
+}

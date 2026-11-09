@@ -1,0 +1,69 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c192",
+ "label": "97r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000193/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds three groups of formulas with no connecting text. The surrounding pages give little help: the previous page has only small sketches of circular arcs, and there is no next page.\n\n(1) Boundary conditions. Riemann writes ∂x/∂η = 0 and ∂x/∂ζ = 0 (the second x looks like a capital X). He is seeking a map (ξ,η,ζ) → (x,y,z). Read against the formulas below (my interpretation), these conditions are meant to hold on the coordinate faces η = const and ζ = const, i.e. Neumann-type conditions for x on those faces. The candidate formula does not satisfy them identically, only on the planes η, ζ ∈ {0, π/2} (mod π/2).\n\n(2) Local model. He writes x = 1/r^2. The numerator is a small, unclear character; most plausibly it is x = ξ/r^2 with r^2 = ξ^2+η^2+ζ^2. That is the x-component of inversion in a sphere (up to a constant), or equally the field (ξ,η,ζ)/r^2. This is a singular model to be imitated.\n\n(3) Periodic analogue. Let D = sin^2 ξ + sin^2 η + sin^2 ζ. Riemann writes:\n- x = αξ + sin 2ξ / D\n- y = βη + sin 2η / D\n- z = γζ + sin 2ζ / D\n\nHis first numerator was overwritten, but the final reading is sin 2ξ.\n\nWhat this construction achieves (my analysis):\n(a) Near the origin, sin 2ξ ≈ 2ξ and D ≈ r^2. So x ≈ 2ξ/r^2 + αξ: the inversion-type singularity of (2) sits at each lattice point (kπ, lπ, mπ).\n(b) The periodic part has period π in each variable, while the linear part gives x(ξ+π) = x + απ. The map is therefore 'linear plus triply periodic', i.e. quasi-periodic like an elliptic-integral-type function.\n(c) Reflection equivariance. x is odd in ξ and even in η and ζ. Also x(π−ξ, η, ζ) = απ − x(ξ, η, ζ). Hence x = 0 on ξ = 0 and x = απ/2 on ξ = π/2: faces ξ = const go to planes x = const.\n(d) ∂x/∂η = −sin 2ξ · sin 2η / D^2. This vanishes on η = 0 and η = π/2, and likewise ∂x/∂ζ vanishes on ζ = 0 and ζ = π/2. So the conditions in line (1) hold on the faces of the cube [0, π/2]^3.\n\nThus the cell [0, π/2]^3 maps to a box with edges απ/2, βπ/2, γπ/2. The map has a point singularity at the corner and is compatible with reflection in all faces, so it continues by reflection to all of space.\n\nThe purpose is not stated. Possibilities include:\n- a 3D analogue of a Schwarz–Christoffel / reflection-principle construction;\n- a lattice-periodic potential or field with point sources (cf. ξ/r^2);\n- a trial coordinate map for a boundary-value problem in a box.\n\nThe map is not conformal: by Liouville's theorem, only Möbius maps are conformal in 3D. Nothing on the page claims harmonicity or conformality.",
+  "errors": [
+   "No outright error. The conditions ∂x/∂η = 0 and ∂x/∂ζ = 0 do not hold identically for the proposed x; they hold only on the faces η, ζ ≡ 0 (mod π/2). This is presumably intended as boundary conditions, but the page does not say so.",
+   "The local model ξ/r^2 (if that is the reading) matches the periodic formula only up to a factor of 2: sin 2ξ / D ~ 2ξ/r^2. This is harmless.",
+   "Purely as an observation, not a slip: the components are neither harmonic nor (in the 3D Newtonian sense) potential fields of point sources, since ξ/r^2 is not ξ/r^3. Their intended analytic property is not indicated."
+  ],
+  "results": [
+   {
+    "what": "Construction of a reflection-equivariant, quasi-periodic map of space (linear term plus triply periodic term sin 2ξ / (sin^2 ξ + sin^2 η + sin^2 ζ)) that sends coordinate faces of the cube [0, π/2]^3 to planes and carries an inversion-type singularity ξ/r^2 at the lattice points",
+    "modern_name": "Periodization of a singular kernel / reflection-principle construction on a cubic lattice (method-of-images-type trial function)",
+    "usually_credited_to": "Generic technique (method of images: Thomson/Kelvin 1840s; reflection principle: Riemann/Schwarz 1850s–1870)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Local model x = ξ/r^2 (inversion-type component)",
+    "modern_name": "Inversion in a sphere / Kelvin transform type map",
+    "usually_credited_to": "Classical (Thomson 1845, Liouville 1847)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are brief trial formulas with no stated purpose. They show a sensible periodization and reflection-symmetry idea consistent with Riemann's known interests (reflection principle, periodic functions, boundary-value problems in polyhedral domains). Nothing here anticipates a later named result.",
+  "checkable": [
+   {
+    "sympy": "xi,eta,zeta,a=symbols('xi eta zeta alpha'); D=sin(xi)**2+sin(eta)**2+sin(zeta)**2; X=a*xi+sin(2*xi)/D; simplify(X.subs(xi,0))",
+    "asserts": "x vanishes on the face ξ=0 (result 0)"
+   },
+   {
+    "sympy": "simplify(X.subs(xi,pi/2) - a*pi/2)",
+    "asserts": "x = απ/2 on the face ξ=π/2 (result 0)"
+   },
+   {
+    "sympy": "simplify(X.subs(xi,pi-xi) + X - a*pi)",
+    "asserts": "reflection equivariance x(π−ξ) = απ − x(ξ) (result 0)"
+   },
+   {
+    "sympy": "simplify(diff(X,eta) + sin(2*xi)*sin(2*eta)/D**2)",
+    "asserts": "∂x/∂η = −sin2ξ·sin2η/D^2 (result 0)"
+   },
+   {
+    "sympy": "simplify(diff(X,eta).subs(eta,0)), simplify(diff(X,eta).subs(eta,pi/2))",
+    "asserts": "∂x/∂η = 0 on the faces η=0 and η=π/2 (both 0)"
+   },
+   {
+    "sympy": "t=symbols('t',positive=True); limit((sin(2*t*xi)/(sin(t*xi)**2+sin(t*eta)**2+sin(t*zeta)**2))*t, t, 0) - 2*xi/(xi**2+eta**2+zeta**2)",
+    "asserts": "near the origin the periodic term behaves like 2ξ/r^2 (result 0)"
+   },
+   {
+    "sympy": "simplify(X.subs(xi,xi+pi) - X - a*pi)",
+    "asserts": "quasi-periodicity x(ξ+π) = x(ξ) + απ (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: the numerator of 'x = 1/r^2' is a small unclear character, very likely ξ, giving x = ξ/r^2 (inversion-type local model); '1' is doubtful.",
+   "Line 1: the second derivative is probably also of lowercase x (∂x/∂ζ = 0); the capital X may just be handwriting.",
+   "Line 3: the numerator was written over/struck; the final reading is sin 2ξ (no separate '−sin 2ξ' term). The denominator's first term, written (sin ξ)^2, has the same meaning as sin^2 ξ in the other lines.",
+   "In the second formula the 'β' is followed by a corrected η (the η is overwritten); the reading βη is correct."
+  ]
+ }
+}

@@ -1,0 +1,90 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c381",
+ "label": "192v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000382/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Riemann is excerpting H. Hammer's German summary (Dingler's Polytechnisches Journal CXXV) of M. H. Jacobi's theory of electromagnetic motors (Bull. St. Petersbourg IX). The notation continues from the previous page: k is the emf of one cell, n the number of cells, ϱ the total resistance, β the number of windings, κ (transcribed 'x') a coefficient measuring coercive force, and v the machine speed. Primed quantities refer to the running machine.\n\nStep 1 (implicit, mine). The counter-current is i1 = i - i' = κβ² i' v/ϱ. With i = nk/ϱ this gives i'(ϱ + κβ²v) = nk, so i' = nk/(ϱ + κβ²v).\n\nStep 2 (eq. 11, misread as '4)'). The magnetic state while running is m' = β i' = βnk/(ϱ + κβ²v).\n\nStep 3 (eq. 13). At uniform speed the mean mechanical resistance must equal the mutual attraction: R = μ' = m'^2.\n\nStep 4 (eq. 18). Since √R = βnk/(ϱ + κβ²v), we get v = (βnk/√R - ϱ)/(κβ²). The useful work is therefore\nT = Rv = (βnk√R - Rϱ)/(κβ²) = v(βnk)²/(ϱ + κβ²v)².\n\nStep 5 (eqs. 20-21). Maximise in s = √R: the derivative of βnk·s - ϱs² vanishes at s = βnk/(2ϱ). Hence\n- R0 = β²n²k²/(4ϱ²), which is μ/4;\n- T0 = n²k²/(4ϱκ).\n\nStep 6 (implicit, mine). At the optimum ϱ + κβ²v0 = 2ϱ, so v0 = ϱ/(κβ²) and i0' = i/2. Riemann's remark is therefore correct: changing β alters R0 and v0 but not T0.\n\nStep 7 (eq. 26). Zinc consumed is q0' = n i0' = n²k/(2ϱ). The economic effect ('duty') is ε = T0/q0' = k/(2κ), independent of n and ϱ.\n\nRest of the page: two reading notes without mathematics.\n- A note headed 'Siemens', reporting John Wilson's (Birmingham) calorimetric pyrometer. A platinum piece is heated, dropped into water, and the water's temperature rise is read on a mercury thermometer. Melting points are listed: silver 1890°F, copper 2220°, grey cast iron 2320°, wrought iron 3128°, Mondglas 2244°, crystal glass 2145°, copper slag 2046°. Stourbridge clay can replace platinum.\n- An excerpt from Erdmann's Journal f. prakt. Chemie 58 of Pasteur (Comptes rendus 35, p. 176) on crystal form, composition and optical rotation. Optically active substances usually show non-superposable hemihedry. Some salts crystallise holohedrally from water but hemihedrally from nitric acid or other solvents: calcium bitartrate, ammonium bitartrate, and tartramide.",
+  "errors": [
+   "No mathematical errors. All formulas (i', m', R, T in both forms, R0, T0, q0', ε) check out.",
+   "Minor: the derivation of i' from i1 = κβ²i'v/ϱ and the value v0 = ϱ/(κβ²) are left implicit.",
+   "The page states the maximum as a function of R rather than v; this is equivalent (v0 = ϱ/(κβ²))."
+  ],
+  "results": [
+   {
+    "what": "Current in a running motor reduced by back-emf: i' = nk/(ϱ + κβ²v)",
+    "modern_name": "Back-EMF in DC motor circuit (Ohm's law with counter-emf)",
+    "usually_credited_to": "Lenz, Jacobi (1830s-1850)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Maximum mechanical power T0 = n²k²/(4ϱκ), reached when the current is half the stalled current",
+    "modern_name": "Jacobi's law / maximum power transfer theorem",
+    "usually_credited_to": "M. H. Jacobi (c. 1840-1851)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Duty (work per zinc consumed) at maximum power ε = k/(2κ), i.e. 50% efficiency",
+    "modern_name": "Efficiency at maximum power = 1/2",
+    "usually_credited_to": "Jacobi; Joule",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Wilson's calorimetric (method-of-mixtures) pyrometer and melting points",
+    "modern_name": "Calorimetric pyrometry",
+    "usually_credited_to": "J. Wilson (reported by Siemens), c. 1852",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Pasteur on hemihedrism and optical activity, solvent-dependent hemihedry",
+    "modern_name": "Molecular chirality / hemihedral facets",
+    "usually_credited_to": "L. Pasteur 1848-1852",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are reading notes excerpting Jacobi's published motor theory and summaries from chemistry and physics journals. Riemann adds no original mathematics; the content is the well-known Jacobi maximum-power result.",
+  "checkable": [
+   {
+    "sympy": "solve(Eq(n*k/rho - ip, kappa*beta**2*ip*v/rho), ip)[0] - n*k/(rho+kappa*beta**2*v)",
+    "asserts": "the counter-current relation gives i' = nk/(ϱ+κβ²v) (result 0)"
+   },
+   {
+    "sympy": "simplify((beta*n*k/(rho+kappa*beta**2*v))**2*v - v*(beta*n*k)**2/(rho+kappa*beta**2*v)**2)",
+    "asserts": "T = R v with R = m'^2 equals v(βnk)²/(ϱ+κβ²v)² (result 0)"
+   },
+   {
+    "sympy": "simplify((beta*n*k*sqrt(R)-R*rho)/(kappa*beta**2) - R*(beta*n*k/sqrt(R)-rho)/(kappa*beta**2))",
+    "asserts": "the two forms of T in eq. 18 agree (result 0)"
+   },
+   {
+    "sympy": "solve(diff(beta*n*k*s-rho*s**2, s), s)[0]**2 - beta**2*n**2*k**2/(4*rho**2)",
+    "asserts": "R0 = β²n²k²/(4ϱ²) (result 0)"
+   },
+   {
+    "sympy": "simplify((beta*n*k*s-rho*s**2)/(kappa*beta**2)).subs(s, beta*n*k/(2*rho)) - n**2*k**2/(4*rho*kappa)",
+    "asserts": "T0 = n²k²/(4ϱκ), independent of β (result 0)"
+   },
+   {
+    "sympy": "simplify((n**2*k**2/(4*rho*kappa))/(n**2*k/(2*rho)) - k/(2*kappa))",
+    "asserts": "duty ε = k/(2κ) (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "'4) Hieraus u' = βc'' should read '11) Hieraus m' = β i''.",
+   "'x' throughout is Jacobi's κ (kappa).",
+   "'13) R = μ' [-…-] x u'^2' should read 'R = μ' = m'^2'; the struck word is probably 'sein'.",
+   "'(18) ℑ' denotes the useful work T; the numbered equations are 11, 13, 18, 20, 21, 26 as in Jacobi's paper.",
+   "'Die ökonomische Effect' should read 'Der ökonomische Effect'.",
+   "'Schweissschmiedeeisen' is uncertain; probably 'Weich-/Schmiedeeisen' (wrought iron).",
+   "'mit einem Kasten heissen' is uncertain; probably 'mit einem feinen/kleinen'.",
+   "'Mondglas' is a genuine term (crown glass)."
+  ]
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c249",
+ "label": "112",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000250/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is printed text from an elementary algebra/arithmetic textbook ('Zusatz zu §. 80'), with Gauss's handwritten marginalia on the right edge and one handwritten correction in the text.\n\nPRINTED DERIVATION (Euclidean algorithm leading to a continued fraction)\n\nTake a fraction m/(am+n) with 0 < n < m.\n\n1. Euclidean steps. Dividing am+n by m gives quotient a and remainder n. The book then sets:\n   - m = p n + q (0 < q < n),\n   - n = t q + r (0 < r < q),\n   - q = u r (the division comes out exact).\n   So r is the greatest common divisor.\n\n2. Divide numerator and denominator by m (the book cites §25):\n   m/(am+n) = 1/(a + n/m).\n\n3. Since m = pn + q:\n   n/m = n/(pn+q) = 1/(p + q/n),\n   so the fraction equals 1/(a + 1/(p + q/n)).\n   In the text, 'ist' is struck out and 'bekommt man' is written above it by hand.\n\n4. Since n = qt + r:\n   q/n = q/(qt+r) = 1/(t + r/q),\n   so the fraction equals 1/(a + 1/(p + 1/(t + r/q))).\n\n5. Since q = ur:\n   r/q = 1/u,\n   so m/(am+n) = 1/(a + 1/(p + 1/(t + 1/u))). This is a finite simple continued fraction [0; a, p, t, u].\n\n6. The text then makes two remarks:\n   - Converting the continued fraction back to an ordinary fraction gives the fraction in lowest terms (citing §33), because the gcd r has dropped out.\n   - Stopping after one or two divisions gives small numbers close to the value of the fraction. In modern terms, these are the convergents as best approximations.\n\nMARGINALIA (Gauss's hand)\n\n- A column reading ap, bq, cr, ds, et.\n- 'abcde', then the cyclic triples abc, bcd, cde, dea, eab.\n- a, b, c, d, e bracketed against p.\n- '1 0 1 3', which matches '-1 0 1 3 ...' on the next page.\n- 'p=', a column α', β' b, γ' c, δ' d, ε' e (with an 'e' beside it), and 'α'p =', 'pαq =', 'p_1^q(?) ='.\n\nThese are drafts of the next page. There a cyclic system is set up: ap+1 = pq, bq+1 = qr, cr+1 = rs, ds+1 = st, et+1 = tp. The next page also has:\n- products of the cyclically consecutive coefficients (abcde, abc+bcd+..., a+b+...) multiplied by pqrst;\n- a purely periodic continued fraction p = e + 1/(d + 1/(c + 1/(b + 1/(a + ...)))), the cycle e, d, c, b, a recurring;\n- a weighted generalization α'ap + α = pαq, etc.\n\nIn modern terms, Gauss is using the margin of this textbook page on continued fractions to sketch the algebra of a purely periodic continued fraction with period 5. That includes relations among cyclic continuants (sums of cyclic products, which give the trace of the period's 2x2 matrix product).",
+  "errors": [
+   "No mathematical errors in the printed derivation. The identities in steps 2-5 are exact once m = pn+q, n = qt+r, q = ur are given.",
+   "Implicit and unstated in the book: the requirement 0 < n < m (and similarly for the later remainders), so that a, p, t, u are the actual Euclidean quotients. The algebraic identity holds regardless.",
+   "The phrase 'Setzt man allgemein q = ur' presents a 4-step termination as generic. It is only an illustrative case; the text then says the procedure continues as long as needed.",
+   "The marginalia are too fragmentary to check on their own; they are drafts of the next page."
+  ],
+  "results": [
+   {
+    "what": "Expansion of a rational number into a finite simple continued fraction via the Euclidean algorithm, with the gcd dropping out so that the reconverted fraction is in lowest terms.",
+    "modern_name": "Euclidean algorithm / finite simple continued fraction expansion",
+    "usually_credited_to": "Euclid (algorithm); continued fractions developed by Bombelli, Cataldi, Schwenter, Huygens, Wallis, Euler (18th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Truncating the continued fraction after a few quotients gives small-number approximations close to the fraction.",
+    "modern_name": "Convergents as best rational approximations",
+    "usually_credited_to": "Huygens (planetarium gear ratios), Wallis, Euler, Lagrange",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Marginal sketch (continued on the next page) of a cyclic system ap+1=pq, bq+1=qr, ... , et+1=tp, linked to the purely periodic continued fraction with period (e,d,c,b,a) and to cyclic products abc+bcd+..., abcde.",
+    "modern_name": "Purely periodic continued fractions / cyclic continuants (trace of the period matrix product)",
+    "usually_credited_to": "Euler, Lagrange (periodic continued fractions); continuant algebra Euler; Gauss's own bracket notation for continuants appears in Disquisitiones Arithmeticae art. 27",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The printed content is a routine textbook treatment of continued fractions via the Euclidean algorithm, not by Gauss. Gauss's marginal jottings on cyclic systems and periodic continued fractions fit his well-known work on continuants and reduction of forms; they show private working but nothing beyond known results.",
+  "checkable": [
+   {
+    "sympy": "a,p,t,u,r=symbols('a p t u r',positive=True); q=u*r; n=q*t+r; m=p*n+q; simplify(m/(a*m+n) - 1/(a+1/(p+1/(t+1/u))))",
+    "asserts": "With m=pn+q, n=qt+r, q=ur, the fraction m/(am+n) equals the continued fraction 1/(a+1/(p+1/(t+1/u))). Expected result: 0."
+   },
+   {
+    "sympy": "a,n,m=symbols('a n m',positive=True); simplify(m/(a*m+n) - 1/(a+n/m))",
+    "asserts": "Step 2: dividing numerator and denominator by m. Expected result: 0."
+   },
+   {
+    "sympy": "p,n,q=symbols('p n q',positive=True); simplify(n/(p*n+q) - 1/(p+q/n))",
+    "asserts": "Step 3: n/(pn+q) = 1/(p+q/n). Expected result: 0."
+   },
+   {
+    "sympy": "from sympy.ntheory.continued_fraction import continued_fraction; continued_fraction(Rational(87,331))",
+    "asserts": "Numerical example: returns [0, 3, 1, 4, 17], i.e. a=3, p=1, t=4, u=17 in the page's pattern."
+   },
+   {
+    "sympy": "from sympy import gcd; m=1*(4*1+1)*1+1; gcd(m, 3*m+ (4*1+1))",
+    "asserts": "Sanity check with r=1 (u=1, t=4, p=1, a=3): m=6, n=5, so 6/23, already in lowest terms. Expected gcd: 1."
+   }
+  ],
+  "transcription_corrections": [
+   "The handwritten correction in the text is above the struck word: 'so ~~ist~~ bekommt man' is right, with 'bekommt man' written above the line.",
+   "Margin column: 'vr [?]' should read 'cr'. The column is ap, bq, cr, ds, et, matching the next page's ap+1=pq, bq+1=qr, cr+1=rs, ds+1=st, et+1=tp.",
+   "Margin '$b^c$ [?] fu [?]' at top is a cut-off fragment of a heading, not a formula.",
+   "Margin '1 0 1 3' corresponds to the start of the convergent sequence '-1 0 1 3 ...' on the next page."
+  ]
+ }
+}

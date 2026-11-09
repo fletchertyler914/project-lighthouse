@@ -1,0 +1,61 @@
+{
+ "bundle": "Math.22",
+ "page": "c033",
+ "label": "17v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000034/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two parts.\n\n(1) A general ansatz, written without derivation. The quotient Q/P is expanded as a continued fraction of 'Jacobi' (J-fraction) type:\n  Q/P = a/(x - α - b/(x - α' - b'/(x - α'' - b'' ...))).\nThe chain is left unfinished; the last visible term is x - α'' - b''. Here P is a polynomial and Q is evidently its derivative P' (confirmed by the example). Each denominator x - α^(k) is linear, and each partial numerator b^(k) is a constant. This expansion is exactly what the Euclidean algorithm on P, P' produces, provided each remainder has its sign changed and is normalised.\n\n(2) A worked test case of degree 2.\n  P = x^2 - A x + B,  Q = 2x - A = P'.\nIn the right margin Gauss carries out the polynomial division of 2P by Q:\n  2P = 2x^2 - 2A x + 2B.\n  Subtracting x·Q = 2x^2 - A x leaves the remainder -A x + 2B.\n  Next, (-A/2)·Q = -A x + (1/2)A^2. The page shows this line written directly under -Ax + 2B; the subtraction itself is implicit.\n  Subtracting it gives the constant remainder 2B - (1/2)A^2 (not written; my step).\nHence (my wording of the implicit step):\n  2P = (x - A/2)Q + (2B - A^2/2),\nwhich is the same as\n  P = (1/2)(x - A/2)Q + (B - A^2/4).\nDividing, Q/P = 2/((x - A/2) + (2B - A^2/2)/Q). Since Q = 2(x - A/2), this becomes\n  Q/P = 2/(x - (1/2)A + (B - (1/4)A^2)/(x - (1/2)A)).\nThis is the formula written at the bottom.\n\nComparing with the general form:\n  a = 2 (= deg P),\n  α = A/2 (the mean of the roots),\n  α' = A/2,\n  b = A^2/4 - B (the quarter-discriminant, (r1 - r2)^2/4),\n  and the fraction terminates after two steps.\n\nThe purpose is evidently to compute the continued-fraction (Euclid/Sturm-type) expansion of the logarithmic derivative P'/P = Σ 1/(x - r_i), checked on a quadratic. Such expansions arise in:\n- Gauss's work on quadrature and continued fractions (Methodus nova, 1814);\n- real-root counting, since b > 0 exactly when the roots are real and distinct.\n\nThe manuscript gives no explicit statement of the general recursion for α^(k), b^(k).",
+  "errors": [
+   "No mathematical errors. The final quadratic formula is correct.",
+   "Sign convention changes: the general form uses '- b/(...)' while the example uses '+ (B - A^2/4)/(...)'. This is consistent with b = A^2/4 - B, not a slip.",
+   "The general continued fraction is left incomplete. The last term 'x-α''-b''' should continue as b''/(x - α''' - ...). This is notation only, not an error.",
+   "The intermediate subtraction step, giving the remainder 2B - A^2/2, is not written explicitly."
+  ],
+  "results": [
+   {
+    "what": "Expansion of P'/P (the logarithmic derivative of a polynomial) into a J-fraction a/(x-α-b/(x-α'-...)) via the Euclidean algorithm",
+    "modern_name": "Jacobi continued fraction (J-fraction) of the Stieltjes transform Σ 1/(x-r_i); equivalent to the Sturm sequence of P, P'",
+    "usually_credited_to": "Euclidean algorithm and continued fractions (Euler, Lagrange); Sturm sequences (Sturm 1829); J-fractions and orthogonal polynomials (Jacobi, Chebyshev, Stieltjes)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Explicit quadratic case: (2x-A)/(x^2-Ax+B) = 2/(x - A/2 + (B - A^2/4)/(x - A/2))",
+    "modern_name": "Elementary polynomial division / partial continued fraction",
+    "usually_credited_to": "standard algebra",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine scratch computation: a two-step Euclidean division for a quadratic. The general J-fraction ansatz for P'/P is mildly interesting because it is linked to Sturm sequences, Gaussian quadrature and orthogonal polynomials. However, the page develops nothing beyond the trivial degree-2 case, and Gauss's continued-fraction work is well known.",
+  "checkable": [
+   {
+    "sympy": "x,A,B=symbols('x A B'); P=x**2-A*x+B; Q=diff(P,x); simplify(Q/P - 2/(x - A/2 + (B - A**2/4)/(x - A/2)))",
+    "asserts": "The final continued fraction on the page equals Q/P (result 0)."
+   },
+   {
+    "sympy": "x,A,B=symbols('x A B'); P=x**2-A*x+B; Q=2*x-A; expand(2*P - (x - A/2)*Q)",
+    "asserts": "The division remainder is the constant 2B - A**2/2."
+   },
+   {
+    "sympy": "x,A,B=symbols('x A B'); expand(2*(x**2-A*x+B) - x*(2*x-A))",
+    "asserts": "The first partial remainder is -A*x + 2*B, as written in the margin."
+   },
+   {
+    "sympy": "x,A,B=symbols('x A B'); expand((-A/2)*(2*x-A))",
+    "asserts": "The line -A*x + A**2/2 in the margin equals (-A/2)*Q."
+   },
+   {
+    "sympy": "r1,r2=symbols('r1 r2'); A=r1+r2; B=r1*r2; simplify(A**2/4 - B - (r1-r2)**2/4)",
+    "asserts": "The partial numerator b = A^2/4 - B equals (r1-r2)^2/4, which is positive exactly when the roots are real and distinct (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The first numerator, read 'a', is written in a form resembling '9'; it is the coefficient a (here a = deg P = 2).",
+   "The partial numerators b, b', b'' are written in a looped cursive form that can look like ℓ or 6. They are b, b', b''.",
+   "In the margin computation, the line '-Ax + ½AA' (i.e. -A x + (1/2)A^2) is (-A/2)·Q. It is to be subtracted from '-Ax + 2B'; no subtraction sign appears on the page."
+  ]
+ }
+}

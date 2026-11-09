@@ -1,0 +1,54 @@
+{
+ "bundle": "D.Reciprocitaet1855",
+ "page": "c007",
+ "label": "24v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234955:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous folio). Over a base domain K take an irreducible f(x) of degree m with roots r, and an irreducible φ(ξ) of degree μ with roots ρ.\n- Adjoining one root ρ splits f into k irreducible factors f(x,ρ), f1(x,ρ), … of degrees n, n1, …, so Σ n_i = m.\n- Adjoining one root r splits φ into the same number k of factors φ(ξ,r), φ1(ξ,r), … of degrees ν, ν1, …, so Σ ν_i = μ.\n- The factors are matched in exactly one way into k pairs P_i = (f_i, φ_i), and r is a root of f_i(x,ρ) exactly when ρ is a root of φ_i(ξ,r).\n- Every combination (r,ρ) belongs to exactly one pair.\n- It was shown that, for a fixed pair, each r is a root of f(x,ρ) for ν values of ρ, and each ρ is a root of φ(ξ,r) for n values of r.\n\nThis page.\n(1) Counting. The pair P contains ν·m = n·μ combinations (r,ρ). In these, each r occurs ν times and each ρ occurs n times. This is double counting of the set S_P = {(r,ρ) : f(r,ρ) = 0}: summing over r gives mν, summing over ρ gives μn.\n(2) The table. Form an m×μ array: columns are headed by the m roots r, rows by the μ roots ρ. In cell (r,ρ) write the symbol P_i of the pair to which (r,ρ) belongs. Then each P_i occurs ν_i times in every column and n_i times in every row, so ν_i·m = n_i·μ times in total. Consistency check given in the text: the number of cells is (ν+ν1+…)·m = (n+n1+…)·μ = m·μ, since Σ ν_i = μ and Σ n_i = m.\n(3) Interpretation.\n- Row ρ shows how the m roots r are distributed among the factors f_i(x,ρ) when that ρ is adjoined. Column r shows how the μ roots ρ are distributed among the φ_i(ξ,r) when that r is adjoined.\n- Running through all rows shows how the splitting of f changes as one adjoins the μ roots of φ one at a time. Running through the columns does the same for φ as the m roots of f are adjoined.\n(4) Mutual determination. Since the pairing is fixed, the table is the same object read in two directions. Knowing the distribution of the r among the factors of f for every adjoined ρ (all rows) therefore gives the distribution of the ρ among the factors of φ for every adjoined r (all columns).\n\nModern reading (mine).\n- The pairs are the irreducible factors of the tensor product K[x]/(f) ⊗_K K[ξ]/(φ), equivalently the orbits of the Galois group G on Roots(f)×Roots(φ), equivalently the double cosets H\\G/L where H = Gal(·/K(r)) and L = Gal(·/K(ρ)).\n- The identity n_i μ = ν_i m is [K(r,ρ):K] = μ·n_i = m·ν_i, read off for each component of the tensor product.\n- The table is the orbit (orbital) incidence matrix of G acting on the product of the two root sets.",
+  "errors": [
+   "No mathematical errors. The counts ν·m = n·μ per pair and the cell total Σν_i·m = Σn_i·μ = mμ are correct, given the earlier-proved facts that Σn_i = m and Σν_i = μ.",
+   "The closing claim that one splitting law determines the other is immediate: the two are the row and column readings of the same table. It is stated without further argument, but correctly so."
+  ],
+  "results": [
+   {
+    "what": "Double counting of the pairs (r,ρ) belonging to a matched factor pair (f_i, φ_i): ν_i m = n_i μ",
+    "modern_name": "Degree of the compositum, [K(r,ρ):K] = m·[K(r,ρ):K(r)] = μ·[K(r,ρ):K(ρ)]; component-wise for the tensor product of two simple extensions",
+    "usually_credited_to": "Implicit in Galois (1830s); explicit in Dedekind's Göttingen Galois lectures (1856–58), Jordan (1870), Kronecker",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The m×μ table of pair symbols, with each P_i occurring ν_i times per column and n_i times per row, as a complete picture of how the splitting of f varies with the adjoined root of φ and vice versa",
+    "modern_name": "Orbits of the Galois group on Roots(f)×Roots(φ) (orbitals / double cosets H\\G/L); splitting of f over K(ρ) dual to splitting of φ over K(r)",
+    "usually_credited_to": "Galois-theoretic folklore. Orbital/double-coset formulations are associated with Frobenius, Burnside and later D. G. Higman",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a careful, explicit combinatorial (table/orbit) formulation of the reciprocity between splittings of two irreducible polynomials over each other's root fields. It belongs to Dedekind's known early Galois-theory work (1855–58, partly edited by Scharlau). The tabular picture is a nice unpublished detail, but the mathematics is standard.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; x=symbols('x'); a=2**Rational(1,3); factor_list(x**3-2, extension=a)",
+    "asserts": "f = φ = x^3-2: adjoining one cube root splits it as (x-a)(x^2+a x+a^2), so k=2, n=(1,2), ν=(1,2). Check: n_i·μ = ν_i·m gives 1·3 = 1·3 and 2·3 = 2·3."
+   },
+   {
+    "sympy": "from sympy import *; x=symbols('x'); factor_list(x**4-2, extension=sqrt(2))",
+    "asserts": "f = x^4-2 (m=4) over Q(√2), with √2 a root of φ = ξ^2-2 (μ=2): two factors (x^2-√2)(x^2+√2), so n = (2,2)."
+   },
+   {
+    "sympy": "from sympy import *; x=symbols('x'); factor_list(x**2-2, extension=2**Rational(1,4))",
+    "asserts": "φ = ξ^2-2 over Q(2^(1/4)) splits as (ξ-r^2)(ξ+r^2), so ν = (1,1), the same k=2. Check: n_i·μ = 2·2 = 4 = ν_i·m = 1·4."
+   },
+   {
+    "sympy": "from sympy import *; x=symbols('x'); factor_list(x**4-2, extension=I)",
+    "asserts": "x^4-2 remains irreducible over Q(i), so k=1 with n=4, ν=2 (φ = ξ^2+1 stays irreducible over Q(2^(1/4))). Check: 4·2 = 2·4."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 'binen (r,ρ)' is the continuation of 'Combina-' from the previous page, i.e. 'Combinationen (r,ρ)'.",
+   "The rest of the transcription matches the image well. 'Horizontalcolumnen' and 'Verticalcolumnen' are as written; '(ν+ν1+etc)m = (n+etc)μ = m.μ' is confirmed."
+  ]
+ }
+}

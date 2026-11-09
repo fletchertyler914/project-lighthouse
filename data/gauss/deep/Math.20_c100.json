@@ -1,0 +1,74 @@
+{
+ "bundle": "Math.20",
+ "page": "c100",
+ "label": "50r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000101/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds two numerical root tables for trinomial equations of the form x^7 - 28 x^4 + C = 0. Each lists all seven complex roots, their polar data and two control sums. The headings 'Zug III. 180°' and 'Zug III. 5°' (Zug = path or branch) evidently tie these computations to labelled points on the curve family drawn on the previous page, whose points carry angle labels 0, 45, ..., 315.\n\nPolar convention (verified, not stated). Each root is written as x = ±r(cos φ + i sin φ) with 0 ≤ φ < 180°. The letter 'n' after log r marks the minus sign. Logarithms of r < 1 are written with characteristic 9 (that is, log r + 10). Examples I checked:\n- 2.5555030 + 0.2592773 i has |x| = 2.56863, log10 = 0.4097003, φ = arctan(0.101459) = 5°47'36\".\n- -1.7055090 - 2.6723174 i = -(1.7055090 + 2.6723174 i), with r = 3.17018, log r = 0.5010839, φ = 57°27'.\n- -1.9879509 = -r at φ = 0.\n\nTable 1 (Zug III, 180°): x^7 - 28x^4 + 560 = 0.\n- The seven roots are one real root (-1.9879509) and three conjugate pairs.\n- Check (a), sum of roots: the x^6 coefficient is 0, so Σx = 0. The page gives -0.0000003.\n- Check (b), sum of log r: since |Πx| = |C| = 560, Σ log r should equal log f = log10(560) = 2.7481880. The table sum is 2.7481881.\n- Check (c), angles (implicit, done by me): Σφ = 540° = 3·180°. There are four 'n' signs, so the product of roots is +560·e^{i540°} = -560, which is (-1)^7·C as required.\n- I also checked by substitution that x = -1.9879509 gives x^7 - 28x^4 ≈ -560.\n\nTable 2 (Zug III, 5°): x^7 - 28x^4 + (1.0654845 + 17.078968 i) = 0.\n- Here C = f e^{iθ} with |C| = 17.1122, so log f = 1.2333051, and θ = arg C = 86°25'48.666\".\n- The seven roots are all genuinely complex, with no conjugate symmetry.\n- Check (a): the page gives Σx = +0.0000018 - 0.0000021 i ≈ 0.\n- Check (b): Σ log r = (four characteristics of 9, minus 40) + ... = 1.2333051, equal to log f.\n- Check (c), angles: the raw sum is Σφ = 626°25'48.674\". Gauss reduces it mod 180° to 86°25'48.674\", against θ = 86°25'48.666\", an agreement to 0.008\". Again there are four 'n' signs, and e^{i626.43°} = -e^{i86.43°}, so Πx = -C exactly as required.\n\nPurpose. These are numerical solutions of a trinomial equation for selected complex values of the constant term, with the classical Vieta checks: sum of roots, and the product of roots split into modulus (via logs) and argument (via angles mod 180°). This is probably to plot root positions along a path ('Zug') in the drawing on the previous page.\n\nUnclear point. What the parameter '5°' denotes is not clear from this page; it is not arg C (86.43°). It may be the angle label of the point on curve III in the figure.",
+  "errors": [
+   "No substantive errors found. The control sums show only last-digit rounding: Σx = -3e-7 in Table 1; Σx = 1.8e-6 - 2.1e-6 i and an angle discrepancy of 0.008\" in Table 2.",
+   "The real parts of the near-'pairs' in Table 2 (e.g. -1.5187800 vs -1.5188014) are not conjugate. This is correct, since C is complex, not a slip."
+  ],
+  "results": [
+   {
+    "what": "Complete numerical solution (all 7 complex roots, to 7 decimals) of the trinomial x^7 - 28x^4 + 560 = 0, given in polar/logarithmic form",
+    "modern_name": "numerical root-finding for trinomial equations",
+    "usually_credited_to": "Gauss himself published a logarithmic method for trinomial equations (Beiträge zur Theorie der algebraischen Gleichungen, 1849, part II); general methods go back to Lambert and Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Roots of x^7 - 28x^4 + C = 0 for the complex constant C = 1.0654845 + 17.078968 i, i.e. one point on a path ('Zug') of the constant term",
+    "modern_name": "root locus / continuation of roots along a path of the parameter",
+    "usually_credited_to": "related to Gauss's geometric FTA proofs (1799, 1849) and to his trinomial work; root loci as a technique are much later (Evans 1948), but tracing roots under continuous coefficient change is implicit in Gauss's work",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Control checks via Vieta: Σ roots = 0, Σ log|x| = log|C|, Σ arg ≡ arg C (mod 180°) with sign bookkeeping",
+    "modern_name": "Vieta's formulas used as computational checks",
+    "usually_credited_to": "Viète / Girard (17th c.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are careful but routine numerical computations of trinomial-equation roots with standard Vieta checks. They fit Gauss's known 1849 interest in trinomial equations and in the geometry of root curves. The association with a path (Zug) of the constant term in a drawing is a mildly interesting unpublished detail, not a new result.",
+  "checkable": [
+   {
+    "sympy": "[N(r, 8) for r in Poly(x**7 - 28*x**4 + 560, x).nroots(n=15)]",
+    "asserts": "Roots are -1.9879509, 2.5555030±0.2592773i, -1.7055090±2.6723174i, 0.1439813±2.0513738i"
+   },
+   {
+    "sympy": "N(log(560, 10), 9)",
+    "asserts": "log f = 2.7481880 for Table 1"
+   },
+   {
+    "sympy": "N(log(Abs(2.5555030 + 0.2592773*I), 10), 8), N(atan(0.2592773/2.5555030)*180/pi, 10)",
+    "asserts": "log r = 0.4097003 and φ = 5.79331° (5°47'35.93\")"
+   },
+   {
+    "sympy": "Poly(x**7 - 28*x**4 + 1.0654845 + 17.078968*I, x).nroots(n=15)",
+    "asserts": "Roots agree with Table 2, e.g. -0.8215440-0.3202411i, 3.0362235-0.0072727i, -1.5188014+2.6224312i"
+   },
+   {
+    "sympy": "N(log(Abs(1.0654845 + 17.078968*I), 10), 9), N(atan(17.078968/1.0654845)*180/pi, 12)",
+    "asserts": "log f = 1.2333051 and arg C = 86.430185° (86°25'48.666\")"
+   },
+   {
+    "sympy": "N(-1.9879509**7 - 28*1.9879509**4 + 560, 6)",
+    "asserts": "(-1.9879509)^7 - 28(-1.9879509)^4 + 560 ≈ 0"
+   },
+   {
+    "sympy": "(21+21+60+111+111+120+179) + (17+56+3+26+45+4+51)/Integer(60) + (45.744+8.899+34.907+53.544+0.108+39.400+46.072)/3600 - 540",
+    "asserts": "Sum of φ in Table 2, minus 540°, equals 86.43019° (86°25'48.674\")"
+   }
+  ],
+  "transcription_corrections": [
+   "None needed for the numbers; the machine transcription matches the image.",
+   "Interpretive note: 'n' after log r means the root is -r(cos φ + i sin φ), not a negative logarithm. Characteristic 9 means log r - 10 (r < 1).",
+   "Interpretive note: 'φ ... 86 25 48,666' in Table 2 is the argument of the constant term C = 1.0654845 + 17.078968 i, compared with the angle sum taken mod 180°."
+  ]
+ }
+}

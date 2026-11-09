@@ -1,0 +1,42 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c007",
+ "label": "3v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the bundle on heat conduction (Wärmeleitung). The neighbouring pages belong to the circle of Riemann's 1861 Paris prize essay (Commentatio mathematica). There he asks when a heat-conduction equation with variable coefficients can be reduced to constant coefficients, and the next page has the four-index symbols (12,23) etc. This page is a short computational aside followed by a German letter draft.\n\n(1) First line. The line reads roughly \"∂²u/∂α² = 0, u = αγ + γ'\". The 'x' in the machine transcription is very probably α. If ∂²u/∂α² = 0, then u is linear in α: u = α·γ(β,t) + γ'(β,t). The dependence of γ, γ' on (β,t) only is my inference from the following lines.\n\n(2) The equation considered is\n a ∂²u/∂β² + b ∂u/∂β + c ∂²u/∂α∂β + e ∂u/∂α = ∂u/∂t.\nThis is a degenerate parabolic (diffusion) equation in two space variables α, β. Its operator has no ∂²/∂α² term, or that term is killed by the ansatz. The left-hand symbol before the first '=' is unclear in the image.\n\n(3) Substituting the ansatz gives the following derivatives (my explicit step):\n- u_t = α γ_t + γ'_t\n- u_β = α γ_β + γ'_β\n- u_ββ = α γ_ββ + γ'_ββ\n- u_αβ = γ_β\n- u_α = γ\n\nInserting these into the equation gives Riemann's lines:\n α γ_t + γ'_t = e γ + γ_β (bα + c) + a α γ_ββ + b γ'_β + a γ'_ββ.\nThis is exactly what is written. The terms are arranged so that the γ-terms stand in the first row and the γ'-terms in the second.\n\n(4) Implicit next step (mine, valid only if a, b, c, e do not depend on α). Comparing powers of α splits the equation into two:\n- γ_t = a γ_ββ + b γ_β (a one-dimensional heat equation for γ);\n- γ'_t = a γ'_ββ + b γ'_β + c γ_β + e γ (the same equation for γ', forced by γ).\nSo the ansatz reduces the 2-D degenerate problem to a triangular system of 1-D parabolic equations. Riemann does not write this split.\n\n(5) The rest of the page is an unrelated, heavily corrected letter draft in German. It mentions that the printing ('Druck') of something has already begun and closes with the formula 'Mit der Bitte, mir auch ferner Ihr Wohlwollen zu erhalten, verharre ich'. It has no mathematical content.",
+  "errors": [
+   "No algebraic error: the substitution of u = αγ + γ' into the stated equation is carried out correctly.",
+   "The splitting by powers of α (if intended) requires the coefficients a, b, c, e to be independent of α. This is not stated on the page.",
+   "The leading 'e' in 'eγ' is overwritten or bold in the manuscript, not deleted. The term eγ is required by the computation."
+  ],
+  "results": [
+   {
+    "what": "Ansatz u = αγ(β,t) + γ'(β,t) (solutions linear in one variable) for the degenerate parabolic equation a u_ββ + b u_β + c u_αβ + e u_α = u_t, giving coupled equations for γ, γ'",
+    "modern_name": "Polynomial (linear-in-a-variable) separation ansatz / reduction of a degenerate diffusion equation to a triangular system of 1-D heat equations",
+    "usually_credited_to": "Standard technique (Fourier/Lamé-era heat theory; no specific attribution)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "A routine substitution of a linear-in-α ansatz into a variable-coefficient diffusion equation, plus a letter draft. It fits the known context of Riemann's 1861 heat-conduction work and contains nothing non-standard.",
+  "checkable": [
+   {
+    "sympy": "al,be,t=symbols('alpha beta t'); a,b,c,e=symbols('a b c e'); g=Function('g')(be,t); gp=Function('gp')(be,t); u=al*g+gp; simplify((a*diff(u,be,2)+b*diff(u,be)+c*diff(u,al,be)+e*diff(u,al)-diff(u,t)) - (e*g+diff(g,be)*(b*al+c)+diff(g,be,2)*a*al+b*diff(gp,be)+a*diff(gp,be,2)-al*diff(g,t)-diff(gp,t)))",
+    "asserts": "Equals 0: substituting u = αγ + γ' into a u_ββ + b u_β + c u_αβ + e u_α = u_t gives exactly Riemann's displayed equation."
+   },
+   {
+    "sympy": "expand(a*diff(u,be,2)+b*diff(u,be)+c*diff(u,al,be)+e*diff(u,al)-diff(u,t)).coeff(al,1) - (a*diff(g,be,2)+b*diff(g,be)-diff(g,t))",
+    "asserts": "Equals 0: for α-independent coefficients, the α^1 part is the heat equation γ_t = aγ_ββ + bγ_β."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: likely '∂²u/∂α² = 0, u = αγ + γ'' rather than '∂u/∂x = 0 αγ+γ''.",
+   "In the third line 'eγ' is a retained term (overwritten 'e'), not a deletion [-e-].",
+   "Closing line of the letter draft: likely 'Mit der Bitte, mir {+auch ferner+} Ihr Wohlwollen zu erhalten, verharre ich.' The insertion is probably 'auch ferner', not 'nicht sofort', and the final word is 'verharre', not 'bekenne'.",
+   "Second line of the draft probably contains 'selbst' preceded by a name or title. The struck words are illegible; the inserted 'zumal da' is correct."
+  ]
+ }
+}

@@ -1,0 +1,63 @@
+{
+ "bundle": "Math.26",
+ "page": "c019",
+ "label": "8v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381839:00000020/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds two unrelated pieces of work: (I) a large bookkeeping table with a summary column, and (II) an upside-down table headed 'Das Pentagon', which belongs to the pentagram material on the previous page.\n\n(I) Main table. Each row has a label (a, b, ..., z, A, ..., K, psi, omega), a number N, and a second entry R. The column headers are letters (i, k, h, u, v, x, w, k, l, y, t, m, g, f, w, h, v), each with a signed increment (+90 [probably +9, see below], +57, +57, +74, +67, +96, +55, +43, +33, +41, +38, +50, +51, +46, -53, +49, +44). The cells under these headers record how the R-entries change after each increment is applied in turn.\n- Most R values start near 0 (±1). Large initial ones are f +86, h +81, i +155, k +82, m +76, r -55, u +156, v +71, x +176, psi +120 and omega -946.\n- The second-to-last column (header w -53) gives the final state of each row. Many rows end at about ±53 or ±54, consistent with a uniform shift of -53 applied through w.\n\nThe lower-left summary (headed 'Rem') applies the accepted total increments to the base numbers:\n- f: 1071 + 46 = 1117\n- g: 1583 + 51 = 1634 (remainder +48)\n- h: 1407 + 57 + 49 = 1513 (remainder -36)\n- i: 417 + 9 + 30 = 456\n- k: 273 + 57 + 43 = 373 (remainder -94)\n- l: 484 + 33 - 44 = 473 (remainder +14)\n- m: 1712 + 50 = 1762\n- t: 1805 + 38 = 1843\n- u: 1877 + 74 = 1951 (remainder +114)\n- v: 2283 + 67 + 44 = 2394 (remainder -27)\n- w: 1665 + 55 = 1720 (remainder +54)\n- x: 1073 + 96 = 1169 (remainder +84)\n- y: 369 + 41 = 410\n- psi: 681 + 31 = 712\n- omega: 419 - 53 - 6 = 360\n\nA restart follows, 'Neue Rechnung mit r 577, x 1207, psi 712, omega 360', i.e. a new run with these trial values.\n\nThe structure looks like an iterative trial-and-correction procedure: unknowns are perturbed one at a time and the remainders are re-tabulated. This resembles Gauss's 'indirect' successive-correction solution of an adjustment system. The underlying problem cannot be identified from this page alone, so that reading is my conjecture.\n\n(II) 'Das Pentagon' (upside down). For ten angles A, b, C, d, E, a, B, c, D, e the columns t, s, c give log10 tan, log10 sin and log10 cos (written with 10 added, so 9.xxx means a negative logarithm).\n- Example: A = 51°54'40\" gives tan A = 1.2759, log 0.10580; sin A gives 9.89601; cos A gives 9.79020. All correct.\n- The angles form complementary pairs: A + a = 90°, B + b = 90°, D + d = 90°, E + e = 90°.\n- Accordingly the logs are swapped: s(a) = c(A), c(a) = s(A), t(a) = 10 - t(A), and similarly for the other pairs.\n- These are the five angle parameters of the spherical pentagon/pentagram (pentagramma mirificum) treated on the previous page, where coordinates of the vertices are computed and found to satisfy g z^2 + g' x^2 + g'' y^2 = 0, a conic.",
+  "errors": [
+   "In the Pentagon table, C = 75°57'20\" and c = 14°2'10\" sum to 89°59'30\", not 90°. The logs listed for c (9.38502 = log sin, 9.98682 = log cos) correspond to c = 14°2'40\", the exact complement of C. So the angle written for c is off by 30\" (either a writing slip or a misreading); the logs themselves are consistent.",
+   "Summary line 'i +9 +30' versus the column header 'i +90': the arithmetic 417 + 39 = 456 shows the increment is +9, so the header probably reads +9 (or is a slip)."
+  ],
+  "results": [
+   {
+    "what": "Table of log tan, log sin, log cos for the five complementary angle pairs of Gauss's spherical pentagon",
+    "modern_name": "Pentagramma mirificum (self-polar spherical pentagon / Napier's rules for the pentagram)",
+    "usually_credited_to": "Gauss (pentagramma mirificum), with Napier for the underlying right-triangle rules",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Iterative correction table with base values, trial increments and remainders, and a restart with new values",
+    "modern_name": "Successive (relaxation-type) correction of unknowns; possibly Gauss's indirect solution of normal equations",
+    "usually_credited_to": "Gauss (indirect method, letter to Gerling 1823); Seidel 1874",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine numerical worksheets: a log-trig table for the already well-known pentagramma mirificum, and an arithmetic correction/bookkeeping table whose underlying problem cannot be identified from this page.",
+  "checkable": [
+   {
+    "sympy": "N(log(tan(rad(51+54/60+40/3600)),10))",
+    "asserts": "log tan A ≈ 0.10580"
+   },
+   {
+    "sympy": "N(10+log(cos(rad(51+54/60+40/3600)),10))",
+    "asserts": "log cos A ≈ 9.79020"
+   },
+   {
+    "sympy": "N(10+log(sin(rad(14+2/60+40/3600)),10))",
+    "asserts": "c = 14°2'40\" gives log sin 9.38502, matching the table (14°2'10\" would give about 9.38477)"
+   },
+   {
+    "sympy": "(51*3600+54*60+40)+(38*3600+5*60+20) - 90*3600",
+    "asserts": "A + a = 90° (result 0)"
+   },
+   {
+    "sympy": "(75*3600+57*60+20)+(14*3600+2*60+10) - 90*3600",
+    "asserts": "C + c falls short of 90° by 30 arcseconds (result -30)"
+   },
+   {
+    "sympy": "[1407+57+49-1513, 273+57+43-373, 484+33-44-473, 2283+67+44-2394, 419-53-6-360, 417+9+30-456]",
+    "asserts": "The summary-column additions are correct (all results 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Pentagon table: the angle for c is written 14.2.10, but the consistent value is 14°2'40\".",
+   "Summary line 'i +9 +30': the arithmetic confirms +9, so the header '+90' for i is likely '+9'.",
+   "Row z second entry: '+0' (possibly 'o'/0), not a distinct value."
+  ]
+ }
+}

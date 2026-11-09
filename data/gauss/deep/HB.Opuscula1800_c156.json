@@ -1,0 +1,54 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c156",
+ "label": "151",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000157/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a numerical table with no derivation. It tabulates a slowly varying, almost linear quantity y(t) at steps of 0.1 in its argument.\n\nThe argument is written as 'D.h,f', for example 26.10,0, 27.4,3, 28.2,0. Most plausibly this means day D (of August 1819), at hour h and tenth f. The coverage is 26d 10.0h to 28d 2.0h, in four columns of four hours each. Each column's last entry is repeated as the next column's first entry.\n\nThe two lines at the top (8.9 → −1564, 9.0 → −1551) are the tail of the column on the facing page, i.e. 26d 8.9h and 9.0h. They lead on to 26.10,0 → −1415. The faint left-margin numbers (−2483 … −3246) are the last column of the previous page showing through or offset (arguments 20.0–24.0 there). They are not part of this table.\n\nStructure of the values (my analysis):\n- The whole-hour entries carry the real information. From 26d 9h to 28d 2h they are:\n  −1551, −1415, −1281, −1146, −1013, −879, −746, −614, −481, −350, −218, −87, +43, +174, +303, +433, +562, +691.\n- Their first differences are:\n  136, 134, 135, 133, 134, 133, 132, 133, 131, 132, 131, 130, 131, 129, 130, 129, 129.\n- So the hourly rate falls slowly, by about 7 units over 17 hours. The second difference is about −0.4 per hour², so y is very nearly quadratic in t.\n- Within each hour the tenths are filled in by straight-line interpolation: about 13.4 per tenth at the start, falling to about 12.9 per tenth at the end. The rounded steps alternate between 13 and 14, or 12 and 13.\n- The small discrepancies of ±1 against exact linear interpolation from the printed hourly integers suggest the hourly values were themselves carried to fractions before rounding.\n- y changes sign between 27d 8.6h (−9) and 8.7h (+4). By interpolation the zero is near 27d 8.67h (my inference).\n\nContext: the next page carries a list of stars observed on 1819 Aug 26, 27 and 28 (Capella, α Ophiuchi, γ/α/β Aquilae, α¹ and α² Capricorni, Sirius, Arcturus, Procyon, Pollux, …). It also carries a table whose logarithmic values 1.760… correspond to about 57.6\", i.e. a refraction-constant factor as a function of zenith distance.\n\nThis strongly suggests the present table is an auxiliary reduction table for those observations. The most likely candidate (my conjecture) is a clock correction (Uhrstand) with a slowly changing rate, expressed in small units such as thousandths of a second. It is interpolated to 0.1 h so that each observed transit can be reduced by simple lookup. The exact physical meaning and units cannot be fixed from this page alone. The purpose — a routine interpolation table for reducing astronomical observations — is clear.",
+  "errors": [
+   "Column 1, entry 27d 1.9h is written as −992. Interpolating between −906 (1.8) and −879 (2.0) requires about −892/−893, so '992' is a slip of the pen for 892.",
+   "Column 1, 1.8: the value −906 appears overwritten or corrected in the manuscript; the corrected value is consistent with interpolation.",
+   "There are minor ±1 rounding departures from exact linear interpolation between the integer hourly values. Examples: 26d 10.1 → 1401 (exact 1401.6) and 28d 0.6 → 511 (exact 510.4). These are consistent with unrounded hourly values and are not genuine errors."
+  ],
+  "results": [
+   {
+    "what": "Table of a nearly linear, slowly accelerating quantity (probably a clock correction or similar reduction quantity) for 1819 Aug 26–28. Hourly values are subtabulated to tenths of an hour by linear interpolation.",
+    "modern_name": "Subtabulation / linear interpolation of an ephemeris-type auxiliary table (e.g. clock-correction table with variable rate)",
+    "usually_credited_to": "Standard practice of 18th–19th c. practical astronomy",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a purely computational auxiliary table, interpolated linearly from hourly values, for reducing Gauss's August 1819 star observations. It is routine observatory bookkeeping with no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "Rational(906+879,2)",
+    "asserts": "Midpoint of the 1.8 and 2.0 entries is 892.5, so the entry 'm992' at 27d 1.9h should be about 892."
+   },
+   {
+    "sympy": "[a-b for a,b in zip([1551,1415,1281,1146,1013,879,746,614,481,350,218,87,-43,-174,-303,-433,-562,-691][:-1],[1551,1415,1281,1146,1013,879,746,614,481,350,218,87,-43,-174,-303,-433,-562,-691][1:])]",
+    "asserts": "The hourly first differences (of −y) are 136,134,135,133,134,133,132,133,131,132,131,130,131,129,130,129,129, a slowly decreasing rate."
+   },
+   {
+    "sympy": "[round(433+Rational(129,10)*k) for k in range(11)]",
+    "asserts": "Linear subtabulation of 28d 0h–1h gives 433,446,459,472,485,498(497.5),510,523,536,549,562, matching the manuscript to within 1 unit."
+   },
+   {
+    "sympy": "solve(-9 + 13*x, x)",
+    "asserts": "The zero crossing lies about 0.069 h after 27d 8.6h, i.e. near 27d 8.67h."
+   },
+   {
+    "sympy": "(1415-879, 879-350, 350+174, 691-174)",
+    "asserts": "The four-hour column totals are 536, 529, 524, 517, showing the steady decrease in rate (non-constant first differences)."
+   }
+  ],
+  "transcription_corrections": [
+   "All values in columns 1–3 down to 27d 8.6h carry a minus sign (−1415 … −9). The transcription's dashes are the signs, so these entries are negative; from 8.7h on they are positive.",
+   "Column 1, 27d 1.9h: the manuscript reads −992, but this is Gauss's slip for −892. The transcription's '992[?]' faithfully reproduces the slip.",
+   "The top two lines (8.9 −1564, 9.0 −1551) are the continuation of the facing page's column (26d 8.9h, 9.0h), not a separate item.",
+   "The left-margin column (−2483 … −3246) belongs to the previous or facing page, not to this table."
+  ]
+ }
+}

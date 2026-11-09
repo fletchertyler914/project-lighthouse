@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c079",
+ "label": "37v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000080/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Riemann's Inaugural Dissertation (1851). It belongs to the Dirichlet-principle articles (the §18 discussion of the functional L = Ω, i.e. the Dirichlet integral of the correction function λ). The lower, upside-down half is a draft of §19.\n\nUpper half (§18 continuation). The previous page showed, with an annulus and the weight (1−Kp), that the Dirichlet-type integral can be made arbitrarily large near a discontinuity. This page shows the opposite phenomenon at a single interior point.\n\nSetup. Around the point O' inside T, draw a fixed circle of radius R. Riemann tacitly normalizes R = 1; the normalization is mine to state. Draw also a smaller circle of variable radius r < 1. Use polar coordinates (ρ, φ) centred at O', so ρ = 0 at O'. Define the trial function\n- λ = a for ρ ≤ r,\n- λ = a·log ρ / log r for r ≤ ρ ≤ 1,\n- λ = 0 outside the larger circle.\nThis λ is continuous: it equals a at ρ = r and 0 at ρ = 1. It satisfies the constraint λ(O') = a and vanishes on the boundary of T.\n\nComputation. Inside the annulus, |∇λ| = |∂λ/∂ρ| = a/(|log r|·ρ). The gradient vanishes elsewhere. Hence\nL = ∫∫ |∇λ|² dT = (a²/log² r) ∫_r^1 ∫_0^{2π} (1/ρ)² ρ dρ dφ = (a²/log² r)·2π·log(1/r) = 2π a²/log(1/r).\nThis tends to 0 as r → 0. So L can be made smaller than any given quantity, although the value a ≠ 0 is imposed at O'.\n\nConsequence drawn by Riemann. The infimum of the Dirichlet integral under a point constraint is 0 and is not attained by any admissible function. In modern terms, a point has zero (logarithmic) capacity in the plane. The minimum theorem of the preceding article therefore needs an addendum. Among continuous functions, or functions with discontinuities that can be removed by changing values at single points, the functional Ω has a unique minimum only when such removable discontinuities are excluded, i.e. functions differing at isolated points are identified.\n\nHe then begins a further remark, cut off. If T had somewhere an isolated boundary point (e.g. a puncture), where λ would have to be 0, then ... The point is evidently that such a boundary condition is ineffective. This is the phenomenon later known as Zaremba's counterexample (the punctured disk).\n\nLower half (upside down, numbered 19): a draft of dissertation §19. Fragmentary content:\n- u = α + λ is chosen to minimize the Dirichlet integral.\n- The integrals ∫[(∂u/∂x)² + (∂u/∂y)²] dT and the same with X are finite over the whole surface.\n- The integral ∫[(∂α/∂x − ∂β/∂y)² + (∂α/∂y + ∂β/∂x)²] dT, extended over the whole surface, measures the deviation of α + βi from satisfying the Cauchy–Riemann equations.\n- If it is finite, α + βi can be converted into a function of x + yi with prescribed discontinuities and boundary data (the Lehrsatz used on the next page, §20).",
+  "errors": [
+   "No computational error: 2π·(a²/log² r)·log(1/r) = 2π a²/log(1/r) is correct.",
+   "R is introduced as the fixed radius but the computation silently uses ρ = 1 (normalization R = 1). With general R the result is 2π a²/log(R/r).",
+   "The draft does not fully state the corrected theorem: the 'Zusatz' sentence is heavily revised and the following remark about an isolated boundary point breaks off."
+  ],
+  "results": [
+   {
+    "what": "Dirichlet integral of the log-cutoff function a·log ρ/log r on r<ρ<1 equals 2π a²/log(1/r) → 0, so a value prescribed at a single point does not constrain the minimum of the Dirichlet integral.",
+    "modern_name": "zero logarithmic capacity of a point in R^2 / non-attainment in Dirichlet principle with point constraints",
+    "usually_credited_to": "capacity notion: Wiener (1924), de la Vallée Poussin; the punctured-disk failure of the Dirichlet problem: S. Zaremba (1909/1911)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Addendum: uniqueness of the Dirichlet minimizer holds only modulo removable (pointwise) discontinuities; an isolated boundary point cannot carry a boundary condition.",
+    "modern_name": "functions in H^1 defined up to sets of capacity zero; irregular boundary points (Zaremba's example)",
+    "usually_credited_to": "Zaremba 1911; Lebesgue 1913 (irregular points); Wiener 1924",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Use of ∫[(α_x−β_y)²+(α_y+β_x)²]dT to produce a holomorphic function from α+βi (draft of dissertation §19).",
+    "modern_name": "Dirichlet principle / Hodge-type correction to Cauchy–Riemann equations",
+    "usually_credited_to": "Riemann 1851 (dissertation)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 5,
+  "surprise_reason": "The log-cutoff computation is elementary, and the dissertation itself mentions removable discontinuities. But an explicit, unpublished calculation showing that a point constraint has zero Dirichlet energy is notable. So is the start of a remark on isolated boundary points, i.e. Zaremba's punctured-disk phenomenon about 60 years early. It shows Riemann was aware of a subtlety of the Dirichlet principle usually attributed to later critics. It is unclear whether historians studying the dissertation drafts have already noted this.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(integrate((a/(log(r)*rho))**2*rho,(rho,r,1)),(phi,0,2*pi)) - 2*pi*a**2/log(1/r)), with symbols a, r, rho, phi positive",
+    "asserts": "The Dirichlet integral of λ = a·log ρ/log r over r<ρ<1 equals 2π a²/log(1/r)"
+   },
+   {
+    "sympy": "limit(2*pi*a**2/log(1/r), r, 0, '+')",
+    "asserts": "The energy tends to 0 as r→0 (equals 0)"
+   },
+   {
+    "sympy": "diff(a*log(rho)/log(r), rho)",
+    "asserts": "Radial derivative is a/(rho*log(r)), giving |grad λ|² = a²/(ρ² log² r)"
+   },
+   {
+    "sympy": "simplify(integrate(integrate((a/(log(r/R)*rho))**2*rho,(rho,r,R)),(phi,0,2*pi)) - 2*pi*a**2/log(R/r))",
+    "asserts": "General-radius version: energy 2π a²/log(R/r)"
+   }
+  ],
+  "transcription_corrections": [
+   "'Polarcoordinaten ρ, φ von O aus für O'' should probably read 'Polarcoordinaten ρ, φ, ρ = 0 für O'' (or 'zwar 0 für O''), i.e. polar coordinates centred at O'.",
+   "The integration domain on the image is ∫_r^1 ∫_0^{2π} with a struck-out duplicate 'dφ'; the second circle uses ρ = 1, so R is normalized to 1.",
+   "'nur [?] ein Minimum' likely reads 'nur ein Ω Minimum' / '... welche Ω zu einem Minimum macht', the corrected uniqueness statement for the functional Ω.",
+   "'ein [?] ..., d.h. ein einzelner Begrenzungspunkt' possibly 'ein Riss (Loch), d.h. ein einzelner Begrenzungspunkt'.",
+   "The lower upside-down block is the draft heading '19.' (§19) of the dissertation, not continuation of the upper text."
+  ]
+ }
+}

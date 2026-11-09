@@ -1,0 +1,67 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c017",
+ "label": "[12]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000018/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (from the surrounding articles): a, b, c, d, ... are m distinct quantities. S^n = Σ_i a_i^n / Π_{j≠i}(a_i − a_j). A, B, C, ..., L, M are the elementary symmetric functions, so that Π(x − a_i) = x^m − A x^{m−1} + B x^{m−2} − ... + (−1)^m M, with M = abcd... .\n\nArt. 10 (cited) is the recurrence S^n − A S^{n−1} + B S^{n−2} − ... + (−1)^m M S^{n−m} = 0 for every n. Each a_i is a root of the polynomial, so a_i^{n−m}·Π(a_i − a_j) vanishes. For negative exponents this needs all a_i ≠ 0.\n\nArt. 11 (cited; proved on the previous page by the divisibility argument 'Q is divisible by P but has lower degree, so Q = 0') states S^n = 0 for 0 ≤ n ≤ m−2.\n\nArt. 12, Theorem: S^{−1} = (−1)^{m+1}/(abcd...). The upper (+) sign holds for odd m.\nProof:\n1. Adjoin a new quantity x, giving m+1 quantities.\n2. Since 0 ≤ (m+1)−2, art. 11 gives S^0 = 0 for these m+1 quantities:\n   1/((x−a)(x−b)...) + 1/((a−x)(a−b)(a−c)...) + 1/((b−x)(b−a)(b−c)...) + ... = 0.\n3. Put x = 0.\n   - The first term becomes 1/((−a)(−b)...) = (−1)^m/(abcd...). Gauss writes this as ∓1/(abcd...), upper sign for odd m.\n   - Each remaining term becomes (1/a_i)·1/Π_{j≠i}(a_i − a_j). Their sum is exactly S^{−1} for the original m quantities.\n4. Hence (−1)^m/(abcd...) + S^{−1} = 0, i.e. S^{−1} = (−1)^{m+1}/(abcd...).\n\nArt. 13, Theorem: S^{m−1} = 1.\nProof:\n1. Take n = m−1 in the art. 10 recurrence: 0 = S^{m−1} − A S^{m−2} + B S^{m−3} − ... + (−1)^{m−1} L S^0 + (−1)^m M S^{−1}. Gauss writes the last two terms as '± L S^0 ∓ M S^{−1}', upper sign for odd m.\n2. By art. 11, S^{m−2}, ..., S^0 all vanish, so S^{m−1} = (−1)^{m+1} M S^{−1}.\n3. With M = abcd... and S^{−1} from art. 12, S^{m−1} = (−1)^{m+1}·abcd...·(−1)^{m+1}/(abcd...) = 1.\n\nPurpose: these articles build up the theory of the sums S^n. They lead to art. 14 on the next page, where S^m, S^{m+1}, ... are obtained from the recurrence and shown to be integral (in fact complete homogeneous) symmetric functions.",
+  "errors": [
+   "In art. 13 the manuscript writes 'M = ±abcd...' (the sign appears struck through or overwritten, with a reference mark). For the conclusion S^{m−1} = 1, M must equal +abcd... for all m. The alternating sign belongs to the coefficient (−1)^m M in the recurrence, not to M itself. If the ± were kept, the product of the three sign factors would give (−1)^{m+1}, not 1. The overwriting looks like a correction of exactly this point.",
+   "No other errors: the sign bookkeeping in art. 12 ((−1)^m from the x-term at x = 0) and in the art. 13 recurrence is correct.",
+   "Implicit assumption: art. 12 and the use of art. 10 with S^{−1} require a, b, c, ... ≠ 0 and pairwise distinct. This is not stated."
+  ],
+  "results": [
+   {
+    "what": "Σ_i 1/(a_i Π_{j≠i}(a_i−a_j)) = (−1)^{m+1}/(a_1⋯a_m), proved by adjoining x, applying the vanishing of S^0, and setting x = 0",
+    "modern_name": "Euler's divided-difference / partial-fraction identity for 1/x (the divided difference of 1/x at nodes a_i equals (−1)^{m−1}/Π a_i)",
+    "usually_credited_to": "Euler (identities Σ a_i^k/Π(a_i−a_j), 18th century); Lagrange interpolation / partial fractions",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Σ_i a_i^{m−1}/Π_{j≠i}(a_i−a_j) = 1, derived from the Newton-type recurrence plus the vanishing for k ≤ m−2 and the k = −1 case",
+    "modern_name": "Euler's identity (leading coefficient of Lagrange interpolation; complete homogeneous symmetric function h_0 = 1)",
+    "usually_credited_to": "Euler (c. 1760s), also implicit in Lagrange interpolation",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Linear recurrence S^n − A S^{n−1} + ... ± M S^{n−m} = 0 used for negative index",
+    "modern_name": "Linear recurrence from the characteristic polynomial (Newton/Girard-type)",
+    "usually_credited_to": "Newton, Girard; standard",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The identities for Σ a_i^k/Π(a_i−a_j) at k = −1 and k = m−1 are classical (Euler, Lagrange interpolation). The proofs are elementary and standard. This is a careful didactic write-up, not a new result.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); L=[a,b,c,d]; simplify(sum(1/(x*prod([x-y for y in L if y!=x])) for x in L) - (-1)**(4+1)/(a*b*c*d))",
+    "asserts": "S^{-1} = (-1)^{m+1}/(abcd) for m=4 (result 0)"
+   },
+   {
+    "sympy": "a,b,c=symbols('a b c'); L=[a,b,c]; simplify(sum(1/(x*prod([x-y for y in L if y!=x])) for x in L) - 1/(a*b*c))",
+    "asserts": "S^{-1} = +1/(abc) for odd m=3 (result 0)"
+   },
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); L=[a,b,c,d]; simplify(sum(x**3/prod([x-y for y in L if y!=x]) for x in L) - 1)",
+    "asserts": "S^{m-1} = 1 for m=4 (result 0)"
+   },
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); L=[a,b,c,d]; [simplify(sum(x**k/prod([x-y for y in L if y!=x]) for x in L)) for k in range(0,3)]",
+    "asserts": "Art. 11: S^k = 0 for 0<=k<=m-2 (m=4), returns [0,0,0]"
+   },
+   {
+    "sympy": "a,b,c,x=symbols('a b c x'); L=[x,a,b,c]; simplify(sum(1/prod([u-v for v in L if v!=u]) for u in L))",
+    "asserts": "Auxiliary step: S^0 = 0 for the m+1 quantities x,a,b,c"
+   }
+  ],
+  "transcription_corrections": [
+   "In art. 13 'Endlich ist M = ± abcd...': in the image the sign before abcd is heavily overwritten or struck (looks like a crossed mark), probably cancelling the ±. The reading should be M = abcd..., with the struck sign noted.",
+   "The small '7'-like marks after '∓ MS^{-1}' and after 'abcd....' are reference or insertion marks, not the digit 7.",
+   "In the art. 13 recurrence the minus signs before AS^{m-2} and CS^{m-4} are blotted in the image, but the transcription '−' is correct."
+  ]
+ }
+}

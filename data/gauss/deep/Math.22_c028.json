@@ -1,0 +1,65 @@
+{
+ "bundle": "Math.22",
+ "page": "c028",
+ "label": "15r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000029/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page contains no computation. It is the clean title page and introduction ('Neuer Beweis des La Grangischen Lehrsatzes') of a planned short paper. The previous page is a cancelled first draft ('Versuch eines neuen Beweises'), and the next page carries the actual derivation.\n\nContent of the page, restated:\n(a) Statement of Lagrange's theorem. If x = t + u X with X = X(x), then any function φ(x) can be expanded in powers of u: φ(x) = φ(t) + Σ_{n≥1} u^n/n! · d^{n-1}/dt^{n-1}[ X(t)^n φ'(t) ].\n(b) Historical critique. Lagrange's own proof (Berlin Mémoires, 1768/1770) is clever but long. Gauss says it assumes X has the form a x^2 + b x^3 + c x^4 + … . Footnote **) says the same holds for the Hindenburg–Rothe reversion formula (combinatorial school), which can easily be combined with Lagrange's theorem.\n(c) Other mathematicians ('Geometer': Lexell, Condorcet, Cousin, Pfaff; references in footnote ***), which continues on the next page) tried to derive the theorem from the general nature of functions. Of these only Pfaff's proof (Archiv der reinen und angewandten Mathematik, vol. 1, 1795) is fully rigorous; the rest are 'im Grunde bloße Induction'.\n(d) Gauss offers another rigorous proof that has nothing in common with Pfaff's. Its main idea is 'wie in dem L…schen' (almost certainly Laplace's), but the execution is new. He adds that a variety of methods throws more light on a truth, and that the theorem is less known in Germany than it deserves.\n(e) Footnote *): Lagrange's memoir is translated in the third volume of Michelsen's German Euler (Analysis des Unendlichen). Dr. Murhard summarized the proof in a Göttingen program.\n\nThe method announced, as carried out on the next page (my summary, not on this sheet):\n1. Differentiate x = t + uX with respect to u and t: x_u = X + u X' x_u and x_t = 1 + u X' x_t. Hence x_u = X x_t.\n2. Therefore ∂φ/∂u = X ∂φ/∂t for every φ = φ(x).\n3. By induction, ∂^n φ/∂u^n = ∂^{n-1}/∂t^{n-1}( X^n ∂φ/∂t ). The key step is that ∂_u(F(x) ∂_t G) = ∂_t(F(x) ∂_u G) when both F and G depend only on x; this follows from step 2.\n4. Set u = 0, so x = t, and apply Taylor's theorem in u. This gives Lagrange's series.\nThis is precisely Laplace's 1777 partial-differential-equation proof, which matches Gauss's own remark that the main idea is Laplace's. The references (Pfaff Archiv 1795, Rothe, Hindenburg, Murhard, Michelsen) date the sheet to about 1795–1798, i.e. Gauss's Göttingen student years.",
+  "errors": [
+   "No mathematical errors, since the page contains no computation.",
+   "Gauss's characterization of Lagrange's proof as resting on X = a x^2 + b x^3 + … is a simplification of the 1768 memoir. Lagrange worked through series for roots of literal equations (p − x + φ(x) = 0). The remark is a fair historical judgment rather than a precise description.",
+   "Footnote *) leaves the volume number blank ('Hist. de l'Ac. de Berlin T.'), and footnote ***) on the next page leaves its volume and page numbers blank. It is an unfinished draft."
+  ],
+  "results": [
+   {
+    "what": "Expansion φ(x) = φ(t) + Σ u^n/n! D_t^{n-1}[X(t)^n φ'(t)] for x = t + uX(x)",
+    "modern_name": "Lagrange inversion theorem (Lagrange–Bürmann formula)",
+    "usually_credited_to": "Lagrange 1768/1770 (Bürmann generalization 1796)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Announced proof via ∂φ/∂u = X ∂φ/∂t and induction ∂^nφ/∂u^n = ∂_t^{n-1}(X^n ∂_tφ)",
+    "modern_name": "Laplace's PDE proof of Lagrange inversion",
+    "usually_credited_to": "Laplace 1777 (Mém. Acad. Paris, 'Sur l'usage du calcul aux différences partielles dans la théorie des suites')",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Historical assessment: only Pfaff's proof fully rigorous; Lexell, Condorcet, Cousin essentially induction; Hindenburg–Rothe reversion formula related",
+    "modern_name": "Historiography of combinatorial-school proofs of series reversion",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a student-era introduction to a re-proof of the Lagrange inversion theorem along Laplace's known lines, and Gauss himself admits the main idea is borrowed. It is of biographical and historiographical interest (Gauss's view of the Hindenburg school and of Pfaff around 1795–98) but contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "t,u=symbols('t u'); x=(1-sqrt(1-4*u*t))/(2*u); simplify(diff(x,u)-x**2*diff(x,t))",
+    "asserts": "For X = x^2, the solution of x = t + u x^2 satisfies the key PDE x_u = X x_t (should simplify to 0)."
+   },
+   {
+    "sympy": "t,u=symbols('t u'); x=(1-sqrt(1-4*u*t))/(2*u); series(x,u,0,6).removeO()-(t+sum(u**n/factorial(n)*diff(t**(2*n),t,n-1) for n in range(1,6)))",
+    "asserts": "Lagrange's series for φ(x) = x, X = x^2 matches the explicit root up to u^5 (should expand to 0)."
+   },
+   {
+    "sympy": "t,u=symbols('t u'); x=(1-sqrt(1-4*u*t))/(2*u); phi=x**3; expand(series(phi,u,0,5).removeO()-(t**3+sum(u**n/factorial(n)*diff(t**(2*n)*3*t**2,t,n-1) for n in range(1,5))))",
+    "asserts": "Lagrange's formula for φ(x) = x^3 with X = x^2, through u^4 (should be 0)."
+   },
+   {
+    "sympy": "t,u=symbols('t u'); x=t-u*LambertW(-u*exp(t))/u; simplify(diff(x,u)-exp(x)*diff(x,t))",
+    "asserts": "For X = e^x, the solution x = t − W(−u e^t) satisfies x_u = X x_t."
+   }
+  ],
+  "transcription_corrections": [
+   "'dem Lauschischen[?]' (both the struck and the retained occurrence) should almost certainly read 'dem Laplaceschen / Laplacischen'. The proof sketched on the next page is Laplace's 1777 PDE proof.",
+   "'verschieden Geometer' should read 'verschiedene Geometer' (grammar; the ending is abbreviated in the hand).",
+   "The insertion above 'ist' in 'aber die Ausführung … neu' is uncertain. 'streng ist' is plausible, but the intended reading is probably 'aber die Ausführung ist neu', with an alternative insertion. The interlinear 'auch nicht[?]' above 'Verschiedenheit' is likewise uncertain.",
+   "Footnote marker ***) after 'herzuleiten' refers to the reference list (Lexell, Condorcet, Cousin, Pfaff), which is written at the foot of the next page, not on this page.",
+   "Footnote *): the volume number after 'T.' is left blank in the manuscript, not lost in transcription."
+  ]
+ }
+}

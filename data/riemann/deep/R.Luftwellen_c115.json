@@ -1,0 +1,63 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c115",
+ "label": "71v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000116/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Page context: the bundle concerns finite-amplitude air waves. The previous and next pages hold Riemann's 1860 characteristic variables p and q and his Riemann-function solution v = e^{p+q} * sum p^n q^n/(n!)^2. The next page also gives the integral representation (2/pi) e^{p+q} int_0^oo sin(p*gamma - q/gamma) dgamma/gamma. The ink part of this page is a self-contained textbook contour-integral evaluation, probably an auxiliary calculation for such integral representations. The pencil sketch in the upper half shows curves with vertical asymptotes and loops over an axis marked with points. It is unrelated to the formulas as far as can be seen and is not interpreted here.\n\n(1) Problem. Evaluate I(mu) = int_0^oo x^mu/(1+x) dx. Riemann notes x = r e^{phi i} and rewrites the integrand as x^{mu+1}/(1+x) * dx/x. The integral converges at both ends exactly when -1 < Re mu < 0; he writes 0 > mu > -1, i.e. first for real mu.\n\n(2) Method. He integrates f(x) = (-x)^mu/(1+x) = e^{mu log(-x)}/(1+x), using the principal branch of log(-x). Its cut lies along the positive real axis. On the upper bank log(-x) = log x - pi i; on the lower bank log(-x) = log x + pi i (both written on the page).\n- The keyhole contour, also drawn, is: int_eps^R along the upper bank, the big circle int_R, int_R^eps back along the lower bank, and the small circle int_eps around 0.\n- The circles vanish as eps -> 0 and R -> oo because -1 < mu < 0. The step that the circle contributions go to zero is implicit (mine).\n- The only pole inside is x = -1. There (-x)^mu = 1, so the residue is 1 and the contour integral equals 2*pi*i.\n- The bank contributions give the page's equation: int_0^oo x^mu/(1+x) dx * (e^{-mu*pi*i} - e^{mu*pi*i}) = 2*pi*i.\n\n(3) Result. Since e^{-mu*pi*i} - e^{mu*pi*i} = -2i sin(mu*pi), I = -pi/sin(mu*pi). A struck fragment of exactly this value appears. Equivalently int_0^oo x^{s-1}/(1+x) dx = pi/sin(pi*s) for 0 < s < 1, with s = mu + 1.\n\n(4) Complex exponent. By analytic continuation the result holds for complex mu = alpha + lambda*i with -1 < alpha < 0. Riemann separates real and imaginary parts using sin(a+b) sin(a-b) = (cos 2b - cos 2a)/2:\n- pi/sin((alpha + lambda i)pi) = 2*pi*(sin(alpha*pi) cos(lambda*i*pi) - cos(alpha*pi) sin(lambda*i*pi)) / (cos(2*lambda*i*pi) - cos(2*alpha*pi)).\n- The side note (e^{2 lambda pi} + e^{-2 lambda pi})/2 records that cos(2*lambda*i*pi) = cosh(2*lambda*pi). Likewise cos(lambda*i*pi) = cosh(lambda*pi) and sin(lambda*i*pi) = i sinh(lambda*pi).",
+  "errors": [
+   "No substantive errors. The stated range 0 > mu > -1 is exactly the convergence condition.",
+   "That the small and large circle contributions vanish is not written out (implicit, correct for -1 < Re mu < 0).",
+   "The orientation and sign bookkeeping (upper bank with e^{-mu pi i}, lower bank with e^{+mu pi i}) is consistent with the principal branch of log(-x) and gives the correct value -pi/sin(mu*pi).",
+   "One struck intermediate line (rendered as '= 2*pi*i/2') is illegible or abandoned."
+  ],
+  "results": [
+   {
+    "what": "int_0^oo x^mu/(1+x) dx = -pi/sin(mu*pi) for -1 < mu < 0, obtained by a keyhole contour around the branch cut of (-x)^mu and the residue at x = -1",
+    "modern_name": "Euler reflection-type integral / Mellin transform of 1/(1+x) (B(s,1-s) = Gamma(s)Gamma(1-s) = pi/sin(pi*s)) via keyhole contour",
+    "usually_credited_to": "Euler (real-variable evaluation, 18th c.); contour-integral evaluation goes back to Cauchy (1820s); standard textbook example",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Extension to complex mu = alpha + lambda i and splitting 1/sin into real and imaginary parts: 1/sin(a+b) = 2 sin(a-b)/(cos 2b - cos 2a), with cos(2*lambda*i*pi) = cosh(2*lambda*pi)",
+    "modern_name": "Analytic continuation in the exponent; elementary trigonometric/hyperbolic identity",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine classical contour-integral exercise, well within Cauchy-era technique, which Riemann taught and used routinely (e.g. in the zeta paper). It is presumably an auxiliary calculation for integral representations of the Riemann function on adjacent pages. Nothing here is non-standard.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(x**(-Rational(1,3))/(1+x),(x,0,oo)) - (-pi/sin(-pi/3)))",
+    "asserts": "For mu=-1/3 the integral equals -pi/sin(mu*pi) (result 0)"
+   },
+   {
+    "sympy": "simplify(exp(-I*pi*mu)-exp(I*pi*mu) + 2*I*sin(pi*mu))",
+    "asserts": "e^{-mu pi i} - e^{mu pi i} = -2 i sin(mu pi), so I = 2 pi i/(-2 i sin mu pi) = -pi/sin(mu pi)"
+   },
+   {
+    "sympy": "residue((-x)**mu/(1+x), x, -1)",
+    "asserts": "Residue of (-x)^mu/(1+x) at x=-1 equals 1, so the contour integral is 2*pi*i"
+   },
+   {
+    "sympy": "simplify(expand_trig(pi/sin((a+I*l)*pi) - 2*pi*(sin(a*pi)*cos(I*l*pi)-cos(a*pi)*sin(I*l*pi))/(cos(2*I*l*pi)-cos(2*a*pi))))",
+    "asserts": "Riemann's decomposition of pi/sin((alpha+lambda i)pi) is an identity (result 0)"
+   },
+   {
+    "sympy": "simplify(cos(2*I*l*pi) - (exp(2*l*pi)+exp(-2*l*pi))/2)",
+    "asserts": "cos(2 lambda i pi) = (e^{2 lambda pi}+e^{-2 lambda pi})/2, the side note on the page"
+   }
+  ],
+  "transcription_corrections": [
+   "The main identity reads int_0^oo x^mu dx/(1+x) * (e^{-mu pi i} - e^{mu pi i}) = 2 pi i. The second exponential is crossed and rewritten in the image, but the final sign is minus, as in the transcription.",
+   "'log x - pi i' and 'log x + pi i' are the values of log(-x) on the upper and lower banks of the cut. They are written along the drawn contour, not as free-standing equations.",
+   "The struck line is '-pi/sin(mu pi)', the evaluated integral; the following '= 2 pi i/2' is uncertain.",
+   "The word after '0 > mu > -1' is hard to read ('reell'? / 'nach ...?'). Its meaning, a real exponent in that range, is clear from context.",
+   "The contour sketch shows small circles around -1 and around 0, a cut along the positive real axis traversed in both directions, and a large arc ending at the point marked R. It is a keyhole contour, consistent with the sum int_eps^R + int_R + int_R^eps + int_eps."
+  ]
+ }
+}

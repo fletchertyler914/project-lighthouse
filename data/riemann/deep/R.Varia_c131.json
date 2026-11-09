@@ -1,0 +1,46 @@
+{
+ "bundle": "R.Varia",
+ "page": "c131",
+ "label": "66v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173054:00000132/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 66v carries no independent mathematics, and nothing on it is in Riemann's hand. The image is the mirror-reversed show-through of the facing leaf, the page transcribed as the PREVIOUS PAGE. That leaf is a note by Friedrich Prym to Riemann, dated Pisa, 27 March 1865. Every element in the image matches that page in reverse:\n- the rectangle diagram at the top, with corners x=1, x=0 and inner points 1/mu^2, infinity, 1/lambda^2, 1/kappa^2, u_1, u_2;\n- the right column headed 'Ueber die Verzweigungspunkte der Function x=f(u)', with the formula dx/du = sqrt(x(1-x)(1-k^2x)(1-l^2x)(1-m^2x))/(alpha+beta x);\n- the numbered cases 1), 2), 3);\n- the left column 'XX. In diesem Falle hat also x=f(u) nur einen Verzweigungspunkt ...';\n- the letter 'Pisa, 27. Maerz 65, Lieber Herr Professor! ... Ihr F. Prym'.\n\nFor completeness, here is the mathematics visible through the paper, which is Prym's, not Riemann's. Set P(x) = x(1-x)(1-k^2x)(1-l^2x)(1-m^2x), so y^2 = P(x) is a genus-2 hyperelliptic surface T. Then du = (alpha+beta x) dx/y is a holomorphic differential on T. Prym studies the branch points of the inverse function x(u). Suppose u = m is an (n-1)-fold branch point. In the local parameter t = (u-m)^{1/n} the expansions give the order of dx/du, which is compared with its actual order.\n\nCase 1: alpha and beta are both nonzero, and -alpha/beta is not a branch value.\n- du has two simple zeros, at the two points over x = -alpha/beta (sheets +S and -S). These give the simple branch points u_1 and u_2.\n- At x = infinity, write x ~ c t^{-2}. Then dx/du ~ t^{-(n+2)}.\n- But dx/du ~ x^{5/2}/x = x^{3/2} ~ t^{-3}. Hence n = 1 and there is no branch point at infinity.\n\nCase 2: beta = 0, so dx/du = sqrt(P).\n- dx/du ~ x^{5/2} ~ t^{-5}, so n+2 = 5 and n = 3.\n- This is a doubly branched point over x = infinity.\n- Equivalently (my gloss): u - m ~ -(2/3) x^{-3/2}.\n\nCase 3: alpha+beta x is proportional to one factor of P, for example 1 - k^2 x.\n- Near r = 1/k^2, write x - r = c1 t^2 + c2 t^3 + ... (the transcription's '=' is a slip for '-').\n- Then dx/du ~ t^{2-n}, i.e. infinite of order n-2.\n- Actually dx/du ~ (1-k^2x)^{-1/2} ~ t^{-1}, so n = 3. Again a double branch point.\n\nProym's puzzle, and its modern resolution:\n- Prym notes that the two simple branch points u_1, u_2 merge into one double point rather than cancelling. He asks how a 'two-sheeted' surface can carry a double branch point, which would need three sheets.\n- Modern resolution (mine): the branch points are the zeros of the holomorphic differential du. Its divisor has degree 2g-2 = 2. When alpha+beta x vanishes at a Weierstrass point, du has a double zero there.\n- Locally u - m ~ s^3 in a local coordinate s, so three sheets of the u-covering meet. The 'two sheets' belong to T over the x-plane, not to the covering over the u-plane.\n- The inverse x(u) of a single genus-2 integral is not a finite-sheeted function of u at all; this is the reason for the Jacobi inversion problem.",
+  "errors": [
+   "The page has no own content: it is bleed-through of fol. 66r (Prym's note), so no derivation by Riemann can be reconstructed here.",
+   "In the show-through text (Prym), case 3 writes 'x=1/k^2 = c1(u-m)^{2/n}...'; this should read 'x - 1/k^2 = ...'.",
+   "Prym's worry that coalescing branch points 'usually cancel' and that a double branch point contradicts two-sheetedness is a conceptual confusion. The surface of x(u) over the u-plane is not two-sheeted. A double zero of du at a Weierstrass point legitimately gives a 3-sheeted local branching."
+  ],
+  "results": [
+   {
+    "what": "Branch points of the inverse of a genus-2 abelian integral of the first kind are located at the zeros of the holomorphic differential; a double zero at a Weierstrass point gives a double branch point (the content visible through the page, by Prym, not Riemann)",
+    "modern_name": "Zeros of holomorphic differentials (canonical divisor of degree 2g-2), local inversion u-m ~ s^{k+1}",
+    "usually_credited_to": "Riemann (1857, Theorie der Abel'schen Functionen); the exercise here is by F. Prym (1865)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is a blank verso showing mirrored bleed-through of Prym's 1865 letter-question to Riemann. Nothing new is in Riemann's hand, and the mathematics shown is routine local analysis of a hyperelliptic integral.",
+  "checkable": [
+   {
+    "sympy": "limit((x**Rational(5,2)/x)/x**Rational(3,2), x, oo) == 1",
+    "asserts": "Case 1: dx/du grows like x^{3/2} at infinity, i.e. order 3 in t = x^{-1/2}, giving n+2 = 3 and n = 1 (no branch point)."
+   },
+   {
+    "sympy": "integrate(x**Rational(-5,2), (x, X, oo)) - Rational(2,3)*X**Rational(-3,2)",
+    "asserts": "Case 2 (beta=0): u - m ~ (2/3) x^{-3/2} near x = infinity, so x ~ (u-m)^{-2/3} and n = 3 (double branch point)."
+   },
+   {
+    "sympy": "integrate(sqrt(s), (s, 0, S)) - Rational(2,3)*S**Rational(3,2)",
+    "asserts": "Case 3: du ~ (1-k^2 x)^{1/2} dx near x = 1/k^2, so u - m ~ (x-r)^{3/2}, giving x - r ~ (u-m)^{2/3} and n = 3."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is mirror-reversed bleed-through of fol. 66r and should be transcribed as such, identical in content to the previous page.",
+   "'ds/du' should read 'dx/du', i.e. dx/du = sqrt(x(1-x)(1-k^2x)(1-l^2x)(1-m^2x))/(alpha+beta x).",
+   "The letter date '27 Aug 63' should read 'Pisa, 27. Maerz 65'; it is signed 'Ihr F. Prym'.",
+   "The 'illegible paragraphs' are cases 1)-3) and the 'XX' continuation already transcribed on the previous page."
+  ]
+ }
+}

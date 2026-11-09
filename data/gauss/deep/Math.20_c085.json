@@ -1,0 +1,91 @@
+{
+ "bundle": "Math.20",
+ "page": "c085",
+ "label": "43v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000086/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 43v has no independent derivation of its own. Most of the sheet is blank paper with faint show-through. The only legible writing is a single column of numbers along the right edge. Line by line, it matches the content of the preceding page (the recto, block 'II'), so it is ink from the other side of the leaf, seen in reverse. The match runs: 22°56'42'' (or similar), 9.9696696+24x, 9.6265360+181x, 9.9990080−10x, 9.9090088+72x, 8.5061440+724x, 9.4151528+796x, 9.9930560−70x, 1.5779032−866x, 1.5779057, 22.56.41,971, 9.6568664+157x, 9.6568659, 2.8507335, 2.5075994, 0.3582285, 9.9642028, 9.5908944, +2.1010252, +0.8894529 i. Everything below therefore describes the recto computation, which is what is visible here.\n\n(a) Correcting a trial angle. Gauss starts from a trial angle θ0 = 22°56'42''. He tabulates 7-place common logarithms (characteristic +10 convention) of the quantities involved. Each is written with its variation per unit x, where x is a correction to θ in seconds of arc, in units of the 7th decimal place. A combined log comes out as 1.5779032 − 866x. It must equal a target value 1.5779057. My inference: −866x = +25, so x ≈ −0.029''. Hence θ = 22°56'42'' − 0.029'' = 22°56'41.971''. He then updates another log with the same x: 9.6568664 + 157x = 9.6568664 − 4.5 ≈ 9.6568659 (the '+5' note on the recto is this correction).\n\n(b) Modulus by a seventh root. From 2.8507335 he obtains 2.5075994. Dividing by 7 gives 2.5075994/7 = 0.3582285, marked 'r', the log of a modulus. The adjacent pages (block VI: 1.7688584/7 = 0.2526941; block VII: 3.2585132/7 = 0.4655019) confirm that this division by 7 is the systematic step. So log r is one seventh of a logarithm, i.e. r is a 7th root.\n\n(c) Building the complex number. He takes log cos θ = 9.9642028 and log sin θ = 9.5908944 for θ = 22°56'41.971''. Then r cos θ = 10^(0.3582285+9.9642028−10) = 2.1010252 and r sin θ = 10^(0.3582285+9.5908944−10) = 0.8894529. The result is the complex number 2.1010252 + 0.8894529 i.\n\nPurpose. The next page lists seven such blocks (II…VII etc.), each giving an angle and a log modulus (n = negative), followed by a summation of the angles and of the logs. That points to computing seven complex quantities, plausibly the complex roots of a 7th-degree equation or of Lagrange-resolvent-type 7th roots. The exact problem cannot be determined from this side of the leaf.",
+  "errors": [
+   "No errors are detectable in the show-through. The checks I could make on the recto values are consistent to the last place: the correction x = −25/866 ≈ −0.029'', the 157x update, the division by 7, and the cos/sin reconstruction (2.1010252, 0.8894529).",
+   "The machine transcription of this page misreads the reversed show-through in many places; see the corrections."
+  ],
+  "results": [
+   {
+    "what": "Iterative correction of an angle by linearized log-differences (per-second variations of 7-place logarithms)",
+    "modern_name": "Newton/secant-type linear correction using tabular differences",
+    "usually_credited_to": "standard computational practice (18th c. astronomy)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Modulus as a 7th root via log/7, and the complex number r(cos θ + i sin θ) built from log cos and log sin",
+    "modern_name": "polar-form computation of complex roots (de Moivre)",
+    "usually_credited_to": "de Moivre / Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is essentially blank. Its visible numbers are show-through of the recto's routine logarithmic computation (an angle correction and a complex 7th root in polar form). Nothing here is new or non-standard.",
+  "checkable": [
+   {
+    "sympy": "Rational(25075994,10**7)/7",
+    "asserts": "≈ 0.3582285: the log modulus r is one seventh of 2.5075994"
+   },
+   {
+    "sympy": "N(10**(0.3582285+9.9642028-10))",
+    "asserts": "≈ 2.1010252: real part r cos θ"
+   },
+   {
+    "sympy": "N(10**(0.3582285+9.5908944-10))",
+    "asserts": "≈ 0.8894529: imaginary part r sin θ"
+   },
+   {
+    "sympy": "N(log(cos((22+56/60+41.971/3600)*pi/180),10)+10)",
+    "asserts": "≈ 9.9642028: log cos of the corrected angle"
+   },
+   {
+    "sympy": "N(log(sin((22+56/60+41.971/3600)*pi/180),10)+10)",
+    "asserts": "≈ 9.5908944: log sin of the corrected angle"
+   },
+   {
+    "sympy": "solve(Eq(15779032-866*x,15779057),x)",
+    "asserts": "x = −25/866 ≈ −0.0289 arcsec, giving 22°56'41.971''"
+   },
+   {
+    "sympy": "N(9.6568664+157*(-25/866)*1e-7, 9)",
+    "asserts": "≈ 9.6568659 (updated log after the correction)"
+   },
+   {
+    "sympy": "Rational(17688584,10**7)/7",
+    "asserts": "≈ 0.2526941 (next page, block VI, same 7th-root step)"
+   },
+   {
+    "sympy": "Rational(32585132,10**7)/7",
+    "asserts": "≈ 0.4655019 (next page, block VII, same 7th-root step)"
+   }
+  ],
+  "transcription_corrections": [
+   "The legible column on 43v is reversed show-through of the recto (block II), not original writing on this side. The readings should be those of the previous page.",
+   "'2.56.41,971' should be 22.56.41,971.",
+   "'9.9496794 + 7x' corresponds to 9.9696696 + 24x.",
+   "'9.0465960 + 18x' corresponds to 9.6265360 + 181x.",
+   "'9.4992096 − 10x' corresponds to 9.9990080 − 10x.",
+   "'9.5090088 + 72x' corresponds to 9.9090088 + 72x.",
+   "'8.5061446 + 21x' corresponds to 8.5061440 + 724x.",
+   "'8.4151528 + 179x' corresponds to 9.4151528 + 796x.",
+   "'9.7730560 − 10x' corresponds to 9.9930560 − 70x.",
+   "'1.5779037' should be 1.5779057.",
+   "'1.6568659' should be 9.6568659.",
+   "'1.3507305' should be 2.8507335.",
+   "'4.3077994' should be 2.5075994.",
+   "'0.5812285' should be 0.3582285 (r).",
+   "'9.9641023' should be 9.9642028.",
+   "'9.5905947' should be 9.5908944.",
+   "'+2.1010652' should be +2.1010252.",
+   "'+0.8815291' should be +0.8894529 i.",
+   "The top lines ('2075442', '9.5946259') are the reversed heading values (22°56'42'', 68.50.6, 25.2.10,259, 93.52.16,259)."
+  ]
+ }
+}

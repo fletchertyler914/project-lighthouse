@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c121",
+ "label": "61v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000122/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Throughout, Pi(x) = Gamma(x+1) (Gauss's notation, as in Riemann's 1859 paper). Only steps marked [mine] are my additions.\n\n(1) Lines 1–2 state the symmetric form of the zeta functional equation, exactly as Riemann defines xi in 1859:\n  Pi(s/2)(s-1) pi^{-s/2} zeta(s) = Pi((1-s)/2)(-s) pi^{-(1-s)/2} zeta(1-s).\nThe left side is Riemann's xi(t) with s = 1/2 + t i (up to his normalisation). The right side is the same expression with s -> 1-s, since (1-s)-1 = -s.\n\n(2) Line 3 substitutes s -> s + 1/2. This moves the critical line onto the imaginary axis of the new variable:\n  xi = Pi(s/2 + 1/4)(s - 1/2) pi^{-s/2} zeta(s + 1/2).\nStrictly the power should be pi^{-s/2 - 1/4}; Riemann drops the constant factor pi^{-1/4}. [mine] In the new variable xi is even in s, and is real for s = i t (t real), up to that real constant.\n\n(3) Line 4 is partly illegible. It reads like 'd log xi(t) ... = -i'. Most plausibly it relates differentiation in t to differentiation in s. With s = t i one has ds = i dt, so d/dt = i d/ds and d/ds = -i d/dt. I cannot certify the exact formula.\n\n(4) Line 5 takes the logarithm of (2):\n  log xi(t) = -(s/2) log pi + log(s - 1/2) + log Pi(s/2 + 1/4) + log zeta(s + 1/2).\nThe same constant -(1/4) log pi is omitted. The aim is evidently to split log xi into an elementary/gamma part, whose argument is known asymptotically via Stirling, and a log zeta part.\n\n(5) Figures 1 and 2 show a vertical axis (the critical line in the shifted variable) crossed by curved, roughly horizontal level lines. They are labelled pi n i, pi(n+1) i, pi(n-1) i, and near the axis ±pi(n - 1/2) i. Arrows on and beside the axis show directions of increase.\n  [mine] These are best read as level curves Im log(.) = const, i.e. curves where arg of xi, or of its gamma part, or of zeta, is a multiple of pi or a half-odd multiple of pi. Riemann appears to be following how such curves meet the line. This is the natural device for counting sign changes of the real function xi(t) on the line, and for comparing the count with the argument of the gamma factor. That is the circle of ideas behind the unproved remark in the 1859 paper that 'approximately' all roots are real. The marks at ±pi(n - 1/2) i on the axis resemble points where the gamma-factor argument hits fixed values, a Gram-point-like idea. The sketch is too schematic to assert more.\n\n(6) Figure 3 is a small, uninterpretable axis sketch.\n\n(7) The final fragment 'int rho d sigma / phi' is too isolated to reconstruct.",
+  "errors": [
+   "Line 3 and line 5 omit the constant factor pi^{-1/4} (resp. -(1/4) log pi) that arises from substituting s -> s + 1/2 in pi^{-s/2}. It is a real constant, so it affects neither the zeros nor the reality of xi on the imaginary axis; it is a harmless slip or a deliberate normalisation.",
+   "Line 4 is not reliably legible; any precise reading of it (e.g. d/dt = i d/ds) is conjectural."
+  ],
+  "results": [
+   {
+    "what": "Symmetric functional equation Pi(s/2)(s-1) pi^{-s/2} zeta(s) invariant under s -> 1-s",
+    "modern_name": "Completed zeta function / Riemann xi-function functional equation",
+    "usually_credited_to": "Riemann 1859",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Shift s -> s+1/2 putting the critical line on the imaginary axis, and log decomposition of xi into pi-power, linear, Gamma and zeta parts",
+    "modern_name": "Decomposition xi = (gamma factor) * zeta on the critical line, cf. Riemann–Siegel theta/Z decomposition",
+    "usually_credited_to": "Riemann (Nachlass, published by Siegel 1932); theta/Z-function formalism Siegel, Gram, Hardy",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Sketches of level curves Im log = n pi i and (n-1/2) pi i crossing the critical line, apparently for counting zeros on the line via argument",
+    "modern_name": "Argument-principle / level-curve analysis of zeros of xi; Gram-point-like comparison of arg zeta with the gamma-factor phase",
+    "usually_credited_to": "Riemann's 1859 remark (unproved); Gram 1903, Hardy 1914, Siegel 1932 for rigorous related work",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The formulas are exactly Riemann's published 1859 definitions, with a trivial shift. The level-curve sketches point to his known (Siegel-reported) investigations of zeros on the critical line, but are too schematic to show any specific unpublished result.",
+  "checkable": [
+   {
+    "sympy": "N(gamma(s/2+1)*(s-1)*pi**(-s/2)*zeta(s) - gamma((1-s)/2+1)*(-s)*pi**(-(1-s)/2)*zeta(1-s)).subs(s, Rational(3,10)+2*I)",
+    "asserts": "Line 1 = line 2: the symmetric functional equation holds (numerically ~0)."
+   },
+   {
+    "sympy": "N(im(gamma(I*t/2+Rational(5,4))*(I*t-Rational(1,2))*pi**(-I*t/2-Rational(1,4))*zeta(I*t+Rational(1,2))).subs(t, 7))",
+    "asserts": "After the shift s -> s+1/2 (with the correct pi^{-1/4}), xi is real on the imaginary axis s = i t (imag part ~0)."
+   },
+   {
+    "sympy": "N(im(gamma(I*t/2+Rational(5,4))*(I*t-Rational(1,2))*pi**(-I*t/2)*zeta(I*t+Rational(1,2))).subs(t, 7))",
+    "asserts": "Riemann's version without pi^{-1/4} is also real on s = i t, since the dropped factor is a real constant (imag part ~0)."
+   },
+   {
+    "sympy": "N((gamma(s/2+Rational(5,4))*(s-Rational(1,2))*pi**(-s/2)*zeta(s+Rational(1,2)) - gamma(-s/2+Rational(5,4))*(-s-Rational(1,2))*pi**(s/2)*zeta(-s+Rational(1,2))*pi**Rational(1,2)).subs(s, Rational(1,5)+3*I))",
+    "asserts": "In the shifted variable xi is even up to the dropped constant: f(s)*pi^{-1/4} = f(-s)*pi^{-1/4}, i.e. f(s) = f(-s)*pi^{1/2}*pi^{-1/2}... (difference ~0 when the pi-power is accounted for)."
+   },
+   {
+    "sympy": "N(gamma(s/2+1)*(s-1)*pi**(-s/2)*zeta(s) - pi**Rational(1,4)*gamma((s-Rational(1,2))/2+Rational(5,4))*((s-Rational(1,2))-Rational(1,2))*pi**(-(s-Rational(1,2))/2-Rational(1,4))*zeta(s)).subs(s, Rational(2,3)+5*I)",
+    "asserts": "Line 3 equals line 1 after substituting s -> s+1/2, except for the missing factor pi^{-1/4}."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 4 ('d log xi(t) e^{4 sigma sigma} = -i') is very uncertain. The image shows 'd log xi(t)' followed by an unclear superscripted expression and '= -i'. It more plausibly concerns d/ds vs d/dt (factor ±i) than an exponential e^{4 sigma sigma}.",
+   "Line 3: pi^{-s/2} is what is written; note that mathematically it should be pi^{-s/2-1/4}.",
+   "Figure 2 labels: the right-hand label on the middle curve reads '-pi n i'. The small labels under the axis read approximately 'pi(n-1/2)i' and '-pi(n-1/2)i'. The top and bottom curves are labelled 'pi(n+1)i' and 'pi(n-1)i' (partly illegible)."
+  ]
+ }
+}

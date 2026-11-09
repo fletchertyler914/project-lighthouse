@@ -1,0 +1,55 @@
+{
+ "bundle": "Math.13",
+ "page": "c001",
+ "label": "1v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376633:00000002/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. Together with the previous page (w^0, w', Q^0, Q') and the next page (the corrections Δλ'k, the 'Verwandlung der II'), this sheet is a case table. It lists correction terms q^0, q', r, s that enter a transformation of sums of integer parts ('Int.' = integral part, presumably taken componentwise for complex quantities). These sums are taken over a complex (Gaussian) modulus. This looks like Gauss's Nachlass work on biquadratic residues: a lattice-point or Gauss-lemma style approach toward biquadratic reciprocity in Z[i]. The cases are indexed in three ways:\n- by the signs of A and B, the real and imaginary parts of a Gaussian integer A+Bi with A odd and B even (so ½(A−1) and ½B make sense);\n- by the residue class of a Gaussian integer M modulo 4;\n- by parities of ½(A−1) and ½B.\nm and μ are further quantities, presumably m = M or related; ω is a real fraction. 'Intens' and 'Int' appear to be the same integer-part operator, possibly 'Intensor'; this is my reading, not certain.\n\nPage content in modern form:\n\n(1) q^0.\n- q^0 = −⌊ωμ⌋ if sign(A) = +, sign(B) = −.\n- q^0 = 0 in all other sign cases.\n\n(2) q'.\n- (A,B) = (+,+): q' = ε·⌊½m − ωμ⌋.\n- (A,B) = (−,+): q' = 0.\n- (A,B) = (+,−): q' = 0.\n- (A,B) = (−,−): q' = −ε·⌊½m + ωμ⌋, with 'Zeichen wie oben'.\n- The sign ε is +1 (upper sign) if M ≡ 1+0i or 3+2i (mod 4). It is −1 (lower sign) if M ≡ 1+2i or 3+0i (mod 4).\n- My gloss: the upper classes are exactly the 'primary' numbers in Gauss's sense (Theoria residuorum biquadraticorum II, art. 36: a+bi with a odd, b even, and either a≡1, b≡0 or a≡3, b≡2 mod 4). The lower classes are the negatives of primary numbers. So ε = +1 iff M is primary, and ε = −1 iff −M is primary.\n- Compare the (+,+) and (−,+)/(−,−) rows of Q' on the previous page, which carry analogous ± signs governed instead by the parity of ½(A−1+B).\n\n(3) r.\n- r = 0 for (A,B) = (+,+), (+,−), (−,−).\n- r = +⌊mi⌋ for (A,B) = (−,+). A cancelled symbol, apparently ω, precedes mi.\n\n(4) s.\n- s = −⌊(½ − ω)mi⌋ if ½(A−1) is even and either (½B even and sign +) or (½B odd and sign −). The sign is evidently that of A, by comparison with w^0 on the previous page.\n- s = 0 in all other cases.\n- My observation: these are exactly the conditions under which w^0 = 0 on the previous page. So s is 'switched on' precisely in the cases where w^0 vanishes, which suggests a bookkeeping complementarity in the sum being transformed.\n- The next page continues with 'für (½−ω)M soll k = 1 … (t−1)/2 gerade', i.e. the same parity case distinction. So this is internal bookkeeping for an integer-part-sum (Eisenstein/Zeller-type) proof of a reciprocity or supplementary law in Z[i].\n\nNo derivation proper is written. The page is a tabulation of results whose derivation is not on the sheet.",
+  "errors": [
+   "No demonstrable errors. The derivations are absent, so the case values cannot be verified without reconstructing the full sum, which depends on unstated definitions of m, μ, ω and 'Int'.",
+   "The second sign on the q'(−,−) line was corrected by Gauss from ± to ∓ (overwritten). This is consistent with 'Zeichen wie oben' meaning the same ε rule with reversed sign.",
+   "In the r line, the second bracket entry looks like '−+' in the image. However, the next line gives the nonzero value for AB −+, so the zero cases must be ++, +−, −−, as the transcription has it. The writing is ambiguous, but no logical error results."
+  ],
+  "results": [
+   {
+    "what": "Sign rule: ε = +1 if M ≡ 1 or 3+2i (mod 4), ε = −1 if M ≡ 1+2i or 3 (mod 4), i.e. ε distinguishes primary M from negatives of primary M",
+    "modern_name": "primary Gaussian integers (normalization of associates mod (1+i)^3)",
+    "usually_credited_to": "Gauss, Theoria residuorum biquadraticorum II (1832)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Case table of correction terms (integer parts of complex multiples) depending on signs of A, B and parities of ½(A−1), ½B, for transforming a sum of integer parts in Z[i]",
+    "modern_name": "lattice-point / Gauss-lemma (Eisenstein-type) approach to biquadratic reciprocity or its supplementary laws",
+    "usually_credited_to": "Eisenstein (1844) for published proofs of biquadratic reciprocity; Gauss's unpublished attempts are partly in Werke II/X",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's Nachlass work on biquadratic residues using integer-part (Gauss-lemma style) sums is known in outline. This page is an isolated case table with no complete result. It is notable as a detail of method but not a new theorem.",
+  "checkable": [
+   {
+    "sympy": "from sympy import I, expand; [((expand(-(1+2*I))).as_real_imag()[0] % 4, (expand(-(1+2*I))).as_real_imag()[1] % 4), ((-3) % 4, 0)]",
+    "asserts": "−(1+2i) ≡ 3+2i and −3 ≡ 1 (mod 4): the 'lower sign' classes are negatives of the 'upper sign' (primary) classes"
+   },
+   {
+    "sympy": "[(a,b) for a in range(4) for b in range(4) if a%2==1 and b%2==0]",
+    "asserts": "There are exactly four classes mod 4 with odd real and even imaginary part: (1,0), (3,2) [primary, upper sign] and (1,2), (3,0) [lower sign]"
+   },
+   {
+    "sympy": "all(((A-1)//2 % 2 == 0 and ((B//2 % 2 == 0 and A>0) or (B//2 % 2 == 1 and A<0))) == ((A-1)//2 % 2 == 0 and ((B//2 % 2 == 0 and A>0) or (B//2 % 2 == 1 and A<0))) for A in range(-15,16,2) for B in range(-14,15,2))",
+    "asserts": "Trivially restates that the condition for s ≠ 0 coincides with the condition for w^0 = 0 on the previous page (same Boolean expression)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: 'in allen übrigen Fällen' (umlaut), not 'Fallen'; the same applies to the last line 'in allen andern Fällen'.",
+   "q' line: the leading sign is ± written over a correction; on the AB −− line, Gauss overwrote ± into ∓.",
+   "'oberes Zeichen wenn M ≡ {1,0 / 3,2}' means M ≡ 1+0i or 3+2i (mod 4); 'unteres wenn M ≡ {1,2 / 3,0}' means M ≡ 1+2i or 3+0i (mod 4). The trailing 'oder' belongs inside the case brackets.",
+   "r line: the crossed-out symbol before 'mi' (apparently ω) is deleted, so the term reads '+ Int. mi'.",
+   "s line: the crossed-out symbol after 's =' is a deleted start, so the expression reads 's = − Int.(½ − ω) mi'.",
+   "'Zeichen wie oben' is underlined in the original and refers to the ε sign rule."
+  ]
+ }
+}

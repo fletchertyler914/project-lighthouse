@@ -1,0 +1,69 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c011",
+ "label": "[6]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000012/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Problem 3 (art. 5), begun on the previous page, asks for the expansion of {1+sqrt(1-u)}^n in ascending powers of u. The working that is actually used, on this page and the next, has u, not uu, under the root. So the setup is R = 1+sqrt(1-u). Then (R-1)^2 = 1-u, hence R^2 - 2R + u = 0, i.e. R = 2 - u/R.\n\nThis is matched to Lagrange's theorem (art. 1), z = a + t*zeta(z), with a = 2, t = -u, zeta(z) = 1/z, phi(z) = z^n, phi'(z) = n z^(n-1). Lagrange's series reads\nphi(z) = phi(a) + sum_{k>=1} t^k/k! * d^(k-1)/da^(k-1)[zeta(a)^k phi'(a)].\n\nThe page computes the needed derivatives:\n- zeta*phi' = n z^(n-2).\n- zeta^2 phi' = n z^(n-3), with first derivative n(n-3) z^(n-4).\n- zeta^3 phi' = n z^(n-4), with second derivative n(n-4)(n-5) z^(n-6).\n- zeta^4 phi' = n z^(n-5), with third derivative n(n-5)(n-6)(n-7) z^(n-8).\n- In general, zeta^k phi' = n z^(n-k-1), and its (k-1)-th derivative is n(n-k-1)(n-k-2)...(n-2k+1) z^(n-2k).\n\nEvaluating at z = 2 with t = -u gives\n{1+sqrt(1-u)}^n = R^n = 2^n - n 2^(n-2) u + n(n-3)/2! 2^(n-4) u^2 - n(n-4)(n-5)/3! 2^(n-6) u^3 + n(n-5)(n-6)(n-7)/4! 2^(n-8) u^4 - n(n-6)(n-7)(n-8)(n-9)/5! 2^(n-10) u^5 + ...\nThe odd-term signs are blotted and corrected to minus in the manuscript.\n\nGeneral term (my compact form): (-1)^k * n/(n-k) * C(n-k,k) * 2^(n-2k) * u^k.\n\nArt. 6. Let n be a positive integer. The coefficient product (n-k-1)...(n-2k+1) contains the factor 0 exactly when (n+1)/2 <= k <= n-1.\n- So the series stops after the term in u^(n/2) (n even) or u^((n-1)/2) (n odd).\n- The vanishing terms number (n-2)/2 or (n-1)/2 respectively.\n- From u^n onward the terms are nonzero again and the series runs on to infinity.\n\nWorked out (my check), the k = n coefficient has product (-1)(-2)...(-(n-1)), giving coefficient -2^(-n). Similarly the tail is\n-2^(-n) u^n - n 2^(-(n+2)) u^(n+1) - n(n+3)/2 2^(-(n+4)) u^(n+2) - n(n+4)(n+5)/6 2^(-(n+6)) u^(n+3) - ...\n\nGauss observes that tail/(-u^n) equals the main series with n replaced by -n, i.e. equals {1+sqrt(1-u)}^(-n). The next page completes this:\n- Since (1+sqrt(1-u))(1-sqrt(1-u)) = u, the tail equals -(1-sqrt(1-u))^n.\n- Hence the terminating head equals (1+sqrt(1-u))^n + (1-sqrt(1-u))^n.\n- Substituting u = 1/y^2 there gives the expansion of cos(n*arc) as a polynomial in cos(arc), i.e. the Chebyshev polynomial T_n.",
+  "errors": [
+   "The previous page sets up R = 1+sqrt(1-uu), R = 2 - uu/R, but this page and the next work with 1+sqrt(1-u) and R = 2 - u/R (powers u, u^2, ...). This is an unrepaired inconsistency or change of plan, harmless for the result.",
+   "As first written, the left side and signs suggest 1+sqrt(1+u) with all '+' signs. Gauss blotted these: the root becomes 1-u and the odd-power signs become '-'. Only the corrected version agrees with the all-negative tail -2^(-n)u^n - ... and with the next page. The uncorrected '+' version would give a tail with alternating signs (-1)^(n-1)2^(-n)u^n, ...",
+   "All derivative computations, the truncation index, the count of vanishing terms, and the tail coefficients check out correctly after correction.",
+   "One point is not justified on the page: the formal series is identified with the function. This is fine for |u|<1 and is in any case not needed for the polynomial identity."
+  ],
+  "results": [
+   {
+    "what": "Expansion of (1+sqrt(1-u))^n by Lagrange inversion from R = 2 - u/R: coefficient of u^k is (-1)^k n(n-k-1)...(n-2k+1)/k! * 2^(n-2k)",
+    "modern_name": "Lagrange (Lagrange–Bürmann) inversion; powers of the Catalan-type generating function (1-sqrt(1-4x))/(2x)",
+    "usually_credited_to": "Lagrange 1770 (inversion theorem); such trinomial-equation expansions also Lambert 1758, Euler",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "For positive integer n the series has a gap of zero coefficients for (n+1)/2<=k<=n-1, then a tail equal to -u^n (1+sqrt(1-u))^(-n) = -(1-sqrt(1-u))^n",
+    "modern_name": "Splitting of a binomial-type series into polynomial part plus conjugate-root part; Lucas/Dickson polynomial structure",
+    "usually_credited_to": "folklore; implicit in Euler/Lagrange work on such series",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Consequence: (1+sqrt(1-u))^n + (1-sqrt(1-u))^n = sum_{k<=n/2} (-1)^k n/(n-k) C(n-k,k) 2^(n-2k) u^k, leading to cos(n x) as a polynomial in cos x (next page)",
+    "modern_name": "Explicit coefficient formula for the Chebyshev polynomial T_n / Dickson (Lucas) polynomial",
+    "usually_credited_to": "Viète (special cases), Jacob Bernoulli, Euler (18th c.); Chebyshev 1854 for the polynomials as such",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a careful but standard application of Lagrange inversion to a known expansion (multiple-angle cosine formula). The remark on the gap of zero coefficients and the conjugate tail is a nice expository detail, not a new result.",
+  "checkable": [
+   {
+    "sympy": "n=7; u=symbols('u'); simplify(series((1+sqrt(1-u))**n,u,0,10).removeO() - sum((-1)**k*Rational(n,1)*prod([n-k-j for j in range(1,k)])/factorial(k)*2**(n-2*k)*u**k for k in range(0,10))) == 0",
+    "asserts": "The Lagrange-series coefficients (-1)^k n(n-k-1)...(n-2k+1)/k! 2^(n-2k) reproduce the Taylor series of (1+sqrt(1-u))^n (n=7, through u^9)."
+   },
+   {
+    "sympy": "n=6; u=symbols('u'); s=series((1+sqrt(1-u))**n,u,0,9).removeO(); [s.coeff(u,k) for k in range(4,6)] == [0,0]",
+    "asserts": "For n=6 the coefficients of u^4 and u^5 vanish: (n-2)/2 = 2 zero terms after u^(n/2)."
+   },
+   {
+    "sympy": "n=6; u=symbols('u'); s=series((1+sqrt(1-u))**n,u,0,10).removeO(); [s.coeff(u,n+j) for j in range(4)] == [-Rational(1,2**n), -n*Rational(1,2**(n+2)), -Rational(n*(n+3),2)/2**(n+4), -Rational(n*(n+4)*(n+5),6)/2**(n+6)]",
+    "asserts": "Tail coefficients -2^-n, -n2^-(n+2), -n(n+3)/2 2^-(n+4), -n(n+4)(n+5)/6 2^-(n+6) for n=6."
+   },
+   {
+    "sympy": "u,n=symbols('u n',positive=True); simplify((1+sqrt(1-u))**(-n)*u**n - (1-sqrt(1-u))**n)",
+    "asserts": "u^n (1+sqrt(1-u))^(-n) = (1-sqrt(1-u))^n, so tail/(-u^n) is the series with n -> -n (simplifies to 0 for 0<u<1)."
+   },
+   {
+    "sympy": "n=7; u=symbols('u'); expand((1+sqrt(1-u))**n+(1-sqrt(1-u))**n) - sum((-1)**k*Rational(n,n-k)*binomial(n-k,k)*2**(n-2*k)*u**k for k in range(0,n//2+1))",
+    "asserts": "The terminating head equals (1+sqrt(1-u))^n + (1-sqrt(1-u))^n (should be 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Left side: the manuscript has {1+sqrt(1-u)}^n; the sign under the root is blotted/corrected and the next page confirms 1-u. The transcription's '(1+u)' is wrong.",
+   "The signs before n.2^(n-2)u, the u^3 term and the u^5 term are blotted, i.e. corrected to '-'. The series should read 2^n - n2^(n-2)u + n(n-3)/1.2 2^(n-4)uu - n(n-4)(n-5)/1.2.3 2^(n-6)u^3 + ... - ... u^5 + etc.",
+   "In the tail, the third coefficient is written 'n(n+3)/1.2' with a correction over the first factor. The last exponent is 2^(-(n+6)) u^(n+3).",
+   "In the marginal insertion, 'für einen ganzen positiven Werth von n der' is followed by an illegible mark (the deleted 'bis' is in the main line)."
+  ]
+ }
+}

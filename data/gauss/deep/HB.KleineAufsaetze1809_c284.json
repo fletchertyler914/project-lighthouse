@@ -1,0 +1,65 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c284",
+ "label": "275",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000285/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This is part II ('Allgemein') of a derivation of the Lagrange inversion/expansion theorem, dated on the next page 1847 Mai 13. The basic equation is x = t + u·ψ(x). The goal is the expansion f(x) = f(t) + T1 u + T2 u^2 + ..., with F = f' (the earlier part I treated ψ = x^λ, f = x^n). An auxiliary function φ, with Φ = φ', has the analogous expansion φ(x) = φ(t) + Θ1 u + Θ2 u^2 + ....\n\nStep 1: the substitution principle (this page). The Θ_k depend on (ψ, φ) exactly as the T_k depend on (ψ, f). Suppose the T_k turn out to involve f only through F = f'. Then, since ψ plays the same role in both expansions, Θ_k is obtained from T_k by replacing F(t) with Φ(t).\n\nStep 2: choice of φ. Gauss chooses φ so that Φ(x) = ψ(x)F(x), i.e. φ(x) = ∫ ψ(x) f'(x) dx.\n\nStep 3: the key partial-derivative identity. Gauss writes 'überlegen dass (∂f(x)/∂u) = ψ(x)(∂f(x)/∂t)'. [Implicit, mine:] differentiating x = t + uψ(x) gives\n- ∂x/∂t (1 − uψ'(x)) = 1,\n- ∂x/∂u (1 − uψ'(x)) = ψ(x),\nso ∂x/∂u = ψ(x) ∂x/∂t, and hence ∂g(x)/∂u = ψ(x) ∂g(x)/∂t for any g.\n\nStep 4: the consequence. ∂φ(x)/∂t = Φ(x) ∂x/∂t = ψ(x)F(x) ∂x/∂t = ψ(x) ∂f(x)/∂t = ∂f(x)/∂u. So (∂f(x)/∂u) = (∂φ(x)/∂t).\n\nStep 5: comparing series. Differentiate the two expansions:\n- ∂f/∂u = T1 + 2T2 u + 3T3 u^2 + ...\n- ∂φ/∂t = φ'(t) + Θ1' u + Θ2' u^2 + ..., where φ'(t) = Φ(t) = ψ(t)F(t).\nEquating coefficients gives T1 = ψ(t)F(t) and (k+1)T_{k+1} = dΘ_k/dt.\n\nStep 6: the induction. By the substitution principle, T1 = ψF yields Θ1 = ψ·Φ = ψ^2 F. The page breaks off at 'so wird'; the next page gives Θ1 = (ψt)^2 Ft. Then:\n- T2 = ½ (ψ^2 F)'\n- Θ2 = ½ (ψ^3 F)'\n- T3 = (1/6)(ψ^3 F)''\n- in general T_n = (1/n!) d^{n−1}/dt^{n−1} [ψ(t)^n f'(t)].\nThis is Lagrange's theorem 'in seiner ganzen Allgemeinheit'.\n\nThe argument is a clean bootstrap. Each T_k is shown inductively to depend only on F, and linearly. The relation between f and φ then feeds the substitution F→ψF back into the recursion.",
+  "errors": [
+   "No mathematical errors. The conditional 'Sollte sich zeigen, dass ... nur Fx' is justified only implicitly, by the induction that follows. T1 = ψF depends only on F. If T_k depends only on F, so does Θ_k = T_k[F→ψF], and hence so does T_{k+1} = Θ_k'/(k+1). Gauss does not state this induction explicitly, but it is sound.",
+   "The identity ∂x/∂u = ψ(x)∂x/∂t is asserted ('überlegen dass') without derivation; it is correct.",
+   "Convergence and analyticity are not discussed; the argument is formal, as is usual for the period."
+  ],
+  "results": [
+   {
+    "what": "For x = t + uψ(x): ∂f(x)/∂u = ψ(x)∂f(x)/∂t, and with φ' = ψ f' this gives ∂f(x)/∂u = ∂φ(x)/∂t.",
+    "modern_name": "Key PDE identity behind the Lagrange–Bürmann expansion (Laplace's method)",
+    "usually_credited_to": "Laplace (1777/1780s, Mécanique céleste)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "f(x) = f(t) + Σ_{n≥1} u^n/n! · d^{n−1}/dt^{n−1}[ψ(t)^n f'(t)], proved by recursion between the coefficients of f and of an auxiliary φ with φ' = ψ f'.",
+    "modern_name": "Lagrange inversion theorem (Lagrange–Bürmann formula)",
+    "usually_credited_to": "Lagrange (1770); Bürmann (1799)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a late (1847), neat but standard formal proof of Lagrange's theorem, close in spirit to Laplace's. The auxiliary-function bootstrap is an elegant variant, but nothing here is new to the literature.",
+  "checkable": [
+   {
+    "sympy": "t,u,lam,n=symbols('t u lam n',positive=True); simplify(Rational(1,2)*diff(t**lam**2*0+t**(2*lam)*n*t**(n-1),t) - n*(n+2*lam-1)/2*t**(n+2*lam-2))",
+    "asserts": "For ψ=x^λ, f=x^n, T2 = ½ d/dt(ψ^2 f') matches the previous page's n(n+2λ−1)/2 t^{n+2λ−2} (result 0)."
+   },
+   {
+    "sympy": "u=symbols('u'); series(-LambertW(-u),u,0,7) - sum(n**(n-1)*u**n/factorial(n) for n in range(1,7))",
+    "asserts": "Lagrange formula with ψ=exp, f=id, t=0 (x = u e^x) gives coefficients n^(n−1)/n!; the difference is O(u^7)."
+   },
+   {
+    "sympy": "t,u=symbols('t u'); x=(1-sqrt(1-4*u*t))/(2*u)-0; ",
+    "asserts": "(placeholder omitted)"
+   },
+   {
+    "sympy": "t,u=symbols('t u'); X=Function('X')(t,u); psi=Function('psi'); eq=X-t-u*psi(X); dt=solve(diff(eq,t),diff(X,t))[0]; du=solve(diff(eq,u),diff(X,u))[0]; simplify(du-psi(X)*dt)",
+    "asserts": "∂x/∂u = ψ(x)∂x/∂t for x = t + uψ(x) (result 0)."
+   },
+   {
+    "sympy": "t,u=symbols('t u'); x=t+u*x0 if False else None",
+    "asserts": "(omit)"
+   },
+   {
+    "sympy": "t,u=symbols('t u'); xs=t+sum(u**k/factorial(k)*diff(t**(2*k),t,k-1) for k in range(1,6)); expand(series(xs - t - u*xs**2,u,0,6).removeO())",
+    "asserts": "With ψ=x^2, f=x, the Lagrange series satisfies x = t + u x^2 up to O(u^6) (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The equation after 'überlegen dass' should read (d f x/du) = ψx·(d f x/dt), with f (Gauss's struck script f) on both sides, not φ on the left. The φ appears only in the next line, (dfx/du) = (d.φx/dt).",
+   "'[-daf-]' is a struck-out 'daß' before 'an die Stelle davon setzt Φt'.",
+   "The marginal fragments on the left edge ('+dΘ3/dt u^3', '+λ statt n', 'n+3λ−3', 'hingegen Functionen', 'Beschaffenheit', 'dfx/dx', '= dφx/dx', 'können') belong to the facing page 274, not this page.",
+   "The final 'so wird' is followed on p. 276 by Θ1 = (ψt)^2·Ft."
+  ]
+ }
+}

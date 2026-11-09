@@ -1,0 +1,68 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c200",
+ "label": "197",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000201/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a pure numerical table in three column-blocks, each covering 50 steps. The argument x runs from 7.450 to 7.750 in steps of 0.002, continuing from 7.150–7.412 on f.196 and on to 8.02 on f.198.\n\nFor each x the page gives four things:\n(1) the argument x;\n(2) an angle v in degrees, minutes and seconds to 1e-5 arcsecond (160°11'19.37826\" at x = 7.450 rising to 164°22'26.39779\" at x = 7.750);\n(3) the first difference Δv in arcseconds, written between rows (113.56715\", 113.37362\", …; leading digits are dropped when unchanged);\n(4) the second difference Δ²v in units of 1e-5 arcsecond (19391, 19353, …).\n\nIdentification (mine, from fitting the numbers): the angle is the true anomaly v of a parabolic orbit. The argument is the common logarithm of the parabolic 'mean anomaly' in arcseconds:\n  10^x = 2ρ''·(tan(v/2) + (1/3)·tan³(v/2)), with ρ'' = 206264.806\" (arcseconds per radian), so log10(2ρ'') = 5.6154551.\nThis is Barker's equation, inverted and tabulated at an equal-log argument.\n\nTests, with s = tan(v/2), compared against x − log10(s + s³/3):\n- x = 7.150, v = 154°46'45.84\": s = 4.46997, s + s³/3 = 34.2409, difference 5.61546.\n- x = 7.450: s = 5.72639, s + s³/3 = 68.319, difference 5.61546.\n- x = 7.600, v = 162°24'44.8264\": s = 6.46429, s + s³/3 = 96.5050, giving x = 7.600004.\n- x = 7.750: s = 7.28783, s + s³/3 = 136.313, difference 5.61547.\n\nIn physical terms, s + s³/3 = k·t/(√2·q^{3/2}). So x = log of a quantity proportional to the time from perihelion, scaled by perihelion distance; the factor 2ρ'' is just the normalisation Gauss chose.\n\nAs v → 180° the cubic term dominates, and sin³(180° − v)·10^x tends to a constant. That is the visible 1/3-power behaviour of the table.\n\nThe tabulation method is the standard differenced table: v(x + 0.002) = v(x) + Δ, and Δ_next = Δ − Δ². Spot checks of the additions:\n- 19.37826 + 113.56715 = 132.94541 → 13'12.94541 ✓\n- 23.50132 + 104.52133 → 161°42'8.02265 ✓\n- 30.21933 + 108.65863 → 161°1'18.87796 ✓\n- 1.71476 + 90.87455 → 58'32.58931 ✓, then + 90.72475 → 164°0'3.31406 ✓\n- 29.23037 + 88.65656 → 20'57.88693 ✓, then + 88.51086 → 22'26.39779 ✓\n\nSpot checks of the second differences: 113.56715 − 113.37362 = 0.19353 ✓; 105.40499 − 105.22757 = 0.17742 ✓.\n\nEach block ends by repeating its last line as the start of the next block, as on the neighbouring pages.\n\nWhat it serves: a high-precision auxiliary table for computing (or inverting) parabolic, comet-type, motion near large true anomalies. It amounts to an extension of Barker's table, with a logarithmic argument so that interpolation is smooth.",
+  "errors": [
+   "Row x = 7.540 reads 33'18.65212\" (in the image as well as the transcription). The neighbours require 33'23.65212\": 31'38.24713\" + 105.40499\" = 33'23.65212\", and 33'23.65212\" + 105.22757\" = 35'8.87969\", which matches the next listed entry. So '18' is a slip for '23', either in writing or in reading the hand; the differences and later values are all correct.",
+   "No other inconsistencies were found in the spot checks. All tested additions of first differences, and differences of differences, agree to the last place (1e-5\")."
+  ],
+  "results": [
+   {
+    "what": "High-precision table (1e-5 arcsecond) of the parabolic true anomaly v against x = log10[2ρ''(tan½v + ⅓tan³½v)], for x = 7.45–7.75 (part of a longer table), with first and second differences.",
+    "modern_name": "Inverse table of Barker's equation (parabolic Kepler equation) with logarithmic argument",
+    "usually_credited_to": "Barker (1757) for the tabulation of parabolic motion; the equation itself goes back to Halley and Newton. Gauss gives the parabolic relations in Theoria Motus (1809), art. 19 ff.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Construction and verification of the table by differencing (first and second differences carried alongside the function values).",
+    "modern_name": "Difference-table computation and checking of a function table",
+    "usually_credited_to": "Standard practice of 17th–19th century table makers (Briggs, Newton, etc.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine, if very precise, auxiliary astronomical table: Barker's parabolic equation inverted, with a logarithmic argument. Gauss is well known for computing such tables for orbit work. The only point of mild interest is the unusual normalisation by 2ρ'' and the 1e-5\" precision, not any new mathematics.",
+  "checkable": [
+   {
+    "sympy": "s=tan(rad(180-Rational(19811284,1000000))/2); N(log(2*206264.806*(s+s**3/3),10)-7.450, 12)",
+    "asserts": "At x = 7.450, v = 160°11'19.378\" (so 180° − v ≈ 19.811284°) satisfies x = log10(2ρ''(s + s³/3)), s = tan(v/2). Result should be about 0, within ~1e-5."
+   },
+   {
+    "sympy": "v=162+Rational(24,60)+Rational(4482640,100000)/3600; s=tan(rad(v)/2); N(log(2*206264.806*(s+s**3/3),10), 12)",
+    "asserts": "The table entry at x = 7.600 (v = 162°24'44.82640\") reproduces 7.600 to about 1e-6."
+   },
+   {
+    "sympy": "v=164+Rational(22,60)+Rational(2639779,100000)/3600; s=tan(rad(v)/2); N(log(2*206264.806*(s+s**3/3),10), 12)",
+    "asserts": "The table entry at x = 7.750 (v = 164°22'26.39779\") reproduces 7.750."
+   },
+   {
+    "sympy": "Rational(3138247,100000)+Rational(10540499,100000) - 60*2",
+    "asserts": "31'38.24713\" + 105.40499\" gives 23.65212\" past 33', i.e. 33'23.65212\". The entry at 7.540 should read 33'23.65212\", not 33'18.65212\"."
+   },
+   {
+    "sympy": "Rational(2365212,100000)+Rational(10522757,100000) - 60*2",
+    "asserts": "33'23.65212\" + 105.22757\" = 35'8.87969\", the listed value at 7.542. This confirms the correction at 7.540."
+   },
+   {
+    "sympy": "Rational(11356715,100000)-Rational(11337362,100000)",
+    "asserts": "The second difference is 0.19353\", matching the entry 19353."
+   },
+   {
+    "sympy": "f=lambda x: 2*atan(nsolve(Symbol('s')+Symbol('s')**3/3-10**x/(2*206264.806),Symbol('s'),5)); N(deg(f(7.452)),12)",
+    "asserts": "Recomputes v(7.452) ≈ 160.22026° (= 160°13'12.94541\")."
+   }
+  ],
+  "transcription_corrections": [
+   "Row 7.540: the value written 33.18,65212 should be 33.23,65212 by the difference check; this is probably Gauss's slip, possibly a misreading.",
+   "The first-difference column is written between rows: each entry belongs to the interval from that row to the next. For example, 104,52133 at 7.548 is the difference from 7.548 to 7.550, and 104,69737 (written '69737') is the difference from 7.546 to 7.548.",
+   "Abbreviated first differences such as '37362' stand for 113.37362; the leading digits are dropped when unchanged. Second-difference entries are in units of 1e-5 arcsecond.",
+   "Row 7.746: the second-difference entry should read 80252 (i.e. 88.80252\"); the '8' is overwritten in the manuscript."
+  ]
+ }
+}

@@ -1,0 +1,63 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c024",
+ "label": "15",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000025/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page continues a five-column table from the previous folio (14) to the next (16). Columns: argument A; value B; first difference of B (units of 1e-5, written between rows); sum C; first difference of C. A runs from 0.480 to 0.520 in the left block and from 0.520 to 0.560 in the right block, in steps of 0.001.\n\nIdentification (mine, verified numerically):\n- B(A) = log10(1 + 10^(-A)).\n- C(A) = A + B(A) = log10(1 + 10^A).\n\nSpot checks:\n- A = 0.5: 10^-0.5 = 0.316228, so log10(1.316228) = 0.119330 (table 0.11933). C = 0.61933.\n- A = 0.52: 10^-0.52 = 0.301995, so B = 0.114610 (table 0.11461).\n- A = 0.54: B = 0.110052 (table 0.11005).\n- A = 0.55: B = 0.107833 (table 0.10783).\n- A = 0.56: B = 0.105654 (table 0.10565).\n- A = 0.51: B = 0.116950 (table 0.11695).\n- A = 0.521: B = 0.114378 (table 0.11438, last digit overwritten).\n- A = 0.522: B = 0.114146 (table 0.11415, overwritten).\n- A = 0.532: B = 0.1118554 (table 0.11186, overwritten).\n\nThis is a table of addition logarithms ('Gaussian logarithms'). Given log a and log b with A = log a − log b, it gives log(a + b) = log b + C(A) = log a + B(A). This avoids returning to numbers.\n\nStructural check (mine): because C = A + B and A steps by 0.001, ΔC = 100 − |ΔB| in units of 1e-5. Every row on the page satisfies this (25/75, 24/76, 23/77, 22/78, 21/79).\n\nThe layout is A, B, C with C = A + B. The 'B = log(1+1/x), C = log(1+x)' convention is my recollection of Gauss's addition/subtraction-logarithm table (Monatliche Correspondenz, 1812). The bundle label '1809' fits a computation preparatory to that table.",
+  "errors": [
+   "No computational errors found. The B values checked recompute correctly to 5 decimals, every C equals A + B exactly, and every difference pair is consistent and sums to 100. Gauss's own overwritten corrections (0.521 → 0.11438, 0.522 → 0.11415, 0.532 → 0.11186, 0.533 → 0.11163) are correct values. The value 0.1118554 at A = 0.532 lies very close to a rounding boundary but rounds correctly."
+  ],
+  "results": [
+   {
+    "what": "Five-place table of B(A) = log10(1+10^-A) and C(A) = A + B = log10(1+10^A) for A = 0.480 to 0.560 with first differences, used to obtain log(a+b) from log a and log b.",
+    "modern_name": "Gaussian logarithms (addition/subtraction logarithms); related to the softplus/log-sum-exp function in base 10",
+    "usually_credited_to": "Idea: Z. Leonelli (1802/1803). Popular five-place table: C. F. Gauss (Monatliche Correspondenz, 1812); later tables by Zech, Matthiessen and others.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript of Gauss's own addition-logarithm table, which he published in 1812 and which bears his name. It is a known work, and the page contains only careful routine tabulation.",
+  "checkable": [
+   {
+    "sympy": "N(log(1+10**(-Rational(1,2)),10),8)",
+    "asserts": "B(0.500) ≈ 0.11933"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(52,100)),10),8)",
+    "asserts": "B(0.520) ≈ 0.11461"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(48,100)),10),8)",
+    "asserts": "B(0.480) ≈ 0.12422"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(56,100)),10),8)",
+    "asserts": "B(0.560) ≈ 0.10565"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(532,1000)),10),10)",
+    "asserts": "B(0.532) ≈ 0.1118554, rounding to 0.11186 (the corrected entry)"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(521,1000)),10),8)",
+    "asserts": "B(0.521) ≈ 0.11438 (the corrected entry)"
+   },
+   {
+    "sympy": "simplify(Rational(1,2)+log(1+10**(-Rational(1,2)),10) - log(1+10**Rational(1,2),10))",
+    "asserts": "C = A + B equals log10(1+10^A) (should give 0)"
+   },
+   {
+    "sympy": "[round(10**5*N(log(1+10**(-Rational(k,1000)),10),12)) for k in range(480,561)]",
+    "asserts": "Reproduces the entire B column of the page (12422 ... 10565)"
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription agrees with the image. Notes: Gauss overwrote digits at 0.521 (0,11438, final 8 corrected), 0.522 (0,11415, final 5 corrected), 0.532 (0,11186) and 0.533 (0,11163); the overwritten forms are the correct values.",
+   "At 0.486 the C entry '0,60874' has an ink blot over the 0, and at 0.527 '0,64000' has an overwritten 4; the readings stand.",
+   "The B-difference between 0.504 and 0.505 appears overwritten; the value 23 is correct (11837 − 11814)."
+  ]
+ }
+}

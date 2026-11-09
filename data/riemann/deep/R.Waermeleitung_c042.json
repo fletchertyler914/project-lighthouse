@@ -1,0 +1,61 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c042",
+ "label": "23r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000043/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the opening of a draft of Riemann's 1861 Paris prize essay on heat conduction, the 'Commentatio mathematica, qua respondere tentatur quaestioni ab Ill^ma Academia Parisiensi propositae'. The Academy asked about the thermal state of a homogeneous body in which a system of isothermal curves stays isothermal for all time.\n\n§1 (plan). Riemann first solves a more general problem: what must the conductivity properties of a body and its heat distribution be so that a system of lines remains isothermal? He then picks out the cases in which those properties are the same everywhere, i.e. the body is homogeneous.\n\n§2 (heat equation in an arbitrary anisotropic body). The equation (I) is left blank on the page. Reconstructed (mine, certain from the text and from the published Commentatio):\n\n(I) K ∂u/∂t = Σ_{i,i'} ∂/∂x_i ( a_{i,i'} ∂u/∂x_{i'} ).\n\nHere:\n- u(x_1,x_2,x_3,t) is the temperature.\n- K is the specific heat per unit volume, i.e. specific heat times density.\n- The a_{i,i'} are the resultant conductivities, arbitrary given functions of x.\n- Riemann restricts to conductivity that is the same in opposite directions, so a_{i,i'} = a_{i',i}.\n- Since heat flows from hotter to colder, the quadratic form Σ a_{i,i'} w_i w_{i'} must be positive (definite).\n\n§3 (change of variables via a variational characterisation). New independent variables s_1,s_2,s_3 replace x_1,x_2,x_3. Instead of transforming the PDE directly, Riemann notes that (I) is necessary and sufficient for the following. Let δu be an arbitrary infinitesimal variation of u. Then the integral\n\n(A) ∫∫∫ ( 2K (∂u/∂t) δu + δ Σ a_{i,i'} (∂u/∂x_i)(∂u/∂x_{i'}) ) dx_1 dx_2 dx_3\n\ndepends only on the values of δu on the surface. The integrand is not written on the page; it is filled from the Commentatio. Justification (mine): since a is symmetric, δΣ a u_i u_{i'} = 2Σ a u_i δu_{i'}. Integrating by parts turns (A) into ∫ 2[K u_t − Σ ∂_{i'}(a_{i,i'} u_i)] δu dx plus a boundary term. This is independent of interior δu exactly when (I) holds.\n\nIn the new variables (A) becomes\n\n(B) ∫∫∫ ( 2k (∂u/∂t) δu + δ Σ b_{μ,ν} (∂u/∂s_μ)(∂u/∂s_ν) ) ds_1 ds_2 ds_3,\n\nwith the abbreviations ('posito brevitatis causa') given on the next page. Let J = det(∂s/∂x). Then:\n- b_{μ,ν} = (1/J) Σ a_{i,i'} (∂s_μ/∂x_i)(∂s_ν/∂x_{i'}).\n- k = K/J (the next page writes h for K).\n\nTherefore the transformed equation is k u_t = Σ ∂/∂s_μ ( b_{μ,ν} ∂u/∂s_ν ), of the same form as (I).\n\nThe next page continues as follows:\n- Determinants: A = B·J.\n- Adjugate forms: β = (∂x/∂s)^T α (∂x/∂s), so Σ α_{i,i'} dx_i dx_{i'} = Σ β dx ds_μ ds_ν.\n- h/A = k/B.\n- Hence transforming (I) reduces to transforming the quadratic differential form Σ α dx dx. This is the route to Riemann's curvature criterion in the Commentatio.",
+  "errors": [
+   "No mathematical errors on the page. The key formulas (equation I, the integral A, its transform B) are left blank, so the derivation is incomplete on this sheet. The reconstruction relies on the published Commentatio and on the following page.",
+   "Minor notational inconsistency across pages: the volume heat capacity is K here but appears as h on the next page (h/J = k).",
+   "The positivity condition is stated for 'forma secundi gradus (a_{1,1} ...)' with the form itself not written out. 'Positiva' should be read as positive definite."
+  ],
+  "results": [
+   {
+    "what": "Heat-conduction equation for an inhomogeneous anisotropic body with symmetric conductivity tensor and positive-definiteness from the direction of heat flow",
+    "modern_name": "Anisotropic heat equation K u_t = div(A grad u), with A symmetric positive definite",
+    "usually_credited_to": "Fourier (1822); Duhamel (1832) and Lamé for crystalline media; Stokes (1851) on symmetry of the conductivity tensor",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Characterising the PDE as the condition that a first-variation integral depends only on boundary values of δu, and using this to change variables",
+    "modern_name": "Weak/variational form of a divergence-form operator; coordinate invariance via the Euler–Lagrange equation",
+    "usually_credited_to": "Lagrange/Euler variational calculus; Jacobi (1840s) for transforming Laplace's equation this way",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Transformation law of the coefficient matrix under change of variables, b = J^{-1} M a M^T, reducing the problem to equivalence of quadratic differential forms (continued on the next page)",
+    "modern_name": "Tensor transformation of a (densitised) metric; equivalence problem for Riemannian metrics",
+    "usually_credited_to": "Riemann (1854 Habilitation; 1861 Commentatio); Christoffel (1869) and Lipschitz (1869) published",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the opening of Riemann's 1861 Paris Commentatio, published in his Werke (1876). The set-up of the anisotropic heat equation and its variational transformation is well known as his, and the content here is preliminary set-up.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; M=Matrix(3,3,symbols('m0:9')); a=Matrix(3,3,lambda i,j: Symbol('a%d%d'%(min(i,j),max(i,j)))); J=M.det(); b=M*a*M.T/J; simplify(b.det()-a.det()/J)==0",
+    "asserts": "det b = det a / J, i.e. A = B * det(ds/dx) (the next page's determinant relation)"
+   },
+   {
+    "sympy": "from sympy import *; M=Matrix(3,3,symbols('m0:9')); a=Matrix(3,3,lambda i,j: Symbol('a%d%d'%(min(i,j),max(i,j)))); J=M.det(); b=M*a*M.T/J; Minv=M.inv(); simplify(b.adjugate()-Minv.T*a.adjugate()*Minv)==zeros(3,3)",
+    "asserts": "adjugate form transforms as beta = (dx/ds)^T alpha (dx/ds), so Sum alpha dx dx = Sum beta ds ds"
+   },
+   {
+    "sympy": "from sympy import *; x=symbols('x'); u=Function('u')(x); v=Function('v')(x); a=Function('a')(x); simplify(diff(a*diff(u,x)*v,x) - (a*diff(u,x)*diff(v,x) + diff(a*diff(u,x),x)*v))==0",
+    "asserts": "1D integration-by-parts identity behind (A): a u' dv' = (a u' dv)' - (a u')' dv, so the interior term vanishes iff the divergence-form equation holds"
+   }
+  ],
+  "transcription_corrections": [
+   "Equation I is only a placeholder ('I ∂') on the page. The intended equation is K ∂u/∂t = Σ ∂/∂x_i(a_{i,i'} ∂u/∂x_{i'}).",
+   "The integral (A) and expression B are left blank in the manuscript, apart from 'δ∫∫∫' in B.",
+   "Line 1: 'propositam ita tractabimus' is correct; the 'ab Ill^{ma}' superscript is the abbreviation for Illustrissima.",
+   "The inserted heading reads 'Motus caloris in corpore qualicunque' with 'Motus' struck through and rewritten, as transcribed.",
+   "'(a_{1,1} )' stands for the quadratic form Σ a_{i,i'} w_i w_{i'} left incomplete."
+  ]
+ }
+}

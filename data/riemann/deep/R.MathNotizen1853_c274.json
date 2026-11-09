@@ -1,0 +1,78 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c274",
+ "label": "138r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000275/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds two connected pencil computations. Both are about the boundary behaviour of a power series at rho=1. The specific case is coefficients a_n=(log n)^(-alpha).\n\n(A) Abel-type limit argument.\n- Set f(rho)=sum_{n>=0} a_n rho^n, with f(1)=A. Riemann writes the target statement: |f(rho)-A|<alpha once 1-rho<r. The page has 'rho-1<r'; read 1-rho<r.\n- Tool: if |a_n|<alpha for n>nu, then the tail satisfies |sum_{n>=nu} a_n rho^n| < alpha rho^nu/(1-rho). This is the geometric series sum_{n>=nu} rho^n = rho^nu/(1-rho).\n- So the tail after the nu-th term is controlled by alpha/(1-rho). The finite head is handled by continuity.\n- Note that alpha is used here as a small epsilon. Below, the same letter alpha is reused as an exponent.\n\n(B) Coefficients (log n)^(-alpha).\n- Riemann looks at the differences (log n)^alpha - (log(n+m))^alpha. He writes phi(n+m)=(log n + log(1+m/n))^alpha.\n- By the binomial/Taylor expansion this equals (log n)^alpha + alpha (log n)^(alpha-1) log(1+m/n) + ... . So the increments of phi are of size alpha (log n)^(alpha-1) m/n, and they are monotone.\n- He notes Euler's integral int e^(-x) x^alpha dx. There is also a garbled line, perhaps rho^n/(log n)^alpha = nu. This may fix the index nu at which the terms fall below a bound.\n- He then writes the Gamma-integral representation of the coefficient, in Gauss's notation Pi(alpha-1)=Gamma(alpha):\n  a_n Pi(alpha-1) = int_0^oo e^(-x log n) x^(alpha-1) dx = Gamma(alpha)/(log n)^alpha.\n  So a_n=(log n)^(-alpha). The page shows an extra 'n'; read it as a stray mark or subscript.\n- He then substitutes n^(-x) = (1/Pi(x-1)) int_0^oo e^(-n y) y^(x-1) dy. This gives the double integral\n  a_n Pi(alpha-1) = int_0^oo int_0^oo e^(-n y) y^(x-1) dy x^(alpha-1) dx / Pi(x-1).\n- [Implicit, mine:] summing over n turns sum rho^n e^(-ny) into rho e^(-y)/(1-rho e^(-y)). This yields an integral representation of sum_{n>=2} rho^n/(log n)^alpha. From it one can study the behaviour as rho -> 1.\n\nContext: the date (1853) and the theme fit Riemann's work on trigonometric series and Abel summation (Habilitationsschrift, 1854). The faint header seems to read 'Zur Theorie der ... Functionen'.",
+  "errors": [
+   "The condition 'rho - 1 < r' should be 1 - rho < r, since rho < 1 approaches 1. Absolute values are omitted throughout; with alpha as an epsilon they are needed.",
+   "The tail bound needs |a_n| < alpha. Strictly it holds for n > nu, giving rho^(nu+1)/(1-rho), which is a harmless slip.",
+   "In the line a_n Pi(alpha-1) = int e^(-log n x) n x^(alpha-1) dx, the factor n is wrong if taken literally. The correct identity is int_0^oo e^(-x log n) x^(alpha-1) dx = Gamma(alpha)(log n)^(-alpha). The n is probably a stray mark or misreading.",
+   "Reusing alpha both as epsilon and as exponent is confusing. The n=1 term (log 1 = 0) must be excluded from a_n=(log n)^(-alpha).",
+   "The expansion line '... + alpha' is incomplete. The higher terms of the binomial expansion are not written."
+  ],
+  "results": [
+   {
+    "what": "Tail estimate for a power series with small coefficients, |sum_{n>=nu} a_n rho^n| < alpha rho^nu/(1-rho), used in an Abel-limit argument",
+    "modern_name": "Abel's limit theorem / Abelian argument",
+    "usually_credited_to": "N. H. Abel (1826)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "(log n)^(-alpha) = (1/Gamma(alpha)) int_0^oo n^(-x) x^(alpha-1) dx",
+    "modern_name": "Euler Gamma integral / Mellin-type representation",
+    "usually_credited_to": "Euler; Mellin transform formalism later (Mellin 1890s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Double-integral representation of a_n via n^(-x) = (1/Gamma(x)) int e^(-ny) y^(x-1) dy, preparing to sum sum rho^n (log n)^(-alpha)",
+    "modern_name": "Gamma-function integral representation (same device as in Riemann's 1859 zeta paper)",
+    "usually_credited_to": "Euler/Legendre; used by Riemann 1859",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Expansion of (log(n+m))^alpha = (log n)^alpha + alpha (log n)^(alpha-1) log(1+m/n) + ...",
+    "modern_name": "binomial/Taylor expansion, monotonicity of coefficients",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are routine scratch computations: an Abel-theorem tail bound and Gamma-integral representations of (log n)^(-alpha) in Gauss's Pi notation. The use of n^(-s) = (1/Gamma(s)) int e^(-ny) y^(s-1) dy prefigures the 1859 zeta paper, which is mildly interesting as an early instance. Still, the technique is classical and known to be Riemann's.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(exp(-x*log(n))*x**(a-1),(x,0,oo),conds='none') - gamma(a)/log(n)**a)",
+    "asserts": "Gamma-integral representation of (log n)^(-a), for n>1, a>0; result should be 0"
+   },
+   {
+    "sympy": "simplify(integrate(exp(-n*y)*y**(x-1),(y,0,oo),conds='none') - gamma(x)*n**(-x))",
+    "asserts": "n^(-x) = (1/Gamma(x)) int_0^oo e^(-ny) y^(x-1) dy for n>0, x>0"
+   },
+   {
+    "sympy": "simplify(summation(rho**n,(n,nu,oo)) - rho**nu/(1-rho))",
+    "asserts": "geometric tail used for the bound alpha*rho^nu/(1-rho), for 0<rho<1"
+   },
+   {
+    "sympy": "series((L + t)**a, t, 0, 2)",
+    "asserts": "(log n + log(1+m/n))^a = L^a + a L^(a-1) t + O(t^2) with L=log n, t=log(1+m/n)"
+   },
+   {
+    "sympy": "simplify(summation(rho**n*exp(-n*y),(n,1,oo)) - rho*exp(-y)/(1-rho*exp(-y)))",
+    "asserts": "summing the double-integral representation over n gives a closed-form kernel, for |rho e^(-y)|<1"
+   }
+  ],
+  "transcription_corrections": [
+   "'wenn rho - 1 < r' is most likely meant as 1 - rho < r (the struck character before it is a crossed-out letter).",
+   "The factor 'n' in 'e^{-log n x} n x^{alpha-1}' should not be there; the formula is int_0^oo e^{-x log n} x^{alpha-1} dx.",
+   "The second integral reads int_0^oo int_0^oo e^{-ny} y^{x-1} dy x^{alpha-1} dx / Pi(x-1), i.e. y^{x-1} rather than n^{x-1}, with Pi(x-1) in the denominator.",
+   "'log n^{alpha-1}' denotes (log n)^{alpha-1}.",
+   "The faint header at the top appears to read 'Zur Theorie der ... Functionen' (uncertain)."
+  ]
+ }
+}

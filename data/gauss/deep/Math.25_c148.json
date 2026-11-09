@@ -1,0 +1,60 @@
+{
+ "bundle": "Math.25",
+ "page": "c148",
+ "label": "73v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000149/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two columns: right column first, left column second. It gives the quadratic (Landen–Gauss) transformation of the first-kind elliptic integral in two notations. The trigonometric version is the invariance of the integral under the arithmetic-geometric-mean step (a,b) -> ((a+b)/2, sqrt(ab)). In what follows, k = mu, k' = sqrt(1-mu^2) and lambda = (1-k')/(1+k'). Gauss writes the differential as ∂x.\n\n(1) Algebraic form. The claim is\n∫ dx/sqrt((1-x^2)(1-k^2 x^2)) = ∫ dy / [ ((1+k')/2) sqrt((1-y^2)(1-lambda^2 y^2)) ].\nThe substitution is 1/x = ((1-k')/2) y + ((1+k')/2)(1/y), i.e. x = 2y/((1+k') + (1-k') y^2).\n\nImplicit steps (mine):\n- 1+lambda = 2/(1+k') and 2 sqrt(lambda)/(1+lambda) = k.\n- The substitution is therefore x = (1+lambda) y/(1+lambda y^2). This is the Gauss/Landen transformation sn((1+lambda)v, k) = (1+lambda) sn(v,lambda)/(1+lambda sn^2(v,lambda)).\n- It gives dx/sqrt((1-x^2)(1-k^2x^2)) = (1+lambda) dy/sqrt((1-y^2)(1-lambda^2y^2)).\n- Since 1+lambda = 2/(1+k'), this is exactly Gauss's factor 1/((1+k')/2).\n\n(2) Trigonometric form. Put x = sin phi and y = sin psi:\n∫ dphi/sqrt(1-mu^2 sin^2 phi) = ∫ dpsi / [ ((1+k')/2) sqrt(1-lambda^2 sin^2 psi) ].\n\n(3) Gauss then sets mu^2 = (a^2-b^2)/a^2, so that k' = b/a (the 'b/a' written beside the formula). With a' = (a+b)/2 this gives:\n- (1+k')/2 = a'/a;\n- lambda = (a-b)/(a+b);\n- a^2 cos^2 phi + b^2 sin^2 phi = a^2 (1-mu^2 sin^2 phi).\nHence\n∫ a dphi/sqrt(a^2cos^2phi + b^2 sin^2phi) = ∫ a dpsi/( a' sqrt(1-((a-b)/(a+b))^2 sin^2 psi) ).\n\n(4) Writing 1 - lambda^2 sin^2 psi = cos^2 psi + (1-lambda^2) sin^2 psi, and noting 1-lambda^2 = 4ab/(a+b)^2 = b'^2/a'^2 with b' = sqrt(ab), the right side becomes\n∫ a dpsi/( a' sqrt(cos^2psi + (b'^2/a'^2) sin^2psi) ).\n\n(5) Dividing by a and renaming psi -> phi' gives the AGM invariance:\n∫ dphi/sqrt(a^2cos^2phi + b^2 sin^2phi) = ∫ dphi'/sqrt(a'^2cos^2phi' + b'^2 sin^2phi'),\nwith the substitution 1/sin phi = ((a+b)/(2a)) (1/sin phi') + ((a-b)/(2a)) sin phi'.\nEquivalently, sin phi = 2a sin phi'/((a+b) + (a-b) sin^2 phi').\n\nAs phi' runs over 0..pi/2, phi also runs over 0..pi/2. So the complete integrals over a quarter period are equal. Iterating the step makes the complete integral equal to pi/(2 M(a,b)), where M is the arithmetic-geometric mean.\n\nThis is the central lemma of Gauss's AGM theory of elliptic integrals. The page's neighbours (theta-series computations 'zur 7 Theilung' on the next page; astronomical observations on the previous one) are consistent with his work on the AGM and lemniscatic/elliptic functions.",
+  "errors": [
+   "No mathematical errors found; all steps check out.",
+   "Minor notational point: in the first displayed formula the factor (1+sqrt(1-mu mu))/2 multiplies the radical in the denominator. Read that way, the formula is correct."
+  ],
+  "results": [
+   {
+    "what": "Quadratic transformation of the first-kind elliptic integral via 1/x = ((1-k')/2) y + ((1+k')/2)/y, with new modulus lambda = (1-k')/(1+k') and multiplier 2/(1+k').",
+    "modern_name": "Landen's transformation (descending), in Gauss's form (Gauss transformation)",
+    "usually_credited_to": "John Landen (1775); Lagrange (1784); Gauss (1799 diary, published 1818); Legendre",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Invariance of ∫ dphi/sqrt(a^2cos^2phi + b^2sin^2phi) under (a,b) -> ((a+b)/2, sqrt(ab)) with substitution 1/sin phi = ((a+b)/2a)/sin phi' + ((a-b)/2a) sin phi'.",
+    "modern_name": "Arithmetic-geometric mean invariance of the complete elliptic integral (K = pi/(2 AGM))",
+    "usually_credited_to": "Gauss (diary 1799; published in 'Determinatio attractionis...', 1818), building on Lagrange",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is Gauss's well-known AGM transformation. The substitution is essentially identical to the one he published in 1818 (sin T = 2m sin T'/((m+n)+(m-n)sin^2 T')), and it is documented in the Nachlass (Werke III). It is a clean working draft of known material.",
+  "checkable": [
+   {
+    "sympy": "k,y=symbols('k y',positive=True); kp=sqrt(1-k**2); lam=(1-kp)/(1+kp); x=2*y/((1+kp)+(1-kp)*y**2); simplify(diff(x,y)**2/((1-x**2)*(1-k**2*x**2)) - (2/(1+kp))**2/((1-y**2)*(1-lam**2*y**2)))",
+    "asserts": "The substitution 1/x = ((1-k')/2)y + ((1+k')/2)/y transforms the differential with factor 1/((1+k')/2); the expression should simplify to 0."
+   },
+   {
+    "sympy": "k=symbols('k',positive=True); kp=sqrt(1-k**2); lam=(1-kp)/(1+kp); simplify(4*lam/(1+lam)**2 - k**2)",
+    "asserts": "The new modulus satisfies k = 2 sqrt(lambda)/(1+lambda); should be 0."
+   },
+   {
+    "sympy": "a,b=symbols('a b',positive=True); simplify(1-((a-b)/(a+b))**2 - a*b/((a+b)/2)**2)",
+    "asserts": "1 - lambda^2 = b'^2/a'^2 with a' = (a+b)/2, b' = sqrt(ab); should be 0."
+   },
+   {
+    "sympy": "a,b,t=symbols('a b t',positive=True); ap=(a+b)/2; bp=sqrt(a*b); s=2*a*sin(t)/((a+b)+(a-b)*sin(t)**2); ds=diff(s,t); simplify(ds**2/((1-s**2)*(a**2*(1-s**2)+b**2*s**2)) - 1/(ap**2*cos(t)**2+bp**2*sin(t)**2))",
+    "asserts": "With sin phi = s(phi'), dphi^2/(a^2cos^2phi + b^2sin^2phi) = dphi'^2/(a'^2cos^2phi' + b'^2sin^2phi') (using dphi = ds/sqrt(1-s^2)); should be 0."
+   },
+   {
+    "sympy": "Integral(1/sqrt(3**2*cos(p)**2+1*sin(p)**2),(p,0,pi/2)).evalf() - Integral(1/sqrt(2**2*cos(p)**2+3*sin(p)**2),(p,0,pi/2)).evalf()",
+    "asserts": "Numerical check of complete-integral invariance for a=3, b=1 -> a'=2, b'=sqrt(3); should be ~0."
+   }
+  ],
+  "transcription_corrections": [
+   "Gauss's '∂x', '∂y', '∂φ', '∂ψ' denote ordinary differentials dx, dy, dφ, dψ.",
+   "The isolated 'b/a' after 'μμ = (aa-bb)/aa' is a marginal note meaning sqrt(1-μμ) = b/a. It is not part of an equation.",
+   "In the first line the factor (1+sqrt(1-μμ))/2 belongs to the denominator of the right-hand integrand, multiplying the radical.",
+   "Last line reads: 1/sinφ = (a+b)/(2a) · 1/sinφ' + (a-b)/(2a) · sinφ'. This is correct as transcribed."
+  ]
+ }
+}

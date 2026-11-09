@@ -1,0 +1,61 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c244",
+ "label": "109",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000245/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is not a Gauss manuscript page. It is a printed page (p. 109, Fraktur type) from an arithmetic and algebra textbook. The shelf name 'Leiste' points to Christian Leiste's 'Die Arithmetik und Algebra' (Wolfenbüttel, 1790). Leiste taught Gauss at the Catharineum in Braunschweig. The page is bound into the bundle, and the handwritten material is on the neighbouring pages. The page contains worked examples of indeterminate linear (Diophantine) systems: two equations in three unknowns, solved in non-negative or positive integers.\n\nProblem 2 (shared bill, 'Zechenaufgabe'):\n- Twenty people (x men, y women, z children) spent 1 Rthlr 24 Mgr. Taking 1 Reichsthaler = 36 Mariengroschen (my implicit step), the total is 60 Mgr.\n- Equations: x+y+z = 20 and 6x+4y+z = 60.\n- Subtracting the first from the second gives 5x+3y = 40, so x = (40-3y)/5.\n- 3y/5 must be an integer and gcd(3,5) = 1, so y = 5u. Then x = 8-3u and z = 20-x-y = 12-2u.\n- x > 0 forces u ≤ 2. The author takes u = 1 or 2, giving (x,y,z) = (5,5,10) and (2,10,8).\n\nProblem 3 (alloy / mixture, 'Mischungsrechnung'):\n- Silver pieces each weigh 1 Mark (= 16 Loth). Fineness is 14, 11 or 9 Loth of pure silver per Mark.\n- Required: a 30-Mark mass of 12-Loth fineness.\n- Equations: x+y+z = 30 and 14x+11y+9z = 30·12 = 360.\n- Subtracting 9 times the first equation (= 270) gives 5x+2y = 90, so y = 45 - 5x/2.\n- Hence x is even: x = 2u, y = 45-5u, z = 30-x-y = 3u-15.\n- y ≥ 0 gives u ≤ 9; z ≥ 0 gives u ≥ 5.\n- Table for u = 5..9:\n  - x = 10, 12, 14, 16, 18\n  - y = 20, 15, 10, 5, 0\n  - z = 0, 3, 6, 9, 12\n\nThe page ends with the catchword '4) Wenn', which continues on p. 110.",
+  "errors": [
+   "Problem 2: the parametrisation also admits u = 0, giving (x,y,z) = (8,0,12), which satisfies both equations. Excluding it is justified only if every group (women included) must be present. The text says 'only 2 values of u are possible' because of x = 8-3u, but x = 8-3u alone does not exclude u = 0.",
+   "Inconsistency between problems 2 and 3: problem 3 admits zero values (u = 5 gives z = 0; u = 9 gives y = 0), whereas problem 2 silently excludes the zero solution.",
+   "The aside 'also x + y < 20' is true for positive z but plays no role in the derivation.",
+   "No arithmetic errors: all listed solutions check."
+  ],
+  "results": [
+   {
+    "what": "General integer solution of a 2x3 linear system by elimination and parametrisation, with bounds on the parameter (shared-bill problem)",
+    "modern_name": "Linear Diophantine equations / indeterminate analysis (Hundred Fowls-type problem)",
+    "usually_credited_to": "Ancient: Zhang Qiujian (5th c.), Diophantus, medieval Indian (kuttaka) and European (Fibonacci) sources; Euler and Lagrange for the systematic theory",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Alloy (alligation) problem giving 5 non-negative integer solutions",
+    "modern_name": "Alligation / mixture problem as a linear Diophantine system",
+    "usually_credited_to": "Traditional commercial arithmetic (Rechenbücher, 16th–18th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed textbook page (very likely Leiste's school algebra) containing standard elementary exercises in indeterminate equations. There is no Gauss content on it; at most it documents the material Gauss was taught or owned.",
+  "checkable": [
+   {
+    "sympy": "[(x,y,20-x-y) for x in range(0,21) for y in range(0,21-x) if 6*x+4*y+(20-x-y)==60]",
+    "asserts": "All non-negative solutions of problem 2 are (8,0,12), (5,5,10), (2,10,8); the book lists only the two positive ones."
+   },
+   {
+    "sympy": "all(6*(8-3*u)+4*(5*u)+(12-2*u)==60 and (8-3*u)+5*u+(12-2*u)==20 for u in [1,2])",
+    "asserts": "The parametrisation x=8-3u, y=5u, z=12-2u satisfies both equations of problem 2."
+   },
+   {
+    "sympy": "[(x,y,30-x-y) for x in range(31) for y in range(31-x) if 14*x+11*y+9*(30-x-y)==360]",
+    "asserts": "The non-negative solutions of the alloy problem are exactly (10,20,0), (12,15,3), (14,10,6), (16,5,9), (18,0,12)."
+   },
+   {
+    "sympy": "sympy.simplify(14*(2*u)+11*(45-5*u)+9*(3*u-15) - 360)",
+    "asserts": "The parametrisation x=2u, y=45-5u, z=3u-15 identically satisfies the silver equation (result is 0)."
+   },
+   {
+    "sympy": "sympy.simplify((2*u)+(45-5*u)+(3*u-15) - 30)",
+    "asserts": "The parametrisation satisfies the weight equation (result is 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Page is printed Fraktur text, not Gauss's handwriting; the transcription of the printed text is essentially correct.",
+   "Faint pencil marks after 'z = 10' in problem 2 are stray annotations, not part of the text.",
+   "The marginal '17 540' visible at the left edge belongs to the facing leaf, not to this page."
+  ]
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c029",
+ "label": "20",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000030/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page continues a table of Gaussian addition logarithms, five decimals, argument step 0.001. Page 19 covers A = 0.800–0.880, this page 0.880–0.960, and page 21 0.960–1.040.\n\nThe page has two blocks. Each line holds:\n- the argument A;\n- B(A);\n- the first difference of B, in units of 10^-5, written between the lines;\n- C(A) = A + B(A);\n- the first difference of C, also written between the lines.\n\nI identified B by spot-checking the image. The intended function is B(A) = log10(1 + 10^(-A)) = log10(1 + 1/a), where a = 10^A. Then C(A) = A + B(A) = log10(1 + 10^A) = log10(1 + a). Checks (mine):\n- A = 1: B = log10 1.1 = 0.041393, matching the 0.04139 on p. 21.\n- A = 0.88: 10^-0.88 = 0.131826 and log10 1.131826 = 0.053780, so 0.05378.\n- A = 0.92: B = 0.049306, so 0.04931.\n- A = 0.95: B = 0.046184, so 0.04618.\n- A = 0.96: B = 0.0451852, so 0.04519.\n\nThe C column is formed purely by addition, e.g. 0.960 + 0.04519 = 1.00519. Since d/dA of C is 1 + dB/dA, every pair of differences must satisfy ΔB + ΔC = 100 (units of 10^-5). This holds as an internal check throughout: 12/88, 11/89, 10/90 and 9/91. The differences of B shrink from 12 to 9 because B'(A) = -10^(-A)/(1 + 10^(-A)) ≈ -0.105 to -0.0987 per unit over this range.\n\nPurpose: the table lets one find log(a + b) from log a and log b without antilogarithms. Put A = log a − log b; then log(a + b) = log b + C(A) = log a + B(A). This is exactly the table Gauss published in 1812 (Monatliche Correspondenz, Bd. 26) under the title 'Tafel zur bequemern Berechnung des Logarithmen der Summe oder Differenz zweier Grössen, welche selbst nur durch ihre Logarithmen gegeben sind', with columns A, B, C. These pages are evidently its manuscript computation or fair copy (bundle dated 1809).",
+  "errors": [
+   "Last line (0.959 → 0.960): the sum difference appears in the image as '89'. The true value is 1.00519 − 1.00428 = 91, consistent with ΔB = 9 and ΔB + ΔC = 100. This is either a copying slip or an ambiguous digit; the tabulated values themselves are correct.",
+   "Spot-checked tabular values at A = 0.880, 0.899, 0.914, 0.92, 0.935, 0.936, 0.95, 0.955 and 0.96 are all correctly rounded to 5 places. A = 0.96 is a near-tie (0.0451852), correctly rounded up.",
+   "Several overwritten digits in the image appear to be self-corrections, each producing the correct value: 0.921/0.922/0.923 in the argument column, 0.96395, and 1.00068 (leading digit changed to 1)."
+  ],
+  "results": [
+   {
+    "what": "Table of B(A) = log10(1 + 10^-A) and C(A) = A + B = log10(1 + 10^A) for A = 0.880 to 0.960, step 0.001, five places, with first differences",
+    "modern_name": "Gaussian (addition/subtraction) logarithms, sum logarithm table",
+    "usually_credited_to": "Idea due to Z. Leonelli (1802/03); the standard table is Gauss's 1812 publication, hence the name 'Gaussian logarithms'",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Internal check ΔB + ΔC = 100 units of the last place, since C = A + B with step 0.001",
+    "modern_name": "difference check in table construction",
+    "usually_credited_to": "standard table-making practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working sheet of Gauss's well-known 1812 table of addition logarithms, which bears his name. It is routine computational material; at most it documents the manuscript stage of a published table.",
+  "checkable": [
+   {
+    "sympy": "round(10**5*N(log(1+10**(-Rational(88,100)),10),15)) == 5378",
+    "asserts": "B(0.880) = 0.05378"
+   },
+   {
+    "sympy": "round(10**5*N(log(1+10**(-Rational(92,100)),10),15)) == 4931",
+    "asserts": "B(0.920) = 0.04931"
+   },
+   {
+    "sympy": "round(10**5*N(log(1+10**(-Rational(96,100)),10),15)) == 4519",
+    "asserts": "B(0.960) = 0.04519 (true value 0.0451852)"
+   },
+   {
+    "sympy": "round(10**5*N(log(1+10**(-Rational(914,1000)),10),15)) == 4995",
+    "asserts": "B(0.914) = 0.04995"
+   },
+   {
+    "sympy": "round(10**5*N(log(1+10**(-Rational(955,1000)),10),15)) == 4568",
+    "asserts": "B(0.955) = 0.04568"
+   },
+   {
+    "sympy": "round(10**5*N(log(1+10**(Rational(9,10)),10),15)) == 95150",
+    "asserts": "C(0.900) = log10(1 + 10^0.9) = 0.95150"
+   },
+   {
+    "sympy": "simplify(x + log(1+10**(-x),10) - log(1+10**x,10)) == 0",
+    "asserts": "The sum column C = A + B equals log10(1 + 10^A)"
+   },
+   {
+    "sympy": "100500519 - 100500428 == 91",
+    "asserts": "The last sum difference (1.00519 − 1.00428) is 91, not 89"
+   }
+  ],
+  "transcription_corrections": [
+   "Last sum difference (0.959 → 0.960): the image appears to read '89', not '91'; arithmetically it should be 91.",
+   "Arguments 0.921, 0.922 and 0.923 are written with overwritten final digits in the image; the readings 0.921–0.923 are correct.",
+   "1.00068 at A = 0.955 has its leading digit overwritten (corrected to 1); the reading is correct."
+  ]
+ }
+}

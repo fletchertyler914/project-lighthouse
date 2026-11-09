@@ -1,0 +1,55 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c303",
+ "label": "300",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000304/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page reduces meridian/clock observations (June series) and gives Gauss's rules for combining weights: for threads a,b the weight is 2ab/(a+b); for a,b,c it is 8abc/(ab+4ac+bc). It also contains least-squares error estimates with the factor 0.6745 for probable error. This page sets up the reduction of ring-micrometer (Kreismikrometer) observations. In these an unknown object (A,D), probably a comet or planet, is compared with up to three known stars.\n\nNotation as written:\n- Known stars have right ascensions α, α', α'' and declinations δ, δ', δ''. The object has A and D.\n- τ, τ', τ'', T are the means of the entry and exit times, i.e. the times of mid-transit across the ring.\n- μ, μ', μ'', M are the 'Mora', the durations from entry to exit, in time.\n- The diameter of the field (ring) in time is σ = (2/15)ρ. Here ρ is the ring radius in arc-seconds, so the diameter 2ρ'' corresponds to 2ρ/15 seconds of time.\n\nStep 1 (chord angle): for each body Gauss defines an angle by sin λ = μ cos δ / ρ, and similarly sin λ', sin λ''. For the object, sin L = M cos D / ρ.\n- Modern reading (mine): μ cos δ is the chord in time reduced to a great circle. Dividing by the diameter gives chord/diameter = sin λ.\n- So the half-chord is ρ sin λ and the perpendicular distance of the track from the ring centre is ρ cos λ.\n- λ = 90° is a central passage; λ = 0 is a grazing one.\n- With σ defined just above, the dimensionally consistent form is μ cos δ / σ (see errors).\n\nStep 2 (the quantities being determined, mine): A − α = T − τ for right ascension. D − δ = ±ρ(cos L − cos λ) for declination, with signs according to which side of the centre each track lies.\n\nStep 3 (weights as stated by Gauss):\n- Weight of the right ascension obtained from the first star: 2 cos²λ cos²L / (cos²L + cos²λ + cos²λ' + cos²λ'').\n- Weight of the declination from the first star: 2 sin²λ sin²L / (sin²L + sin²λ + sin²λ' + sin²λ'').\n- Structure: each body gets an individual weight, w = cos²λ (RA) or sin²λ (Dec), normalised so the best case has weight 1.\n- With only one comparison star, the formula reduces to 2 w_1 W/(w_1 + W). This is the same combination rule 2ab/(a+b) found on the previous page: half the reciprocal-sum weight of a difference, rescaled by 2.\n- With several comparison stars, Gauss replaces w_1 + W in the denominator by the sum of all four individual weights. This apparently accounts for the object's (or ring-centre's) contribution being shared among the stars. It is a heuristic or approximate allocation, not derived on the page.\n\nThe page gives no derivation of the individual weights and ends there; the next page has only the folio number.",
+  "errors": [
+   "Denominators: right after defining σ = (2/15)ρ as the field diameter in time, Gauss writes μ cos δ/ρ = sin λ. Dimensional consistency (μ in seconds of time, ρ the radius in arc-seconds) requires μ cos δ/σ. The smudges under the first two denominators look like corrections, possibly σ altered to ρ or vice versa. Either ρ is meant in time units or σ is intended.",
+   "The assignment of individual weights cannot be confirmed and may be swapped (my analysis, hedged). Under sin λ = chord/diameter, suppose the natural error model is a radial uncertainty ε of the apparent contact with the ring edge.\n- The along-track error per contact is ε/sin λ, so the RA weight should be ∝ sin²λ and the Dec weight ∝ cos²λ.\n- Under a pure timing-error model instead, the RA weight is constant and the Dec weight ∝ cot²λ.\n- Gauss's cos² (RA) and sin² (Dec) match neither, unless λ is effectively the complementary angle or a different error model is intended.",
+   "The multi-star denominator (sum of all four individual weights) is not derived. It is not the exact least-squares weight of A − α when several comparison stars share one object observation; it seems to be an approximate rule."
+  ],
+  "results": [
+   {
+    "what": "Reduction of ring-micrometer observations: the chord angle sin λ = μ cos δ/(diameter) and the mid-transit time give the RA difference T − τ and the declination difference ρ(cos L − cos λ).",
+    "modern_name": "Ring (circular) micrometer reduction",
+    "usually_credited_to": "Boscovich (ring micrometer, 18th c.); standard reduction formulas by Olbers and Bessel, c. 1800–1830",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Weights for RA and Dec from each comparison star, depending on the chord angles via cos² and sin², combined by a 2ab/(a+b)-type rule extended to several stars.",
+    "modern_name": "Weighting of observations / propagation of error in least squares",
+    "usually_credited_to": "Gauss (theory of least squares, 1809/1823); the specific ring-micrometer weights are routine practical astronomy",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Practical observatory reduction notes for ring-micrometer comparisons with weight formulas. This is routine work for Gauss at Göttingen in the 1810s–20s, and the weight scheme is heuristic rather than a new result.",
+  "checkable": [
+   {
+    "sympy": "simplify(2*(rho*sin(lam))**2/(2*rho)**2 - 2*sin(lam)**2/4)",
+    "asserts": "With half-chord rho*sin(lam), the chord/diameter ratio equals sin(lam) (squared form identity; trivially zero)."
+   },
+   {
+    "sympy": "simplify(diff(rho*cos(asin(h/rho)), h) + tan(asin(h/rho)))",
+    "asserts": "The derivative of the track distance d = sqrt(rho^2 - h^2) with respect to the half-chord h is -tan(lambda), so the Dec error grows like tan(lambda) times the chord error."
+   },
+   {
+    "sympy": "simplify(2*a*b/(a+b) - 2*a*b/(a+b+0))",
+    "asserts": "With a single comparison star, Gauss's formula 2*w1*W/(W+w1) coincides with the 2ab/(a+b) rule on the previous page."
+   },
+   {
+    "sympy": "simplify((2*sigma/2)*15/sigma - 15)",
+    "asserts": "With sigma = 2*rho/15, a diameter of 2*rho arc-seconds corresponds to sigma seconds of time (factor 15 arcsec per time-second)."
+   }
+  ],
+  "transcription_corrections": [
+   "The denominators in sin λ, sin λ' are written as ρ over a smudged, apparently corrected symbol (possibly σ). The third and fourth clearly read ρ; the intended quantity is likely σ for dimensional consistency.",
+   "The squared terms are written as cos λ² etc. in Gauss's notation, meaning cos²λ. The second denominator term reads 'cos λ^2' with the exponent partly faint."
+  ]
+ }
+}

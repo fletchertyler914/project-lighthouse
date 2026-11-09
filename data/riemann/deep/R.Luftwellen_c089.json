@@ -1,0 +1,62 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c089",
+ "label": "58v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000090/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of §4 of Riemann's 1860 paper 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite', in the case of constant sound speed a (Boyle's law).\n\nOn the previous page Riemann works with Riemann invariants p, q, with u = 2a(p+q), and characteristic speeds u+a and u-a. Taking p and q as independent variables, he shows that\ndw = (x-(u+a)t) dp + (x-(u-a)t) dq\nis exact. Hence w_p = x-(u+a)t and w_q = x-(u-a)t. From these:\n- w_pq = ∂_q(x-(u+a)t) = -2at;\n- w_p - w_q = -(u+a)t + (u-a)t = -2at.\n\nStep 1 (top of this page): subtracting the two expressions for -2at gives equation (1), L w := w_pq - w_p + w_q = 0. This is a linear hyperbolic equation in characteristic form with constant coefficients.\n\nStep 2: Cauchy data. At t=0, w_p = w_q = x (my addition: the t-terms vanish). The initial state (p(x,0), q(x,0)) traces a curve s in the (p,q)-plane. Along s, w_p and w_q are known, so dw = x(dp+dq) fixes w up to an additive constant. The problem thus becomes a non-characteristic Cauchy problem: find w given w, w_p and w_q on the curve s.\n\nStep 3: method. Riemann compares the procedure to solving a linear system by multiplying the equations by suitable factors and adding them. He introduces an arbitrary multiplier v(p,q) and forms the integral ∬ v·Lw dp dq over an arbitrary region of the (p,q)-plane. He announces that partial integration turns it into a boundary integral plus an area integral containing w but not its derivatives.\n\nStep 4 (my completion, consistent with the next page): the Lagrange–Green identity is\nv Lw - w L*v = ∂_q[v(w_p + w)] - ∂_p[w(v_q + v)],\nwith adjoint L*v = v_pq + v_p - v_q. By Green's theorem this yields\n∬ w L*v dp dq + ∮ [v(w_p+w) dp + w(v_q+v) dq] = 0.\nTaking L*v = 0 and imposing v_q + v = 0 on p=p', v_p - v = 0 on q=q', and v(p',q') = 1 isolates w(p',q'). This is Riemann's method.\n\nFor reference (not on this page), the Riemann function is\nv = exp((p-p')-(q-q')) · J0(2·sqrt((p-p')(q-q'))).",
+  "errors": [
+   "No errors on this page. Equation (1) follows correctly from w_pq = -2at and w_p - w_q = -2at (previous page).",
+   "The statement that w is determined up to a constant from w_p and w_q on the curve implicitly uses the compatibility dw = w_p dp + w_q dq along s. At t=0 this holds automatically, since w_p = w_q = x. Riemann leaves this unstated but it is unproblematic.",
+   "The sign and orientation conventions of the boundary integral are deferred to the next page. They are consistent there with the identity v Lw - w L*v = ∂_q[v(w_p+w)] - ∂_p[w(v_q+v)]."
+  ],
+  "results": [
+   {
+    "what": "Reduction of 1D isentropic gas dynamics (constant sound speed) to a linear second-order PDE w_pq - w_p + w_q = 0 via hodograph/Riemann-invariant variables",
+    "modern_name": "Hodograph transformation with Riemann invariants (linearization of 2x2 hyperbolic system)",
+    "usually_credited_to": "Riemann 1860 (Luftwellen paper)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Recasting the initial-value problem as a Cauchy problem for w on a non-characteristic curve s in the (p,q)-plane",
+    "modern_name": "Cauchy problem for linear hyperbolic equation in characteristic coordinates",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Multiplier/adjoint method: integrate v·Lw over a region and integrate by parts into a boundary term plus ∬ w L*v",
+    "modern_name": "Riemann's method (Riemann function, Lagrange–Green identity, adjoint operator)",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript draft of the published 1860 Luftwellen paper. The Riemann-method passage appears there nearly verbatim, and the method is universally credited to Riemann. Only the manuscript wording (the analogy with linear systems, the p,q normalization) is of minor archival interest.",
+  "checkable": [
+   {
+    "sympy": "p,q=symbols('p q'); w=Function('w')(p,q); v=Function('v')(p,q); simplify(v*(diff(w,p,q)-diff(w,p)+diff(w,q)) - w*(diff(v,p,q)+diff(v,p)-diff(v,q)) - (diff(v*(diff(w,p)+w),q) - diff(w*(diff(v,q)+v),p)))",
+    "asserts": "Lagrange-Green identity: v*Lw - w*L*v is the divergence used to form the boundary integral (result 0)"
+   },
+   {
+    "sympy": "x,t,a,p,q=symbols('x t a p q'); u=2*a*(p+q); wp=x-(u+a)*t; wq=x-(u-a)*t; simplify((wp-wq)+2*a*t)",
+    "asserts": "w_p - w_q = -2at, which together with w_pq = -2at gives equation (1) (result 0)"
+   },
+   {
+    "sympy": "p,q,P,Q=symbols('p q P Q'); v=exp((p-P)-(q-Q))*besselj(0,2*sqrt((p-P)*(q-Q))); simplify(diff(v,p,q)+diff(v,p)-diff(v,q))",
+    "asserts": "Riemann function solves the adjoint equation (2) (expected 0)"
+   },
+   {
+    "sympy": "p,q,P,Q=symbols('p q P Q'); v=exp((p-P)-(q-Q))*besselj(0,2*sqrt((p-P)*(q-Q))); [simplify((diff(v,q)+v).subs(p,P)), simplify((diff(v,p)-v).subs(q,Q)), v.subs({p:P,q:Q})]",
+    "asserts": "Characteristic conditions (4) of the next page: [0, 0, 1]"
+   }
+  ],
+  "transcription_corrections": [
+   "'in einer gegebenen Curve s[?] gegebene Werthe' — the 's' is plausibly correct: the curve is called s on the next page.",
+   "Equation (1) and the integrand are correctly transcribed: w_pq - w_p + w_q."
+  ]
+ }
+}

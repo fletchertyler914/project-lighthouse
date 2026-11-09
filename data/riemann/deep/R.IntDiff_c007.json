@@ -1,0 +1,57 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c007",
+ "label": "3v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is part of Riemann's 1847 student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation', published posthumously by Weber and Dedekind in the Gesammelte Werke (1876, XIX).\n\n**Previous page.** Riemann takes the Taylor expansion as the definition of the integer-order derivatives:\n(1) z(x+h) = Σ_{p≥0} (1/p!) z^{(p)}(x) h^p.\nRead this way, d^n z/dx^n = n! · [coefficient of h^n].\n\n**This page.** He generalizes this to an operation he calls 'Ableitung', following Lagrange's 'fonctions dérivées'. He gives it a new symbol, ∂_x^ν z (in the manuscript the x is written above the ∂). He says the name 'limit of a quotient of vanishing quantities' no longer makes sense in this viewpoint.\n\nThe definition is as follows.\n- Expand z(x+h) in a bilateral series of powers of h.\n- The exponents differ from one another by integers, so they have the form ν = ν₀ + n with n ∈ ℤ.\n- The series runs to infinity in both directions.\n- Write the coefficient of h^ν as K_ν · ∂_x^ν z, where K_ν depends only on ν and not on x:\n(2) z(x+h) = Σ_{ν=-∞}^{+∞} K_ν ∂_x^ν z · h^ν.\n\nRiemann then states the requirement on K_ν. When the exponents are integers (ν₀ = 0), series (2) must reduce to (1); otherwise ordinary differentiation would not be a special case. This continues onto the next page.\n\n**Implicit consequences (mine).**\n- For integers n ≥ 0 we need K_n = 1/n!.\n- Since (1) has no terms with negative powers, we need K_n · ∂^n z = 0 for n < 0. This is satisfied by K_n = 0, i.e. 1/Γ(n+1) at the poles.\n- Riemann later in the essay arrives at K_ν = 1/Π(ν) = 1/Γ(ν+1).\n\n**Model example (mine).** Take z = x^a. Then the bilateral binomial expansion\n(x+h)^a = Σ_ν [Γ(a+1) / (Γ(ν+1) Γ(a−ν+1))] x^{a−ν} h^ν\ngives ∂^ν x^a = Γ(a+1)/Γ(a−ν+1) · x^{a−ν}. This is the Riemann–Liouville / Liouville formula.",
+  "errors": [
+   "No computational errors; the page consists of definitions.",
+   "Unjustified point: the definition presupposes that a bilateral power-series expansion of z(x+h) with a given exponent offset is unique. Formally it is not. For example, Σ_{n∈ℤ} h^n 'equals' 1/(1-h) + h^{-1}/(1-h^{-1}) = 0, so non-trivial bilateral series can represent zero. The 'Ableitung' is therefore determined only up to such ambiguities. This is related to the later-noted 'complementary function' indeterminacy in Riemann's theory, which Cayley remarked on in 1880.",
+   "Such bilateral series generally diverge. Riemann acknowledges this and starts to discuss the legitimacy of formal series on the next page."
+  ],
+  "results": [
+   {
+    "what": "Definition of a general (fractional/arbitrary-order) derivative ∂_x^ν z as the normalized coefficient of h^ν in a bilateral expansion of z(x+h) in powers h^{ν0+n}, with normalizing factor K_ν required to give K_n = 1/n! for integer n.",
+    "modern_name": "Fractional derivative via generalized (bilateral) Taylor series; precursor of the Riemann–Liouville derivative and the Riemann/Hardy-type generalized Taylor series",
+    "usually_credited_to": "Liouville (1832) for fractional calculus; Riemann (1847 essay, published 1876) for this generalized Taylor approach; Grünwald (1867) and Letnikov (1868) for related definitions",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Requirement that K_ν reduce to 1/n! for integer exponents (leading later to K_ν = 1/Γ(ν+1))",
+    "modern_name": "Normalization by the reciprocal Gamma function in the generalized Taylor series Σ D^ν f(x) h^ν/Γ(ν+1)",
+    "usually_credited_to": "Riemann (1847/1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page belongs to Riemann's 1847 essay on generalized integration and differentiation, which has been published in his Gesammelte Werke since 1876 and is the namesake of the Riemann–Liouville derivative. The content is already credited to him.",
+  "checkable": [
+   {
+    "sympy": "[simplify(1/gamma(n+1) - 1/factorial(n)) for n in range(0,8)] == [0]*8",
+    "asserts": "K_ν = 1/Γ(ν+1) reproduces the Taylor factors 1/n! for integer n ≥ 0"
+   },
+   {
+    "sympy": "[limit(1/gamma(nu+1), nu, -k) for k in range(1,6)] == [0]*5",
+    "asserts": "1/Γ(ν+1) vanishes at negative integers, so no negative-power terms appear when exponents are integers, consistent with (1)"
+   },
+   {
+    "sympy": "a,x,h=symbols('a x h',positive=True); simplify(sum(gamma(a+1)/(gamma(k+1)*gamma(a-k+1))*x**(a-k)*h**k for k in range(0,6)) - series((x+h)**a, h, 0, 6).removeO())",
+    "asserts": "For integer exponents the generalized binomial coefficients with K_k = 1/Γ(k+1) reproduce the ordinary Taylor expansion of (x+h)^a; the difference should simplify to 0"
+   },
+   {
+    "sympy": "a,nu,x=symbols('a nu x',positive=True); simplify(gamma(nu+1)*gamma(a+1)/(gamma(nu+1)*gamma(a-nu+1))*x**(a-nu) - gamma(a+1)/gamma(a-nu+1)*x**(a-nu))",
+    "asserts": "With K_ν = 1/Γ(ν+1), the coefficient of h^ν in the bilateral binomial expansion of (x+h)^a yields ∂^ν x^a = Γ(a+1)/Γ(a-ν+1) x^(a-ν) (Riemann–Liouville power rule)"
+   }
+  ],
+  "transcription_corrections": [
+   "The operator is written with x above the ∂ and ν as a superscript, with z below or after it (∂ with x over it, ν, z). The red marginal annotations are a later hand, probably the editor, normalizing this to ∂_x^ν and ∂_x^ν z.",
+   "'unter dem Ausdruck ν^te Ableitung von z_x nach x': the subscript on z is doubtful; it is likely just 'von z nach x'.",
+   "'oder' after ∂_x^ν z is struck through, as is 'in die' at the end of the page; both deletions are correctly marked.",
+   "The word 'Exponenten' is written over a correction in the line 'deren Exponenten um eine ganze Zahl'."
+  ]
+ }
+}

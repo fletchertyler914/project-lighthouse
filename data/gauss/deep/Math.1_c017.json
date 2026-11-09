@@ -1,0 +1,64 @@
+{
+ "bundle": "Math.1",
+ "page": "c017",
+ "label": "[9v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000018/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is one sheet of a large hand-drawn table of quadratic residue characters. It continues from fol. 9r, which has columns 227–359, and runs on to fol. 10, which has columns 509–659. On this sheet the columns are the primes 367, 373, …, 503, written at the top and bottom. The rows are the primes 439, 443, …, 503, 509, 521, and in red 523.\n\nThe rule for an entry, which I verified on many cells (my verification, not stated on the page), is this. A small circle stands in cell (row p, column q) exactly when q is a quadratic residue mod p, i.e. Legendre symbol (q/p) = +1.\n\nThe direction matters when p ≡ q ≡ 3 (mod 4), because then (q/p) = −(p/q). Example: (367/523) = +1 but (523/367) = −1, and the circle is present at (523, 367). So the circle means 'column prime is a residue of the row prime'.\n\nThe diagonal cells (p, p) also carry circles, e.g. (439,439), (443,443) and (449,449). Gauss apparently counts 0 among the residues.\n\nWorked checks:\n- Row 523 (red). Circles at 367, 383, 397, 419, 439, 443, 461, 467, 491, 503. These are exactly the column primes q with (q/523) = 1.\n  - (367/523) = −(523/367) = −(156/367) = −(3/367)(13/367) = −(−1)(1) = +1.\n  - (373/523) = (150/373) = (2/373)(3/373) = −1, so no circle.\n  - (409/523) = (114/409) = (2/409)(3/409)(19/409) = 1·1·(10/19) = −1, so no circle.\n  - (419/523) = −(104/419) = −(2/419)(13/419) = +1, so a circle.\n- Row 439. Circles at 373, 379, 397, 409, 433, (439), 443, 449, 457, 461, 467, 479, 491, 503. These match (q/439) = 1.\n  - (443/439) = (4/439) = 1.\n  - (457/439) = (18/439) = (2/439) = 1, since 439 ≡ 7 (mod 8).\n  - (463/439) = (24/439) = (3/439) = −1, so no circle.\n  - (503/439) = (64/439) = 1.\n- Row 443. (367/443) = +1 and (457/443) = (14/443) = +1, both circled. (449/443) = (6/443) = −1, not circled.\n- Row 503. The chain 367–397 is all residues, e.g. (373/503) = (130/373) = (−1)(−1)(1) = +1.\n\nRows 509 and 521 are still empty in black ink; row 523 was added in red. The previous page also has a red row 541.\n\nIn addition, every pair of horizontally or vertically adjacent circles is joined by a line. This produces 'chains' and closed 'squares' — the clusters of neighbouring residues. There is no computation on the page beyond the table itself.\n\nThe purpose is evidently empirical tabulation of the residue character of primes against primes. This is the kind of material Gauss used for induction on quadratic reciprocity and for residue tables. It is analogous to Tabula II of the Disquisitiones (1801), but much larger: rows up to 541, columns up to 659. Why the adjacent residues are joined is not explained. It may be a visual device for checking or for spotting patterns (my conjecture).",
+  "errors": [
+   "No errors found in the cells checked (rows 439, 443, 503, 523 and several individual cells): circles coincide with legendre_symbol(q,p)=1.",
+   "Diagonal cells (p,p) are marked with circles; this is a convention (0 counted with the residues), not an error.",
+   "Rows 509 and 521 are left blank, i.e. the table is incomplete on this sheet."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic residue characters (q/p) for column primes 367–503 against row primes 439–523, with circle = q is a quadratic residue mod p",
+    "modern_name": "Table of Legendre symbols / quadratic residue table for primes",
+    "usually_credited_to": "Residue tables: Euler, Legendre, Gauss (Disquisitiones Arithmeticae 1801, Tabula II); later large tables by Jacobi (Canon Arithmeticus 1839) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Graphical linking of horizontally/vertically adjacent residue entries into chains and squares",
+    "modern_name": "Visualization of the quadratic residue pattern (no standard name)",
+    "usually_credited_to": "unsure",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's extensive empirical residue tables, and their role in his discovery and proof of quadratic reciprocity, are well documented. This sheet is a routine, accurate portion of such a table. The connecting-line visualization is a curiosity, not a mathematical result.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [q for q in [367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503] if legendre_symbol(q,523)==1] == [367,383,397,419,439,443,461,467,491,503]",
+    "asserts": "The red row 523 marks exactly the quadratic residues mod 523 among the column primes"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [q for q in [367,373,379,383,389,397,401,409,419,421,431,433,443,449,457,461,463,467,479,487,491,499,503] if legendre_symbol(q,439)==1] == [373,379,397,409,433,443,449,457,461,467,479,491,503]",
+    "asserts": "Row 439 circles (apart from the diagonal) are exactly the residues mod 439"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; (legendre_symbol(367,523), legendre_symbol(523,367)) == (1,-1)",
+    "asserts": "The table's direction is (column/row): the circle at (523,367) reflects (367/523)=1, not (523/367)"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; (legendre_symbol(409,523), legendre_symbol(419,523)) == (-1,1)",
+    "asserts": "The red circle near 409/419 belongs to column 419, not 409"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; all(legendre_symbol(q,503)==1 for q in [367,373,379,383,389,397])",
+    "asserts": "The long chain in row 503 from 367 to 397 consists of residues mod 503"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; (legendre_symbol(367,443), legendre_symbol(449,443), legendre_symbol(457,443)) == (1,-1,1)",
+    "asserts": "Row 443 entries: circle at 367 and 457, none at 449 (the circle there is the diagonal 443)"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 523 (red): the circle listed under 409 is actually under 419 (the position matches the 419 column, and (409/523)=-1 while (419/523)=+1). Correct list: 367, 383, 397, 419, 439, 443, 461, 467, 491, 503.",
+   "Note that diagonal cells (p,p), e.g. (439,439), (443,443), (449,449), carry circles.",
+   "Meaning of entries (not given in the machine transcription): circle in row p, column q means q is a quadratic residue mod p; lines join adjacent circles."
+  ]
+ }
+}

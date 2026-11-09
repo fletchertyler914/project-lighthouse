@@ -1,0 +1,61 @@
+{
+ "bundle": "R.Aether",
+ "page": "c045",
+ "label": "23v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234777:00000046/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: on the previous page (f.23r) Riemann sets up a variational principle for the aether. The aether displacement (or velocity) is eta' = (eta_1', eta_2', eta_3') in coordinates eta_1, eta_2, eta_3. The action is the integral of (d_t eta')^2 - c^2 |grad eta'|^2. The constraint div eta' = -rho (the inflow of aether into ponderable matter) is enforced with a Lagrange multiplier lambda. Varying gives an equation of the form d_t^2 eta_i' - c^2 Lap eta_i' = d lambda/d eta_i (up to sign convention). On this page Riemann specialises to the region free of ponderable mass.\n\n(1) Mass-free space. There div eta' = 0. He assumes the motion is irrotational, eta_i' = dV/d eta_i, with a potential V. Then div eta' = Lap V = 0, i.e. d^2V/d eta_1^2 + d^2V/d eta_2^2 + d^2V/d eta_3^2 = 0.\n\n(2) Components are harmonic. Partial derivatives commute, so Lap eta_i' = d/d eta_i (Lap V) = 0 for each i.\n\n(3) A crossed-out line, roughly 'Also ist für eta_1', eta_2', eta_3' ... für die Gravitationsbewegungen'. It apparently began to state that this harmonic/potential motion describes the gravitational motions.\n\n(4) Force components. Define X_i = d^2 eta_i'/dt^2 = d^2/dt^2 (dV/d eta_i). Since Lap eta_i' = 0, the c^2 term drops out of the field equation. What remains is X_i = d lambda/d eta_i.\n\n(5) Integration. The form X_1 d eta_1 + X_2 d eta_2 + X_3 d eta_3 is exact and equals d(d^2V/dt^2), so its line integral is d^2V/dt^2. Comparing with X = grad lambda gives lambda = d^2V/dt^2. This is up to an additive function of t, which Riemann omits [my remark]. So the multiplier ('pressure') of the incompressibility constraint equals the second time derivative of the displacement potential. If eta' is read as a displacement, this is the analogue of the linearised Bernoulli relation p = -rho d phi/dt.\n\n(6) Margin, fragmentary and partly struck. It says roughly: 'For the case where only the light motions take place which produce the light phenomena, X_1 = X_2 = X_3 = 0, so ... generally, because X_1, X_2, X_3 ...'. The sentence breaks off. The intent seems to be to separate the motion into a potential (gravitational) part and a light-wave part. For the light-wave part X = grad lambda vanishes, so lambda is constant there.",
+  "errors": [
+   "lambda is determined only up to an additive function of t: lambda = d^2V/dt^2 + f(t). Riemann writes plain equality. This is harmless.",
+   "Writing eta_i' = dV/d eta_i assumes irrotational (potential) motion without stating it. It is presumably justified by the context of gravitational inflow.",
+   "The identification X_i = d lambda/d eta_i requires Lap eta_i' = 0, which was derived just above. The sign convention relative to the previous page's variation is not fully consistent, but it is consistent within this page.",
+   "The margin argument is incomplete; no conclusion is reached."
+  ],
+  "results": [
+   {
+    "what": "In matter-free space an irrotational incompressible aether displacement eta' = grad V has a harmonic potential, and each component is harmonic.",
+    "modern_name": "Potential flow / harmonic potential (Laplace equation)",
+    "usually_credited_to": "Euler, Laplace (18th century)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The Lagrange multiplier of the incompressibility constraint equals the second time derivative of the displacement potential: lambda = V_tt, with grad lambda = d_t^2 grad V.",
+    "modern_name": "Pressure as Lagrange multiplier for incompressibility; linearised (unsteady) Bernoulli relation",
+    "usually_credited_to": "Lagrange (multiplier interpretation of pressure); Euler/Bernoulli",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Separation of aether motion into a gravitational (potential, inflow into matter) part and light (transverse wave) motions with zero force.",
+    "modern_name": "Riemann's aether theory of gravitation and light (1853 fragments)",
+    "usually_credited_to": "Riemann, fragment 'Gravitation und Licht', published in Gesammelte Werke (1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine potential-flow computation inside Riemann's known aether programme of gravitation as inflow and light as waves. That programme is published among his Nachlass fragments in the Werke. Identifying the constraint multiplier with V_tt is elementary.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,t=symbols('x y z t'); f=Function('f')(t); V=f*(x**2-y**2)+t**2*x*y*z; e=[diff(V,v) for v in (x,y,z)]; simplify(sum(diff(e[i],v) for i,v in enumerate((x,y,z))) - (diff(V,x,2)+diff(V,y,2)+diff(V,z,2)))",
+    "asserts": "div(grad V) = Lap V (gives 0)"
+   },
+   {
+    "sympy": "V=f*(x**2-y**2)+t**2*x*y*z; [simplify(diff(diff(V,v),x,2)+diff(diff(V,v),y,2)+diff(diff(V,v),z,2)) for v in (x,y,z)]",
+    "asserts": "If V is harmonic, each component dV/dx_i is harmonic (all zeros)"
+   },
+   {
+    "sympy": "lam=diff(V,t,2); [simplify(diff(diff(V,v),t,2)-diff(lam,v)) for v in (x,y,z)]",
+    "asserts": "d_t^2 (dV/dx_i) = d lambda/dx_i with lambda = V_tt (all zeros)"
+   }
+  ],
+  "transcription_corrections": [
+   "Margin: the first line 'Da für den Fall wo nur' is struck. 'Lichtbewegungen' also appears struck/overwritten, and the phrase continues 'Statt finden'.",
+   "Margin: 'die die Lichterscheinungen hervorbringen' — the doubled 'die' is plausible (relative pronoun + article), not necessarily an error.",
+   "The struck line under the first equations should read roughly 'Also ist für eta_1', eta_2', eta_3' ... für die Gravitationsbewegungen'. The primes are likely present.",
+   "The margin 'offen' is struck; the text continues 'allgemein, weil X_1, X_2, X_3' and is then cut off."
+  ]
+ }
+}

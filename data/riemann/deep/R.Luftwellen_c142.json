@@ -1,0 +1,61 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c142",
+ "label": "85r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000143/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This is a pencil draft of a letter headed 'Hochgeehrter Herr Professor!', dated Göttingen, 17 October 185[8?]. It belongs to the material behind Riemann's 1860 paper 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'. The gas obeys Boyle's law, p = a^2*rho, so a is the Newtonian (isothermal) sound speed. The previous folio already uses the end result of this page (dxi/dt = u1 + a*sqrt(rho2/rho1) = u2 + a*sqrt(rho1/rho2)) together with Riemann invariants p, q for which 2(p-q) = log rho.\n\nStep 0 (text). The differential equations set up earlier (continuity, and Euler's equation with p = a^2 rho) hold only while u and rho vary continuously with x. One must therefore treat a discontinuity at a moving point x = xi(t) separately.\n\nStep 1 (notation). The states on the two sides of the jump are:\n- at x = xi - 0: velocity u1, density rho1;\n- at x = xi + 0: velocity u2, density rho2.\nThe velocities relative to the moving discontinuity are v1 = u1 - dxi/dt and v2 = u2 - dxi/dt.\n\nStep 2 (mass conservation). Take a tube of cross-section omega. The mass crossing the discontinuity in time dt is the same measured on either side: rho1*v1*dt*omega = rho2*v2*dt*omega, hence rho1*v1 = rho2*v2.\n\nStep 3 (momentum balance). This mass element of size rho1*v1*dt*omega passes from state 1 to state 2.\n- During dt it is acted on by the net pressure force (p1 - p2)*omega*dt = a^2*(rho1 - rho2)*dt*omega.\n- Its change of velocity is u2 - u1 = v2 - v1 = v1*(rho1/rho2 - 1), using Step 2.\nNewton's law then gives a^2*(rho1 - rho2) = rho1*v1*v1*(rho1/rho2 - 1) = rho1*v1^2*(rho1 - rho2)/rho2. A struck-out first attempt wrote the velocity change as u2 - u1 and then rewrote it.\n\nStep 4 (implicit step, mine). Divide by rho1 - rho2 != 0, i.e. assume a genuine jump. This gives a^2*rho2/rho1 = v1^2, so v1 = ±a*sqrt(rho2/rho1). Then v2 = v1*rho1/rho2 = ±a*sqrt(rho1/rho2). Note v1*v2 = a^2, the isothermal analogue of Prandtl's relation.\n\nStep 5. 'Let us first consider the case' of the lower sign, v1 = -a*sqrt(rho2/rho1) and v2 = -a*sqrt(rho1/rho2). Then dxi/dt = u1 - v1 = u1 + a*sqrt(rho2/rho1) = u2 + a*sqrt(rho1/rho2). Relative to the jump the gas flows from side 2 to side 1. This is the shock-speed formula used on the previous folio.\n\nLink to the previous folio (my check). Eliminating dxi/dt gives u1 - u2 = a*(sqrt(rho1/rho2) - sqrt(rho2/rho1)). The previous folio takes 2(p-q) = log rho, and the stated relation implies p+q = u/(2a). Write alpha = sqrt(rho1/rho2) = e^(Δq-Δp), with Δ meaning state 2 minus state 1. The jump relation then becomes exactly 2(Δp+Δq) - e^(Δp-Δq) + e^(Δq-Δp) = 0, as written there.",
+  "errors": [
+   "No mathematical errors. The division by (rho1 - rho2) is tacit, and the trivial no-jump solution is silently dropped.",
+   "Only mass and momentum are conserved, with p = a^2*rho. This is consistent for an isothermal gas. For a real (adiabatic) gas, energy conservation would be required, the defect later pointed out regarding Riemann's 1860 treatment, where he kept the isentropic law across the shock. Within the Boyle-law model used here it is correct."
+  ],
+  "results": [
+   {
+    "what": "Jump (shock) conditions for a plane discontinuity in an isothermal gas: rho1*v1 = rho2*v2 and a^2*(rho1-rho2) = rho1*v1*(v2-v1), giving v1 = ±a*sqrt(rho2/rho1), v2 = ±a*sqrt(rho1/rho2), v1*v2 = a^2",
+    "modern_name": "Rankine–Hugoniot conditions (isothermal case); isothermal analogue of Prandtl's relation",
+    "usually_credited_to": "Stokes 1848 (isothermal discontinuity, mass + momentum); Riemann 1860 (general p = phi(rho)); Rankine 1870, Hugoniot 1887 (with energy)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Shock speed dxi/dt = u1 + a*sqrt(rho2/rho1) = u2 + a*sqrt(rho1/rho2)",
+    "modern_name": "Shock propagation speed for an isothermal gas",
+    "usually_credited_to": "Riemann 1860 (general formula, specialised to Boyle's law); Stokes 1848",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page derives the shock jump conditions for a Boyle-law gas, essentially as published in Riemann's 1860 Luftwellen paper and anticipated by Stokes (1848). The only mildly interesting detail is the letter-draft framing and the date (October 1858 or 1859), which documents when and to whom Riemann communicated it; the mathematics itself is known as his.",
+  "checkable": [
+   {
+    "sympy": "a,r1,r2=symbols('a r1 r2',positive=True); v1=-a*sqrt(r2/r1); v2=r1*v1/r2; simplify(a**2*(r1-r2) - r1*v1*(v2-v1))",
+    "asserts": "With v1 = -a*sqrt(rho2/rho1) and v2 from mass conservation, the momentum balance holds (result 0)."
+   },
+   {
+    "sympy": "simplify(v2 - (-a*sqrt(r1/r2)))",
+    "asserts": "v2 = -a*sqrt(rho1/rho2) (result 0)."
+   },
+   {
+    "sympy": "simplify(v1*v2 - a**2)",
+    "asserts": "v1*v2 = a^2 (result 0)."
+   },
+   {
+    "sympy": "v1=symbols('v1'); solve(Eq(a**2*(r1-r2), r1*v1*(v1*r1/r2 - v1)), v1)",
+    "asserts": "Solutions are v1 = ±a*sqrt(rho2/rho1), for rho1 != rho2."
+   },
+   {
+    "sympy": "u1=symbols('u1'); u2=u1+a*sqrt(r2/r1)-a*sqrt(r1/r2); al=sqrt(r1/r2); Dpq=(u2-u1)/(2*a); simplify(2*Dpq - 1/al + al)",
+    "asserts": "With p+q = u/(2a) and alpha = e^(Δq-Δp) = sqrt(rho1/rho2), the jump gives 2(Δp+Δq) - e^(Δp-Δq) + e^(Δq-Δp) = 0, as on the previous folio (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The assignment of states is garbled. It should read: 'Geschwindigkeit und Dichtigkeit für x = xi - 0: u1, rho1; für xi + 0: u2, rho2'.",
+   "In the velocity-change line, the struck-out attempt involves u2 - u1 = v2 - v1. The surviving expression is v1*(rho1/rho2 - 1), confirmed by the subsequent algebra.",
+   "The cancelled leading fragment '[-x/t-]' before dxi/dt is uncertain in the image. It may be a cancelled 'dxi/dt' or a similar symbol.",
+   "The date's last digit is hard to read ('1858' vs '1859'). The 1860 paper was presented in November 1859, so 1859 deserves consideration.",
+   "The first line probably reads '[Die ... S. 1] aufgestellten Differentialgleichungen der Luftbewegung[?] gelten nur, wenn u und rho sich stetig mit x ändern'."
+  ]
+ }
+}

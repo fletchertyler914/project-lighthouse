@@ -1,0 +1,73 @@
+{
+ "bundle": "Math.26",
+ "page": "c014",
+ "label": "6r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381839:00000015/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Theorem (Lehrsatz). Let A,B,C,a,b,c be arbitrary real numbers and put p = A+B+C, q = AB+AC+BC-a^2-b^2-c^2, r = ABC+2abc-Aa^2-Bb^2-Cc^2. Then X(x) = x^3 - p x^2 + q x - r always has three real roots.\n\nModern reading (mine; Gauss does not say this): X(x) = det(xI - M) for the real symmetric matrix M = [[A,c,b],[c,B,a],[b,a,C]]. p is the trace, q is the sum of the principal 2x2 minors (AB-c^2, AC-b^2, BC-a^2), and r = det M. The theorem is therefore that a real symmetric 3x3 matrix has real eigenvalues. Equivalently, the 'secular equation' of a ternary quadratic form, or the cubic for the principal axes of a quadric, has real roots. The proof is a case analysis on how many of the off-diagonal entries a,b,c vanish.\n\nCase I: a=b=c=0. Then X = (x-A)(x-B)(x-C), so the roots are A, B, C.\n\nCase II: b=c=0 (two of them vanish). Then X = (x-A)[(x-B)(x-C) - a^2] = (x-A)(x^2-(B+C)x+BC-a^2). The quadratic has discriminant (B+C)^2 - 4(BC-a^2) = (B-C)^2 + 4a^2 >= 0, so its roots are real. That step is mine; Gauss says 'leicht folgt'.\n\nCase III: only c=0, with a,b nonzero. In general X = (x-A)(x-B)(x-C) - a^2(x-A) - b^2(x-B).\n- III.1: A=B. Then X = (x-A)(x^2-(A+C)x+AC-a^2-b^2), written by Gauss with B in place of A. The quadratic has discriminant (A-C)^2+4(a^2+b^2) > 0. Its value at x=A is -(a^2+b^2) != 0, so A is only a simple root ('doch nur einmahl').\n- III.2: A != B. Assume WLOG B > A. This is allowed because p, q, r are invariant under the swap (A,a) <-> (B,b). Gauss tabulates the signs of X:\n  - x -> -inf gives X -> -inf;\n  - X(A) = -b^2(A-B) = b^2(B-A) > 0;\n  - X(B) = -a^2(B-A) < 0;\n  - x -> +inf gives X -> +inf.\n  By the intermediate value theorem there is one root in each of (-inf,A), (A,B) and (B,+inf). This is an interlacing / Sturm-type sign argument.\n\nThe proof continues on the next page with Case IV, where all of a,b,c are nonzero. There Gauss sets sqrt(A-B+2ci) = g+hi, A' = A+h^2, B' = B-h^2. This is a plane rotation that removes the (1,2) entry c while preserving A+B and AB-c^2, i.e. a Jacobi-type rotation done with complex numbers, which reduces Case IV to Case III. The marginal note 'Zur Ansicht für H. Listing' shows the sheet was written for J. B. Listing to inspect, so it is probably from the 1840s or later.",
+  "errors": [
+   "No mathematical errors on this page. In III.1 Gauss writes the quadratic as xx-(B+C)x+BC-aa-bb; with A=B this is consistent.",
+   "Minor gap: in Case III.2 the strict signs of X(A) and X(B) need a and b both nonzero. This holds by the case hypothesis (only c=0) but is not stated explicitly.",
+   "Case II and III.1 leave the discriminant computation implicit ('leicht folgt'); the implicit step is correct."
+  ],
+  "results": [
+   {
+    "what": "The cubic x^3-px^2+qx-r, with p,q,r the invariants of the symmetric matrix [[A,c,b],[c,B,a],[b,a,C]], always has three real roots.",
+    "modern_name": "Reality of eigenvalues of a real symmetric matrix (3x3 case); secular equation / principal axes of a ternary quadratic form",
+    "usually_credited_to": "Lagrange (1773, secular equation, 3x3 case); Laplace; Cauchy (1829, general n); Kummer (1843) and Borchardt (1846) for sum-of-squares discriminant proofs",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Case analysis with the block-diagonal factorization when two off-diagonal entries vanish, plus the sign table X(A)=b^2(B-A), X(B)=-a^2(B-A) when one entry vanishes, giving interlaced real roots.",
+    "modern_name": "Interlacing / intermediate value (Sturm-type) argument for bordered symmetric matrices (Cauchy interlacing)",
+    "usually_credited_to": "Cauchy (1829); the general interlacing theorem is attributed to Cauchy",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The theorem was standard by Gauss's time (Lagrange, Laplace, Cauchy 1829). His elementary case-by-case proof, written up for Listing, is a nice unpublished exposition but not new mathematics. The more interesting feature, a Jacobi-like complex rotation to annihilate c, is on the following page, not this one.",
+  "checkable": [
+   {
+    "sympy": "x,A,B,C,a,b,c=symbols('x A B C a b c'); M=Matrix([[A,c,b],[c,B,a],[b,a,C]]); p=A+B+C; q=A*B+A*C+B*C-a**2-b**2-c**2; r=A*B*C+2*a*b*c-A*a**2-B*b**2-C*c**2; expand((x*eye(3)-M).det()-(x**3-p*x**2+q*x-r))==0",
+    "asserts": "X is the characteristic polynomial of the symmetric matrix [[A,c,b],[c,B,a],[b,a,C]]"
+   },
+   {
+    "sympy": "X=x**3-p*x**2+q*x-r; expand(X.subs({b:0,c:0})-(x-A)*(x**2-(B+C)*x+B*C-a**2))==0",
+    "asserts": "Case II factorization"
+   },
+   {
+    "sympy": "expand(((B+C)**2-4*(B*C-a**2))-((B-C)**2+4*a**2))==0",
+    "asserts": "The Case II quadratic has nonnegative discriminant"
+   },
+   {
+    "sympy": "expand(X.subs({c:0,B:A})-(x-A)*(x**2-(A+C)*x+A*C-a**2-b**2))==0",
+    "asserts": "Case III.1 factorization"
+   },
+   {
+    "sympy": "expand(X.subs(c,0).subs(x,A)-b**2*(B-A))==0",
+    "asserts": "With c=0, X(A)=b^2(B-A)"
+   },
+   {
+    "sympy": "expand(X.subs(c,0).subs(x,B)+a**2*(B-A))==0",
+    "asserts": "With c=0, X(B)=-a^2(B-A)"
+   },
+   {
+    "sympy": "expand(X.subs(c,0)-((x-A)*(x-B)*(x-C)-a**2*(x-A)-b**2*(x-B)))==0",
+    "asserts": "General form of X when c=0"
+   },
+   {
+    "sympy": "expand(r.subs({A:B,B:A,a:b,b:a},simultaneous=True)-r)==0",
+    "asserts": "r is invariant under (A,a)<->(B,b) (p and q obviously are), justifying WLOG B>A"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is essentially accurate.",
+   "'Zur Ansicht für H. Listing' is a marginal note in red ink running vertically along the right edge; it is not part of the running text.",
+   "'(1.' at the bottom right is a sheet/sequence marker, and '47c/8' at the top right is struck through.",
+   "In III.1 the manuscript does write 'xx-(B+C)x+BC-aa-bb', i.e. B rather than A, as transcribed."
+  ]
+ }
+}

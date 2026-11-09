@@ -1,0 +1,52 @@
+{
+ "bundle": "R.Aether",
+ "page": "c008",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234777:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): Riemann is treating a displacement field (x',y',z') of a medium (the aether, given the bundle title) as functions of (x,y,z,t). The forces (X,Y,Z) are tied to the incompressibility condition div(x',y',z') = 0 through a Lagrange multiplier λ. The previous page derives X = ∂λ/∂x, Y = ∂λ/∂y, Z = ∂λ/∂z, i.e. dλ = X dx + Y dy + Z dz. That is: the virtual work ∫(X δx' + Y δy' + Z δz') dV is, up to boundary terms, −∫ λ δ(div x') dV, which vanishes for admissible (divergence-free) variations.\n\nThis page writes the virtual work over space-time and shows it is (minus) the variation of a quadratic action.\n\nLine 1: ∫ (X δx' + Y δy' + Z δz') dx dy dz dt.\n\nLine 2: Here X, Y, Z are identified with the kinetic residuals (this identification is implicit; the reading is mine):\n X = c²(∂²x'/∂x² + ∂²x'/∂y² + ∂²x'/∂z²) − ∂²x'/∂t², i.e. X = c²Δx' − x'_tt,\n and likewise for Y with y' and Z with z' (the '+ . . .' rows). So the integral equals ∫ Σ_i {c² Δx'_i − ∂²x'_i/∂t²} δx'_i dx dy dz dt.\n\nLine 3: Integrate by parts once in each of x, y, z, t. With '. .' standing for boundary terms, this gives\n − ∫ { c² (∂x'/∂x ∂δx'/∂x + ∂x'/∂y ∂δx'/∂y + ∂x'/∂z ∂δx'/∂z) − ∂x'/∂t ∂δx'/∂t } dx dy dz dt,\n with analogous terms for y' and z'.\n\nLine 4: Since u_a δu_a = δ(½ u_a²) (my step), this equals\n boundary terms − δ ∫ ½ { c² ((∂x'/∂x)² + (∂x'/∂y)² + (∂x'/∂z)²) − (∂x'/∂t)² } dx dy dz dt,\n plus the y' and z' analogues.\n\nCombined with the previous page, this says the motion is a stationary point of the action\n S = ∫ ½ Σ_i [ (∂x'_i/∂t)² − c² |∇x'_i|² ] dx dy dz dt\nunder the constraint div x' = 0, with λ as multiplier. The resulting equations are\n ∂²x'/∂t² = c² Δx' − ∇λ, div x' = 0.\nThese are the equations of an incompressible elastic medium carrying only transverse waves of speed c. This is the classical model of a luminiferous aether, closely related to Riemann's 'Gravitation und Licht' fragments.\n\nThe page thus establishes the Hamilton/Lagrange variational form of the vector wave equation with incompressibility constraint.",
+  "errors": [
+   "No mathematical errors. The sign after the double integration by parts is correct: ∫(c²Δu − u_tt)δu = bdry − ∫(c²∇u·∇δu − u_t δu_t).",
+   "The final line requires the factor 1/2 inside δ∫ for exact equality. The written symbol is unclear but is most plausibly ½.",
+   "The identification of X with c²Δx' − x'_tt is not stated on the page. It is implicit, possibly via a sign or definitional convention set up elsewhere in the bundle."
+  ],
+  "results": [
+   {
+    "what": "Virtual work of the inertial plus elastic forces of the wave equation equals minus the variation of a space-time action with density ½(c²|∇u|² − u_t²)",
+    "modern_name": "Hamilton's principle / Lagrangian density ½(u_t² − c²|∇u|²) for the wave equation",
+    "usually_credited_to": "Lagrange (Mécanique analytique, 1788); Hamilton (1834-35); for elastic aether Green (1839) and MacCullagh (1839)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Incompressibility constraint handled by a Lagrange multiplier λ acting as a pressure: u_tt = c²Δu − ∇λ, div u = 0",
+    "modern_name": "Lagrange multiplier / pressure for an incompressible elastic medium (transverse-wave aether)",
+    "usually_credited_to": "Lagrange (multipliers); Cauchy and Green (incompressible elastic aether, 1830s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a standard variational derivation of the wave equation for an incompressible elastic aether, well known by the 1830s-40s (Green, MacCullagh). It fits Riemann's known aether and gravitation-light Nachlass fragments and contains nothing new.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; x,y,z,t,c=symbols('x y z t c'); u=Function('u')(x,y,z,t); L=Rational(1,2)*(diff(u,t)**2 - c**2*(diff(u,x)**2+diff(u,y)**2+diff(u,z)**2)); from sympy.calculus.euler import euler_equations; euler_equations(L,u,[x,y,z,t])",
+    "asserts": "The Euler-Lagrange equation of the action density is c²Δu − u_tt = 0, i.e. it matches the integrand coefficient of δx'."
+   },
+   {
+    "sympy": "f,g=Function('f')(x,y,z,t),Function('g')(x,y,z,t); simplify(f*(c**2*(diff(g,x,2)+diff(g,y,2)+diff(g,z,2))-diff(g,t,2)) - (diff(c**2*f*diff(g,x),x)+diff(c**2*f*diff(g,y),y)+diff(c**2*f*diff(g,z),z)-diff(f*diff(g,t),t)) + (c**2*(diff(f,x)*diff(g,x)+diff(f,y)*diff(g,y)+diff(f,z)*diff(g,z)) - diff(f,t)*diff(g,t)))",
+    "asserts": "Returns 0. The integration-by-parts identity behind line 3 (with f = δx', g = x') holds up to a divergence."
+   },
+   {
+    "sympy": "e=symbols('e'); h=Function('h')(x,y,z,t); simplify(diff((Rational(1,2)*(c**2*diff(u+e*h,x)**2 - diff(u+e*h,t)**2)),e).subs(e,0) - (c**2*diff(u,x)*diff(h,x) - diff(u,t)*diff(h,t)))",
+    "asserts": "Returns 0. The first variation of ½(c²u_x² − u_t²) is c²u_x δu_x − u_t δu_t, confirming line 4 with factor 1/2."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the image shows ∂x∂y∂z dt (curly d), as on the previous page, for dx dy dz dt. The meaning is unchanged.",
+   "Line 2: the symbol before dx dy dz dt in the image reads like 'dx'' but should be δx'. The transcription's δx' is the correct reading.",
+   "Final line: the symbol after −δ∫ is unclear in the image (it could be read as a second ∫ or a stroke). Mathematically it must be the factor ½."
+  ]
+ }
+}

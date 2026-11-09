@@ -1,0 +1,90 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c047",
+ "label": "[42]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000048/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. The previous page works on expansions connected with the elliptic sector/time problem: (phi - sin phi)/((4/3) sin^3(phi/2)) as a series in s = sin(phi/2), and continued fractions. It ends with U = (1 + 12/5 + 336/85 + 1792/323 + 2304/323 + ...)/(1 + 3/2 + 3/8 + ...). This page builds the machinery to sum the numerator series numerically, including a careful estimate of the remainder.\n\n(A) THE SERIES. T^n = alpha_n x^(2n), with term ratio\nT^(n+1)/T^n = x^2 * (2n+12)/(2n+15) * (n+3)/(n+1) = x^2 (n+6)(n+3)/((n+15/2)(n+1)).\nSo Sum_n T^n = 2F1(6,3;15/2;x^2). The coefficients are\n1, 12/5, 336/85, 1792/323, 2304/323, 64512/7429, ...\nThese are exactly the numbers in U on the previous page.\n\n(B) REMAINDER RATIO. Define S^n by T^n S^n = T^(n+1) + T^(n+2) + ..., i.e. the tail after term n divided by term n. Then:\n- T^n S^n - T^(n+1) S^(n+1) = T^(n+1).\n- Hence 1 + S^(n+1) = (S^n/x^2) * (n+15/2)(n+1)/((n+6)(n+3)), equivalently (n+15/2)(n+1) S^n = x^2 (n^2+9n+18)(1+S^(n+1)).\n\nGauss posits an inverse-factorial (Stirling factorial-series) expansion\nS^n = alpha + beta/n + gamma/(n(n+1)) + delta/(n(n+1)(n+2)) + ...\nTo multiply through, he rewrites the polynomials in shifted factorial bases:\n- n^2 + 17/2 n + 15/2 = (n-2)(n-1) + (23/2)(n-1) + 17.\n- n^2 + 9n + 18 = (n-1)n + 10n + 18.\n\nTo shift the index (S^(n+1) expressed in powers of 1/(n)_k) he uses 1/(n+1)_k = 1/(n)_k - k/(n)_(k+1). This gives\nalpha = alpha', beta = beta', gamma = gamma' - beta', delta = delta' - 2 gamma', epsilon = epsilon' - 3 delta'.\nA second conversion table follows (beta = beta' + 2 alpha', gamma = gamma' + beta', ...); its purpose is not fully clear.\n\nComparing coefficients:\n- Order n^2: (alpha+1) x^2 = alpha, so alpha = x^2/(1-x^2).\n- Order n: 10(alpha+1)x^2 + beta x^2 + 2 alpha = (23/2) alpha + beta, so beta(1-x^2) = alpha/2, i.e. beta = (1/2) x^2/(1-x^2)^2.\n\nHe then packs the first two terms into a rational (Padé-like) form\nS ≈ x^2/(1-x^2) * (n - c - 1/(1-x^2)) / (n - c - (3/2)/(1-x^2)), with c read as 12 (reading uncertain).\nFor any constant c this expands to alpha + beta/n + O(1/n^2).\nThe marginal sums 1+17/2+15/2, 1+9+18, '9 - ...' are coefficient bookkeeping.\n\n(C) NUMERICS.\nColumn 1: Briggsian logs of the coefficients. These are all correct to 7 places:\n- log 2.4 = 0.3802112; log(336/85) = 0.5969203; log(1792/323) = 0.7441355; log(2304/323) = 0.8532800; log(64512/7429) = 0.9387102.\n- Next coefficient (ratio 88/75): 1.0081316.\n- Then +0.0579919 = log(8/7), the next ratio. The struck 1.1580005 is a discarded attempt.\n\nColumn headed 9.5 (log x^2 = 9.5 - 10, x^2 = 0.316228):\n- Terms: 1, 0.758945, 0.395294, 0.175443, 0.071331, 0.027461.\n- Tail estimate: 0.016128.\n- Sum: 2.444602.\n\nFurther columns use log x^2 = 9.4, 9.45, 9.35, 9.30, 9.25 and (unlabelled) 9.20:\n- Terms are scaled by x^(-4), so the third entry is always 336/85 = 3.95294.\n- First entries are 10^1.2, 10^1.1, 10^1.3, 10^1.4, 10^1.5, 10^1.6.\n- The last entry of each column is a tail estimate.\n- Sums: 31.39463, 27.47718, 36.35733, 42.58114, 50.3457, 60.0076.\n\nBelow, 1/x^2 = 10^0.6, 10^0.55, ... is combined with -0.62189 and +0.00371; the 9.5 case is 3.16228 - 0.62189 + 0.00371. Further 7-figure logarithms follow. I cannot reconstruct the exact formula from the image. One guess, 1/x^2 - 0.62189 + 0.00371 x^2, reproduces 0.5263496 for log x^2 = 9.4 but not the other columns.\n\n(D) TABLE. Log-argument 9.59...9.75 against a correction (2122...4828, apparently units of 1e-5 in the log), also re-indexed as 20...50 (step 0.05 = 10 units).\nThe next page uses it iteratively: L' = L - c(L'). Examples:\n- 9.61262 - 0.02136 = 9.59124, and c(9.59124) ≈ 2122 + 0.124*108 ≈ 2135.\n- 9.77390 - 0.04343 = 9.73047, and c(9.73047) = 4332 + 0.047*239 ≈ 4343.\nSo this page tabulates a correction function used on the next page.",
+  "errors": [
+   "Tail estimates seem slightly too large. For log x^2 = 9.5 Gauss uses 0.016128 after the term 0.027461; direct summation of t6, t7, ... (0.0101891 + 0.0036824 + 0.0013050 + 0.0004556 + 0.0001572 + ...) gives about 0.015870, so his column total 2.444602 should be about 2.444345.",
+   "For log x^2 = 9.4 the tail entry 0.05690 vs. a directly summed tail of about 0.056736.",
+   "Possible slip or misreading in the constant term of the beta-row of the expansion ('19/2 beta'): from (n+15/2)(n+1)/n = (n+1) + 15/2 + 15/(2n) one expects beta(n+1) + (15/2)beta + (15/2)beta/n. The image is unclear.",
+   "In the Padé-like closed form, the constant '12' in n - 12 - ... is not determined by the two coefficients alpha, beta and could not be verified."
+  ],
+  "results": [
+   {
+    "what": "Series with term ratio x^2 (n+6)(n+3)/((n+15/2)(n+1)), i.e. 2F1(6,3;15/2;x^2), with exact rational coefficients 12/5, 336/85, 1792/323, 2304/323, 64512/7429",
+    "modern_name": "Gauss hypergeometric series 2F1",
+    "usually_credited_to": "Euler; systematic theory by Gauss 1812",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Recurrence for the tail-to-last-term ratio S^n of a hypergeometric series and its asymptotic expansion in inverse rising factorials 1/(n)_k, giving alpha = x^2/(1-x^2) and beta = x^2/(2(1-x^2)^2), used to estimate the remainder",
+    "modern_name": "Remainder estimation via factorial-series (Stirling series) asymptotics / ratio-of-tail expansion",
+    "usually_credited_to": "Stirling 1730 (factorial series); remainder estimates for hypergeometric series discussed by Gauss 1812 and later Kummer and others",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Index-shift rule 1/(n+1)_k = 1/(n)_k - k/(n)_(k+1), giving gamma = gamma' - beta', delta = delta' - 2gamma', epsilon = epsilon' - 3delta'",
+    "modern_name": "Translation of inverse factorial series (Nörlund-type factorial series manipulation)",
+    "usually_credited_to": "Stirling; Nielsen/Nörlund for the systematic theory",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Numerical tabulation of the series and a correction table in log x^2 (9.59-9.75), used iteratively on the next page for an astronomical (orbit) computation",
+    "modern_name": "Auxiliary tables for the elliptic time/sector equation (cf. Theoria Motus continued-fraction functions)",
+    "usually_credited_to": "Gauss, Theoria Motus 1809",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Hypergeometric series and Gauss's orbit-function tables are well known as his. The inverse-factorial asymptotic expansion of the remainder ratio is a nice, somewhat sophisticated unpublished numerical-analysis detail predating 1812. Such remainder techniques were nonetheless not novel in principle (Stirling, Euler), so the find is modest.",
+  "checkable": [
+   {
+    "sympy": "[sympy.prod([sympy.Rational(2*k+12,2*k+15)*sympy.Rational(k+3,k+1) for k in range(n)]) for n in range(6)] == [1, sympy.Rational(12,5), sympy.Rational(336,85), sympy.Rational(1792,323), sympy.Rational(2304,323), sympy.Rational(64512,7429)]",
+    "asserts": "the coefficients of the series (64512/7429, not /7869)"
+   },
+   {
+    "sympy": "[sympy.N(sympy.log(v,10),8) for v in [sympy.Rational(12,5),sympy.Rational(336,85),sympy.Rational(1792,323),sympy.Rational(2304,323),sympy.Rational(64512,7429)]]",
+    "asserts": "logs 0.3802112, 0.5969203, 0.7441355, 0.8532800, 0.9387102"
+   },
+   {
+    "sympy": "sympy.expand((n-2)*(n-1)+sympy.Rational(23,2)*(n-1)+17 - (n+sympy.Rational(15,2))*(n+1)) == 0",
+    "asserts": "basis rewriting of the left polynomial"
+   },
+   {
+    "sympy": "sympy.expand((n-1)*n+10*n+18-(n+6)*(n+3)) == 0",
+    "asserts": "basis rewriting of the right polynomial"
+   },
+   {
+    "sympy": "sympy.simplify(1/sympy.rf(n+1,k) - (1/sympy.rf(n,k) - k/sympy.rf(n,k+1))).subs(k,3)",
+    "asserts": "index-shift identity for inverse factorials (should be 0)"
+   },
+   {
+    "sympy": "a=x**2/(1-x**2); b=x**2/(2*(1-x**2)**2); sympy.simplify(sympy.series((n+sympy.Rational(15,2))*(n+1)*(a+b/n) - x**2*(n+6)*(n+3)*(1+a+b/(n+1)), n, sympy.oo, 1).removeO().coeff(n,2)), sympy.simplify(sympy.expand(sympy.series((n+sympy.Rational(15,2))*(n+1)*(a+b/n) - x**2*(n+6)*(n+3)*(1+a+b/(n+1)), n, sympy.oo, 1).removeO()).coeff(n,1))",
+    "asserts": "alpha and beta satisfy the n^2 and n coefficient equations of the remainder recurrence (both should simplify to 0)"
+   },
+   {
+    "sympy": "X=sympy.sqrt(10)/10; sum(sympy.N(sympy.prod([sympy.Rational(k+6,1)*(k+3)/((k+sympy.Rational(15,2))*(k+1)) for k in range(m)])*X**m) for m in range(6,80))",
+    "asserts": "true tail after the 6th term at x^2=10^-0.5 is about 0.015870 (Gauss used 0.016128)"
+   },
+   {
+    "sympy": "X=sympy.sqrt(10)/10; sum(sympy.N(sympy.prod([sympy.Rational(k+6,1)*(k+3)/((k+sympy.Rational(15,2))*(k+1)) for k in range(m)])*X**m) for m in range(0,80))",
+    "asserts": "series value at x^2=0.316228 is about 2.44434 (Gauss's 2.444602)"
+   }
+  ],
+  "transcription_corrections": [
+   "Denominator '7869' should be 7429 (= 323*23); Gauss's log 0.9387102 matches 64512/7429.",
+   "'11.58925' should be 12.58925 (= 10^1.1); the column sum 27.47718 requires it.",
+   "'3.98197' should be 3.98107 (= 10^0.6).",
+   "Column headers: 9.4 -> 15.84893, 9.45 -> 12.58925, 9.35 -> 19.95262, 9.30 -> 25.11887, 9.25 -> 31.6228; the column 39.8107 corresponds to 9.20 (unlabelled).",
+   "'gamma/(nn+1)' means gamma/(n(n+1)).",
+   "The log column line '... 1,0081316' is log of the 7th coefficient (ratio 88/75); '+0.0579919' is log(8/7)."
+  ]
+ }
+}

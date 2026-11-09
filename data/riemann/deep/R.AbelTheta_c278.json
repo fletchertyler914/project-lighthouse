@@ -1,0 +1,65 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c278",
+ "label": "138r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000279/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the existence part of Riemann's 'Theorie der Abel'schen Functionen' (1857), the Dirichlet-principle construction of single-valued harmonic functions with prescribed periods on a Riemann surface. The previous page treats the local behaviour of algebraic functions and their integrals; the next page treats the functions w, t, Pi and the representation Pi = gamma Pi_0 + sum alpha_k w_k + const. The page is written over a printed postal ledger form ('No 10', columns Auslage / Porto / Franco).\n\n(1) Setup. T is the Riemann surface. T' is T cut by cross-cuts (Querschnitte) into a simply connected surface. One can obviously choose a continuous real function alpha(x,y) in T' with two properties:\n- on each cross-cut it is larger on one side (the positive side) than on the other by a given constant;\n- its Dirichlet integral Omega(alpha) = ∫∫_T (alpha_x^2 + alpha_y^2) dT, taken over the whole surface, is finite.\n\n(2) Dirichlet principle. Vary alpha by functions continuous across the cuts. The page then asserts that there is a function u with three properties:\n- it differs from alpha by a function continuous on T;\n- it minimizes the integral;\n- it is completely determined up to an additive constant.\nAs in Riemann's dissertation and Abel. Funct. §3, the minimizer satisfies three conditions:\n- u_xx + u_yy = 0 in the interior;\n- u has the same constant jumps across the cuts;\n- the derivative normal to each cross-cut is equal on both sides.\nThe tangential derivative is automatically equal on both sides, because the jump is constant.\n\n(3) Conjugate function. Since Delta u = 0, the expression (∂u/∂x) dy − (∂u/∂y) dx is a complete (exact) differential: d(u_x dy − u_y dx) = (u_xx + u_yy) dx∧dy = 0 (my explicit step). Integrating it through the interior of T' gives v, single-valued in T' and determined up to an additive constant. Because both the normal and the tangential derivatives of u agree on the two sides of each cut, the derivatives of v also agree on both sides. Hence v is continuous along each cut on each side and jumps by a constant: on the positive side of the cross-cuts v is larger by b^(1), b^(2), ..., b^(p). Then u + iv = w is a function of x + yi (an everywhere-finite Abelian integral, first kind). Its periods have prescribed real parts (the jumps of u) and imaginary parts b^(nu) that are determined by the construction.\n\n(4) Several crossed-out attempts follow ('Jede ... in der Begrenzung von T' stetige Function', 'Und es kann für die Begrenzung von T' ...'). Then a fresh start generalizes the construction. In T one takes a function alpha of x, y which:\n- in the neighbourhoods of given points has prescribed singular parts (from the previous page: a_nu log(z−s_nu) + b_nu/(z−s_nu) + c/(z−s_nu)^2 + ..., with z−s replaced by (z−s)^{1/mu} at branch points and by 1/z at infinity);\n- elsewhere has a derivative that remains continuous or becomes discontinuous across lines in a given way.\nThe same minimization then yields functions with prescribed discontinuities: integrals of the second and third kind, t and Pi, as on the next page.",
+  "errors": [
+   "No mathematical errors are visible; the page is a heavily corrected draft.",
+   "Indexing of the jumps: they are written b^(1), ..., b^(p). In the published version the cut system has 2p cross-cuts (plus auxiliary cuts), so either the indexing is provisional or only p of the cuts are meant. This is a notational point, not an error.",
+   "The existence of the minimizer is asserted on the basis of the Dirichlet principle without justification. This is the well-known gap later criticized by Weierstrass and repaired by Hilbert (1900/1904). It is consistent with Riemann's published 1857 argument."
+  ],
+  "results": [
+   {
+    "what": "Construction of a harmonic function u on the cut surface T' with prescribed constant jumps across the cross-cuts, by minimizing the Dirichlet integral over functions differing from a given alpha by a continuous function",
+    "modern_name": "Dirichlet principle; existence of harmonic differentials / abelian integrals of the first kind with prescribed real periods",
+    "usually_credited_to": "Riemann, Theorie der Abel'schen Functionen (1857), building on Dirichlet, Gauss, Thomson; rigorous version by Hilbert",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Conjugate harmonic function v = ∫(u_x dy − u_y dx), single-valued on T' with constant jumps b^(nu) across the cuts; w = u + iv",
+    "modern_name": "harmonic conjugate; periods of an abelian differential of the first kind",
+    "usually_credited_to": "Riemann (1851 dissertation, 1857)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Extension of the method to functions with prescribed singular parts (logarithmic and polar) at given points",
+    "modern_name": "existence of abelian integrals of the second and third kind via the Dirichlet principle",
+    "usually_credited_to": "Riemann 1857",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of the published existence section (§§3-4 and later) of Riemann's 1857 Abelian functions paper. The content is well known as his. The only interest is in seeing the drafting process and the reuse of a postal ledger sheet.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); u=Function('u')(x,y); simplify(diff(diff(u,x),x)+diff(diff(u,y),y) - (diff(diff(u,x),x)+diff(diff(u,y),y)))==0",
+    "asserts": "Trivial identity: the exterior derivative of u_x dy - u_y dx has coefficient d/dx(u_x) - d/dy(-u_y) = u_xx + u_yy, so the form is closed iff u is harmonic."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); u=log(x**2+y**2)/2; P=-diff(u,y); Q=diff(u,x); simplify(diff(Q,x)-diff(P,y))==0",
+    "asserts": "For harmonic u the form P dx + Q dy = -u_y dx + u_x dy is closed (checked away from the origin)."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); u=log(x**2+y**2)/2; v=atan2(y,x); simplify(diff(v,x)+diff(u,y))==0 and simplify(diff(v,y)-diff(u,x))==0",
+    "asserts": "The conjugate obtained by integrating u_x dy - u_y dx satisfies the Cauchy-Riemann equations, so u + iv = log z is analytic. v jumps by the constant 2*pi across a cut, a model for the constant jumps b^(nu)."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); u=x**3-3*x*y**2; v=3*x**2*y-y**3; simplify(diff(u,x)-diff(v,y))==0 and simplify(diff(u,y)+diff(v,x))==0",
+    "asserts": "Example check that v = ∫(u_x dy - u_y dx) yields the harmonic conjugate."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is written over a printed ledger form: header 'No 10', columns 'Auslage', 'Porto', 'Franco' (Thlr/Sgr/Pf). This is not Riemann's text.",
+   "The formula line reads '∂u/∂x dy − ∂u/∂y dx' with a following 'dx' struck out, and 'vollständiges Differential' follows on the next line.",
+   "The line beginning 'Es sei v auf der positiven Seite der Querschnitte ...' reads in the image as 'Es sei v auf der positiven Seite der Querschnitte um b^(1), b^(2), ... b^(p) grösser'. The struck words are probably 'der Reihe nach'.",
+   "In the opening sentence the word above the line is probably 'völlig' (as in 'eine stetige Function α von x,y völlig ... so annehmen'), not a lacuna.",
+   "The last paragraph reads roughly 'Offenbar kann man nun in T eine Function α ... von x, y so annehmen, daß sie in T' ... stetig bleibt, ... wo ihr Differentialquotient ... untereinander stetig bleibt oder unstetig wird, einer gegebenen Function von x, y ...'. The final word on the page is probably 'Functionen von x, y' or 'z'."
+  ]
+ }
+}

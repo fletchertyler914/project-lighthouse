@@ -1,0 +1,57 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c130",
+ "label": "66r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000131/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is example II of Riemann's 'Beispiele von Flächen kleinsten Inhalts', a draft of material in the posthumous memoir 'Ueber die Fläche vom kleinsten Inhalt bei gegebener Begrenzung' (edited by Hattendorff, Abh. Göttingen 13, 1867). Riemann's method is to study the Gauss map in the stereographic variable eta.\n\n(1) Problem. Find a minimal surface S whose boundary is two closed rectilinear polygons P1 and P2. They lie in parallel planes, say z=0 and z=h. S is then doubly connected, i.e. an annulus. One cross-cut (Querschnitt) makes it simply connected.\n\n(2) Gauss image of a boundary side. Let a side have horizontal direction d. Along it the surface normal n satisfies n·d = 0. So n moves on the great circle with pole d. The plane of that circle has normal d, which is horizontal, so the plane is vertical: it is perpendicular to the polygon planes. In other words it is a meridian through the poles N=(0,0,1) and S=(0,0,-1).\n\n(3) Vertices. At a vertex the tangent plane contains both adjacent edges. Both edges are horizontal, so the tangent plane is horizontal and n = ±e_z. Hence every vertex of P1 maps to one pole, and every vertex of P2 maps to the antipodal pole.\n\n(4) Interior of a side. Along each side n leaves the pole along a meridian, reaches an extreme point, and returns to the same pole. That extreme point is the 'Umkehrpunkt der Normale' and is the endpoint of the meridian arc. So the boundary image is two stars of meridian arcs, one emanating from each pole.\n\n(5) Covering claim. Riemann concludes that the Gauss image covers the sphere completely and simply (once). Consistency check (mine): along straight lines k_g = 0, and the corner angles equal the planar interior angles alpha_i. Gauss–Bonnet with chi(annulus) = 0 gives ∫K dA = -Σ(π - alpha_i). For each convex planar n-gon, Σ(π - alpha_i) = 2π, so the total is 4π. Hence ∫K dA = -4π, i.e. Gauss image area 4π, matching a single sheet.\n\n(6) Margin note. It apparently modifies the picture for re-entrant (non-convex) corners. These presumably produce reversal or branch behaviour instead of a simple pole image.\n\n(7) Stereographic projection. Project from the tangent plane at one pole, e.g. eta = tan(theta/2) e^{i phi}. Then that pole goes to eta = 0, the other pole to eta = ∞, and meridians become rays. The image H of S is the whole eta-plane cut along radial slits. The next page continues: slits run from 0 to points A_1..A_n, and from points B_1'..B_n' out to ∞. The next page then maps H conformally to a doubly-covered half-plane with two branch points, leading to elliptic integrals.",
+  "errors": [
+   "The claim that the Gauss image covers the sphere exactly once tacitly assumes convex polygons with angles < π. The margin note shows Riemann knew re-entrant corners change this. The main text states it unconditionally.",
+   "Monotonicity of the normal along a side (exactly one Umkehrpunkt per side) is asserted, not proved. It is plausible but unjustified on this page.",
+   "Existence of the doubly connected solution, which needs the polygons to be close enough, is not addressed. That is standard for the period."
+  ],
+  "results": [
+   {
+    "what": "Gauss map of a minimal surface bounded by straight segments: segments map to great-circle arcs perpendicular to the line direction; for horizontal lines these are meridians through the poles.",
+    "modern_name": "Gauss map / Schwarz reflection boundary behaviour; Weierstrass–Enneper data for polygonal Plateau problem",
+    "usually_credited_to": "Riemann (1867 posthumous), Weierstrass (1866), Schwarz (1865–1890)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Doubly connected minimal surface spanning two polygons in parallel planes: Gauss image covers the sphere once; the stereographic image is the plane with radial slits from 0 and to ∞.",
+    "modern_name": "Riemann's treatment of polygonal annular Plateau problems (Riemann's minimal surface examples)",
+    "usually_credited_to": "Riemann, published by Hattendorff 1867",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of material that appears in Riemann's posthumously published memoir on minimal surfaces (Hattendorff 1867). The content is known and attributed to him; the only extras are drafting variants and the margin remark on re-entrant corners.",
+  "checkable": [
+   {
+    "sympy": "theta,phi=symbols('theta phi',real=True); n=Matrix([sin(theta)*cos(phi),sin(theta)*sin(phi),cos(theta)]); simplify(n.dot(Matrix([-sin(phi),cos(phi),0])))==0",
+    "asserts": "The meridian at longitude phi consists of normals perpendicular to the horizontal line direction (-sin phi, cos phi, 0)."
+   },
+   {
+    "sympy": "eta=tan(theta/2)*exp(I*phi); simplify(arg(eta).subs({theta:pi/3,phi:Rational(1,2)}))==Rational(1,2)",
+    "asserts": "Stereographic projection maps a meridian (phi fixed) to a ray through 0 with argument phi."
+   },
+   {
+    "sympy": "n_=symbols('n',integer=True,positive=True); simplify(n_*pi-(n_-2)*pi)==2*pi",
+    "asserts": "Sum of exterior angles of a convex planar n-gon is 2π. Two polygons give 4π, so by Gauss–Bonnet on the annulus ∫K = -4π, consistent with a single covering of the sphere."
+   },
+   {
+    "sympy": "limit(tan(theta/2),theta,pi,'-')==oo",
+    "asserts": "The antipodal pole (theta = π) maps to eta = ∞, so the vertices of the second polygon go to infinity."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'von zwei in parallelen Ebenen Ebenen gelegenen': the duplicate 'Ebenen' is likely a misreading. The image appears to read 'in parallelen Ebenen gelegenen', possibly with a struck word.",
+   "Insertion above 'Bild der Minimalfläche' reads approximately 'ein Flächenstück H' (H = region in the eta-plane), confirmed by the next page's 'Fläche H'.",
+   "Margin note is better read roughly as '[Statt] einspringender Ecken und einzelner Ecken Umkehrpunkt' (uncertain). It concerns re-entrant corners.",
+   "'Umkehrpunkt der Normale' appears correct as read."
+  ]
+ }
+}

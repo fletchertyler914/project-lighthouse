@@ -1,0 +1,76 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c095",
+ "label": "34",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000096/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a printed elementary arithmetic textbook (Fraktur type), not a Gauss autograph. The only handwriting is a correction in the cube table. It is bound into the Gauss bundle, and the handwritten edge of the facing leaf, with Gauss's notes on x^3+y^3=1, shows at the right margin. The page continues the previous page's §95 on extracting square roots digit by digit.\n\n(1) Setting: a is the sum of the root parts already found and N is the number whose root is sought. Since (a+b)^2 = a^2 + 2ab + b^2 = a^2 + (2a+b)b, the remainder after subtracting a^2 is R = N - a^2, and it must contain (2a+b)b.\n\n(2) Trial divisor: dividing R by 2a gives roughly the next part b. The divisor 2a is slightly too small because the full divisor is 2a+b, so the quotient may come out too large. One detects this by evaluating (2a+b)b numerically and checking that it does not exceed R.\n\n(3) Test that b is not too small: since (a+1)^2 = a^2 + (2a+1)·1, the remainder left after subtracting must be smaller than 2a'+1. Here a' is the updated sum of the found parts. In modern form: N - a'^2 < 2a'+1, which is equivalent to N < (a'+1)^2, i.e. a' = floor(sqrt(N)) at the current scale.\n\n(4) §96, table: the root-square-cube table for 1..9 (squares 1, 4, ..., 81; cubes 1, 8, 27, 64, 125, 216, 343, 512, 729), said to be built from the multiplication table (§40). Further:\n- (d·10^k)^2 = d^2·10^(2k), e.g. 20^2 = 2^2·10^2 = 400 and 200^2 = 40000 (citing §44).\n- So squares of the digits in each successive class shift by 2 places.\n- 99^2 = 9801 (4 digits), 999^2 = 998001 (6 digits), while 10^2 = 100 (3 digits), 100^2 = 10000 (5 digits), 1000^2 = 1000000 (7 digits).\n- Hence the square of an n-digit number has 2n-1 or 2n digits.\n\n(5) Consequence: marking off the digits of N in pairs from the right shows how many digits (parts) the root has. The book calls this 'Classification' of the square.\n\nThe printed catchword '§. 95.' at the bottom introduces the next section.",
+  "errors": [
+   "The printed cube entries for 5 and 6 are defective or misprinted (they read like '145'/'144'). A hand has written the correct values 125 and 216 below them.",
+   "The catchword '§. 95.' at the foot follows §96, so the section numbering is out of order (§97 would be expected). This is a printing slip.",
+   "The 'not too small' criterion is stated loosely ('the doubled sum of the found parts, increased by one'). It is correct only if a is understood to include the newly found b, i.e. remainder < 2(a+b)+1.",
+   "No mathematical errors in the computations on this page. (On the previous page, the coefficient 5ab^5 in (a+b)^6 should be 6ab^5.)"
+  ],
+  "results": [
+   {
+    "what": "Digit-by-digit square root extraction using (a+b)^2 = a^2+(2a+b)b, with trial divisor 2a and the bounds 0 <= remainder < 2a+1",
+    "modern_name": "Schoolbook (longhand) square root algorithm",
+    "usually_credited_to": "Ancient/medieval tradition (Theon of Alexandria, Indian and Chinese sources, Fibonacci); standard textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The square of an n-digit number has 2n-1 or 2n digits; grouping digits in pairs from the right gives the number of root digits",
+    "modern_name": "Digit-pair grouping for square roots",
+    "usually_credited_to": "Traditional textbook arithmetic",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Table of squares and cubes of 1..9",
+    "modern_name": "Table of squares and cubes",
+    "usually_credited_to": "Traditional",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a page of a printed elementary arithmetic textbook bound into the bundle, with only a trivial handwritten correction to the cube table. The content is standard schoolbook square root extraction. Gauss's genuine notes (on x^3+y^3=1, including 0.79370058 = 2^(-1/3)) belong to the facing page, not this one.",
+  "checkable": [
+   {
+    "sympy": "expand((a+b)**2 - (a**2 + (2*a+b)*b)) == 0",
+    "asserts": "Basis of the algorithm: (a+b)^2 = a^2 + (2a+b)b"
+   },
+   {
+    "sympy": "expand((a+1)**2 - (a**2 + 2*a + 1)) == 0",
+    "asserts": "The 'not too small' test: the remainder must be less than 2a+1"
+   },
+   {
+    "sympy": "[k**3 for k in range(1,10)] == [1,8,27,64,125,216,343,512,729]",
+    "asserts": "Correct cube row, including the handwritten corrections 125 and 216"
+   },
+   {
+    "sympy": "[k**2 for k in range(1,10)] == [1,4,9,16,25,36,49,64,81]",
+    "asserts": "Square row of the table"
+   },
+   {
+    "sympy": "(99**2, 999**2, 10**2, 100**2, 1000**2) == (9801, 998001, 100, 10000, 1000000)",
+    "asserts": "The numerical examples in §96"
+   },
+   {
+    "sympy": "all(len(str(m**2)) in (2*len(str(m))-1, 2*len(str(m))) for m in range(1,100000))",
+    "asserts": "The square of an n-digit number has 2n-1 or 2n digits"
+   },
+   {
+    "sympy": "20**2 == 2**2*10**2 == 400 and 200**2 == 2**2*100**2 == 40000",
+    "asserts": "Examples of shifting squares by two places per class"
+   }
+  ],
+  "transcription_corrections": [
+   "The page is printed text, not manuscript. The only handwriting is the corrected cube entries '125' and '216' written beneath defective printed values.",
+   "The handwritten fragments at the right edge of the image (column headed 'x' with 0, 0,1, ..., 1.0, ∞, and values 0.793..., 66..., 0.8832...) belong to the facing leaf, i.e. the 'next page' table on x^3+y^3=1, not to this page.",
+   "'(§.44.)' is correctly read; 'Classification' is spelled 'Classifi-cation' across the line break in the original."
+  ]
+ }
+}

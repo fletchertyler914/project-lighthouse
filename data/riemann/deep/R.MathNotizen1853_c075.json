@@ -1,0 +1,69 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c075",
+ "label": "37v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000076/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a scratch sheet. It has one large contour diagram, two isolated formulas and a fragmentary second diagram. The reading below is tentative and is tied to the computations on the previous page (37r).\n\n(1) Main diagram (top). The ρ-plane shows a horizontal line, the real axis or a cut.\n- A long thin closed loop with a rightward arrow is drawn around a segment of that line. It ends at two marked points, read as ρ = -a and ρ = +a.\n- A large counter-clockwise loop (arrow '<' at the top) encloses everything.\n- On the left are two hairpin-shaped paths. They run down from the axis to points below it, which look like branch points or ends of cuts.\n- Branch labels are written on the sheets:\n  - outside, on the right: i·log((ρ+a)/(ρ−a));\n  - near the left end: 2π + i·log((ρ+a)/(ρ−a)) and i·log((ρ−a)/(ρ+a));\n  - near a hairpin: 'ρ+πi' or 'ϱ·πi' (unclear).\n\nMy interpretation: F(ρ) = i·log((ρ+a)/(ρ−a)) = i ∫_{-a}^{a} dt/(ρ−t). This is i times the logarithmic potential of a uniform segment, i.e. 2i·Q_0(ρ/a). F has logarithmic branch points at ±a. Going once round one branch point changes log by ±2πi, so F changes by ∓2π. That gives the label 2π + i·log(...), and i·log((ρ−a)/(ρ+a)) = −F is the reciprocal-argument form. Across the cut (−a, a) the jump of F is 2π in absolute value. So the thin loop around the cut reduces to ∮ F(ρ) g(ρ) dρ = ±2π ∫_{-a}^{a} g(ρ) dρ for g holomorphic there; the large loop is then compared with this, the deformation argument of Riemann's contour-integral style. The hairpins on the left look like the corresponding treatment of further singularities, perhaps of exp-type terms coming from the substitution on the previous page.\n\n(2) 'r = −a e^{δ−φi} + (1/x) e^{δ−ψi}' (I read 'i/χ' as 1/x). This continues 37r, where Riemann had y e^{ϑc} = a e^{ϱc} + r e^{dc} and y e^{−ϑc} = (1/x) e^{−ψc}. Solving for r gives r as a combination of the two exponentials, with c = i and the exponents renamed (δ, φ, ψ). This is my reading; the exact sign and naming of the exponents cannot be verified from the page.\n\n(3) '0 = 2 t_i +' is an abandoned start of an equation.\n\n(4) Bottom diagram. A horizontal line with two vertical cut-like arcs is labelled 2π·dr/ρ, preceded by something like π/ϑ or √ϑ/ϱ (illegible), and followed by '+2π² i'. Plausible reading (mine): the contour integral of F(ρ)·dρ/ρ type expressions splits into\n- a cut contribution 2π ∫ dr/ρ (the jump 2π times the integrand), and\n- a residue/half-turn contribution. For example 2πi·Res_{ρ=0}[F(ρ)/ρ] = 2πi·i·log(−1) = ∓2π² i, which matches '+2π² i' up to the choice of branch.\n\nThe following page (38) contains unrelated real-variable work on integrals of g_n with Beta/Π-function evaluations. So the page probably belongs to a loose computational context: evaluating integrals of logarithms of (ρ+a)/(ρ−a) via contour deformation.",
+  "errors": [
+   "Nothing on the page can be called a definite error, because it contains no complete derivation.",
+   "'0 = 2 t_i +' is unfinished.",
+   "The sign of the 2π jump and of the 2π² i term depends on the branch and orientation, which the page does not fix. '+2π² i' versus '−2π² i' cannot be checked.",
+   "The exponent conventions in r = −a e^{δ−φi} + (1/x) e^{δ−ψi} do not literally match the relations on the previous page (ϑ, ϱ, d, ψ with c). They appear renamed rather than derived."
+  ],
+  "results": [
+   {
+    "what": "Branch structure of i·log((ρ+a)/(ρ−a)): branch points ±a, monodromy ±2π, jump 2π across the cut [−a,a]; reduction of a loop integral around the cut to 2π times a line integral",
+    "modern_name": "Contour deformation / discontinuity across a branch cut (Legendre Q_0 cut relation)",
+    "usually_credited_to": "Cauchy (contour integration), standard in 19th-century analysis; Riemann's own Riemann-surface viewpoint (1851 thesis)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Residue-type contribution ±2π² i from log(−1) = ±πi at an interior pole",
+    "modern_name": "Residue theorem with logarithmic integrand",
+    "usually_credited_to": "Cauchy",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Expression of r as a sum of two complex exponentials (substitution from previous page)",
+    "modern_name": "Change of variables (algebraic substitution)",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are routine scratch computations: the branch-cut monodromy of a logarithm and a residue term, drawn as contour diagrams. Riemann was thoroughly familiar with such techniques, and no new result is stated.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(I*log((rho+a)/(rho-a)), rho) - (-2*I*a/(rho**2 - a**2)))",
+    "asserts": "Derivative of i·log((ρ+a)/(ρ−a)) is −2ia/(ρ²−a²) (equals 0)"
+   },
+   {
+    "sympy": "simplify(integrate(1/(rho - t), (t, -a, a)).subs({a:1, rho:3}) - log(Rational(4,2)))",
+    "asserts": "∫_{-a}^{a} dt/(ρ−t) = log((ρ+a)/(ρ−a)) for ρ>a (checked at a=1, ρ=3; equals 0)"
+   },
+   {
+    "sympy": "limit(I*log(1/(-1 - I*eps)) - I*log(1/(-1 + I*eps)), eps, 0, '+')",
+    "asserts": "Jump of i·log((ρ+a)/(ρ−a)) across the cut at ρ=0, a=1 is −2π (magnitude 2π)"
+   },
+   {
+    "sympy": "simplify(I*log((rho+a)/(rho-a)) + I*log((rho-a)/(rho+a)))",
+    "asserts": "The two labels on the diagram are negatives of each other for ρ>a>0 (equals 0)"
+   },
+   {
+    "sympy": "2*pi*I*(I*log(-1))",
+    "asserts": "Residue contribution 2πi·i·log(−1) = −2π² i (principal branch), matching the '+2π² i' term up to orientation/branch"
+   }
+  ],
+  "transcription_corrections": [
+   "The duplicated lines 'ϱ+πi[?]' are small illegible labels near the left hairpin paths, possibly 'ϱ·πi' or 'ϱ=πi'. They are not two separate formulas.",
+   "'i/χ' in the formula for r is more likely '1/x', consistent with (1/x)e^{−ψc} on the previous page.",
+   "The bottom line reads roughly '√ϑ/ϱ (or π/ϑ) [cut] 2π dr/ρ [cut]', with the two vertical arcs being drawn cuts or contours, not parentheses.",
+   "The upper-left labels are: 'i log (ρ+a)/(ρ−a)' at the top, and '2π + i log (ρ+a)/(ρ−a)' together with 'i log (ρ−a)/(ρ+a)' on the next line. They sit on different sheets/segments of the diagram."
+  ]
+ }
+}

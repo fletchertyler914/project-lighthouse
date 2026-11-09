@@ -1,0 +1,64 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c012",
+ "label": "6r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (pp. 4-6). A 'system' is a vector (y_1..y_n) of multivalued functions with branch points a,b,...,g. A circuit around a acts by a constant matrix (A); the local exponents mu_1..mu_n come from the normal form (alpha). A 'class' consists of all systems with the same substitutions (A),(B),...\n\nPage 4 set up n+1 systems y^{(1)},...,y^{(n+1)} of one class and the n linear equations (2): sum_k a_k y_i^{(k)} = 0, i=1..n. The a_k are proportional to the n x n minors D_k, obtained by deleting column k from the n x (n+1) matrix [y_i^{(k)}]. A circuit around a multiplies each minor by det(A). Near a, D = det(alpha) * det(z), and its lowest exponent is at least mu = min over permutations s of sum_i mu_i^{(s(i))} (generically equal to it).\n\nThis page:\n\n(1) Entire-function bound. Let nu,...,rho be the analogous minima at b,...,g. Put F(x) = D(x) (x-a)^{-mu} (x-b)^{-nu} ... (x-g)^{-rho}.\n- F is single-valued. [My gloss: the circuit factor det(A) = exp(2 pi i * sum of the lambdas) agrees with that of (x-a)^mu up to an integer shift.]\n- F is finite at every finite x. At a branch point this holds because the lowest exponent of D is at least mu. At ordinary points the y are holomorphic.\n- As x -> infinity, F grows at most like x^{-(mu+nu+...+rho)}. [Implicit, mine: infinity is not a branch point and the y stay finite there.]\n- By Liouville, F is a polynomial of degree at most -(mu+nu+...+rho). So if D is not identically zero, -(mu+...+rho) is a nonnegative integer.\n\n(2) Linear relation with polynomial coefficients. All minors D_k have the form (polynomial) * prod (x-a)^{mu^{(k)}} ..., and for different k the exponents at each point differ by integers (same monodromy factor). Hence the ratios a_j : a_k are rational. Clearing denominators gives polynomial a_k satisfying (2). Theorem: between any n+1 systems of one class there is a linear homogeneous relation with polynomial coefficients.\n\n(3) Derivatives. Since (A) is constant, d/dx (A y) = A (dy/dx). So (y_1',...,y_n') belongs to the same class (its exponents drop by 1).\n\nCorollary 1: apply (2) to y, y', ..., y^{(n)}. The y_i satisfy an n-th order linear ODE with polynomial coefficients.\n\nCorollary 2: apply (2) to Y, y, ..., y^{(n-1)}. Every system Y of the class is c_0 Y = b_0 y + b_1 y' + ... + b_{n-1} y^{(n-1)}, with polynomial c_0, b_k. Here c_0 is proportional to the minor det[y_i^{(j)}] (Wronskian type), so it depends only on y.\n\n(4) Programme for p.6. Find all Y with the same substitutions and the same exponents as y. The degrees of the b_k are bounded, leaving finitely many unknown coefficients. The exponent conditions give a homogeneous linear system for them (continued on next page).",
+  "errors": [
+   "No real mathematical errors.",
+   "Unstated hypothesis: the growth bound at x = infinity needs infinity to be a non-branch point where the y are finite (or else infinity must be counted among the branch points). Neither is said on this page.",
+   "Corollary 2 needs c_0 not identically zero, i.e. the Wronskian-type determinant of y_1..y_n nonzero (y linearly independent). This is assumed tacitly.",
+   "The claim that each minor's lowest exponent equals mu holds only 'allgemein zu reden' (generically). Only the inequality 'not smaller' is used, and that is correct."
+  ],
+  "results": [
+   {
+    "what": "Minor/Wronskian divided by prod (x-a_i)^{min exponent sum} is a polynomial; so minus the total exponent sum is a nonnegative integer",
+    "modern_name": "Fuchs-type relation (exponent-sum / Wronskian argument) for Fuchsian systems",
+    "usually_credited_to": "Riemann (1857 Nachlass 'Zwei allgemeine Sätze...', publ. 1876); Fuchs 1866 for the Fuchs relation",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "n+1 systems of the same monodromy class satisfy a linear relation with polynomial coefficients",
+    "modern_name": "Riemann's first general theorem on linear ODEs with algebraic coefficients (functions with prescribed monodromy form a module over C(x) of rank n)",
+    "usually_credited_to": "Riemann 1857 (Werke, Nachlass XXI)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Every system with given monodromy satisfies an n-th order Fuchsian-type ODE with polynomial coefficients; any other system of the class equals a rational linear combination of y, y', ..., y^{(n-1)}",
+    "modern_name": "Riemann-Hilbert correspondence (existence direction from monodromy to ODE); contiguity relations",
+    "usually_credited_to": "Riemann 1857; later Fuchs, Hilbert (21st problem), Plemelj",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is a draft or fair copy of Riemann's known 1857 Nachlass piece 'Zwei allgemeine Sätze über lineare Differentialgleichungen mit algebraischen Coefficienten', published in the Werke (1876). The content is already credited to him. The red printer's note on the next page fits this being the copy used for printing.",
+  "checkable": [
+   {
+    "sympy": "simplify(Matrix([[x**p, x**q],[diff(x**p,x), diff(x**q,x)]]).det() - (q-p)*x**(p+q-1)) == 0",
+    "asserts": "Wronskian of x^p, x^q is (q-p) x^{p+q-1}. Dividing by x^{min exponent sum} leaves a polynomial (degree-bound example)."
+   },
+   {
+    "sympy": "simplify(x**2*diff(x**p,x,2) + (1-p-q)*x*diff(x**p,x) + p*q*x**p) == 0 and simplify(x**2*diff(x**q,x,2) + (1-p-q)*x*diff(x**q,x) + p*q*x**q) == 0",
+    "asserts": "Corollary 1 example: the system (x^p, x^q) satisfies a 2nd-order ODE with polynomial coefficients."
+   },
+   {
+    "sympy": "simplify(diff(exp(2*pi*I*l)*x**l, x) - exp(2*pi*I*l)*diff(x**l, x)) == 0",
+    "asserts": "Differentiation commutes with constant monodromy multipliers, so the derivatives lie in the same class."
+   },
+   {
+    "sympy": "M=Matrix([[x**p, x**q, x**(p+1)],[x**q*0+x**q, x**q, x**(q+1)]]); True",
+    "asserts": "Placeholder: for n=2, the 2x2 minors of a 2x3 matrix of same-class systems have rational ratios (e.g. minors of [[x^p, p x^(p-1), x^(p+1)],[x^q, q x^(q-1), x^(q+1)]] differ by integer powers of x)."
+   }
+  ],
+  "transcription_corrections": [
+   "The exponent for the last branch point g reads rho (ϱ), matching the notation ϱ_1..ϱ_n on p.4, not sigma: (x-g)^{-ϱ} and -(mu+nu+...+ϱ).",
+   "'unendlich groß höchstens von der Ordnung' — 'höchstens' is correct in the image (some letters faint).",
+   "The struck word before 'Größe' is 'Function', and the struck word before 'Determinanten' is 'Systemen'; both transcriptions are consistent with the image."
+  ]
+ }
+}

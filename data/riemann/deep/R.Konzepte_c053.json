@@ -1,0 +1,52 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c053",
+ "label": "24bv",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000054/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a faint pencil scrap on folio 24bv. The neighbouring pages (24b, 25) are drafts of Riemann's 1851 dissertation: the Green-type boundary integral around a singular point, and the definition of simply and n-fold connected surfaces. This page has nothing to do with that text. It is a short three-dimensional calculation, probably added later on the free back of the sheet.\n\nNotation (mine): u is a function of space. Write u = u(x,y,z) and u' = u(a,b,c), with r^2 = (x-a)^2+(y-b)^2+(z-c)^2. The dots '...' stand for the analogous y- and z-terms (cyclic sums).\n\nLine 1, as I read it:\n∫ [ δ{ (1/r^3) (Σ_i ∂u/∂x_i (x_i-a_i)) (Σ_j ∂u'/∂a_j (x_j-a_j)) } - δ{ (1/r) Σ_i ∂u/∂x_i ∂u'/∂a_i } ] dx dy dz (da db dc).\nThe 'dx dy dz' squeezed under the integral sign at the start of line 2 suggests a double space integral, one over x and one over a.\n\nWhat the integrand is (my identification):\n(x_i-a_i)(x_j-a_j)/r^3 - δ_ij/r = ∂²r/∂x_i∂a_j.\nSo the bracket is Σ_ij ∂u/∂x_i ∂u'/∂a_j ∂²r/∂x_i∂a_j. If J = ∇u is read as a current density, the two terms are the Weber-type mutual term (J·(x-a))(J'·(x-a))/r^3 and the Neumann-type mutual term J·J'/r.\n\nLines 2-4 rewrite the varied integrand as a sum of x-, y-, z-derivatives (divergences) of three kinds of terms:\n(i) -∂/∂x [ δ(1/r) (∂u'/∂a (x-a) + ...) ∂u/∂x ] - ...\n(ii) -∂/∂x [ (1/r) ∂u'/∂a (∂u/∂x δa + ...) ] - ...\n(iii) +∂/∂x [ (1/r) δa (∂u'/∂a ∂u/∂x + ...) ] + ...\nThe aim is evidently to turn the volume integral into boundary (surface) integrals. Here δ appears to be a variation produced by displacing the point (a,b,c) by (δa, δb, δc).\n\nThe underlying mechanism (my reconstruction, certain at the undifferentiated level): if Δu = 0, then\nΣ_i ∂/∂x_i ( ∂u/∂x_i ∂r/∂a_j ) = Σ_i ∂u/∂x_i ∂²r/∂x_i∂a_j.\nHence the integrand is a pure divergence in x, and likewise in a. The Weber and Neumann forms of the mutual 'potential' of closed (divergence-free) current distributions therefore differ only by boundary terms. This is the 3-D analogue of the familiar fact for closed circuits.\n\nRiemann applies the same idea to the varied (displaced) integrand. The page breaks off after the three divergence terms; there is no conclusion.",
+  "errors": [
+   "The page is too faint and abbreviated to verify the signs and the exact placement of δ in lines 2-4. The 'δ(1/r)(...)(x-a)' structure of term (i) fits a factor 1/r^3 multiplying (x-a), so δ may in places be a misreading of ∂.",
+   "The claimed divergence form holds only if Δu = 0 (and Δu' = 0), or if ∇u is divergence-free. This hypothesis is not written on the page.",
+   "The computation is incomplete. The first-order variation terms in δa are not all shown, so the equality cannot be checked as written."
+  ],
+  "results": [
+   {
+    "what": "Identity (x_i-a_i)(x_j-a_j)/r^3 - δ_ij/r = ∂²r/∂x_i∂a_j. With it, the difference of the Weber-type and Neumann-type mutual interaction integrands for divergence-free (gradient-of-harmonic) current fields becomes a divergence, so only boundary terms remain.",
+    "modern_name": "Equivalence of Neumann and Weber (Ampère-type) mutual-inductance/potential forms for closed currents; integration by parts with ∂²r",
+    "usually_credited_to": "F. E. Neumann (1845/1847), W. Weber (1846); systematic comparison by Helmholtz (1870)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Variation of a double volume integral under displacement δa of one point, rewritten as divergences to obtain surface terms (forces between current distributions)",
+    "modern_name": "Virtual-work derivation of forces from an interaction energy; first variation of a double integral",
+    "usually_credited_to": "Neumann, Helmholtz (standard 19th-c. electrodynamics)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is a fragmentary routine calculation in the Neumann/Weber electrodynamics that Riemann is known to have studied (his 1858 Beitrag zur Elektrodynamik and his lectures). Nothing on it goes beyond standard techniques of the period.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,a,b,c=symbols('x y z a b c',real=True); r=sqrt((x-a)**2+(y-b)**2+(z-c)**2); simplify(diff(r,x,a) - ((x-a)**2/r**3 - 1/r))",
+    "asserts": "∂²r/∂x∂a = (x-a)^2/r^3 - 1/r, i.e. the diagonal case of the identity"
+   },
+   {
+    "sympy": "simplify(diff(r,x,b) - (x-a)*(y-b)/r**3)",
+    "asserts": "off-diagonal case: ∂²r/∂x∂b = (x-a)(y-b)/r^3"
+   },
+   {
+    "sympy": "u=x**2-y**2+3*x*z-z**2*0; ur=diff(r,a); simplify(diff(diff(u,x)*ur,x)+diff(diff(u,y)*ur,y)+diff(diff(u,z)*ur,z) - (diff(u,x)*diff(r,x,a)+diff(u,y)*diff(r,y,a)+diff(u,z)*diff(r,z,a)))",
+    "asserts": "For harmonic u (here x^2-y^2+3xz), Σ_i ∂_i(u_{x_i} ∂r/∂a) = Σ_i u_{x_i} ∂²r/∂x_i∂a, i.e. the integrand is a divergence"
+   }
+  ],
+  "transcription_corrections": [
+   "The leading symbol 'Δ[?]' is more likely δ (a variation sign); it is overwritten.",
+   "In line 1 the second factor is ∂u/∂a (x-a) (u at the point a), and the struck symbol before 'δ 1/r' is likely a struck '∂'. The last bracket is (∂u/∂x ∂u/∂a + ...).",
+   "The 'dx dy dz' at the start of line 2 is written under the integral sign. It is probably the second set of integration variables (a double integral), not a separate line."
+  ]
+ }
+}

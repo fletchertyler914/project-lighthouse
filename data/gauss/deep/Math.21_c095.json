@@ -1,0 +1,60 @@
+{
+ "bundle": "Math.21",
+ "page": "c095",
+ "label": "47av",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000096/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio belongs to material inserted into Math.21 (47a: '1868 Nov.', 'Problem der 8 Königinnen', 'Geschenk von Frau Listing', 'Nicht von Gauss' Hand'). The page is therefore by J. B. Listing (or his circle), written in 1868, not by Gauss.\n\n(a) Top band. Three dotted 8x8 point lattices carry tilted squares and polygons joined by straight segments: nested rotated squares on the left, broken quadrilateral paths in the middle and right. They look like trials at drawing queen configurations as polygons, or at finding rotationally symmetric arrangements. No computation is written. Their exact content cannot be reconstructed reliably.\n\n(b) Statement. 'Es gibt nur eine (von Gauß gefundene) symmetrische Lösung des Problems der 8 Königinnen', i.e. there is only one (found by Gauss) symmetric solution of the 8-queens problem.\n\n(c) Diagram. An 8x8 square with diagonal cross-hatching marks the attacked diagonals. Eight queens are circled. Reading them row by row from the top, using approximate pixel positions converted to board cells, gives columns 3,5,2,8,1,7,4,6.\n- So the solution is q = (3,5,2,8,1,7,4,6), i.e. queens at (i, q_i).\n- It is a valid placement: the q_i are a permutation; the sums i+q_i = 4,7,5,12,6,13,11,14 are distinct; the differences i-q_i = -2,-3,1,-4,4,-1,3,2 are distinct.\n- It is invariant under the half-turn (i,j) -> (9-i, 9-j), since q_{9-i} = 9 - q_i for all i.\n- It is not invariant under the quarter-turn or under any reflection.\n- The heavy polylines join the queens into two chains that are images of each other under the 180° rotation: (1,3)-(2,5) together with (1,3)-(3,2)-(5,1), and (4,8)-(6,7)-(8,6)-(7,4). This makes the central symmetry visible.\n- The claim 'only one symmetric solution' is correct in the modern sense. Of the 12 essentially distinct solutions, exactly one has a nontrivial symmetry, namely this half-turn symmetry.\n\n(d) Text below. 'welches durch halbe und ganze Inversion und durch Perversion 8 Varianten gibt, die nur positionelle Differenzen bieten', i.e. which through half and whole inversion and through perversion gives 8 variants differing only in position.\n- In Listing's vocabulary (Vorstudien zur Topologie), 'Perversion' is mirror reflection. 'Inversion' denotes rotation; the half/whole presumably mean quarter- and half-turns.\n- The eight elements of the dihedral group D4 of the board are meant.\n- [My inference] Because the solution is fixed by the half-turn, its D4-orbit has only 8/2 = 4 distinct boards, not 8.\n- This is consistent with the known count 92 = 11*8 + 1*4.",
+  "errors": [
+   "The claim that the symmetric solution yields 8 variants is wrong as a count of distinct placements. The solution 3,5,2,8,1,7,4,6 is invariant under the 180° rotation, so its orbit under the 8 board symmetries contains only 4 distinct solutions. This is exactly why the total is 92 = 11*8 + 4 rather than 96.",
+   "Attribution: the page is not in Gauss's hand (the previous folio says 'Nicht von Gauss' Hand', a gift from Frau Listing, 1868). The parenthetical 'von Gauß gefunden' is a later second-hand ascription, not documentary evidence on this page."
+  ],
+  "results": [
+   {
+    "what": "The 8-queens solution 3,5,2,8,1,7,4,6, centrally (180°) symmetric. It is the unique solution class with a nontrivial symmetry.",
+    "modern_name": "Eight queens puzzle; the unique symmetric fundamental solution (orbit size 4 under D4)",
+    "usually_credited_to": "Puzzle posed by Max Bezzel 1848; all 92 solutions found by Franz Nauck 1850. Gauss discussed it in 1850 letters to Schumacher. The classification into 12 classes is usually tied to Günther (1874) and Glaisher (1874).",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of the symmetry group (rotations = 'Inversion', reflection = 'Perversion') to generate variants of a solution.",
+    "modern_name": "Orbit of a solution under the dihedral group D4",
+    "usually_credited_to": "Standard; implicit in Nauck and Gauss 1850, explicit in Günther/Glaisher 1874",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a later (1868) note by Listing, not Gauss's own work. Gauss's involvement with the 8-queens problem via the 1850 Schumacher correspondence is well known. The symmetric solution itself is standard, and the page's own count of variants is mistaken.",
+  "checkable": [
+   {
+    "sympy": "q=[3,5,2,8,1,7,4,6]; sorted(q)==list(range(1,9)) and len(set(i+1+q[i] for i in range(8)))==8 and len(set(i+1-q[i] for i in range(8)))==8",
+    "asserts": "The drawn configuration is a valid 8-queens solution."
+   },
+   {
+    "sympy": "q=[3,5,2,8,1,7,4,6]; all(q[7-i]==9-q[i] for i in range(8))",
+    "asserts": "The solution is invariant under the 180-degree rotation of the board."
+   },
+   {
+    "sympy": "q=[3,5,2,8,1,7,4,6]; S={(i+1,q[i]) for i in range(8)}; {(j,9-i) for (i,j) in S}!=S",
+    "asserts": "The solution is not invariant under the 90-degree rotation."
+   },
+   {
+    "sympy": "from itertools import permutations; sols=[p for p in permutations(range(1,9)) if len(set(i+p[i] for i in range(8)))==8 and len(set(i-p[i] for i in range(8)))==8]; len(sols)==92",
+    "asserts": "There are 92 solutions in total."
+   },
+   {
+    "sympy": "q=(3,5,2,8,1,7,4,6); S=frozenset((i+1,q[i]) for i in range(8)); g=[lambda i,j:(i,j),lambda i,j:(j,9-i),lambda i,j:(9-i,9-j),lambda i,j:(9-j,i),lambda i,j:(i,9-j),lambda i,j:(9-i,j),lambda i,j:(j,i),lambda i,j:(9-j,9-i)]; len({frozenset(f(a,b) for (a,b) in S) for f in g})==4",
+    "asserts": "The D4-orbit of the symmetric solution has 4 elements, not 8 as the page claims."
+   }
+  ],
+  "transcription_corrections": [
+   "'Perversion[?]' is correct: it is Listing's term for mirror reflection.",
+   "The final word read as 'bieten[?]' may be 'beitragen'/'bringen'; the meaning ('which present only positional differences') is unchanged.",
+   "The diagram can be read as queens in rows 1-8 at columns 3,5,2,8,1,7,4,6, i.e. the centrally symmetric solution.",
+   "The hand is Listing's (per the preceding folio note), not Gauss's."
+  ]
+ }
+}

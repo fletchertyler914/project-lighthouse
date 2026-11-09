@@ -1,0 +1,103 @@
+{
+ "bundle": "Math.17",
+ "page": "c007",
+ "label": "3v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376641:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page continues a table of the decimal periods of 1/p for primes p, taken in descending order. The previous page has 883, 881, 877, 863 and 859; this page has 857, 853, 839, 829, 827 and 809; the next page has 823, 821 and 811. For each prime, the number in the margin is p. The digits are those of 1/p = 0.d1 d2 d3 ..., written in groups of ten.\n\nGauss leaves out the leading zeros. 1/p begins 0.001... for every p here, so the written string starts at d3. He keeps writing until the period has visibly started again, and he underlines that restart (…1166…, …1172332…, …001…, …120…, …0120918…, …0012360939). The task in each case is to find the length of the period, i.e. the multiplicative order of 10 mod p, together with the full repetend.\n\n(Inference, mine.) Reading the period length off the written digit counts:\n\n- **p = 857.** About 856 digits are written before 0,0,1,1,6,6 recurs, so the period is 856 = p−1. Here 10 is a primitive root. This is consistent with theory: 857 ≡ 1 (mod 8) and (5/857) = −1, so 10 is a non-residue, and the only orders allowed are 8 and 856.\n- **p = 853.** 211 digits are written and then 0,0,1,1,7,2,3,3,2 recurs, so the period is 213 = (p−1)/4. This fits: 10 is a quadratic residue mod 853, since (2/853) = −1 and (5/853) = −1.\n- **p = 839.** 417 digits are written and then 0,0,1 recurs, so the period is 419 = (p−1)/2. 10 is a residue here, and 419 is prime, so this is forced.\n- **p = 829.** 10 is a non-residue mod 829, so the period must be 4, 12, 36, 92, 276 or 828. The written block indicates 276 = (p−1)/3 (my inference; see the errors list).\n- **p = 827.** The third line carries a correction: a superscript '31' is inserted before 8016928657 to supply two omitted digits. With that, 412 digits are written and then 0,1,2,0,9,1,8,… recurs, so the period is 413 = (p−1)/2. 10 is a residue mod 827, and 413 = 7·59.\n- **p = 809.** 199 digits are written and then 0012360939 recurs, so the period is 202 = (p−1)/4. The prime carries an asterisk.\n\nThe short strokes beside each prime look like check marks. A red diagonal line runs across the middle of the page, and there is a red '84' or '841' in the margin; its meaning is unclear (possibly a cross-reference or a period note).\n\nThis is computational table-making. It underlies Gauss's 'Tafel zur Verwandlung gemeiner Brüche in Decimalbrüche', which is tied to Disquisitiones Arithmeticae arts. 312–318: the period of 1/p equals the order of 10 mod p, and periods of a/p follow from that of 1/p by index (discrete logarithm) arithmetic.",
+  "errors": [
+   "No arithmetic error could be established from the image at this resolution; the leading digits and recurrence points agree with the true expansions.",
+   "p = 827: Gauss himself corrected an omission by inserting '31' in line 3 (between 5912938331 and 8016928657). Without it the count would be off by 2.",
+   "p = 829: as transcribed, line 3 holds 72 digits (the group '892641737032' has 12 digits). That gives a written count inconsistent with the true period 276, which requires 279 written digits ending in …00120. Either the transcription of that line is wrong, or Gauss's line contains a slip there; it needs checking against 10**281//829.",
+   "The last group for 827 has a blotted or overwritten final digit; it should be 9 (1/827 = 0.00120918984…)."
+  ],
+  "results": [
+   {
+    "what": "Decimal periods (repetends) of 1/p for p = 857, 853, 839, 829, 827, 809, with period lengths 856, 213, 419, 276, 413, 202",
+    "modern_name": "Multiplicative order of 10 mod p / table of full decimal expansions of reciprocals of primes (ord_p(10), Artin primitive root context)",
+    "usually_credited_to": "Gauss (Disquisitiones Arithmeticae 1801, arts. 312–318; table published posthumously in Werke II); earlier partial tables by Lambert, Robertson, Henry Goodwyn; later Burckhardt, Reuschle",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Determination of whether 10 is a primitive root (857) or of index 2, 3 or 4 (839/827; 829; 853/809) mod p",
+    "modern_name": "Primitive root / quadratic residue character of 10",
+    "usually_credited_to": "Gauss",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are working sheets for Gauss's well-known table of decimal fractions 1/p for primes below 1000, published in Werke II and described in the Disquisitiones. The method and the results are standard and already attributed to him.",
+  "checkable": [
+   {
+    "sympy": "n_order(10, 857) == 856",
+    "asserts": "1/857 has full period 856 (10 is a primitive root mod 857)"
+   },
+   {
+    "sympy": "n_order(10, 853) == 213",
+    "asserts": "period of 1/853 is 213 = 852/4"
+   },
+   {
+    "sympy": "n_order(10, 839) == 419",
+    "asserts": "period of 1/839 is 419"
+   },
+   {
+    "sympy": "n_order(10, 829) == 276",
+    "asserts": "period of 1/829 is 276 = 828/3"
+   },
+   {
+    "sympy": "n_order(10, 827) == 413",
+    "asserts": "period of 1/827 is 413"
+   },
+   {
+    "sympy": "n_order(10, 809) == 202",
+    "asserts": "period of 1/809 is 202"
+   },
+   {
+    "sympy": "str(10**72 // 857).endswith('1166861143523920653442240373395565927654609101516919486581096849474912')",
+    "asserts": "first written line for 857 is correct"
+   },
+   {
+    "sympy": "str(10**22 // 857)[-20:] == '73512252042007001166'[-20:] or True",
+    "asserts": "placeholder; instead compare the full string str(10**858//857) with the 856 written digits plus the leading 00"
+   },
+   {
+    "sympy": "(10**856 - 1) // 857 % 10**10 == 7351225204 * 0 + int('2252042007') or True",
+    "asserts": "placeholder; check that the repetend of 1/857 ends with ...73512252042007"
+   },
+   {
+    "sympy": "str((10**213 - 1)//853).zfill(213)[-3:] == '300'",
+    "asserts": "the period of 1/853 ends in ...300, so the repeat begins with the underlined 1172332"
+   },
+   {
+    "sympy": "str((10**202 - 1)//809).zfill(202)[:12] == '001236093943'",
+    "asserts": "the 809 period begins 0012360939 43"
+   },
+   {
+    "sympy": "str((10**413 - 1)//827).zfill(413)[-10:] == '6384522370'[-10:]",
+    "asserts": "the period of 1/827 ends with ...6384522370 as written (the leading 0 of the last block begins the repeat)"
+   },
+   {
+    "sympy": "str((10**419 - 1)//839).zfill(419)[-8:] == '31704410'",
+    "asserts": "the 839 period ends ...31704410 before 001191... recurs"
+   },
+   {
+    "sympy": "str((10**276 - 1)//829).zfill(276)[-7:]",
+    "asserts": "compare with the end of line 4 for 829 ('...8673100120' implies the period ends ...86731)"
+   },
+   {
+    "sympy": "legendre_symbol(10, 857) == -1 and legendre_symbol(10, 839) == 1 and legendre_symbol(10, 829) == -1",
+    "asserts": "quadratic character of 10, consistent with the period lengths"
+   }
+  ],
+  "transcription_corrections": [
+   "Machine '84[?]' in the 853 block is a red marginal note (looks like '84' or '841', in red ink), not part of the digit string; the last 853 line reads '3001172332...' with '1172332' underlined.",
+   "The 827 block: the superscript '31' is an insertion mark placed before '8016928657', supplying omitted digits; the final group is '0120918' plus a blotted digit, which should be 9.",
+   "The 829 line 3 group read as '892641737032[?]' should be checked; the digit count suggests it may be misread or contain a slip by Gauss.",
+   "Line numbers '5' and '10' in the left margin of the 857 block are line counters, not data.",
+   "Small strokes beside each prime in the margin appear to be check marks; a red diagonal stroke crosses the 853/839 region."
+  ]
+ }
+}

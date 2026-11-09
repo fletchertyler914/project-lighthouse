@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c136",
+ "label": "82r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000137/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft opening of Riemann's 1860 memoir on plane air waves of finite amplitude. The published title is 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'. The heading on this page reads roughly 'Über die Fortpflanzung von Luft…', and the crossed-out sub-heading reads 'Die allgemeine Entstehung von Verdichtungsstößen'. Here Riemann restricts to the isothermal (Boyle) law. The previous page treats the general law p = φ(ρ) and the Poisson law aa ρ^k, so this sheet appears to be an earlier or simplified version.\n\n(a) Setting (heavily revised prose). Assume the velocities, and the accelerating forces coming from pressure differences, all have one direction. Assume density, velocity and pressure are constant on every plane perpendicular to that direction. Then the motion is one-dimensional in x and the partial differential equations can be integrated.\n\n(b) Notation. ρ(x,t) is density, p pressure, u velocity along the x-axis at coordinate x and time t. Boyle's law is p = a^2 ρ with a constant (a is the isothermal sound speed).\n\n(c) Equations of motion, with L = log ρ:\n(1) -a^2 L_x = u_t + u u_x. This is Euler's momentum equation, since p_x/ρ = a^2 L_x.\n(2) -L_t = u L_x + u_x. This is the continuity equation ρ_t + (ρu)_x = 0 divided by ρ.\n\n(d) Characteristic combination: multiply (2) by ±a and add it to (1).\n- With +a: (u + aL)_t + (u + a)(u + aL)_x = 0 [step filled by me: u u_x + a u L_x = u(u+aL)_x and a u_x + a^2 L_x = a(u+aL)_x].\n- With -a: (u - aL)_t + (u - a)(u - aL)_x = 0.\n\n(e) Abbreviations: u + a log ρ = 4a p and u - a log ρ = 4a q. Here p and q are new letters, clashing with p = pressure. They are the Riemann invariants, scaled by 1/(4a).\n\n(f) Result:\n- ∂p/∂t = -(u+a) ∂p/∂x\n- ∂q/∂t = -(u-a) ∂q/∂x\nSo p is constant along dx/dt = u + a and q is constant along dx/dt = u - a.\n\n(g) What this prepares (continued on the next page): u = 2a(p+q) and ρ = exp(2(p-q)). Taking p and q as independent variables (hodograph transformation) linearizes the system:\n- ∂(x-(u+a)t)/∂q = -t ∂u/∂q = -2at\n- ∂(x-(u-a)t)/∂p = -2at\nHence (x-(u+a)t)dp + (x-(u-a)t)dq = dw, and w satisfies the constant-coefficient equation w_pq = w_p - w_q = -2at. The unusual normalisation 4a is evidently chosen so that this equation has unit coefficients.",
+  "errors": [
+   "No mathematical error on this page: equations (1), (2), the ±a combination and the characteristic forms are all correct.",
+   "Notational clash: the letter p is used first for pressure (p = a^2 ρ) and then for the new variable (u + a log ρ)/(4a).",
+   "Next-page consistency (not this page): the transcribed 'u = 2(p+q)' should read u = 2a(p+q) given the definitions here. Also, the derivative equal to -2at for x-(u+a)t must be taken with respect to q, not p, if p is constant along dx/dt = u+a. These are probably transcription or reading issues.",
+   "The text is a heavily revised draft; the prose conditions (parallel velocities and forces, constant state on perpendicular planes) are partly redundant but harmless."
+  ],
+  "results": [
+   {
+    "what": "1D isothermal Euler equations written as u_t+u u_x = -a^2 (log ρ)_x and (log ρ)_t + u (log ρ)_x + u_x = 0",
+    "modern_name": "One-dimensional compressible Euler equations (isothermal gas)",
+    "usually_credited_to": "Euler (1750s); Poisson, Stokes, Earnshaw for plane finite-amplitude waves",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Combinations u ± a log ρ transported with speeds u ± a",
+    "modern_name": "Riemann invariants / method of characteristics for the isothermal p-system",
+    "usually_credited_to": "Riemann 1860 (cf. Earnshaw 1858/60 for simple waves)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Preparation for swapping dependent and independent variables (p,q as independent), leading to a linear equation for w",
+    "modern_name": "Hodograph transformation; Riemann's method for linear hyperbolic equations",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of material Riemann published in 1860 (Riemann invariants, isothermal case, hodograph linearisation). The only minor novelty is the draft form: the isothermal-first presentation and the 4a normalisation chosen to give unit coefficients.",
+  "checkable": [
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); u=Function('u')(x,t); L=Function('L')(x,t); E1=diff(u,t)+u*diff(u,x)+a**2*diff(L,x); E2=diff(L,t)+u*diff(L,x)+diff(u,x); R=u+a*L; simplify(E1+a*E2-(diff(R,t)+(u+a)*diff(R,x)))",
+    "asserts": "Equals 0: (1)+a*(2) gives (u+a log ρ)_t+(u+a)(u+a log ρ)_x=0"
+   },
+   {
+    "sympy": "S=u-a*L; simplify(E1-a*E2-(diff(S,t)+(u-a)*diff(S,x)))",
+    "asserts": "Equals 0: (1)-a*(2) gives (u-a log ρ)_t+(u-a)(u-a log ρ)_x=0"
+   },
+   {
+    "sympy": "rho=Function('rho')(x,t); simplify((diff(rho,t)+diff(rho*u,x))/rho-(diff(log(rho),t)+u*diff(log(rho),x)+diff(u,x)))",
+    "asserts": "Equals 0: equation (2) is continuity divided by ρ"
+   },
+   {
+    "sympy": "P,Q=symbols('P Q'); solve([Eq(Symbol('U')+a*Symbol('Lr'),4*a*P),Eq(Symbol('U')-a*Symbol('Lr'),4*a*Q)],[Symbol('U'),Symbol('Lr')])",
+    "asserts": "u=2a(P+Q), log ρ = 2(P-Q): the speed u+a has q-derivative 2a, giving ∂(x-(u+a)t)/∂q=-2at on the next page"
+   }
+  ],
+  "transcription_corrections": [
+   "In (1) the coefficient is a^2 (written so in the image), consistent with p = a^2 ρ.",
+   "The abbreviations read 'u + a log ρ = 4ap, u - a log ρ = 4aq'; p here is a new variable distinct from pressure. This is consistent with -2at on the next page only if u = 2a(p+q).",
+   "The struck sub-heading appears to be 'Die allgemeine Entstehung von Verdichtungsstößen'. The title reads approximately 'Über die Fortpflanzung von Luft…' (likely '…Luftströmungen' or '…Luftschwingungen'); uncertain."
+  ]
+ }
+}

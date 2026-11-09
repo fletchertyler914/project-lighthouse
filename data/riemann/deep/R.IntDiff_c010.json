@@ -1,0 +1,68 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c010",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is part of Riemann's student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (dated 1847, published posthumously in the Werke, 1876). The previous page argues that a series of 'form (2)', running to infinity in both directions, can have a definite value even where term-by-term addition fails. To give an example, Riemann sets out to expand x^mu in a two-sided series of powers of (x-b). He also says he will need this expansion later in the investigation.\n\nStep 1 (ansatz). Set z = x^mu = sum_{alpha=-oo}^{oo} c_alpha (x-b)^alpha. Presumably alpha runs over a progression alpha_0 + n with n in Z and alpha_0 possibly non-integer (my reading, from the context of form (2)).\n\nStep 2 (Euler-type ODE). From z = x^mu we get z' = mu x^(mu-1), hence mu z - x z' = 0.\n\nStep 3 (substitution). Write x = (x-b) + b. Then\nmu z - x z' = sum mu c_alpha (x-b)^alpha - sum alpha c_alpha (x-b)^alpha - b sum alpha c_alpha (x-b)^(alpha-1).\nShifting the index in the last sum (my step) gives\nsum_alpha [(mu-alpha) c_alpha - b(alpha+1) c_(alpha+1)] (x-b)^alpha = 0.\n\nStep 4 (recursion). This condition is satisfied as soon as (mu-alpha) c_alpha = b(alpha+1) c_(alpha+1), i.e. c_(alpha+1)/c_alpha = (mu-alpha)/(b(alpha+1)).\n- Riemann states this only as a sufficient condition.\n- A struck-out fragment 'c_(alpha+1)=0' shows he was correcting as he wrote.\n- Implicit solution (mine): c_alpha = C b^(-alpha) / (Gamma(alpha+1) Gamma(mu-alpha+1)), with C constant along the progression.\n- For integer alpha this reduces to the binomial series c_n = binomial(mu,n) b^(mu-n) (up to K).\n\nStep 5 (identifying the sum). Every solution of the ODE mu z - x z' = 0 is of the form K x^mu. So the series z obeying the recursion must equal K x^mu for some constant K, which remains to be found.\n\nStep 6 (cutting the series). Split the series at index alpha:\n- p = ... + c_(alpha-1)(x-b)^(alpha-1) + c_alpha (x-b)^alpha (the left tail);\n- p' = c_(alpha+1)(x-b)^(alpha+1) + c_(alpha+2)(x-b)^(alpha+2) + ... (the right tail);\n- so p + p' = z = K x^mu.\n\nStep 7 (tails satisfy inhomogeneous ODEs). Applying the operator L = mu - x d/dx to each tail, the telescoping recursion kills all terms except one boundary term:\n- L p = (mu-alpha) c_alpha (x-b)^alpha =: X;\n- L p' = -b(alpha+1) c_(alpha+1) (x-b)^alpha = -X, using the recursion.\n\nThe page breaks off with the pencil note 'hier folgt gleich p. 9'. Presumably (my inference) Riemann next integrates the first-order ODE: (p x^(-mu))' = -X x^(-mu-1), so p = -x^mu * integral X x^(-mu-1) dx. This expresses the tails by Beta-type integrals and determines K.",
+  "errors": [
+   "No algebraic errors: Step 3 (index shift) and both boundary-term computations in Step 7 are correct.",
+   "Unjustified step: termwise differentiation and rearrangement of a doubly infinite series is assumed. Such a series converges at best on |x-b| = |b|, since one tail has ratio (x-b)/b and the other b/(x-b). This is consistent with Riemann's stated willingness (previous page) to work with series whose value is not reached by term addition.",
+   "Gap in Step 5: 'all solutions are K x^mu' tacitly fixes a branch of x^mu on a connected domain. Also, the constancy of C along the index progression (versus a factor periodic in alpha) is left implicit.",
+   "The recursion is presented only as sufficient. That is logically fine for the argument, which needs only some series obeying it."
+  ],
+  "results": [
+   {
+    "what": "Two-sided (bilateral) expansion of x^mu in powers (x-b)^(alpha+n), n in Z, with coefficients fixed by (mu-alpha)c_alpha = b(alpha+1)c_(alpha+1), i.e. c_alpha proportional to b^(mu-alpha)/(Gamma(alpha+1)Gamma(mu-alpha+1))",
+    "modern_name": "Riemann's generalized Taylor series / bilateral binomial series (fractional-index binomial expansion)",
+    "usually_credited_to": "Riemann (Versuch, 1847, publ. 1876); later discussed by G. H. Hardy ('Riemann's form of Taylor's series', 1945)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Determining a series coefficient recursion from the Euler-type ODE mu z - x z' = 0 satisfied by x^mu",
+    "modern_name": "Method of undetermined coefficients / recurrence from a linear ODE",
+    "usually_credited_to": "Euler (18th c.), standard",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Splitting the bilateral series into tails p, p'; each tail satisfies mu y - x y' = ±X with a single boundary term X = (mu-alpha)c_alpha(x-b)^alpha, to be solved by quadrature to find K",
+    "modern_name": "Telescoping boundary term; first-order linear ODE / integrating-factor evaluation of series tails",
+    "usually_credited_to": "standard technique; this specific use appears in Riemann's published Versuch",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is a draft of material from Riemann's 1847 'Versuch einer allgemeinen Auffassung der Integration und Differentiation', published in his Werke (1876). Its two-sided generalized Taylor/binomial series is already known and attributed to him (cf. Hardy 1945). The manipulations themselves are routine.",
+  "checkable": [
+   {
+    "sympy": "mu,a,b,x,C=symbols('mu a b x C'); c=lambda k: C*b**(-k)/(gamma(k+1)*gamma(mu-k+1)); simplify(gammasimp((mu-a)*c(a)-b*(a+1)*c(a+1)))",
+    "asserts": "c_alpha = C b^(-alpha)/(Gamma(alpha+1)Gamma(mu-alpha+1)) satisfies Riemann's recursion (result 0)"
+   },
+   {
+    "sympy": "mu,b,x=symbols('mu b x'); n=5; simplify(binomial(mu,n+1)*b**(mu-n-1)*b*(n+1) - (mu-n)*binomial(mu,n)*b**(mu-n))",
+    "asserts": "For integer indices the ordinary binomial coefficients c_n = binomial(mu,n) b^(mu-n) obey the recursion (result 0)"
+   },
+   {
+    "sympy": "mu,a,b,x=symbols('mu a b x'); c=[symbols('c%d'%i) for i in range(6)]; z=sum(c[i]*(x-b)**(a+i) for i in range(6)); e=expand(mu*z-x*diff(z,x)); target=sum(((mu-a-i)*c[i]-b*(a+i+1)*(c[i+1] if i<5 else 0))*(x-b)**(a+i) for i in range(6)) - b*a*c[0]*(x-b)**(a-1); simplify(e-expand(target))",
+    "asserts": "Identity mu z - x z' = sum[(mu-alpha)c_alpha - b(alpha+1)c_(alpha+1)](x-b)^alpha for a finite segment, including the boundary terms (result 0)"
+   },
+   {
+    "sympy": "mu,a,b,x,C=symbols('mu a b x C'); c=lambda k: C*b**(-k)/(gamma(k+1)*gamma(mu-k+1)); N=6; p=sum(c(a-j)*(x-b)**(a-j) for j in range(N)); simplify(gammasimp(expand(mu*p-x*diff(p,x)) - (mu-a)*c(a)*(x-b)**a + b*(a-N+1)*c(a-N+1)*(x-b)**(a-N)))",
+    "asserts": "Left tail p (truncated at N terms) satisfies mu p - x p' = (mu-alpha)c_alpha(x-b)^alpha minus a vanishing-at-infinity truncation term (result 0)"
+   },
+   {
+    "sympy": "mu,a,b,x,C=symbols('mu a b x C'); c=lambda k: C*b**(-k)/(gamma(k+1)*gamma(mu-k+1)); N=6; q=sum(c(a+j)*(x-b)**(a+j) for j in range(1,N+1)); simplify(gammasimp(expand(mu*q-x*diff(q,x)) + (mu-a)*c(a)*(x-b)**a - (mu-a-N)*c(a+N)*(x-b)**(a+N)))",
+    "asserts": "Right tail p' satisfies mu p' - x p'' = -(mu-alpha)c_alpha(x-b)^alpha = -X, up to the truncation term (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The letter rendered 'mu' is written as a w/omega-like glyph throughout. The transcription's reading as mu is consistent with the context (x^mu from the previous page).",
+   "In the line 'Gesetz (mu-alpha)c_alpha - b(alpha+1)c_(alpha+1)=0' the struck-out fragment is 'c_(alpha+1)=0' at the start of the next line. The transcription handles this correctly.",
+   "The pencil note at the bottom reads 'hier folgt gleich p. 9' (later archival hand). It is not part of Riemann's text."
+  ]
+ }
+}

@@ -1,0 +1,83 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c286",
+ "label": "277",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000287/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a short catalogue of cosine and sine series (in modern terms, Fourier series on the period 2π) for simple discontinuous or piecewise-linear functions. Angles are written in degrees in the text (180°, 360°), but the coefficients A/π and AA/2 require A and B in radians. Every coefficient can be recomputed from a_n = (1/π)∫ f(u) cos(nu) du and b_n = (1/π)∫ f(u) sin(nu) du over one period; that verification is mine.\n\n(1) Half-wave rectified sine. f(t) = sin t on [0, π] and f(t) = 0 on [π, 2π].\n- a_0/2 = 1/π and b_1 = 1/2.\n- a_n = (1/π)∫_0^π sin t cos nt dt = (1 + (-1)^n)/(π(1 - n²)). This vanishes for odd n and equals -2/(π(n² - 1)) for even n.\n- Hence f = 1/π + (1/2) sin t - Σ_{k≥1} 2/((2k-1)(2k+1)π) cos 2kt, with coefficients 2/(1·3π), 2/(3·5π), 2/(5·7π), … as Gauss writes.\n\n(2) The same function shifted by 90°. g(t) = f(t + π/2) equals cos t on [-π/2, π/2] (i.e. 270°–90°) and 0 on [π/2, 3π/2].\n- Since cos(2k(t + π/2)) = (-1)^k cos 2kt, the series becomes 1/π + (1/2) cos t + 2/(1·3π) cos 2t - 2/(3·5π) cos 4t + 2/(5·7π) cos 6t - …\n- This matches the page.\n\n(3) Full-wave rectified sine. Adding f(t) and f(t + π) gives |sin t| = 2/π - Σ 4/((4k² - 1)π) cos 2kt. Putting t = u/2 yields |sin(u/2)| = 2/π - (4/(3π)) cos u - (4/(15π)) cos 2u - (4/(35π)) cos 3u - … This is Gauss's 'always the positive value of sin ½u'.\n\n(4) Rectangular pulse. The function equal to 1 on [-A, A] and 0 elsewhere on (-π, π) has\n- a_0/2 = A/π,\n- a_n = 2 sin(nA)/(nπ).\nThe page gives A/π + Σ (2 sin nA)/(nπ) cos nu.\n\n(5) Triangular pulse. The function equal to A - |u| on [-A, A] and 0 elsewhere has\n- a_0/2 = A²/(2π),\n- a_n = (2/π)∫_0^A (A - u) cos nu du = 2(1 - cos nA)/(πn²), by one integration by parts (my step).\nThe page gives (1/π){½AA + 2(1 - cos A) cos u + (2/4)(1 - cos 2A) cos 2u + (2/9)(1 - cos 3A) cos 3u + …}.\n\n(6) Trapezoidal pulse. The function equals B - A on [-A, A], falls linearly to 0 at ±B, and is 0 from ±B to ±180°.\n- It is the difference of two triangles: T_B - T_A, where T_X(u) = max(X - |u|, 0). This shortcut is implicit on the page; making it explicit is my step.\n- The coefficients are therefore (1/π){½(BB - AA) + Σ (2/n²)(cos nA - cos nB) cos nu}, which is what Gauss writes.\n\nContext: these appear to be quick reference formulas, probably jotted around 1847, judging from the preceding page dated 1847 Mai 13 (the Lagrange inversion theorem). No problem served is stated on the page itself.",
+  "errors": [
+   "In the last series, the third term reads (cos 3A - cos 9B); it must be (cos 3A - cos 3B). This is a slip of the pen, or a 3 written so that it looks like a 9.",
+   "Units are mixed: the bounds are stated in degrees (180°, 360°), but A/π, ½AA and ½(BB - AA) are correct only with A and B in radians. Tacitly 0 < A < B ≤ π is assumed.",
+   "All the stated series are otherwise correct. Gauss does not mention behaviour at the jump points of the indicator in (4), where the series gives the midpoint value 1/2; this is an omission rather than an error."
+  ],
+  "results": [
+   {
+    "what": "Fourier series of the half-wave rectified sine (and its cosine-shifted form)",
+    "modern_name": "Fourier series of half-wave rectified sine",
+    "usually_credited_to": "Fourier (1807/1822); such expansions of discontinuous functions were also in Euler and Lagrange in special cases",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "|sin(u/2)| = 2/π - (4/π) Σ cos(nu)/(4n² - 1)",
+    "modern_name": "Fourier series of full-wave rectified sine",
+    "usually_credited_to": "Fourier era (early 19th c.); standard textbook example",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Cosine series of a rectangular pulse of half-width A",
+    "modern_name": "Fourier series of rectangular pulse train (Dirichlet-kernel-type coefficients sin nA/n)",
+    "usually_credited_to": "Fourier (1822)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Cosine series of a triangular pulse and of a trapezoidal pulse (difference of two triangles)",
+    "modern_name": "Fourier series of triangular/trapezoidal pulse trains",
+    "usually_credited_to": "Fourier-era standard examples",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Standard Fourier expansions of elementary piecewise functions, routine well before 1847. Gauss's familiarity with trigonometric series, e.g. from his interpolation work, is well known. The only mildly notable point is the trapezoid treated as a difference of triangles, which is still routine.",
+  "checkable": [
+   {
+    "sympy": "n=symbols('n',integer=True,positive=True); t=symbols('t'); simplify(integrate(sin(t)*cos(2*n*t),(t,0,pi))/pi + 2/(pi*(2*n-1)*(2*n+1)))",
+    "asserts": "Even cosine coefficients of the half-wave rectified sine are -2/((2n-1)(2n+1)π); the expression should simplify to 0."
+   },
+   {
+    "sympy": "t=symbols('t'); integrate(sin(t)*sin(t),(t,0,pi))/pi - Rational(1,2)",
+    "asserts": "The sin t coefficient is 1/2 (result 0)."
+   },
+   {
+    "sympy": "n=symbols('n',integer=True,positive=True); u=symbols('u'); simplify(2*integrate(sin(u/2)*cos(n*u),(u,0,pi))/pi + 4/(pi*(4*n**2-1)))",
+    "asserts": "Cosine coefficients of |sin(u/2)| are -4/((4n²-1)π) (result 0)."
+   },
+   {
+    "sympy": "A,u=symbols('A u',positive=True); n=symbols('n',integer=True,positive=True); simplify(integrate(cos(n*u),(u,-A,A))/pi - 2*sin(n*A)/(n*pi))",
+    "asserts": "Rectangular pulse coefficients are 2 sin(nA)/(nπ) (result 0)."
+   },
+   {
+    "sympy": "A,u=symbols('A u',positive=True); n=symbols('n',integer=True,positive=True); simplify(2*integrate((A-u)*cos(n*u),(u,0,A))/pi - 2*(1-cos(n*A))/(pi*n**2))",
+    "asserts": "Triangular pulse coefficients are 2(1 - cos nA)/(πn²) (result 0)."
+   },
+   {
+    "sympy": "A,B,u=symbols('A B u',positive=True); n=symbols('n',integer=True,positive=True); simplify(2*(integrate((B-A)*cos(n*u),(u,0,A))+integrate((B-u)*cos(n*u),(u,A,B)))/pi - 2*(cos(n*A)-cos(n*B))/(pi*n**2))",
+    "asserts": "Trapezoidal pulse coefficients are 2(cos nA - cos nB)/(πn²), so the n=3 term needs cos 3B, not cos 9B (result 0)."
+   },
+   {
+    "sympy": "A,B,u=symbols('A B u',positive=True); simplify(2*(integrate((B-A),(u,0,A))+integrate((B-u),(u,A,B)))/(2*pi) - (B**2-A**2)/(2*pi))",
+    "asserts": "The constant term of the trapezoid is (B² - A²)/(2π) (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The folio number 277 (top right) is omitted from the transcription.",
+   "In the last formula the manuscript indeed appears to read 'cos 9B'; the transcription is faithful, but mathematically it should be cos 3B.",
+   "Marginal fragments at the left ('…erkung', '1847 Mai 13', 'Allgemeinheit', 'u⁴ + u.s.w.') are show-through or offset from the facing page 276. They are not part of this page's text.",
+   "The transcription renders the end of the first series as 'u.s.w.'; the image shows 'u.s.w' running into the margin. This is minor."
+  ]
+ }
+}

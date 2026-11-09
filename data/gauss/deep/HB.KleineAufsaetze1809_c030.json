@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c030",
+ "label": "21",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000031/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is not a derivation. It is one page (folio 21) of a running five-decimal table. The previous page (20) and next page (22) continue it, covering arguments 0.880 to 1.120 in steps of 0.001.\n\nEach row has five entries:\n- an argument A;\n- a value B;\n- the first difference of B (in units of 1e-5, written between rows);\n- C = A + B;\n- the first difference of C.\n\nIdentification (mine, verified numerically): B(A) = log10(1 + 10^(-A)). Hence C = A + B = log10(1 + 10^A). Spot checks:\n- A = 1.000: B = log10(1.1) = 0.041393, written 0.04139.\n- A = 0.960: 10^(-0.96) = 0.109648, log10(1.109648) = 0.045186, written 0.04519.\n- A = 0.980: 0.043249, written 0.04325.\n- A = 0.995: 0.041849, written 0.04185.\n- A = 1.011: 0.040402, written 0.04040.\n- A = 1.025: 0.039178, written 0.03918.\n- A = 1.040: 0.037904, written 0.03790.\n\nThe table is therefore a table of Gaussian (addition) logarithms. Given log a = A, it lets one find log(1 + a) = C, or log(1 + 1/a) = B, by a single entry. This is used to compute the logarithm of a sum log(m + n) = log m + B(log m − log n) without leaving logarithms.\n\nThe C column can also be read inversely: given C = log(1 + a), one recovers A = log a, which handles differences. The C column is printed separately precisely so the table can be entered from either side.\n\nThe difference columns give the interpolation steps. Because C = A + B and A advances by exactly 0.001 per row, the two differences always add to 100 units of the fifth decimal (10+90, 9+91, 8+92). This is a built-in arithmetic check.\n\nThe left half of the page runs A = 0.960…1.000 (B decreasing 4519→4139). The right half runs A = 1.000…1.040 (B 4139→3790). Differences fall from 10 to 9 to 8 as B' = −10^(−A)/(1 + 10^(−A)) shrinks in magnitude.",
+  "errors": [
+   "None detected. Spot-checked entries agree with log10(1+10^(-A)) correctly rounded to 5 decimals.",
+   "All B-differences checked agree with the tabulated B values. In every row the B-difference and C-difference sum to 100, as required by C = A + B."
+  ],
+  "results": [
+   {
+    "what": "Five-place table of B(A)=log10(1+10^-A) and C(A)=A+B=log10(1+10^A), with first differences, for A=0.960..1.040",
+    "modern_name": "Gaussian logarithms (addition/subtraction logarithms, Zech-type logarithms)",
+    "usually_credited_to": "Zecchini Leonelli (idea, 1802/03). Gauss published the first practical five-place table in 1812 (Monatliche Correspondenz, 'Tafel zur bequemern Berechnung des Logarithmen der Summe oder Differenz zweier Grössen...'), hence the name 'Gaussian logarithms'.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This appears to be a manuscript or draft stage of Gauss's well-known 1812 table of addition logarithms, which bear his name. The only detail of mild interest is that the working table existed in his papers around 1809, before publication; nothing mathematically new.",
+  "checkable": [
+   {
+    "sympy": "N(log(1+10**(-Rational(96,100)),10),8)",
+    "asserts": "B(0.960) ≈ 0.045186, tabulated 0.04519"
+   },
+   {
+    "sympy": "N(log(1+10**(-1),10),8)",
+    "asserts": "B(1.000) = log10(1.1) ≈ 0.041393, tabulated 0.04139"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(104,100)),10),8)",
+    "asserts": "B(1.040) ≈ 0.037904, tabulated 0.03790"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(1011,1000)),10),8)",
+    "asserts": "B(1.011) ≈ 0.040402, tabulated 0.04040"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(1025,1000)),10),8)",
+    "asserts": "B(1.025) ≈ 0.039178, tabulated 0.03918"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(995,1000)),10),8)",
+    "asserts": "B(0.995) ≈ 0.041849, tabulated 0.04185"
+   },
+   {
+    "sympy": "N(log(1+10**Rational(98,100),10),8)",
+    "asserts": "C(0.980) = log10(1+10^0.98) ≈ 1.023249, tabulated 1.02325"
+   },
+   {
+    "sympy": "simplify(x + log(1+10**(-x),10) - log(1+10**x,10))",
+    "asserts": "C = A + B equals log10(1+10^A) identically (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Transcription matches the image; differences are written between rows in the manuscript and are correctly assigned.",
+   "Row 0.966, column C: the image shows an ink blot ('1,0●060'); the intended value is 1,01060, consistent with 0.966+0.04460.",
+   "Column headers on the page are blank (no labels written)."
+  ]
+ }
+}

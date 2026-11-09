@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c119",
+ "label": "57v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000120/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Overall: the page is written upside down relative to the scan. It is a heavily corrected German draft, much of it struck through. It appears to be a draft of the opening sections (§§1–3) of Riemann's Göttingen dissertation, 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse' (1851). This fits the previous page, which is the Latin petition for the doctorate dated October 1851 and names this dissertation. Most of the script is not reliably legible to me. The reconstruction below rests on the few legible words and formulas plus the known printed text, and is marked accordingly.\n\n(1) Opening question (top lines, legible in part). 'Es fragt sich, wenn die Veränderliche [w], von x und y stetig abhängend, …'. Riemann asks when a complex quantity w depending continuously on x and y (with z = x + yi) deserves to be called a function of z. Fragments such as 'im Falle eines Abhängigkeitsverhältnisses' suggest he contrasts an arbitrary dependence on (x, y) with a genuine functional dependence on z.\n\n(2) The derivative criterion (the several struck-out attempts and the final un-struck version). Legible elements: 'Der Differentialquotient', 'gesetzt', 'Grenzwerth' and partial derivatives ∂X/∂x, ∂Y/∂y. Writing w = X + Yi and z = x + yi:\n- dw = (X_x + iY_x)dx + (X_y + iY_y)dy.\n- So dw/dz = [(X_x + iY_x)dx + (X_y + iY_y)dy]/(dx + i dy).\n- [Implicit step, mine, as in the printed §2:] put dz = ε e^{iφ}. Then dw/dz = A + B e^{-2iφ}, where A = ½[(X_x + Y_y) + i(Y_x − X_y)] and B = ½[(X_x − Y_y) + i(Y_x + X_y)].\n- The quotient has a limit independent of the direction of dz exactly when B = 0. That is, ∂X/∂x = ∂Y/∂y and ∂X/∂y = −∂Y/∂x (the Cauchy–Riemann equations).\n- The remark ending '… der Begriff nicht …' presumably says that for a general dependence of w on (x, y) the notion of a derivative with respect to z does not apply. Hence a 'function of z' is defined by direction-independence of dw/dz.\n- The fragment read by the machine as '(log ε/ρ)' and 'ε/2' may belong to this polar-form computation (dz = ε e^{iφ}) or to an estimate. It is too uncertain to reconstruct.\n\n(3) Geometric interpretation and the Gauss citation (lower lines, mostly legible). Riemann cites Gauss: 'Allgemeine Auflösung der Aufgabe, die Theile einer gegebenen Fläche so abzubilden, daß die Abbildung dem Abgebildeten in den kleinsten Theilen ähnlich wird' (answer to the Copenhagen Royal Society's prize question; Schumacher's Astronomische Abhandlungen, Heft 3, 1825). This is the reference given in §3 of the dissertation. It supports the interpretation that the map z → w with direction-independent dw/dz is similar in its smallest parts, i.e. conformal (wherever dw/dz ≠ 0).\n\nPurpose: a preliminary formulation of the foundational definition of analytic function and its conformal interpretation, for the 1851 dissertation.",
+  "errors": [
+   "No mathematical errors are identifiable in the legible portions. The many struck-out lines are successive rewordings of the same definition, not corrections of false mathematics.",
+   "Implicit in the conformality claim: similarity in the smallest parts holds only where dw/dz ≠ 0. The printed dissertation notes this exception at isolated points; it is not visible on this draft."
+  ],
+  "results": [
+   {
+    "what": "A complex quantity w = X + iY is called a function of z = x + iy iff dw/dz is independent of the direction of dz.",
+    "modern_name": "Definition of a holomorphic (complex-differentiable) function",
+    "usually_credited_to": "Cauchy (1814/1825) and Riemann (1851 dissertation), in this geometric 'independence of dz' form",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Direction-independence of dw/dz is equivalent to ∂X/∂x = ∂Y/∂y and ∂X/∂y = −∂Y/∂x.",
+    "modern_name": "Cauchy–Riemann equations",
+    "usually_credited_to": "d'Alembert, Euler, Cauchy; named after Cauchy and Riemann",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Such functions give maps similar in the smallest parts, citing Gauss's 1822/1825 Copenhagen prize essay.",
+    "modern_name": "Conformality of holomorphic maps",
+    "usually_credited_to": "Gauss (1822/1825), Lagrange, Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of the well-known opening of Riemann's 1851 dissertation. It covers the definition via direction-independence of dw/dz, the Cauchy–Riemann equations, and the Gauss conformal-mapping citation, all present in the printed text. Its interest is only in documenting the drafting process.",
+  "checkable": [
+   {
+    "sympy": "x,y,phi=symbols('x y phi',real=True); X=x**2-y**2; Y=2*x*y; A=(diff(X,x)+diff(Y,y))/2+I*(diff(Y,x)-diff(X,y))/2; B=(diff(X,x)-diff(Y,y))/2+I*(diff(Y,x)+diff(X,y))/2; simplify(B)==0",
+    "asserts": "For w = z^2 the direction-dependent part B of dw/dz vanishes, i.e. the Cauchy–Riemann equations hold."
+   },
+   {
+    "sympy": "x,y,phi=symbols('x y phi',real=True); X=Function('X')(x,y); Y=Function('Y')(x,y); num=(diff(X,x)+I*diff(Y,x))*cos(phi)+(diff(X,y)+I*diff(Y,y))*sin(phi); A=(diff(X,x)+diff(Y,y))/2+I*(diff(Y,x)-diff(X,y))/2; B=(diff(X,x)-diff(Y,y))/2+I*(diff(Y,x)+diff(X,y))/2; simplify(expand_complex(num/exp(I*phi)-(A+B*exp(-2*I*phi))))==0",
+    "asserts": "dw/dz along direction phi equals A + B*exp(-2*i*phi), so independence from phi is equivalent to B = 0."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); X=x**2+y**2; Y=0; simplify((diff(X,x)-diff(Y,y))/2+I*(diff(Y,x)+diff(X,y))/2)!=0",
+    "asserts": "For a non-analytic dependence such as w = x^2 + y^2, dw/dz depends on direction, so it is not a function of z in Riemann's sense."
+   }
+  ],
+  "transcription_corrections": [
+   "The whole page is written upside down relative to the scan, as is the lower part of the previous page.",
+   "The 'Veränderliche ζ' in line 1 is probably w (or z); there is no ζ in the corresponding dissertation text.",
+   "'w = x + y i gesetzt' most likely reads 'w = X + Yi' (or concerns z = x + yi), given the partial derivatives ∂X/∂x and ∂Y/∂y that follow.",
+   "'(log ε/ρ)' is doubtful; the symbols may belong to a polar-form expression (dz = ε e^{iφ}) rather than a logarithm.",
+   "The Gauss title is read correctly. It continues: '(Als Beantwortung der von der Königlichen Societät der Wissenschaften in Copenhagen für 1822 aufgegebenen Preisfrage)'."
+  ]
+ }
+}

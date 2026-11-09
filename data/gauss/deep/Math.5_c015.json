@@ -1,0 +1,79 @@
+{
+ "bundle": "Math.5",
+ "page": "c015",
+ "label": "[8v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376170:00000016/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table of the repeating decimal periods of 1/p for the primes p = 241, 271, 277, 283, 229, 239, 307, 313 and 331. The prime is written in the left margin.\n\nConvention (my reading): for each p, 1/p = 0.00d1 d2 d3 ... . Gauss drops the two leading zeros and starts writing at the first significant digit. He writes one full period in groups of 10, 9 or 7 digits, the two leading zeros reappearing at its end. He then repeats the first few digits of the next period, underlined, to show that the cycle has closed. Equivalently, he writes the integer 100*(10^L-1)/p, where L = ord_p(10), followed by the start of the next cycle.\n\n- p = 241: 4149377593 3609958506 2240663900 | 414. This is a period of length L = 30 = 240/8. The written block equals 100*(10^30-1)/241.\n- p = 271: 36900 | 369. Here L = 5, since 10^5 ≡ 1 (mod 271), because 271*369 = 99999.\n- p = 277: 69 digits, then | 361. L = 69 = 276/4.\n- p = 283: written in groups of 7. Digits 3533568 ... 7455830, 3886925, 7950530, 0 make 141 digits, then | 35335. L = 141 = 282/2.\n  - In the third row a group was first written, struck, and rewritten as 2014134.\n  - A stray '4' written at the end of the third row was struck at the start of the fourth row.\n- p = 229: here 10 is a primitive root, so L = 228. Gauss writes 135 significant digits.\n  - By Midy's theorem, 10^114 ≡ -1 (mod 229), so the second half of the period is the 9's complement of the first half.\n  - Gauss went just past the half-way point. After '...9868' (period digit 114) comes '99563318777...', the complement of '00436681222...'.\n  - So the rest of the period follows by complementation. A long horizontal stroke under the last row probably marks this.\n- p = 239: 4184100. L = 7, since 239*41841 = 9999999. The trailing '484' should be the start of the repeat (41841...); as written it looks garbled or abbreviated.\n- p = 307: 151 significant digits, i.e. 153 including the leading zeros, then | 3257. L = 153 = 306/2.\n- p = 313: L = 312, with 10 a primitive root. Gauss writes 171 significant digits.\n  - From period digit 157 on, the digits '9968051118210862 6' are the 9's complement of '0031948881789137 3'.\n  - So again he computed just past the half-period (10^156 ≡ -1 mod 313) and stopped.\n- p = 331: 110 digits, then | 30211. L = 110 = 330/3. The digit block 3134 at the start of the line is struck.\n\nPurpose: this is working material for Gauss's table converting common fractions to decimal fractions. The theory is in Disquisitiones Arithmeticae arts. 312-318. A table of the periods of 1/p for primes below 1000 was printed from the Nachlass in Werke II ('Tafel zur Verwandlung gemeiner Brüche in Decimalbrüche'). Knowing one period for each p, and the index of 10 modulo p, lets every fraction a/p be read off by a cyclic shift.\n\nThe ordering 241, 271, 277, 283, then 229, 239, then 307, 313, 331 suggests these sheets were filled in by batches.\n\nContext: the previous page has quadratic-residue lists; the next page has high-precision arctangent computations. The common thread is long decimal computation.",
+  "errors": [
+   "No arithmetic errors found in the digit strings I checked by long division: the opening of 1/241, the opening of 1/283, and the half-period complement structure for 229 and 313.",
+   "p=283: one 7-digit group was written, struck and rewritten (2014134). A stray '4' at the end of row 3 was carried to row 4 and struck there. Both are self-corrections; the correct sequence is ...7455830 3886925 7950530 0 | 35335.",
+   "p=239: the trailing '484' after 4184100 is not a correct repeat of the period (which should resume 41841...). It is either an abbreviation, a slip, or a misreading; this does not affect the period, which is correct.",
+   "p=331: an initial false start '3134' is struck at the beginning of the line.",
+   "For 229 and 313 Gauss stops shortly after the half-period. This is not an error: the remainder follows from the 9's-complement property, since 10^((p-1)/2) ≡ -1 mod p."
+  ],
+  "results": [
+   {
+    "what": "Full repeating decimal periods of 1/p for p = 241, 271, 277, 283, 239, 307, 331 (period lengths 30, 5, 69, 141, 7, 153, 110)",
+    "modern_name": "Decimal expansion / multiplicative order of 10 mod p (repetend tables)",
+    "usually_credited_to": "Tables by J. H. Lambert, Burckhardt, Gauss (Werke II), later Reuschle, Shanks, Cunningham",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Half-period computation for primes with 10 a primitive root (229, 313): second half obtained as the 9's complement of the first",
+    "modern_name": "Midy's theorem (complementary halves of the repetend when the period is even)",
+    "usually_credited_to": "E. Midy (1836); the property is used by Gauss in DA art. 316 ff.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a worksheet for Gauss's well-known table of decimal periods of 1/p, which was published from the Nachlass in Werke II and whose theory is in Disquisitiones Arithmeticae §§312-318. The digits are correct and the half-period shortcut is standard. Nothing here is new.",
+  "checkable": [
+   {
+    "sympy": "n_order(10,241)==30 and 100*(10**30-1)/241 == 414937759336099585062240663900",
+    "asserts": "Period of 1/241 has length 30 and equals Gauss's block (rotated past the two leading zeros)"
+   },
+   {
+    "sympy": "n_order(10,271)==5 and 100*(10**5-1)/271 == 36900",
+    "asserts": "Period of 1/271 is 00369"
+   },
+   {
+    "sympy": "n_order(10,277)==69 and 100*(10**69-1)/277 == 361010830324909747292418772563176895306859205776173285198555956678700",
+    "asserts": "Period of 1/277 (69 digits) as written"
+   },
+   {
+    "sympy": "n_order(10,283)==141 and 100*(10**141-1)/283 == int('3533568'+'9045936'+'3957597'+'1731448'+'7632508'+'8339222'+'6148409'+'8939929'+'3286219'+'0812720'+'8480565'+'3710247'+'3498233'+'2155477'+'0318021'+'2014134'+'2756183'+'7455830'+'3886925'+'7950530'+'0')",
+    "asserts": "Period of 1/283 (141 digits) as written, with the struck stray 4 omitted"
+   },
+   {
+    "sympy": "n_order(10,229)==228 and pow(10,114,229)==228 and floor(Integer(10)**137/229) == int('436681222707423580786026200873362445414847161572052401746724890829694323144104803493449781659388646288209606986899563318777292576419213')",
+    "asserts": "10 is a primitive root mod 229, 10^114 ≡ -1, and Gauss's 135 digits are the correct opening of 1/229"
+   },
+   {
+    "sympy": "n_order(10,239)==7 and 100*(10**7-1)/239 == 4184100",
+    "asserts": "Period of 1/239 is 0041841"
+   },
+   {
+    "sympy": "n_order(10,307)==153 and 100*(10**153-1)/307 == int('3257328990228013029315960912052117263843648208469055374592833876221498371335504885993485342019543973941368078175895765472312703583061889250814332247557003257')",
+    "asserts": "Period of 1/307 (153 digits) as written"
+   },
+   {
+    "sympy": "n_order(10,313)==312 and pow(10,156,313)==312 and floor(Integer(10)**173/313) == int('31948881789137380191693290734824281150159744408945686900958466453674121405750798722044728434504792332268370607028753993610223642172523961661341853035143769968051118210862'+'6')",
+    "asserts": "10 is a primitive root mod 313 and Gauss's 171 digits are the correct opening of 1/313"
+   },
+   {
+    "sympy": "n_order(10,331)==110 and 100*(10**110-1)/331 == int('30211480362537764350453172205438066465256797583081570996978851963746223564954682779456193353474320241691842900')",
+    "asserts": "Period of 1/331 (110 digits) as written"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 283: the period continues '...7455830 3886925 7950530 0|35335'. The '4' after 7455830 and the '4' before 3886925 are a struck stray digit, not part of the period. The group '2014134' was written once, struck, and rewritten; it appears once in the period.",
+   "Line 331: the struck '3134' at the start is a false start. In the third row the group should read '7794561933', with the 4 overwritten/inserted.",
+   "Line 229: the long stroke under the third row likely marks the half-period. Digits are correct as transcribed: '4148471 / 61' continue as one sequence (…41484716157…).",
+   "Line 239: '4184100 484' – the repeat should be '41841…'; the image shows '484', possibly with a dot over the first 4 marking the repeat."
+  ]
+ }
+}

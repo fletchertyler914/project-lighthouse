@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.34",
+ "page": "c025",
+ "label": "10v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382187:00000026/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Subject: theory of a hanging level (Hängelibelle / Reitlibelle). The level hangs by two hooks or feet on a line AB, for example the axis of a transit instrument or a line through two support points. The page computes how far the end C of a line parallel to the vial axis rises above A, as a function of three quantities: the inclination u of AB, the two construction errors x and y of the level, and the rotation phi of the level about AB.\n\n(I) Definitions. AB is the suspension line ('Aufhängungslinie'). GH is the geometric axis of the vial ('Libelle'). AC is drawn through A parallel to GH, so the line AC represents the vial axis.\n\n(II) Through B take the plane perpendicular to AB. BG' is its intersection with the plane ABG. C has coordinates relative to B in this perpendicular plane: x lies along the trace of plane ABG, i.e. the error in the plane of the hooks; y is the lateral component, i.e. the skew or 'Kreuzneigung' error. Implicitly AB = 1 and BC is perpendicular to AB, so x and y are angles in radian measure to first order.\n\n(III) The same perpendicular plane, now oriented in space. DBE is its intersection with the vertical plane through AB. BF is the horizontal line in it, perpendicular to DE. phi is the angle between BD and BG', i.e. the rotation of the level about AB away from the position 'hanging straight down'. K lies on BF with CK parallel to ED. Projecting BC onto the direction BE gives\n(1) CK = x cos(phi) + y sin(phi).\n\n(IV) The vertical plane through AB. AL is horizontal and angle LAB = u. The height of B above A is\n(2) BL = AM = AB sin(u).\n\nAn auxiliary horizontal plane through M, B, K is sketched as rectangle MBKP. A first attempt titled 'V Verticalebne durch MK' is abandoned.\n\n(V) The plane ABK. Angle ABK = 90 deg, since BK lies in plane III, which is perpendicular to AB. KN is drawn parallel and equal to BA, giving the rectangle ABKN. Hence NK is perpendicular to plane III.\n\n(VI) The plane through N, K, C. It contains KN (parallel to AB) and KC (parallel to ED). Both lie in directions of the vertical plane IV, so plane NKC is parallel to IV and is itself vertical. In it:\n- KP is the horizontal through K; K is at the height of B, because BF is horizontal.\n- Angle PKN = u.\n- CK is perpendicular to KN, so CK makes angle 90 deg - u with the horizontal.\n- CQ, the vertical drop from C to KP, is therefore\n(3) CQ = (x cos(phi) + y sin(phi)) cos(u).\n\nThe page also writes 'CNK = g', the inclination to be found. A struck-out 'CQ = c' and 'NP Horizontal' show the figure being rearranged.\n\nContinuation (on the previous page, 10r). Height of C above A = AM + CQ. Because AB is perpendicular to BC, AC = sqrt(1 + x^2 + y^2). With g the inclination of AC:\nsqrt(1 + x^2 + y^2) sin(g) = sin(u) + x cos(phi) cos(u) + y sin(phi) cos(u),\nhence to first order g = u + x cos(phi) + y sin(phi). Gauss notes the key fact: plane III is inclined by 90 deg - u to the horizontal, so every line in III perpendicular to the intersection line, in particular CK, has that inclination. The S, Sigma reading combinations on 10r then exploit reversal of the level to separate the inclination of AB from the instrument errors.",
+  "errors": [
+   "Labelling slip or ambiguity: 'CNK = g'. Angle CNK is the angle at N between NC and NK, where NK is parallel to AB and itself inclined by u. To first order it equals g - u (= arctan CK), not g, the inclination of the line to the horizontal. Also, NC is not parallel or equal to AC (|NC|^2 = 1 + CK^2, not 1 + x^2 + y^2). The previous page correctly uses AC and its inclination g, so this is a provisional label on the sketch, not an error in the final formula.",
+   "No errors in formulas (1), (2), (3), or in the first-order result g ~ u + x cos(phi) + y sin(phi) on the previous page. The sign of the y-term depends on the unstated orientation of the y-axis relative to BF; this is a convention, not an error.",
+   "Two different constructions are numbered 'V' (the abandoned 'V Verticalebne durch MK' and 'V Ebne ABK'). Some sketches are struck through or abandoned."
+  ],
+  "results": [
+   {
+    "what": "Height or inclination of the vial axis of a hanging level in terms of the axis inclination u, the vertical-plane error x, the lateral (skew) error y, and the rotation phi about the suspension axis: sqrt(1+x^2+y^2) sin g = sin u + (x cos phi + y sin phi) cos u, i.e. g ~ u + x cos phi + y sin phi.",
+    "modern_name": "Error theory and adjustment of a hanging (striding) level; inclination and skew ('Kreuzneigung') errors of a level vial",
+    "usually_credited_to": "Standard practical-astronomy and geodesy instrument theory of the late 18th and 19th century (e.g. treatments in Bessel's and later instrument texts; textbook by Jordan, Handbuch der Vermessungskunde)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Projection of the offset BC onto the line of steepest slope of the plane perpendicular to the axis: CK = x cos phi + y sin phi. Multiplied by cos u this gives the vertical component CQ.",
+    "modern_name": "Elementary rotation and projection in 3D (direction cosines)",
+    "usually_credited_to": "classical analytic geometry",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine instrument theory for a hanging level, carefully worked out by elementary solid geometry. Gauss's extensive geodetic and astronomical work with levels and transit instruments is well documented, so such notes are expected. Nothing here is mathematically novel.",
+  "checkable": [
+   {
+    "sympy": "u,phi,x,y=symbols('u phi x y',real=True); a=Matrix([cos(u),0,sin(u)]); eE=Matrix([-sin(u),0,cos(u)]); eF=Matrix([0,1,0]); C=a+x*(cos(phi)*eE+sin(phi)*eF)+y*(sin(phi)*eE-cos(phi)*eF); simplify(C[2]-(sin(u)+(x*cos(phi)+y*sin(phi))*cos(u)))==0",
+    "asserts": "Height of C above A (with AB=1) equals AM + CQ = sin(u) + (x cos phi + y sin phi) cos u, i.e. formulas (2)+(3)."
+   },
+   {
+    "sympy": "simplify((C-a).dot(eE)-(x*cos(phi)+y*sin(phi)))==0",
+    "asserts": "Formula (1): the component of BC along the steepest line BE of the perpendicular plane is CK = x cos phi + y sin phi."
+   },
+   {
+    "sympy": "simplify(C.dot(C)-(1+x**2+y**2))==0",
+    "asserts": "AC = sqrt(1+x^2+y^2), since BC is perpendicular to AB."
+   },
+   {
+    "sympy": "t=symbols('t'); series(asin((sin(u)+(t*x*cos(phi)+t*y*sin(phi))*cos(u))/sqrt(1+t**2*(x**2+y**2))),t,0,2).removeO().subs(t,1) - (u+x*cos(phi)+y*sin(phi))",
+    "asserts": "Should simplify to 0: to first order, g = u + x cos phi + y sin phi."
+   },
+   {
+    "sympy": "simplify(a.dot(eE))==0 and simplify(eE.dot(eF))==0 and eF[2]==0",
+    "asserts": "BE is perpendicular to AB and BF is horizontal, so the line along BE in plane III is inclined 90-u to the horizontal (its vertical component is cos u)."
+   }
+  ],
+  "transcription_corrections": [
+   "'AC Parallel mit G' should read 'AC Parallel mit GH' (the line AC is parallel to the vial axis GH; the H is cut off or omitted).",
+   "'NB also senkrecht auf die Ebne III' is better read as 'NK (KN) also senkrecht auf die Ebne III'. Logically KN, being parallel to BA, is perpendicular to plane III.",
+   "The page carries two headings numbered 'V': 'V Verticalebne durch MK' (abandoned sketch) and 'V Ebne ABK'; the transcription should keep both as separate items.",
+   "In section VI, 'NP Horizontal' is struck through and replaced by a figure in which PK through K is the horizontal; the struck text 'VI. Hori-' and 'CQ = c' are cancellations.",
+   "The point in figures V/VI written lowercase 'k' is the same point K."
+  ]
+ }
+}

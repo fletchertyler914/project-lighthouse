@@ -1,0 +1,72 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c210",
+ "label": "201",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000211/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Gauss gives a simpler derivation of a theorem 'on the quadrilateral' from p.150 of the notebook (cf. p.269). Four points are complex numbers p0,p1,p2,p3 (written p°,p',p'',p'''). Their 'Adjuncten', i.e. complex conjugates, are P0..P3.\n\nDefinitions: a=(p2-p0)(p3-p0), b=(p3-p0)(p1-p0), c=(p1-p0)(p2-p0). A,B,C are the conjugates of a,b,c.\n\nDefinition 1): Q = aB + bC + cA - Ab - Bc - Ca. Interchanging a<->A, b<->B, c<->C sends Q to -Q, so Q = -conj(Q). Q is therefore purely imaginary: Q = 2i Im(aB+bC+cA).\n\nIdentities 2)-4) (claimed as identically true): Q=(a-b)(A-C)-(A-B)(a-c) = (b-c)(B-A)-(B-C)(b-a) = (c-a)(C-B)-(C-A)(c-b). Expanding gives back 1) (my check).\n\nSubstitution. Put u=p1-p0, v=p2-p0, w=p3-p0 with conjugates U,V,W. Then a=vw, b=wu, c=uv; a-b=w(v-u), a-c=v(w-u), b-c=u(w-v).\n\n(1) Q = wW(vU-Vu) + uU(wV-Wv) + vV(uW-Uw). Each bracket equals 2i times a signed double triangle area, and wW = |p3-p0|^2. So Q/(2i) is the classical 4x4 'circle determinant' with rows (x, y, x^2+y^2, 1), reduced at p0.\n\n(2) Q = w(v-u)V(W-U) - W(V-U)v(w-u). Write X=(p3-p0)(p2-p1)·conj[(p2-p0)(p3-p1)]; then Q = X - conj X. Similarly (3) and (4) are the two other pairings: (3) Q = u(w-v)W(U-V) - U(W-V)w(u-v), and (4) Q = v(u-w)U(V-W) - V(U-W)u(v-w).\n\nInterpretation (mine). |X| = |p0p3||p1p2||p0p2||p1p3|, and arg X is the difference of the angles under which segment p2p3 is seen from p0 and from p1. So Q/(2i) equals, for each of the three pairings, a product of four distances times the sine of an inscribed-angle difference. All three such expressions are equal, and they vanish exactly when the four points are concyclic, i.e. the cross ratio is real. The next page states this condition explicitly.\n\nGauss closes with 'woraus alles leicht von selbst folgt' and remarks that one may set p0=0 without loss of generality, which shortens everything.",
+  "errors": [
+   "In line (2) the second term reads (P''-P°)(P''-P')(p''-p°)(p'''-p') in the image/transcription. From (A-B)(a-c) = W(V-U)·v(w-u), the first factor should be (P'''-P°), and the parallel pattern of lines (3),(4) confirms this. It is a probable slip of the pen, or a doubtful reading of the primes.",
+   "No other errors: identities 2)-4) and the substituted forms (1), (3), (4) check out exactly. The identities are polynomial identities, valid even treating conjugates as independent variables."
+  ],
+  "results": [
+   {
+    "what": "Q = aB+bC+cA-Ab-Bc-Ca and its three equivalent factorized forms (pairings of the four points). Q/(2i) equals a product of four distances times the sine of an inscribed-angle difference, the same for all three pairings.",
+    "modern_name": "Complex-number (conjugate-coordinate) proof of a quadrilateral identity generalizing Ptolemy's theorem; imaginary part of the cross ratio / concyclicity determinant",
+    "usually_credited_to": "Ptolemy (theorem); complex-coordinate methods in elementary geometry are usually associated with 19th-century authors (e.g. Möbius, later textbook tradition)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Q=0 iff the four points are concyclic (real cross ratio), as made explicit on the next page",
+    "modern_name": "Concyclicity criterion via real cross ratio",
+    "usually_credited_to": "Classical; cross-ratio formulation 19th century (Möbius, Clifford etc.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Systematic use of complex numbers and their conjugates for plane geometry is characteristic of Gauss and broadly known from his notes. The identity itself is elementary algebra and the underlying theorem is Ptolemy-type. It is a nice unpublished detail but not a new result.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,A,B,C=symbols('a b c A B C'); Q=a*B+b*C+c*A-A*b-B*c-C*a; expand(Q-((a-b)*(A-C)-(A-B)*(a-c)))==0",
+    "asserts": "identity 2)"
+   },
+   {
+    "sympy": "expand(Q-((b-c)*(B-A)-(B-C)*(b-a)))==0",
+    "asserts": "identity 3)"
+   },
+   {
+    "sympy": "expand(Q-((c-a)*(C-B)-(C-A)*(c-b)))==0",
+    "asserts": "identity 4)"
+   },
+   {
+    "sympy": "u,v,w,U,V,W=symbols('u v w U V W'); Qs=(v*w)*(W*U)+(w*u)*(U*V)+(u*v)*(V*W)-(V*W)*(w*u)-(W*U)*(u*v)-(U*V)*(v*w); expand(Qs-(w*W*(v*U-V*u)+u*U*(w*V-W*v)+v*V*(u*W-U*w)))==0",
+    "asserts": "line (1) with p0=0, p1=u,p2=v,p3=w"
+   },
+   {
+    "sympy": "expand(Qs-(w*(v-u)*V*(W-U)-W*(V-U)*v*(w-u)))==0",
+    "asserts": "corrected line (2) (second term begins with P'''-P0)"
+   },
+   {
+    "sympy": "expand(Qs-(w*(v-u)*V*(W-U)-V*(V-U)*v*(w-u)))!=0",
+    "asserts": "line (2) as literally written (P''-P0) is not an identity"
+   },
+   {
+    "sympy": "expand(Qs-(u*(w-v)*W*(U-V)-U*(W-V)*w*(u-v)))==0",
+    "asserts": "line (3)"
+   },
+   {
+    "sympy": "expand(Qs-(v*(u-w)*U*(V-W)-V*(U-W)*u*(v-w)))==0",
+    "asserts": "line (4)"
+   }
+  ],
+  "transcription_corrections": [
+   "'des oben S. 150 stehenden Satze' — probably 'Satzes'.",
+   "The struck-out word after 'sein' is illegible; the conjugates follow on the next line as P°, P', P'', P'''.",
+   "In (2), the factor read as (P''-P°) in the second term may be (P'''-P°) in the image; mathematically it must be (P'''-P°).",
+   "In (1), the first term is (p'''-p°)(P'''-P°){(p''-p°)(P'-P°)-(P''-P°)(p'-p°)}; the image shows an ink blot over P''' and the opening brace."
+  ]
+ }
+}

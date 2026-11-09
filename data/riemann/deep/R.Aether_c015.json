@@ -1,0 +1,68 @@
+{
+ "bundle": "R.Aether",
+ "page": "c015",
+ "label": "8v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234777:00000016/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): the ether velocity eta'=(eta1',eta2',eta3') at points eta=(eta1,eta2,eta3) is split into two parts. (a) An irrotational, divergence-free part, with div=0 and curl=0. (b) A divergence-free part obeying the wave equation (c^2 Delta - d_t^2) eta_i' = 0. The actual motion therefore satisfies div eta'=0 and (c^2 Delta - d_t^2) curl eta' = 0. Equivalently, (c^2 Delta - d_t^2) eta_i' = X_i with X.d(eta) = dU an exact differential, i.e. X = grad U. Riemann then rewrites this weakly as: div eta' = 0 and Int X.delta(eta') d^3eta = 0 for every variation delta(eta') with div delta(eta') = 0.\n\nThis page proves that the variational form is equivalent to X being a gradient.\n\n1. Lagrange-multiplier argument (in parentheses). Use the constraint div delta(eta') = 0 to eliminate one of the variations, say delta(eta3'). The coefficients of the two remaining independent variations must then vanish. Hence there is a function lambda such that adding lambda*div delta(eta') to the integrand makes all three coefficients of delta(eta1'), delta(eta2'), delta(eta3') vanish.\n\n2. Written out: Int [X.delta(eta') + lambda div delta(eta')] d^3eta = 0. Integrate by parts (boundary terms written as '...'):\n   Int lambda d_i(delta eta_i') = boundary - Int (d_i lambda) delta eta_i'.\n   So Int [(X_i - d_i lambda) delta eta_i'] d^3eta = 0.\n\n3. Hence X_i = d lambda/d eta_i, i.e. d lambda = X1 d eta1 + X2 d eta2 + X3 d eta3. X is a gradient, so all conditions of the previous page are satisfied, with lambda = U. The converse (gradient implies orthogonal to divergence-free fields) is the same integration by parts read backwards.\n\n4. Marginal note (X): the irrotational part. In space free of ponderable mass, eta' = grad V (velocity potential) and div eta' = 0 give Delta V = 0. Differentiating (commuting derivatives) gives Delta eta_i' = d_i Delta V = 0 for each i.\n\n5. For purely light-producing (transverse) motions X = 0. So X comes entirely from the potential part, for which Delta eta' = 0. Then (c^2 Delta - d_t^2) eta_i' reduces to -d_t^2 eta_i'. Riemann writes X_i = d_t^2 eta_i' = d_t^2 (dV/d eta_i).\n\n6. Hence Int X.d(eta) = d^2V/dt^2. The potential U (= lambda) of X equals d_t^2 V up to sign, and up to an additive function of t.",
+  "errors": [
+   "In the integrated-by-parts line the middle term reads '+ dlambda/deta2 delta eta2''. All three terms should carry a minus sign; the next line (X_i - d_i lambda = 0) shows the minus is intended. This is a slip of pen or transcription.",
+   "The third Laplace equation is written with denominators deta_i^3 instead of deta_i^2 (slip).",
+   "Sign: with the previous page's definition (c^2 Delta - d_t^2) eta_i' = X_i and Delta eta_i' = 0, one gets X_i = -d^2 eta_i'/dt^2, hence U = -d^2V/dt^2. The page has + throughout, so the overall sign is wrong relative to the stated definition (harmless if X is defined with the opposite sign).",
+   "Unjustified step: the existence of lambda is asserted via the 'eliminate one variation' heuristic, not proved. Boundary terms are suppressed ('...'), and lambda and V are only determined up to an additive function of t.",
+   "Step 5 is loosely argued. It is the potential part (not the whole field) that has Delta eta' = 0; the transverse part contributes 0 to X because it satisfies the wave equation. The conclusion is correct by linearity."
+  ],
+  "results": [
+   {
+    "what": "A vector field X with Int X.delta(u) = 0 for all divergence-free variations delta(u) is a gradient, X = grad lambda; proved with a Lagrange multiplier for the constraint div delta(u) = 0 plus integration by parts.",
+    "modern_name": "Lagrange multiplier for the incompressibility constraint (pressure as multiplier); orthogonality of divergence-free fields and gradients (Helmholtz/Weyl decomposition lemma)",
+    "usually_credited_to": "Lagrange (Mécanique analytique, 1788) for pressure as multiplier; Stokes 1849 / Helmholtz 1858 for the decomposition; Weyl 1940 for the rigorous L^2 form",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Ether velocity split into an irrotational (potential) part and a transverse wave part (light). In mass-free space the potential V is harmonic, so each velocity component is harmonic.",
+    "modern_name": "Helmholtz decomposition applied to an elastic-ether model; harmonic velocity potential",
+    "usually_credited_to": "Stokes, Helmholtz; ether models of Cauchy, Green, MacCullagh",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The 'force' potential U arising from the non-wave part equals (up to sign) d^2V/dt^2. This links the potential motion of the ether to a potential (gravitation/electricity in Riemann's ether programme).",
+    "modern_name": "Riemann's ether theory of gravitation and light (cf. the fragment 'Gravitation und Licht' in Riemann's Werke)",
+    "usually_credited_to": "Riemann (Werke, Naturphilosophie fragments, c. 1853)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The mathematics is standard variational calculus (multiplier for the divergence constraint, integration by parts, harmonic potentials). The physical framing — an ether whose motion splits into light-carrying transverse waves and a potential flow tied to a field potential — matches Riemann's known published fragments on gravitation and light. This is a worked-out unpublished detail, not a new result.",
+  "checkable": [
+   {
+    "sympy": "x,y,z=symbols('x y z'); lam=Function('lam')(x,y,z); d1,d2,d3=[Function(n)(x,y,z) for n in ('d1','d2','d3')]; simplify(lam*(diff(d1,x)+diff(d2,y)+diff(d3,z)) - (diff(lam*d1,x)+diff(lam*d2,y)+diff(lam*d3,z)) + (diff(lam,x)*d1+diff(lam,y)*d2+diff(lam,z)*d3)) == 0",
+    "asserts": "Integration-by-parts identity: lambda*div(delta) = div(lambda*delta) - grad(lambda).delta. All three gradient terms carry a minus sign."
+   },
+   {
+    "sympy": "V=Function('V')(x,y,z); simplify(diff(diff(V,x),x,2)+diff(diff(V,x),y,2)+diff(diff(V,x),z,2) - diff(diff(V,x,2)+diff(V,y,2)+diff(V,z,2),x)) == 0",
+    "asserts": "Delta(dV/dx) = d/dx(Delta V), so Delta V = 0 implies each velocity component is harmonic."
+   },
+   {
+    "sympy": "t,c=symbols('t c'); V=(x**2-y**2)*t**3; e=diff(V,x); simplify(c**2*(diff(e,x,2)+diff(e,y,2)+diff(e,z,2)) - diff(e,t,2) + diff(diff(V,t,2),x)) == 0",
+    "asserts": "For harmonic V, (c^2 Delta - d_t^2) dV/dx = -d/dx(d_t^2 V). The correct sign is X = -grad V_tt; the page has +."
+   },
+   {
+    "sympy": "V=(x**2-y**2)*t**3; simplify(diff(V,x,2)+diff(V,y,2)+diff(V,z,2)) == 0",
+    "asserts": "The test potential used above is harmonic in space."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'zu von delta eta1'...' reads in the manuscript 'zu ... von' — the 'zu' is a stray/duplicated word ('jeden der drei Coefficienten von ... zu Null macht').",
+   "In the integrated line the manuscript (and transcription) shows '+dlambda/deta2 delta eta2''; mathematically it should be minus. Flag it as an author's slip rather than silently correct it.",
+   "Third Laplace equation: the manuscript denominators appear as deta_i^3; the intended reading is deta_i^2.",
+   "The last X3 line reads '= d^2 (dV/deta3)/dt^2', with a correction over the subscript of eta3 in the denominator.",
+   "'{+der Art+}' is an interlinear insertion: 'Bewegungen der Art statt finden'.",
+   "Initial bracket '(Substituirt' opens a parenthetical that closes after 'zu Null macht)'; '(X)' before 'Für den von ponderabler Masse freien Raum' is a marginal reference mark."
+  ]
+ }
+}

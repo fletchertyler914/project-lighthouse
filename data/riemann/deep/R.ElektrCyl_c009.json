@@ -1,0 +1,72 @@
+{
+ "bundle": "R.ElektrCyl",
+ "page": "c009",
+ "label": "3v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173043:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the bundle 'ElektrCyl' concerns the electrostatic equilibrium on parallel circular cylinders, which is a planar potential problem. This page sets up the potential-theoretic and complex-analytic tools. The next page goes on to normalise the complex potential and map the doubly connected region onto an annulus.\n\n(1) Polar form and logarithm. For 𝔷 = ξ + iη = ρ e^{iφ}, Riemann writes log 𝔷 = log ρ + iφ. So the real part of the logarithm is log ρ, the potential of a line charge. The imaginary part φ is multivalued with period 2π. The pair 'u + vi' is written next to it as the general analogue.\n\n(2) Figure and problem. A region contains a point z_0 and is joined by a line to a small closed curve (circle) labelled p, p_1. The intended problem appears to be a doubly connected region bounded by two conductors. One seeks u with Δu = u_xx + u_yy = 0, boundary values u = p on one conductor and u = p_1 on the other, and u varying continuously in between. The partly struck sentence ('… gezeigt, daß dies immer möglich ist') asserts the existence of such a solution, presumably by the Dirichlet principle.\n\n(3) Harmonic conjugate. If Δu = 0, then u is the real part of a function F of the complex variable x + iy. The conjugate v is defined by dv = u_x dy − u_y dx. This form is exact because ∂(u_x)/∂x = ∂(−u_y)/∂y is equivalent to Δu = 0 (my explicit step). Hence v = ∫_{(0,0)}^{(x,y)} (u_x dy − u_y dx) along an arbitrary curve. Riemann remarks that the course of this curve must still be subjected to a condition. In the doubly connected region the curve may not wind around the inner conductor, or else v changes by its period.\n\n(4) Period. The note '2π/k' marks this normalisation. If v increases by a period (k, in the sense used on the next page) on one circuit around a conductor, then (2π/k)(u + vi) has imaginary-part period 2π. Its exponential is then single-valued; the next page uses this to map onto an annulus (two concentric circles).\n\n(5) Maximum principle. 'u nirgends ein Maximum oder Minimum': a harmonic u has no interior extrema. It is proved by the mean-value property derived next.\n\n(6) Cauchy integral formula. ∮ (u + vi) dz/(z − z_0) = 2πi (u_0 + v_0 i). Put z − z_0 = r e^{iφ}, so dz/(z − z_0) = dr/r + i dφ. On a circle r = const the dr/r term vanishes, which is why Riemann strikes it out. This gives ∫_0^{2π} (u + vi) i dφ = 2πi (u_0 + v_0 i).\n\n(7) Mean value. Taking real parts gives u_0 = (1/2π) ∫_0^{2π} u dφ; this formula opens the next page. An interior maximum or minimum is therefore impossible unless u is constant, which gives (5) and also the uniqueness of the Dirichlet problem in (2).",
+  "errors": [
+   "In the line integral for v, the second term in the image looks like '∂y/∂y dx' instead of '∂u/∂y dx'. This is a pen slip; the previous line correctly has ∂u/∂y.",
+   "Applying the Cauchy integral formula to u + vi tacitly requires v to be single-valued on the disc around z_0. This holds locally, for a disc not enclosing the inner conductor. Riemann's own remark that the integration path must satisfy a condition addresses exactly this point.",
+   "The existence claim ('daß dies immer möglich ist') is not proved on this page; it presumably rests on the Dirichlet principle, whose rigour was later questioned by Weierstrass."
+  ],
+  "results": [
+   {
+    "what": "Harmonic conjugate v defined as a path integral of u_x dy − u_y dx, path-independent modulo periods in a multiply connected region",
+    "modern_name": "Harmonic conjugate / Cauchy–Riemann equations; periods of conjugate functions",
+    "usually_credited_to": "Cauchy, d'Alembert/Euler; Riemann (1851 dissertation)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Mean-value property derived from the Cauchy integral formula on a circle, implying no interior extrema of harmonic functions",
+    "modern_name": "Mean value property and maximum principle for harmonic functions",
+    "usually_credited_to": "Gauss (1840) for the mean value theorem; the maximum principle was common knowledge by the 1850s, used by Riemann",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Normalisation (2π/k)(u + vi) of the complex potential of a two-conductor (doubly connected) region so that its exponential maps onto an annulus",
+    "modern_name": "Conformal mapping of a doubly connected domain onto an annulus (condenser potential, conformal modulus)",
+    "usually_credited_to": "Schottky (1877); Riemann's Nachlass on cylinders was published in Werke (Weber, 1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is standard preparatory material: harmonic conjugate, Cauchy formula, mean-value property and maximum principle. It belongs to Riemann's known Nachlass on electric equilibrium on cylinders and conformal mapping of circle-bounded figures, which was published in his Werke.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); u=x**2-y**2; v=2*x*y; simplify(diff(v,y)-diff(u,x))==0 and simplify(diff(v,x)+diff(u,y))==0",
+    "asserts": "dv = u_x dy − u_y dx holds for the conjugate pair u = x²−y², v = 2xy."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); u=x**2-y**2; simplify(diff(diff(u,x),x)-diff(-diff(u,y),y))==diff(u,x,2)+diff(u,y,2)",
+    "asserts": "Exactness of u_x dy − u_y dx is equivalent to Laplace's equation."
+   },
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); z0=Rational(1,3)+I/5; f=lambda z: z**3+2*z; z=z0+r*exp(I*phi); simplify(integrate(f(z)*diff(z,phi)/(z-z0),(phi,0,2*pi)) - 2*pi*I*f(z0))==0",
+    "asserts": "Cauchy integral formula on a circle z − z_0 = r e^{iφ}, i.e. ∫(u+vi) dz/(z−z_0) = 2πi(u_0+v_0 i)."
+   },
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); z=r*exp(I*phi); simplify(diff(z,phi)/z - I)==0",
+    "asserts": "On r = const, dz/(z−z_0) = i dφ, so the dr/r term drops out."
+   },
+   {
+    "sympy": "r,phi,a,b=symbols('r phi a b',real=True); u=lambda X,Y: X**3-3*X*Y**2; simplify(integrate(u(a+r*cos(phi),b+r*sin(phi)),(phi,0,2*pi))/(2*pi)-u(a,b))==0",
+    "asserts": "Mean value property u_0 = (1/2π)∫_0^{2π} u dφ for a harmonic polynomial."
+   },
+   {
+    "sympy": "rho,phi=symbols('rho phi',positive=True); simplify(expand_log(log(rho*exp(I*phi)),force=True) - (log(rho)+I*phi))==0",
+    "asserts": "log(ρ e^{iφ}) = log ρ + iφ (principal branch)."
+   }
+  ],
+  "transcription_corrections": [
+   "'Der Lauf dieser Curve nach einer Bedingung zu untersuchen' more likely reads 'Der Lauf dieser Curve noch einer Bedingung zu unterwerfen'.",
+   "In the integral for v, the manuscript writes '∂y/∂y dx' (slip) where the transcription silently gives ∂u/∂y.",
+   "'v zu finden, [?]läßt[?] Integration durch eine beliebige Curve' should probably be read as 'v zu finden: Integration durch eine beliebige Curve' (the inserted word 'beliebige' is correct).",
+   "Second line: the logarithm is of the variable ξ+ηi (log 𝔷 = log ρ + φi), not of z = x+yi."
+  ]
+ }
+}

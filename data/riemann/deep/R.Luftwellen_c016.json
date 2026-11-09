@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c016",
+ "label": "24r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000017/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the closing page of Riemann's own announcement (Selbstanzeige, Göttinger Nachrichten 1859) of his memoir 'Ueber die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite' (1860). The page contains no explicit computation. It states qualitative consequences of the results summarized on the previous page.\n\nSetting (from the previous page): 1-D isentropic gas flow with pressure p = φ(ρ) and sound speed c(ρ) = sqrt(φ'(ρ)). The Euler equations are\n  ρ_t + (ρu)_x = 0,\n  u_t + u u_x + φ'(ρ) ρ_x / ρ = 0.\nWith F(ρ) = ∫ sqrt(φ'(ρ)) d log ρ, the quantities r = F(ρ) + u and s = F(ρ) − u (Riemann invariants) are transported along the characteristics dx/dt = u ± c. A localized initial disturbance splits after finite time into two simple waves running in opposite directions. In each wave the velocity measured in the direction of propagation is u = F(ρ) + const, so each density value carries a fixed velocity value. Each such pair of values travels with the constant spatial speed λ(ρ) = u + c = F(ρ) + const + c(ρ).\n\nStep 1 (this page). Riemann assumes φ'(ρ) is nondecreasing, which is physically true. Then dλ/dρ = c/ρ + c'(ρ) > 0, since c/ρ > 0 and c' = φ''/(2c) ≥ 0. So larger densities advance faster.\n\nStep 2 (implicit, mine). Each density level moves on a straight line x = x0 + λ(ρ) t. The distance between two levels ρ1 < ρ2 is therefore Δx(t) = Δx0 + (λ(ρ2) − λ(ρ1)) t, which is linear in t.\n- In a rarefaction wave, density increases in the direction of propagation, so the denser part is ahead and moves faster. The wave widens proportionally to time.\n- In a compression wave, the denser part is behind and catches up. The width decreases linearly and reaches zero in finite time, giving a discontinuity: a 'Verdichtungsstoss' (shock).\n\nStep 3. Riemann notes two things he omits 'because larger formulas would be needed':\n- the laws governing the phase before the two waves separate, or for a disturbance filling all space (in the memoir, the Riemann-function / hodograph method);\n- the laws for the propagation of shocks (jump conditions).\n\nStep 4 (acoustics). For finite pressure differences, the waveform changes during propagation, and hence so does the timbre (Klang). An experimental test is hard despite Helmholtz's sound analysis. At short range the change is imperceptible; at long range other causes cannot be separated out.\n\nStep 5. No meteorological application is expected. These motions travel at sound speed, while atmospheric currents are much slower.",
+  "errors": [
+   "No mathematical errors. The stated condition (φ' nondecreasing) is sufficient but not necessary: d(u+c)/dρ = c/ρ + c' > 0 holds whenever c'(ρ) > −c/ρ. Riemann's condition is therefore safely sufficient.",
+   "The 'shock laws' Riemann refers to (in the full memoir) use isentropic momentum-and-mass jump conditions rather than energy conservation. This is a known defect of the 1860 memoir (Rayleigh, Hugoniot), but it is not stated on this page."
+  ],
+  "results": [
+   {
+    "what": "Simple-wave relation u = ∫ sqrt(φ'(ρ)) dlogρ + const, with propagation speed u + c in space",
+    "modern_name": "Riemann invariants / simple (Riemann) waves",
+    "usually_credited_to": "Riemann 1860 (also Poisson 1808 for the simple-wave solution, Earnshaw 1858–60)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Rarefaction waves widen linearly in t; compression waves steepen and become shocks in finite time",
+    "modern_name": "Wave steepening / gradient catastrophe; centered rarefaction and shock formation",
+    "usually_credited_to": "Stokes 1848, Challis 1848, Earnshaw, Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Finite-amplitude sound changes waveform (timbre) during propagation",
+    "modern_name": "Nonlinear acoustic distortion",
+    "usually_credited_to": "Stokes, Earnshaw, Riemann (1850s–60)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the published Selbstanzeige of Riemann's 1860 shock-wave memoir (Göttinger Nachrichten 1859; reprinted in his Werke). Its content is well known and credited to him.",
+  "checkable": [
+   {
+    "sympy": "rho,A,k=symbols('rho A k',positive=True); c=sqrt(A*k*rho**(k-1)); simplify(integrate(c/rho,rho) - 2*c/(k-1))",
+    "asserts": "For φ = A ρ^k, F(ρ) = ∫ c dlogρ = 2c/(k-1) up to a constant (should simplify to 0)."
+   },
+   {
+    "sympy": "rho,A,k=symbols('rho A k',positive=True); c=sqrt(A*k*rho**(k-1)); simplify(diff(2*c/(k-1)+c,rho) - (k+1)/(k-1)*diff(c,rho))",
+    "asserts": "The propagation speed u+c = (k+1)/(k-1)·c + const has derivative proportional to c'(ρ), positive for k>1 (should give 0)."
+   },
+   {
+    "sympy": "rho=symbols('rho',positive=True); phi=Function('phi'); c=sqrt(diff(phi(rho),rho)); simplify(diff(Integral(c/rho,rho)+c,rho) - (c/rho + diff(phi(rho),rho,2)/(2*c)))",
+    "asserts": "d(u+c)/dρ = c/ρ + φ''/(2c), which is > 0 when φ'' ≥ 0 (should give 0)."
+   },
+   {
+    "sympy": "t,x0,dx0,l1,l2=symbols('t x0 dx0 l1 l2'); expand((x0+dx0+l2*t)-(x0+l1*t))",
+    "asserts": "The width between two density levels is dx0 + (l2-l1)t, linear in time."
+   }
+  ],
+  "transcription_corrections": [
+   "Transcription matches the image well; no substantive corrections. The symbol is written φ'(ρ) (varrho in the previous page), consistent usage."
+  ]
+ }
+}

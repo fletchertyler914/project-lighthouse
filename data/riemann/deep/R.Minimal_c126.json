@@ -1,0 +1,62 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c126",
+ "label": "64r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000127/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (identified by me): this is a parameter-counting passage from Riemann's 'Über die Fläche vom kleinsten Inhalte bei gegebener Begrenzung', edited posthumously by K. Hattendorff (Abh. Ges. Wiss. Göttingen 13, 1867/68). It concerns the section where the boundary of the minimal surface consists of straight lines. The heading 'Seite 33.' and the marker '(2' suggest a replacement or insertion sheet for p. 33 of a fair copy or proof. It may be in Hattendorff's hand rather than Riemann's; I have not verified the hand.\n\nSetting (my reconstruction from the known paper): the surface is mapped conformally onto the upper half-plane of a complex parameter t, with the real t-axis corresponding to the boundary. The Gauss map and the coordinate differentials are expressed through solutions of a linear second-order differential equation (15) in t. This is a Fuchsian equation whose singular points are:\n- the images of the corners, where the exponents are fixed by the angles;\n- additional points a, a' (interior points and their mirror images) and b (on the real axis), where the Gauss map is branched or the representation has extra zeros or poles.\nThe unknown constants of the solution are the positions of these points, the accessory parameters and the integration constants.\n\nThe page gives the count of equations:\n(i) Data. There are C corners at finite distance, each with 3 coordinates, giving 3C equations. There are 𝔆 boundary lines running to infinity. Each such line needs 4 data: 2 for its direction and 2 for its position in the transverse plane. Together this gives 3C + 4𝔆 equations.\n(ii) Great-circle conditions. Along a straight segment of the boundary the surface normal is perpendicular to the line. Hence the spherical (Gauss) image of each boundary segment lies on a great circle of the unit sphere. Requiring that the real t-axis map onto C + 𝔆 arcs of great circles imposes C + 𝔆 further conditions.\n(iii) Missing equations. For the number of conditions to equal the number of undetermined constants, exactly as many equations are still missing as there are points a, a', b.\n(iv) Log-free conditions. At each of these points the ODE (15) has exponents differing by an integer, so its general integral may contain a logarithmic term. A logarithm is incompatible with the geometry: the surface must be single-valued there, so the point must be an apparent singularity. Excluding the logarithm imposes exactly one condition per point.\n(v) Conclusion. The total number of conditions, (3C + 4𝔆) + (C + 𝔆) + #{a, a', b}, equals the number of undetermined constants. The problem is therefore 'correctly determined' in the sense of constant counting. This is a heuristic count, not an existence proof.",
+  "errors": [
+   "No mathematical error is visible. The argument is a constant count only; it does not show that the resulting system of equations is solvable or independent, which was standard for the period.",
+   "The count of the undetermined constants themselves (the beginning of the sentence ending with 'unbestimmten Werthe') is on the preceding page, which is not available. So the total balance cannot be checked independently here."
+  ],
+  "results": [
+   {
+    "what": "Gauss image of a straight boundary line of a minimal surface lies on a great circle, giving one condition per boundary segment",
+    "modern_name": "Gauss map along straight boundary lines / Schwarz reflection setting for minimal surfaces",
+    "usually_credited_to": "Riemann (1867, posthumous) and H. A. Schwarz (1865-1890)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Requiring absence of logarithmic terms at extra singular points of the Fuchsian ODE, one condition per point, to balance the parameter count",
+    "modern_name": "Apparent singularities / accessory parameter counting for Fuchsian equations (Riemann-Hilbert type problem for Plateau's problem with polygonal boundary)",
+    "usually_credited_to": "Riemann (Hattendorff's 1867 edition); later Schwarz, Fuchs, Garnier (1928), Courant",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Parameter count 3C+4𝔆 data equations plus C+𝔆 great-circle conditions plus one log-free condition per point a, a', b, matching the number of free constants",
+    "modern_name": "Constant counting / dimension count for the polygonal Plateau problem",
+    "usually_credited_to": "Riemann (published posthumously 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The passage corresponds to the constant-counting argument in Riemann's posthumously published minimal-surface memoir (Hattendorff 1867). It appears to be a draft or insertion leaf for that edition and contains nothing beyond what is known as Riemann's.",
+  "checkable": [
+   {
+    "sympy": "import sympy as sp; t,c=sp.symbols('t c'); y=sp.Function('y'); ode=sp.Eq(y(t).diff(t,2)-(1/t)*y(t).diff(t)+c/t*y(t),0); sp.classify_ode(ode)",
+    "asserts": "Sets up a Fuchsian ODE at t=0 with exponents 0 and 2 (integer difference), the situation in which a logarithm can occur."
+   },
+   {
+    "sympy": "import sympy as sp; t=sp.symbols('t'); a0,a1,a2,c=sp.symbols('a0 a1 a2 c'); y=a0+a1*t+a2*t**2; expr=sp.expand(t*sp.diff(y,t,2)-sp.diff(y,t)+c*y); sp.solve([expr.coeff(t,0)],[a1])",
+    "asserts": "The Frobenius recursion for the exponent-0 solution yields one compatibility equation at the resonant order; for exponents 0,2 the log-free requirement is exactly one scalar condition per singular point."
+   },
+   {
+    "sympy": "import sympy as sp; C,F,N=sp.symbols('C F N'); sp.simplify((3*C+4*F)+(C+F)+N-(4*C+5*F+N))",
+    "asserts": "Total number of conditions on the page is 4C+5𝔆 plus the number of points a, a', b (bookkeeping identity; it should equal the constant count from the previous page)."
+   },
+   {
+    "sympy": "import sympy as sp; n=sp.Matrix(sp.symbols('n1:4')); d=sp.Matrix([1,0,0]); sp.solve([n.dot(d), n.dot(n)-1],list(n))",
+    "asserts": "Unit normals perpendicular to a fixed line direction form a great circle on the unit sphere, giving the great-circle condition along straight boundary segments."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription matches the image closely. The symbol rendered as fraktur C (in '3C+4𝔆', 'C+𝔆') is a German/Fraktur capital distinct from the Latin C in the manuscript; its exact identity (𝔈 vs 𝔆) is uncertain.",
+   "Line 'vom Radius 1 in C+𝔆 Bögen': the word 'in' has an odd overstrike/correction in the image but reads 'in'.",
+   "Header 'Seite 33.' is circled/underlined and '(2' at top right is a sheet number; there is also a faint pencil folio number '64' at the right margin."
+  ]
+ }
+}

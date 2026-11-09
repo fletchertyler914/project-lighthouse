@@ -1,0 +1,52 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c009",
+ "label": "4v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page continues the methodological preamble of Riemann's 1847 student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation', published posthumously in his Gesammelte Werke (1876).\n\nThe page carries no computation. It closes an argument begun on the previous page about how far one may reason with series.\n\n(a) An objection is stated: series are said to support sure conclusions only when they converge, i.e. when their value can be found, at least approximately, by actually adding the terms.\n\n(b) Riemann's reply: if the coefficients obey a definite law, as is always assumed here, every individual part of the series can be stated exactly. The series is therefore a quantity bounded exactly in all its parts, hence a definite quantity.\n\n(c) The fact that termwise addition cannot produce its value is, for him, no reason not to apply the laws proved for numbers to it. Nor is it a reason to reject the results so obtained. This is the Euler-style 'formal' attitude toward divergent series.\n\n(d) He then announces an example. He will show that a series of the form (2) really has a value. The example is the function x^mu, expanded into a series running in powers of (x-b) with integer-spaced indices. He says this expansion will be needed later anyway, and that the method used works in many cases.\n\nThe derivation itself is on the next page. Reconstructed and checked there:\n\n1. Put z = Sum_{alpha=-oo}^{oo} c_alpha (x-b)^alpha.\n2. If z = x^mu, then mu*z - x*z' = 0.\n3. Write x = (x-b) + b (my step). Then x*z' = Sum [alpha*c_alpha + b*(alpha+1)*c_{alpha+1}] (x-b)^alpha.\n4. Hence the coefficient condition is (mu-alpha)*c_alpha - b*(alpha+1)*c_{alpha+1} = 0.\n5. My step: this is solved by c_alpha = C * b^(mu-alpha) / (Gamma(alpha+1)*Gamma(mu-alpha+1)), i.e. the (possibly two-sided) binomial series of b^mu (1+(x-b)/b)^mu.\n6. Riemann argues that every solution of the ODE is K*x^mu. He then sets out to determine K by splitting the series at an index alpha into p + p'. This gives mu*p - x*p' = (mu-alpha)*c_alpha*(x-b)^alpha = X and mu*p' - x*dp'/dx = -X.\n\nThe purpose of the example is to back the claim that series of form (2), possibly divergent and two-sided, define definite values. It feeds the later construction of the general derivative of x^mu.",
+  "errors": [
+   "No mathematical errors on this page; it is argumentative prose.",
+   "The philosophical claim that a divergent series with lawful coefficients is a 'determinate quantity' to which the laws of numbers may be applied is not justified by modern standards. It is the pre-Cauchy/Eulerian formalist position, and can lead to contradictions unless a summation method is fixed.",
+   "Next-page argument (context): the claim that every expression satisfying mu*z - x*z' = 0 is K*x^mu is only valid for genuine functions. It is unjustified for formal two-sided series that converge nowhere."
+  ],
+  "results": [
+   {
+    "what": "Defence of assigning definite values to divergent series whose coefficients follow a law, and of applying ordinary algebraic laws to them",
+    "modern_name": "Formal/Eulerian treatment of divergent series (precursor of summability theory)",
+    "usually_credited_to": "Euler (18th c.); later systematized by Cesaro, Borel, Hardy",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Announced expansion of x^mu in a (two-sided) series in powers of (x-b) via a differential-equation/recurrence method",
+    "modern_name": "Binomial series / bilateral binomial expansion via recurrence from the Euler ODE x z' = mu z",
+    "usually_credited_to": "Newton/Euler (binomial series); the bilateral version appears in Riemann's 1847 essay (published 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the draft of Riemann's known student essay on fractional integration and differentiation, printed in his collected works. The page holds only methodological remarks on divergent series that match the published text.",
+  "checkable": [
+   {
+    "sympy": "a,mu,b=symbols('a mu b'); c=lambda k: b**(mu-k)/(gamma(k+1)*gamma(mu-k+1)); simplify(gammasimp((mu-a)*c(a)-b*(a+1)*c(a+1)))",
+    "asserts": "c_alpha = b^(mu-alpha)/(Gamma(alpha+1)Gamma(mu-alpha+1)) satisfies the recurrence (mu-alpha)c_alpha - b(alpha+1)c_{alpha+1} = 0 (result 0)"
+   },
+   {
+    "sympy": "x,b,mu=symbols('x b mu',positive=True); n=8; z=sum(binomial(mu,k)*b**(mu-k)*(x-b)**k for k in range(n)); expand(mu*z - x*diff(z,x) - (mu-(n-1))*binomial(mu,n-1)*b**(mu-n+1)*(x-b)**(n-1))",
+    "asserts": "For the truncated binomial series p, mu*p - x*p' equals the single boundary term (mu-alpha)c_alpha(x-b)^alpha, matching Riemann's X on the next page (result 0)"
+   },
+   {
+    "sympy": "x,b,mu=symbols('x b mu',positive=True); series(x**mu,x,b,4).removeO() - sum(binomial(mu,k)*b**(mu-k)*(x-b)**k for k in range(4))",
+    "asserts": "For integer indices, the one-sided solution is the Taylor/binomial expansion of x^mu at b (simplifies to 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Final lines: the image appears to read 'fortlaufende Reihe mit [ganzen?] Indices, eine Entwickelung, deren wir ohnehin im Lauf der Untersuchung bedürfen' rather than 'mit einem Rest [?] entwickeln, deren wir ...'.",
+   "'in eine nach ganzen [?] Potenzen': the handwriting may read 'nach gebrochenen' or similar; it is uncertain. The published version and next page (alpha running over an integer-spaced range) suggest powers with integer spacing.",
+   "'jedem einzelnen Theil derselben genau angeben' agrees with the image; the 'sie ist folglich eine in allen ihren Theilen genau begrenzte, also bestimmte Größe' reading is confirmed."
+  ]
+ }
+}

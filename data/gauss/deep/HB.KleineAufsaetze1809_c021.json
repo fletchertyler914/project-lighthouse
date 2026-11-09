@@ -1,0 +1,75 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c021",
+ "label": "12",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000022/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table of Gaussian (addition) logarithms, five decimals, argument step 0.001. It continues page 11, which ran from 0.160 to 0.240, and leads into page 13, which runs to 0.400. Each half of the page has five columns.\n\n1) A, the argument, from 0.240 to 0.280 (left half) and 0.280 to 0.320 (right half). A = log10 a, where a is the ratio of the larger to the smaller of two quantities.\n\n2) B = log10(1 + 10^(-A)) = log10(1 + 1/a).\n\n3) First differences of B in units of 1e-5, written between rows. B decreases, so these are entered as positive numbers.\n\n4) C = A + B = log10(1 + 10^A) = log10(1 + a).\n\n5) First differences of C in units of 1e-5.\n\nThe purpose is to find log(p+q) from log p and log q without converting back to numbers. Put A = log p - log q with p > q. Then log(p+q) = log p + B(A) = log q + C(A). Read in reverse, the same table gives the logarithm of a difference.\n\nRelations visible on the page (the reasoning is mine; the values are Gauss's):\n- C(A) - B(A) = A exactly, so each column-4 entry equals column 1 plus column 2. For example 0.240 + 0.19740 = 0.43740.\n- dB/dA = -1/(1 + 10^A) and dC/dA = 1/(1 + 10^(-A)). Their sum is 1.\n- Hence the two tabular differences in each row add to exactly 100 (36+64, 37+63, 35+65, 34+66, 33+67, 32+68).\n- Near A = 0.25 the slope dB/dA is about -0.364, so the B-differences are about 36 units of 1e-5, falling to about 32 at A = 0.32, as the table shows.\n\nSpot checks of B against modern computation, all agreeing to the fifth decimal:\n- B(0.240) = 0.197401\n- B(0.241) = 0.197036\n- B(0.250) = 0.193776\n- B(0.260) = 0.190203\n- B(0.270) = 0.186683\n- B(0.280) = 0.1832150. This sits right on the rounding boundary; Gauss gives 0.18322.\n- B(0.300) = 0.176435\n- B(0.310) = 0.173122\n- B(0.320) = 0.169859\n\nEvery printed difference I recomputed matches successive B and C entries. The format (A, B, C) is exactly that of Gauss's published table in Zach's Monatliche Correspondenz (1812). This page is evidently a manuscript or fair copy of that table, consistent with the bundle date of about 1809–1812.",
+  "errors": [
+   "None found. Every B-difference on the page agrees with consecutive B entries, every C entry equals A + B, and each pair of differences sums to 100. Sampled B values agree with log10(1+10^-A) to within rounding; the entry at A = 0.280 lies essentially on the rounding boundary (true value 0.1832150), so 0.18322 is acceptable.",
+   "Several digits are visibly overwritten in the manuscript: C at 0.244 (0.43995), C at 0.249 (0.44314), C at 0.275 (0.45994) and C at 0.299 (0.47577). The final readings are all arithmetically correct, so these are Gauss's own corrections rather than residual errors."
+  ],
+  "results": [
+   {
+    "what": "Table of B(A) = log10(1+10^-A) and C(A) = A + B = log10(1+10^A) with first differences, A = 0.240–0.320, step 0.001, five decimals, for computing log(p±q) from log p and log q",
+    "modern_name": "Gaussian logarithms (addition/subtraction logarithms)",
+    "usually_credited_to": "Zecchini Leonelli (idea, Supplément logarithmique, 1802/03); Gauss popularized it with his 1812 table in Zach's Monatliche Correspondenz, hence the name",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Relations C - B = A and dB/dA + dC/dA = 1, so the tabular differences sum to 100 units of 1e-5",
+    "modern_name": "Elementary identity for Gaussian logarithms",
+    "usually_credited_to": "Standard (Leonelli/Gauss)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript sheet of Gauss's well-known 1812 table of addition/subtraction logarithms, which bear his name. It shows careful computation and corrections but no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "abs(N(log(1+10**(-Rational(240,1000)),10),12) - Rational(19740,100000)) < Rational(5,1000000)",
+    "asserts": "B(0.240) = 0.19740 to five decimals"
+   },
+   {
+    "sympy": "abs(N(log(1+10**(-Rational(250,1000)),10),12) - Rational(19378,100000)) < Rational(5,1000000)",
+    "asserts": "B(0.250) = 0.19378"
+   },
+   {
+    "sympy": "abs(N(log(1+10**(-Rational(280,1000)),10),15) - Rational(18322,100000)) <= Rational(5,1000000)",
+    "asserts": "B(0.280) = 0.18322 (true value 0.1832150, a boundary case)"
+   },
+   {
+    "sympy": "abs(N(log(1+10**(-Rational(300,1000)),10),12) - Rational(17643,100000)) < Rational(5,1000000)",
+    "asserts": "B(0.300) = 0.17643"
+   },
+   {
+    "sympy": "abs(N(log(1+10**(-Rational(320,1000)),10),12) - Rational(16986,100000)) < Rational(5,1000000)",
+    "asserts": "B(0.320) = 0.16986"
+   },
+   {
+    "sympy": "abs(N(log(1+10**(Rational(270,1000)),10),12) - Rational(45668,100000)) < Rational(5,1000000)",
+    "asserts": "C(0.270) = log10(1+10^0.27) = 0.45668"
+   },
+   {
+    "sympy": "simplify(log(1+10**x,10) - log(1+10**(-x),10) - x)",
+    "asserts": "C - B = A identically (should simplify to 0)"
+   },
+   {
+    "sympy": "simplify(diff(log(1+10**(-x),10),x) + diff(log(1+10**x,10),x) - 1)",
+    "asserts": "The derivatives of B and C sum to 1, so the differences sum to 100 units (should be 0)"
+   },
+   {
+    "sympy": "[round(100000*N(log(1+10**(-Rational(k,1000)),10),15)) for k in range(240,321)]",
+    "asserts": "Reproduces the whole B column of the page for comparison"
+   }
+  ],
+  "transcription_corrections": [
+   "Machine transcription agrees with the image in all values checked; no numerical misreadings found.",
+   "Visible overwritten digits in the manuscript: C at 0.244 '0,43995' (the 3 is overwritten), C at 0.249 '0,44314', C at 0.275 '0,45994' (the 9 is overwritten), and C at 0.299 '0,47577' (a digit is overwritten). The final readings given in the transcription are the arithmetically correct ones.",
+   "In the image the difference columns are written between rows, i.e. as differences between consecutive entries. The transcription assigns each one to the upper row, which is consistent."
+  ]
+ }
+}

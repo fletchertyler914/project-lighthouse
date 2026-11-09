@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c160",
+ "label": "78r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000161/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a draft of §5 of Riemann's Inauguraldissertation (Göttingen 1851), 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse'. Its wording is almost identical to the printed text.\n\n(1) Setting. Instead of letting z = x+iy (the point O) range over the whole plane A, Riemann takes as its locus a surface T spread over a finite part of the plane. The point is to allow T to lie over the same region several times (sheets). He excludes surfaces whose superposed sheets are joined along a line, so there is no folding ('Umfaltung') and no splitting into superposed parts. In modern terms T is a bordered surface with a projection p: T -> C. Away from the boundary and from isolated points, p is a local homeomorphism; at the isolated points it is a branched covering. Folds are excluded.\n\n(2) Sheet number. Claim: the number of sheets over each point of the plane is completely determined once the boundary is given in position and orientation (inner versus outer side). The internal arrangement of T is not determined.\n- Proof: draw any line l through the covered region. The sheet count N changes only when l crosses the projected boundary p(∂T). Entering from outside to inside adds +1; the opposite crossing adds -1.\n- Hence N(z) = (number of inward crossings) - (number of outward crossings) along any path from outside T to z.\n- In modern terms, N(z) is the winding number of the oriented boundary curve p(∂T) about z, i.e. the degree of p over z.\n\n(3) Local structure along l. Along an interior arc of l, each sheet adjacent to l continues in a definite way. Any indeterminacy can occur only at isolated points, either on l or at positive distance from it.\n- Riemann restricts to a thin strip around l. Giving l a direction, he labels the sheets on the left a_1,...,a_n and on the right a'_1,...,a'_n. The numbers on the two sides are equal.\n- Each a_i continues across l into a definite a'_j. This matching is constant along l in general but can change at a special point b on l.\n- The page sets up the case where, above b, a'_k is joined to a_k (k = 1..n), while below b, a'_k is joined to a_{α_k}. Here (α_1,...,α_n) is a permutation of (1,...,n); this statement continues on the next page.\n\n(4) Where this leads (next page). A point circling b passes through sheet indices 1, α_1, α_{α_1}, ... This is the cycle of 1 under the permutation α. The cycle returns to 1 after m ≤ n steps, so the m sheets join over b to a single point: a winding point (branch point) of order m-1. Applying the same procedure to the remaining sheets splits them into further cycles of lengths m_1, m_2, ...\n- In modern terms, the local monodromy at b is the permutation α. Its cycle decomposition gives the ramification indices of the points of T over b.",
+  "errors": [
+   "No mathematical error. Several steps are assumed rather than proved:",
+   "The rule that the sheet count changes by exactly ±1 at a boundary crossing assumes l crosses the projected boundary transversally at a simple point. Tangencies, or crossings where several boundary arcs overlap in projection, would change the count by other integers.",
+   "The claim that indeterminacies of the sheet continuation occur only at isolated points rests on the regularity hypothesis (no folds, no splitting). It is not argued from anything more basic.",
+   "The equal number of sheets on the two sides of l, away from boundary crossings, is asserted without proof. It follows from the local-homeomorphism assumption.",
+   "Minor notational point: the special point is labelled b here and on the next page, not σ."
+  ],
+  "results": [
+   {
+    "what": "Introduction of a multi-sheeted surface T spread over the plane (with a finite region) as the domain of the variable z, with folds and splittings excluded.",
+    "modern_name": "Riemann surface as a branched covering of the plane (bordered case)",
+    "usually_credited_to": "Bernhard Riemann, Inauguraldissertation 1851",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The number of sheets over a point is determined by the oriented boundary, via the signed count of boundary crossings.",
+    "modern_name": "Degree of a covering = winding number of boundary image (argument principle / degree theory)",
+    "usually_credited_to": "Riemann 1851 in this form; the degree concept was later formalized by Kronecker and Brouwer",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The permutation of sheets across a cut line at a point b, and its cycles, giving winding points of order m-1.",
+    "modern_name": "Local monodromy permutation / ramification index (cycle decomposition)",
+    "usually_credited_to": "Riemann 1851 (Windungspunkte); the permutation (monodromy) viewpoint also goes back to Puiseux 1850 and Riemann",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of §5 of Riemann's published 1851 dissertation, with text nearly identical to the printed version. Its content (covering surfaces, sheet counting, winding points) is famous and well known as his. The only interest is as a manuscript witness: there are minor variants, e.g. 'in zwei auf einander liegende Theile' and an inserted rewording of the sentence about continuation of sheets.",
+  "checkable": [
+   {
+    "sympy": "from sympy.combinatorics import Permutation; p=Permutation([1,2,0,4,3]); p.cycle_structure == {3:1, 2:1}",
+    "asserts": "A sheet permutation α on n=5 sheets splits into cycles of lengths 3 and 2. These give winding points of orders 2 and 1 over b."
+   },
+   {
+    "sympy": "from sympy.combinatorics import Permutation; p=Permutation([1,2,0,4,3]); sum(k*v for k,v in p.cycle_structure.items()) == p.size",
+    "asserts": "The cycle lengths m, m_1, m_2, ... sum to the total sheet count n, matching Riemann's decomposition of the n sheets into systems."
+   },
+   {
+    "sympy": "from sympy.combinatorics import Permutation; p=Permutation([1,2,0,4,3]); [ (p**k)(0) for k in range(4)] == [0,1,2,0]",
+    "asserts": "The orbit 1, α_1, α_{α_1}, ... returns to the start after m=3 steps. Its members are distinct until the return, as Riemann argues on the next page."
+   },
+   {
+    "sympy": "from sympy import symbols, integrate, exp, I, pi, simplify; t=symbols('t', real=True); simplify(integrate(1/(exp(I*t))*I*exp(I*t),(t,0,2*pi))/(2*pi*I)) == 1",
+    "asserts": "The winding number of the positively oriented unit circle about 0 is 1. This is the modern counterpart of 'sheet count = signed boundary crossings' for a one-sheeted disk."
+   }
+  ],
+  "transcription_corrections": [
+   "The special point is written 'b' in the image (consistent with the next page), not 'σ'.",
+   "'in zwei auf einander liegende Theile' is correct; the printed dissertation omits 'zwei'.",
+   "'Seite) bloss gegeben ist': the image reads 'blos' (old spelling); the printed text omits this word.",
+   "The marginal insertion beginning 'in einen der Flächentheile a' fortsetzen...' replaces the struck main-column wording. The deleted word is 'Flächentheil'."
+  ]
+ }
+}

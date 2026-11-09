@@ -1,0 +1,70 @@
+{
+ "bundle": "Math.20",
+ "page": "c026",
+ "label": "13r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000027/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem: classify the real roots of the cubic (⊙) f(Y)=Y^3+Y^2-H*Y+H/9=0 for H>0. Write c=(√5+1)/6≈0.539, a=(√5-1)/6≈0.206 and b=(√5+2)/3≈1.412. The next page says this proves 'all claims in Art. 162'. These are probably the root claims for a cubic in one of Gauss's printed works. My guess is Theoria motus, where y^3-y^2-hy-h/9=0 (Art. 88) becomes ⊙ under y=-Y; I have not checked this.\n\nStep 0 (background): every cubic has either (I) one real root and two imaginary roots, or (II) three real roots.\n\nStep 1: For H>0, ⊙ certainly has a negative root. The justification is mine: f(0)=H/9>0 and f(-∞)=-∞. A later insertion adds that it has 'and not more negative roots'. My justification: f(-Y)=-Y^3+Y^2+HY+H/9 has one sign change, so by Descartes' rule of signs there is exactly one negative root. Since f(0)=H/9≠0, zero is not a root. Only two cases remain: (I) one negative root and two imaginary roots, or (II) one negative root and two positive roots. A criterion is needed to tell them apart.\n\nStep 2 (key identity ☾): (Y-a)^2(Y+b)-(Y-1/9)(H-c)=0 is identical to ⊙. My verification: b-2a=1. Also a^2-2ab=(3-√5)/18-(3+√5)/9=-c, and a^2 b=c/9. Hence (Y-a)^2(Y+b)=Y^3+Y^2-cY+c/9. Subtracting (Y-1/9)(H-c) gives Y^3+Y^2-HY+H/9.\n\nCase 1, H=c: ☾ reduces to (Y-a)^2(Y+b)=0. This gives a double positive root a=(√5-1)/6 and the negative root -b=-(√5+2)/3, so this belongs to class II. In modern terms, c is the positive zero of the discriminant, which equals (4H/9)(9H^2-3H-1).\n\nCase 2, H<c: no positive root exists.\n- For Y>1/9: (Y-a)^2(Y+b)≥0 and (Y-1/9)(c-H)>0. The left side of ☾ is their sum, so it is >0.\n- For 0<Y<1/9: Y^3+Y^2>0 and H(1/9-Y)>0, so f(Y)>0.\n- The next page adds that Y=1/9 is not a root either. Hence there is no positive root and we are in class I.\n\nCase 3, H>c (continued on the next page): there are two positive roots, one in (1/9, a) and one >a. This follows by sign changes of the left side of ☾. Hence class II.\n\nOverall: in modern terms, the sign of H-c (that is, of the discriminant) decides between one and three real roots.",
+  "errors": [
+   "Minor imprecision in Case 2, first part: Gauss says (Y-a)^2(Y+b) is 'positive' for every Y>1/9. At Y=a≈0.206 (which is >1/9) it equals 0. The conclusion still holds because the second term (Y-1/9)(c-H) is strictly positive there.",
+   "The claim 'and not more negative roots' is stated without proof on the page. It is true (Descartes' rule of signs, or a sign/monotonicity argument)."
+  ],
+  "results": [
+   {
+    "what": "Identity rewriting Y^3+Y^2-HY+H/9 as (Y-(√5-1)/6)^2(Y+(√5+2)/3)-(Y-1/9)(H-(√5+1)/6). It exhibits the double-root configuration at H=(√5+1)/6.",
+    "modern_name": "Expansion about the discriminant locus / perturbation of a double-root factorization",
+    "usually_credited_to": "Routine algebra",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Criterion: for H>0 the cubic has one negative and two imaginary roots if H<(√5+1)/6; a double positive root if H=(√5+1)/6; and two positive roots (in (1/9, (√5-1)/6) and >(√5-1)/6) if H>(√5+1)/6.",
+    "modern_name": "Discriminant sign test for real roots of a cubic, with root localization by intermediate value theorem",
+    "usually_credited_to": "Classical (Cardano/Descartes/18th century); this specific cubic is Gauss's (Theoria motus context, probably)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Exactly one negative root for H>0",
+    "modern_name": "Descartes' rule of signs",
+    "usually_credited_to": "Descartes 1637",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is an elementary, careful proof of root-count claims for a specific cubic, apparently supporting statements in one of Gauss's printed works ('Art. 162'). It is routine algebra with no new mathematics, though it shows Gauss's working.",
+  "checkable": [
+   {
+    "sympy": "expand((Y-(sqrt(5)-1)/6)**2*(Y+(sqrt(5)+2)/3)-(Y-Rational(1,9))*(H-(sqrt(5)+1)/6) - (Y**3+Y**2-H*Y+H/9)) == 0",
+    "asserts": "Identity of ☾ with ⊙"
+   },
+   {
+    "sympy": "factor(discriminant(Y**3+Y**2-H*Y+H/9, Y))",
+    "asserts": "Discriminant equals (4H/9)(9H^2-3H-1), with positive zero H=(1+sqrt(5))/6"
+   },
+   {
+    "sympy": "solve(9*H**2-3*H-1, H)",
+    "asserts": "Critical values H=(1±sqrt(5))/6"
+   },
+   {
+    "sympy": "factor((Y**3+Y**2-H*Y+H/9).subs(H,(sqrt(5)+1)/6), extension=sqrt(5))",
+    "asserts": "At H=c the cubic is (Y-(sqrt(5)-1)/6)^2 (Y+(sqrt(5)+2)/3)"
+   },
+   {
+    "sympy": "real_roots(Y**3+Y**2-Rational(1,2)*Y+Rational(1,18))",
+    "asserts": "For H=1/2<c there is exactly one real root, and it is negative"
+   },
+   {
+    "sympy": "real_roots(Y**3+Y**2-Y+Rational(1,9))",
+    "asserts": "For H=1>c there are three real roots: one negative, one in (1/9, 0.206), one >0.206"
+   }
+  ],
+  "transcription_corrections": [
+   "The phrase 'und nicht mehrere negative' is a marginal insertion (with arrow) at the right of the ⊙ line. It is not part of the main line after 'Wurzel'.",
+   "'Die nunmehrige[?]' is uncertain; the word before (⊙) is hard to read and might be 'Die nämliche' or similar.",
+   "Equation labels are the sun symbol ⊙ and the moon symbol ☾. The next-page transcription renders them as 'O' and 'C'."
+  ]
+ }
+}

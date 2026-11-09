@@ -1,0 +1,68 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c190",
+ "label": "187",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000191/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "WHAT IS TABULATED (my identification, verified numerically). Let rho = 648000/pi = 206264.806 (arc-seconds per radian). Each tabulated angle v (degrees, minutes, seconds to 1e-5 arc-second) satisfies\n\n  N'' = rho*(2*tan(v/2) + (2/3)*tan(v/2)^3),  equivalently  tan(v/2) + tan(v/2)^3/3 = N''/(2*rho).\n\nThis is Barker's equation of parabolic motion, solved for the true anomaly v given the 'mean-anomaly-like' argument N expressed in arc-seconds. Gauss writes it in Theoria Motus, art. 19, as tan(v/2) + (1/3)tan^3(v/2) = k*t/(sqrt(2)*q^(3/2)). The page is part of an inverse Barker table, continued on p.188.\n\nThe page has two parts.\n\n(A) Left half. The argument is 300, 302, ..., 424, in units of 100 arc-seconds, so N = 30000'' ... 42400''.\n- Column 2 is v.\n- Column 3 is the first difference Delta = v(n+2) - v(n), written as the seconds part of 3'17.89475'' etc., with the leading 3' suppressed. For example, 21'32.84598 - 18'14.95123 = 3'17.89475.\n- Column 4 is the (negative) second difference in units of 1e-5''. For example, 197.89475 - 197.86700 = 0.02775.\n- The entry 2757 against row 300 belongs to the preceding interval 298-300.\n\n(B) Right half, headed 'Log:'. The argument is log10 N = 4.582, 4.584, ..., 4.750 (step 0.002).\n- Column 2 is v; it runs from 10 deg 32'58.55'' to 15 deg 25'53.86''.\n- Column 3 is the first difference in seconds. For example, 35'51.87150 - 32'58.55490 = 173.31660. Its placement alternates between lower and upper rows.\n- Column 4 is the (positive) second difference. For example, 174.08940 - 173.31660 = 0.77280.\n\nThe two halves are mutually consistent. Linear interpolation of part B at log10(40000) = 4.60206 gives 11 deg 2'26.88'' + 0.03*181.2'' ≈ 11 deg 2'32.3''. This agrees with part A's 11 deg 2'32.30572'' at N = 40000.\n\nHOW I FOUND IT. The deficits N - v are 105.049'', 247.694'' and 680.273'' at N = 30000'', 40000'' and 56234.13''. They fit v = x - x^3/6 + c x^5 + ... with x = N/rho, and inversion gives x = v + v^3/6 + 7v^5/240 + ...\n\nThis is exactly the expansion of 2T + (2/3)T^3 with T = tan(v/2). Indeed 2T = v + v^3/12 + v^5/120 and (2/3)T^3 = v^3/12 + v^5/48.\n\nDirect checks:\n- v = 8 deg 18'14.95123'' gives 2T + 2T^3/3 = 0.14544411; compare 30000/rho = 0.14544410.\n- v = 11 deg 2'32.30572'' gives 0.19392550; compare 0.19392547.\n- v = 15 deg 25'53.85918'' gives 0.27263080; compare 10^4.75/rho = 0.2726306.\n\nThe differences of all orders are carried for interpolation; the second differences in particular serve as a smoothness check. The purpose is a working table for computing parabolic (comet) orbits, entering either with the argument itself or with its logarithm.",
+  "errors": [
+   "Row log 4.588: the transcribed angle 41'40.82679'' is inconsistent with the adjacent differences. The listed differences 174.86539 and 175.64459 and second differences 0.77599 and 0.77920 require 41'40.82629''. The image shows an overwrite here, so this is a corrected slip by the author (or a misreading of the overwrite), not a surviving error.",
+   "No other errors found. Every first difference I checked agrees with the angle column to 1e-5''; these include all of part A and rows 4.584-4.598, 4.616, 4.628, 4.634, 4.648-4.652, 4.676-4.682 and 4.706-4.708. Every second difference I checked agrees with the first differences. The overwritten entries near 4.678-4.680 (214.18330, 215.12021, 0.93327) are consistent after correction."
+  ],
+  "results": [
+   {
+    "what": "Table of true anomaly v versus argument N (arc-seconds, step 200'') and versus log10 N (step 0.002), defined by tan(v/2)+tan^3(v/2)/3 = N/(2 rho), with first and second differences",
+    "modern_name": "Inverse Barker table / solution of Barker's equation for parabolic orbits",
+    "usually_credited_to": "Barker's table (Thomas Barker, 1757); the equation goes back to Halley/Euler/Lambert; parabolic tables were standard in 18th-19th c. astronomy (Olbers 1797, Gauss Theoria Motus 1809)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of systematic first and second differences to check and interpolate a computed table",
+    "modern_name": "Finite-difference table checking / interpolation",
+    "usually_credited_to": "Standard practice (Briggs, Newton, etc.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "A carefully computed inverse Barker (parabolic-motion) table with difference columns is routine computational astronomy, and Gauss's work on parabolic orbits and their tables is well documented (Theoria Motus 1809, art. 19 and related tables). The only mild interest is the high precision (1e-5 arc-second) and the log-argument format.",
+  "checkable": [
+   {
+    "sympy": "rho=648000/pi; v=(8*3600+18*60+14.95123)/rho; N=rho*(2*tan(v/2)+Rational(2,3)*tan(v/2)**3); N.evalf(15)",
+    "asserts": "approximately 30000 (entry 300 of part A)"
+   },
+   {
+    "sympy": "rho=648000/pi; v=(11*3600+2*60+32.30572)/rho; (rho*(2*tan(v/2)+Rational(2,3)*tan(v/2)**3)).evalf(15)",
+    "asserts": "approximately 40000 (entry 400)"
+   },
+   {
+    "sympy": "rho=648000/pi; v=(15*3600+25*60+53.85918)/rho; (log(rho*(2*tan(v/2)+Rational(2,3)*tan(v/2)**3),10)).evalf(15)",
+    "asserts": "approximately 4.750 (last log entry)"
+   },
+   {
+    "sympy": "rho=648000/pi; v=(10*3600+59*60+26.49482)/rho; (log(rho*(2*tan(v/2)+Rational(2,3)*tan(v/2)**3),10)).evalf(15)",
+    "asserts": "approximately 4.600"
+   },
+   {
+    "sympy": "v=symbols('v'); series(2*tan(v/2)+Rational(2,3)*tan(v/2)**3, v, 0, 7)",
+    "asserts": "equals v + v**3/6 + 7*v**5/240 + O(v**7)"
+   },
+   {
+    "sympy": "(21*60+32.84598)-(18*60+14.95123)",
+    "asserts": "equals 197.89475 (first difference at row 300)"
+   },
+   {
+    "sympy": "(41*60+40.82629)-(38*60+45.96090) - 174.86539",
+    "asserts": "equals 0, showing the corrected value 41'40.82629'' at log 4.588"
+   }
+  ],
+  "transcription_corrections": [
+   "Log row 4.588: the value should read 11? no: 10 deg 41'40.82629'' (overwritten in the manuscript), not 41'40.82679''.",
+   "In part B the first difference 173.31660 belongs between rows 4.582 and 4.584. The first-difference column is offset by one row in the first block, giving backward differences, and returns to forward placement in the second block starting at 4.650.",
+   "The entry 2757 at row 300 is the second difference for the preceding interval, not a difference of the listed values 300-302.",
+   "Column 3 of part A gives only the seconds of a 3' (minutes) difference, e.g. 197.89475 means 3'17.89475''."
+  ]
+ }
+}

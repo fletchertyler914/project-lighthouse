@@ -1,0 +1,56 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c257",
+ "label": "254",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000258/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page sets up notation and elementary relations between a Gaussian lattice sum (a theta function written in the variables t, ω) and Gauss's theta series P(x,y). Nothing beyond these definitions and identities is derived.\n\n(1) Definition. W(t,ω) = Σ_{k∈Z} exp(-π t (k+ω)^2), the sum running over all integers k ('für alle ganzen Werthe von k'). Here t>0.\n\n(2) Periodicity. W(t,ω) = W(t,k+ω) for integer k. This holds because shifting ω by an integer only re-indexes the sum.\n\n(3) Passage to Gauss's series. Expand (k+ω)^2 = k^2 + 2kω + ω^2 [my step]. This gives\nW(t,ω) = e^{-π t ω^2} Σ_k (e^{-π t})^{k^2} (e^{-2π t ω})^k.\nTake Gauss's standard P(x,y) = Σ_k x^{k^2} y^k = 1 + x(y+1/y) + x^4(y^2+1/y^2) + ... Then W(t,ω) = e^{-π t ω ω} · P(e^{-π t}, e^{±2π t ω}). The ± is legitimate because P(x,y) = P(x,1/y), by the symmetry k → -k.\n\n(4) Inversion of (3). Set x = e^{-π t} and y = e^{2π t ω} [my step]. Then t = log(1/x)/π and ω = log y/(2 log(1/x)). Also π t ω^2 = (log y)^2/(4 log(1/x)). Hence\nP(x,y) = exp((log y)^2/(4 log(1/x))) · W(log(1/x)/π, log y/(2 log(1/x))).\nThe manuscript's 'log y^2' means (log y)^2.\n\n(5) 'Q(x,y) =' is left unfinished. In Gauss's notation Q(x,y) = Σ (-1)^k x^{k^2} y^k. The analogous formula would be Q(x,y) = P(x,-y), i.e. W evaluated at ω shifted by a quarter-period imaginary part, or equivalently with ω → ω + i/(2t) [my inference]. Gauss did not write this.\n\nPurpose: this is preparation for transferring properties of W (periodicity, and presumably the transformation t → 1/t obtained via Poisson/Fourier) to the series P, Q, R. That is the content of Gauss's theta-function notes ('Zur Theorie der transscendenten Functionen gehörig', Werke III).",
+  "errors": [
+   "No mathematical errors.",
+   "Notational ambiguity only: 'log y^2' must be read as (log y)^2, not log(y^2).",
+   "Formula 4 implicitly uses the + sign choice y = e^{+2π t ω}. Because P(x,y) = P(x,1/y), either sign gives the same result."
+  ],
+  "results": [
+   {
+    "what": "Definition of the periodic Gaussian sum W(t,ω) = Σ exp(-π t (k+ω)^2) and its periodicity in ω",
+    "modern_name": "Periodized Gaussian / theta function with characteristic (Jacobi θ3 in real-variable form)",
+    "usually_credited_to": "Gauss / Jacobi (theta functions, 1800s–1829); periodization idea also Poisson",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "W(t,ω) = e^{-π t ω^2} P(e^{-π t}, e^{±2π t ω}) and its inverse expressing P(x,y) through W",
+    "modern_name": "Relation θ3(z|τ) to the heat-kernel/Gaussian lattice sum (quasi-periodicity factor)",
+    "usually_credited_to": "Gauss (unpublished notes, Werke III), Jacobi (Fundamenta Nova 1829)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are elementary identities between Gauss's own theta series P(x,y) and the Gaussian lattice sum. Gauss's P, Q, R notation and his theta-function work are well documented in Werke III. The page contains only setup, and Q is left blank.",
+  "checkable": [
+   {
+    "sympy": "N(Sum(exp(-pi*Rational(7,10)*(k+Rational(3,10))**2),(k,-30,30)) - exp(-pi*Rational(7,10)*Rational(3,10)**2)*Sum(exp(-pi*Rational(7,10))**(k**2)*exp(2*pi*Rational(7,10)*Rational(3,10))**k,(k,-30,30)), 30)",
+    "asserts": "Formula 3 with t=0.7, ω=0.3: W(t,ω) = e^{-π t ω^2} P(e^{-π t}, e^{2π t ω}) (difference ≈ 0)"
+   },
+   {
+    "sympy": "N(Sum(exp(-pi*Rational(7,10)*(k+Rational(3,10))**2),(k,-30,30)) - Sum(exp(-pi*Rational(7,10)*(k+Rational(13,10))**2),(k,-30,30)), 30)",
+    "asserts": "Formula 2: periodicity W(t,ω) = W(t,ω+1) (difference ≈ 0 up to truncation)"
+   },
+   {
+    "sympy": "(lambda x,y: N(Sum(x**(k**2)*y**k,(k,-30,30)) - exp(log(y)**2/(4*log(1/x)))*Sum(exp(-pi*(log(1/x)/pi)*(k+log(y)/(2*log(1/x)))**2),(k,-30,30)),30))(Rational(1,5), Rational(3,2))",
+    "asserts": "Formula 4: P(x,y) = exp((log y)^2/(4 log(1/x))) W(log(1/x)/π, log y/(2 log(1/x))) for x=0.2, y=1.5"
+   },
+   {
+    "sympy": "N(Sum(Rational(1,5)**(k**2)*Rational(3,2)**k,(k,-30,30)) - Sum(Rational(1,5)**(k**2)*Rational(2,3)**k,(k,-30,30)),30)",
+    "asserts": "P(x,y) = P(x,1/y), justifying the ± in formula 3"
+   }
+  ],
+  "transcription_corrections": [
+   "In formula 4 the exponent 'log y^2/(4 log 1/x)' should be read as (log y)^2/(4 log(1/x)). The dot after e in the manuscript is a multiplication point, i.e. e^{...}·W(...).",
+   "In formula 3 the manuscript writes 'e^{-πtωω}', i.e. ω^2, and P(e^{-πt}, e^{±2πtω}). The transcription is otherwise correct.",
+   "Item 5 'Q(x,y) =' is indeed left unfinished on the page."
+  ]
+ }
+}

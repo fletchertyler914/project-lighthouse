@@ -1,0 +1,69 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c080",
+ "label": "41r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000081/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is Section II of Riemann's posthumous memoir on minimal surfaces, 'Ueber die Fläche vom kleinsten Inhalt bei gegebener Begrenzung' (edited by Hattendorff, 1867). The problem is the minimal surface bounded by two convex closed straight-line polygons lying in parallel planes. The Gauss map is followed by stereographic projection from a pole perpendicular to the planes. This gives the image region H in the complex eta-plane.\n\n(1) Description of H (completing the sentence from p. 2). H covers the eta-plane once. Its boundary has two parts:\n- radial slits from 0 out to points C_1..C_n;\n- radial slits from points C'_1..C'_m out to infinity, whose straight-line extensions pass through 0.\nHere n and m are the numbers of vertices of the two polygons. The vertices of both polygons map to the poles eta=0 and eta=infinity. The tips C, C' are the 'Umkehrpunkte' of the normal along each side. H is doubly connected, with one boundary component per polygon.\n\n(2) Uniformization of H. H is to be mapped conformally onto a surface T_1 that covers the upper t-half-plane twice. Both boundary components of H go to real values of t. A two-sheeted cover of a disk is doubly connected exactly when it has two branch points: Euler characteristic 2·1 − 2 = 0, an annulus [my justification].\n\nReflecting T_1 in the real axis gives T, a two-sheeted cover of the whole t-sphere. T has four branch points in two conjugate pairs a, ā, b, b̄. It is therefore a genus-1 (elliptic) Riemann surface.\n\nA real fractional linear substitution t' = (αt+β)/(γt+δ), with αδ−βγ>0, preserves the real axis and the upper half-plane. With it the branch points can be normalized to t' = ±i, ±i/k, with k real and k<1. [My filling: first send a to i; then use the hyperbolic rotation about i to put b on the imaginary axis above i, so b = i/k.]\n\nRiemann adds that one may in addition make a given real t correspond to a prescribed real t' in one sheet.\n\n(3) Conditions on t(eta). The required properties are:\n- t is single-valued and continuous on H;\n- t is real on both boundary curves;\n- at every boundary point the local behaviour is of first order. That is, t − t_0 vanishes simply, so the map is conformal up to the boundary except at special points.\n\n(4) Analytic continuation by reflection. Continue t(eta) across each boundary segment by giving it conjugate values at points placed symmetrically on either side of the segment. This is the Schwarz reflection principle.\n\nThe sentence finishes on p. 4. Reflection of eta in a line through 0 is eta → e^{2iθ}·conj(eta). Hence log eta → 2iθ + conj(log eta), and d log eta/dt takes conjugate values at conjugate t. So d log eta/dt is single-valued on T, i.e. a rational function of t and Δ = sqrt((1+t^2)(1+k^2 t^2)). This leads to the elliptic-integral formula on p. 4.",
+  "errors": [
+   "Notation inconsistency: this page and p. 2 use n vertices for one polygon and m for the other, but p. 4 writes c_1..c_m, c'_1..c'_m and counts 4m constants. This tacitly assumes n=m, or is a slip.",
+   "Parameter count: the real Möbius group has 3 real parameters and two conjugate pairs of branch points carry 4 real parameters. Normalizing to ±i, ±i/k uses the Möbius freedom up completely; only discrete maps such as t → −1/(kt) remain. So the extra freedom to fix one real t-value cannot come from the substitution t → t'. It comes from the one-parameter rotation group of the annulus H → T_1. Page 4 correctly states it as freedom to choose one of the points c, c', b, b'. The page's phrasing attributes it to the wrong source.",
+   "Minor: 'conjugirt imaginären Werthen von t' for the four branch points is fine, but the claim that the branch points can be taken symmetric about 0 (±i, ±i/k) relies on the hyperbolic-rotation step, which Riemann leaves implicit."
+  ],
+  "results": [
+   {
+    "what": "Gauss-map image of a minimal surface spanned by two convex polygons in parallel planes is a slit annular region H in the eta-plane, with radial slits from 0 and to infinity",
+    "modern_name": "Weierstrass–Enneper representation / Gauss map of polygonal minimal surfaces (Riemann–Schwarz method)",
+    "usually_credited_to": "Riemann (posthumous 1867, ed. Hattendorff); Schwarz, Weierstrass",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Conformal map of a doubly connected region onto a two-sheeted half-plane cover with 2 branch points; doubling gives a 4-branch-point elliptic surface normalized to ±i, ±i/k",
+    "modern_name": "Uniformization of an annulus via the Schottky double (genus-1 surface), Legendre/Jacobi normal form of the modulus",
+    "usually_credited_to": "Riemann (Schottky 1877 for the double systematically)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Continuation of the mapping function across straight boundary segments by assigning conjugate values at symmetric points",
+    "modern_name": "Schwarz reflection principle",
+    "usually_credited_to": "H. A. Schwarz (1869/70); Riemann used it in this memoir",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the manuscript of Riemann's posthumously published minimal-surface memoir (Werke, ed. Hattendorff 1867). The doubly-connected case with the elliptic normalization is part of the known published text, and nothing here goes beyond it.",
+  "checkable": [
+   {
+    "sympy": "k=symbols('k',positive=True); simplify((-1/(k*t)).subs(t,I) - I/k)",
+    "asserts": "the real Möbius map t -> -1/(k t) (det k>0, preserves upper half-plane) sends i to i/k (result 0), illustrating the residual discrete symmetry of the normal form"
+   },
+   {
+    "sympy": "solve((1+t**2)*(1+k**2*t**2), t)",
+    "asserts": "branch points of Delta(t)=sqrt((1+t^2)(1+k^2 t^2)) are ±i, ±i/k"
+   },
+   {
+    "sympy": "theta=symbols('theta',real=True); x,y=symbols('x y',real=True); eta=x+I*y; r=exp(2*I*theta)*conjugate(eta); simplify(abs(r)-abs(eta))",
+    "asserts": "reflection in a line through 0 preserves |eta| (0), so log eta maps to 2i*theta + conj(log eta)"
+   },
+   {
+    "sympy": "2*1 - 2",
+    "asserts": "Euler characteristic of a two-sheeted cover of a disk with 2 simple branch points is 0, i.e. the surface is an annulus (doubly connected)"
+   },
+   {
+    "sympy": "2*2 - 4",
+    "asserts": "Euler characteristic of the two-sheeted cover of the sphere with 4 branch points is 0, i.e. genus 1"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'ähnlicher Strecken' appears correct, i.e. similar radial segments.",
+   "The equation linking t and t' is described as one that is 'in Bezug auf beide Variable ... linear' (bilinear/fractional linear). The bracketed uncertain word 'gebrochene' may instead read 'lineare'; either way a real fractional linear substitution is meant.",
+   "In 'worin k reell und [...] < 1 ist', a deleted symbol precedes '<1' (possibly k^2 or a struck k); the intended condition is k<1.",
+   "The deleted 't=±i, ±i/k' before 'den Werthen t'=±i, ±i/k' is correct: Riemann first wrote t and corrected it to t'.",
+   "'unendlich[?] von der ersten Ordnung' should most likely be read as 't − t_0 unendlich klein von der ersten Ordnung', i.e. a simple zero (local conformality) at boundary points."
+  ]
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "bundle": "Math.21",
+ "page": "c101",
+ "label": "49v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000102/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page shows twelve 8x8 squares drawn on squared paper. Each square contains exactly eight dots, one in every row and every column, with no two on a common diagonal. These are placements of eight non-attacking queens: the eight-queens problem posed by Bezzel in 1848, which Gauss discussed with Schumacher in 1850 after Nauck published 92 solutions.\n\nReading of the dots. I read each square row by row from the top, giving the column of the dot in each row (columns numbered 1-8 from left to right). The image is decisive here.\n- No.1: 8,4,1,3,6,2,7,5\n- No.2: 8,3,1,6,2,5,7,4\n- No.3: 7,5,3,1,6,8,2,4\n- No.4: 7,4,2,8,6,1,3,5\n- No.5: 7,4,2,5,8,1,3,6\n- No.6: 7,3,8,2,5,1,6,4\n- No.7: 7,3,1,6,8,5,2,4\n- No.8: 7,2,6,3,1,4,8,5\n- No.9: 7,2,4,1,8,5,3,6\n- No.10: 6,4,7,1,8,2,5,3\n- No.11 (originally numbered 12): 6,4,1,5,8,2,7,3\n- No.12 (originally 8, crossed out): 6,3,7,4,1,8,2,5\n\nCheck by hand. In modern terms, a placement is a permutation s of {1..8} for which the differences r - s(r) are all distinct and the sums r + s(r) are all distinct. I checked this for all twelve, and all twelve are valid.\n\nWhat the twelve represent. The intended content is the twelve 'fundamental' (essentially distinct) solutions, i.e. one representative of each orbit under the 8 symmetries of the square (rotations and reflections, the dihedral group D4).\n- Square No.10 (6,4,7,1,8,2,5,3) is invariant under the half-turn, since s(9-r) = 9 - s(r). Its orbit therefore has only 4 members.\n- Every other square has a full orbit of 8.\n- Hence the total is 11*8 + 4 = 92, Nauck's number.\n- The note 'pro 9 (unicum)' on the previous page presumably refers to this exceptional symmetric solution under an earlier numbering. The relabellings on this page (12->11, 8->12, 7->10, and the pencil pairs (4,6), (5,6), (6,6), (8,6)) suggest the list was renumbered at least once.\n\nThe page itself contains no derivation. The implicit reasoning (mine) is: enumerate the 92 solutions, reduce them modulo the symmetry group D4, and record one representative per class.",
+  "errors": [
+   "No error in any diagram as I read it: all 12 placements are non-attacking.",
+   "That the 12 are pairwise inequivalent under D4 I did not verify by hand; it should be checked by computer (see the checkable items).",
+   "The meaning of the pencil annotations (4,6), (5,6), (6,6), (8,6) and of the renumberings is unclear. They may be in a later hand."
+  ],
+  "results": [
+   {
+    "what": "Table of the 12 essentially distinct solutions of the eight-queens problem, with the single half-turn-symmetric solution singled out as 'unicum', so that 11*8+4 = 92.",
+    "modern_name": "Fundamental solutions of the eight queens puzzle (orbits under the dihedral group D4)",
+    "usually_credited_to": "Problem: Max Bezzel (1848). 92 solutions: Franz Nauck (1850). Systematic and proved treatments: Günther and Glaisher (1874).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's interest in the eight-queens problem through his 1850 correspondence with Schumacher is well documented, and the 12 fundamental solutions are standard. The page is a neat table of them, of historical but not mathematical novelty.",
+  "checkable": [
+   {
+    "sympy": "sols=[[8,4,1,3,6,2,7,5],[8,3,1,6,2,5,7,4],[7,5,3,1,6,8,2,4],[7,4,2,8,6,1,3,5],[7,4,2,5,8,1,3,6],[7,3,8,2,5,1,6,4],[7,3,1,6,8,5,2,4],[7,2,6,3,1,4,8,5],[7,2,4,1,8,5,3,6],[6,4,7,1,8,2,5,3],[6,4,1,5,8,2,7,3],[6,3,7,4,1,8,2,5]]; all(len(set(s))==8 and len(set(r-s[r-1] for r in range(1,9)))==8 and len(set(r+s[r-1] for r in range(1,9)))==8 for s in sols)",
+    "asserts": "Each of the 12 diagrams is a valid non-attacking eight-queens placement."
+   },
+   {
+    "sympy": "from itertools import permutations; def syms(s): P=[(r,s[r-1]) for r in range(1,9)]; out=set(); fs=[lambda r,c:(r,c),lambda r,c:(c,9-r),lambda r,c:(9-r,9-c),lambda r,c:(9-c,r),lambda r,c:(r,9-c),lambda r,c:(9-r,c),lambda r,c:(c,r),lambda r,c:(9-c,9-r)]; [out.add(tuple(c for r,c in sorted(f(*p) for p in P))) for f in fs]; return out; len(set().union(*[syms(s) for s in sols]))==92",
+    "asserts": "The D4-orbits of the 12 placements are disjoint and together give all 92 solutions."
+   },
+   {
+    "sympy": "[len(syms(s)) for s in sols]==[8]*9+[4]+[8,8]",
+    "asserts": "Only square No.10 (6,4,7,1,8,2,5,3) is symmetric (orbit size 4); 11*8+4=92."
+   },
+   {
+    "sympy": "sum(1 for p in permutations(range(1,9)) if len(set(r-p[r-1] for r in range(1,9)))==8 and len(set(r+p[r-1] for r in range(1,9)))==8)==92",
+    "asserts": "The total number of eight-queens solutions is 92."
+   }
+  ],
+  "transcription_corrections": [
+   "The diagrams are eight-queens solutions. The dot columns, read row by row from the top, are: 1:84136275, 2:83162574, 3:75316824, 4:74286135, 5:74258136, 6:73825164, 7:73168524, 8:72631485, 9:72418536, 10:64718253, 11:64158273, 12:63741825.",
+   "Layout of the labels (right to left on the sheet): the first column holds 1, 3, 11 (with 12 struck out); the next holds 2, 4, 10; then 5, 6, 9; then 7, 8, 12 (with 8 struck out).",
+   "The pencil additions '(4,6)', '10 (5,6)', '(6,6)', '12 (8,6)' are faint grey and probably a later renumbering, not part of the ink layer."
+  ]
+ }
+}

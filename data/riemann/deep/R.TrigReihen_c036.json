@@ -1,0 +1,66 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c036",
+ "label": "17r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000037/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is part of §5–6 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published by Dedekind in 1867). The folio is a fair copy of the text as published, page 25 of the manuscript.\n\n(A) End of the integrability proof for the example f(x)=Σ (nx)/n² from the previous page, and for any bounded function with the same two properties:\n(i) one-sided limits f(x±0) exist everywhere;\n(ii) for every σ>0 only finitely many jumps have size ≥σ.\nRiemann's criterion (§5) says f is integrable iff, for every σ>0, the total length of subintervals where the oscillation exceeds σ can be made arbitrarily small as the mesh d→0. Given (i) and (ii), choose d so small that:\n- on every subinterval not containing one of the finitely many large jumps, the oscillation is <σ (this uses the one-sided limits and compactness; this step is mine);\n- the subintervals containing the large jumps, of which there are finitely many, have total length ≤ (number of jumps)·2d, which is arbitrarily small.\nSo f is integrable.\n\n(B) Remark: a function without infinitely many maxima and minima (piecewise monotone, in modern terms), at points where it stays finite, automatically has properties (i) and (ii). Monotone pieces have one-sided limits, and a bounded monotone function has only finitely many jumps ≥σ. Hence such a function is integrable wherever it is finite. Riemann adds that the example f does not belong to this class: it increases with slope n between jumps but has a dense set of downward jumps. He also says this can easily be shown directly.\n\n(C) Improper integrals at an isolated singularity x=0, where f(x)→+∞ as x↓0.\n1. Necessity claim. If x f(x) > C > 0 for all 0<x≤a, then ∫_x^a f(t)dt > C∫_x^a dt/t = C(log(1/x) − log(1/a)) → ∞. So the improper integral diverges. Hence, if x f(x) is not wildly oscillating (no infinitely many maxima and minima near 0), the limit of x f(x) exists. Since it cannot stay above any C>0, convergence of ∫_0 f forces x f(x) → 0.\n2. Sufficiency claim. Write f(x)x^α = (1−α) f(x)dx / d(x^{1−α}), using d(x^{1−α}) = (1−α)x^{−α}dx. If x^α f(x) → 0 for some α<1, then |f| ≤ ε x^{−α} near 0. This is integrable, so the integral converges as the lower limit → 0.\n3. Start of the logarithmic scale. Note that −d log log(1/x) = dx/(x log(1/x)), so f(x) x log(1/x) = f dx / (−d log log(1/x)). Likewise f x log(1/x) log log(1/x) = f dx / (−d log log log(1/x)). The same argument as in step 1 then shows that, if ∫ f converges, these products cannot stay above a positive constant. The conclusion is completed on the next page: these products must tend to 0 in the non-oscillating case. Conversely, x·log(1/x)⋯log^{n−1}(1/x)·(log^n(1/x))^α f(x) → 0 with α>1 suffices for convergence. This is the Abel/Bertrand–De Morgan logarithmic scale for integrals.",
+  "errors": [
+   "No mathematical errors. The argument tacitly uses f>0 near 0, which is justified because f grows beyond every bound there.",
+   "'x f(x) cannot stay above C' only gives liminf x f(x) ≤ 0; turning this into lim x f(x) = 0 needs eventual monotonicity of x f(x). Riemann encodes this in the hypothesis 'no infinitely many maxima and minima', which strictly speaking must refer to x f(x) and not to f.",
+   "The step 'choose d so that oscillation <σ on intervals not containing large jumps' needs a compactness argument. Riemann calls it 'offenbar'; it is true but not spelled out."
+  ],
+  "results": [
+   {
+    "what": "A bounded function with one-sided limits everywhere and only finitely many jumps ≥σ (for each σ) is Riemann integrable; applied to Riemann's function Σ(nx)/n², which is discontinuous on a dense set.",
+    "modern_name": "Integrability of regulated functions via Riemann's oscillation criterion",
+    "usually_credited_to": "Riemann 1854 (Habilitationsschrift, publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Piecewise monotone (finitely many extrema) functions are integrable where bounded.",
+    "modern_name": "Integrability of monotone / piecewise monotone functions",
+    "usually_credited_to": "Riemann 1854 (implicit earlier in Dirichlet's conditions)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Necessary condition x f(x)→0 and sufficient condition x^α f(x)→0 (α<1) for convergence of the improper integral ∫_0 f; beginning of the logarithmic comparison scale.",
+    "modern_name": "Comparison test for improper integrals; Abel–Bertrand–De Morgan logarithmic scale",
+    "usually_credited_to": "Abel (posthumous), De Morgan and Bertrand (1842), later du Bois-Reymond; Riemann's formulation published 1867",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a manuscript copy of the published text of Riemann's 1854 Habilitationsschrift (§6). All content is well known and long attributed to him.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(1/t,(t,x,a)) - (log(1/x)-log(1/a)))  # with x,a positive",
+    "asserts": "∫_x^a dt/t = log(1/x) − log(1/a)"
+   },
+   {
+    "sympy": "simplify(diff(x**(1-alpha),x)/(1-alpha) - x**(-alpha))",
+    "asserts": "d(x^{1−α}) = (1−α)x^{−α}dx, so f x^α = (1−α) f dx/d(x^{1−α})"
+   },
+   {
+    "sympy": "simplify(diff(-log(log(1/x)),x) - 1/(x*log(1/x)))  # 0<x<1",
+    "asserts": "−d log log(1/x) = dx/(x log(1/x))"
+   },
+   {
+    "sympy": "simplify(diff(-log(log(log(1/x))),x) - 1/(x*log(1/x)*log(log(1/x))))",
+    "asserts": "−d log log log(1/x) = dx/(x log(1/x) log log(1/x))"
+   },
+   {
+    "sympy": "summation(1/(2*k+1)**2,(k,0,oo))/2 - pi**2/16",
+    "asserts": "(1/2)(1+1/9+1/25+...) = π²/16, the jump constant used for Riemann's function on the previous page"
+   }
+  ],
+  "transcription_corrections": [
+   "The '17' written above the line after ∫_x^a ∂x/x is most likely a foliation/marginal mark (folio 17), not a footnote marker or exponent.",
+   "The faint mirrored text in the left half is bleed-through from the next page, not content of this page."
+  ]
+ }
+}

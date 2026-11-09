@@ -1,0 +1,60 @@
+{
+ "bundle": "R.ElektrCyl",
+ "page": "c020",
+ "label": "9r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173043:00000021/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: these are lecture notes ('in der vorigen Stunde', i.e. 'in the previous lecture') from a course treating the electrostatics of cylinders (bundle 'ElektrCyl'). The plane problem is two parallel circular conductors.\n\n(1) Statement of the problem. Find an analytic function Z = x + y i of the complex variable z = xi + eta i. It is defined for all points lying outside two given circles: centres a and a1, radius r in the sketch, joined by a line. Its modulus |Z| must be constant along each of the two circles. Equivalently, w = log Z = log|Z| + i arg Z has real part log|Z| constant on each circle. So Re w is the electrostatic potential of two charged parallel cylinders (a cylindrical condenser with non-coaxial conductors).\n\n(2) A deleted line, rewritten below it, notes that such a function is determined once and in only one way. This is a uniqueness statement, presumably from the Dirichlet-principle or boundary-value theory of the earlier lecture. The task then becomes: find the dependence of z on Z, i.e. express z through Z or Z through z.\n\n(3) A sketch of coordinate axes with the line x = 0 marked, and next to it '(0) — (1)'. Then 'Folgendes Princip' ('the following principle'), in two columns:\n- u+vi corresponds to x+yi\n- -u+vi corresponds to -x+yi\n- u=0 corresponds to x=0\n\nThis is a symmetry (reflection) principle. If the configuration is symmetric under reflection in a line, and the mapping sends a point to w = u+vi, then the mirror point goes to the mirror value -u+vi. Hence the symmetry line x = 0 is carried to the line u = 0. The page breaks off before the explicit solution is written.\n\nCompletion (mine, certain in the standard case): place the equal circles at centres +-c with radius r < c, and let k = sqrt(c^2 - r^2). The points +-k are inverse with respect to both circles. Then Z = (z-k)/(z+k) satisfies |Z| = sqrt((c-k)/(c+k)) on the circle about +c, and the reciprocal value on the circle about -c.\n\nWith w = log Z = u+vi, the point -conj(z) is sent to log(1/conj Z) = -u+vi. So the reflection z -> -conj z (i.e. x+yi -> -x+yi, with x, y here coordinates of z) corresponds to u+vi -> -u+vi. The imaginary axis, the perpendicular bisector of the centres, goes to u = 0, because |Z| = 1 there.\n\nThis is exactly the table on the page, read as the correspondence between w = u+vi and the plane coordinate x+yi. It yields bipolar coordinates.",
+  "errors": [
+   "No mathematical errors. The text is lecture-draft prose with several deletions. The phrase describing the domain ('die einer Fläche einer gegebenen Kreis Linie', roughly 'that a surface of a given circle line') is garbled in the transcription. It must refer to the region bounded by (outside) the two circles.",
+   "Notation slip: the first column uses Z = x+y sqrt(-1) and z = xi+eta sqrt(-1). The table at the bottom instead uses u+vi and x+yi for the two planes, so the letters are reassigned.",
+   "The uniqueness claim ('einmal und nur auf eine Weise', 'once and in only one way') is stated without justification on this page. It presumably rests on the previous lecture."
+  ],
+  "results": [
+   {
+    "what": "Find analytic f with |f| constant on each of two circles. Then Re log f is the potential of two parallel charged cylinders.",
+    "modern_name": "Conformal mapping of a doubly connected circular domain / bipolar coordinates / capacitance of two parallel cylinders",
+    "usually_credited_to": "Method of images / Apollonius circles: W. Thomson (Kelvin) 1840s. Bipolar coordinates: classical, 19th century.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Uniqueness of the analytic function with prescribed boundary behaviour",
+    "modern_name": "Uniqueness for the Dirichlet problem / Riemann mapping uniqueness",
+    "usually_credited_to": "Riemann 1851 (Dissertation), Dirichlet",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Symmetry principle: mirror-symmetric points go to mirror-symmetric values (u+vi <-> -u+vi), so the symmetry line x=0 maps to u=0",
+    "modern_name": "Symmetry / reflection principle",
+    "usually_credited_to": "H. A. Schwarz 1869-70 (Schwarz reflection principle). Riemann used symmetry arguments in posthumous work, e.g. on minimal surfaces.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a standard lecture treatment of the two-cylinder electrostatic problem via conformal maps. The symmetry principle is used informally in a configuration where it follows from explicit formulas. Riemann is already known to have used such symmetry considerations (minimal-surface papers, lectures edited by Hattendorff). The page is a nice teaching document but contains nothing beyond known material.",
+  "checkable": [
+   {
+    "sympy": "c,r,t=symbols('c r t',positive=True); k=sqrt(c**2-r**2); z=c+r*exp(I*t); simplify(Abs(z-k)**2/Abs(z+k)**2 - (c-k)/(c+k))",
+    "asserts": "|(z-k)/(z+k)| is constant on the circle |z-c|=r when k^2=c^2-r^2. Result should be 0, using r^2 = (c-k)(c+k)."
+   },
+   {
+    "sympy": "x,y,k=symbols('x y k',real=True); Z=lambda z:(z-k)/(z+k); z=x+I*y; simplify(Z(-conjugate(z))*conjugate(Z(z)) - 1)",
+    "asserts": "Z(-conj z) = 1/conj(Z(z)), so log Z = u+iv goes to -u+iv under x+iy -> -x+iy (the page's symmetry table)."
+   },
+   {
+    "sympy": "y,k=symbols('y k',positive=True); simplify(Abs((I*y-k)/(I*y+k)) - 1)",
+    "asserts": "On the line x=0, |Z|=1, i.e. u = log|Z| = 0 (x=0 corresponds to u=0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'die einer Fläche einer gegebenen Kreis Linie' should probably read something like 'die außerhalb zweier gegebener Kreislinien liegen' ('that lie outside two given circles'). The sketch shows two circles and the text says 'längs jedes dieser Kreise' ('along each of these circles').",
+   "'$\\mathfrak{Z}$:' at the left margin is likely just 'Z' (or a deleted symbol). It designates Z = x+y sqrt(-1) as the function variable, while z = xi+eta sqrt(-1) is the plane point.",
+   "The inserted words above line 'eine Function einer veränderlichen' look like 'complexen Größe von gegebenem ...' and are hard to read. Uncertain.",
+   "'gewissermaßen' at the end of line 2 is doubtful; it may be 'gewöhnlich' or 'gewisser'."
+  ]
+ }
+}

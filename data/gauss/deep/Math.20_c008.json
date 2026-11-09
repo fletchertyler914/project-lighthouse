@@ -1,0 +1,89 @@
+{
+ "bundle": "Math.20",
+ "page": "c008",
+ "label": "4r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Throughout, numbers are common (base-10) logarithms in Gauss's usual style. A trailing 'n' marks the logarithm of a negative quantity. Logs below 10 carry the customary +10 (so 9.x means 10^(x-1)). Large characteristics such as 23.x denote very large numbers, about 10^23.\n\nTOP ROW. Six logarithms: 23.7046890, 22.4027518n, 19.7660863, 16.3490191, 11.6606940, 6.1273849. Their successive differences are 1.3019372, 2.6366655, 3.4170672, 4.6883251 and 5.5333091, which are not regular. They look like the logs of six coefficients or terms; only the second is negative. The third entry, 19.7660863, reappears as the first term of column 1. I could not determine how the other column-1 terms come from this row, and I do not guess it.\n\nCOLUMN 1 (first block). Four signed terms are to be added:\n- A = +10^19.7660863\n- B = -10^22.8172672\n- C = +10^23.8208620\n- D = -10^23.4208305\n\nCOLUMN 2. Each term is divided by the largest one, C, by subtracting logs and adding 10:\n- log(A/C) = 19.7660863 - 23.8208620 + 10 = 5.9452243\n- log(B/C) = 22.8172672 - 23.8208620 + 10 = 8.9964052 n\n- log(D/C) = 23.4208305 - 23.8208620 + 10 = 9.5999685 n\nAll three subtractions are exact.\n\nCOLUMN 3. The antilogarithms are taken and the ratios combined:\n- A/C = 0.00008815\n- B/C = -0.09917568\n- Their sum: 0.09917568 - 0.00008815 = 0.09908753, negative.\n- D/C = -0.39807827\n- Running total: 0.09908753 + 0.39807827 = 0.4971658, negative.\nSo the sum of the three ratios is -0.4971658. (This 0.4971658 is not log pi = 0.4971499; the closeness is a coincidence.)\n\nSUM OF THE FOUR TERMS. A+B+C+D = C(1 - 0.4971658) = C · 0.5028342.\n- Gauss writes log(0.5028342) = 9.7015248.\n- He then forms log(A+B+C+D) = 23.8208620 + 9.7015248 - 10 = 23.5223868. Call this Q.\n\nSECOND BLOCK. A product P of two numbers is formed by adding logs: 12.7594905 + 12.5420095 = 25.3015000, exact. (The factors are symmetric about 12.65075, i.e. 12.65075 ± 0.1087405.)\n\nComparison of Q with P (step marked as mine, reconstructed from the numbers):\n- Q/P = 10^(23.5223868 - 25.3015000) = 10^(-1.7791132) = 0.01662979. This is the entry '1662979'.\n- Then 1 - Q/P = 0.98337021, with log 9.9927171. This is the entry '9927171'.\n- Hence log(P - Q) = 25.3015000 + 9.9927171 - 10 = 25.2942171. Gauss does not write this last value.\n\nMEANING. The page evaluates a quantity of the form (product of two numbers) minus (a four-term alternating sum), entirely by logarithms. Each step factors out the dominant term so that only small corrections need antilogs. This is a discriminant- or determinant-like comparison of the size of a P - Q correction. The concrete problem cannot be identified from this sheet. The previous page (planetary positions, with the names Harding, Bessel, Olbers) suggests an astronomical computation, but the link is not certain.",
+  "errors": [
+   "log(0.5028342) is 9.7014248 (log10 0.5028342 = -0.2985752), not 9.7015248 as written: a slip of exactly 1 in the fourth decimal.",
+   "The slip propagates. log Q should be 23.5222868 rather than 23.5223868. Q/P should be about 0.0166260 rather than 0.01662979. log(1 - Q/P) should be about 9.9927188 rather than 9.9927171. The effect on the final result is very small (about 2e-6 in the log).",
+   "All other additions, subtractions and antilogarithms on the page check to the last place given."
+  ],
+  "results": [
+   {
+    "what": "Evaluation of a signed sum of large quantities via logarithms: factor out the largest term, take antilogs of the ratios, sum, and take the log of 1 + sum",
+    "modern_name": "logarithmic computation of sums (Gaussian/addition-logarithm style technique)",
+    "usually_credited_to": "standard 18th-19th c. computing practice; Gaussian addition logarithms (Leonelli 1802, Gauss 1812)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Comparison of a product P with a sum Q via log(1 - Q/P), giving log(P - Q)",
+    "modern_name": "difference of a product and a sum computed through a subtraction logarithm (discriminant/determinant-type check)",
+    "usually_credited_to": "routine numerical practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a purely numerical scratch sheet of logarithmic arithmetic, entirely routine for Gauss. It contains no new method or result, only one small slip in a logarithm.",
+  "checkable": [
+   {
+    "sympy": "Eq(Rational('19.7660863')-Rational('23.8208620')+10, Rational('5.9452243'))",
+    "asserts": "log(A/C) entry in column 2"
+   },
+   {
+    "sympy": "Eq(Rational('22.8172672')-Rational('23.8208620')+10, Rational('8.9964052'))",
+    "asserts": "log(B/C) entry in column 2"
+   },
+   {
+    "sympy": "Eq(Rational('23.4208305')-Rational('23.8208620')+10, Rational('9.5999685'))",
+    "asserts": "log(D/C) entry in column 2"
+   },
+   {
+    "sympy": "N(10**(Rational('5.9452243')-10), 8)",
+    "asserts": "approximately 0.00008815"
+   },
+   {
+    "sympy": "N(10**(Rational('8.9964052')-10), 8)",
+    "asserts": "approximately 0.09917568"
+   },
+   {
+    "sympy": "N(10**(Rational('9.5999685')-10), 8)",
+    "asserts": "approximately 0.39807827"
+   },
+   {
+    "sympy": "Eq(Rational('0.09917568')-Rational('0.00008815')+Rational('0.39807827'), Rational('0.4971658'))",
+    "asserts": "the running sum in column 3"
+   },
+   {
+    "sympy": "N(log(1-Rational('0.4971658'),10)+10, 9)",
+    "asserts": "equals 9.7014248, so Gauss's 9.7015248 has a slip of 1e-4"
+   },
+   {
+    "sympy": "Eq(Rational('23.8208620')+Rational('9.7015248')-10, Rational('23.5223868'))",
+    "asserts": "log Q formed consistently from Gauss's value"
+   },
+   {
+    "sympy": "Eq(Rational('12.7594905')+Rational('12.5420095'), Rational('25.3015000'))",
+    "asserts": "log P as the sum of two logs"
+   },
+   {
+    "sympy": "N(10**(Rational('23.5223868')-Rational('25.3015000')), 8)",
+    "asserts": "approximately 0.01662979 (the entry 1662979)"
+   },
+   {
+    "sympy": "N(log(1-Rational('0.01662979'),10)+10, 8)",
+    "asserts": "approximately 9.9927171 (the entry 9927171)"
+   }
+  ],
+  "transcription_corrections": [
+   "Column 3 entry '0 4971658' should read 0.4971658.",
+   "'1662979' is the decimal fraction 0.01662979 (antilog of 23.5223868 - 25.3015000), and '9927171' is the log 9.9927171 of 1 - 0.01662979.",
+   "In column 2, 9.5999685n sits on the same line as 23.4208305n, which is its source; the transcription's line layout obscures this.",
+   "The column alignment in the machine transcription is garbled. Column 1 is 19,7660863 / 22.8172672n / 23.8208620 / 23.4208305n / 9.7015248, followed by 12.7594905 ... 9927171. Column 2 is 5.9452243 / 8.9964052n / (blank) / 9.5999685n. Column 3 is 0.00008815 / 0.09917568 / 0.09908753 / 0.39807827 / 0.4971658."
+  ]
+ }
+}

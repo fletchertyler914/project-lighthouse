@@ -1,0 +1,73 @@
+{
+ "bundle": "600_1",
+ "page": "c105",
+ "label": "[96]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000106/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): Hilbert states a theorem. Let x_1, x_2, x_3, ... be a countable set of reals, which the figure places in [0,1]. Let a value f(x_k) be prescribed at each point. Then there is a series of polynomials that converges at every x_k to f(x_k). This page completes the proof.\n\nStep 1 (zigzag interpolants). For each n, let L_n be the piecewise-linear function whose vertices are (0, c0), (1, c1) and the points (x_k, f(x_k)) for k <= n, ordered by abscissa. The figure shows the endpoint values as 0. So L_1 is the triangle 0, x_1, 1. L_2 is the polygon 0, x_1, x_2, 1, with x_1 < x_2. L_3 is the polygon 0, x_3, x_1, x_2, 1, with x_3 < x_1. The text first writes a fourth point 'x_4' in this line and strikes it, a slip. For every n >= k we have L_n(x_k) = f(x_k).\n\nStep 2 (polynomial approximation). Choose polynomials G_n with sup over [0,1] of |G_n - L_n| < eps_n. Hilbert says only 'hinreichend genau' (sufficiently accurately). The proof needs eps_n -> 0 (my explicit addition). This step relies on polygonal lines being uniformly approximable by polynomials, which Runge proved in 1885.\n\nStep 3 (telescoping series). Set f(x) = G_1 + (G_2 - G_1) + (G_3 - G_2) + ... . A first, struck attempt omitted the G_1 term. The N-th partial sum is G_N. Hence for fixed k and N >= k, |G_N(x_k) - f(x_k)| = |G_N(x_k) - L_N(x_k)| < eps_N -> 0. So the series converges at every x_k to the prescribed value. Off the set nothing is claimed.\n\nStep 4 (Weierstrass corollary). Take f continuous on [0,1] and {x_k} dense (implicit, mine). The maximal gap of the n-th partition then tends to 0. By uniform continuity, L_n -> f uniformly. Therefore G_n -> f uniformly, i.e. the series converges uniformly to f. This is the Weierstrass approximation theorem, with reference to Runge, Acta Math. 7 (1885), p. 387, which reduces it to polygons exactly this way.\n\nStep 5 (Thomae example). Take f(p/q) = 1/q in lowest terms and f(x) = 0 for irrational x. This function is discontinuous at every rational and continuous at every irrational. Use as the countable set an enumeration of the rationals in [0,1].\n- At rationals, convergence follows from Step 3.\n- At an irrational x, L_n(x) is a convex combination of f at the two partition neighbours of x. These neighbours tend to x, so by continuity of f at x, L_n(x) -> 0 = f(x). Hence G_n(x) -> f(x).\n\nThe page ends by announcing the general statement continued on the next page: expansion is possible whenever every interval contains a point of continuity.",
+  "errors": [
+   "The phrase 'hinreichend genau' must mean sup|G_n - L_n| < eps_n with eps_n -> 0. This is not stated explicitly but is needed for convergence.",
+   "For the Weierstrass corollary the countable set must be dense in [0,1]. This is implicit.",
+   "The derivation of Weierstrass's theorem presupposes that polygonal lines can be approximated by polynomials, which is already the core of the theorem (Runge's reduction). It is a reduction, not an independent proof.",
+   "For the bare theorem on a countable set, the zigzag construction is unnecessary. Taking G_n as the Lagrange interpolation polynomial through x_1..x_n gives G_N(x_k) = f(x_k) exactly for N >= k. The zigzag form matters only for convergence off the set (continuity points, uniform convergence).",
+   "Thomae example: the countable set must contain all rationals. Convergence at irrationals uses continuity there, which goes beyond the theorem as literally stated (convergence only at the given points). The reasoning is correct but not spelled out.",
+   "Struck slips, both corrected by Hilbert himself: 'x_4' in the third zigzag line, and a first form of the series lacking the term G_1.",
+   "On the next page (not this one): 'a continuity point in every interval implies the set of discontinuities is countable' is false. The indicator function of the Cantor set has dense continuity points but uncountably many discontinuities."
+  ],
+  "results": [
+   {
+    "what": "Any values prescribed on a countable set of reals are attained as limits of a telescoping series of polynomials, built from polynomial approximations of piecewise-linear interpolants",
+    "modern_name": "Pointwise polynomial interpolation on a countable set (trivial via Lagrange interpolation); special case of approximation by Baire class 1 functions",
+    "usually_credited_to": "Folklore; general framework Baire (1899)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Weierstrass approximation theorem via uniform approximation of polygonal lines by polynomials",
+    "modern_name": "Weierstrass approximation theorem (Runge's / Lebesgue's polygon proof)",
+    "usually_credited_to": "Weierstrass 1885; Runge 1885 (Acta Math. 7); Lebesgue 1898",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Thomae's function is a pointwise limit of polynomials (on all of [0,1]); more generally, functions whose discontinuities are countable and whose continuity points are dense",
+    "modern_name": "Baire class 1 functions; Baire's characterization via pointwise discontinuity",
+    "usually_credited_to": "Baire 1899 (general theory); Thomae 1875 (the function)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The interpolation theorem itself is elementary, and the Weierstrass part follows Runge (whom Hilbert cites). The application to Thomae's function, and the programme on the next page (pointwise polynomial limits for functions with dense continuity points, series converging exactly on the rationals), anticipates Baire-class-1 ideas from about a decade before Baire. It is notable as an unpublished early engagement, but not a major result, and the general claim on the next page contains an error.",
+  "checkable": [
+   {
+    "sympy": "x=symbols('x'); P=interpolate([(0,0),(Rational(1,2),1),(1,0)], x); [P.subs(x,t) for t in (0,Rational(1,2),1)] == [0,1,0]",
+    "asserts": "Lagrange interpolation hits prescribed values exactly at finitely many points, so a telescoping polynomial series reproduces f(x_k) for N>=k"
+   },
+   {
+    "sympy": "x=symbols('x'); L=Piecewise((2*x, x<=Rational(1,2)), (2-2*x, True)); [L.subs(x,t) for t in (0,Rational(1,2),1)]",
+    "asserts": "First zigzag line 0,x_1,1 (x_1=1/2, f(x_1)=1) takes values 0,1,0"
+   },
+   {
+    "sympy": "x,k=symbols('x k'); n=10; B=sum(Abs(Rational(1,2)-Rational(i,n))*binomial(n,i)*x**i*(1-x)**(n-i) for i in range(n+1)); N(Abs(B.subs(x,Rational(1,2))))",
+    "asserts": "Bernstein polynomial approximates the polygon |x-1/2| (error at kink ~ c/sqrt(n)), illustrating polynomial approximation of zigzag lines"
+   },
+   {
+    "sympy": "n=symbols('n'); summation(Symbol('G')(n)-Symbol('G')(n-1),(n,2,5))",
+    "asserts": "Telescoping: G_1 + sum_{n=2}^N (G_n - G_{n-1}) = G_N (check symbolically with concrete G)"
+   },
+   {
+    "sympy": "f=lambda r: Rational(1, Rational(r).q); [f(Rational(3,6)), f(Rational(2,7))] == [Rational(1,2), Rational(1,7)]",
+    "asserts": "Thomae function values f(p/q)=1/q in lowest terms"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'x_4' is struck through in the manuscript (Hilbert's slip); the zigzag line meant is 0 x_3 x_1 x_2 1.",
+   "Struck formula: the deleted line reads roughly 'f(x) = (G_2 - G_1) + G_3 - G_2', with no G_1 term, correctly marked deleted.",
+   "'vol' after G_1(x) is struck; read as deletion.",
+   "Figure 3.) is labelled 0, x_3, x_1, x_2 (the endpoint 1 is unlabelled); in all three figures the endpoints appear at height 0.",
+   "'im Bes.' = 'im Besonderen'; reference 'Runge Acta Math. 7. S. 387' is correct (Runge, Über die Darstellung willkürlicher Functionen, Acta Math. 7 (1885) 387-392)."
+  ]
+ }
+}

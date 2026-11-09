@@ -1,0 +1,64 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c071",
+ "label": "35v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000072/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): Riemann wants the potential, approximately, of the part produced by a 'second system'. His strategy is to find the direction of the force at every point. The direction field gives the level surfaces. If the potential is known along one line, it is then known everywhere. As a building block he takes a circular disk with uniform surface density sigma and asks for the direction of its attraction at an external point p.\n\nCoordinates: the disk is the base of an oblique (elliptic) cone with apex p. The 'axis of the oblique cone' is taken as polar axis. phi is the angle from the axis and theta the azimuth around it. Planes theta = const cut the disk in chords. The disk is divided into 'sectors' between theta and theta + dtheta. Two opposite sectors (theta and theta + pi, vertical angles) are paired. Each is cut into elements between phi and phi + dphi.\n\nStep 1. Both sectors split into the same number of elements. My reading: the axis is the principal (internal) axis of the quadric cone over the circle. That cone is invariant under rotation by pi about this axis, so the generators at theta and theta + pi have the same maximal angle phi_max(theta).\n\nStep 2. The two elements at the same phi have the same apparent size from p: dOmega = sin(phi) dphi dtheta.\n\nStep 3 (implicit, made explicit by me). For a plane uniform lamina, an element dA at distance r, whose line of sight makes angle gamma with the normal, exerts force sigma dA / r^2 along the line of sight. Its normal component is sigma dA cos(gamma) / r^2 = sigma dOmega. So the two paired elements give equal components normal to the disk.\n\nStep 4. Write F_i = k_i (Q_i - p), where Q_i is the element position and k_i = sigma dA_i / r_i^3. The normal components are k_i h, with h the distance from p to the disk plane. Equal normal components force k_1 = k_2 = k. Hence F_1 + F_2 = 2k (M - p), where M is the midpoint of Q_1 Q_2. So the pair's resultant points from p toward the midpoint of the segment joining the two elements.\n\nStep 5. All the Q's lie on one chord AB, in the plane through the axis at azimuth theta. As phi runs from 0 to phi_max, M runs monotonically from O (where the axis meets the disk) to the midpoint of the whole chord AB. So every pair resultant lies in the plane angle between the axis pO and the line from p to the midpoint of AB.\n\nStep 6. A sum of vectors lying in a convex angular region stays in it. So the total force of the double sector also lies between these two lines. The page ends there.",
+  "errors": [
+   "No real error. The claim 'gleichviel Elemente' (equally many elements) holds only if 'Axe des schiefen Kegels' means the principal axis of the quadric cone. If it meant the line from p to the disk centre, opposite generators would make different angles with the axis. The pairing would then fail beyond the smaller angle, and the 'Halbirungspunkt' of the full chord (the centre) would lie on the axis, making the region degenerate. Under the principal-axis reading the whole argument is correct.",
+   "The key fact that the normal component equals sigma times the solid angle is used without justification. It is only implied by 'von p ausgesehen gleich groß' (equally large as seen from p).",
+   "Monotonicity of the midpoint M(phi) between O and the chord midpoint is asserted ('man sieht also') without proof. It does hold; see the checkable items."
+  ],
+  "results": [
+   {
+    "what": "Normal component of the attraction of a uniform plane lamina element equals density times the solid angle it subtends; equal solid angles give equal normal components",
+    "modern_name": "solid-angle formula for the normal field of a uniform plane layer (double/single layer solid-angle property)",
+    "usually_credited_to": "classical potential theory (Gauss 1813/1840, Green 1828); standard by the 1850s",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Two forces directed from p to Q1, Q2 with equal normal components have their resultant along p to the midpoint of Q1Q2",
+    "modern_name": "elementary vector addition / centroid argument",
+    "usually_credited_to": "folklore",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The force direction of a uniformly covered circular disk, sector by sector, lies between the cone's principal axis and the line to the chord midpoint (qualitative bound on the field-line direction)",
+    "modern_name": "geometric estimate of the field direction of a uniformly charged disk",
+    "usually_credited_to": "no specific attribution; routine geometric potential theory",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is an elegant but elementary geometric argument about the force of a uniform disk, part of a draft on approximating a potential via its force directions. It is routine 19th-century potential theory and is not tied to any later-credited result.",
+  "checkable": [
+   {
+    "sympy": "phi,gam,r,sigma,dA=symbols('phi gamma r sigma dA',positive=True); dOmega=dA*cos(gam)/r**2; simplify(sigma*dA/r**2*cos(gam) - sigma*dOmega)==0",
+    "asserts": "normal component of an element's attraction equals sigma times its solid angle"
+   },
+   {
+    "sympy": "k,h=symbols('k h',positive=True); x1,y1,x2,y2=symbols('x1 y1 x2 y2',real=True); F=k*Matrix([x1,y1,-h])+k*Matrix([x2,y2,-h]); M=Matrix([(x1+x2)/2,(y1+y2)/2,-h]); simplify(F-2*k*M)==zeros(3,1)",
+    "asserts": "with equal coefficients (equal normal components) the resultant points from p (origin) to the midpoint of Q1Q2 in the plane z=-h"
+   },
+   {
+    "sympy": "d,a,t=symbols('d alpha t',positive=True); s1=d*t/(sin(a)-t*cos(a)); s2=d*t/(sin(a)+t*cos(a)); simplify((s1-s2)/2 - d*t**2*cos(a)/(sin(a)**2-t**2*cos(a)**2))==0",
+    "asserts": "position of the midpoint M along the chord (measured from the axis point O) as a function of t=tan(phi); for 0<alpha<pi/2 it is increasing in t, so M moves monotonically from O toward the chord midpoint"
+   },
+   {
+    "sympy": "d,a,t=symbols('d alpha t',positive=True); m=d*t**2*cos(a)/(sin(a)**2-t**2*cos(a)**2); simplify(diff(m,t) - 2*d*t*cos(a)*sin(a)**2/(sin(a)**2-t**2*cos(a)**2)**2)==0",
+    "asserts": "derivative of the midpoint position has the fixed sign of cos(alpha), confirming monotonicity"
+   }
+  ],
+  "transcription_corrections": [
+   "The image shows 'jene[-r-] beiden' with a struck-out letter, consistent with the transcription.",
+   "In 'da {+aber+} jede der beiden Kräfte in {+nach+} der Verbindungslinie', 'aber' is inserted above the line and 'nach' above 'in'. 'in' is not visibly struck, but 'nach' replaces it.",
+   "'die sich durch p nach dem Punkte ziehen kann' is plausibly 'ziehen kann' as written. The text is grammatically loose ('sich ... ziehen läßt' was likely intended).",
+   "In 'und [-zwischen-] die Axe', 'zwischen' is indeed struck out in the image."
+  ]
+ }
+}

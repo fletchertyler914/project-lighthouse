@@ -1,0 +1,89 @@
+{
+ "bundle": "Math.17",
+ "page": "c003",
+ "label": "1v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376641:00000004/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds three full decimal periods of the unit fractions 1/971, 1/967 and 1/953. It continues a descending table of primes (997, 991, 983, 977 on the previous page; 947, 941, 937 on the next). The context is Gauss's work on converting common fractions into decimals (Disquisitiones Arithmeticae, arts. 312-318).\n\nLayout:\n- The prime is written in the left margin. The faint 5 and 10 in the margin are line counters.\n- The period is written in groups of 10 digits, seven groups per line.\n- The leading zeros of the expansion are dropped at the start. They reappear at the end, where the repetition restarts.\n- The dot over the first digit marks where the period begins. The final underlined group followed by '...' is the beginning repeated, showing the cycle has closed.\n\n(a) p = 971. 1/971 = 0.00 1029866117 4047373841 4006179196 ...\n- There are 14 lines of 7 groups. The last group is the repeated '1029866117', so 97 groups = 970 written digits remain.\n- The written block is the cyclic shift that starts at the third digit. Its last group '4562306900' ends with the two zeros.\n- So the period of 1/971 has length 970 = p-1. In modern terms, 10 is a primitive root mod 971.\n- Implicit check (mine): since the order is even, 10^485 = -1 (mod 971). Hence each digit and the digit 485 places later sum to 9.\n- I verified this against the page. Written positions 484-490 (line 7, group 7, '9309989701' read from its 4th digit) give 9,9,8,9,7,0,1. These are the 9-complements of expansion digits 0,0,1,0,2,9,8. Line 8 begins '3388...', the complement of '...6611' at written positions 7-10. So the table is internally consistent.\n\n(b) p = 967. 1/967 = 0.00 1034126163 3919338159 ...\n- There are 4 full lines (280 digits) plus 4 groups (40 digits), giving 320 written digits.\n- Then '0010341261...' restarts the cycle with the two leading zeros.\n- So the period is 322 = (967-1)/3, i.e. ord_967(10) = 322. Here 10 is not a primitive root but a cubic residue of index 3.\n\n(c) p = 953. 1/953 = 0.00 1049317943 3368310598 ...\n- There are 13 full lines (910 digits) plus 4 groups (40 digits), giving 950 written digits.\n- Then '0010493179' restarts the cycle.\n- So the period is 952 = p-1, and 10 is a primitive root mod 953.\n\nVertical bars occur inside the blocks:\n- p = 971: line 11, after '...6045';\n- p = 967: line 4, after '7269906928';\n- p = 953: line 13, after '6232948583'.\nThey probably mark junctions where one stretch of computation was joined to another, or a check point; their exact purpose is uncertain. The red-ink marks near 967 ('6', '96..') look like later annotations.\n\nThe computation itself is ordinary long division, or equivalently successive residues 10^k mod p, carried until remainder 1 recurs.",
+  "errors": [
+   "No arithmetic errors detected in the spot checks: leading digits of all three expansions, period lengths, and the half-period complement for 971.",
+   "Line 11 of the 971 block contains a heavily struck-out group followed by '741503 6045|3141091658'. This is a correction during computation; the group boundaries there look irregular in the image.",
+   "In the 953 block, line 13, the group is written '623294858 3|' with the final 3 separated by a bar. It is one 10-digit group, 6232948583."
+  ],
+  "results": [
+   {
+    "what": "Full decimal period of 1/971 (970 digits), showing 10 is a primitive root mod 971",
+    "modern_name": "Decimal period / multiplicative order of 10 mod p (full reptend prime)",
+    "usually_credited_to": "Gauss (Disquisitiones arts. 312-318, and the decimal-fraction tables in Werke II); also Burckhardt, Reuschle, Desmarest, Shanks",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Period of 1/967 has length 322 = (p-1)/3",
+    "modern_name": "ord_967(10) = 322",
+    "usually_credited_to": "Gauss / 19th-century table makers",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Full decimal period of 1/953 (952 digits), 10 a primitive root mod 953",
+    "modern_name": "Full reptend prime 953",
+    "usually_credited_to": "Gauss / 19th-century table makers",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is part of Gauss's well-known manuscript tables of decimal periods for primes under 1000, connected with the Disquisitiones and reproduced or discussed in Werke II. It is pure routine computation.",
+  "checkable": [
+   {
+    "sympy": "n_order(10, 971) == 970",
+    "asserts": "the period of 1/971 has full length 970"
+   },
+   {
+    "sympy": "n_order(10, 967) == 322",
+    "asserts": "the period of 1/967 has length 322 = 966/3"
+   },
+   {
+    "sympy": "n_order(10, 953) == 952",
+    "asserts": "the period of 1/953 has full length 952"
+   },
+   {
+    "sympy": "str(10**42 // 971) == '1029866117404737384140061791967044284243'",
+    "asserts": "first written digits of 1/971 after the leading 00"
+   },
+   {
+    "sympy": "str(10**22 // 967) == '10341261633919338159'",
+    "asserts": "first written digits of 1/967"
+   },
+   {
+    "sympy": "str(10**22 // 953) == '10493179433368310598'",
+    "asserts": "first written digits of 1/953"
+   },
+   {
+    "sympy": "((10**970 - 1)//971) % 10**10 == 4562306900",
+    "asserts": "last group of the 971 period is 4562306900"
+   },
+   {
+    "sympy": "((10**322 - 1)//967) % 10**10 == 8841778697",
+    "asserts": "last group of the 967 period is 8841778697"
+   },
+   {
+    "sympy": "((10**952 - 1)//953) % 10**10 == 314795383",
+    "asserts": "last group of the 953 period is 0314795383"
+   },
+   {
+    "sympy": "pow(10, 485, 971) == 970",
+    "asserts": "10^485 = -1 mod 971, so the second half of the period is the 9-complement of the first"
+   }
+  ],
+  "transcription_corrections": [
+   "971 line 1, last group '4582904[?]2': the group is cut at the page edge; it should be a 10-digit group (compare 10**72//971).",
+   "971 line 6, fifth group: the image shows a corrected digit ('824?9227600'); the intended group is 8249227600.",
+   "971 line 11: the struck-out group plus '741503 6045|3141091658' is a correction region. The bar is a marginal check or join mark, not a digit.",
+   "953 line 13: '623294858 3|4207764952' should read as the group 6232948583, then a bar, then 4207764952.",
+   "The final groups '1029866117...', '0010341261 ...' and '0010493179' are repetitions marking closure of each period, not new digits."
+  ]
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c039",
+ "label": "19v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000040/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the second page of Riemann's student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (dated 1847, published posthumously in the Gesammelte Werke, 1876). The previous page sets the goal: from a given function z(x), produce a new function depending on a number nu. For integer nu it should reduce to the derivative (nu>0), the original function (nu=0) or an integral (nu<0). The ordinary rules of calculus are to be used only as foundation and as a 'Wegweiser' (guide).\n\nThis page has no computation as such; it makes a definitional move.\n\n(a) The usual recursive definition D^n z = d/dx(D^{n-1} z) only ever reaches integer indices. So an 'independent' (non-recursive) characterization of the n-th derivative is needed.\n\n(b) Such a characterization comes from expanding z(x+h) in nonnegative integer powers of the increment h. This is Taylor's formula (1):\n  z(x+h) = sum_{p=0}^{infinity} (1/(1*2*...*p)) * d^p z/dx^p * h^p = sum_p z^{(p)}(x) h^p / p!.\n\n(c) Riemann argues that (1) holds for every value of h. Therefore the coefficients are uniquely determined (uniqueness of power-series coefficients; this step is implicit). So they can serve to define the derivatives.\n\n(d) Definition: the n-th derivative of z_x equals the coefficient c_n(x) of h^n in the expansion of z(x+h) in nonnegative integer powers of h. This coefficient is multiplied by a factor that is constant in x and depends only on n, namely 1*2*...*n = n!. That is, d^n z/dx^n = n! * c_n(x).\n\n(e) The page ends: 'this way of viewing derivatives leads very easily to the establishment...'. The next page continues with the generalized operation (the 'Ableitung'), written with a curly-d symbol to the power nu. It is defined through a two-sided expansion\n  z(x+h) = sum_{nu=-inf}^{+inf} k_nu * (nu-th derivative of z) * h^nu,\nwith exponents nu differing by integers. The factor k_nu must be chosen so that (2) reduces to (1) for integer exponents. Later in the essay Riemann takes k_nu = 1/Gamma(nu+1).\n\nThe purpose of this page is purely motivational and definitional, preparing the fractional-order generalization.",
+  "errors": [
+   "The claim that (1) holds 'for every value of h' is only true for entire analytic functions. In general Taylor's series converges only for |h| below the radius of convergence, and it may fail altogether for C-infinity non-analytic functions. Riemann tacitly restricts to analytic z; uniqueness of coefficients needs only validity on a neighbourhood of h=0.",
+   "Index slip: the factor is written as '1...p' although the definition concerns the n-th derivative; it should be 1...n = n!.",
+   "Grammatical slips in the draft ('da in die bekannten Entwicklung' instead of 'da die bekannte Entwicklung'); these are harmless."
+  ],
+  "results": [
+   {
+    "what": "Non-recursive definition of the n-th derivative as n! times the coefficient of h^n in the Taylor expansion of z(x+h)",
+    "modern_name": "Taylor coefficient characterization of derivatives (cf. Lagrange's 'fonctions dérivées' / algebraic analysis)",
+    "usually_credited_to": "Lagrange, Théorie des fonctions analytiques (1797); Taylor (1715)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Plan to generalize derivatives to arbitrary order via a two-sided generalized power series in h with non-integer exponents (fractional calculus)",
+    "modern_name": "Riemann (Riemann–Liouville) fractional derivative / generalized Taylor series",
+    "usually_credited_to": "Liouville (1832–1837); Riemann (1847 essay, published 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page belongs to Riemann's well-known 1847 essay on fractional differentiation. The essay is printed in his Gesammelte Werke (1876) and is the origin of the 'Riemann' in Riemann–Liouville. The content here is merely the Lagrange-style Taylor-coefficient definition of derivatives used as motivation.",
+  "checkable": [
+   {
+    "sympy": "x,h=symbols('x h'); n=4; simplify(series(sin(x+h),h,0,n+1).removeO().coeff(h,n)*factorial(n) - diff(sin(x),x,n))",
+    "asserts": "n! times the coefficient of h^n in the expansion of z(x+h) equals the n-th derivative (here z=sin, n=4); result 0."
+   },
+   {
+    "sympy": "x,h=symbols('x h'); n=3; simplify(series(exp(2*x+h**1*2),h,0,n+1).removeO().coeff(h,n)*factorial(n) - diff(exp(2*x),x,n))",
+    "asserts": "Same Taylor-coefficient definition checked for z=exp(2x); result 0."
+   },
+   {
+    "sympy": "x,h=symbols('x h'); simplify(series(log(x+h),h,0,6).removeO().coeff(h,5)*factorial(5) - diff(log(x),x,5))",
+    "asserts": "Coefficient definition for z=log x, which has a finite radius |h|<x, so the expansion is not valid for all h; result 0."
+   },
+   {
+    "sympy": "nu=symbols('nu'); [simplify(1/gamma(k+1) - 1/factorial(k)) for k in range(6)]",
+    "asserts": "Riemann's later choice k_nu=1/Gamma(nu+1) reduces to 1/n! for integer nu, so (2) contains (1); all zeros."
+   }
+  ],
+  "transcription_corrections": [
+   "'multiplicirt mit einem nach x constanten' — the manuscript reads 'multiplicirt in einen nach x constanten'.",
+   "'da in die bekannten Entwicklung' — the hand appears to read 'da die (or: in die, partly struck) bekannte(n) Entwicklung'.",
+   "'aus der gewöhnlichen Fortsetzung[?] der Veränderlichen' — uncertain reading. The word before 'der Veränderlichen' looks like '...vermehrung/...veränderung' (an increase of the variable) rather than 'Fortsetzung'; it needs checking against the printed Werke text.",
+   "The factor at the end of the definition is written '1....p' in the manuscript (Riemann's own slip for 1...n); the transcription correctly reproduces it."
+  ]
+ }
+}

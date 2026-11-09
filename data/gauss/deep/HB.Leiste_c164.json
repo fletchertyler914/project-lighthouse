@@ -1,0 +1,71 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c164",
+ "label": "69",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000165/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a printed page of a German arithmetic/algebra textbook set in Fraktur, §.153, p. 69. The bundle name suggests Christian Leiste's textbook (identification unsure). It is not a Gauss derivation. The only handwriting is in the left margin, and it belongs to Gauss's lemniscate-division computation on the facing page (folio 68). The fragments '-6x-1' and '+6x-3' are the numerator and denominator '3*-6*-1' and '1*+6*-3' there, and the '2' is that fraction's exponent.\n\nTask (Aufgabe): find a general expression for pyramidal numbers, i.e. sums of polygonal numbers. The polygonal-number formula, (a-2)n^2/2 - (a-4)n/2 from §.151, contains squares, so one first needs sum_{k=1}^n k^2.\n\nNotation: S f(n) means sum_{k=1}^n f(k). The base values are\n- S n^0 = n,\n- S n^1 = n(n+1)/2,\n- S n^2 and S n^3 are still to be found.\n\nStep 2 (telescoping): extend each series by one term:\n- S(n+1)^0 = n+1,\n- S(n+1)^1 = (n+1)(n+2)/2,\n- S(n+1)^2 and S(n+1)^3 likewise.\n\nStep 3: subtracting leaves only the last term:\n- S(n+1)^0 - S n^0 = 1,\n- S(n+1)^1 - S n^1 = n+1,\n- S(n+1)^2 - S n^2 = (n+1)^2 = n^2+2n+1,\n- S(n+1)^3 - S n^3 = n^3+3n^2+3n+1.\n\nStep 4: summing the binomial expansion termwise (citing §.152) gives S(n+1)^2 = S n^2 + 2 S n + S1. In modern terms this is sum_{k=0}^n (k+1)^2 = sum_{k=0}^n (k^2 + 2k + 1). The author discusses whether 'S1' means n or n+1 terms and decides S1 = S(n+1)^0 = n+1, which is right because the index runs over n+1 values (k = 0..n).\n\nContinuation on p. 70:\n- 2 S n = (n+1)^2 - (n+1), so S n = n(n+1)/2.\n- From the cube identity, 3 S n^2 = (n+1)^3 - 3 S n - (n+1), so S n^2 = n^3/3 + n^2/2 + n/6.\n- Summing the polygonal numbers gives the a-gonal pyramidal number P_a(n) = ((a-2)n^3 + 3n^2 - (a-5)n)/6.\n- Special cases: tetrahedral n(n+1)(n+2)/6, with n=7 giving 84; square pyramidal n(n+1)(2n+1)/6.\n\nThis is the classical telescoping method (Pascal/Bernoulli style) for power sums.",
+  "errors": [
+   "No mathematical errors on this page. The discussion of whether S1 means n or n+1 is muddled, but its conclusion (S1 = n+1) is correct for the telescoped sum over k = 0..n.",
+   "Next page (p. 70) has a printing slip: 'S n^1 = 1/2 n^2 + 1/2 n = (n+1)n' omits the division by 2. The page itself says this agrees with the earlier value (n+1)n/2.",
+   "Rest of p. 70 checked: S n^2 = n^3/3+n^2/2+n/6 is correct; the pyramidal formula ((a-2)n^3+3n^2+(5-a)n)/6 is correct; the a=3, n=7 value 84 is correct; the a=4 value n(2n^2+3n+1)/6 is correct."
+  ],
+  "results": [
+   {
+    "what": "Sum of the first n integers and constant sum: S n^0 = n, S n^1 = n(n+1)/2",
+    "modern_name": "Triangular-number / arithmetic series formula",
+    "usually_credited_to": "Antiquity (Pythagoreans, Archimedes)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Telescoping derivation of power sums via (n+1)^k - n^k and the binomial theorem, yielding sum k^2 = n^3/3+n^2/2+n/6",
+    "modern_name": "Telescoping/recursive method for Faulhaber sums of powers",
+    "usually_credited_to": "Pascal (1654), Jakob Bernoulli (1713); sum of squares known to Archimedes",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "General a-gonal pyramidal number ((a-2)n^3+3n^2-(a-5)n)/6, including tetrahedral and square pyramidal numbers",
+    "modern_name": "Polygonal pyramidal numbers (figurate numbers)",
+    "usually_credited_to": "Classical (Nicomachus; early-modern figurate-number literature)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is printed textbook material: an elementary 18th-century derivation of power sums and pyramidal numbers. It is not Gauss's work. The only handwriting is overflow from his lemniscate computation on the facing page.",
+  "checkable": [
+   {
+    "sympy": "n,k=symbols('n k',integer=True,positive=True); simplify(summation(k**2,(k,1,n)) - (n**3/3+n**2/2+n/6))",
+    "asserts": "Sum of squares formula; result should be 0"
+   },
+   {
+    "sympy": "simplify(summation(k,(k,1,n)) - n*(n+1)/2)",
+    "asserts": "Sum of first n integers; result should be 0"
+   },
+   {
+    "sympy": "simplify(summation((k+1)**2,(k,0,n)) - (summation(k**2,(k,0,n)) + 2*summation(k,(k,0,n)) + (n+1)))",
+    "asserts": "S(n+1)^2 = S n^2 + 2 S n + S1 with S1 = n+1; result should be 0"
+   },
+   {
+    "sympy": "a=symbols('a'); simplify(summation(((a-2)*k**2-(a-4)*k)/2,(k,1,n)) - ((a-2)*n**3+3*n**2-(a-5)*n)/6)",
+    "asserts": "General pyramidal number formula (p. 70); result should be 0"
+   },
+   {
+    "sympy": "(7**3+3*7**2+2*7)/6",
+    "asserts": "Tetrahedral number for n=7 equals 84"
+   },
+   {
+    "sympy": "expand(((4-2)*n**3+3*n**2-(4-5)*n)/6 - n*(n+1)*(2*n+1)/6)",
+    "asserts": "Square pyramidal case a=4; result should be 0"
+   }
+  ],
+  "transcription_corrections": [
+   "The left-margin handwriting is not commentary on §.153. It is spill-over of Gauss's lemniscate 7-division computation on the facing page. '-6x-1' and '+6x-3' correspond to the fraction (3*-6*-1)/(1*+6*-3) there, and the '2' is its exponent.",
+   "The page body is printed Fraktur text, not Gauss's handwriting. The '2' printed under the S n^2 line is the denominator of (n+1)n/2 on the preceding line.",
+   "Catchword at the bottom is 'verwan-' (continued as 'verwandle' on p. 70). The signature mark is 'E 3'."
+  ]
+ }
+}

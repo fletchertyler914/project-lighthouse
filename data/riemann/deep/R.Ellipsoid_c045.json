@@ -1,0 +1,52 @@
+{
+ "bundle": "R.Ellipsoid",
+ "page": "c045",
+ "label": "19v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205083:00000046/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is not a computation. It is a German prose draft, partly crossed out, of a passage in Riemann's paper 'Ein Beitrag zu den Untersuchungen über die Bewegung eines flüssigen gleichartigen Ellipsoides' (Abh. Göttingen 9, 1861). The passage explains the geometric meaning of the solutions of the linear system (β). The system (β) gives the orientation of the moving principal axes ξ, η, ζ of the fluid ellipsoid.\n\nModern restatement (my notation; the formulas are taken from the facing pages, not from this page):\n\n1. Let Ω = (p, q, r) be the angular velocity of the axis frame, expressed in that frame. Let e = (α, α', α'') be the direction cosines of a line that is fixed in space, also expressed in the moving frame. Then de/dt = e × Ω, that is:\n   - dα/dt = rα' − qα''\n   - dα'/dt = pα'' − rα\n   - dα''/dt = qα − pα'\n   This is my reading of system (β).\n\n2. The coefficient matrix is real and skew-symmetric. Two consequences follow (my step):\n   - The real and imaginary parts of any complex solution are themselves solutions.\n   - For any two solutions X, Y the inner product X·Y is constant in time.\n   So every nonzero real solution has constant length. Scaled by a suitable constant factor, it gives the direction cosines of some fixed line. This is the claim 'jede reelle Lösung ... mit einem geeigneten constanten Factor multiplicirt, die Cosinus der Winkel ausdrückt, welche die Axen der ξ, η, ζ zur Zeit t mit einer festen Linie machen.'\n\n3. The total angular momentum (g, h, k) of the whole moving mass, written in the moving frame, satisfies the same equations. The next page has ∂g/∂t = rh − qk, ∂h/∂t = −rg + pk, ∂k/∂t = qg − ph. Its length ω is constant. Hence the first of the three found solutions, presumably (g/ω, h/ω, k/ω) (the fraction-triple on the page is illegible), gives the normal to the invariable plane ('Normale auf der festen Ebene der ganzen bewegten Masse').\n\n4. The other two solutions are complex conjugates. On the next page they are built from an angle θ = ω∫(rk + hq)/(k² + h²) dt or similar, entering via e^{±iθ}. Their real parts and their coefficients of √−1 are orthogonal to the first solution and to each other (my step), because inner products are conserved. So they give the direction cosines of two further fixed lines, perpendicular to the normal and to each other. These two lines lie in the invariable plane.\n\n5. The crossed-out lines begin to describe the angles that the ζ-axis makes with the fixed normal, and with the intersection line of the ζ-equator plane and the invariable plane, i.e. Euler-type angles. They also begin a sentence on 'the integration of the differential equations (α)'. Both were abandoned.",
+  "errors": [
+   "No mathematical errors. The statements are correct, given that (β) is the linear skew-symmetric system de/dt = e × Ω.",
+   "Implicit and not stated: the two complex solutions must be normalized so that their real and imaginary parts have equal length and are orthogonal (an isotropic vector X·X = 0). The phrase 'with a suitable constant factor' covers this only implicitly."
+  ],
+  "results": [
+   {
+    "what": "Direction cosines of a space-fixed line, written in a rotating frame, satisfy a linear system with skew-symmetric coefficients. Every real solution, suitably scaled, is such a set of direction cosines.",
+    "modern_name": "Kinematic (Poisson) equations for a body-fixed frame; dX/dt = X × Ω",
+    "usually_credited_to": "Euler / Poisson (18th–early 19th century)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Angular momentum in the body frame gives the normal to the invariable plane. The complex solutions give an orthonormal pair of lines in that plane, completing the orientation.",
+    "modern_name": "Invariable plane; integration of the orientation via the angular momentum vector and Euler angles",
+    "usually_credited_to": "Laplace (invariable plane); Jacobi (1849, integration of rigid-body rotation); Riemann 1861 for the fluid-ellipsoid case",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of a passage that appears almost verbatim in Riemann's published 1861 paper on the fluid ellipsoid. The kinematics are classical.",
+  "checkable": [
+   {
+    "sympy": "p,q,r,a1,a2,a3=symbols('p q r a1 a2 a3'); e=Matrix([a1,a2,a3]); W=Matrix([p,q,r]); de=e.cross(W); simplify(e.dot(de))",
+    "asserts": "The right-hand side of (β) is orthogonal to e, so the length of any solution is conserved (result 0)."
+   },
+   {
+    "sympy": "g,h,k,p,q,r=symbols('g h k p q r'); L=Matrix([g,h,k]); simplify(L.cross(Matrix([p,q,r])) - Matrix([r*h-q*k, p*k-r*g, q*g-p*h]))",
+    "asserts": "The angular momentum equations on the next page are dL/dt = L × Ω, the same system as for the direction cosines (result zero vector)."
+   },
+   {
+    "sympy": "x1,x2,x3,y1,y2,y3,p,q,r=symbols('x1 x2 x3 y1 y2 y3 p q r'); X=Matrix([x1,x2,x3]); Y=Matrix([y1,y2,y3]); W=Matrix([p,q,r]); simplify(X.cross(W).dot(Y)+X.dot(Y.cross(W)))",
+    "asserts": "The inner product of any two solutions is constant, so orthonormality of the three lines is preserved (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "First (half-deleted) line reads roughly: 'Die ganze Bedeutung {+jeder+} [-einer-] reellen Lösung der Differentialgleichungen (β) [ergiebt sich daraus]'. The '(β)' at the end of the second line is clear.",
+   "'Bildet man die drei gefundenen ... Lösungen' is uncertain. It may be 'Nimmt man' or 'Bezeichnet man', with an insertion such as 'particulären' above. 'mit u' is doubtful.",
+   "The fraction triple after 'so hat die erste' is illegible. It is most likely the normalized angular momentum components (g/ω, h/ω, k/ω), though Riemann's notation in the published text may differ.",
+   "Last crossed-out line: 'Die Integration der Differentialgleichungen (α) [hat/ergiebt] also'."
+  ]
+ }
+}

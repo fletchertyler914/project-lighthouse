@@ -1,0 +1,53 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c145",
+ "label": "86v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000146/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This sheet belongs to the drafts of Riemann's 1860 memoir 'Ueber die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'. 'Die in §.1 aufgestellten Gesetze der Luftbewegung' refers to the reduction of the 1-D Euler equations to characteristic form.\n\nModern restatement of §1 (my reconstruction, not on this page). The equations are\n- rho_t + (rho u)_x = 0\n- u_t + u u_x + phi'(rho) rho_x / rho = 0, with pressure law P = phi(rho).\n\nPut F(rho) = ∫ sqrt(phi'(rho)) d rho / rho, and define the Riemann invariants (here called p and q, published version r and s) as p = (F + u)/2 and q = (F − u)/2, up to normalisation. Then:\n- p_t + (u + sqrt(phi')) p_x = 0\n- q_t + (u − sqrt(phi')) q_x = 0\n\nSo a fixed value of p is carried with speed dx/dt = u + sqrt(phi'(rho)), and a fixed value of q with speed u − sqrt(phi'). For Boyle's law phi = a^2 rho one has F = a log rho and sqrt(phi') = a. The forward speed is then u + a, which is presumably the inserted 'κ+a'/'u+a'. Expressed in Riemann's normalisation of p and q it is a linear function written as '2a(p+q+½)' (reading uncertain).\n\nParagraph 1 (on the page). The laws of §1 hold only so long as p and q (together with dp/dx, dq/dx) are continuous functions of x. But the very law by which these functions change in time shows that, after a finite time, they must almost always become discontinuous. Sudden condensations and jumps in particle velocity (shocks) then occur. Reason: a given value of p advances toward larger x with a speed that depends on the local state, a linear function of p and q.\n\nParagraph 2 (on the page). Suppose a larger value p1 lies behind and follows a smaller value p2 running ahead. Suppose also that, as x grows, it is not the case that the q accompanying p1 is on average smaller by p1 − p2 than the q2 simultaneously accompanying p2. Then p1 travels faster than p2, approaches it more and more, and finally catches up.\n\nThe compensation condition q1 ≈ q2 − (p1 − p2) is exactly what is needed if the speed depends on p + q with equal weights, i.e. on p1 + q1 = p2 + q2. When p1 reaches p2's position, p takes two values at one point, so p_x becomes infinite. This is the gradient catastrophe: compressive parts of a wave steepen into shocks. In the published memoir this becomes the argument that condensation waves necessarily develop discontinuities.\n\nThe struck line at the bottom ('durchschnittlich ... um p1−p2 ...') is a discarded variant of the same condition.\n\nSketches. Unrelated geometric doodles: nested Cassini/lemniscate-type level curves about two points, a circle with tangents from an external point, axes x,y with a triangle, a U-shaped region, an irregular closed curve. No computation is attached to them.",
+  "errors": [
+   "No mathematical error is identifiable; the argument is heuristic (wave-breaking by faster-moving larger p values), as in the published version.",
+   "The speed formula '2a(p+q+½)' cannot be verified without Riemann's exact normalisation of p and q. It is consistent with the stated compensation condition q1 − q2 = −(p1 − p2), which implies the speed depends on p+q. In the standard normalisation (p,q = (a log rho ± u)/2) the speed would be u + a = p − q + a, so the sign of q or its scaling differs by convention, or the reading is wrong.",
+   "The claim that solutions 'fast immer' (almost always) become discontinuous is asserted, not proved. Strictly, it holds whenever some p decreases in x somewhere (a compressive part), which is generic."
+  ],
+  "results": [
+   {
+    "what": "Characteristic form of 1-D isentropic gas dynamics: the invariants p, q are transported with speeds u ± sqrt(phi'(rho))",
+    "modern_name": "Riemann invariants / method of characteristics for hyperbolic systems",
+    "usually_credited_to": "Riemann 1860 (Earnshaw 1858/60 for simple waves)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Larger values of p overtake smaller ones unless q compensates, so continuous solutions break down into shocks (sudden condensations)",
+    "modern_name": "Gradient catastrophe / wave breaking and shock formation in compressive waves",
+    "usually_credited_to": "Stokes 1848, Challis, Earnshaw; Riemann 1860 for the systematic treatment",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft passage of Riemann's published 1860 shock-wave memoir, giving the standard wave-breaking argument already credited to him. The variable names p, q (instead of r, s) and the explicit compensation condition are only minor draft details.",
+  "checkable": [
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); rho=Function('rho')(x,t); u=Function('u')(x,t); rt=-diff(rho*u,x); ut=-u*diff(u,x)-a**2*diff(rho,x)/rho; p=(a*log(rho)+u)/2; expr=(diff(p,rho.diff(t).func) if False else 0); simplify((a/rho*rt+ut)/2+(u+a)*diff(p,x))",
+    "asserts": "For the isothermal law P=a^2 rho, p=(a log rho + u)/2 satisfies p_t + (u+a) p_x = 0 (expression simplifies to 0)."
+   },
+   {
+    "sympy": "simplify((a/rho*rt-ut)/2+(u-a)*diff((a*log(rho)-u)/2,x))",
+    "asserts": "q=(a log rho − u)/2 satisfies q_t + (u−a) q_x = 0 (with the same rt, ut as above)."
+   },
+   {
+    "sympy": "k,r,s=symbols('k r s'); u=r-s; c=(k-1)/2*(r+s); simplify(u+c-((k+1)/2*r-(3-k)/2*s))",
+    "asserts": "For the polytropic law P∝rho^k (with r,s normalised so u=r−s, c=(k−1)(r+s)/2), the characteristic speed u+c is linear in r and s, as in the published memoir."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the inserted phrase above 'gelten' likely reads 'in Bezug der Werthe' or similar; the struck words are probably 'unter der Voraussetzung'. The sense is 'hold only so long as p and q are continuous functions of x'.",
+   "The inserted symbol above the speed formula is probably 'u+a' (velocity plus sound speed) rather than 'κ+a'.",
+   "In the speed formula '2a(p+q+½)', the reading of the sign and coefficients is uncertain.",
+   "Paragraph 2: 'voraneilt' is plausible, though possibly 'nacheilt'; the logic requires the larger p1 to follow behind and overtake p2. A 'nicht' (unless) is implied before 'so wächst', and the ending reads approximately 'immer mehr nähern und schließlich auf[holen / einholen]'."
+  ]
+ }
+}

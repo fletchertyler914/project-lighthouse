@@ -1,0 +1,67 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c016",
+ "label": "7",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000017/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Purpose: first-order corrections that turn geocentric (ephemeris) right ascension and declination into apparent topocentric, refracted places. The next page applies them to the Sun on 1809 May 11 at Göttingen.\n\nNotation (Gauss): α right ascension, δ declination, φ latitude (Polhöhe), h hour angle (counted westward), ρ refraction at 45° altitude, ϖ horizontal parallax.\n\n[Implicit steps, mine]\n1. Zenith distance z: cos z = sinφ sinδ + cosφ cosδ cos h.\n2. Parallactic angle q: sin z sin q = cosφ sin h and sin z cos q = sinφ cosδ − cosφ sinδ cos h.\n\nRefraction:\n3. Model: refraction raises the star toward the zenith by R = ρ tan z. This is the simple tangent law; ρ is the value at z = 45°, since tan 45° = 1.\n4. A displacement R toward the zenith gives Δδ = R cos q and Δh = −R sin q / cosδ.\n5. Since α = sidereal time − h, Δα = +R sin q / cosδ.\n6. Substituting R = ρ sin z / cos z:\n   Δα_ref = ρ cosφ sin h / [cosδ (sinφ sinδ + cosφ cosδ cos h)]\n   Δδ_ref = ρ (sinφ cosδ − cosφ sinδ cos h) / (sinφ sinδ + cosφ cosδ cos h).\n   These are Gauss's first-table entries.\n\nParallax:\n7. Parallax depresses the body away from the zenith by ϖ sin z. Spherical Earth, first order.\n8. Hence Δα_par = −ϖ cosφ sin h / cosδ and Δδ_par = −ϖ (sinφ cosδ − cosφ sinδ cos h).\n\nAuxiliary angle θ, with tan θ = tan φ / cos h:\n9. Put k = sinφ / sinθ = cosφ cos h / cosθ, so that sinφ = k sinθ and cosφ cos h = k cosθ. [mine]\n10. Then cos z = k cos(θ−δ) and sinφ cosδ − cosφ sinδ cos h = k sin(θ−δ). [mine]\n11. Results:\n   Δδ_ref = ρ tan(θ−δ)\n   Δα_ref = ρ cosφ sin h / (cosδ · k cos(θ−δ)) = ρ cosθ tan h / (cosδ cos(θ−δ))\n   Δα_par unchanged\n   Δδ_par = −ϖ k sin(θ−δ) = −ϖ sinφ sin(θ−δ) / sinθ.\n   These are exactly the second-table entries. The auxiliary angle makes them convenient for logarithmic computation.\n\nNext-page check:\n- log ρ = 1.7333 gives ρ ≈ 54.1″.\n- With h = 322°18′ (east of the meridian), tan h and sin h are negative.\n- This gives refraction −30.5″ in RA and +45.5″ in Dec, and parallax corrections +3.4″ and −5.1″. All signs agree with the formulas.",
+  "errors": [
+   "No errors in the formulas; all four entries of both tables are correct to first order.",
+   "Unstated approximations: tangent refraction law; spherical Earth (no geocentric latitude or radius); parallax and refraction treated as small first-order quantities (terms in ϖ², ρ² neglected).",
+   "Quadrant of θ not specified. It must be taken with sinθ of the same sign as sinφ (0<θ<180° in the north), so that k > 0. This is implicit; in the worked example θ ≈ 58°, which is correct.",
+   "Corrections are in arc; RA is used in degrees, which is consistent with the next page."
+  ],
+  "results": [
+   {
+    "what": "Effect of atmospheric refraction (R = ρ tan z) on right ascension and declination via the parallactic angle",
+    "modern_name": "Differential refraction in equatorial coordinates (first-order refraction correction to α, δ)",
+    "usually_credited_to": "Standard 18th-century spherical astronomy (Bradley, Lalande, Delambre; later Bessel's Tabulae Regiomontanae)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Effect of diurnal (horizontal) parallax on α and δ",
+    "modern_name": "Diurnal parallax in right ascension and declination",
+    "usually_credited_to": "Standard textbook material (Lalande, Delambre)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Auxiliary angle tanθ = tanφ/cos h reducing the formulas to products suited to logarithms (Δδ_ref = ρ tan(θ−δ), etc.)",
+    "modern_name": "Auxiliary-angle (Hilfswinkel) transformation for logarithmic computation",
+    "usually_credited_to": "Common computational device of the period (Delambre, Gauss, Bessel, Encke)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are standard first-order formulas of practical spherical astronomy around 1809, written in a convenient logarithmic form with a usual auxiliary angle. They are correct and neatly organized, but there is nothing beyond contemporary textbook practice.",
+  "checkable": [
+   {
+    "sympy": "simplify((sin(phi)*sin(d)+cos(phi)*cos(d)*cos(h)) - (sin(phi)/sin(atan(tan(phi)/cos(h))))*cos(atan(tan(phi)/cos(h))-d)).subs({phi:0.9, d:0.3, h:0.4})",
+    "asserts": "cos z = k cos(θ−δ) with k = sinφ/sinθ, tanθ = tanφ/cos h (numerically 0)"
+   },
+   {
+    "sympy": "(rho*(sin(phi)*cos(d)-cos(phi)*sin(d)*cos(h))/(sin(phi)*sin(d)+cos(phi)*cos(d)*cos(h)) - rho*tan(atan(tan(phi)/cos(h))-d)).subs({rho:1, phi:0.9, d:0.3, h:0.4}).evalf()",
+    "asserts": "Declination refraction equals ρ tan(θ−δ) (numerically 0)"
+   },
+   {
+    "sympy": "(rho*cos(phi)*sin(h)/(cos(d)*(sin(phi)*sin(d)+cos(phi)*cos(d)*cos(h))) - rho*cos(atan(tan(phi)/cos(h)))*tan(h)/(cos(d)*cos(atan(tan(phi)/cos(h))-d))).subs({rho:1, phi:0.9, d:0.3, h:0.4}).evalf()",
+    "asserts": "RA refraction equals ρ cosθ tan h /(cosδ cos(θ−δ)) (numerically 0)"
+   },
+   {
+    "sympy": "(-w*(sin(phi)*cos(d)-cos(phi)*sin(d)*cos(h)) + w*sin(phi)*sin(atan(tan(phi)/cos(h))-d)/sin(atan(tan(phi)/cos(h)))).subs({w:1, phi:0.9, d:0.3, h:0.4}).evalf()",
+    "asserts": "Declination parallax equals −ϖ sinφ sin(θ−δ)/sinθ (numerically 0)"
+   },
+   {
+    "sympy": "(sin(phi)*cos(d)-cos(phi)*sin(d)*cos(h))**2 + (cos(phi)*sin(h))**2 + (sin(phi)*sin(d)+cos(phi)*cos(d)*cos(h))**2 - 1",
+    "asserts": "sin z cos q, sin z sin q, cos z form a unit vector (simplifies to 0), confirming the parallactic-angle components"
+   }
+  ],
+  "transcription_corrections": [
+   "'\\tang' should read tan (Gauss writes 'tang'); content otherwise matches the image.",
+   "The transcription is accurate: all formulas in both tables agree with the manuscript."
+  ]
+ }
+}

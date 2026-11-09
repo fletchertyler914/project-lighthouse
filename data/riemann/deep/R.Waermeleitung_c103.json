@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c103",
+ "label": "53v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000104/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the bundle treats the heat-equation problem in which the temperature u(x1,x2,x3,t) depends on x only through two functions alpha, beta. This is the isotherm question of the Paris prize problem behind Riemann's 1861 Commentatio. Delta is the Laplacian rewritten in the variables alpha, beta. The previous page split the equation F=0 into Delta u=0 and Delta u = du/dt (the 'm=2' situation). In the 'prior case' a reduced equation (1) Sum_nu c_nu(alpha,beta) d^nu u/dalpha^nu = 0 holds; it is an ODE in alpha with beta as a parameter. Hence u = Sum_nu q_nu(beta,t) p_nu(alpha,beta), where the p_nu are particular solutions of (1) and the q_nu are 'constants' depending only on beta and t.\n\nThis page, step 1. Substitute this u into Delta u = du/dt. Collecting terms gives a relation Sum_i P_i Q_i = 0. Each Q_i is q_nu or one of its derivatives in beta or t, so a function of (beta,t) only. Each P_i is p_nu or one of its alpha/beta derivatives times coefficients of Delta, so a function of (alpha,beta) only.\n\nStep 2. Riemann invokes a lemma proved earlier. If Sum_{i=1}^n P_i(alpha,beta) Q_i(beta,t) = 0, then for some mu in {0,...,n} there are mu linear relations among the Q_i and n-mu linear relations among the P_i. In both families the coefficients depend on beta alone. This is the parametric form of the separation lemma for Sum f_i(x) g_i(y) = 0 (rank argument).\n\nStep 3. Consequently each dq_nu/dt can be expressed through the q's and their beta-derivatives, with coefficients free of alpha.\n\nStep 4, special case m=2. Here Delta = d_alpha d_beta + e d_alpha + f d_beta, using a=c=0 from the previous page. Suppose the reduced equation (written Delta_1 u = 0) can be freed of beta-derivatives. Then it takes the form u_aaa + r u_aa + s u_a = 0. This third-order linear ODE in alpha has no zero-order term, so 1 is a solution. Hence u = a p + b q + c, with a, b, c functions of (beta,t) and p, q functions of (alpha,beta).\n\nStep 5. Introduce q as the new independent variable in place of alpha (my addition: this needs dq/dalpha not equal to 0, else b q merges with c). Then u = a p + alpha b + c, and only p depends on both alpha and beta. Substituting into Delta u = 0 and Delta u = du/dt is said to determine the form of the coefficients 'easily'; this is not carried out.\n\nStep 6. The page ends by opening the remaining case, where one of the equations into which F=0 splits already has form (1) of lower order. The next page shows this is r u_aa + s u_a = 0, giving u = a p + b.",
+  "errors": [
+   "No mathematical errors found.",
+   "The change of variable alpha -> q tacitly assumes q is not independent of alpha. This is harmless, since otherwise b q could be absorbed into c.",
+   "The phrase 'coefficientium formae facile eruuntur' leaves the actual determination of a, b, c and p unverified on this page.",
+   "The lemma's coefficients 'functions of beta alone' rely on the shared variable beta being treated as a parameter. This is fine given the setup."
+  ],
+  "results": [
+   {
+    "what": "Separation lemma: Sum P_i(alpha,beta) Q_i(beta,t) = 0 implies mu linear relations among the Q and n-mu among the P, with beta-dependent coefficients",
+    "modern_name": "Linear-independence / rank lemma for sums of separated products (functional equation Sum f_i(x) g_i(y) = 0)",
+    "usually_credited_to": "Classical folklore (19th c.; cf. later work on d'Alembert-type functional equations, Levi-Civita 1913 for related forms)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Solving u_aaa + r u_aa + s u_a = 0 as u = a p + b q + c and normalizing via a change of variable to u = a p + alpha b + c",
+    "modern_name": "Structure of solutions of a linear ODE with a parameter; superposition",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Classification of heat-equation solutions depending on x only through two functions alpha, beta (isotherm problem), case m=2",
+    "modern_name": "Classification of solutions of the heat equation with prescribed isothermal surfaces (functionally invariant / reducible solutions)",
+    "usually_credited_to": "Paris Academy prize question 1858/1868; Riemann's Commentatio 1861 (partially published in Werke 1876)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a draft continuation of Riemann's known work on the Paris prize heat-conduction problem. The methods here are routine ODE and separation arguments. The detailed case analysis of the isotherm problem is an unpublished detail, but it is not a major new result.",
+  "checkable": [
+   {
+    "sympy": "r,s,al=symbols('r s alpha'); u=Function('u'); dsolve(u(al).diff(al,3)+r*u(al).diff(al,2)+s*u(al).diff(al),u(al))",
+    "asserts": "For constant r,s the general solution is C1 + C2*exp(l1*alpha) + C3*exp(l2*alpha), i.e. of the form a p + b q + c with a constant solution present"
+   },
+   {
+    "sympy": "c=Function('c')(Symbol('beta')); simplify(diff(c,Symbol('alpha'),3))==0",
+    "asserts": "Any function of beta alone (the term c) solves the alpha-ODE u_aaa + r u_aa + s u_a = 0, since all alpha-derivatives vanish"
+   },
+   {
+    "sympy": "a,b,c=symbols('a b c'); al=Symbol('alpha'); diff(b*al+c,al,2)==0",
+    "asserts": "After the variable change, the term alpha*b + c is annihilated by d^2/dalpha^2 (consistent with the next page's u = a alpha + b, u_aa = 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "'aequatio reducta Δ Δu = 0' in the image reads 'aequatio reducta Δ₁u = 0' (Δ with index 1, i.e. the reduced equation), not ΔΔu.",
+   "The struck-out word before 'potest' is a deleted fragment ('pot'/'pet'); the reading 'introduci potest' is correct.",
+   "'discinditur[?]' is likely 'discinditur'/'discindetur' (split into), consistent with 'dissolvatur' on the next page."
+  ]
+ }
+}

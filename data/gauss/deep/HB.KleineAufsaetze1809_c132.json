@@ -1,0 +1,100 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c132",
+ "label": "123",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000133/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PROBLEM. Given plane coordinates x and y, convert them to geographic coordinates. x is measured along the central meridian and is 'gleichförmig wachsend', i.e. true meridian arc length from the origin (Göttingen). y is the perpendicular coordinate. The page computes latitude Φ, meridian convergence c and longitude difference λ.\n\nThe series in log(1) and log(2) settle which projection this is. They match the conformal (Gauss / transverse-Mercator) projection, not Soldner's geodesic-perpendicular coordinates; this is my identification, tested below. So the page gives the inverse formulas of Gauss's Hanoverian conformal coordinates.\n\nNOTATION\n- φ is the footpoint latitude, i.e. the latitude belonging to meridian arc x.\n- W = sqrt(1 - e² sin²φ).\n- q = complementary log of W = -log10 W.\n- k = log10(e) = 0.4342945.\n- ρ = 206265.\n- Logs are Briggsian, with -10 characteristics suppressed.\n\nCONSTANTS\n- log B = 8.5098272984 - q. Here B = ρ·W/a = ρ/N, i.e. 1/N in arc seconds per metre. The constant implies a ≈ 6.3767·10^6 in the unit used.\n- log C = log(AB/2ρ) = 1.4070738825 - 4q. Here A = ρW³/(a(1-e²)) = ρ/M, so C = ρ/(2MN) in seconds per m².\n  - The struck-out value 1.7081038782 is log(AB/ρ). The new value is exactly log 2 smaller, so Gauss first forgot the factor 1/2.\n  - Krüger's pencil note 'log AB/(2·206265)' just makes the ρ explicit.\n  - The C constant fixes -log(1-e²) = 0.0028744, i.e. e² ≈ 0.006597 and f ≈ 1/302.7 (Walbeck-type ellipsoid).\n- ε = (1-e²)k·10^7/(6a²), with log ε = 2.2475629768. In this formula Gauss struck out a superfluous factor 206265. So εyy ≈ k(y/N)²/6 in units of the 7th log decimal (W² is replaced by 1-e²).\n- ζ = k·10^7/(3ρ²), with log ζ = 5.5318127903. So ζcc = k c²/3 and ζλλ = k λ²/3, with c and λ in seconds.\n\nFORMULAS (s = y/N, t = tan φ)\n- c = (1)·B y tanφ, with log(1) = -2εyy - ζcc.\n  - My check: on the sphere the conformal inverse gives tan c = tanh s · tan φ.\n  - Hence c = s t·(tanh s/s)/(tan c/c), so log(1) = -k s²/3 - k c²/3 = -2εyy - ζcc. ✓\n  - For Soldner coordinates (tan c = sin s tan φ) it would be -εyy - ζcc, which does not match.\n- λ = (2)·B y/cosφ, with log(2) = εyy - ζλλ.\n  - My check: tan λ = sinh s / cos φ.\n  - So log(2) = k s²/6 - k λ²/3. ✓ (Soldner would give 2εyy - ζλλ.)\n- Φ = φ - (3)·C y² tanφ.\n  - My check: sin Φ = sin φ / cosh s gives Φ = φ - (t s²/2)[1 - (5+3t²)s²/12].\n  - So log(3) = -(5/12)k s² - (1/4)k s² t² = -(3/4)ζcc - (5/2)εyy.\n  - Using c² ≈ s²t² and λ² ≈ s²(1+t²) to leading order, this equals -(3/4)ζλλ - εyy and also -(5/4)ζλλ + (1/2)ζcc. All three forms agree, which implies the relation ζ(λ² - c²) = 2εyy.\n\nEXAMPLE: Magdeburg, x = -67693.570, y = -115830.122. Gauss's x points south and y west, metres.\n- Footpoint latitude φ = 52°8'19.422\"; q = 0.0008947. My check: e² sin²φ = 0.0041117 gives q = 0.00089467. ✓\n- log y = 5.0638216 and log B = 8.5089326, so log(By) = 3.5727542.\n- Convergence:\n  - + log tanφ 0.1093590 gives 3.6821132.\n  - log y² (y in units of 10^5 m) = 0.12764, so εyy = 237.25.\n  - log c² = 7.36423 gives ζcc = 787.12.\n  - log(1) = -474.50 - 787.12 = -1262, so log c = 3.6819870 and c = 4808.249\" = 1°20'8.249\".\n- Longitude:\n  - - log cosφ 9.7879927 gives 3.7847615.\n  - log λ² = 7.56952 gives ζλλ = 1262.80.\n  - log(2) = 237.25 - 1262.80 = -1026, so λ = 6090.583\" = 1°41'30.583\" east of Göttingen.\n- Latitude:\n  - 0.1276432 + 1.4034950 (= log C - 4q) + 0.1093590 = 1.6404972.\n  - log(3) = -(3/4)·1262.8 (= 947) - 237.25 = -1184, giving 1.6403788 and Cy²tanφ = 43.690\".\n  - Φ = 52°8'19.422\" - 43.690\" = 52°7'35.732\".\n- The struck-out right-hand column repeats the Φ computation with the erroneous 1.7045251 (= 1.7081039 - 4q, i.e. without the 1/2); it was discarded.\n- The results are plausible for Magdeburg (≈52.13°N, ≈11.6°E, against Göttingen at 9°56.6'E).",
+  "errors": [
+   "Initial slip, corrected by Gauss: log C first taken as log(AB/ρ) = 1.7081038782; it was then reduced by log 2 to 1.4070738825. The first Φ computation (struck-out column: 1.7045251, 9.5759854, 1.5175127) was discarded accordingly.",
+   "A superfluous factor 206265 in the denominator of ε was written and struck out. This is correct, since y is in metres.",
+   "ε uses the constant (1-e²)/a² instead of W²/a² = 1/N². In addition, the ζ terms and the 5/12 coefficients are spherical, so η² = e'²cos²φ terms are neglected. For Hanoverian distances these effects are < 1e-7 in the log and negligible.",
+   "The equality of the three forms of log(3) holds only to leading order, using c ≈ λ sinφ and λcosφ ≈ s. This is legitimate at the stated order.",
+   "All numerical steps of the example check: q, log y, log B y, log tanφ, log cosφ, εyy = 237.25, ζcc = 787.12, ζλλ = 1262.80, the corrections -1262/-1026/-1184, and c, λ, Φ. No arithmetic error was found."
+  ],
+  "results": [
+   {
+    "what": "Inverse formulas for Gauss's conformal (transverse-Mercator) coordinates: footpoint latitude plus log-correction series giving latitude, longitude and meridian convergence from x, y. Correct third-order coefficients: log(1) = -2εyy - ζcc, log(2) = εyy - ζλλ, log(3) = -(3/4)ζcc - (5/2)εyy.",
+    "modern_name": "Gauss–Krüger (transverse Mercator) inverse projection series; grid-to-geographic conversion with meridian convergence",
+    "usually_credited_to": "C. F. Gauss (Hanoverian survey, 1820s), developed and published by L. Krüger (Werke IX, 1903; 'Konforme Abbildung des Erdellipsoids in der Ebene', 1912)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Logarithmic correction factors in the form log(n) = linear combination of k·s²/6 and k·c²/3 (or k·λ²/3), with the identity ζ(λ² - c²) = 2εyy allowing interchange of the forms.",
+    "modern_name": "Series expansion of log(tanh s/s), log(sinh s/s), log(tan x/x) for small arguments; Gauss's logarithmic computing scheme",
+    "usually_credited_to": "Gauss (geodetic computing practice)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Worked example for Magdeburg in Hanoverian coordinates: c = 1°20'8.249\", λ = 1°41'30.583\", Φ = 52°7'35.732\".",
+    "modern_name": "Numerical coordinate transformation",
+    "usually_credited_to": "Gauss (Hanoverian triangulation)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are Gauss's well-known inverse formulas for his conformal Hanoverian coordinate system. Krüger's pencil reference 'Band IX S.157' indicates this very page was printed in Gauss's Werke IX (1903). The method is the origin of what is now called Gauss–Krüger and is already credited to Gauss; the page adds only the corrected log 2 slip and the worked example.",
+  "checkable": [
+   {
+    "sympy": "simplify(series(atan(tanh(s)*t) - s*t*(1 - s**2/3 - s**2*t**2/3), s, 0, 5).removeO())",
+    "asserts": "Conformal convergence tan c = tanh(s) tan(phi) gives c = s t (1 - s²/3 - c²/3) to O(s^5), i.e. log(1) = -2εyy - ζcc with εyy = k s²/6, ζcc = k c²/3. Expected result: 0."
+   },
+   {
+    "sympy": "simplify(series(atan(sinh(s)/cos(p)) - s/cos(p)*(1 + s**2/6 - s**2/(3*cos(p)**2)), s, 0, 5).removeO())",
+    "asserts": "Longitude tan λ = sinh(s)/cos φ gives λ = (s/cosφ)(1 + s²/6 - λ²/3), i.e. log(2) = εyy - ζλλ. Expected result: 0."
+   },
+   {
+    "sympy": "simplify(series(asin(sin(p)/cosh(s)) - (p - s**2*tan(p)/2*(1 - (5 + 3*tan(p)**2)*s**2/12)), s, 0, 5).removeO())",
+    "asserts": "Latitude sin Φ = sin φ / cosh s gives Φ = φ - (s² tanφ/2)(1 - (5+3tan²φ)s²/12), i.e. log(3) = -(5/2)εyy - (3/4)ζcc. Expected result: 0."
+   },
+   {
+    "sympy": "simplify((-Rational(3,4)*(s**2*(1+t**2))/3 - s**2/6) - (-Rational(5,12)*s**2 - s**2*t**2/4))",
+    "asserts": "Form -(3/4)ζλλ - εyy equals -(5/2)εyy - (3/4)ζcc when λ² = s²(1+t²). Expected result: 0."
+   },
+   {
+    "sympy": "simplify((-Rational(5,4)*(s**2*(1+t**2))/3 + s**2*t**2/6) - (-Rational(5,12)*s**2 - s**2*t**2/4))",
+    "asserts": "Form -(5/4)ζλλ + (1/2)ζcc equals the same coefficient. Expected result: 0."
+   },
+   {
+    "sympy": "N(log(115830.122, 10))",
+    "asserts": "log y ≈ 5.0638216."
+   },
+   {
+    "sympy": "N(log(tan((52 + 8/60 + 19.422/3600)*pi/180), 10)), N(log(cos((52 + 8/60 + 19.422/3600)*pi/180), 10))",
+    "asserts": "log tanφ ≈ 0.1093590 and log cosφ ≈ -0.2120073 (written 9.7879927)."
+   },
+   {
+    "sympy": "N(1.7081038782 - 1.4070738825 - log(2, 10))",
+    "asserts": "The struck-out and corrected log C differ by exactly log 2 (result ≈ 0)."
+   },
+   {
+    "sympy": "N(10**(3.6821132 - 0.0001262)), N(10**(3.7847615 - 0.0001026)), N(10**(1.6404972 - 0.0001184))",
+    "asserts": "c ≈ 4808.249\", λ ≈ 6090.583\", Cy²tanφ ≈ 43.690\"."
+   },
+   {
+    "sympy": "N(-2*10**(2.2475630 + 0.1276432) - 10**(5.5318128 + 7.3642264 - 10)), N(10**(2.2475630 + 0.1276432) - 10**(5.5318128 + 7.5695230 - 10))",
+    "asserts": "log(1) ≈ -1262 and log(2) ≈ -1026 in units of the 7th decimal."
+   },
+   {
+    "sympy": "N(-Rational(3,4)*10**(5.5318128 + 7.5695230 - 10) - 10**(2.2475630 + 0.1276432))",
+    "asserts": "log(3) ≈ -1184."
+   },
+   {
+    "sympy": "N(-0.5*log(1 - 0.0065967*sin((52 + 8/60 + 19.422/3600)*pi/180)**2, 10))",
+    "asserts": "q ≈ 0.0008947, with e² ≈ 0.006597 implied by the log C constant."
+   }
+  ],
+  "transcription_corrections": [
+   "The left-margin fragments ('...rden IX S.122', '1/3 ... (1-ee sin²)/(1-ee)', '1/2 μ - 3/4 ν') are on the facing previous page (bound edge). They belong to the log(4)/log(5) formulas there, not to this page.",
+   "The marginal labels 'log y', 'B', 'tang φ' beside the left column are faint pencil, presumably an editor's hand (Krüger, 'Kr').",
+   "Right column: '947' is ¾·ζλλ = 947.1, and '1262,80' is ζλλ. The lines read 0.12764 / 2,24756 / 237,25 / 947 and 7.36423 / 7.56952 / 5.53181 / 787.12 / 1262,80; the last digits of 7.36423 and 787.12 are overwritten.",
+   "In 3.6821132, 4808\"249 and Φ = 52°7'35\"732 several digits are overwritten corrections in ink; the final readings given are consistent with the computation.",
+   "ε: the struck-out '206265' in its denominator is confirmed. ζ's value is 5,5318127903, with the stray point in '5,5318127.903' being a digit separator.",
+   "In log(3) the first form is '-¾ ζλλ - εyy'. It is consistent with the other two forms only with coefficient 3/4."
+  ]
+ }
+}

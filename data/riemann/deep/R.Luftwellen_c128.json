@@ -1,0 +1,63 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c128",
+ "label": "78r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000129/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the general consequences section of Riemann's 1860 memoir 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'. The setting is 1-D compressible flow with velocity u(x,t) and density ρ(x,t). The factor a log ρ shows that the isothermal (Boyle) law p_pressure = a²ρ is used, so the sound speed a is constant. The quantities p and q are the Riemann invariants.\n\n(1) From the earlier section (cited as '§1 (4)'), p = u + a log ρ satisfies dp = p_x (dx − (u+a) dt). This is the differential form of p_t + (u+a) p_x = 0. Similarly dq = q_x (dx − (u−a) dt) for q = u − a log ρ.\n\n(2) Consequence: p is constant along curves dx/dt = u+a, and q is constant along dx/dt = u−a (the characteristics).\n- A fixed value of u + a log ρ therefore moves toward larger x with speed a+u.\n- A fixed value of u − a log ρ moves toward smaller x with speed a−u (subsonic flow tacitly assumed).\n\n(3) Geometric picture: at each instant, draw p and q as curves over the abscissa x.\n- Every point of these curves translates parallel to the x-axis, but generally with different speeds.\n- The speed of a point of the p-curve is u+a = (p+q)/2 + a. It thus depends on the value of q it meets at that place; the marginal '(p+q)' records exactly this.\n- So the problem reduces to the question: where and when does a given value of p meet a given value of q? In other words, find x and t as functions of (p,q). This is the hodograph inversion.\n\n(4) Riemann then writes ∂w/∂p = x − (u+a)t and ∂w/∂q = x − (u−a)t, introducing a potential w(p,q).\n- Justification (mine): with x, t regarded as functions of (p,q), the characteristic relations become x_q = (u+a) t_q (along a line of constant p) and x_p = (u−a) t_p.\n- Hence ∂_q[x − (u+a)t] = −t ∂_q(u+a) and ∂_p[x − (u−a)t] = −t ∂_p(u−a).\n- Since u = (p+q)/2 and a is constant, both partial derivatives equal 1/2, so the integrability condition holds and w exists.\n- Eliminating x and t (mine): t = (w_q − w_p)/(2a) and x = w_p + (u+a)t. Substituting gives the linear equation w_pq = −t/2 = (w_p − w_q)/(4a).\n- This is the linear second-order equation that Riemann later solves by his integration (Riemann-function) method.\n\nThe remaining lines ('Ähnlicher Weise …', 'Auf ähnliche Weise findet man die Substitution, so wie auch') are unfinished fragments, presumably heading toward expressing x and t through w.",
+  "errors": [
+   "No mathematical errors. The statement that values of q travel to smaller x with speed a−u tacitly assumes |u|<a (subsonic); the published text has the same tacit assumption.",
+   "The page is a draft with many deletions; the final paragraphs are left incomplete."
+  ],
+  "results": [
+   {
+    "what": "Riemann invariants p,q = u ± a log ρ for isothermal 1-D gas flow, constant along the characteristics dx/dt = u ± a",
+    "modern_name": "Riemann invariants / method of characteristics for 1-D gas dynamics",
+    "usually_credited_to": "Riemann 1860 (Earnshaw 1858/60 for simple waves)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Picture of p- and q-profiles translating with speeds depending on the other invariant; reduction to finding where and when a given p meets a given q",
+    "modern_name": "Wave interaction via characteristics; hodograph viewpoint",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Potential w(p,q) with w_p = x − (u+a)t and w_q = x − (u−a)t, linearizing the problem",
+    "modern_name": "Hodograph transformation leading to a linear Euler–Poisson–Darboux/telegraph-type equation (solved by Riemann's method)",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of the published 1860 Luftwellen memoir (Riemann invariants, hodograph potential w). It contains no new mathematics beyond the printed paper. Its only minor interest is that it is written alongside a family letter dated Dec 1855, which offers a possible dating clue.",
+  "checkable": [
+   {
+    "sympy": "p,q,a=symbols('p q a',positive=True); u=(p+q)/2; diff(u+a,q)-diff(u-a,p)",
+    "asserts": "The integrability condition for w is satisfied (result 0) when u=(p+q)/2 and a is constant."
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); w=Function('w')(p,q); t=(diff(w,q)-diff(w,p))/(2*a); u=(p+q)/2; x=diff(w,p)+(u+a)*t; simplify(diff(x,q)-(u+a)*diff(t,q)-(diff(w,p,q)+t/2))",
+    "asserts": "The relation x_q=(u+a)t_q is equivalent to w_pq = -t/2 = (w_p - w_q)/(4a) (result 0)."
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); w=Function('w')(p,q); t=(diff(w,q)-diff(w,p))/(2*a); u=(p+q)/2; x=diff(w,p)+(u+a)*t; simplify(x-(u-a)*t-diff(w,q))",
+    "asserts": "Consistency check: with these x and t, x-(u-a)t equals w_q (result 0)."
+   },
+   {
+    "sympy": "rho=Function('rho')(x,t); u=Function('u')(x,t); a=symbols('a'); P=u+a*log(rho); expand(diff(P,t)+(u+a)*diff(P,x))",
+    "asserts": "This expression equals (u_t + u u_x + a^2 rho_x/rho) + (a/rho)(rho_t + (rho u)_x). It therefore vanishes by the isothermal Euler and continuity equations."
+   }
+  ],
+  "transcription_corrections": [
+   "'Nach §. 1. 4 ist' probably refers to equation (4) of Art./§ 1.",
+   "In the speed paragraph the image reads 'mit der Geschwindigkeit a+u fort' with 'Geschwindigkeit' inserted once; the transcription duplicates the word.",
+   "The marginal '$a+u$ $(p+q)$' near 'in jedem Augenblicke' is an interlinear note relating the speed u+a to (p+q)/2 + a, not running text.",
+   "Final fragment: 'so wie auch' stands alone; the formulas that were meant to follow are absent."
+  ]
+ }
+}

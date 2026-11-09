@@ -1,0 +1,64 @@
+{
+ "bundle": "600_1",
+ "page": "c081",
+ "label": "[72]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000082/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT (from the previous page). This is 'Klein's Fundamentalsatz'. Let G be a finite group of linear substitutions of x = (x_1..x_n). Let H be a group of linear substitutions of y = (y_1..y_m), with an isomorphism g -> h(g) from G to H. Claim: there exist n polynomials F_1(y),..,F_n(y) that transform under H exactly as x_1..x_n transform under G. In modern terms this is a nonzero G-equivariant polynomial map Y -> X.\n\nHilbert's construction (previous page plus this page):\n(1) Introduce variables u_1..u_n that transform so that the bilinear form u_1x_1+...+u_nx_n stays unchanged. That is, u transforms contragrediently. Hilbert writes 'cogredient' and '= 0 bleibt'; the intended meaning is 'stays invariant'.\n(2) Choose a linear form psi_1(y) that is changed by every non-identity element of H. Then its N = |G| transforms psi_g := h(g)psi_1 are pairwise distinct linear forms.\n(3) Transform u_1*psi_1^k simultaneously by the pairs (g, h(g)) and sum over the group. This gives\n   S_k(u,y) = sum_{g in G} (g.u)_1 * (psi_g)^k,  k = 1, 2, 3, ...\n   In modern terms S_k is the Reynolds/averaging operator applied to u_1*psi_1^k. Each S_k is invariant under the simultaneous action and linear in u. So S_k = sum_i u_i F_i^{(k)}(y).\n   [My step:] Invariance of sum_i u_i F_i, with u contragredient to x, means exactly that (F_1..F_n) transforms like (x_1..x_n).\n(4) Non-vanishing, the content of this page. Put l_g(u) := (g.u)_1. Each l_g is a nonzero linear form in u, since g is invertible.\n   Suppose S_1 = ... = S_N = 0 identically in u. Then the Vandermonde-type system sum_g l_g(u) psi_g^k = 0 (k = 1..N) holds.\n   Its determinant det[psi_g^k] equals prod_g psi_g * prod_{g<g'}(psi_{g'} - psi_g). This is a nonzero polynomial, because the psi_g are distinct nonzero linear forms.\n   Hence all l_g(u) = 0, which is a contradiction.\n   So some S_h is not identically 0. Its coefficients of u_1..u_n are the desired functions; they are homogeneous of degree h in y.\n\nREMAINDER OF THE PAGE.\n(a) A philosophical note: mathematics is the only science where, instead of 'ignorabimus', we must say about all problems, however difficult, 'noscemus' (we shall know). This is an early form of Hilbert's later anti-ignorabimus stance (Paris 1900; Königsberg 1930, 'Wir müssen wissen, wir werden wissen').\n(b) Start of a lecture or plan on 'Systeme' (sets), continued on the next page:\n   - several things gathered under one concept form a system;\n   - mathematics considers systems of numbers or functions, not necessarily countable;\n   - a system is given when a law is known that decides, for any given number or function, whether it belongs to the system.\n   This is a Dedekind/Kronecker-style definiteness criterion for sets.",
+  "errors": [
+   "The Vandermonde determinant with rows psi^1..psi^N is the product of the differences TIMES the product of the psi_g themselves. Calling it simply 'the product of the differences' is a minor slip; it does not affect the argument, since psi_g != 0.",
+   "Implicit requirements not stated: G must be finite; psi_1 must have N = |G| pairwise distinct transforms; and h must range up to N. The last row's exponent in the determinant is not legible.",
+   "Previous page: u should be contragredient, not 'cogredient', to x. 'u_1x_1+...+u_nx_n = 0 bleibt' should read 'remains invariant'.",
+   "Notational clash: the sought coefficient functions are named with the same letter (phi/psi_1..psi_n) as the auxiliary linear form psi_1.",
+   "Nothing is said about how the resulting nonzero equivariant map behaves (e.g. linear independence of the F_i). Only the existence of a nonzero covariant system is shown, which matches the stated claim."
+  ],
+  "results": [
+   {
+    "what": "Construction of n polynomials in y transforming like x_1..x_n under isomorphic finite linear groups, via the group average of u_1*psi_1^h and a Vandermonde nonvanishing argument",
+    "modern_name": "Existence of nonzero equivariant polynomial maps (covariants) from a faithful representation via the Reynolds operator; regular-orbit / Vandermonde argument",
+    "usually_credited_to": "Klein (Vorlesungen über das Ikosaeder, 1884; theory of form problems and resolvents). Averaging technique: Hurwitz/Molien/Burnside tradition, 1890s",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "'Noscemus' instead of 'ignorabimus' for mathematics",
+    "modern_name": "Hilbert's anti-ignorabimus / solvability of every mathematical problem",
+    "usually_credited_to": "Hilbert (Paris 1900; Königsberg 1930)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Definition of a 'System' as determined by a membership-deciding law, not necessarily countable",
+    "modern_name": "Set as extension of a definite concept (Dedekind's 'System'; Kronecker's decidability demand)",
+    "usually_credited_to": "Dedekind 1888, Cantor, Kronecker",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The invariant-theoretic argument is a clean, correct but standard averaging-plus-Vandermonde proof of a known theorem of Klein. The 'noscemus' remark is a notable early notebook trace of Hilbert's well-known anti-ignorabimus conviction, but it is fully consistent with his published stance. The set definition is routine.",
+  "checkable": [
+   {
+    "sympy": "a,b,c=symbols('a b c'); simplify(Matrix([[a,b,c],[a**2,b**2,c**2],[a**3,b**3,c**3]]).det() - a*b*c*(b-a)*(c-a)*(c-b)) == 0",
+    "asserts": "The power determinant with rows psi^1..psi^N equals prod(psi) times the Vandermonde product of differences (N=3)."
+   },
+   {
+    "sympy": "u,y1,y2=symbols('u y1 y2'); w=exp(2*pi*I/3); simplify(expand(sum(w**(-k)*u*(w**k*y1+w**(2*k)*y2) for k in range(3))) - 3*u*y1) == 0",
+    "asserts": "Example: G=Z3 acting on x by w, u contragredient (w^-1), H acting on y by diag(w,w^2), psi_1=y1+y2. The group sum of u*psi^1 is 3*u*y1, so F=3*y1 transforms like x."
+   },
+   {
+    "sympy": "u,y=symbols('u y'); [simplify(u*y**h + (-u)*(-y)**h) for h in range(1,4)]",
+    "asserts": "Z2 example (x->-x, y->-y): the sum vanishes for even h and is 2*u*y**h for odd h, so some S_h is nonzero, as the argument predicts."
+   }
+  ],
+  "transcription_corrections": [
+   "The letters written '4,' are psi (as on the previous page), not phi: read 'Sigma u_1 psi_1, Sigma u_1 psi_1^2, ...'. In the image the second sum appears as 'Sigma_1 psi_1^2' (u omitted).",
+   "The determinant rows are psi_1, psi_1^2, psi_1^3, psi_1^? ; the last exponent is illegible (presumably N).",
+   "'Ist Sigma u_1 psi_1^h nicht = 0, so sind die Coefficienten': the manuscript reads 'Coefficient' (singular form, abbreviated).",
+   "'im weitersten Umfang' is Hilbert's slip for 'weitesten'.",
+   "A struck-through word (looks like 'Ma..'/'Ge..') precedes 'gegeben'.",
+   "'vermöge dessen' is likely 'vermöge deren' in the manuscript."
+  ]
+ }
+}

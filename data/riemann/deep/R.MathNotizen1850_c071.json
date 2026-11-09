@@ -1,0 +1,47 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c071",
+ "label": "40v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000072/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Purpose. The page sets up the kinetic energy of a system of point masses described relative to a moving Cartesian frame. This is the standard preliminary to rigid-body dynamics, to motion relative to moving axes, or to Dirichlet–Riemann-type problems. The neighbouring pages (the AGM / Landen transformation before, Gauss-type secular perturbations after) do not show which application was intended.\n\n(1) Riemann writes T = Σ m (dx/dt + dy/dt + dz/dt)^2. This is clearly meant as T = Σ m (ẋ^2 + ẏ^2 + ż^2), up to the factor 1/2, which he omits throughout. The sum runs over the mass points.\n\n(2) Each point's absolute coordinates are expressed through body/frame coordinates ξ1, ξ2, ξ3:\n  x = a + α1 ξ1 + α2 ξ2 + α3 ξ3,\n  y = b + β1 ξ1 + β2 ξ2 + β3 ξ3,\n  z = c + γ1 ξ1 + γ2 ξ2 + γ3 ξ3.\nHere (a, b, c) is the moving origin. (α_i, β_i, γ_i) are the direction cosines of the i-th moving axis, so the matrix R = [[α1,α2,α3],[β1,β2,β3],[γ1,γ2,γ3]] is orthogonal. In modern form: X = A(t) + R(t) ξ.\n\n(3) Differentiating in t (primes = d/dt):\n  x' = a' + Σ_i α_i' ξ_i + Σ_i α_i ξ_i',\nand analogously for y' and z', which are left blank. In vector form: X' = A' + R'ξ + Rξ'.\n\n(4) Squaring (my completion):\n  x'^2 = a'^2 + (Σ α_i' ξ_i)^2 + (Σ α_i ξ_i')^2 + 2a' Σ α_i' ξ_i + 2a' Σ α_i ξ_i' + 2 (Σ α_i' ξ_i)(Σ α_j ξ_j').\nRiemann writes the a'-linear terms and a cross term 2Σ α α' ξ ξ' in shorthand, plus one quadratic term. He then adds the analogous y and z contributions; this gives Σ m(a'^2 + b'^2 + c'^2) + ...\n\n(5) Summing over x, y, z and using orthogonality (Σ_{xyz} α_i α_j = δ_ij, i.e. R^T R = I), the term (Rξ')·(Rξ') reduces to ξ1'^2 + ξ2'^2 + ξ3'^2. Riemann writes this as Σ(ξ1'^2 + ξ2'^2 + ξ3'^2).\n\n(6) The remaining terms, which the page does not reach, would be handled with the antisymmetry of R^T R' (the angular-velocity matrix). That gives:\n- |R'ξ|^2 = |ω × ξ|^2;\n- the cross term 2(R'ξ)·(Rξ') = 2(ω × ξ)·ξ';\n- the translational terms A'·R'ξ and A'·Rξ'.\nThe page breaks off with a struck-out fragment.",
+  "errors": [
+   "First line: (dx/dt + dy/dt + dz/dt)^2 is a slip or shorthand for (dx/dt)^2 + (dy/dt)^2 + (dz/dt)^2; the factor 1/2 is also missing (harmless convention).",
+   "Third coordinate line: γ3 appears without ξ3 (should be γ3 ξ3).",
+   "The expanded square is incomplete or abbreviated. The term (Σ α_i' ξ_i)^2 is not clearly present. The last written term 'Σ α1' ξ1'^2' conflates (Σ α_i' ξ_i)^2 with (Σ α_i ξ_i')^2. The cross term is written as a single sum rather than a double sum Σ_i Σ_j α_i' α_j ξ_i ξ_j'.",
+   "Σ m is placed only before a'^2 rather than before the whole bracket (notational looseness)."
+  ],
+  "results": [
+   {
+    "what": "Kinetic energy of a mass system in coordinates relative to a translating and rotating orthonormal frame, X = A + Rξ, with simplification of |Rξ'|^2 = |ξ'|^2 via orthogonality of direction cosines",
+    "modern_name": "Kinetic energy in moving (rotating) frames; König-type decomposition; relative-motion kinematics",
+    "usually_credited_to": "Euler (rigid-body kinematics, 1750s–1760s), Lagrange (Mécanique analytique, 1788), Coriolis (1835), König (1751)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Entirely standard textbook kinematics of moving frames, carried only to its first step. Its only interest is as context for Riemann's mechanics work, e.g. his 1861 fluid-ellipsoid paper, which uses time-dependent linear coordinate transformations.",
+  "checkable": [
+   {
+    "sympy": "t=symbols('t'); th=Function('th')(t); a1,a2,a3=[Function(n)(t) for n in ('A1','A2','A3')]; x1,x2,x3=[Function(n)(t) for n in ('X1','X2','X3')]; R=Matrix([[cos(th),-sin(th),0],[sin(th),cos(th),0],[0,0,1]]); A=Matrix([a1,a2,a3]); xi=Matrix([x1,x2,x3]); V=(A+R*xi).diff(t); rhs=A.diff(t).dot(A.diff(t))+xi.diff(t).dot(xi.diff(t))+(R.diff(t)*xi).dot(R.diff(t)*xi)+2*A.diff(t).dot(R.diff(t)*xi)+2*A.diff(t).dot(R*xi.diff(t))+2*(R.diff(t)*xi).dot(R*xi.diff(t)); simplify(V.dot(V)-rhs)==0",
+    "asserts": "Full expansion of |d/dt(A+Rξ)|^2 for an orthogonal R, with |Rξ'|^2 replaced by |ξ'|^2 (the step Σ(ξ1'^2+ξ2'^2+ξ3'^2) on the page)"
+   },
+   {
+    "sympy": "t=symbols('t'); th=Function('th')(t); R=Matrix([[cos(th),-sin(th),0],[sin(th),cos(th),0],[0,0,1]]); simplify(R.T*R.diff(t)+(R.T*R.diff(t)).T)==zeros(3,3)",
+    "asserts": "R^T R' is antisymmetric (the angular-velocity matrix), the fact needed to simplify the remaining cross terms"
+   },
+   {
+    "sympy": "t=symbols('t'); th=Function('th')(t); R=Matrix([[cos(th),-sin(th),0],[sin(th),cos(th),0],[0,0,1]]); simplify(R.T*R)==eye(3)",
+    "asserts": "Orthogonality of the direction cosines: Σ_{x,y,z} α_i α_j = δ_ij"
+   }
+  ],
+  "transcription_corrections": [
+   "Third line should read z = c + γ1ξ1 + γ2ξ2 + γ3 (sic, ξ3 omitted by Riemann); the transcription is faithful, but the slip is Riemann's.",
+   "In 'x' = a' + Σα_1'ξ_1 + Σα_1ξ'' the last factor is ξ_1' (subscript 1 under the prime).",
+   "Expanded line: the struck items are '+[Σm]2a'Σα_1ξ_1'' and '+[2m]Σα_1α_1'ξ_1ξ_1'' (the latter possibly a corrected '2Σ'); the final term reads 'Σα_1'ξ_1'^2' (or ξ'^2), as transcribed.",
+   "First line: the struck word after the bracket is illegible; the bracket itself reads (dx/dt + dy/dt + dz/dt)^2 as transcribed."
+  ]
+ }
+}

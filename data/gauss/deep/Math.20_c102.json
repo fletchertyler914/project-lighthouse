@@ -1,0 +1,80 @@
+{
+ "bundle": "Math.20",
+ "page": "c102",
+ "label": "51r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000103/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting. The page tabulates roots of a one-parameter family of septics, x^7 - 28x^4 + C(t) = 0, with C(t) = 280 - sqrt(t^2+20000) + i t. As t runs from 0 to about 461, the constant term C moves in the complex plane along one branch of a hyperbola. In coordinates u = Re C - 280, v = Im C, that branch is u^2 - v^2 = 20000 with u < 0. It starts on the real axis at C(0) = 280 - 100*sqrt(2) = 138.57864.\n\nTask. Gauss follows individual roots continuously along this path; this is numerical continuation, and it shows how the roots move. The column 'Zug.' (stroke or course) labels distinguished parameter values I-IV. Intermediate values t = 100, 200, 241.6609, 300, 400 are interleaved.\n\nRow I, t = 0. The equation is x^7 - 28x^4 + 138.57864 = 0, with three real roots 1.54516, -1.45325 and 2.97087. I checked each to about 5 digits.\n- For x = 1.54516: x^4 = 5.70025, x^7 = 21.0288, and x^7 - 28x^4 = -138.578.\n- The same check holds for the other two roots.\n- The remaining four roots form two complex-conjugate pairs. The next page gives them as 0.04267 ± 1.48473i and -1.57406 ± 2.63397i.\n- The real parts of all seven roots sum to 0, as they must since there is no x^6 term (my check).\n\nRows II-IV. The three real roots become complex as t increases.\n- First column, my full check at t = 460.6968, where C = -201.915 + 460.697i: x = 1.70718 + 1.08166i gives x^7 - 28x^4 = 201.918 - 460.690i = -C. It is a root.\n- Second column, same t: x = -1.81966 + 0.84117i gives x^7 - 28x^4 = 201.915 + 460.69i = -conj(C). So it is a root of the conjugate equation, the one with -i t.\n- Third column: the first-order estimate dx = -dC/f'(x), with f' = 7x^6 - 112x^3, explains the sign. f' > 0 at the roots -1.453 and 2.971, and f' < 0 at 1.545. So under +i t only the first root should acquire a positive imaginary part. The third column's positive imaginary parts therefore also belong to the -i t equation.\n- Real parts are unaffected by conjugation. They are consistent with the next page: at t = 27.73434 the seven real parts sum to about 0 (3.06239 - 3.0624), and at t = 460.6968 to about 1e-5.\n\nDistinguished values (my identification, partial).\n- t_III = 138.56406 = 80*sqrt(3). There sqrt(t^2+20000) = 140*sqrt(2).\n- t = 241.6609 = 20*sqrt(146). There sqrt(t^2+20000) = 280, so C = 241.66i is purely imaginary.\n- I could not identify what makes t_II = 27.73434 and t_IV = 460.6968 special. They are not where arg C is a simple angle, nor where C is nearest the critical values. The critical values of x^7 - 28x^4 are 0 and -12*16^(4/3)*w^k, about -483.81*w^k with w = exp(2*pi*i/3), so the critical values of C are 0 and about 483.81*w^k.\n\nNext page. It follows the four non-real roots from t = 460.7 down to 0 and back out to 460.7. This corresponds to the path traversed with ±t, so that the conjugate roots are traced as well.\n\nPurpose. Most plausibly this is an experiment on how the roots of an equation move and permute as its coefficients move continuously, i.e. continuity of roots and monodromy around critical values. It may be related to Gauss's work on the fundamental theorem of algebra (the 1849 'Beiträge zur Theorie der algebraischen Gleichungen'). The specific link is unsure.",
+  "errors": [
+   "Sign inconsistency: the first column satisfies the equation as written (+i t). The second and third columns have the wrong sign of the imaginary part for +i t; they are roots of x^7 - 28x^4 + 280 - sqrt(t^2+20000) - i t = 0, equivalently complex conjugates of the true continued roots. This is either a different convention per column or a slip in the header.",
+   "Because of this mixing, the imaginary parts of the seven roots do not sum to zero if the page and next-page entries are naively combined. The real parts do sum to zero, to 5 decimals.",
+   "No numerical errors found in the entries I checked: rows I (all three columns), IV column 1, IV column 2 (as a root of the conjugate equation), and the first-order behaviour at II."
+  ],
+  "results": [
+   {
+    "what": "Numerical continuation of the roots of x^7 - 28x^4 + C(t) = 0 as C runs along a hyperbolic path in the complex plane, tabulated to 5 decimals",
+    "modern_name": "Numerical homotopy/path continuation of polynomial roots; study of root motion and monodromy",
+    "usually_credited_to": "Continuity of roots: Cauchy/Gauss era. Monodromy of algebraic functions: Puiseux (1850), Riemann (1851/57). Numerical continuation as a method: 20th century",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Accurate solution of a septic for its three real roots at t = 0 (1.54516, -1.45325, 2.97087)",
+    "modern_name": "Numerical root-finding",
+    "usually_credited_to": "standard (Newton/Horner methods)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Root computation is routine for Gauss. Systematically tracking roots of a polynomial along a complex parameter path with marked stages is a mildly interesting unpublished experiment on root motion, close in spirit to monodromy ideas later made explicit by Puiseux and Riemann. But nothing on the page states a theorem, so it is a notable computational detail rather than a priority claim.",
+  "checkable": [
+   {
+    "sympy": "x=symbols('x'); N((x**7-28*x**4+280-sqrt(20000)).subs(x,1.54516))",
+    "asserts": "approximately 0 (relative to coefficient size ~140): 1.54516 is a root at t=0"
+   },
+   {
+    "sympy": "N((x**7-28*x**4+280-sqrt(20000)).subs(x,-1.45325)), N((x**7-28*x**4+280-sqrt(20000)).subs(x,2.97087))",
+    "asserts": "both approximately 0: the other two real roots at t=0"
+   },
+   {
+    "sympy": "t=460.6968; N(((x**7-28*x**4+280-sqrt(t**2+20000)+I*t)).subs(x,1.70718+1.08166*I))",
+    "asserts": "approximately 0: column-1 entry at t_IV is a root of the stated equation"
+   },
+   {
+    "sympy": "t=460.6968; N(((x**7-28*x**4+280-sqrt(t**2+20000)-I*t)).subs(x,-1.81966+0.84117*I))",
+    "asserts": "approximately 0: column-2 entry satisfies the conjugate (-i t) equation, not the stated one"
+   },
+   {
+    "sympy": "t=460.6968; N(((x**7-28*x**4+280-sqrt(t**2+20000)-I*t)).subs(x,3.14373+0.14332*I))",
+    "asserts": "approximately 0: column-3 entry also satisfies the -i t equation"
+   },
+   {
+    "sympy": "Poly(x**7-28*x**4+280-sqrt(20000),x).nroots()",
+    "asserts": "roots 1.54516, -1.45325, 2.97087, 0.04267±1.48473i, -1.57406±2.63397i"
+   },
+   {
+    "sympy": "N(sqrt(241.6609**2+20000))",
+    "asserts": "approximately 280, so C is purely imaginary at t=241.6609 (t=20*sqrt(146))"
+   },
+   {
+    "sympy": "N(80*sqrt(3)), N(sqrt((80*sqrt(3))**2+20000)-140*sqrt(2))",
+    "asserts": "t_III = 138.56406 = 80*sqrt(3), with sqrt(t^2+20000)=140*sqrt(2)"
+   },
+   {
+    "sympy": "1.54192-1.45222+2.97269+0.11478-1.57470-0.03082-1.57166",
+    "asserts": "approximately 0: real parts of all seven roots at t_II sum to zero (no x^6 term)"
+   },
+   {
+    "sympy": "solve(diff(x**7-28*x**4,x),x)",
+    "asserts": "critical points x=0 and x^3=16, giving critical values of C equal to 0 and 12*16**(4/3)*w^k (about 483.81*w^k, w=exp(2*pi*I/3))"
+   }
+  ],
+  "transcription_corrections": [
+   "The marginal pencil note at lower right reads like '4564' or '45 Sp 4' (archival/shelf mark, rotated); it is not part of the mathematics.",
+   "Header 'Zug.' is correct. Roman numerals I-IV mark the distinguished t-values; the rows 100, 200, 241,6609, 300, 400 are unlabeled.",
+   "Transcription otherwise matches the image; all numerals verified against the image as far as legible."
+  ]
+ }
+}

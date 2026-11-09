@@ -1,0 +1,50 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c021",
+ "label": "11v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000022/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (folio 11r): A minimal surface bounded by straight lines is parametrized by a complex variable t on the upper half-plane. The real axis corresponds to the boundary. u is the complex function whose real and imaginary parts are the surface coordinates in Riemann's setup. The local behaviour of du/dt is prescribed at three kinds of special points. (a) Simple branch points a of the spherical (Gauss) image, n = 3, where log du/dt = (n/2-1)log(t-a) + regular. These lie on the boundary if a is real, in the interior if a is non-real; in the interior case the conjugate point is also used. (b) Corners b with m = 1, where log du/dt = (m/2-1)log(t-b) + regular. (c) Parts of the surface extending to infinity, at real points c, where u = sqrt(alpha/2pi) log(t-c) + regular. Along the real axis (du/dt)^2 is real, so by reflection t -> conj(t) it extends to a single-valued function on the whole t-plane. This gives du = const * sqrt(Prod(t-a)/Prod(t-b)) dt / Prod(t-c), with non-real a taken together with their conjugates.\n\nThis page adds a counting condition the data must satisfy. Riemann states it, but the derivation below is supplied by me.\n\n(1) Squaring the local behaviours gives the zeros and poles of F(t) = (du/dt)^2. Each simple branch point a gives a simple zero (t-a)^1. Each corner b gives a simple pole (t-b)^(-1). Each infinite part c gives a double pole (t-c)^(-2).\n\n(2) F is meromorphic on the extended plane and has no other zeros or poles in the finite plane. Hence F = K * Prod(t-a_bdry) * Prod|t-a_int|^2-type factors / (Prod(t-b) * Prod(t-c)^2). Each interior branch point a counts twice, through a and conj(a).\n\n(3) Take t = infinity to be an ordinary boundary point, where u is finite and continuous. Then u is regular in 1/t, so du/dt = O(t^-2) and F ~ t^-4.\n\n(4) Comparing degrees: N_a,bdry + 2 N_a,int - N_b - 2 N_c = -4. Equivalently, N_b - N_a,bdry = 4 + 2(N_a,int - N_c).\n\nIn words: the number of corners minus the number of simple branch points on the boundary exceeds by 4 twice the difference between the interior simple branch points and the infinite parts. This is Riemann's statement 'um 4 größer ... als die doppelte Differenz zwischen der Anzahl der ins Unendliche sich erstreckenden Theile und der einfachen Verzweigungspunkte im Innern', read as an unsigned or appropriately ordered difference.\n\nThe marginal insertion at the × ('die Verzweigungspunkte') is a reformulation of the clause being inserted.\n\nChecks on examples:\n- Skew quadrilateral (Schwarz/Riemann case): 4 corners, nothing else; 4 = 4 + 0.\n- Strip between two parallel lines, u = log((t-c1)/(t-c2)): 0 corners, 2 ends; 0 = 4 + 2(0-2).\n\nThe condition is the half-plane form of a Riemann–Hurwitz / Gauss–Bonnet count for the quadratic differential du^2, i.e. degree -4 for a quadratic differential on the sphere.",
+  "errors": [
+   "Possible sign/order ambiguity: the correct relation is N_corners - N_branch,boundary = 4 + 2(N_branch,interior - N_infinite parts). If Riemann's 'Differenz zwischen der Anzahl der ins Unendliche ... Theile und der ... Verzweigungspunkte im Innern' is meant as (infinite parts) minus (interior branch points), the sign is reversed. The strip example 0 = 4 + 2(0-2) shows the correct sign. Most likely 'Differenz' is used loosely or unsigned.",
+   "The page tacitly assumes t = infinity is a regular boundary point and that all infinite parts c are boundary (real) points. An interior end would count 4, not 2. These assumptions are not stated on the page.",
+   "No derivation is given on the page; the statement depends on the local exponents fixed on the previous folio."
+  ],
+  "results": [
+   {
+    "what": "Counting condition for a straight-line-bounded minimal surface: corners minus boundary branch points = 4 + 2(interior branch points minus infinite parts). Obtained from the degree of the rational function (du/dt)^2.",
+    "modern_name": "Riemann–Hurwitz / Gauss–Bonnet count: the total degree of a quadratic differential on the Riemann sphere is -4 (applied to the Weierstrass data of a minimal surface)",
+    "usually_credited_to": "Riemann's posthumous minimal-surface memoir (ed. Hattendorff, 1867); for polygonal boundaries, Schwarz and Weierstrass; the general divisor-degree principle to Riemann/Roch.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a natural bookkeeping consequence of Riemann's known treatment of minimal surfaces bounded by straight lines, which is published posthumously in his Werke. It is essentially the degree count of a quadratic differential, not a new result.",
+  "checkable": [
+   {
+    "sympy": "t,c1,c2=symbols('t c1 c2'); F=diff(log((t-c1)/(t-c2)),t)**2; limit(F*t**4,t,oo)",
+    "asserts": "For the strip (2 infinite parts, 0 corners), (du/dt)^2 decays like t^-4, so total degree -4 is consistent: 0 = 4 + 2(0-2)."
+   },
+   {
+    "sympy": "t,b1,b2,b3,b4=symbols('t b1 b2 b3 b4'); F=1/((t-b1)*(t-b2)*(t-b3)*(t-b4)); limit(F*t**4,t,oo)",
+    "asserts": "Skew quadrilateral: 4 simple poles (corners) give (du/dt)^2 ~ t^-4, so u is regular at t = infinity, with N_b = 4."
+   },
+   {
+    "sympy": "Na_b,Na_i,Nb,Nc=symbols('Na_b Na_i Nb Nc'); solve(Eq(Na_b+2*Na_i-Nb-2*Nc,-4),Nb)",
+    "asserts": "The degree condition gives Nb = Na_b + 4 + 2*(Na_i - Nc)."
+   },
+   {
+    "sympy": "s=symbols('s'); series(diff(1/s,s)**-2*0+1,s)  # u regular in s=1/t => du/dt = -s**2 du/ds = O(t**-2)",
+    "asserts": "Regularity of u at t = infinity forces du/dt = O(t^-2), i.e. (du/dt)^2 = O(t^-4)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 4-5: 'der un[?] Unendlich [?] ... [?]' should read approximately 'der ins / Unendliche sich erstreckenden Theile[n]', echoing the phrase 'ins Unendliche sich erstreckenden Theile' on the previous folio.",
+   "Line 1: the cancelled word before 'zeigen' is likely 'bewiesen'. The insertion mark × refers to the right-margin note '× die Verzweigungspunkte' (with a further cancelled word). Line 1 ends '... zwischen der Anzahl der Ecken und der Anzahl'.",
+   "Line 3: 'um 4 größer sein, als die [-Differenz-] doppelte' is correct; 'doppelte' is written above the cancelled word.",
+   "Line 6: 'und der [-Begrenzung...-] {+einfachen+} Verzweigungspunkte im Innern' is correct."
+  ]
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "bundle": "Math.28",
+ "page": "c036",
+ "label": "18v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000037/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a short memo of two indefinite integrals. They are the working formulas behind the evaluation on the previous page, where the double integral Ω = ∫_0^∞∫_0^∞ (cos ax − cos bx) e^{−tx} dt dx is computed in both orders to evaluate ω = ∫_0^∞ (cos ax − cos bx)/x dx.\n\n(1) ∫ e^{−tx} cos(ax) dx = (a sin ax − t cos ax)/(t² + a²) · e^{−tx}.\n\n(2) ∫ e^{−tx} sin(ax) dx = (−a cos ax − t sin ax)/(t² + a²) · e^{−tx}.\n\nThe previous page says these are 'easily confirmed by differentiation'. Here is that check (my filling-in).\n- For (1): d/dx[(a sin ax − t cos ax) e^{−tx}] = e^{−tx}[a² cos ax + a t sin ax − t a sin ax + t² cos ax] = (a² + t²) e^{−tx} cos ax.\n- For (2): d/dx[(−a cos ax − t sin ax) e^{−tx}] = e^{−tx}[a² sin ax − a t cos ax + a t cos ax + t² sin ax] = (a² + t²) e^{−tx} sin ax.\n\nTaking limits x = 0 to ∞ (t > 0) gives the Laplace transforms used in the double-integral argument:\n- ∫_0^∞ e^{−tx} cos ax dx = t/(t² + a²).\n- ∫_0^∞ e^{−tx} sin ax dx = a/(t² + a²).\n\nThe cosine formula yields, as on the previous page:\n- ∫_0^∞ (cos ax − cos bx) e^{−tx} dx = t/(a² + t²) − t/(b² + t²).\n- Integrating in t gives Ω = ½ log(b²/a²), hence ω = log(b/a) (written for a, b of the same sign; in general it is log|b/a|).\n\nThe sine formula is not used on the surviving pages. Plausibly (my conjecture) it was recorded for the companion evaluation ∫_0^∞ sin(ax)/x dx = ∫_0^∞ a/(a² + t²) dt = (π/2)·sgn(a), by the same interchange of integrations.",
+  "errors": [
+   "No errors on this page; both antiderivatives are correct.",
+   "Minor point in context: Gauss interchanges the order of integration in the conditionally convergent double integral without justification. This was standard practice for the period."
+  ],
+  "results": [
+   {
+    "what": "Antiderivatives of e^{-tx}cos(ax) and e^{-tx}sin(ax)",
+    "modern_name": "Standard exponential-trigonometric antiderivatives (equivalently, the Laplace transforms of cos and sin)",
+    "usually_credited_to": "Euler / 18th-century calculus (textbook material)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of these to evaluate ∫_0^∞ (cos ax − cos bx)/x dx = log(b/a) by interchanging a double integral (context from the previous page)",
+    "modern_name": "Frullani-type integral evaluated by the Laplace-transform / differentiation-under-the-integral trick",
+    "usually_credited_to": "Frullani (1821/1828); the method goes back to Euler and Laplace",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page holds only two standard textbook antiderivatives, written as auxiliaries to a well-known integral evaluation.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff((a*sin(a*x)-t*cos(a*x))/(t**2+a**2)*exp(-t*x), x) - exp(-t*x)*cos(a*x))",
+    "asserts": "Formula (1) is an antiderivative of e^{-tx} cos ax (result 0)."
+   },
+   {
+    "sympy": "simplify(diff((-a*cos(a*x)-t*sin(a*x))/(t**2+a**2)*exp(-t*x), x) - exp(-t*x)*sin(a*x))",
+    "asserts": "Formula (2) is an antiderivative of e^{-tx} sin ax (result 0)."
+   },
+   {
+    "sympy": "integrate(exp(-t*x)*cos(a*x), (x, 0, oo), conds='none') - t/(t**2+a**2)",
+    "asserts": "The definite integral from 0 to ∞ of e^{-tx} cos ax is t/(t²+a²) for t>0 (result 0)."
+   },
+   {
+    "sympy": "integrate(exp(-t*x)*sin(a*x), (x, 0, oo), conds='none') - a/(t**2+a**2)",
+    "asserts": "The definite integral from 0 to ∞ of e^{-tx} sin ax is a/(t²+a²) for t>0 (result 0)."
+   },
+   {
+    "sympy": "integrate((cos(2*x)-cos(5*x))/x, (x, 0, oo)) - log(Rational(5,2))",
+    "asserts": "Frullani-type result ω = log(b/a), checked for a=2, b=5 (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "In the first numerator the term 't cos ax' shows an overwritten/corrected letter ('t' written over another stroke), but the intended reading 'a sin ax − t cos ax' is correct.",
+   "The denominator 'tt + aa' in the first formula is partly obscured by an ink smudge, but it reads tt+aa. The transcription is otherwise accurate."
+  ]
+ }
+}

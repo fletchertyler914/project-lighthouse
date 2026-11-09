@@ -1,0 +1,64 @@
+{
+ "bundle": "Math.28",
+ "page": "c047",
+ "label": "24r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000048/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a short excerpt note on Euler's addition theorem for elliptic integrals, specialised at once to the lemniscatic case.\n\n(1) Euler's result. Gauss cites Euler, Novi Commentarii Petropolitani XII. This is very probably E345, 'Integratio aequationis dx/sqrt(A+Bx+Cxx+Dx^3+Ex^4) = dy/sqrt(...)'. The differential equation is\n dx/sqrt(A+Cx^2+Ex^4) = dy/sqrt(A+Cy^2+Ey^4).\nEuler gives its complete algebraic integral as\n A(x^2+y^2) = f^2(A+E x^2 y^2) + 2xy sqrt(A(A+Cf^2+Ef^4)),\nwhere f is the constant of integration. Since y=f when x=0, f is the 'sum' of the two arguments in the sense of the integrals: Int_0^y = Int_0^x + Int_0^f.\n\nThe sign is right for the 'equal' (difference) form. Check (mine): take C=E=0 and A=1. The equation becomes dx=dy, and the integral reduces to x^2+y^2 = f^2 + 2xy, i.e. (x-y)^2 = f^2. For the form dx/sqrtX + dy/sqrtY = 0 one would need -2xy instead.\n\n(2) Lemniscatic case A=1, C=0, E=-1, i.e. dx/sqrt(1-x^4) = dy/sqrt(1-y^4). The integral should be\n x^2+y^2 = f^2(1-x^2y^2) + 2xy sqrt(1-f^4).\nThis is the lemniscatic addition theorem in algebraic form.\n\n(3) Gauss then substitutes v = x-y and w^2 = xy. Since x^2+y^2 = v^2+2w^2, the correct consequence is\n v^2 = f^2(1-w^4) - 2w^2(1-sqrt(1-f^4)).\nThe aim is evidently to rewrite the symmetric biquadratic relation as a relation between the symmetric functions v and w, i.e. a reduced form of the addition curve. Gauss writes instead\n v^2 = f^2(1-w^4) - 2w^2 f^4.\nThat is exactly what follows if the coefficient is taken as (1-f^4) rather than sqrt(1-f^4).\n\nThe page breaks off here. It is not connected in content to the neighbouring pages (Green-type potential formula excerpted from Laplace before; trigonometric and numerical work after).",
+  "errors": [
+   "In the specialised equation the image appears to read '+2xy(1-f^4)', omitting the square root over 1-f^4. The correct specialisation of 2xy*sqrt(A(A+Cf^2+Ef^4)) with A=1, C=0, E=-1 is 2xy*sqrt(1-f^4).",
+   "The final line v^2 = f^2(1-w^4) - 2w^2 f^4 inherits this slip. The correct result is v^2 = f^2(1-w^4) - 2w^2(1-sqrt(1-f^4)). It is not even a small-f approximation, since 1-sqrt(1-f^4) ≈ f^4/2, which differs by a factor 2.",
+   "If the machine transcription's sqrt(1-f^4) is the true reading, then the error lies solely in the last line."
+  ],
+  "results": [
+   {
+    "what": "Complete algebraic integral of dx/sqrt(A+Cx^2+Ex^4) = dy/sqrt(A+Cy^2+Ey^4): A(x^2+y^2) = f^2(A+Ex^2y^2) + 2xy sqrt(A(A+Cf^2+Ef^4))",
+    "modern_name": "Euler's addition theorem for elliptic integrals (even quartic case)",
+    "usually_credited_to": "Euler (1750s-1760s; Novi Comm. Petrop. VI-XII, e.g. E251, E345)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Lemniscatic specialisation x^2+y^2 = f^2(1-x^2y^2) + 2xy sqrt(1-f^4)",
+    "modern_name": "Addition theorem for the lemniscatic integral / lemniscate sine",
+    "usually_credited_to": "Fagnano (doubling, 1718) and Euler (1753); Gauss's extensive lemniscatic work c.1797 is well documented",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Rewriting the addition relation in terms of v = x-y and w^2 = xy",
+    "modern_name": "Reduction of a symmetric biquadratic via elementary symmetric functions",
+    "usually_credited_to": "routine manipulation",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is an excerpt of Euler's well-known addition theorem, specialised to the lemniscate with a routine substitution (containing a slip). Gauss's familiarity with Euler's elliptic-integral work and the lemniscatic addition theorem is thoroughly documented.",
+  "checkable": [
+   {
+    "sympy": "x,y,f,A,C,E=symbols('x y f A C E'); F=A*(x**2+y**2)-f**2*(A+E*x**2*y**2)-2*x*y*sqrt(A*(A+C*f**2+E*f**4)); X=A+C*x**2+E*x**4; Y=A+C*y**2+E*y**4; rem(expand(diff(F,x)**2*Y-diff(F,y)**2*X), expand(F), y)",
+    "asserts": "Remainder should be 0: on the curve F=0, (dy/dx)^2 = Y/X, so Euler's relation integrates the differential equation."
+   },
+   {
+    "sympy": "x,f=symbols('x f'); simplify((A*(x**2+y**2)-f**2*(A+E*x**2*y**2)-2*x*y*sqrt(A*(A+C*f**2+E*f**4))).subs({A:1,C:0,E:0}) - ((x-y)**2-f**2))",
+    "asserts": "Result 0: with C=E=0 the integral reduces to (x-y)^2=f^2, confirming the + sign matches dx/sqrtX = +dy/sqrtY."
+   },
+   {
+    "sympy": "x,y,f=symbols('x y f'); v=x-y; w2=x*y; simplify((x**2+y**2-f**2*(1-x**2*y**2)-2*x*y*sqrt(1-f**4)) - (v**2 - (f**2*(1-w2**2) - 2*w2*(1-sqrt(1-f**4)))))",
+    "asserts": "Result 0: the correct reduced form is v^2 = f^2(1-w^4) - 2w^2(1-sqrt(1-f^4))."
+   },
+   {
+    "sympy": "x,y,f=symbols('x y f'); simplify((x**2+y**2-f**2*(1-x**2*y**2)-2*x*y*(1-f**4)) - ((x-y)**2 - (f**2*(1-(x*y)**2) - 2*x*y*f**4)))",
+    "asserts": "Result 0: Gauss's written line v^2 = f^2(1-w^4) - 2w^2 f^4 follows exactly from the version without the square root, locating the slip."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'das I.[?]' is probably 'das ∫' or 'das Integral', i.e. 'Euler giebt ... das Integral der Gleichung'.",
+   "The illegible word before the integral formula is probably 'durch' or 'vermöge'; it introduces the algebraic integral.",
+   "'wo f die Constante ist aus gedrückt wird' should be read as 'wo f die Constante ist, ausgedrückt wird'.",
+   "In the lemniscatic line the image appears to show '+2xy(1-f^4)' without a radical. The transcription's sqrt may be an editorial correction rather than what Gauss wrote; the subsequent v^2 line is consistent with no radical."
+  ]
+ }
+}

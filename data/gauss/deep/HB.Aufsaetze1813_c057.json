@@ -1,0 +1,89 @@
+{
+ "bundle": "HB.Aufsaetze1813",
+ "page": "c057",
+ "label": "[50]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354043:00000058/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the continuation, for the northern stations of Gauss's Hanoverian arc measurement (Göttingen–Altona, measured 1821–1823/24), of the 'Tableau der Azimuthe' begun on the previous page. The stations are Deister, Garssen, Falkenberg, Scharnhorst, Breithorn, Hauselberg and Wulfsode. Under each station heading, each row is the direction to a target station. All quantities are in degrees, minutes and seconds, and every correction is in arcseconds.\n\nColumns (my interpretation, made from the arithmetic):\n(1) D_obs: the observed direction, already oriented to the common azimuth system of the tableau.\n(2) c: a centring correction ('Reduction auf das Centrum'), present only where instrument or signal was off-centre.\n(3) r: a second reduction. Its size grows with line length and it has unequal, typically opposite-signed values at the two ends of a line. Examples: Deister→Falkenberg +2.993\" against Falkenberg→Deister −1.940\"; Lichtenberg→Falkenberg −2.842\" against +0.896\". This behaves like the arc-to-chord (geodesic-to-plane straight line) reduction of a conformal map projection. The next page writes this reduction as Z = ζ° + (2q°+q')(θ'−θ°) at one end and (q°+2q')(θ°−θ') at the other, which is the 2:1 end-weighting seen here. The values are applied, not derived, on this page.\n(4) D = D_obs + c + r: the reduced plane direction.\n(5) Two numbers per line:\n  - d = (D_back − 180°) − D_fwd, the discrepancy between the reciprocal plane directions. It is entered with opposite sign at the two ends.\n  - k: a second quantity entered with the same sign at both ends. Its meaning is not stated on the page; most plausibly it is (twice) a correction from the network adjustment.\n(6) (d + k)/2 at the forward station, and (−d + k)/2 at the backward station.\n(7) Final direction: D + column 6.\n\nIdentity behind the last columns (my notation):\n  F_fwd = D_fwd + (d+k)/2\n  F_back = D_back + (−d+k)/2\nHence F_back − 180° = F_fwd = (D_fwd + D_back − 180°)/2 + k/2.\nSo each line gets a single plane azimuth: the mean of the two reciprocal reduced directions, shifted by k/2. The paired finals differ by exactly 180°.\n\nWorked example, line Deister–Falkenberg:\n  57.770 + 2.993 = 60.763, giving 195°2'0.763.\n  At Falkenberg: 2.947 − 1.940 = 1.007, giving 15°2'1.007.\n  d = 1.007 − 0.763 = +0.244; k = +0.126.\n  Deister: 0.763 + (0.244+0.126)/2 = 0.763 + 0.185 = 0.948.\n  Falkenberg: 1.007 + (−0.244+0.126)/2 = 1.007 − 0.059 = 0.948.\n\nThe same scheme holds for every closed pair:\n- Deister–Garssen, Deister–Lichtenberg, Deister–Hils (Lichtenberg and Hils entries are on the previous page).\n- Garssen–Falkenberg, Garssen–Scharnhorst, Garssen–Lichtenberg.\n- Falkenberg–Wulfsode, Falkenberg–Hauselberg, Falkenberg–Breithorn, Falkenberg–Scharnhorst, Falkenberg–Lichtenberg.\n- Scharnhorst–Breithorn, Breithorn–Hauselberg, Hauselberg–Wulfsode.\n\nOne-sided lines (Hannover, Isernhagen, Celle, Winsen, Wilsede, Eschede, Timpenberg) receive only the reductions, or no reductions at all.\n\nOn two lines (Falkenberg–Scharnhorst and Wulfsode–Hauselberg) Gauss struck a value out of the centring column and entered it in the reduction column instead.",
+  "errors": [
+   "No arithmetic errors found. Every column-4 sum and every final value was checked to 0.001\" and agrees, including the cross-page pairs with Lichtenberg and Hils.",
+   "The meaning of the second number in column 5 (the same-sign term k) is not stated on the page. Interpreting it as an adjustment correction is my inference.",
+   "Identifying column 3 as the arc-to-chord reduction of a conformal projection is inferred from its behaviour and from the next page. The page itself gives no derivation."
+  ],
+  "results": [
+   {
+    "what": "Reduction of observed directions to the station centre (centring correction)",
+    "modern_name": "Centring / eccentric station reduction",
+    "usually_credited_to": "Standard 18th-century geodetic practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reduction of spheroidal (geodesic) directions to straight-line directions in a conformal plane projection, with unequal values at the two ends of a line",
+    "modern_name": "Arc-to-chord (t−T) correction in a conformal projection",
+    "usually_credited_to": "Gauss (Hanover survey, 1820s), later Schreiber and Krüger",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Combining reciprocal plane directions into one line azimuth (mean of the forward direction and the reversed backward direction, plus a common correction), so that the final values differ by exactly 180°",
+    "modern_name": "Reconciliation of reciprocal directions / adjusted grid bearings",
+    "usually_credited_to": "Routine survey computation (Gauss's Hanover triangulation)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine computational table from Gauss's well-documented Hanoverian arc measurement: centring, projection reductions and the reconciliation of reciprocal directions. It is known working material and contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "Eq(Rational(57770,1000)+Rational(2993,1000), Rational(60763,1000))",
+    "asserts": "Deister→Falkenberg: 57.770 + 2.993 = 60.763\" (195°2'0.763)"
+   },
+   {
+    "sympy": "Eq(Rational(763,1000)+(Rational(244,1000)+Rational(126,1000))/2, Rational(1007,1000)+(-Rational(244,1000)+Rational(126,1000))/2)",
+    "asserts": "Both ends of Deister–Falkenberg reach the common final 0.948\""
+   },
+   {
+    "sympy": "Eq(Rational(59948,1000)+Rational(800,1000)-Rational(312,1000), Rational(60436,1000))",
+    "asserts": "Garssen→Scharnhorst reduced direction = 225°1'0.436"
+   },
+   {
+    "sympy": "Eq(Rational(43657,1000)+Rational(114,1000)-Rational(396,1000)+(Rational(390,1000)+Rational(73,1000))/2, Rational(436065,10000))",
+    "asserts": "Garssen→Falkenberg final = 137°28'43.6065"
+   },
+   {
+    "sympy": "Eq(Rational(43765,1000)+(-Rational(390,1000)+Rational(73,1000))/2, Rational(436065,10000))",
+    "asserts": "Falkenberg→Garssen final agrees: 317°28'43.6065"
+   },
+   {
+    "sympy": "Eq(Rational(33732,1000)-Rational(421,1000), Rational(33311,1000))",
+    "asserts": "Scharnhorst→Falkenberg reduction is −0.421 (illegible digit resolved)"
+   },
+   {
+    "sympy": "Eq(Rational(59917,1000)-Rational(32,1000), Rational(59885,1000))",
+    "asserts": "Scharnhorst→Eschede reduction is −0.032"
+   },
+   {
+    "sympy": "Eq(Rational(5211,1000)+Rational(69,1000)+Rational(155,1000), Rational(5435,1000))",
+    "asserts": "Hauselberg→Breithorn centring is +0.069"
+   },
+   {
+    "sympy": "Eq(Rational(18842,1000)-Rational(82,1000)-Rational(202,1000)+(Rational(851,1000)-Rational(249,1000))/2, Rational(19409,1000)+(-Rational(851,1000)-Rational(249,1000))/2)",
+    "asserts": "Falkenberg–Wulfsode reciprocal finals both equal 18.859\""
+   },
+   {
+    "sympy": "Eq(Rational(48642,1000)+(-Rational(330,1000)+Rational(37,1000))/2, Rational(48312,1000)+(Rational(330,1000)+Rational(37,1000))/2)",
+    "asserts": "Deister–Lichtenberg (cross-page) finals both equal 48.4955\""
+   }
+  ],
+  "transcription_corrections": [
+   "Scharnhorst/Eschede column 3: the arithmetic confirms −0,032 (overwritten in the image).",
+   "Scharnhorst/Falkenberg column 3: the arithmetic confirms −0,421.",
+   "Hauselberg/Breithorn column 2: the arithmetic confirms +0,069.",
+   "Falkenberg/Scharnhorst: +0,124 is struck out in the centring column and re-entered in column 3. Similarly, +1,109 for Wulfsode/Hauselberg is moved from column 2 to column 3.",
+   "Garssen/Hannover final '41. 12. 12. 161' belongs to the reduced-direction column 4 (41°12'12.161), not to the final column."
+  ]
+ }
+}

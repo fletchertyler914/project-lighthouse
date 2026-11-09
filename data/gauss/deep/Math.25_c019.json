@@ -1,0 +1,72 @@
+{
+ "bundle": "Math.25",
+ "page": "c019",
+ "label": "9v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000020/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. The previous page (dated Jan. 1797) records: 'La Place demonstrait'. If mu=0 is a particular (singular) solution of dy = p(x,y) dx, then mu is a common divisor of 1/(dp/dy) and p + p_xy/p_yy. The present page opens with 'Porro' ('further') and states the analogue for second order. It then specializes the first-order criterion to an equation in Pfaffian form. The lower half holds unrelated numerical scratch work.\n\n(1) First-order criterion, re-derived (my step). Put L = 1/p_y. On a singular solution y = phi(x), p_y is infinite, so L = 0 there. Since L(x, phi(x)) = 0 identically and phi' = p, differentiating gives L_x + p L_y = 0. With L_x = -p_xy/p_y^2 and L_y = -p_yy/p_y^2 this becomes p + L_x/L_y = p + p_xy/p_yy = 0. Hence mu divides both L and p + p_xy/p_yy, which is Laplace's statement.\n\n(2) Second-order version. 'Si ddy/dx^2 = q erit mu=0 sol. part. si mu div. com. quant.' Here q = q(x,y,p) and p = dy/dx. Gauss writes the quotient (d[1/(dq/dp)]/dx 'etc' + d[1/(dq/dp)]/dy) : d[1/(dq/dp)]/dp. Read with M = 1/q_p, the evident analogue is: mu = 0 is a particular solution if mu divides M and q + (M_x + p M_y)/M_p. The 'etc' is shorthand for the coefficient p on M_y, and q is the other member. The derivation is the same as in (1): M vanishes along the solution and its total derivative M_x + p M_y + q M_p is zero there. This reading of the 'etc' is mine.\n\n(3) Pfaffian form t dx + u dy = 0, so p = -t/u. Gauss computes the partial derivatives needed in Laplace's quantity p + p_xy/p_yy:\n- dp/dx = -t_x/u + t u_x/u^2.\n- d2p/dxdy = -t_xy/u + t u_xy/u^2 + t_x u_y/u^2 + t_y u_x/u^2 - 2 t u_x u_y/u^3.\nThe leading '1' / '|' before each line is a marker, not a summand. Both expressions are correct.\n\n(4) Numerical scratch, unrelated.\n- Rows '1 3 4 7 11 73 84 (241)' over '1 2 3 5 8 53 61 175' are successive convergents 1/1, 3/2, 4/3, 7/5, 11/8, 73/53, 84/61, 241/175. They come from the continued fraction [1;2,1,1,1,6,1,2,...], value about 1.3771. The table A = 720 1/2, R, R', ..., R^IV with the column 0, 0, 1, 4 looks like a Euclidean-algorithm or remainder table feeding this.\n- Several column subtractions use multiples of the Julian year: 1461 = 4*365.25, 2922 = 8*365.25, 5844 = 16*365.25, 8766 = 24*365.25. Example: 6578 - 5844 = 734. This suggests calendrical or chronological period reckoning; the exact purpose is unclear.\n- The column of fraktur G with primes (G = G', G' = G'', ...) is an undecipherable chain of symbols.\n- There are name and pen trials.",
+  "errors": [
+   "No mathematical errors detected in the derivative computations for p = -t/u.",
+   "The second-order criterion is written elliptically ('etc'); the factor p on the y-derivative and the added term q are not written explicitly. This is notational compression rather than an error.",
+   "The numerical tables are too fragmentary to verify; the convergents shown are internally consistent with partial quotients 1,2,1,1,1,6,1,2."
+  ],
+  "results": [
+   {
+    "what": "Criterion for singular (particular) solutions of dy = p dx: mu divides 1/p_y and p + p_xy/p_yy; extension to y'' = q(x,y,p) using 1/q_p.",
+    "modern_name": "Laplace's criterion for singular solutions (p-discriminant / envelope theory)",
+    "usually_credited_to": "Laplace (1772/1775 memoir on particular solutions); also Lagrange 1774",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Partial derivatives p_x and p_xy for p = -t/u (equation t dx + u dy = 0)",
+    "modern_name": "quotient rule / implicit differentiation",
+    "usually_credited_to": "standard calculus",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Continued-fraction convergents 3/2, 4/3, 7/5, 11/8, 73/53, 84/61, 241/175 with calendrical multiples of 365.25",
+    "modern_name": "continued-fraction approximation (calendar/period reckoning)",
+    "usually_credited_to": "classical (Huygens, Euler)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Student-era study notes reproducing Laplace's known criterion for singular solutions plus routine differentiation and calendrical arithmetic; nothing beyond published contemporaneous work.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y'); t=Function('t')(x,y); u=Function('u')(x,y); simplify(diff(-t/u,x) - (-diff(t,x)/u + t*diff(u,x)/u**2))",
+    "asserts": "p_x for p=-t/u equals -t_x/u + t u_x/u^2 (result 0)"
+   },
+   {
+    "sympy": "x,y=symbols('x y'); t=Function('t')(x,y); u=Function('u')(x,y); simplify(diff(-t/u,x,y) - (-diff(t,x,y)/u + t*diff(u,x,y)/u**2 + diff(t,x)*diff(u,y)/u**2 + diff(t,y)*diff(u,x)/u**2 - 2*t*diff(u,x)*diff(u,y)/u**3))",
+    "asserts": "Gauss's expression for p_xy with p=-t/u is correct (result 0)"
+   },
+   {
+    "sympy": "x,y=symbols('x y'); p=Function('p')(x,y); L=1/diff(p,y); simplify(diff(L,x)/diff(L,y) - diff(p,x,y)/diff(p,y,2))",
+    "asserts": "L_x/L_y = p_xy/p_yy for L=1/p_y, linking the criterion to p + p_xy/p_yy (result 0)"
+   },
+   {
+    "sympy": "from sympy.ntheory.continued_fraction import continued_fraction_convergents; list(continued_fraction_convergents([1,2,1,1,1,6,1,2]))",
+    "asserts": "convergents are 1, 3/2, 4/3, 7/5, 11/8, 73/53, 84/61, 241/175 as on the page"
+   },
+   {
+    "sympy": "[Rational(1461,4)*k for k in (4,8,16,24)]",
+    "asserts": "1461, 2922, 5844, 8766 are 4, 8, 16, 24 Julian years"
+   },
+   {
+    "sympy": "6578-5844",
+    "asserts": "equals 734 as written"
+   }
+  ],
+  "transcription_corrections": [
+   "'si mu diu. Com. qu.' should read 'si mu div. com. quant.' (divisor communis quantitatum).",
+   "The leading '1' before the t,u derivative lines is a bracket/marker, not the number 1.",
+   "After '175' the image shows '241' (next convergent numerator), missing from the transcription.",
+   "The fraktur-G column is too uncertain to transcribe as equalities; the second-order quotient has 'etc' written large in the middle, i.e. (dM/dx etc + dM/dy) : dM/dp with M = 1/(dq/dp)."
+  ]
+ }
+}

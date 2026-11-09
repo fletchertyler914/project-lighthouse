@@ -1,0 +1,56 @@
+{
+ "bundle": "Math.20",
+ "page": "c003",
+ "label": "-",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000004/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table with columns headed 1, 2, 4, 8, 16, which are powers m of the roots. It has three groups of three rows, plus a short appendix of two columns at the bottom.\n\nGROUP 1 (reconstructed with confidence). The rows are the elementary symmetric functions of the roots raised to the power m: A_m = sum of the r_i^m, B_m = sum of the r_i^m r_j^m over i<j, and C_m = product of the r_i^m. Between columns Gauss uses the root-squaring (Graeffe) recursion:\n- A_{2m} = A_m^2 - 2 B_m\n- B_{2m} = B_m^2 - 2 A_m C_m\n- C_{2m} = C_m^2\n\nIn the column for m=1 the readable entries are B_1 = +2 and C_1 = +1. The top entry looks like -2. This is forced by the next column: A_2 = 0 (the faint mark there is a zero), B_2 = 8 = 4 - 2 A_1, so A_1 = -2. Hence (my inference) the equation treated is x^3 + 2x^2 + 2x - 1 = 0. The faint heading is probably 'Beispiel x^3 + 2xx + 2x - 1 = 0' rather than a congruence.\n\nThe chain of columns is then:\n- m=1: (-2, 2, 1)\n- m=2: (0, 8, 1)\n- m=4: (0 - 16 = -16, 64 - 0 = 64, 1)\n- m=8: (256 - 128 = 128, 4096 + 32 = 4128, 1)\n- m=16: (16384 - 8256 = 8128, 4128^2 - 256 = 17040128, 1)\n\nSo after four squarings the equation becomes y^3 - 8128 y^2 + 17040128 y - 1 = 0, with y = x^16.\n\nWhat the result serves:\n- The cubic has one real root, about 0.3532, and a complex-conjugate pair of modulus rho, with rho^2 = 1/0.3532, about 2.83.\n- B_16 is dominated by rho^32, about 1.70e7, which gives the modulus of the complex pair.\n- A_16 = 2 rho^16 cos(16 theta) stays comparatively small and changes sign (-16, +128, +8128). This oscillation is the signature of a complex pair, and the behaviour of A_m carries the argument.\n- This is the Dandelin–Lobachevsky–Graeffe procedure applied to a case with complex roots.\n\nGROUPS 2 AND 3 (not reconstructible). Their third rows are constant: +2 in group 2 and -2 in group 3. They have the same layout and roughly-squaring growth: group 2 runs 7, -58, -5688 in its first row and -56, -1421, about -4.0e7 in its second. They look like the same squaring scheme applied to other data, but the faint readings do not satisfy the recursion above. For example, 7^2 - 2(-56) = 161, not -58. Either the readings are wrong or a modified scheme (for instance a quadratic factor with a fixed normalisation) is in use. I do not claim a reconstruction.\n\nThe bottom block, (18, 156, 2) and (-197, -1964, -2), appears to be side work for group 3.\n\nContext: the next page solves the trinomial x^7 - 3x^4 - 6 = 0 for its real and complex roots by Newton-type logarithmic correction. That fits Gauss's late (c. 1840s) work on the numerical solution of algebraic equations.",
+  "errors": [
+   "Group 1: no errors; every entry is consistent with the root-squaring recursion once the faint entries are read as -2, 0, 4128 and 17040128.",
+   "Groups 2 and 3: entries as transcribed are mutually inconsistent under the same recursion (e.g. 7^2 - 2*(-56) = 161, not -58). This is most likely misreading of the very faint image, not a slip by Gauss; it cannot be decided from the image."
+  ],
+  "results": [
+   {
+    "what": "Repeated root-squaring of the cubic x^3+2x^2+2x-1 (elementary symmetric functions of r^m for m = 1, 2, 4, 8, 16) via A' = A^2 - 2B, B' = B^2 - 2AC, C' = C^2; used to isolate the modulus of a complex root pair (sign oscillation of A_m).",
+    "modern_name": "Dandelin–Lobachevsky–Graeffe root-squaring method (with Encke's treatment of complex roots)",
+    "usually_credited_to": "Dandelin (1826), Lobachevsky (1834), Graeffe (1837); complex-root extension by Encke (1841)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The method was published by Dandelin, Lobachevsky and Graeffe before or around the likely date of the sheet. Encke, Gauss's former student, popularised it in Crelle in 1841, so Gauss working an example is expected rather than anticipatory. It is a mildly interesting document of Gauss using the method on a complex-root case, but nothing priority-changing.",
+  "checkable": [
+   {
+    "sympy": "from sympy import symbols, resultant, expand; t,x=symbols('t x'); f=t**3+2*t**2+2*t-1; expand(resultant(f, x-t**2, t))",
+    "asserts": "Equals x**3 - 0*x**2 + 8*x - 1, i.e. the m=2 column (A=0, B=8, C=1)."
+   },
+   {
+    "sympy": "expand(resultant(t**3+2*t**2+2*t-1, x-t**4, t)) == x**3 + 16*x**2 + 64*x - 1",
+    "asserts": "The m=4 column is A=-16, B=64, C=1."
+   },
+   {
+    "sympy": "expand(resultant(t**3+2*t**2+2*t-1, x-t**8, t)) == x**3 - 128*x**2 + 4128*x - 1",
+    "asserts": "The m=8 column is A=128, B=4128, C=1."
+   },
+   {
+    "sympy": "expand(resultant(t**3+2*t**2+2*t-1, x-t**16, t)) == x**3 - 8128*x**2 + 17040128*x - 1",
+    "asserts": "The m=16 column is A=8128, B=17040128, C=1."
+   },
+   {
+    "sympy": "128**2 - 2*4128 == 8128 and 4128**2 - 2*128 == 17040128",
+    "asserts": "The squaring recursion from column 8 to column 16."
+   }
+  ],
+  "transcription_corrections": [
+   "Heading is probably 'Beispiel x^3 + 2xx + 2x - 1 = 0' (inferred from the table), not a congruence 'Residua ... mod'.",
+   "Group 1, column 1, row 1: -2.",
+   "Group 1, column 2, row 1: 0 (the faint mark is a zero).",
+   "Group 1, column 8, row 2: +4128, not +4096.",
+   "Group 1, column 16, row 2: +17040128.",
+   "Group 1, column 16, row 1: +8128 (confirmed by the recursion).",
+   "Groups 2 and 3: the readings are uncertain and inconsistent with the recursion, so they should be marked doubtful throughout."
+  ]
+ }
+}

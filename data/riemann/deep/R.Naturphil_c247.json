@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c247",
+ "label": "125r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000248/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft introduction to Riemann's programme of a field-based ('Naturphilosophie') physics. It is closely related to the fragment 'Neue mathematische Principien der Naturphilosophie' and the gravitation/light fragments printed in his Werke, and to his lectures 'Schwere, Elektricität und Magnetismus' (ed. Hattendorff). The previous page holds variational and Fourier-type computations for potentials. The next page continues by treating gravity as a state of a space-filling substance.\n\n(1) Methodological preamble. The reader needs an outline of the guiding ideas in advance. Otherwise the success of the method would be unintelligible, since the ideas do not fit the view then generally held by mathematicians: discrete molecules with attractive and repulsive forces.\n\n(2) Principle. Every action of one thing on another whose magnitude depends on distance must be propagated, or mediated, through the space in between. So instead of discrete molecules acting at a distance, one should take as causes one or more substances. Each fills space continuously (without gaps), and several can be at the same place at once. The elementary laws should then be partial differential equations by which the states of adjacent parts of the substance determine each other, not interactions between distant things.\n\n(3) Illustration with gravitation. Take rectangular coordinates x1, x2, x3. Let rho be the density of gravitating mass at (x1, x2, x3) and V the potential. Then gamma_i = dV/dx_i (i = 1, 2, 3) are the components of the gravitational force. The unit of force is said to be the force exerted by unit mass at unit distance. The dependence of V on the mass is then expressed by:\n- Poisson's equation: d2V/dx1^2 + d2V/dx2^2 + d2V/dx3^2 = -rho;\n- the boundary condition that V becomes infinitely small at infinite distance from the gravitating masses.\n\n(4) Equivalent first-order form. To determine gamma = (gamma_1, gamma_2, gamma_3) one has two conditions:\n- (a) gamma_1 dx1 + gamma_2 dx2 + gamma_3 dx3 is an exact differential, i.e. curl gamma = 0. Written out: d gamma_1/dx2 - d gamma_2/dx1 = 0, and similarly for the other pairs. The page breaks off at d gamma_1/dx3 ...; completing the remaining two equations is my addition.\n- (b) d gamma_1/dx1 + d gamma_2/dx2 + d gamma_3/dx3 = -rho, i.e. div gamma = -rho.\n\nImplicit (mine): (a) and (b), with decay at infinity, determine gamma uniquely. (a) gives gamma = grad V; then (b) is Poisson's equation, whose decaying solution is unique. This is the step from action at a distance to local field equations that the next page develops.",
+  "errors": [
+   "Normalization: if the unit of force is that exerted by unit mass at unit distance, then V = integral of rho/r dx, and Laplacian V = -4*pi*rho, not -rho. Writing -rho needs rationalized units or a density rescaled by 4*pi. The defining sentence is partly struck through, so this may be a slip or a lost redefinition.",
+   "The curl conditions are written incompletely: only the (1,2) component is given, and the (1,3) one is broken off. Presumably all three components were intended.",
+   "The uniqueness of gamma from curl and divergence plus decay is asserted, not proved. It is standard, but it requires gamma to vanish at infinity."
+  ],
+  "results": [
+   {
+    "what": "Methodological principle: every distance-dependent action must be mediated locally through space. Physics should be formulated by PDEs for continuous, interpenetrating media rather than by action at a distance between molecules.",
+    "modern_name": "Field-theoretic (contiguous action, Nahwirkung) principle",
+    "usually_credited_to": "Faraday and Maxwell (1840s-1860s); Riemann's version is published in his Nachlass fragments on Naturphilosophie (Werke, 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Gravitational potential satisfies Laplacian V = -rho (up to 4*pi) with V -> 0 at infinity.",
+    "modern_name": "Poisson equation for Newtonian gravity",
+    "usually_credited_to": "Laplace (1782) and Poisson (1813)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Field gamma determined by curl gamma = 0 (exact differential) and div gamma = -rho, plus decay at infinity.",
+    "modern_name": "First-order field equations of Newtonian gravity; uniqueness via the Helmholtz decomposition",
+    "usually_credited_to": "Stokes and Helmholtz (1849/1858); Gauss's law form",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The mathematics is the standard Poisson equation and its curl/divergence form. Riemann's field-based natural philosophy and his gravitation fragments are already known from the posthumously published Werke and his lectures. This page is a draft of known material.",
+  "checkable": [
+   {
+    "sympy": "x,y,z=symbols('x y z'); r=sqrt(x**2+y**2+z**2); simplify(diff(1/r,x,2)+diff(1/r,y,2)+diff(1/r,z,2))",
+    "asserts": "The potential 1/r of a point mass is harmonic away from the source (result 0)."
+   },
+   {
+    "sympy": "x,y,z,rho,R=symbols('x y z rho R',positive=True); V=2*pi*rho*(R**2-(x**2+y**2+z**2)/3); simplify(diff(V,x,2)+diff(V,y,2)+diff(V,z,2)+4*pi*rho)",
+    "asserts": "The interior potential of a uniform ball (unit force = unit mass at unit distance) satisfies Laplacian V = -4*pi*rho, not -rho (result 0)."
+   },
+   {
+    "sympy": "x1,x2,x3=symbols('x1 x2 x3'); V=Function('V')(x1,x2,x3); g=[diff(V,v) for v in (x1,x2,x3)]; simplify(diff(g[0],x2)-diff(g[1],x1))",
+    "asserts": "For gamma = grad V the curl component d gamma_1/dx2 - d gamma_2/dx1 vanishes (exact-differential condition)."
+   },
+   {
+    "sympy": "x1,x2,x3=symbols('x1 x2 x3'); V=Function('V')(x1,x2,x3); g=[diff(V,v) for v in (x1,x2,x3)]; simplify(sum(diff(g[i],v) for i,v in enumerate((x1,x2,x3))) - (diff(V,x1,2)+diff(V,x2,2)+diff(V,x3,2)))",
+    "asserts": "div gamma equals Laplacian V, so div gamma = -rho is equivalent to Poisson's equation (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'und ein Punkt (x1,x2,x3) ... rho die Dichtigkeit' should probably read 'und im Punkte (x1, x2, x3) rho die Dichtigkeit der gravitirenden Masse, V das Potential derselben' (the word before (x1,x2,x3) looks like 'Punkte').",
+   "The curl condition is incomplete in the manuscript itself: after 'd gamma_1/dx2 - d gamma_2/dx1 = 0, d gamma_1/dx3' the line stops, followed by 'sei'.",
+   "In 'Jede Wirkung eines Dinges auf ein anderes, deren Grösse ...' the insertion seems to read 'auf ein anderes, deren Größe' and 'von der Größe der Entfernung'; these readings are plausible.",
+   "The parenthetical in the right margin appears to begin 'Wechselbeziehungen zwischen den Bewegungen ... oder die ...' and remains uncertain."
+  ]
+ }
+}

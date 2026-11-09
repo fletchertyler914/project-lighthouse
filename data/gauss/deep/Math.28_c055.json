@@ -1,0 +1,71 @@
+{
+ "bundle": "Math.28",
+ "page": "c055",
+ "label": "28r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000056/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting and purpose. Four points are given in plane Cartesian coordinates relative to point 0 = (a, b). The manuscript writes only 'a' for point 0; the b is clearly implied.\n- Point 1 = (a + r cos l, b + r sin l)\n- Point 2 = (a + r' cos l', b + r' sin l')\n- Point 3 = (a + rho cos lambda, b + rho sin lambda), the unknown point.\n\nThe distance from 1 to 3 is p. Its direction is lambda + M (the heading says 'l + M', but the equations use lambda + M). So M is the angle at 3 between the sight lines 3->0 and 3->1. Likewise, an analogous angle M' at 3 between 0 and 2 is assumed known. Points 0, 1, 2 are known, 3 is the observer's station, and only the angles at 3 are measured. This is the resection problem (Snellius-Pothenot problem). The next page confirms this reading: 3 is found as the foot of the perpendicular from 0.\n\nStep 1. The vector 3 - 1 in polar form:\n(i) rho cos lambda - r cos l = p cos(lambda + M)\n(ii) rho sin lambda - r sin l = p sin(lambda + M)\n\nStep 2 (elimination of p; the details are mine). Compute (i)*sin(lambda+M) - (ii)*cos(lambda+M). This gives\nrho [sin(lambda+M)cos lambda - cos(lambda+M) sin lambda] = r [sin(lambda+M)cos l - cos(lambda+M) sin l],\nthat is, rho sin M = r sin(lambda + M - l). This is the sine rule in triangle 0-1-3.\n\nStep 3. Put N = l - M ± 90° and n = ± r / sin M. The upper sign is used if sin M > 0 and the lower sign if sin M < 0, so that n > 0.\n- Upper sign: cos(lambda - N) = cos(lambda - l + M - 90°) = sin(lambda + M - l).\n- Lower sign: both factors change sign.\nIn either case rho = r sin(lambda+M-l)/sin M = n cos(lambda - N).\n\nStep 4 (geometric reading). rho = n cos(lambda - N) is the polar equation, about pole 0, of the circle through 0 whose diameter runs from 0 to Q = (a + n cos N, b + n sin N). This is the circle through 0, 1 and 3 on which the chord 01 subtends the angle M. By Thales, the angle 0-3-Q is a right angle. Hence Q lies on the line through 3 perpendicular to 03. Gauss says exactly this; the check (mine) is that (Q - 3)·(3 - 0) = rho (n cos(N - lambda) - rho) = 0.\n\nStep 5 (continued on the next page). Repeating the argument with point 2 instead of 1 (using r', l', M') gives a second point Q' on the same perpendicular. The line QQ' is therefore known, and 3 is the foot of the perpendicular dropped from 0 onto QQ'.\n\nThis is a complete solution of the three-point resection problem. It uses the 'Cassini' auxiliary points, the diametrically opposite points of the two circles through the middle point 0.",
+  "errors": [
+   "The heading line gives the direction of 1->3 as 'l + M', while both equations (and the whole subsequent derivation) use lambda + M. 'l' is a slip, or an uncorrected first version; the lambda in the equations appears written over something. With lambda + M the derivation is correct.",
+   "Point 0 is listed only as 'a'; the second coordinate b is implicit. This is harmless.",
+   "All displayed steps (elimination, the sign convention for N and n, the identity rho = n cos(lambda - N), and the Thales/perpendicularity conclusion) are correct.",
+   "The degenerate cases are not discussed: sin M = 0, or Q = Q' when 3 lies on the circle through 0, 1, 2 (the 'danger circle' of resection). This is unremarkable for a working note."
+  ],
+  "results": [
+   {
+    "what": "Elimination of the distance p giving rho sin M = r sin(lambda + M - l) (sine rule in triangle 0-1-3).",
+    "modern_name": "Law of sines / polar-coordinate elimination",
+    "usually_credited_to": "Classical",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The locus of the station 3 seeing chord 0-1 under angle M is the circle rho = n cos(lambda - N) through 0. The far end of its diameter through 0, Q = (a + n cos N, b + n sin N), lies on the perpendicular to 03 at 3.",
+    "modern_name": "Inscribed-angle circle locus; Thales' theorem",
+    "usually_credited_to": "Classical (Euclid)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Solution of the three-point resection: build the auxiliary points Q, Q' from points 1 and 2; then station 3 is the foot of the perpendicular from 0 to line QQ'.",
+    "modern_name": "Snellius-Pothenot resection problem, Cassini's (auxiliary-point) method",
+    "usually_credited_to": "Snellius (1617), Pothenot (1692), Collins (1671); the auxiliary-point construction is attributed to Cassini",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a clean analytic version of a classical geodetic construction for the Snellius-Pothenot problem, which was well known by Gauss's time. Gauss is known to have worked on the Pothenot problem in connection with his surveying, so this note fits his known interests. It is a neat unpublished working note rather than anything new.",
+  "checkable": [
+   {
+    "sympy": "simplify((rho*cos(lam)-r*cos(l))*sin(lam+M) - (rho*sin(lam)-r*sin(l))*cos(lam+M) - (rho*sin(M) - r*sin(lam+M-l)))",
+    "asserts": "Eliminating p from the two component equations yields rho*sin(M) = r*sin(lambda+M-l). The expression simplifies to 0."
+   },
+   {
+    "sympy": "simplify((r/sin(M))*cos(lam-(l-M+pi/2)) - r*sin(lam+M-l)/sin(M))",
+    "asserts": "With the upper sign, N = l-M+90°, n = r/sin M, we get n*cos(lambda-N) = r*sin(lambda+M-l)/sin M. Result: 0."
+   },
+   {
+    "sympy": "simplify((-r/sin(M))*cos(lam-(l-M-pi/2)) - r*sin(lam+M-l)/sin(M))",
+    "asserts": "With the lower sign, N = l-M-90°, n = -r/sin M, the same identity holds. Result: 0."
+   },
+   {
+    "sympy": "simplify(expand_trig(((n*cos(N)-n*cos(lam-N)*cos(lam))*n*cos(lam-N)*cos(lam) + (n*sin(N)-n*cos(lam-N)*sin(lam))*n*cos(lam-N)*sin(lam))))",
+    "asserts": "If rho = n*cos(lambda-N), then (Q-P3)·(P3-P0) = 0, with Q = n(cos N, sin N) and P3 = rho(cos lambda, sin lambda) relative to 0. So Q lies on the perpendicular to 03 at 3. Result: 0."
+   },
+   {
+    "sympy": "simplify((r*cos(l) - n*cos(lam-N)*cos(lam))*sin(lam+M) - (r*sin(l) - n*cos(lam-N)*sin(lam))*cos(lam+M)).subs({N: l-M+pi/2, n: r/sin(M)})",
+    "asserts": "Consistency: with N, n defined as on the page, P1 - P3 is parallel to the direction lambda+M. The cross product is zero."
+   }
+  ],
+  "transcription_corrections": [
+   "Point 0 is written as just 'a' in the manuscript; it stands for (a, b).",
+   "Heading: 'Richtung l + M' is what the manuscript shows, but the equations immediately below use (lambda + M), with lambda apparently written over another letter. The intended direction is lambda + M.",
+   "'rho sin [-M-] M = r sin(...)': a struck-through symbol stands before the final M. The intended line is rho sin M = r sin(lambda + M - l).",
+   "'Man setze nun' is spelled roughly 'Man setre nun' in the hand; the reading 'setze' is correct.",
+   "The struck word before 'durch 3 normal gegen 03 gezogenen geraden Linie' is illegible. The sense is simply 'in der durch 3 ... gezogenen geraden Linie'.",
+   "Shelfmark: 'Math 28' (pencil), folio '(28)', and the old numbering '154/113' struck through."
+  ]
+ }
+}

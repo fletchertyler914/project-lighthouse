@@ -1,0 +1,86 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c209",
+ "label": "92",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000210/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a printed textbook page, almost certainly Christian Leiste's school 'Arithmetik und Algebra' (bundle 'HB.Leiste'). None of the printed text on it is by Gauss. The handwriting visible at the right edge (∫x^.../(1+..., 'sin. lem...', '1 1, 1/2 0,6.., 1/3 0,4..') is the cut-off left margin of the facing page 93. Those are Gauss's notes on the lemniscatic sine and integrals of the form ∫x^{a-1}dx/(1+x^b)^c, transcribed with the next page.\n\n(i) End of §179, example 3 from p.91. Three numbers satisfy x+y=a, x+z=b, y+z=c. The general solution is y=(a-b+c)/2, x=(a+b-c)/2, z=(b+c-a)/2. With a=12, b=16, c=14 this gives y=(12-16+14)/2=5, x=(12+16-14)/2=7 and z=(16+14-12)/2=9. Check: 7+5=12, 7+9=16, 5+9=14.\n\n(ii) §180, solving a pure equation x^m=A. The solution is x=A^(1/m), or equivalently log x=(1/m) log A. Case analysis by the number of real ('mögliche') roots:\n- A>0, m even: two real roots ±A^(1/m) and m-2 complex ('unmögliche') roots.\n- A>0, m odd (m=2n+1): one real root and m-1=2n complex roots.\n- A<0, m even: all roots complex.\n- A<0, m=2n+1: one real root and 2n complex roots.\nThe page then states that the 2n-th root of A is ± the square root of the n-th root of A, i.e. A^(1/(2n))=(A^(1/n))^(1/2). It also states that the odd root of -A is minus the odd root of A, (-A)^(1/(2n+1))=-A^(1/(2n+1)). Example: 64^(1/6)=sqrt(64^(1/3))=sqrt(4)=2.\n\n(iii) §181, corollary. With x=z+a, the equation (z+a)^m=A is still pure in x. [My completion:] z=A^(1/m)-a.\n\n(iv) §182, the general ('unreine') quadratic ax^2+bx+c=0. Dividing by the leading coefficient a gives x^2+(b/a)x+c/a=0, written B) x^2+px+q=0 with p and q arbitrary real numbers. The solution follows on p.93.",
+  "errors": [
+   "No substantive errors on this page; all counts of real and complex roots and the numerical example are correct.",
+   "Notational looseness: '√[2n]{+A} = ±x' mixes the root value with the unknown x, and '√[n]{+A^{1/2}}' is ambiguous as to which root applies first (harmless for A>0).",
+   "The printed solution on the preceding page contains a misprint, 'a-b = x+y-x+z = y+z', which should read y-z. The final formulas, and the example on this page, are nevertheless correct."
+  ],
+  "results": [
+   {
+    "what": "Solution of the symmetric linear system x+y=a, x+z=b, y+z=c, with numerical check",
+    "modern_name": "elementary linear system solution",
+    "usually_credited_to": "folklore / textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Number of real and complex roots of x^m=A depending on the sign of A and the parity of m",
+    "modern_name": "real roots of x^m - A; nth roots of real numbers",
+    "usually_credited_to": "standard 18th-century algebra (de Moivre, Euler)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "A^(1/(2n)) = sqrt(A^(1/n)); example 64^(1/6)=2",
+    "modern_name": "composition of radicals",
+    "usually_credited_to": "folklore",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Normalization of ax^2+bx+c=0 to monic form x^2+px+q=0",
+    "modern_name": "monic quadratic / normal form",
+    "usually_credited_to": "folklore",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is a printed elementary algebra textbook (Leiste) with no Gauss content of its own. The only handwriting visible is the bleed of lemniscatic-sine notes from the facing page, which belong to that page's analysis.",
+  "checkable": [
+   {
+    "sympy": "solve([x+y-12, x+z-16, y+z-14],[x,y,z]) == {x:7, y:5, z:9}",
+    "asserts": "the numerical example a=12, b=16, c=14 gives x=7, y=5, z=9"
+   },
+   {
+    "sympy": "simplify((a+b-c)/2 + (a-b+c)/2 - a) == 0",
+    "asserts": "x+y=a for the general formulas"
+   },
+   {
+    "sympy": "Rational(64)**Rational(1,6) == sqrt(Rational(64)**Rational(1,3)) == 2",
+    "asserts": "64^(1/6) = sqrt(64^(1/3)) = sqrt(4) = 2"
+   },
+   {
+    "sympy": "len([r for r in Poly(x**6-64,x).all_roots() if r.is_real]) == 2",
+    "asserts": "m even, A>0: exactly two real roots, m-2=4 complex"
+   },
+   {
+    "sympy": "len([r for r in Poly(x**5-32,x).all_roots() if r.is_real]) == 1",
+    "asserts": "m odd, A>0: one real root, m-1=4 complex"
+   },
+   {
+    "sympy": "len([r for r in Poly(x**4+16,x).all_roots() if r.is_real]) == 0",
+    "asserts": "m even, A<0: no real roots"
+   },
+   {
+    "sympy": "len([r for r in Poly(x**3+8,x).all_roots() if r.is_real]) == 1",
+    "asserts": "m odd, A<0: one real root (-2), 2n=2 complex"
+   },
+   {
+    "sympy": "expand((a*x**2+b*x+c)/a - (x**2+b/a*x+c/a)) == 0",
+    "asserts": "dividing by the leading coefficient gives the monic form"
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription omits the cut-off handwritten fragments in the right edge of the image ('∫ x^…/(1+…', '∫ x^…/(1-…', '∫', 'sin. lem…' twice, and the column '1 1, / 1/2 0,6… / 1/3 0,4…'). These belong to the margin of the facing page 93 (lemniscatic sine notes), not to this printed page.",
+   "'\\sqrt[n]{+A^{\\frac{1}{2}}}' matches the print, which shows the n-th root sign over '+ A^{1/2}'. The intended meaning is the n-th root combined with a square root, consistent with '= √ · ⁿ√A'.",
+   "In '\\sqrt[2n+1]{-A} = -x' the print shows a radical with index 2n+1 over '−A'; this is transcribed correctly."
+  ]
+ }
+}

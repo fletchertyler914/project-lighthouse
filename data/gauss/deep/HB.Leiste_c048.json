@@ -1,0 +1,68 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c048",
+ "label": "6r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000049/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Purpose: a proof, via partial differential equations, of Lagrange's inversion theorem ('Beweis des La Grangischen Lehrsatzes'). The setting is x = t + u*xi(x), where xi is a given function of x. The implicit x(t,u) is regarded as a function of two independent variables t and u, and phi is an arbitrary function. Parenthesised differentials (dF/du) denote partial derivatives, as in Euler and Lagrange.\n\nStep 0. x = t + u xi(x).\n\nStep 1 (chain rule). phi_u = phi'(x) x_u and phi_t = phi'(x) x_t.\n\nStep 2 (differentiate the defining equation). x_u = xi + u xi_u = xi + u xi'(x) x_u, and x_t = 1 + u xi_t = 1 + u xi'(x) x_t. [Mine:] Hence x_u (1 - u xi') = xi and x_t (1 - u xi') = 1, so x_u = xi x_t (provided 1 - u xi' != 0).\n\nStep 3 (substitute and eliminate phi'(x)). phi_u = xi phi_t ... (1). This is the basic first-order PDE.\n\nStep 4 (differentiate (1) in t). phi_tu = xi_t phi_t + xi phi_tt ... (A).\n\nStep 5 (differentiate (1) in u). phi_uu = xi_u phi_t + xi phi_tu. The factor phi_t is under an ink blot.\n\nStep 6. Since xi is itself a function of x, (1) applies with phi = xi, giving xi_u = xi xi_t.\n\nStep 7. Substituting this and (A) into Step 5: phi_uu = xi xi_t phi_t + xi(xi_t phi_t + xi phi_tt) = 2 xi xi_t phi_t + xi^2 phi_tt = d/dt( xi^2 phi_t ) ... (2).\n\nContinuation (next page). By induction, using equality of mixed partials, d^n phi/du^n = d^(n-1)/dt^(n-1) ( xi^n phi_t ). [Mine:] Setting u = 0, where x = t, and applying Taylor's theorem in u gives Lagrange's series:\nphi(x) = phi(t) + sum_{n>=1} u^n/n! * d^(n-1)/dt^(n-1) [ xi(t)^n phi'(t) ].\n\nSide calculation (top right). A long division: 6789548 / 4 = 1697387. The successive remainders 2, 3, 2, 1, 3, 2, 0 are partly visible. This is unrelated scratch work.",
+  "errors": [
+   "In the line before (2), the first term is written 2 xi (dxi/dt); it should be 2 xi (dxi/dt)(dphi x/dt). The factor phi_t is omitted. This is a copying slip: the final expression d(xi xi phi_t)/dt is correct and requires it.",
+   "In (2) the inner derivative looks like (dphi x/dt^2) with an overwritten/struck '2'. The correct form is d(xi^2 * dphi/dt)/dt, i.e. a first derivative inside.",
+   "The elimination step tacitly requires 1 - u xi'(x) != 0, which is not stated. This is standard and harmless for a formal or local argument.",
+   "The convergence of the final Taylor series in u is not addressed; this is typical of the period."
+  ],
+  "results": [
+   {
+    "what": "PDE phi_u = xi(x) phi_t for x = t + u xi(x), and its iterate d^n phi/du^n = d^(n-1)/dt^(n-1)(xi^n phi_t), leading to the Lagrange series",
+    "modern_name": "Lagrange inversion theorem (Lagrange–Bürmann series), proved by Laplace's partial-differential-equation method",
+    "usually_credited_to": "Lagrange (1770) for the theorem; Laplace (1777/1780) for this PDE proof, later standard in textbooks such as Lacroix",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Long division 6789548 / 4 = 1697387",
+    "modern_name": "arithmetic scratch work",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page reproduces the textbook Laplace-style PDE proof of Lagrange's inversion theorem step by step, with a small copying slip. It reads like study notes written into an elementary arithmetic book, and nothing in it is non-standard.",
+  "checkable": [
+   {
+    "sympy": "u,t=symbols('u t',positive=True); x=(1-sqrt(1-4*u*t))/(2*u); simplify(diff(x,u)-x**2*diff(x,t))",
+    "asserts": "Equation (1) with phi = identity and xi = x^2 (x = t + u x^2): x_u = xi x_t. Should simplify to 0."
+   },
+   {
+    "sympy": "u,t=symbols('u t',positive=True); x=(1-sqrt(1-4*u*t))/(2*u); simplify(diff(x,u,2)-diff(x**2*diff(x,t),t))",
+    "asserts": "Equation (2): phi_uu = d/dt(xi^2 phi_t) for the same example. Should be 0."
+   },
+   {
+    "sympy": "u,t=symbols('u t',positive=True); x=(1-sqrt(1-4*u*t))/(2*u); simplify(diff(x,u,3)-diff(x**3*diff(x,t),t,2))",
+    "asserts": "Equation (3) from the next page: phi_uuu = d^2/dt^2(xi^3 phi_t). Should be 0."
+   },
+   {
+    "sympy": "u,t=symbols('u t'); x=(1-sqrt(1-4*u*t))/(2*u); simplify(series(x,u,0,5).removeO()-(t+sum(u**n/factorial(n)*diff(t**(2*n),t,n-1) for n in range(1,5))))",
+    "asserts": "The resulting Lagrange series x = t + sum u^n/n! d^(n-1)/dt^(n-1) t^(2n) agrees through order u^4."
+   },
+   {
+    "sympy": "t,u=symbols('t u'); phi=Function('phi'); xi=Function('xi'); X=Function('X')(t,u); expr=diff(xi(X)**2*diff(phi(X),t),t)-(2*xi(X)*diff(xi(X),t)*diff(phi(X),t)+xi(X)**2*diff(phi(X),t,2)); simplify(expr)",
+    "asserts": "The identity d/dt(xi^2 phi_t) = 2 xi xi_t phi_t + xi^2 phi_tt, which shows the factor phi_t is needed in the first term."
+   },
+   {
+    "sympy": "4*1697387 - 6789548",
+    "asserts": "The side division is correct: equals 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Heading reads 'Beweis des La Grangischen Lehrsatzes'.",
+   "Line before (2): the manuscript itself has '2 xi (dxi/dt) + xi xi (d^2 phi x/dt^2)' without the factor (dphi x/dt). The transcription is faithful, but this is an error in the original.",
+   "Second-derivative-in-u equation: the blotted factor after (dxi/du) is almost certainly (dphi x/dt).",
+   "In (2) the inner fraction appears as dphi x/dt^2 with a struck or overwritten exponent. It should read d phi x/dt.",
+   "In (A) the factor after (dxi/dt) is written dphi x/dt (with partial-d style); it is not part of a struck term.",
+   "Side calculation remainders/products: the 2, 3, 2 and 13/32, 28 lines belong to the long division 6789548 / 4 = 1697387."
+  ]
+ }
+}

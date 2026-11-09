@@ -1,0 +1,58 @@
+{
+ "bundle": "600_2",
+ "page": "c018",
+ "label": "13",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000019/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page). Hilbert states a theorem. Let f be continuous on an interval of the real line. Suppose there are rational functions r_1, r_2, ... with r_n -> f uniformly. Suppose also that, for a fixed rational function F(y,p), the quantities F(r_n(x), r_n'(x)) -> 0 uniformly. Then f is differentiable and satisfies the differential equation F(f, f') = 0.\n\nProof sketch (spans pages 12-13).\n(i) Normalisation. Fix a point and translate it to x = 0 so that f(0) = 0. Assume that the equation F(0, p) = 0 also yields the value p = 0 for the slope there, i.e. F(0,0) = 0. [My gloss: in general one subtracts the linear function f(0) + p_0 x, where p_0 is a root of F(f(0), p) = 0, and absorbs this into F.]\n(ii) Hilbert claims the approximating sequence can be modified, without losing its two properties, so that every r_n is divisible by x^2. In modern terms, r_n(0) = 0 and r_n'(0) = 0. [Presumably by subtracting r_n(0) + r_n'(0) x. This needs r_n(0) -> 0, which holds, and r_n'(0) -> 0, which does not follow from the stated hypotheses.]\n(iii) From this he concludes that the limit f is 'divisible by x^2', i.e. f(x) = O(x^2) near 0. Hence f'(0) exists and equals 0, the value given by F = 0. That is what was to be proved.\n\nProgramme for the calculus of variations. Hilbert wants to generalise the theorem so it can be used in the calculus of variations.\n- To complete the usual theory one must prove that the function making the integral J[y] = \\int L(x,y,y') dx a maximum or minimum also has higher derivatives (y'', ...). This is regularity of extremals.\n- Plan: approximate the sought extremal uniformly by rational functions r_n.\n- Then use integration by parts, as in the derivation of the Euler-Lagrange equation \\int (L_y - d/dx L_{y'}) \\eta dx = 0, to show that the r_n make a certain differential expression vanish in the limit. That expression is the Euler-Lagrange operator L_y - d/dx L_{y'}.\n- The generalised theorem, with F replaced by this higher-order expression, would then give existence of the higher derivatives and the Euler equation. This 'fills the gap' (next page).",
+  "errors": [
+   "Step (ii) is unjustified. Re-normalising the r_n to be divisible by x^2 requires r_n'(0) -> 0. Uniform convergence of r_n and of F(r_n, r_n') does not give this unless the zero set of F near (0,0) determines p uniquely and continuously, e.g. F_p(0,0) != 0 (implicit function theorem). If F can be solved locally as p = G(y) with G continuous, then r_n' -> G(f) uniformly and the theorem is just the classical theorem on uniform convergence of derivatives.",
+   "Step (iii) is unjustified as stated. Uniform limits of functions x^2 g_n need not be O(x^2): x^2 g_n -> f uniformly does not bound f/x^2. Uniform bounds on g_n = r_n/x^2 near 0 would be needed, which again comes down to controlling r_n' near 0.",
+   "Without a solvability or non-degeneracy hypothesis on F the theorem is false in general. If F may depend on x, take F = y^2 - x^2: rational r_n -> |x| uniformly (e.g. Newman's approximants) gives r_n^2 - x^2 -> 0 uniformly, but |x| is not differentiable at 0. The previous page lets F depend only on f and f'. However, the intended application to Euler-Lagrange expressions involves x explicitly, so a hypothesis such as F_p != 0 (for the variational case, the Legendre condition L_{y'y'} != 0) is tacitly needed.",
+   "The programme does not specify the 'certain differential expression', nor how integration by parts gives uniform (rather than weak) vanishing for the approximants. As written it is a research plan, not a proof."
+  ],
+  "results": [
+   {
+    "what": "If continuous f is a uniform limit of rational r_n with F(r_n, r_n') -> 0 uniformly, then f is differentiable and F(f, f') = 0 (sketched via normalisation to divisibility by x^2)",
+    "modern_name": "Stability/closedness of solutions of first-order ODEs under uniform limits (limit of approximate solutions); special case of uniform convergence of derivatives / implicit function theorem",
+    "usually_credited_to": "Classical analysis folklore (Weierstrass school, Cauchy-Peano era); uses Weierstrass approximation theorem (1885)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Programme to prove that minimising/maximising functions in the calculus of variations possess higher derivatives, by approximation with rational functions plus integration by parts",
+    "modern_name": "Regularity of extremals (du Bois-Reymond lemma; Hilbert's differentiability theorem; precursor of Hilbert's 19th problem)",
+    "usually_credited_to": "P. du Bois-Reymond (1879) for C^1 -> C^2 regularity under L_{y'y'} != 0; Hilbert's differentiability theorem (lectures c. 1899, reported by Bolza 1904); Hilbert's 19th problem (1900); Bernstein (1904) and later De Giorgi/Nash (1957) in PDE",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The regularity question for extremals is famously Hilbert's own: the differentiability theorem bears his name and his 19th problem is about it. Seeing an early, heuristic plan for it in a notebook is a pleasant documentary detail but not new. The approximation lemma itself is routine and its sketched proof is incomplete.",
+  "checkable": [
+   {
+    "sympy": "g=Function('g'); r=x**2*g(x); (r.subs(x,0), diff(r,x).subs(x,0))",
+    "asserts": "A function divisible by x^2 vanishes together with its first derivative at 0: (0, 0)."
+   },
+   {
+    "sympy": "e=symbols('e',positive=True); simplify(sqrt(x**2+e**2)**2 - x**2)",
+    "asserts": "Smooth approximants of |x| satisfy F = y^2 - x^2 up to e^2 -> 0 uniformly. This shows an x-dependent F needs an extra hypothesis (result: e**2)."
+   },
+   {
+    "sympy": "y=Function('y'); L=y(x).diff(x)**2/2 + y(x)**2/2; euler_equations(L, y(x), x)",
+    "asserts": "Integration by parts / Euler-Lagrange gives the differential expression that the approximants should annihilate: y - y'' = 0."
+   },
+   {
+    "sympy": "p,yy=symbols('p yy'); G=Function('G'); F=p-G(yy); solve(F,p)",
+    "asserts": "If F is solvable for p as p = G(y), the theorem reduces to uniform convergence of r_n' to G(f)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: the image reads 'Werth 0.' followed by 'Dann kann man'; the transcription is correct.",
+   "'gleichmäsig' (single s) is as written in the manuscript; it is not a transcription slip.",
+   "'die gesuch-te das Integral ... machende Function' is correctly transcribed; it is an extended participial construction, not an error.",
+   "The page number '13' at the top right is omitted from the transcription."
+  ]
+ }
+}

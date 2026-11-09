@@ -1,0 +1,64 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c370",
+ "label": "183r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000371/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the 1857 'Theorie der Abel'schen Functionen' (Crelle 54). The previous page derives Riemann's bilinear period relations: the integral of w_mu dw_mu' around the boundary of the cut surface T' gives sum_nu (A^nu_mu B^nu_mu' - B^nu_mu A^nu_mu') = 0, and with normalisation A^nu_mu = pi i delta it gives a_{mu,mu'} = a_{mu',mu}. The next page introduces the p-fold theta series. Most of this page is pencil, heavily struck through and only partly legible, so the reading below is partly conjectural.\n\nBlock 1 (lines 1-5), existence from Dirichlet's principle. 'Nach dem ... Satze' refers to the existence theorem proved earlier. Claim: on the cut surface T' one can construct a complex function x+yi with three properties:\n(i) in a neighbourhood of a point t it has prescribed discontinuities, i.e. it differs from a given expression by a function continuous there;\n(ii) across the cross-cuts its imaginary part jumps by prescribed constants;\n(iii) its real part takes prescribed continuous values on the boundary.\nThis is the standard Dirichlet-principle existence statement (Theorie §§3-4, with Grundlagen 1851) that underlies the elementary integrals of the first, second and third kind.\n\nBlock 2 (lines 6-9). Remarks that the boundary condition can be replaced by another one ('durch ... anderer ersetzen'). It is struck and fragmentary; no mathematics can be reconstructed.\n\nBlock 3 (lower half), the Riemann(-Roch) count of algebraic functions with m simple poles eps_1,...,eps_m.\n- Such a function has the form s = beta_0 + sum_{i=1}^m beta_i t_i. Here t_i is the elementary integral of the second kind, infinite of first order at eps_i ('unendlich von der ersten Ordnung').\n- One imposes the vanishing of the 2p periodicity moduli (the '2p Bedingungsgleichungen'), of which only p are independent on the space of beta's.\n- Hence for points in general position the function contains m-p+1 arbitrary constants. The legible fragment 'm-p+1' is a struck numeral but agrees with this.\n- For m = p+1 (my reading of 'Wenn m=p+1 ist, so sind die Verhältnisse der 2p+1 Grössen ... bestimmt'), the beta's are determined up to the two-parameter family a + b*s.\n- Next Riemann examines the case where the poles are not in general position. If only p+1-mu of the conditions are independent (fragments 'p+1-mu', 'p+mu', '=0 werden'), the number of constants increases. This is the term i(D) in modern Riemann-Roch.\n\nBlock 4 (last lines), the gonality bound. He asks for the smallest value mu (number of poles) for which these conditions can be satisfied by suitably moving the poles ('der kleinste Werth, den mu annehmen kann, wenn die Bedingungsgleichungen ...'). He concludes the conditions can be met when mu >= p/2 + 1.\n\nThe following count is my reconstruction (my modern rephrasing) and is not legible on the page:\n- A pencil of degree mu requires i(D) >= p+1-mu.\n- This imposes 2(p+1-mu) - ... conditions on the mu free points.\n- Equivalently, the Brill-Noether number rho = p - 2(p - mu + 1) = 2mu - p - 2 must be >= 0.\n- This gives mu >= p/2 + 1.\n\nThe same consideration appears in the published Theorie §12, where it is used for the count of 3p-3 moduli.",
+  "errors": [
+   "No mathematical error is visible in the legible parts. The final inequality mu >= p/2+1 agrees with the Brill-Noether bound for the existence of a g^1_mu on a general curve. As in the published version, the argument is a heuristic constant count without proof of existence or independence of conditions. Existence was later established by Brill-Noether, Kempf, Kleiman-Laksov, and Griffiths-Harris.",
+   "The reliance on Dirichlet's principle in Block 1 is the known gap later criticised by Weierstrass."
+  ],
+  "results": [
+   {
+    "what": "Existence of a complex function on the cut surface with prescribed singularities at a point, prescribed jumps of the imaginary part across cross-cuts, and prescribed real boundary values",
+    "modern_name": "Dirichlet principle / existence of harmonic (Abelian) integrals with prescribed singularities and periods",
+    "usually_credited_to": "Riemann 1851/1857 (rigorous proof: Schwarz, Neumann, Hilbert)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "A function with m general simple poles has m-p+1 arbitrary constants; extra constants arise when the 2p period conditions become dependent",
+    "modern_name": "Riemann's inequality / Riemann-Roch theorem (Roch's term i(D))",
+    "usually_credited_to": "Riemann 1857, Roch 1865",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Smallest number of poles of a non-constant function on a general surface of genus p: mu >= p/2+1",
+    "modern_name": "Gonality of a general curve, floor((p+3)/2); Brill-Noether number rho = 2mu - p - 2 >= 0",
+    "usually_credited_to": "Riemann's count in Theorie §12; Brill-Noether 1874; rigorous proof Kempf, Kleiman-Laksov 1972",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a working draft of material that appears in the published 1857 Theorie der Abel'schen Functionen: the Dirichlet-principle existence, the Riemann-Roch count, and the p/2+1 bound from §12. Its interest is in documenting the drafting process, not new results.",
+  "checkable": [
+   {
+    "sympy": "m,p=symbols('m p'); simplify((m+1)-p - (m-p+1))",
+    "asserts": "m+1 coefficients minus p independent period conditions leave m-p+1 constants (result 0)"
+   },
+   {
+    "sympy": "mu,p=symbols('mu p'); solve(Eq(p-2*(p-mu+1),0),mu)",
+    "asserts": "The Brill-Noether number for a pencil (r=1) vanishes at mu = p/2+1"
+   },
+   {
+    "sympy": "[ (p, ceiling(Rational(p,2)+1), floor(Rational(p+3,2))) for p in range(2,10)]",
+    "asserts": "The smallest integer mu >= p/2+1 equals the generic gonality floor((p+3)/2)"
+   },
+   {
+    "sympy": "p=symbols('p'); expand(2*(p+1)+2*p-2 - (p+1)*0 - 3) ",
+    "asserts": "Moduli count used in §12: with mu=p+1, 2mu+2p-2 branch points minus 3 Mobius parameters minus (2mu-p-2)+... gives 3p-3 (schematic consistency check)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'liesst sich daher ein Ausdruck' should probably read 'lässt sich daher eine Function x+yi herstellen'.",
+   "Line 2: 'allenthalben stetig gegebenen' likely belongs to the phrase 'um einen allenthalben stetig gegebenen Werth unstetig'.",
+   "Line 3: '{+zwei+} sie ein Imaginär' should likely read 'und sie im Innern, wo der Ausdruck des imaginären Theils in den Querschnitten um gegebene Constanten ...'.",
+   "Lower half: 'unendlich von der ersten Ordnung wird' is legible repeatedly and refers to simple poles at the points eps.",
+   "Final line: 'Bedingungsgleichungen genügen, wenn mu >= p/2+1' — the symbol before p/2+1 is likely mu (struck/overwritten)."
+  ]
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c021",
+ "label": "16",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000022/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (art. 9, opening Part II, 'On the transcendental functions that arise from differentiating arithmetic-geometric means'). Two sequences are formed as in art. 1: x_{n+1} = (x_n + y_n)/2 (sequence I) and y_{n+1} = sqrt(x_n*y_n) (sequence II). Their common limit is x^∞ = y^∞ = M(x,y), the arithmetic-geometric mean (AGM). Every term, and so the limit, is a function of the two variables x, y. Gauss restricts attention to infinitesimal changes, so he is computing the total differential dM, i.e. the partial derivatives ∂M/∂x and ∂M/∂y.\n\nStep 1. Differentiate one AGM step:\n- dx' = (dx + dy)/2.\n- dy' = (1/2)sqrt(y/x) dx + (1/2)sqrt(x/y) dy = (1/2)(y'/x) dx + (1/2)(y'/y) dy, using y' = sqrt(xy).\n- The same rule holds at every later step, e.g. dy'' = (1/2)(y''/x') dx' + (1/2)(y''/y') dy'.\nGauss remarks that substituting step by step would express everything through dx, dy, but the law of progression would be obscure. He therefore introduces logarithmic differentials.\n\nStep 2. Define\n- f_n = dx_n/x_n + dy_n/y_n,\n- g_n = dx_n/x_n - dy_n/y_n.\n[My explicit step:] from the formula for dy', we get dy'/y' = (dx/x + dy/y)/2 = f/2. Also dx'/x' = (dx + dy)/(2x').\nHence f' = (1/2)(dx/x' + dx/x + dy/x' + dy/y).\nRewriting each pair, e.g. (1/2)(dx/x' + dx/x) = dx/x + (1/2)(dx/(x x'))(x - x'), gives\nf' = f + (1/2)(dx/(x x'))(x - x') + (1/2)(dy/(y x'))(y - x').\n\nStep 3. Since x - x' = (x - y)/2, we have y - x' = -(x - x'). Therefore\nf' = f + (1/2)(x - x')/x' * (dx/x - dy/y) = f + (1/2) g (x - x')/x'.\nThe page breaks off at 'et prorsus simili modo'.\n\nContinuation (next page, for context):\n- f_{n+1} = f_n + (1/2) g_n (x_n - x_{n+1})/x_{n+1}.\n- g_{n+1} = (1/2) g_n (x_n - x_{n+1})/x_{n+1}. [Mine: this follows from f' - g' = 2 dy'/y' = f.]\n- So f^∞ = f + Σ_{n≥1} g_n, and g^∞ = 0.\n- Since 2 dM/M = f^∞, this yields\n  dM = M * [ (dx/x)(1/2 + Σ) + (dy/y)(1/2 - Σ) ], with Σ = (1/4)r_0 + (1/8)r_0 r_1 + ..., where r_n = (x_n - x_{n+1})/x_{n+1} = 4(x_{n+1}^2 - y_{n+1}^2)/(x_n^2 - y_n^2).\n- In closed form this is the series Σ 2^n (x_n^2 - y_n^2), the series that appears in E/K for complete elliptic integrals.",
+  "errors": [
+   "No mathematical errors on this page. Each step (dx', dy', the definitions of f and g, and f' = f + g(x-x')/(2x')) checks out.",
+   "Notational slip in the manuscript: in the second expression for dy' the factor ∂x is omitted after (1/2)(y'/x).",
+   "In the last line a sign that appears as an arrow-like stroke, partly overwritten, must be read as a minus sign: -(1/2)(∂y/(y x'))(x - x'). This is what makes the final equality correct."
+  ],
+  "results": [
+   {
+    "what": "Differentials of one AGM step: dx' = (dx+dy)/2, dy' = (y'/(2x))dx + (y'/(2y))dy",
+    "modern_name": "chain rule applied to the AGM iteration",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Logarithmic-differential recursion f' = f + (1/2) g (x-x')/x' (and g' = (1/2) g (x-x')/x' on the next page), leading to a rapidly convergent series for ∂M/∂x and ∂M/∂y",
+    "modern_name": "partial derivatives of the AGM; equivalent to the AGM series for E(k)/K(k), E/K = 1 - Σ 2^{n-1} c_n^2, used in the Gauss–Legendre / Salamin–Brent algorithm",
+    "usually_credited_to": "Gauss (Nachlass c. 1799–1800, Werke III) and Legendre; later used by Salamin and Brent (1976)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This belongs to Gauss's known (posthumously printed, Werke III) treatise on the arithmetic-geometric mean. Differentiating the AGM to obtain the E/K-type series is already attributed to Gauss. It is an elegant, clean derivation, but not new to historians.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',positive=True); simplify(diff(sqrt(x*y),x) - sqrt(x*y)/(2*x))",
+    "asserts": "dy'/dx = y'/(2x) with y' = sqrt(xy); should be 0"
+   },
+   {
+    "sympy": "x,y,dx,dy=symbols('x y dx dy',positive=True); yp=sqrt(x*y); dyp=diff(yp,x)*dx+diff(yp,y)*dy; simplify(dyp/yp - (dx/x+dy/y)/2)",
+    "asserts": "dy'/y' = f/2; should be 0"
+   },
+   {
+    "sympy": "x,y,dx,dy=symbols('x y dx dy',positive=True); xp=(x+y)/2; yp=sqrt(x*y); f=dx/x+dy/y; g=dx/x-dy/y; fp=(dx+dy)/2/xp + (diff(yp,x)*dx+diff(yp,y)*dy)/yp; simplify(fp - (f + g*(x-xp)/(2*xp)))",
+    "asserts": "f' = f + (1/2) g (x-x')/x'; should be 0"
+   },
+   {
+    "sympy": "x,y=symbols('x y',positive=True); simplify((y-(x+y)/2) + (x-(x+y)/2))",
+    "asserts": "y - x' = -(x - x'); should be 0"
+   },
+   {
+    "sympy": "x,y=symbols('x y',positive=True); xp=(x+y)/2; yp=sqrt(x*y); simplify((x-xp)/xp - 4*(xp**2-yp**2)/(x**2-y**2))",
+    "asserts": "(x-x')/x' = 4(x'^2-y'^2)/(x^2-y^2), the next page's identity; should be 0"
+   },
+   {
+    "sympy": "import mpmath; a,b=mpmath.mpf(1),mpmath.mpf('0.5'); M=mpmath.agm(a,b); xs=[a];ys=[b]; [ (xs.append((xs[-1]+ys[-1])/2), ys.append(mpmath.sqrt(xs[-2]*ys[-1]))) for _ in range(8)]; S=sum(2**n*(xs[n]**2-ys[n]**2) for n in range(8)); mpmath.diff(lambda t: mpmath.agm(t,b),a) - M/(2*(a**2-b**2))/a*S",
+    "asserts": "Numerical check that ∂M/∂x = M/(2x(x^2-y^2)) * Σ 2^n (x_n^2-y_n^2), the final formula on the next page; result ≈ 0. Note: the y_{n+1} update reads xs[-2] because xs has already been appended within the same tuple."
+   }
+  ],
+  "transcription_corrections": [
+   "In the dy' line, the image reads '= ½ (y'/x) ∂x + ½ (y'/y) ∂y'; the transcription drops '∂x'.",
+   "'simulac[?]' is likely 'simulacque'.",
+   "In the last line, the struck arrow-like symbol between the two terms is a minus sign: '½ ∂x/(xx')(x-x') − ½ ∂y/(yx')(x-x')'.",
+   "'Hic vero[?]' fits the context and is plausibly 'Hic vero'."
+  ]
+ }
+}

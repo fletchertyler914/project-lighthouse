@@ -1,0 +1,65 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c062",
+ "label": "36r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000063/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting. The page is electromagnetic. The next page has a Neumann/Weber induction integral −p = −(A/c)∫(ds'/r)(di/dt)cosθcosθ' and jump conditions for dv/dn across a surface. Here X, Y, Z are the components of a vector field, most plausibly the magnetic force or magnetic potential derivatives. ι1, ι2, ι3 are current-density components (ι for current). The page relates the circulation of (X, Y, Z) round a closed curve to the electric current through it, and derives the local (differential) form.\n\n(1) First line. Something (left-hand symbol illegible, perhaps M or w) = ∫ (X ∂x/∂p + Y ∂y/∂p + Z ∂z/∂p) ds, with p the normal, counted positive inward. ∂x/∂p etc. are the direction cosines of the normal, so this is the flux ∫ (X, Y, Z)·n_in dS through a surface.\n\n(2) Second line. F = ∫ (X dx + Y dy + Z dz), the line integral (circulation) of (X, Y, Z) round a closed curve. The marginal notes say F is the quantity of electricity passing through 'from above downward', with the integral taken 'from left to right', i.e. a fixed orientation convention. This is Ampère's circuital law in integral form: circulation of the magnetic force = (constant ×) current through the bounded surface.\n\n(3) Figure and axes. Right-handed axes: z up, y to the left of x. A small rectangle in the xy-plane is shown.\n\n(4) Infinitesimal rectangle, corners (0,0), (0,δy), (δx,δy), (δx,0), traversed in that order. Viewed from +z this is clockwise, matching downward current. Riemann writes:\n−ι3 δx δy = ∫_0^{δy} Y(0,y) dy + ∫_0^{δx} X(x,δy) dx + ∫_{δy}^0 Y(δx,y) dy + ∫_{δx}^0 X(x,0) dx.\nHe then rewrites this as ∫_0^{δy} (∂Y/∂x) δx dy − ∫_0^{δx} (∂X/∂y) δy dx and concludes ι3 = ∂X/∂y − ∂Y/∂x.\n\n(5) Cyclic permutation gives ι1 = ∂Y/∂z − ∂Z/∂y and ι2 = ∂Z/∂x − ∂X/∂z. That is, ι = −curl(X, Y, Z) as written. This is the differential form of Ampère's law (curl H ∝ j), obtained by the standard small-loop argument that underlies Stokes' theorem.\n\n[My filling] Pairing the Y-terms gives ∫_0^{δy} [Y(0,y) − Y(δx,y)] dy ≈ −(∂Y/∂x) δx δy. Pairing the X-terms gives ∫_0^{δx} [X(x,δy) − X(x,0)] dx ≈ +(∂X/∂y) δx δy. So the clockwise circulation equals (∂X/∂y − ∂Y/∂x) δx δy.",
+  "errors": [
+   "Line 1→2 of the rectangle computation has a sign slip. The four edge integrals as written sum to −∫(∂Y/∂x)δx dy + ∫(∂X/∂y)δy dx. Riemann's second line has both terms with the opposite sign.",
+   "Consequence of the slip: with his stated left side −ι3 δxδy, the correct result would be ι3 = ∂Y/∂x − ∂X/∂y = (curl)_z, the usual right-hand-rule Ampère relation with ι3 the upward current. His final ι3 has the opposite sign.",
+   "The sign is applied consistently to ι1 and ι2, which are correct cyclic permutations of his ι3. The net outcome is ι = −curl(X,Y,Z), which a different orientation or sign convention for X, Y, Z could absorb. The orientation convention ('von oben nach unten', 'von links nach rechts') is not stated precisely enough to decide definitively."
+  ],
+  "results": [
+   {
+    "what": "Flux of a vector field (X,Y,Z) through a surface, written with the direction cosines ∂x/∂p of the inward normal",
+    "modern_name": "Surface flux integral ∫F·n dS",
+    "usually_credited_to": "Gauss / Green (1813–1839), standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Line integral ∫X dx+Y dy+Z dz round a closed curve equals the current (electricity) passing through it",
+    "modern_name": "Ampère's circuital law (integral form)",
+    "usually_credited_to": "Ampère / Gauss implicitly; explicit formulation Maxwell 1855–56 ('On Faraday's Lines of Force')",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Current density components as differences of cross derivatives, ι = ±curl(X,Y,Z), via circulation round an infinitesimal rectangle",
+    "modern_name": "Differential form of Ampère's law (curl H = 4πj/c); infinitesimal Stokes theorem",
+    "usually_credited_to": "Maxwell 1856/1861 (differential Ampère law); Stokes theorem: Kelvin 1850, Stokes 1854; curl components earlier in Cauchy/MacCullagh elasticity and optics",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The infinitesimal-loop derivation of curl components is mathematically elementary. Riemann's lectures on electricity and magnetism (Hattendorff edition) do treat potential theory and electrodynamics. Still, an explicit statement of the circuital law with current density as the curl of the magnetic force, in a notebook possibly from the 1850s, sits close in time to Maxwell's 1855–56 formulation. It is a notable but not major unpublished detail, and the date is uncertain.",
+  "checkable": [
+   {
+    "sympy": "x,y,dx,dy=symbols('x y dx dy'); X=Function('X'); Y=Function('Y'); circ = integrate(Y(0,y),(y,0,dy)) + integrate(X(x,dy),(x,0,dx)) + integrate(Y(dx,y),(y,dy,0)) + integrate(X(x,0),(x,dx,0))",
+    "asserts": "Set-up of the clockwise circulation round the rectangle as written on the page (to be expanded to second order)."
+   },
+   {
+    "sympy": "a,b,c,d,e,f=symbols('a b c d e f'); x,y=symbols('x y'); dx,dy=symbols('dx dy',positive=True); Xf=a*x+b*y; Yf=c*x+d*y; circ=integrate(Yf.subs(x,0),(y,0,dy))+integrate(Xf.subs(y,dy),(x,0,dx))-integrate(Yf.subs(x,dx),(y,0,dy))-integrate(Xf.subs(y,0),(x,0,dx)); simplify(circ - (b-c)*dx*dy)==0",
+    "asserts": "For linear fields the clockwise circulation equals (∂X/∂y − ∂Y/∂x)δxδy, so the page's second line has the wrong sign."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); X,Y,Z=[Function(n)(x,y,z) for n in 'XYZ']; i1=diff(Y,z)-diff(Z,y); i2=diff(Z,x)-diff(X,z); i3=diff(X,y)-diff(Y,x); simplify(diff(i1,x)+diff(i2,y)+diff(i3,z))==0",
+    "asserts": "Riemann's current components are divergence-free (closed currents), as required for steady currents."
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); X,Y,Z=[Function(n)(x,y,z) for n in 'XYZ']; curl=Matrix([diff(Z,y)-diff(Y,z), diff(X,z)-diff(Z,x), diff(Y,x)-diff(X,y)]); simplify(Matrix([diff(Y,z)-diff(Z,y), diff(Z,x)-diff(X,z), diff(X,y)-diff(Y,x)]) + curl)==zeros(3,1)",
+    "asserts": "Riemann's (ι1,ι2,ι3) equals −curl(X,Y,Z)."
+   }
+  ],
+  "transcription_corrections": [
+   "The left-hand symbol of the first formula is illegible (struck-through/overwritten); it may be 'M' or 'w', not recoverable with certainty.",
+   "The subscripts in the edge integrals mean evaluation location: '∫_0^{δx} X dx' at y+dy, and '∫_{δy}^0 Y dy' at x+dx. The first-line integrand on the page is 'X dx' with subscript 'y+dy'.",
+   "The small word above 'Integral von links nach rechts' is uncertain; it may be 'erzeugt' rather than a repeated 'Integral'.",
+   "The sentence under the figure reads 'Die positive Z Axe nach oben; positive Y Axe, zur Linken von der positiven X Axe.' (transcription essentially correct).",
+   "The page number at the top right is '36'."
+  ]
+ }
+}

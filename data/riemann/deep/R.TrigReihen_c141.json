@@ -1,0 +1,65 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c141",
+ "label": "69v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000142/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This folio is a draft of §1–2 of the historical part of Riemann's Habilitationsschrift, 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1854, published 1867). The text is almost identical to the published version. The page is historical narrative. It contains no derivations, only one implicit mathematical claim.\n\n(1) Cauchy's 1826 proof. The previous page objects that Cauchy assumes f(x+iy) is finite for every real y. For a periodic f this forces f to be constant (in modern terms, Liouville's theorem applied to a bounded entire function). Riemann now says this assumption is more than the argument needs. It suffices that there is a function phi(z), z = x+iy, which is analytic and finite for all y>0 and whose real part tends to f(x) as y -> 0. In modern terms: a bounded holomorphic function on the upper half-plane with boundary real part f, i.e. a solution of the Dirichlet problem for the half-plane or strip. If that existence statement (true) is assumed, Cauchy's contour argument goes through.\n\nConversely, the existence statement follows from the Fourier series. My reconstruction: if f ~ a0/2 + sum (a_n cos nx + b_n sin nx), put phi(z) = a0/2 + sum_{n>=1} (a_n - i b_n) e^{inz}. For y>0 the factor e^{-ny} makes the series converge. The real part is sum e^{-ny}(a_n cos nx + b_n sin nx), the Abel/Poisson mean, which equals the Poisson integral (1/2pi) ∫ f(t)(1-r^2)/(1-2r cos(x-t)+r^2) dt with r = e^{-y}. It tends to f(x) as y -> 0+ at points of continuity. A marginal note says the proof is in the author's doctoral dissertation (1851). There the Dirichlet-type existence of a complex function with prescribed real boundary values is treated.\n\n(2) Dirichlet. His paper in Crelle 4 (1829), pp. 157–169, proves rigorously that the Fourier series represents f when f has only finitely many discontinuities, infinities, maxima and minima, and is integrable. The case of infinities is handled in a later note (Crelle 17, p. 54). Riemann adds that this settled a question open since 1753 for all physically relevant functions.\n\n(3) Two reasons for studying the excluded cases:\n(a) The connection with the principles of the infinitesimal calculus, as Dirichlet himself notes. This motivates Riemann's integral, defined on the next page.\n(b) Number theory, where trigonometric series are used (Dirichlet's analytic number theory) and where the non-Dirichlet functions seem to matter.\nDirichlet promised to return to these cases but never did.\n\n(4) Dirksen (Crelle 4, p. 170) and Bessel also fall short of Dirichlet in rigour and generality. The critique of Dirksen continues on the next page.",
+  "errors": [
+   "No mathematical errors. The date arithmetic is correct: 1829 - 1753 = 76 > 70.",
+   "Phrasing slip: 'wenn eine Function phi(x+yi) gibt' lacks 'es' ('wenn es eine Function ... gibt').",
+   "The condition 'finite for all positive y' should be read as finite (bounded) in the open half-plane y>0, with the real part tending to f as y -> 0+. Taken literally at y=0, a discontinuous f has no analytic extension there. Riemann's wording is informal but acceptable."
+  ],
+  "results": [
+   {
+    "what": "Cauchy's convergence proof is valid if one assumes the existence of a function analytic and finite for y>0 whose real part has boundary value f. Conversely, such a function can be built from the Fourier series as sum (a_n - i b_n) e^{inz}.",
+    "modern_name": "Poisson/Abel summation; Dirichlet problem in the half-plane; boundary values of holomorphic functions (Hardy-space viewpoint)",
+    "usually_credited_to": "Poisson (Poisson integral, c. 1820); Cauchy; Riemann's remark itself is published in the 1867 Habilitationsschrift",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Cauchy's hypothesis that f(x+iy) is finite for all y forces a periodic f to be constant (from the previous page, referenced here).",
+    "modern_name": "Liouville's theorem",
+    "usually_credited_to": "Cauchy 1844 / Liouville 1847",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Historical assessment of Dirichlet's 1829 theorem (piecewise monotone, finitely many discontinuities) and the motivation to treat excluded functions, citing infinitesimal-calculus principles and number theory.",
+    "modern_name": "Dirichlet's convergence theorem (Dirichlet conditions)",
+    "usually_credited_to": "Dirichlet 1829",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of the well-known historical introduction to Riemann's published Habilitationsschrift (1854/1867). The wording matches the printed text closely. The only minor extra detail is the marginal reference to his dissertation.",
+  "checkable": [
+   {
+    "sympy": "simplify(re(expand_complex((a - I*b)*exp(I*n*(x+I*y)))) - exp(-n*y)*(a*cos(n*x)+b*sin(n*x)))  # with a,b,n,x,y real",
+    "asserts": "The real part of (a_n - i b_n) e^{inz} equals e^{-ny}(a_n cos nx + b_n sin nx), so Re phi(z) is the Abel/Poisson mean of the Fourier series."
+   },
+   {
+    "sympy": "simplify(re(expand_complex((1+r*exp(I*t))/(1-r*exp(I*t)))) - (1-r**2)/(1-2*r*cos(t)+r**2))  # r,t real",
+    "asserts": "The Poisson kernel 1 + 2*sum r^n cos(nt) = (1-r^2)/(1-2r cos t + r^2) is the real part of (1+re^{it})/(1-re^{it}), the analytic function generating the half-plane extension with r = e^{-y}."
+   },
+   {
+    "sympy": "limit(exp(-y)*cos(x), y, 0, '+') - cos(x)",
+    "asserts": "Example: phi(z) = e^{iz} is bounded for y>0 and has real boundary value cos x."
+   },
+   {
+    "sympy": "1829 - 1753 > 70",
+    "asserts": "Riemann's 'seit mehr als 70 Jahren (seit dem Jahre 1753)' is arithmetically correct."
+   }
+  ],
+  "transcription_corrections": [
+   "Margin beside the first paragraph: 'Der Beweis findet sich in der Inauguraldissertation des Verfassers' — confirmed in the image.",
+   "'(Bd 4)' after 'Journal v. Crelle' is struck through in the manuscript, as the transcription indicates.",
+   "'der Beachtung[?] zu verdienen': the image reads more like 'der Betrachtung zu verdienen'.",
+   "'wenn eine Function phi(x+yi) gibt' is as written; the missing 'es' is Riemann's omission, not a transcription error.",
+   "In the Dirichlet-promise sentence, the struck phrase is roughly 'und hier scheinen gerade diejenigen Functionen, deren Darstellbarkeit'. The image shows 'und hier scheinen gerade die|jenigen Functionen, deren Darstellbarkeit' struck through, then 'aber dies Versprechen ist bis jetzt unerfüllt geblieben'."
+  ]
+ }
+}

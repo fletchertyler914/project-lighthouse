@@ -1,0 +1,54 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c011",
+ "label": "2",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000012/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Page 2 is the second sheet of a pure numerical table. There are no derivations on it; the page continues page 1, rows 80-160, and page 3 continues to at least 240. Each row gives an integer argument n and three four-digit numbers x, y, z. The column heads carry sign marks: here 'y ∓, z ∓' in the left block (y and z negative through n=87 and positive from n=88, at the ruled line) and 'x +, y +, z +' in the right block.\n\nIdentification (my reconstruction, numerically confirmed):\n- x, y, z are the Sun's geocentric rectangular equatorial coordinates in units of 10^-4 AU.\n- x = r cos L, y = r sin L cos ε, z = r sin L sin ε, where L is the Sun's true longitude, r its distance and ε the obliquity.\n- The argument n is the mean anomaly in units of 1/400 of a circle (centesimal grades), counted from perigee (n=0).\n- Hence L = Π + v(M), where M = n·0.9°, v is the true anomaly from the equation of the centre and Π is the longitude of the solar perigee.\n- r = (1−e²)/(1+e cos v).\n\nNumerical evidence (mine):\n- At n=0, √(x²+y²+z²) = 0.9832, the perigee distance. At n=200 (page 3) it is 1.0168, the apogee distance. So e ≈ 0.0168.\n- The ratio z/y = tan ε ≈ 0.4341 gives ε ≈ 23°28'.\n- Row 0 gives Π ≈ 279.66°. This matches the solar perigee longitude for c. 1809 (279°30' in 1800, plus 61.9\"/yr).\n- Recomputing with e = 0.016791, Π = 279.657°, ε = 23.465° reproduces the page to about one unit in the last digit:\n  - n=100: v = 91.98°, L = 11.6°, x ≈ 9799, y ≈ 1842, z ≈ 800.\n  - n=120: x = 8753, y ≈ 4539 (page 4538).\n  - n=121: y = 4664.\n  - n=122: y ≈ 4788 (page 4787).\n- Where the signs change:\n  - y passes through 0 between n=87 and 88 (L=0°, the vernal equinox). This is marked by the horizontal rule.\n  - x reaches its maximum ≈ 0.997 near n≈88.5.\n  - x changes sign near n≈189 (L=90°, page 3).\n- The mean daily rate of change in L is about 0.92°/unit near perigee and 0.88°/unit near apogee. This equals 0.9°·(1±2e), which confirms the 400-part argument.\n\nPurpose: the solar coordinates X, Y, Z are required at every step of orbit determination and ephemeris computation in the Theoria Motus framework (1809). Tabulating them against mean anomaly makes the table independent of the year apart from small secular corrections. The note on page 1 says the table was printed in improved form in the Monatliche Correspondenz, 1812.",
+  "errors": [
+   "No clear errors detected. First differences are smooth to within ±1 unit of rounding.",
+   "Minor irregularity: the y differences around n=119-123 run 127, 127, 126, 123, 123. My recomputation gives 4539 for n=120 and 4788 for n=122 (page: 4538, 4787), within rounding of the constants I assumed.",
+   "In x, rows 138-141 give differences −108, −111, −111, −114, a little uneven, but consistent with rounding."
+  ],
+  "results": [
+   {
+    "what": "Table of the Sun's rectangular equatorial coordinates (x, y, z in 1e-4 AU) as functions of mean anomaly in 400ths of a circle, for epoch c. 1809, ε ≈ 23°28', e ≈ 0.01679, perigee longitude ≈ 279°39'.",
+    "modern_name": "Solar rectangular (equatorial) coordinate table / solar ephemeris in X, Y, Z",
+    "usually_credited_to": "Solar coordinate tables were standard in almanacs and ephemerides in the 19th century. Rectangular solar coordinates for orbit computation are associated with Gauss and Encke.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine computational table of solar coordinates, the working material for orbit computation. According to the note on page 1, Gauss himself published an improved version in 1812. It has historical interest as a working document but contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "e=0.016791; Pi=279.657*pi/180; eps=23.465*pi/180; M=100*0.9*pi/180; v=M+(2*e-e**3/4)*sin(M)+Rational(5,4)*e**2*sin(2*M); L=Pi+v; r=(1-e**2)/(1+e*cos(v)); [N(10000*r*cos(L)), N(10000*r*sin(L)*cos(eps)), N(10000*r*sin(L)*sin(eps))]",
+    "asserts": "Row 100 ≈ (9799, 1842, 800)"
+   },
+   {
+    "sympy": "e=0.016791; Pi=279.657*pi/180; eps=23.465*pi/180; M=121*0.9*pi/180; v=M+(2*e-e**3/4)*sin(M)+Rational(5,4)*e**2*sin(2*M); L=Pi+v; r=(1-e**2)/(1+e*cos(v)); [N(10000*r*cos(L)), N(10000*r*sin(L)*cos(eps)), N(10000*r*sin(L)*sin(eps))]",
+    "asserts": "Row 121 ≈ (8677, 4664, 2024)"
+   },
+   {
+    "sympy": "N(sqrt(4321**2+8411**2+3651**2)/10000)",
+    "asserts": "Distance at n=160 ≈ 1.0136 AU, consistent with r = (1-e^2)/(1+e*cos v) at M = 144°"
+   },
+   {
+    "sympy": "N(atan(Rational(1970,4538))*180/pi)",
+    "asserts": "z/y = tan(obliquity) ≈ 23.46°"
+   },
+   {
+    "sympy": "N(sqrt(9970**2+120**2+52**2)/10000)",
+    "asserts": "Distance just after the vernal equinox ≈ 0.9971 AU"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 80 y: '1034' has an overwritten last digit, but 1034 is correct (it matches page 1).",
+   "Row label for 90 is written over '99'; it reads 90.",
+   "Row 104 z: '1044', last digit overwritten; 1044 is correct.",
+   "Left-block headers for y and z are '∓' (sign changes at the rule between rows 87 and 88); the transcription is correct."
+  ]
+ }
+}

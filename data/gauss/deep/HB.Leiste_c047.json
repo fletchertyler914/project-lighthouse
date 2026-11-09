@@ -1,0 +1,55 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c047",
+ "label": "10",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000048/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two layers.\n\n(A) Printed text, not by Gauss. It is p. 10 of an elementary 18th-century German arithmetic textbook. Gauss was apparently using this interleaved copy as scrap paper.\n- §15 (end): division is the inverse of multiplication, so each operation checks the other. 24/4 = (4·6)/4 = 6, so division can be done with the multiplication table.\n- §16: if the divisor is taken as the unit, the quotient measures the dividend. With A = 4 and B = 6 from the dot figure of §9, C = 24 gives C = 6A and C = 4B, a second check of the division.\n- §17, axioms:\n  1) Multiplying or dividing by 1 changes nothing.\n  2) Equals times or divided by equals give equals. A smaller multiplicand gives a smaller product, and a smaller dividend gives a smaller quotient. A smaller multiplier gives a smaller product, but a smaller divisor gives a larger quotient. Halving the divisor doubles the quotient; dividing it by 10 multiplies the quotient by 10.\n- §18: a/a = 1, for example 4/4 = 24/24 = 1.\n- §19: (A·m)/m = A, by §18 and §17.1, whether A is an integer or a fraction.\n\nThe one handwritten intervention in the printed text is in §19. The original 'multiplicirt oder dividirt' is corrected by striking 'oder' and writing 'und' in the left margin. This is a logically necessary correction: multiplying *and then* dividing by the same number leaves a quantity unchanged, while doing only one of the two does not.\n\n(B) Handwritten right margin, cut off by the binding. These are fragments of the proof of the Lagrange inversion theorem written out in full on the next page. Set x = t + u·ξ, with ξ = ξ(x), and let φ = φ(x).\n- The margin lists the partials (dφx/du), (dφx/dt), (dx/du), (dx/dt) and two-word notes, apparently 'Diff[erentiirt]' and 'elimini[rt]'.\n- By the chain rule, ∂φ/∂u = φ'(x)·∂x/∂u and ∂φ/∂t = φ'(x)·∂x/∂t.\n- From the definition of x: ∂x/∂u = ξ + u ξ'(x) ∂x/∂u and ∂x/∂t = 1 + u ξ'(x) ∂x/∂t.\n- [mine] Solving: ∂x/∂u = ξ/(1 − uξ') and ∂x/∂t = 1/(1 − uξ').\n- Eliminating φ'(x) gives (1): ∂φ/∂u = ξ ∂φ/∂t.\n- Further entries: (d²φx/dt du), (d²φx/du²) and (dξ/du). Applying (1) with φ = ξ gives ∂ξ/∂u = ξ ∂ξ/∂t.\n- Hence (2): ∂²φ/∂u² = ∂/∂t(ξ² ∂φ/∂t). The general step ∂ⁿφ/∂uⁿ = ∂ⁿ⁻¹/∂tⁿ⁻¹(ξⁿ ∂φ/∂t) at u = 0 gives the Lagrange series\n  φ(x) = φ(t) + Σ uⁿ/n! · dⁿ⁻¹/dtⁿ⁻¹[ξ(t)ⁿ φ'(t)].\n\nThe margin is a draft or overflow of exactly the equations on the facing page.",
+  "errors": [
+   "Printed §19 as originally printed ('multiplicirt oder dividirt') is false; the handwritten correction to 'und' fixes it.",
+   "No error in the margin fragments themselves. On the facing page, the expansion of ∂²φ/∂u² is transcribed as 2ξ(dξ/dt) + ξξ(d²φ/dt²). The first term must carry a factor dφ/dt: 2ξ ξ_t φ_t. This is probably a transcription omission rather than Gauss's slip. The final form ∂/∂t(ξ² ∂φ/∂t) is correct."
+  ],
+  "results": [
+   {
+    "what": "Elementary arithmetic axioms for division (printed textbook text)",
+    "modern_name": "Division as inverse of multiplication; monotonicity; a/a = 1; (A·m)/m = A",
+    "usually_credited_to": "standard textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "PDE identity ∂φ/∂u = ξ ∂φ/∂t for x = t + uξ(x), and ∂²φ/∂u² = ∂_t(ξ² ∂_t φ), leading to Lagrange's series",
+    "modern_name": "Lagrange inversion theorem (Lagrange–Bürmann), Laplace-style proof via the PDE F_u = ξ F_t",
+    "usually_credited_to": "Lagrange (1770); this proof method is Laplace (1770s–1780s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The printed text is an ordinary arithmetic primer not written by Gauss. The marginal notes reproduce the standard Laplace-type derivation of Lagrange inversion, which was well known in Gauss's youth.",
+  "checkable": [
+   {
+    "sympy": "u,t=symbols('u t'); X=Function('X')(t,u); f=Function('f'); phi=Function('phi'); D=1-u*f(X).diff(X); xu=f(X)/D; xt=1/D; simplify(phi(X).diff(X)*xu - f(X)*phi(X).diff(X)*xt)",
+    "asserts": "Identity (1): with x_u = ξ/(1−uξ') and x_t = 1/(1−uξ'), ∂φ/∂u − ξ ∂φ/∂t = 0 (result 0)."
+   },
+   {
+    "sympy": "t,u=symbols('t u'); x=t+u*t**2+2*u**2*t**3+5*u**3*t**4; phi=x**2; xi=x**2; simplify(series(diff(phi,u)-xi*diff(phi,t),u,0,3).removeO())",
+    "asserts": "Series check of (1) with ξ = x², φ = x², where x = t + u t² + 2u² t³ + 5u³ t⁴ + … solves x = t + u x². Result is 0 through order u²."
+   },
+   {
+    "sympy": "t=symbols('t'); phi=Function('phi'); xi=Function('xi'); expand(diff(xi(t)**2*diff(phi(t),t),t) - (2*xi(t)*diff(xi(t),t)*diff(phi(t),t) + xi(t)**2*diff(phi(t),t,2)))",
+    "asserts": "∂_t(ξ² φ_t) = 2ξ ξ_t φ_t + ξ² φ_tt, the form of equation (2); result 0."
+   },
+   {
+    "sympy": "Rational(24,4) == Rational(4*6,4) == 6",
+    "asserts": "Printed example 24/4 = 4·6/4 = 6."
+   }
+  ],
+  "transcription_corrections": [
+   "In §19 'oder' is struck through and 'und' is written in the left margin before '§. 19'. The corrected reading 'multiplicirt und dividirt' is right.",
+   "The right-margin fragments are cut off. The word fragments read as 'Diff[erentiirt]', 'elimini[rt]' and 'Subs[tituirt]'. The top fragments read approximately 'b…' and 'φ f…'. They correspond to the words 'differentiirt', 'eliminirt' and 'substituirt' in the full proof on the next page.",
+   "The mark near 'oder dividirt' in §17 line 'Gleiches mit Ungleichem multiplicirt oder dividirt' appears to be a small handwritten tick or insertion mark, not part of the printed text."
+  ]
+ }
+}

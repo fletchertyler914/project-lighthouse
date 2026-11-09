@@ -1,0 +1,62 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c066",
+ "label": "34r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000067/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Riemann's essay on the mechanics of the ear ('Mechanik des Ohres', published posthumously in 1866/67 in Henle and Pfeufer's Zeitschrift für rationelle Medicin). The page has two parts. It is qualitative except for one physical law in section III.\n\n(a) End of section II: the oval-window membrane rim (the annular ligament around the stapes footplate).\n- If this rim were broad, the stapes-footplate vibrations would be almost entirely absorbed by vibrations of the rim. Little effect would then reach the cochlear membranes and the round window.\n- Because the rim is narrow, its elastic action on the footplate would vary strongly over the footplate positions that occur during sound.\n- The rim's restoring force would then be a strongly nonlinear function of displacement. In modern terms, the footplate system would act as a nonlinear spring and generate distortion.\n- So that the rim does not distort the sound ('den Klang nicht entstellen'), Riemann concludes that the membrane's elasticity must be very small. The footplate must be held in its equilibrium position by other forces, not by the rim. This is a purely qualitative argument: a stiff, strongly position-dependent restoring force is incompatible with faithful transmission.\n\n(b) Section III: temperature compensation.\n- Premise: for the observed acuity of hearing, the parts of the tympanic apparatus may shift relative to one another only by microscopic amounts. Hence some device correcting for thermal expansion and contraction seems indispensable.\n- Temperature changes in the tympanic cavity are small but certainly occur.\n- The law Riemann states holds approximately when the external temperature changes slowly enough (quasi-steady state). At any point x of the body, the deviation of the temperature from the brain (core) temperature is proportional to the deviation of the external temperature from the brain temperature:\n  T(x) - T_H = phi(x) * (T_e - T_H),\n  where phi(x) depends only on position.\n- He says this follows if the specific heats and the heat-conduction coefficients are constant over the relevant temperature range, 'a hypothesis probably nearly satisfied'.\n\nImplicit derivation (mine):\n1. Quasi-steady heat conduction: div(k grad T) = 0, with constant k.\n2. Core held at T_H (Dirichlet condition).\n3. Newton cooling at the surface: -k dT/dn = h (T - T_e).\n4. Set u = T - T_H. Then u satisfies a linear homogeneous equation, u = 0 on the core, and -k du/dn = h (u - (T_e - T_H)) on the surface. The only inhomogeneity is (T_e - T_H).\n5. By linearity and uniqueness, u = (T_e - T_H) phi(x).\n6. The same proportionality holds with skin temperature in place of external temperature, since skin temperature is itself of this form. This is why Riemann inserts 'von der Hauttemperatur'.\n\nApplication: from the ratio of the tympanic-cavity temperature's deviation to the skin's (or external) deviation, one can infer the cavity's temperature change. That ratio cannot be determined exactly. Still, given the cavity's communication with outside air through the external auditory canal and the Eustachian tube, and its blood supply (marginal note '+'), a noticeable temperature change very probably occurs.\n\nThe next page continues: the petrous pyramid stays near brain temperature. On cooling, the ossicles therefore contract noticeably while the cavity walls barely change, so a compensating mechanism is required.",
+  "errors": [
+   "No mathematical errors. Caveat (not stated by Riemann): exact proportionality T - T_H = phi(x)(T_e - T_H) requires that there be no temperature-independent volumetric heat sources (metabolic heat) between the core and the surface. With a constant source q the relation becomes affine: T - T_H = phi(x)(T_e - T_H) + psi(x). Riemann's 'nahe' (approximately) covers this, as does modelling blood heating as a term proportional to (T_H - T), Pennes-type, which keeps linearity.",
+   "Linearity also requires the surface heat-transfer coefficient (radiation and convection) to be temperature independent. Riemann mentions only specific heat and conductivity; his stated hypothesis list is slightly incomplete.",
+   "The quasi-steady assumption ('slowly changing external temperature') is needed and is stated; the specific heat drops out entirely in the steady state, so mentioning it is superfluous except for the quasi-static justification."
+  ],
+  "results": [
+   {
+    "what": "Argument that the annular ligament of the stapes must have very small elasticity, since a narrow rim gives a strongly position-dependent restoring force that would distort the sound; the footplate is held in equilibrium by other forces",
+    "modern_name": "Linearity requirement for middle-ear transmission (avoiding nonlinear stiffness/harmonic distortion)",
+    "usually_credited_to": "Riemann's posthumous 'Mechanik des Ohres' (1866/67); later Helmholtz (1868) on middle-ear mechanics",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Quasi-steady body temperature law: T(x) - T_core = phi(x)(T_ext - T_core), from linearity of heat conduction with constant coefficients",
+    "modern_name": "Linearity/superposition for the steady heat equation with Robin boundary condition (Newton cooling); shape-factor relation",
+    "usually_credited_to": "Fourier (1822) for the heat equation; the physiological application appears in Riemann's ear paper",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Need for thermal compensation mechanisms in the ossicular chain, since ossicles cool more than the cavity walls",
+    "modern_name": "Thermal-expansion compensation / role of middle-ear muscles and joint compliance in static adjustment",
+    "usually_credited_to": "Riemann (Mechanik des Ohres)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of Riemann's known, posthumously published essay on the mechanics of the ear. The temperature-proportionality law and the stapes-ligament argument appear there. The mathematics is a routine application of linearity of the steady heat equation.",
+  "checkable": [
+   {
+    "sympy": "x,L,k,h,TH,Te=symbols('x L k h T_H T_e',positive=True); T=TH+(Te-TH)*h*x/(k+h*L); [simplify(diff(T,x,2)), simplify(T.subs(x,0)-TH), simplify(-k*diff(T,x).subs(x,L)-h*(T.subs(x,L)-Te))]",
+    "asserts": "1D slab with core at T_H and Newton cooling at x=L has steady solution T - T_H = phi(x)(T_e - T_H) with phi = h x/(k+h L); all three expressions are 0"
+   },
+   {
+    "sympy": "x,L,k,h,TH,Te,q=symbols('x L k h T_H T_e q',positive=True); f=Function('T'); sol=dsolve([Eq(k*f(x).diff(x,2)+q,0)],f(x),ics={f(0):TH, f(x).diff(x).subs(x,L):-h*(f(L)-Te)/k}); simplify(diff(sol.rhs-TH,Te)*(Te-TH)-(sol.rhs-TH))",
+    "asserts": "With a constant metabolic source q the deviation is only affine in (T_e - T_H): the result is nonzero (a q-dependent term), so Riemann's law holds only approximately"
+   },
+   {
+    "sympy": "x,L,k,h,w,TH,Te=symbols('x L k h w T_H T_e',positive=True); u=Function('u'); dsolve(Eq(k*u(x).diff(x,2)-w*u(x),0))",
+    "asserts": "Pennes-type perfusion term w(T_H - T) keeps the equation for u = T - T_H linear and homogeneous, so proportionality to (T_e - T_H) is preserved"
+   }
+  ],
+  "transcription_corrections": [
+   "'von der Bluttemperatur' should read 'von der Hirntemperatur' (brain temperature), consistent with the next page ('Abstand von der Hirntemperatur'); the same applies to 'die Bluttemperatur[?]'.",
+   "'wenn die äussere Temperatur sich nur langsam[?] ändert[?]' reads approximately 'wenn die äussere Temperatur hinreichend langsam wechselt' (quasi-steady condition).",
+   "The hypothesis sentence reads approximately: 'Dieses Gesetz ergibt sich unter der Voraussetzung, dass die specifische Wärme und der Wärmeleitungscoefficient innerhalb der in Betracht kommenden Temperaturen constant sei, eine Voraussetzung, die wahrscheinlich nahe erfüllt ist.'",
+   "'aus dem Abstande der Temperaturänderungen der Paukenhöhle von der Hauttemperatur' more plausibly reads 'aus dem Abstande der Temperatur der Paukenhöhle von der Hirntemperatur auf die Temperaturänderungen ... schliessen'.",
+   "Marginal note: 'durch den eustachischen[?] Gehörgang' likely reads 'durch den äussern Gehörgang und die tuba' (external auditory canal and Eustachian tube); 'und der Communication' likely 'aus der Communication', 'auch wohl nach' likely 'auch wohl aus'.",
+   "First paragraph: 'Membran des Schnecken[?]' likely 'Membran des Vorhofs [?]/Labyrinths' (uncertain); 'den Klang nicht {+entstellen[?]+}' is plausible."
+  ]
+ }
+}

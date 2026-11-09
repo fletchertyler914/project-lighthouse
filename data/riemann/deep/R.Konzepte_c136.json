@@ -1,0 +1,57 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c136",
+ "label": "66r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000137/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft for Riemann's Inauguraldissertation (1851), in the part that applies the Dirichlet-principle results of the previous articles (no interior maximum or minimum, uniqueness, etc.) to conformal mapping.\n\nHeader paragraph (heavily struck). Riemann remarks that the boundary-value determinations of the preceding articles can also be applied to lines in the interior of T. For the values of du/dp and ds he says one extra datum is needed. That datum is a closed line returning into itself, along which the values are prescribed, together with a starting point (where s attains its smallest value). This is a fragment about fixing the additive constant and the starting point of the arc length. Most of it is cancelled.\n\nMain derivation (below the horizontal rule).\n\nSetting (my reading). A complex function of z is given; its logarithmic derivative log(du/dz) is used. Near a winding point (Windungspunkt) z' of order n-1, the quantity log(du/dz) - (n-1)log(z-z') stays finite. Write u also for the real part of log(du/dz), as Riemann does.\n\n1. Away from the winding points, u is everywhere determinate and continuous, and it is harmonic. By Green's theorem, the integral of du/dp ds over the whole boundary of T, together with small boundaries around each winding point, is 0. Here p is Riemann's normal pointing into the region. Hence the boundary integral of T equals minus the sum of the integrals around the winding points.\n\n2. At a winding point put z - z' = rho e^{i phi}. Then u - (n-1)log rho tends to a finite limit. The difference u - (n-1)log rho is regular and harmonic near z'. Therefore the integral of d/dp[u - (n-1)log rho] ds around the small enclosing boundary is 0, i.e. ∫ du/dp ds = (n-1)∫ d(log rho)/dp ds.\n\n3. On a small circle about z' the normal is radial, ds = rho dphi and d(log rho)/drho = 1/rho. So (n-1)∫_0^{2pi} (d log rho/d rho) rho dphi = (n-1)2pi in absolute value. With the orientation conventions this gives a contribution -(n-1)2pi to the boundary integral of T.\n\n4. Summing over all winding points: the integral of du/dp ds over the whole boundary of T equals -2pi Σ(n-1) = -2pi ν, where ν is the sum of the orders of the winding points. The same holds for any part of T containing all the winding points.\n\n5. Last (partly struck) lines. The boundary element ds of T is mapped to an element dσ of the image surface S, and an element dπ is written as dσ e^{psi i}, with psi an angle. This prepares the interpretation of ∫ du/dp ds as the total turning of the tangent direction of the image boundary.\n\nInterpretation. The boundary integral of du/dp equals the total change of arg(du/dz) along the boundary. So the page proves that the winding (turning) of the derivative along the boundary counts the branch points with multiplicity, ν = Σ(n-1). This is the argument principle applied to the derivative of a conformal map: a boundary-rotation / Riemann–Hurwitz-type count. It is used to relate the tangent turning of the image boundary to the number of winding points.",
+  "errors": [
+   "Sign bookkeeping is loose. With z - z' = rho e^{i phi}, (n-1)∫_0^{2pi}(d log rho/d rho) rho dphi equals +2pi(n-1), not -2pi(n-1). The minus sign appears only after taking the normal p pointing into T, which on the small circle points toward or away from z' depending on convention, and transferring the term to the outer boundary. The written chain '= (n-1)∫... = -(n-1)2pi' therefore hides a sign change (or a struck-out minus).",
+   "Integrating phi only over 0..2pi presupposes that z is the single-sheeted (uniformizing) variable at the winding point. If z were the coordinate on the multi-sheeted surface, phi would run over 0..2n pi and the singular coefficient would be (n-1)/n. The page's statement is consistent only with the derivative du/dz having a zero of order n-1 in a single-valued variable z.",
+   "The extra condition in the header paragraph (closed line plus initial point) is stated incompletely and largely cancelled; it is not a complete argument."
+  ],
+  "results": [
+   {
+    "what": "Boundary integral of the normal derivative of log|f'| (the boundary turning of arg f') equals -2pi times the sum of the orders of the critical (winding) points, proved via Green's theorem with small circles excised around the singularities.",
+    "modern_name": "Argument principle for f' / turning-number (Umlaufsatz) relation with branch points; local Riemann–Hurwitz-type count",
+    "usually_credited_to": "Argument principle: Cauchy (1831/1855). Branch-point counting for Riemann surfaces: Riemann (1851/1857), Hurwitz (1891).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Removal of a logarithmic singularity of a harmonic function by subtracting (n-1)log rho, and evaluating flux through a small circle as 2pi(n-1).",
+    "modern_name": "Flux of fundamental solution / Gauss–Green with logarithmic singularity",
+    "usually_credited_to": "Gauss, Green; standard in Riemann's dissertation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is draft material for Riemann's 1851 dissertation, where branch-point counting and Green's-theorem arguments with logarithmic singularities appear in published form. The computation is a standard argument-principle style count and is well known to be in Riemann's circle of ideas.",
+  "checkable": [
+   {
+    "sympy": "integrate(diff(log(rho),rho)*rho, (phi,0,2*pi)) - 2*pi",
+    "asserts": "Flux of log rho through a circle of radius rho is 2pi (the expression equals 0)."
+   },
+   {
+    "sympy": "simplify(diff(log(sqrt(x**2+y**2)),x,2)+diff(log(sqrt(x**2+y**2)),y,2))",
+    "asserts": "log rho is harmonic away from the origin (result 0)."
+   },
+   {
+    "sympy": "n=symbols('n',positive=True,integer=True); f=z**n; simplify(log(diff(f,z)) - (n-1)*log(z) - log(n))",
+    "asserts": "For f = z^n, log f' - (n-1)log z is constant (finite), i.e. z=0 is a winding point of order n-1 in Riemann's sense."
+   },
+   {
+    "sympy": "n=3; integrate(diff(z**n,z,2)/diff(z**n,z)*I*exp(I*t), (t,0,2*pi)).subs(z,exp(I*t))",
+    "asserts": "Winding of arg f' around a circle about a zero of f' of order n-1 equals 2pi i (n-1); intended to evaluate to 4*pi*I for n=3 (substitute z=exp(I*t) before integrating)."
+   }
+  ],
+  "transcription_corrections": [
+   "'Bedeutung aber log du/dz ...' should read 'Bedeutet aber' or more likely 'Bekommt aber'; the sense is 'If log(du/dz) - (n-1)log(z-z') has a finite value (Nach Def.)'.",
+   "In 'findet sich nun ∫du/dp ds = (n-1)∫_0^{2pi}...', the image shows a struck symbol before (n-1). A sign is likely involved; trust the image over the plain '(n-1)'.",
+   "'1. ∫ du/dp ds' — the '1.' is probably 'wird' or 'eine' rather than an enumeration.",
+   "The final line 'dz = ds e^{du/ds} ... dπ = dσ e^{psi i}, wenn rho, psi die Winkel' is mostly struck; 'dπ' may be 'dz' or 'dt' in the image."
+  ]
+ }
+}

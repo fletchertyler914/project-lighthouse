@@ -1,0 +1,75 @@
+{
+ "bundle": "Math.13",
+ "page": "c072",
+ "label": "35r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376633:00000073/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The symbol (x, x'; y, y') stands for a function of a directed segment (or arc) from P=(x,y) to P'=(x',y'). The sketches of trapezoids standing on a base line, and of polygons cut into such trapezoids, together with the six rules, fit the reading (x,x';y,y') = ∫_P^{P'} y dx. For a straight segment this is the signed trapezoid area ½(x'−x)(y+y'), and Gauss writes exactly this expression later on the page. The notation [u] means 'the value of u at the endpoint'.\n\nRules, in modern form, with A = ∫ y dx:\n(1) Translating x by a leaves A unchanged, since it depends only on differences of x.\n(2) Translating y by b gives ∫(y+b)dx = A + b(x'−x). Gauss writes +b[y']−b[y]; see the errors list.\n(3) Reversing the direction of the segment gives −A.\n(4) Replacing x by −x gives −A.\n(5) Replacing y by −y gives −A.\n(6) Swapping the roles of x and y gives ∫x dy + ∫y dx = [x'y'] − [xy]. This is integration by parts; for a segment, ½(y'−y)(x+x') + ½(x'−x)(y+y') = x'y' − xy.\n\nPurpose: summing A over the sides of a closed polygon gives its signed area (the trapezoid or 'shoelace' formula). Rules 1–6 show how this sum behaves under translations, reflections and the exchange of axes. For a closed path, the boundary terms such as b[x']−b[x] and [x'y']−[xy] telescope to zero.\n\nSecond part: rotation. Gauss writes points as r(cos φ + i sin φ) and r'(cos φ' + i sin φ'). The jotting sin φ − sin(φ−45°), s − √½·s + … is the start of the expansion sin(φ−45°) = √½(sin φ − cos φ). He then rotates the axes by 45°: X = (x+y)√½, Y = (y−x)√½, and likewise X' = (x'+y')√½, Y' = (y'−x')√½.\n\nThe trapezoid area in the new coordinates is ½(X'−X)(Y'+Y). Here X'−X = √½(y'+x'−y−x) and Y'+Y = √½(y'−x'+y−x). So the rotated area is ¼(y'+x'−y−x)(y'−x'+y−x) = ¼[(y'−x)² − (x'−y)²] = ¼(y'y' − 2xy' + xx − x'x' + 2x'y − yy).\n\nGauss compares this with the original area ½(x'−x)(y'+y). The terms −2xy' and +2x'y cancel against the cross terms of the original area, and he strikes them out. He replaces them by −2x'y' + 2xy, giving (my completion):\n\nrotated area − original area = ¼(y'y' − x'x' − 2x'y') − ¼(yy − xx − 2xy) = f(x',y') − f(x,y), with f(x,y) = ¼(y² − x² − 2xy).\n\nThus a rotation, like a translation, changes each side's trapezoid term only by a difference of endpoint values. Summed around a closed polygon, these differences cancel, so the area is invariant under rotation. Together with rules 1–6, this justifies the polygon-area formula independently of the choice of coordinate axes.",
+  "errors": [
+   "Rule 2 is inconsistent with rule 1 under any single convention. If (x,x';y,y') = ∫y dx, which makes rule 1 true, then shifting y by b adds b([x']−[x]), not b([y']−[y]). If instead the symbol meant ∫x dy, rule 2 would hold but rule 1 would fail. So one of the two is a slip, most likely writing [y] for [x] in rule 2. Rules 3–6 hold under either reading.",
+   "In the final expansion the term written '+yy' (obscured by an ink blot) must be −yy, since (y'−x)² − (x'−y)² contains −y². The image is compatible with −yy under the blot.",
+   "The fragment 's − √½.s + …' is unfinished. It is the start of sin(φ−45°) = √½(sin φ − cos φ) and is not wrong, just incomplete."
+  ],
+  "results": [
+   {
+    "what": "Signed area of a polygon as a sum of trapezoid terms ½(x'−x)(y+y') over its sides, with rules for translation, reversal, reflection and exchange of axes (rules 1–6)",
+    "modern_name": "Shoelace / surveyor's area formula, i.e. the discrete line integral ∮ y dx",
+    "usually_credited_to": "Meister (1769) and Gauss (1795); often called 'Gauss's area formula'",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "∫y dx + ∫x dy = [xy] between the endpoints (rule 6)",
+    "modern_name": "Integration by parts / exactness of d(xy)",
+    "usually_credited_to": "Leibniz / standard calculus",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Under a 45° rotation of the axes, the trapezoid term of a segment changes only by f(P')−f(P) with f = ¼(y²−x²−2xy), so the polygon area is rotation invariant",
+    "modern_name": "Rotation invariance of the area form ∮ y dx (it changes by an exact differential)",
+    "usually_credited_to": "Standard; implicit in Meister and Gauss and in 19th-century treatments of planimetry",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working sheet on the trapezoid/shoelace area formula, which is already associated with Gauss's name, plus a direct check that it is invariant under rotation. The material is elementary and known. It is a mildly interesting glimpse of how Gauss verified coordinate-independence via boundary terms, but nothing new.",
+  "checkable": [
+   {
+    "sympy": "x,xp,y,yp,a,b=symbols('x xp y yp a b'); A=lambda x,xp,y,yp: Rational(1,2)*(xp-x)*(y+yp); simplify(A(x+a,xp+a,y,yp)-A(x,xp,y,yp))",
+    "asserts": "Rule 1: translation in x leaves the trapezoid term unchanged (result 0)."
+   },
+   {
+    "sympy": "simplify(A(x,xp,y+b,yp+b)-A(x,xp,y,yp)-b*(xp-x))",
+    "asserts": "Correct form of rule 2: shift in y adds b(x'−x), not b(y'−y) (result 0)."
+   },
+   {
+    "sympy": "simplify(A(xp,x,yp,y)+A(x,xp,y,yp)), simplify(A(-x,-xp,y,yp)+A(x,xp,y,yp)), simplify(A(x,xp,-y,-yp)+A(x,xp,y,yp))",
+    "asserts": "Rules 3, 4, 5: reversal and the two reflections each change the sign (all 0)."
+   },
+   {
+    "sympy": "simplify(A(y,yp,x,xp)+A(x,xp,y,yp)-(xp*yp-x*y))",
+    "asserts": "Rule 6: swapping the axes gives x'y' − xy (result 0)."
+   },
+   {
+    "sympy": "s=sqrt(Rational(1,2)); X=(x+y)*s; Y=(y-x)*s; Xp=(xp+yp)*s; Yp=(yp-xp)*s; expand(Rational(1,2)*(Xp-X)*(Yp+Y) - Rational(1,4)*(yp**2-2*x*yp+x**2-xp**2+2*xp*y-y**2))",
+    "asserts": "The rotated trapezoid term equals ¼(y'²−2xy'+x²−x'²+2x'y−y²), with −y² rather than +y² (result 0)."
+   },
+   {
+    "sympy": "f=lambda x,y: Rational(1,4)*(y**2-x**2-2*x*y); expand(Rational(1,2)*(Xp-X)*(Yp+Y) - A(x,xp,y,yp) - (f(xp,yp)-f(x,y)))",
+    "asserts": "The change of the trapezoid term under 45° rotation is the endpoint difference of f = ¼(y²−x²−2xy) (result 0)."
+   },
+   {
+    "sympy": "phi=symbols('phi'); simplify(sin(phi-pi/4)-sqrt(Rational(1,2))*(sin(phi)-cos(phi)))",
+    "asserts": "The expansion begun in the fragment: sin(φ−45°) = √½(sin φ − cos φ) (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "In the second complex number, 'i'' should be read as i, i.e. r'(cos φ' + i sin φ').",
+   "In the last block, the term after +2x'y (struck) is most plausibly −yy under the ink blot, not +yy.",
+   "The right-hand area expression is ½(x'−x)(y'+y), and the bracketed block is multiplied by ¼; the transcription renders both correctly."
+  ]
+ }
+}

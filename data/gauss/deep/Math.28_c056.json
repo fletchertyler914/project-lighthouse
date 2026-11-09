@@ -1,0 +1,61 @@
+{
+ "bundle": "Math.28",
+ "page": "c056",
+ "label": "28v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000057/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context, from the previous page (28r). The known points are 0 = (a,b), 1 = (a + r cos l, b + r sin l) and 2 = (a + r' cos l', b + r' sin l'). The unknown point is 3 = (a + ρ cos λ, b + ρ sin λ). The distance from 1 to 3 is p, and the direction of 1→3 is λ+M. So M is the known angle at 3 between the sight lines to 0 and to 1. This is the setting of the three-point resection problem: find a station from the angles observed there toward three known points.\n\nStep 1. Write the vector 1→3 in components:\nρ cos λ − r cos l = p cos(λ+M)\nρ sin λ − r sin l = p sin(λ+M)\n\nStep 2 (elimination of p; the intermediate step is mine). Multiply the first equation by sin(λ+M) and the second by cos(λ+M), then subtract. This gives ρ sin M = r sin(λ+M−l).\n\nStep 3. Put N = l − M ± 90° and n = ± r / sin M. Take the upper or lower sign according as sin M > 0 or < 0, so that n > 0. Then sin(λ+M−l) = ± cos(λ−N), and therefore ρ = n cos(λ−N).\n\nStep 4. Let P1 = (a + n cos N, b + n sin N). The projection of the vector 0→P1 onto the direction λ of 0→3 is n cos(N−λ) = ρ. Hence (P1 − 3)·(3 − 0) = 0, i.e. P1 lies on the line through 3 normal to 03. Equivalently, 3 lies on the circle with diameter 0P1 (Thales).\n\nThis page (28v). The same argument is repeated with point 2 in place of point 1, using r', l' and the observed angle M' at 3 between the sight lines to 0 and 2. It gives a second point P2 = (a + n' cos N', b + n' sin N') on the same line. The line P1P2 is therefore determined. The point where the perpendicular dropped from 0 meets this line is the sought point 3.\n\nIn modern terms, 3 = P1 + t (P2 − P1) with t = ((0 − P1)·(P2 − P1)) / |P2 − P1|^2. The quantities ρ and λ then follow as the distance and bearing of 0→3.\n\nThis is a complete, closed, non-iterative solution of the Snellius–Pothenot problem by two auxiliary points. In substance it is Cassini's auxiliary-point construction, which Gauss carries out analytically.\n\nThe next page (17-gon / cos(2π/17) computations) is unrelated.",
+  "errors": [
+   "No error in the argument on this page. The derivation on the preceding page is also correct: elimination of p gives ρ sin M = r sin(λ+M−l), and with either sign choice ρ = n cos(λ−N).",
+   "Unaddressed degenerate case: if 3 lies on the circle through 0, 1, 2 (the 'danger circle'), then P1 = P2 and the line, hence the point 3, is undetermined. Gauss does not mention this here. Likewise, when sin M = 0 or sin M' = 0 the auxiliary point recedes to infinity.",
+   "The earlier line 'Richtung l + M' in the transcription of 28r conflicts with the equations, which use λ+M. Either the transcription or the manuscript has a slip there; λ+M is what is actually used."
+  ],
+  "results": [
+   {
+    "what": "Analytic solution of the three-point resection problem. Auxiliary points P_i = 0 + n_i(cos N_i, sin N_i), with N_i = l_i − M_i ± 90° and n_i = ± r_i / sin M_i, lie on the line through the unknown point perpendicular to its ray from 0. The unknown point is the foot of the perpendicular from 0 onto P1P2.",
+    "modern_name": "Snellius–Pothenot (resection / three-point) problem, solved by Cassini's auxiliary-point method",
+    "usually_credited_to": "Snellius (1617), Pothenot (1692); the auxiliary-point construction to Cassini (c. 1679)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Elimination of the unknown distance p, giving ρ sin M = r sin(λ+M−l), recast as the polar equation of a circle through 0, ρ = n cos(λ−N).",
+    "modern_name": "Inscribed-angle locus (polar equation of a circle through the origin; Thales circle)",
+    "usually_credited_to": "classical",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a clean analytic version of the classical Cassini construction for the Pothenot/Snellius resection problem. Gauss's work on this geodetic problem is known (material appears in Werke vol. IX), so it is routine for him.",
+  "checkable": [
+   {
+    "sympy": "simplify((rho*cos(lam)-r*cos(l))*sin(lam+M) - (rho*sin(lam)-r*sin(l))*cos(lam+M) - (rho*sin(M) - r*sin(lam+M-l)))",
+    "asserts": "Eliminating p from the two component equations yields rho*sin(M) = r*sin(lam+M-l); the expression is identically 0."
+   },
+   {
+    "sympy": "simplify((r/sin(M))*cos(lam-(l-M+pi/2)) - r*sin(lam+M-l)/sin(M))",
+    "asserts": "With N = l-M+90° and n = r/sin(M), n*cos(lam-N) equals rho = r*sin(lam+M-l)/sin(M); evaluates to 0."
+   },
+   {
+    "sympy": "simplify((-r/sin(M))*cos(lam-(l-M-pi/2)) - r*sin(lam+M-l)/sin(M))",
+    "asserts": "The lower-sign choice (N = l-M-90°, n = -r/sin(M)) gives the same rho; evaluates to 0."
+   },
+   {
+    "sympy": "simplify(((n*cos(N)-n*cos(lam-N)*cos(lam))*cos(lam) + (n*sin(N)-n*cos(lam-N)*sin(lam))*sin(lam)))",
+    "asserts": "If rho = n*cos(lam-N), the auxiliary point (n cos N, n sin N) lies on the line through point 3 perpendicular to 03, i.e. the dot product is 0."
+   },
+   {
+    "sympy": "Point(0,0) and P1=(n1*cos(N1), n1*sin(N1)), P2=(n2*cos(N2), n2*sin(N2)): the foot of the perpendicular from the origin to line P1P2 equals (rho*cos(lam), rho*sin(lam)) whenever rho = n1*cos(lam-N1) = n2*cos(lam-N2)",
+    "asserts": "Point 3 is recovered as the foot of the perpendicular from 0 onto the line through the two auxiliary points (test numerically with sympy.geometry Line.projection)."
+   }
+  ],
+  "transcription_corrections": [
+   "The first word is the continuation 'vor-stehender' from the previous page; the image shows 'stehender Argumentation'.",
+   "'von o auf dieselbe' means point 0 (zero), the origin point of the previous page, not the letter o.",
+   "Line 2: the image reads 'Stelle von 1 treten läßt' (with ß/ss ligature).",
+   "The rest of the transcription matches the image: 'gefällte Perpendikel sie trifft, d. i. der Punkt 3'."
+  ]
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Modulfunctionen",
+ "page": "c050",
+ "label": "25r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3223711:00000051/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is not a Riemann derivation. It is the first page (numbered '1.', pencil folio '45') of Richard Dedekind's draft commentary 'Erläuterungen zu den vorstehenden Fragmenten'. Dedekind wrote it for the 1876 edition of Riemann's Werke, as the editorial explanation of the fragments on the limiting behaviour of elliptic modular functions. The previous page in the bundle is Riemann's own computation of log k and log k' at rational limit points.\n\nContent, in modern terms:\n(a) Dating and purpose. The first fragment, 'Additamentum ad §40' of Jacobi's Fundamenta nova, is dated September 1852. Dedekind conjectures that Riemann was looking for examples of functions that are discontinuous infinitely often in every interval, for the Habilitationsschrift on trigonometric series (margin note: 'für die Abhandlung über die trigonometrischen Reihen'). He suggests the second, barely legible sheet may have served the same purpose.\n(b) Problem. Riemann's method determines the behaviour of the modular functions of elliptic-function theory (k, k', K) as the period ratio\n  omega = i K'/K = log(q)/(pi i)\napproaches a rational real value. That is, q = exp(pi i omega) tends radially or vertically to a root of unity.\n(c) Proposed application. Dedekind applies the method to the constants (eighth roots of unity) in the first-order, i.e. SL2(Z), transformation of theta functions. Jacobi and Hermite had reduced these constants to Gauss sums and hence to quadratic residues. Dedekind admits he noticed this only days before printing and could not check Riemann's formulas exactly. He argues they must all follow from the investigation he sketches.\n(d) Central object. He defines\n  eta(omega) = 1^{omega/24} * prod_{nu>=1} (1 - 1^{omega nu}),\nwhere 1^z := exp(2 pi i z). Hence\n  eta(omega) = exp(pi i omega/12) * prod (1 - exp(2 pi i nu omega)) = q^{1/12} * prod (1 - q^{2 nu}),\nwith q = exp(pi i omega) and Im omega = y > 0.\n\nImplicit check (mine): 1^{omega/24} = exp(2 pi i omega/24) = exp(pi i omega/12) = q^{1/12}, and 1^{omega nu} = exp(2 pi i nu omega) = q^{2 nu}. Also log q = pi i omega, so omega = log q/(pi i), consistent with omega = iK'/K and q = exp(-pi K'/K).\n\nThe sentence continues on the next page. There Dedekind notes that eta has no zeros or poles in the upper half-plane, so log eta is single-valued, normalised by log eta - pi i omega/12 -> 0 as y -> infinity. The derivation then proceeds through Jacobi's eta-product formulas for k, k' and 2K/pi.",
+  "errors": [
+   "No mathematical errors on this page. The definitions of eta, 1^z, q and omega are mutually consistent.",
+   "Historical caveat: the page is in Dedekind's hand and voice ('Da ich diese Bemerkung ... gemacht habe'). It should not be attributed to Riemann. The dating 'September 1852' refers to Riemann's fragment."
+  ],
+  "results": [
+   {
+    "what": "Definition eta(omega) = e^{pi i omega/12} prod (1 - e^{2 pi i nu omega}) = q^{1/12} prod (1 - q^{2nu}) as the central function of modular-function theory, treatable independently of elliptic functions",
+    "modern_name": "Dedekind eta function",
+    "usually_credited_to": "Dedekind, in this very commentary (Riemann's Werke, 1876; reprinted in Dedekind's Werke as 'Erläuterungen zu den Fragmenten XXVIII'). The product goes back to Jacobi's Fundamenta nova (1829).",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Using the behaviour of modular functions at rational cusps (Riemann's limiting-case method) to determine the root-of-unity constants in the first-order transformation of theta/eta functions, previously obtained via Gauss sums by Jacobi and Hermite",
+    "modern_name": "Eta transformation multiplier system / Dedekind sums (developed on subsequent pages)",
+    "usually_credited_to": "Dedekind 1876/77, building on Riemann's fragments; Hermite 1858 for the Gauss-sum evaluation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Conjecture that Riemann's 1852 fragment aimed at examples of functions discontinuous infinitely often in every interval, for the trigonometric-series Habilitationsschrift",
+    "modern_name": "Historical remark (Riemann's pathological-function examples, cf. the Riemann function sum sin(n^2 x)/n^2)",
+    "usually_credited_to": "Dedekind's editorial conjecture",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is Dedekind's well-known published commentary on Riemann's modular-function fragments. It is the very text in which the Dedekind eta function, and on later pages Dedekind sums, were introduced. Nothing here is new or unattributed.",
+  "checkable": [
+   {
+    "sympy": "w = sympy.Symbol('w'); sympy.simplify(sympy.exp(2*sympy.pi*sympy.I*w/24) - sympy.exp(sympy.pi*sympy.I*w/12))",
+    "asserts": "1^{omega/24} = q^{1/12} with q = exp(pi i omega); should be 0"
+   },
+   {
+    "sympy": "w, nu = sympy.symbols('w nu'); sympy.simplify(sympy.exp(2*sympy.pi*sympy.I*w*nu) - sympy.exp(sympy.pi*sympy.I*w)**(2*nu))",
+    "asserts": "1^{omega nu} = q^{2 nu}; should simplify to 0 for integer nu"
+   },
+   {
+    "sympy": "import mpmath; w = mpmath.mpc(0.3, 0.8); q = mpmath.exp(mpmath.pi*1j*w); eta = lambda t: mpmath.exp(mpmath.pi*1j*t/12)*mpmath.qp(mpmath.exp(2*mpmath.pi*1j*t)); abs(eta(-1/w) - mpmath.sqrt(w/1j)*eta(w))",
+    "asserts": "Numerical check of the first-order transformation eta(-1/omega) = sqrt(omega/i) eta(omega) underlying the program announced on the page; should be about 0"
+   },
+   {
+    "sympy": "import mpmath; k = mpmath.mpf('0.6'); K = mpmath.ellipk(k**2); Kp = mpmath.ellipk(1-k**2); q = mpmath.exp(-mpmath.pi*Kp/K); w = 1j*Kp/K; abs(mpmath.exp(mpmath.pi*1j*w) - q)",
+    "asserts": "omega = iK'/K and q = exp(pi i omega) = exp(-pi K'/K) agree, i.e. omega = log q/(pi i); should be about 0"
+   }
+  ],
+  "transcription_corrections": [
+   "Heading reads 'Erläuterung zu dem vorstehenden Fragment' (not '...Fragmenten'), followed by page number '1.'.",
+   "The marginal insertion 'für die Abhandlung über die trigonometrischen Reihen' belongs after 'Beispiele' (the struck word before 'Beispiele' is illegible). 'von' is inserted above the line before 'Functionen'.",
+   "The marginal word 'gewissermaßen' is inserted before 'die Function eta(omega)'.",
+   "The inserted word above 'Theorie' (transcribed as 'Fragmente[?]') is uncertain from the image. The intended reading is likely just 'die Theorie der unendlich vielen Formen der ϑ-Functionen'.",
+   "The pencil '45' at the right margin is an archival folio number, not part of the text.",
+   "In 'Riemannschen Formeln', the inserted 'da' belongs to the next clause: '...genau zu prüfen; da sie sich aber sämmtlich ... ergeben müssen'."
+  ]
+ }
+}

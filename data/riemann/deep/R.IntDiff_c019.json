@@ -1,0 +1,67 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c019",
+ "label": "9v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000020/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is the 1847 student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation', published in Riemann's Werke in 1876. Its purpose is to decide whether the 'derivatives of arbitrary order' can be normalised so that the law of exponents holds: ∂^ν∂^μ z = ∂^{ν+μ} z.\n\nSetting (from earlier pages). Formula (2) is a generalised Taylor expansion\n z(x+h) = Σ_μ l(μ) ∂_x^μ z · h^μ/Π(μ),\nwhere:\n- μ runs over a progression μ0 + ℤ;\n- Π(μ) = Γ(μ+1) (Gauss's notation);\n- l(μ) are normalising constants still to be fixed.\nFormula (3) is a generalised binomial expansion\n (h+k)^σ/Π(σ) = Σ_ν h^ν k^{σ−ν}/(Π(ν) Π(σ−ν)),\nwith ν running over a shifted integer lattice.\n\nStep (α). Let x increase a second time, by k. Apply (2) to z(x+h) viewed as a function of x, then expand again in h. Writing out the substitution is my addition:\n z(x+h+k) = Σ_μ Σ_ν l_μ l_ν ∂^μ ∂^ν z · h^μ k^ν/(Π μ Π ν).\nRiemann first wrote K^μ K^ν and then corrected it to powers of h and k. He remarks that, because the generalised derivatives are many-valued, (α) represents all possible expansions of z(x+h+k) in these powers of h and k.\n\nStep (β). Instead increase x by h+k in a single step, using (2):\n z(x+h+k) = Σ_{σ=μ+ν} l(μ+ν) ∂^{μ+ν} z · (h+k)^{μ+ν}/Π(μ+ν).\nSubstituting (3) gives\n = Σ_μ Σ_ν l(μ+ν) ∂^{μ+ν} z · h^ν k^μ/(Π ν Π μ).\nThe red marginal line rewrites this cleanly as a double sum over μ and ν.\n\nRiemann's caveat. (β) does not give every expansion of this form, because (3) supplies only one expansion of (h+k)^{μ+ν}/Π(μ+ν), which need not be unique. Every expansion contained in (β) must, however, also be contained in (α). This sentence continues on the next page.\n\nConclusion (next page). Compare the coefficients of h^μ k^ν.\n- If one imposes l(μ+ν) = l(μ) l(ν), then every value of ∂^{μ+ν} z is also a value of ∂^μ ∂^ν z (formula (5)), though not necessarily conversely.\n- The functional equation is then solved: first l(mν) = l(ν)^m for integer m, then for rational m by setting π = mν/n, then for all real exponents 'by interpolation', i.e. by continuity. This gives l(μ) = l(1)^μ.",
+  "errors": [
+   "Comparing coefficients between two double series in fractional powers is only heuristic. Riemann himself admits the expansions are not unique, so he correctly concludes only the one-sided inclusion: values of ∂^{μ+ν} z are among the values of ∂^μ∂^ν z.",
+   "The bilateral binomial series (3) with non-integer lattice offset converges only on |h| = |k| (and then needs suitable conditions on the exponent). Off that circle it diverges, so its use here for general h, k is purely formal.",
+   "Notational slips. In the first line of (β) the factor '(μ+ν)' is written where the summand l(μ+ν) ∂^{μ+ν} z ... was intended; the line is then rewritten. In (β) and its marginal restatement the exponents appear as h^ν k^μ, while (α) has h^μ k^ν. The comparison is therefore only valid after relabelling μ ↔ ν, which is harmless if the operators commute.",
+   "Interchanging the double summations and the operator ∂^ν applied to a series in x is done without justification.",
+   "On the next page, passing from rational to real exponents 'by interpolation' tacitly assumes continuity of l (the Cauchy functional equation)."
+  ],
+  "results": [
+   {
+    "what": "Derivation of the semigroup (law of exponents) for generalized derivatives by expanding z(x+h+k) two ways via a generalized Taylor series",
+    "modern_name": "Semigroup property of fractional integrals/derivatives (Riemann–Liouville), via the Riemann–Taylor series",
+    "usually_credited_to": "Liouville (1832) and Riemann (1847, published 1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Formula (3): bilateral binomial expansion (h+k)^σ/Γ(σ+1) = Σ_ν h^ν k^{σ−ν}/(Γ(ν+1)Γ(σ−ν+1)) over a shifted integer lattice",
+    "modern_name": "Generalized (bilateral) binomial theorem",
+    "usually_credited_to": "Riemann 1847 (formal); rigorous treatments by Hardy and later Osler (1971)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Normalization constants must satisfy l(μ+ν) = l(μ) l(ν), hence l(μ) = l(1)^μ",
+    "modern_name": "Cauchy exponential functional equation",
+    "usually_credited_to": "Cauchy 1821",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft page of Riemann's 1847 essay on generalized integration and differentiation, which was published in his Werke (1876). The argument is already well known as his. It is historically important for fractional calculus but not new.",
+  "checkable": [
+   {
+    "sympy": "Sum(binomial(n, j)*h**j*k**(n-j), (j, 0, n)).subs(n, 5).doit().expand() - ((h+k)**5).expand()",
+    "asserts": "Formula (3) in the integer case reduces to the ordinary binomial theorem; the difference is 0."
+   },
+   {
+    "sympy": "nsum(lambda n: binomial(a, n+t), [-inf, inf]) with a=0.5, t=0.3 (mpmath), compared with 2**0.5",
+    "asserts": "Bilateral binomial at h=k=1: Σ_n C(a, n+t) = 2^a for non-integer offset t when a > -1."
+   },
+   {
+    "sympy": "simplify(gamma(p+1)/gamma(p-b+1) * gamma(p-b+1)/gamma(p-b-a+1) - gamma(p+1)/gamma(p-a-b+1))",
+    "asserts": "Using D^α x^p = Γ(p+1)/Γ(p−α+1) x^{p−α}, the law of exponents D^a D^b x^p = D^{a+b} x^p holds on power functions; the difference is 0."
+   },
+   {
+    "sympy": "solve(Eq(l1**(m/n*nu), (l1**nu)**(m/n)), l1)",
+    "asserts": "The exponential l(μ) = l(1)^μ satisfies l(mν/n) = l(ν)^{m/n}, consistent with l(μ+ν) = l(μ) l(ν)."
+   }
+  ],
+  "transcription_corrections": [
+   "The coefficients written c_μ, c_ν, c(μ+ν) are in the image l_μ, l_ν, l(μ+ν). This matches the next page, 'l(μ+ν)=lμ lν'.",
+   "In (α) the corrections written above the crossed-out K^μ, K^ν appear to read k^μ and h^ν, rather than h^μ and k^ν. The exact assignment is uncertain.",
+   "The opening word 'genauer [?]' is probably 'genau' or similar; the sense is 'wollen wir untersuchen, ob wir sie so wählen können, dass ...'.",
+   "'Es ist aber auch' is preceded by a word that is probably 'Hieraus' or 'Hier'.",
+   "In the second line of (β) the factor is h^ν k^μ/(Πν Πμ), with the sum over ν. A duplicated '[vermöge (3)]' is crossed out."
+  ]
+ }
+}

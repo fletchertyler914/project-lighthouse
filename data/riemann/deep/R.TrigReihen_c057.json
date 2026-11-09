@@ -1,0 +1,70 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c057",
+ "label": "27v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000058/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is the fair-copy draft of a passage in Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1854, published by Dedekind 1867), §13. It continues the previous page, which gave examples of trigonometric series that converge for infinitely many arguments in every interval.\n\nClaim: in the same extent, i.e. infinitely often between any two arguments however close, a trigonometric series can converge even when its coefficients do not tend to 0. ('Glieder' is struck out and replaced by 'Coefficienten'.) The example is S(x) = sum_{n>=1} sin(n! pi x). As a trigonometric series in x this has coefficient 1 at every frequency n!, so the coefficients do not tend to zero.\n\n(a) Rational x = p/q. For n >= q, n! x is an integer, so sin(n! pi x) = 0. The series reduces to a finite sum.\n\n(b) Irrational examples (the reasoning is mine; Riemann gives none). Write n! x = N_n + t_n with N_n an integer and t_n -> 0. Then sin(n! pi x) = (-1)^{N_n} sin(pi t_n). The series converges when (-1)^{N_n} sgn(t_n) eventually alternates and |t_n| decreases to 0 like 1/n, or when the bad terms are O(1/n^2).\n\n- x = e. We have n! e = N_n + r_n with N_n = sum_{k<=n} n!/k! and r_n = 1/(n+1) + 1/((n+1)(n+2)) + ... ~ 1/(n+1).\n  - Parity: the terms with k <= n-2 contain a product of two consecutive integers, so N_n ≡ 1 + n (mod 2).\n  - Hence sin(n! pi e) = (-1)^{n+1} sin(pi r_n). This is an alternating series with decreasing terms, so it converges.\n  - For m e with m odd: m N_n has the same parity as N_n and t_n = m r_n, so it still converges.\n  - For m even all terms are eventually positive, ~ m pi/n, so it diverges. Hence 'ungerade Vielfache von e'.\n- x = 2/e. We have n!(2/e) = 2 sum_{k<=n} (-1)^k n!/k! + 2(-1)^{n+1}(1/(n+1) - ...).\n  - The integer part is even, and the small part alternates in sign.\n  - So it converges, also for every integer multiple m(2/e).\n  - For x = 1/e itself the parity factor cancels the sign alternation, the terms are ~ +pi/n, and the series diverges. That is why Riemann writes 2/e.\n- x = sin 1 = sum (-1)^k/(2k+1)!.\n  - For n odd the remainder is O(1/n^2).\n  - For n = 2j the integer part is even and the remainder is ~ (-1)^j/(2j+1), so the series converges, also for multiples.\n- x = cos 1. Same argument with the roles of even and odd n swapped: the integer part is odd for odd n, the remainder is ~ ±1/(n+1) with alternating sign, and the other terms are O(1/n^2). So it converges, also for multiples.\n- x = (e - 1/e)/4 = sinh(1)/2. For even n = 2j the integer part has parity j and the remainder is ~ 1/(2(n+1)), so those terms alternate. But for odd n, n!/(2 n!) = 1/2 is a half-integer term. So the fractional part of n! x tends to 1/2 and |sin(n! pi x)| -> 1 (see errors).\n\nThis is consistent with Riemann's theorem that convergence on an interval forces the coefficients to 0: the convergence set here is dense but of measure zero, in line with the later Cantor–Lebesgue theorem.",
+  "errors": [
+   "The example x = (e - 1/e)/4 = sinh(1)/2 appears not to work. For odd n, n! sinh(1)/2 = integer + 1/2 + O(1/n^2), because the term with 2k+1 = n contributes exactly 1/2. So |sin(n! pi x)| -> 1 and the series diverges. Numerically: n=3 gives 6x = 3.5256 and sin = -0.997; n=5 gives 120x = 70.512 and sin = +0.9993. Unless this is a slip of transcription by Riemann, the example is wrong. The same expression appears in the published text, as far as I recall.",
+   "For the irrational examples no proof is given. Convergence rests on parity (sign-alternation) arguments with remainders ~ 1/n, which Riemann leaves implicit. For 1/e and even multiples of e the analogous series diverge, and Riemann's wording correctly excludes these cases."
+  ],
+  "results": [
+   {
+    "what": "A trigonometric series sum sin(n! pi x) whose coefficients do not tend to 0 but which converges at all rationals and at a dense set of irrationals (odd multiples of e, multiples of 2/e, sin 1, cos 1, ...)",
+    "modern_name": "Riemann's example for §13 of the Habilitationsschrift; series sum sin(n! pi x), related to the Cantor–Lebesgue theorem",
+    "usually_credited_to": "Riemann (Habilitationsschrift 1854, publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Convergence for rational x by termination",
+    "modern_name": "elementary observation",
+    "usually_credited_to": "Riemann",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This passage is essentially verbatim the published §13 of Riemann's Habilitationsschrift on trigonometric series, a well-known text. The only notable point is the apparently faulty example (e - 1/e)/4.",
+  "checkable": [
+   {
+    "sympy": "N(sum(sin(factorial(n)*pi*E) for n in range(1,40)), 30)",
+    "asserts": "Partial sums of sum sin(n! pi e) stabilise (convergence at x = e); use high precision."
+   },
+   {
+    "sympy": "[N(sin(factorial(n)*pi*2*E), 30) for n in range(5,20)]",
+    "asserts": "For x = 2e the terms are eventually positive ~ 2pi/n, so the series diverges (only odd multiples of e work)."
+   },
+   {
+    "sympy": "[N(sin(factorial(n)*pi*2/E), 30) for n in range(5,20)]",
+    "asserts": "For x = 2/e the terms alternate in sign with magnitude ~ 2pi/(n+1), giving convergence."
+   },
+   {
+    "sympy": "[N(sin(factorial(n)*pi/E), 30) for n in range(5,20)]",
+    "asserts": "For x = 1/e the terms are eventually positive, so the series diverges (hence Riemann uses 2/e)."
+   },
+   {
+    "sympy": "[N(sin(factorial(n)*pi*(E-1/E)/4), 40) for n in range(1,20)]",
+    "asserts": "For x = (e - 1/e)/4 the odd-n terms have |value| -> 1, so the series diverges, contradicting the stated example."
+   },
+   {
+    "sympy": "[N(sin(factorial(n)*pi*sin(1)), 40) for n in range(2,20)]",
+    "asserts": "For x = sin 1 the even-n terms alternate ~ ±pi/(n+1) and the odd-n terms are O(1/n^2), giving convergence."
+   },
+   {
+    "sympy": "[N(sin(factorial(n)*pi*cos(1)), 40) for n in range(2,20)]",
+    "asserts": "For x = cos 1 the odd-n terms alternate ~ ±pi/(n+1) and the even-n terms are O(1/n^2), giving convergence."
+   },
+   {
+    "sympy": "[sin(factorial(n)*pi*Rational(3,7)) for n in range(7,12)]",
+    "asserts": "For rational x = 3/7 the terms vanish for n >= 7."
+   }
+  ],
+  "transcription_corrections": [
+   "The page number reads '46.' (continuing the previous page 45), not '146.'",
+   "'Glieder' is struck out and 'Coefficienten' is written above it; the transcription correctly marks this."
+  ]
+ }
+}

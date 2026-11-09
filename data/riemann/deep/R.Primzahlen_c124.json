@@ -1,0 +1,137 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c124",
+ "label": "63r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000125/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds two kinds of scratch computation.\n\n(A) Legendre's sieve (top left). The heading is probably 'Anzahl der durch die Primzahlen ... [nicht] theilbaren Zahlen ...'. Riemann writes (x/m) for the integer part [x/m]. He counts phi(x,a), the number of n <= x not divisible by the first a primes, by inclusion-exclusion.\n- x = 41, primes 2,3,5: 41 - [41/2] - [41/3] + [41/6] - [41/5] + [41/10] + [41/15] - [41/30] = 41-20-13+6-8+4+2-1 = 11. These are 1,7,11,13,17,19,23,29,31,37,41.\n- He then lists 1 and the primes up to 97.\n- x = 100, primes 2,3,5,7: 100-50-33+16-20+10+6-3, then -14+7+4-2+2-1 = 22. This equals 1 plus the 21 primes from 11 to 97. The small numbers underneath are running partial sums.\n- x = 500, primes up to 19: first row 500-250-166+83-100+50+33-16 = 134 = phi(500,3). Then he subtracts phi(500/7,3), phi(500/11,4), and so on.\n- The lines -38+19+12..., -29+14+9..., -26+13+8... are phi(38,5), phi(29,6), phi(26,7). They come from the recursion phi(x,a) = phi(x,a-1) - phi(x/p_a, a-1).\n- The correct total (my check) is phi(500,8) = 1 + (pi(500) - 8) = 88. This is the Legendre/Meissel method for computing pi(x).\n\n(B) High-precision rational approximations of sqrt5 and their partial-fraction splitting (most of the page). These come from the Pell equation x^2 - 5y^2 = 1, i.e. powers of 9 + 4sqrt5:\n- (9+4sqrt5)^2 = 161 + 72sqrt5\n- (9+4sqrt5)^3 = 2889 + 1292sqrt5\n- (9+4sqrt5)^4 = 51841 + 23184sqrt5\n- (9+4sqrt5)^6 = 16692641 + 7465176sqrt5\nEquivalently, Lucas over Fibonacci: L18/F18 = 5778/2584.\n\nThe tool (my statement) is the doubling step x' = 2x^2 - 1, y' = 2xy, which gives x'/y' = x/y - 1/(2xy).\n\n(B1) Fourth power.\n- 161/72 = 322/144, and 322/144 - 1/(9*16*7*23) = 51841/23184. Here 161*322 = 51842 is worked out in the column 51842/483/354/322.\n- 51841 = 47*1103 and 23184 = 9*16*7*23.\n- Partial fractions over the prime-power factors of the denominator: 17/144 = 9/16 - 4/9 (from 17 = 81 - 64), and 19/161 = 6/23 - 1/7.\n- Result: sqrt5 ~ 47*1103/(9*16*7*23) = 2 + 9/16 - 4/9 + 6/23 - 1/7. This is exact for the convergent.\n- Also noted: 360^2 - 5*161^2 = -5, which is behind the trial 360/(7*23).\n\n(B2) Sixth power.\n- 5778/(8*17*19) = 2889/1292, with 8*17*19 = 2584 and 2889 = 27*107.\n- Doubling gives 5778/(8*17*19) - 1/(27*107*8*17*19) = (27*107*5778 - 1)/(27*107*8*17*19) = 16692641/7465176.\n- He factors the denominator: 7465176 = 4*1866294 = 8*933147, 933147 = 9*103683, 103683 = 3*34561, 34561 = 17*19*107.\n- He divides the numerator: 7)16692641 = 2384663, and 16692641 = 7*23*103681 (my remark: = 161*(4*161^2 - 3)).\n- Partial fractions are obtained step by step:\n  - 1449/(2*17*19) = 2 + 157/(2*17*19)\n  - 5778/2584 = 5796/2584 - 9/(4*17*19)\n  - 2 + 1/4 + 1/17 - 5/(4*19) - 1/(4*107) - 1/(27*8)\n  - then 5/76 = 25/19 - 5/4, 1/428 = 27/107 - 1/4 (from 108 - 107), 1/216 = 3/8 - 10/27 (from 81 - 80)\n  - final: sqrt5 ~ 1 + 1/17 - 6/19 + 80/107 + 10/27 + 3/8 (= 16692641/7465176, exact).\n- Side identities: 1/(8*17) = 1/8 - 2/17, 324 - 323 = 1 with 17*19 = 323, and -3/(107*2) + (108-107)/(27*107*8).\n\n(B3) Decimal checks.\n- 1/107 is expanded by long division (remainders 963, 370, 321, ...) to 0.009345794392523364485981308411214953271.\n- 1/27 = 0.037037..., 1/17 = 0.0588235294117647, 1/19 = 0.052631578947368421.\n- 1/17 + 1/19 = 36/323 = 0.11145510835913312693498...\n- 2.125 + 36/323 = 2.23645510835913312693498 = 2 + 1/8 + 1/17 + 1/19 (= 5779/2584).\n- Minus 1/27 + 1/107 = 0.04638283142956040152... gives 2.19007227692957... This is the value of the candidate 2 + 1/8 - 1/27 - 1/107 + 1/17 + 1/19, which is not sqrt5.\n- Bottom-left, a long division: 0.0004250676897... divided by 3.4641016151 (= 2sqrt3) gives 0.0001227064... Above it is a column with sqrt3 = 1.732050807569 and its multiples. The purpose is uncertain; it looks like a Newton-type correction (error/(2sqrt3)).\n\n(C) Auxiliary factorizations.\n- Many pairs a*(320-a) are factored into small primes: 290*30 = 29*3*25*4, 294*26 = 7*7*3*13*4, 292*28 = 73*16*7, 268*52 = 67*16*13, 130*190 = 25*4*13*19, 140*180 = 25*16*9*7, ...\n- Gaussian integers: (4+5i)(35-36i) = 320 + 31i, written as 5*35 - 36*4 = 31 and 35*4 + 5*36 = 320.\n- Hence 103361 = 320^2 + 31^2 = (4^2+5^2)(35^2+36^2) = 41*2521, with long division 103361/41 = 2521.\n- Also 11*31*61 = 20801, 29*211 = 6119, 13*421 = 5473.\n- The purpose of (C) is unclear. It may be a search for smooth numbers/denominators or a primality/factor check.\n\nThe next page does the same with sqrt2: Pell numbers 1, 2, 5, 12, 29, 70, ... and 1, 3, 7, 17, 41, 99, ..., plus logarithms. This suggests high-precision numerical auxiliary work, possibly for prime-counting tables.",
+  "errors": [
+   "No arithmetic errors found in the checked lines; every sqrt5 decomposition checked equals the Pell convergent exactly.",
+   "The line 2 + 1/8 - 1/27 - 1/107 + 1/17 + 1/19 is evaluated (correctly) as 2.19007..., which is NOT sqrt5. It is a discarded or auxiliary combination; the correct signs and numerators appear elsewhere on the page.",
+   "In the phi(38,5) line the written terms (+5-2-1+1) do not literally match phi(5,3) = 1 term by term. The net contribution is consistent with the correct count phi(38,5) = 8. Probably a bookkeeping shorthand or a misreading."
+  ],
+  "results": [
+   {
+    "what": "Counting integers <= x free of the first few primes by inclusion-exclusion with floor functions (x = 41, 100, 500), recursion phi(x,a) = phi(x,a-1) - phi(x/p_a, a-1)",
+    "modern_name": "Legendre's sieve / Legendre-Meissel phi function",
+    "usually_credited_to": "Legendre (1808); Meissel (1870s) for the refined method",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Rational approximations of sqrt5 from Pell solutions (9+4sqrt5)^n, n = 2, 3, 4, 6, via the doubling x' = 2x^2 - 1, y' = 2xy (equivalently L_n/F_n)",
+    "modern_name": "Pell equation / continued-fraction convergents, Newton-type doubling",
+    "usually_credited_to": "Brouncker, Wallis, Euler, Lagrange (17th-18th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Partial-fraction decomposition of the convergents over prime-power factors of the denominator: 51841/23184 = 2 + 9/16 - 4/9 + 6/23 - 1/7; 16692641/7465176 = 1 + 1/17 - 6/19 + 80/107 + 10/27 + 3/8",
+    "modern_name": "Partial fractions of rationals (Chinese-remainder decomposition)",
+    "usually_credited_to": "classical (Euler/Gauss era)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "103361 = 320^2 + 31^2 = (4+5i)(35-36i) times its conjugate = 41*2521, plus factoring of products a(320-a)",
+    "modern_name": "Gaussian integer factorization / sums of two squares",
+    "usually_credited_to": "Fermat, Euler, Gauss",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Long-division decimal expansions of 1/107, 1/17, 1/19, 1/27 and of sqrt3 multiples",
+    "modern_name": "decimal arithmetic",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is purely computational scratch work: a Legendre sieve count, Pell/Lucas convergents of sqrt5 and their partial-fraction splitting, plus decimal checks. All of this is classical. It is only mildly interesting as evidence of Riemann's numerical work in the prime-number papers.",
+  "checkable": [
+   {
+    "sympy": "41-20-13+6-8+4+2-1 == 11",
+    "asserts": "Legendre count of n<=41 coprime to 30"
+   },
+   {
+    "sympy": "sum(1 for n in range(1,42) if gcd(n,30)==1) == 11",
+    "asserts": "direct check of the x=41 count"
+   },
+   {
+    "sympy": "100-50-33+16-20+10+6-3-14+7+4-2+2-1 == 22 and sum(1 for n in range(1,101) if gcd(n,210)==1) == 22",
+    "asserts": "Legendre count for x=100 with primes 2,3,5,7"
+   },
+   {
+    "sympy": "sum(1 for n in range(1,501) if gcd(n,9699690)==1) == 88",
+    "asserts": "correct value of phi(500,8) that the x=500 computation aims at"
+   },
+   {
+    "sympy": "expand((9+4*sqrt(5))**4) == 51841 + 23184*sqrt(5)",
+    "asserts": "51841/23184 is a Pell convergent"
+   },
+   {
+    "sympy": "51841**2 - 5*23184**2 == 1 and 47*1103 == 51841 and 9*16*7*23 == 23184",
+    "asserts": "Pell identity and factorizations"
+   },
+   {
+    "sympy": "Rational(2) + Rational(9,16) - Rational(4,9) + Rational(6,23) - Rational(1,7) == Rational(51841,23184)",
+    "asserts": "partial fractions of the 4th convergent"
+   },
+   {
+    "sympy": "Rational(322,144) - Rational(1,9*16*7*23) == Rational(51841,23184)",
+    "asserts": "doubling step from 161/72"
+   },
+   {
+    "sympy": "expand((9+4*sqrt(5))**6) == 16692641 + 7465176*sqrt(5)",
+    "asserts": "6th Pell solution"
+   },
+   {
+    "sympy": "27*107*5778 - 1 == 16692641 and 27*107*8*17*19 == 7465176",
+    "asserts": "numerator and denominator on the page"
+   },
+   {
+    "sympy": "Rational(5778,8*17*19) - Rational(1,27*107*8*17*19) == Rational(16692641,7465176)",
+    "asserts": "doubling step from 2889/1292"
+   },
+   {
+    "sympy": "1 + Rational(1,17) - Rational(6,19) + Rational(80,107) + Rational(10,27) + Rational(3,8) == Rational(16692641,7465176)",
+    "asserts": "final partial-fraction form of the 6th convergent"
+   },
+   {
+    "sympy": "2 + Rational(1,4) + Rational(1,17) - Rational(5,4*19) - Rational(1,4*107) - Rational(1,27*8) == Rational(16692641,7465176)",
+    "asserts": "intermediate decomposition"
+   },
+   {
+    "sympy": "7*23*103681 == 16692641 and 161*(4*161**2-3) == 16692641",
+    "asserts": "factorization of the numerator (7)16692641 = 2384663 = 23*103681)"
+   },
+   {
+    "sympy": "(4+5*I)*(35-36*I) == 320+31*I and 320**2+31**2 == 41*2521 == 103361",
+    "asserts": "Gaussian-integer factorization of 103361"
+   },
+   {
+    "sympy": "N(2+Rational(1,8)-Rational(1,27)-Rational(1,107)+Rational(1,17)+Rational(1,19),25)",
+    "asserts": "equals 2.19007227692957..., the decimal on the page (not sqrt5)"
+   },
+   {
+    "sympy": "N(Rational(1,107),40)",
+    "asserts": "0.009345794392523364485981308411214953271..."
+   },
+   {
+    "sympy": "290*30 == 29*3*25*4 and 294*26 == 7*7*3*13*4 and 292*28 == 73*16*7 and 268*52 == 67*16*13 and 130*190 == 25*4*13*19 and 140*180 == 25*16*9*7",
+    "asserts": "factorizations of the pairs a*(320-a)"
+   }
+  ],
+  "transcription_corrections": [
+   "The heading is probably 'Anzahl der durch die Primzahlen ... [nicht] theilbaren Zahlen' (counting numbers by divisibility), not 'Ausgabe der Durch- Spitzen- Zahlen'.",
+   "The '11' after the x=41 line is the result of the count.",
+   "The 500-line ends '...+3+1+6-3-2+1-1' (prime-11 block); some signs are hard to read.",
+   "'7.23. 103681' records 2384663 = 23*103681, i.e. 16692641 = 7*23*103681.",
+   "'119.82' is likely 238*82 halved (pairs summing to 320); '7.17.41.4' is its factorization.",
+   "'8.17.34561' should be read with '17.19.107' = 34561; the denominator is 7465176 = 216*34561.",
+   "The line 'sqrt5 = 1 + 1/17 - 6/19 + 80/107 + 10/27 + 3/8' is correct as transcribed and is exact for 16692641/7465176."
+  ]
+ }
+}

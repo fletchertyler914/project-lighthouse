@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c305",
+ "label": "302",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000306/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Heading: 'Berechnung des Doppelobjectivs wo die erste Linse convex-plan', i.e. calculation of a two-lens (achromatic) objective whose first lens is plano-convex. This belongs to Gauss's work on doublet objectives, published as 'Über achromatische Doppelobjective', Zeitschrift für Astronomie, 1817.\n\n(1) Formulas written at the top.\n(a) Paraxial refraction at a sphere of radius r: a_new = (n/(n-1)) / ( 1/((n-1) a_old) - 1/r ). The usual relation n/a' = (n-1)/r - 1/a gives a' = (n/(n-1)) / (1/r - 1/((n-1)a)). Gauss's form is this up to an overall sign convention for distances.\n(b) Exact (trigonometric) ray trace at a spherical surface. A ray meets the axis at distance a from the vertex at axial angle phi; the centre of curvature is at distance r.\n- Law of sines in the triangle (axis point, centre, point of incidence): sin A = (a-r) sin(phi)/r, where A is the angle of incidence.\n- Snell's law: sin B = sin A / n.\n- Exterior angle: phi' = phi + A - B.\n- New axis intercept from the vertex: r + r sin B / sin phi'. Subtracting the separation h to the next surface gives a' = r + r sin B/sin phi' - h.\n(c) Plane surface (r = infinity). The ray height a tan(phi) is preserved, so a' = a tan(phi)/tan(phi') - h, with sin phi' = sin phi / n. Here n is understood as the relative index for the passage being made.\n\n(2) Data: r = 51.5162 for the front convex face and r' = infinity for the back face. The thicknesses used (my inference from the numbers) are h = 2 (glass) and h = 0.5 (air gap to the second lens).\n- Three refractive indices are used via their logarithms: log n = 0.1773483, 0.1804591, 0.1835477, i.e. n ≈ 1.50433, 1.51515, 1.52597. These are presumably three colours in crown glass.\n- log r = 1.7119438.\n\n(3) Paraxial trace for an object at infinity.\n- Column 1: log(n/(n-1)) = 0.4746180, 0.4685153, 0.4625818.\n- Adding log r gives the image distance after the first surface, a = n r/(n-1) = 153.66035, 151.51620, 149.46021.\n- Subtracting the thickness 2 gives the distance from the plane back face: 151.66035, 149.51620, 147.46021.\n- Their logs are 2.1808721, 2.1746882, 2.1686748. Subtracting log n gives the paraxial refraction at the plane face, a' = a/n (since tan phi' ≈ n tan phi on exit): 100.81463, 98.68000, 96.63336.\n- Subtracting the air gap 0.5 gives 100.31463, 98.18000, 96.13336. These are the object distances (for each colour) at the first surface of the second lens.\n\n(4) Start of the exact trace for a parallel ray. The angle of incidence at the first surface is fixed as A = 12°, so the ray height is r sin 12°.\n- log sin 12° = 9.3178789 (−10).\n- Subtracting log n gives log sin B = 9.1405306, 9.1374198, 9.1343312.\n- log r = 1.7119438 is written below each, in preparation for computing r sin B. The computation breaks off there.",
+  "errors": [
+   "No arithmetic errors found: all logarithms, sums, differences and divisions check to about 7 decimals. Example: 151.66035/1.50433 = 100.8146 and 147.46021/1.52597 = 96.634.",
+   "The paraxial formula as written has the opposite overall sign from the modern convention (with a = infinity it gives -n r/(n-1)). Gauss nonetheless uses +n r/(n-1); this is a sign convention for distances, not a computational error.",
+   "For the plane exit face the stated relation sin phi' = sin phi / n must be read with n as the relative index (glass to air). The numbers actually use a' = a/n, consistent with sin phi' = n sin phi on exit."
+  ],
+  "results": [
+   {
+    "what": "Paraxial trace (vertex/Gaussian imaging formula) through a plano-convex lens of finite thickness for three refractive indices, giving the colour-dependent object distances for the second lens",
+    "modern_name": "paraxial ray trace / single-surface refraction formula; longitudinal chromatic aberration",
+    "usually_credited_to": "standard (Huygens, Cotes, Euler, Lagrange; Gauss's Dioptrische Untersuchungen 1841 systematized it)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Exact trigonometric meridional ray-tracing formulas: sin A=(a-r)sin(phi)/r, sin B=sin A/n, phi'=phi+A-B, a'=r+r sin B/sin phi' - h, plus the plane-surface case",
+    "modern_name": "trigonometric (finite) ray tracing for spherical aberration",
+    "usually_credited_to": "18th-century opticians (Clairaut, Euler, Klügel); routine in Gauss's 1817 doublet-objective paper and later Seidel",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine numerical lens design, consistent with Gauss's known 1817 work on achromatic doublet objectives. It is a worked variant with a plano-convex front lens, and the trace is unfinished.",
+  "checkable": [
+   {
+    "sympy": "abs(log(51.5162,10) - 1.7119438) < 1e-7",
+    "asserts": "log r value"
+   },
+   {
+    "sympy": "abs(log(sin(12*pi/180),10) + 10 - 9.3178789) < 1e-7",
+    "asserts": "log sin 12°"
+   },
+   {
+    "sympy": "[ (lambda n: abs(log(n/(n-1),10)-c) < 2e-6)(10**L) for L,c in [(0.1773483,0.4746180),(0.1804591,0.4685153),(0.1835477,0.4625818)] ]",
+    "asserts": "column 1 equals log(n/(n-1))"
+   },
+   {
+    "sympy": "[ abs(51.5162*(10**L)/(10**L-1) - a) < 1e-3 for L,a in [(0.1773483,153.66035),(0.1804591,151.51620),(0.1835477,149.46021)] ]",
+    "asserts": "first-surface image distance a = n r/(n-1)"
+   },
+   {
+    "sympy": "[ abs((a-2)/10**L - b) < 1e-3 for L,a,b in [(0.1773483,153.66035,100.81463),(0.1804591,151.51620,98.68000),(0.1835477,149.46021,96.63336)] ]",
+    "asserts": "after thickness 2, plane-face refraction gives a' = (a-2)/n"
+   },
+   {
+    "sympy": "[ abs(9.3178789 - L - s) < 1e-7 for L,s in [(0.1773483,9.1405306),(0.1804591,9.1374198),(0.1835477,9.1343312)] ]",
+    "asserts": "log sin B = log sin A - log n"
+   }
+  ],
+  "transcription_corrections": [
+   "'Fur' should be 'Für'.",
+   "The first formula is better rendered as a = (n/(n-1)) / ( (1/(n-1))/a - 1/r ), i.e. the inner fraction is 1/(n-1) divided by a; the transcription is essentially correct.",
+   "The log values in the third block row are aligned under the three columns as 9.1405306 / 9.1374198 / 9.1343312, each followed by 1.7119438 (log r)."
+  ]
+ }
+}

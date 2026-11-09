@@ -1,0 +1,73 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c093",
+ "label": "45v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000094/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1854, published 1867). The left column holds drafts of the programmatic opening of §2 and of the transition to the integral concept. The lower half and the right column hold a draft of the passage on improper integrals (published Art. 5).\n\n(A) Programme. Earlier work (Dirichlet and others) set out to prove that the Fourier series holds for the cases occurring in nature. It could therefore exclude, for convenience of proof, functions unimportant for that purpose. Riemann proposes the converse question: if a function is representable by a trigonometric series, what follows about its behaviour, i.e. how its value changes 'in the smallest parts'? Before that he must settle a point in the theory of definite integrals: what is meant by ∫_a^b f(x)dx, and which functions admit integration. The stated aim is to complete the study of representability so as to cover all functions representable by trigonometric series.\n\n(B) Improper integral at an isolated infinity. Let f be integrable on every [x,a] with 0<x<a, and let f become infinite at x=0. Take f positive and large near 0 [my normalisation].\n\nNecessary condition. Suppose x·f(x) > C > 0 for all small x. Then\n∫_x^a f(t)dt > C∫_x^a dt/t = C(log(1/x) − log(1/a)),\nwhich tends to infinity as x→0. So the integral extended to 0 diverges. If x·f(x) has no infinitely many maxima and minima near 0, it has a limit, and integrability forces x·f(x) → 0.\n\nSufficient condition. If x^α f(x) → 0 for some α<1, then |f(x)| ≤ x^{−α} near 0. Since ∫_0 x^{−α}dx converges, the integral converges.\n\nLogarithmic scale. Write L_1 = log(1/x) and L_k = log L_{k−1}. Then d/dx(−L_{n+1}) = 1/(x L_1⋯L_n).\n- Necessary: by the same argument, x L_1⋯L_n f(x) cannot stay above a positive constant. Absent infinitely many oscillations, it must → 0.\n- Sufficient: the integral converges when x L_1⋯L_{n−1} L_n^α f(x) → 0. The correct condition is α>1, by comparison with ∫ dx/(x L_1⋯L_{n−1} L_n^α), whose antiderivative is −L_n^{1−α}/(α−1).\n\n(C) Right column. This is a reformulated draft of the same paragraph, matching the published wording: consider f finite and integrable on every interval up to a positive bound, infinite at x=0, and ask that ∫_x f dx converge to a fixed limit as x→0. It also contains a draft sentence on the indeterminacy surrounding the concept of the definite integral and the extent of its validity. The next page continues with the remark that for oscillating f the order of infinity does not decide integrability, with the example d(x cos e^{1/x})/dx.",
+  "errors": [
+   "In the final sufficient condition, the exponent on the last logarithm must satisfy α>1. The image appears to read 'α<1' (copied from the power case), but with α<1 the comparison integral ∫dx/(x L_1⋯L_{n−1} L_n^α) diverges. The published text has α>1.",
+   "The necessary-condition argument tacitly assumes f has fixed (positive) sign near 0, or treats |f|. The step from 'cannot stay above C' to 'must tend to 0' uses the hypothesis of no infinitely many maxima/minima, as Riemann explicitly notes.",
+   "Minor: the condition x^α f → 0 with α<1 is sufficient but not necessary. Riemann's point, which is correct, is that the power scale and then the log scale leave gaps."
+  ],
+  "results": [
+   {
+    "what": "If x·f(x) stays above a positive constant near a singularity at 0, then ∫_0 f diverges. Hence for non-oscillating f integrability requires x f(x) → 0. If x^α f → 0 with α<1, the integral converges.",
+    "modern_name": "Comparison test for improper integrals (p-test)",
+    "usually_credited_to": "Cauchy (1823), Riemann Habilitationsschrift §5 (1854/1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Iterated logarithmic scale x log(1/x) loglog(1/x)⋯ for testing convergence of improper integrals at a singularity.",
+    "modern_name": "Logarithmic (Abel–Bertrand–de Morgan) convergence scale / Bertrand integrals",
+    "usually_credited_to": "Abel, de Morgan, Bertrand (1830s–1840s), du Bois-Reymond (scales of infinity); used by Riemann in the Habilitationsschrift",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Programmatic reversal: ask what representability by a trigonometric series implies about f, and first fix the definition and scope of the definite integral.",
+    "modern_name": "Riemann integral / Riemann's theory of trigonometric series",
+    "usually_credited_to": "Riemann (1854)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of passages that appear almost verbatim in Riemann's published Habilitationsschrift (§2 opening and Art. 5 on improper integrals). Only the drafting variants and the apparent α<1 slip are new.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(1/t,(t,x,a)) - (log(1/x)-log(1/a)))  # with x,a positive",
+    "asserts": "∫_x^a dt/t = log(1/x) − log(1/a), which diverges as x→0"
+   },
+   {
+    "sympy": "simplify(diff(-log(log(1/x)),x) - 1/(x*log(1/x)))",
+    "asserts": "The antiderivative of 1/(x log(1/x)) is −log log(1/x), so x log(1/x) f > C forces divergence"
+   },
+   {
+    "sympy": "integrate(x**Rational(-1,2),(x,0,1))",
+    "asserts": "∫_0^1 x^(-α) converges for α=1/2<1 (value 2)"
+   },
+   {
+    "sympy": "integrate(1/(x*log(1/x)**2),(x,0,exp(-1)))",
+    "asserts": "With α=2>1 on the last log the comparison integral converges (value 1), confirming the condition must be α>1"
+   },
+   {
+    "sympy": "limit(integrate(1/(x*sqrt(log(1/x))),(x,y,exp(-1))),y,0,'+')",
+    "asserts": "With α=1/2<1 the comparison integral diverges (oo), so 'α<1' in the log case is a slip"
+   },
+   {
+    "sympy": "simplify(diff(x*cos(exp(1/x)),x) - (cos(exp(1/x)) + exp(1/x)*sin(exp(1/x))/x))",
+    "asserts": "The next-page example: derivative of x cos(e^{1/x}) is integrable to 0 despite an infinity of unbounded order"
+   }
+  ],
+  "transcription_corrections": [
+   "'Wann eine Function durch eine trigonometrische Reihe darstellbar ist' should read 'Wenn eine Function …' (cf. next page: 'Wenn eine Function … darstellbar ist, was folgt daraus über ihren Gang').",
+   "The right column top should read roughly: 'es konnte daher der Beweis für eine ganz beliebig angenommene Function begonnen und später der Gang der Function behufs des Beweises willkürlichen Beschränkungen unterworfen werden, wenn sie nur jenen Zweck nicht beeinträchtigten' (matching the next page).",
+   "Right column: 'über den Begriff des bestimmten Integrals und den Umfang seiner Gültigkeit herrscht'.",
+   "Final condition: the last factor is (log^n(1/x))^α with exponent condition likely written α<1 but required α>1; verify against the image.",
+   "'Ebenso findet man' list: the factors read f(x)·x·log(1/x)·loglog(1/x)⋯log^{n−1}(1/x)·log^n(1/x), where log^k denotes the k-times iterated logarithm, not a power."
+  ]
+ }
+}

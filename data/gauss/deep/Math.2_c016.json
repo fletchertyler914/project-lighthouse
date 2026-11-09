@@ -1,0 +1,88 @@
+{
+ "bundle": "Math.2",
+ "page": "c016",
+ "label": "8r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376167:00000017/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds no derivations. It is a continuation of a table of quadratic residues for primes, carried over from folio 7v (443, 449, 457, 461, 463) and continued on 8v (491, 499, 503). For each prime p written in the margin (here 467, 479, 487), Gauss lists in increasing order every n with 1 <= n <= p-1 that is a square mod p, i.e. Legendre symbol (n/p) = +1.\n\nThe sign convention across folios 7v-8v is as follows (my reading, consistent with every entry I tested):\n- For p ≡ 1 (mod 4), marked '∓' (449, 457, 461), -1 is a residue. The residue set is symmetric under n -> p-n, so only n <= (p-1)/2 is listed. For example, the 449 list stops at 224.\n- For p ≡ 3 (mod 4), marked '+' (443, 463, and here 467, 479, 487), -1 is a non-residue. The set is not symmetric, so the full range up to p-1 is given, (p-1)/2 entries in all.\n\nFor 467 the list should have 233 entries, for 479 it should have 239, and for 487 it should have 243.\n\nEach list starts as expected from quadratic reciprocity:\n- 467 ≡ 3 (mod 8), so 2 is a non-residue. Also (3/467) = (7/467) = +1 and (5/467) = -1, giving 1, 3, 4, 7, 9, 10, 12, 13, 16, ...\n- 479 ≡ 7 (mod 8), so 2, 3, 5 and 7 are residues and (13/479) = -1, giving 1, 2, ..., 12, 14, ...\n- 487 ≡ 7 (mod 8), so 2 is a residue and 3, 5, 7 are non-residues, giving 1, 2, 4, 8, 9, 15, 16, ...\n\nFor p ≡ 3 (mod 4) the tail mirrors the head with the character flipped. For 467 the list ends 461, 462, 465 (= -6, -5, -2) and omits 464 (= -3) and 466 (= -1).\n\nThe corrections visible on the page are consistent with genuine error-checking:\n- In the 479 row, an entry after 233 at a line end is struck out. 234-239 are all non-residues mod 479, so the deletion is correct.\n- Also in the 479 row, a blot between 362 and 363 is struck out.\n- In the 487 row, a stretch between 303 and 311 and another between 315 and 322 are struck out. The numbers 297, 304, 307, 308 and 312 are written above the line as insertions. I checked: 297, 304, 307, 308, 311 and 312 are residues mod 487, while 305, 306, 309, 310 and 316-321 are non-residues. So the corrected row is right.\n\nThe page serves as a reference table: residue characters needed for class-number, cyclotomic or reciprocity computations, or for testing conjectures about the distribution of residues. Such tables were how Gauss's Disquisitiones-era empirical work was done.",
+  "errors": [
+   "No arithmetic errors found in the many spot-checked entries. Among those checked were all of 220-224, 305-317, 389-394 and 461-466 mod 467; 51-55, 85-90, 185-192 and 234-239 mod 479; and 295-322, 452-453 mod 487.",
+   "The struck-out items (after 233 in the 479 row; between 303-311 and 315-322 in the 487 row) were Gauss's own erroneous entries. His deletions and the superscript insertions (297, 304, 307, 308, 312 for p=487) are correct.",
+   "I did not perform a full count of entries against (p-1)/2. Such a count, and a full set comparison, should be done by computer."
+  ],
+  "results": [
+   {
+    "what": "Complete lists of quadratic residues mod p for p = 467, 479, 487 (all p ≡ 3 mod 4, full range 1..p-1).",
+    "modern_name": "Table of quadratic residues / Legendre symbol values",
+    "usually_credited_to": "Tables of quadratic residues go back to Euler and Legendre. Gauss discusses and uses such tables in Disquisitiones Arithmeticae (1801), Sect. IV.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Convention of listing only n <= (p-1)/2 for p ≡ 1 (mod 4) ('∓') but the full range for p ≡ 3 (mod 4) ('+'), exploiting the value of (-1/p).",
+    "modern_name": "First supplement to quadratic reciprocity: (-1/p) = (-1)^((p-1)/2)",
+    "usually_credited_to": "Euler/Fermat; proved by Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine computational table of quadratic residues. Gauss is well known to have computed extensive residue tables. Nothing here goes beyond standard material he published or is known to have used.",
+  "checkable": [
+   {
+    "sympy": "[n for n in range(1,467) if legendre_symbol(n,467)==1][:12] == [1,3,4,7,9,10,12,13,16,17,21,22]",
+    "asserts": "The 467 list begins correctly."
+   },
+   {
+    "sympy": "[n for n in range(1,467) if legendre_symbol(n,467)==1][-6:] == [452,453,456,459,461,462,465][-6:]",
+    "asserts": "The 467 list ends ...453.456.459.461.462.465."
+   },
+   {
+    "sympy": "all(legendre_symbol(n,467)==1 for n in [220,221,222,223,389,390,391,394,395]) and legendre_symbol(224,467)==-1 and legendre_symbol(393,467)==-1",
+    "asserts": "The doubtful entries 220-223 and 391 in the 467 row are genuine residues."
+   },
+   {
+    "sympy": "all(legendre_symbol(n,467)==-1 for n in range(306,317))",
+    "asserts": "The gap 305 -> 317 in the 467 row is correct (eleven consecutive non-residues)."
+   },
+   {
+    "sympy": "[n for n in range(1,479) if legendre_symbol(n,479)==1][:20] == [1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,18,20,21,22,23]",
+    "asserts": "The 479 list begins correctly."
+   },
+   {
+    "sympy": "legendre_symbol(54,479)==1 and legendre_symbol(55,479)==1 and legendre_symbol(51,479)==-1 and legendre_symbol(52,479)==-1 and legendre_symbol(53,479)==-1",
+    "asserts": "Both 54 and 55 belong in the 479 list."
+   },
+   {
+    "sympy": "all(legendre_symbol(n,479)==-1 for n in range(234,240))",
+    "asserts": "The struck entry after 233 in the 479 row was rightly deleted."
+   },
+   {
+    "sympy": "[n for n in range(1,487) if legendre_symbol(n,487)==1][:12] == [1,2,4,8,9,15,16,18,19,21,25,29]",
+    "asserts": "The 487 list begins correctly."
+   },
+   {
+    "sympy": "[n for n in range(295,323) if legendre_symbol(n,487)==1] == [295,297,299,301,303,304,307,308,311,312,313,314,315,322]",
+    "asserts": "The corrected segment of the 487 row (with insertions 297, 304, 307, 308, 312) is exactly right."
+   },
+   {
+    "sympy": "legendre_symbol(453,487)==1 and legendre_symbol(452,487)==-1",
+    "asserts": "The touched-up entry 453 in the 487 row is correct."
+   },
+   {
+    "sympy": "len([n for n in range(1,p) if legendre_symbol(n,p)==1]) == (p-1)//2 for p in [467,479,487]",
+    "asserts": "Each list should contain 233, 239 and 243 entries respectively."
+   }
+  ],
+  "transcription_corrections": [
+   "Header: 'Math 2' (archival), folio number '8' circled, and an older number struck out.",
+   "467 row: the entries read as '220.221[?].222[?].223[?]' are 220.221.222.223, all residues mod 467. The [?] marks can be removed.",
+   "467 row: '391[?]' is 391, a genuine residue. The heavy strokes are overwriting, not deletions.",
+   "479 row: '54[?].55[?]' should be 54.55. Both are residues mod 479, so neither should be read as deleted.",
+   "479 row: the struck-out item at the end of the line after 233 contains no valid residue; the next residue is 240.",
+   "487 row: the superscript insertions belong in sequence as ...295.297.299.301.303.304.307.308.311.312.313.314.315.322..., with the struck stretches deleted.",
+   "487 row: '453[?]' is 453; the small '3' below is a clarification of the digit."
+  ]
+ }
+}

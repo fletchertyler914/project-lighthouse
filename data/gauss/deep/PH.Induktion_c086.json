@@ -1,0 +1,52 @@
+{
+ "bundle": "PH.Induktion",
+ "page": "c086",
+ "label": "44r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382427:00000087/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a purely numerical four-column table of common (Briggs) logarithms, written in the old astronomical convention where a characteristic of 9 means −1 (so 9.77209 stands for log10 of 0.5918). The argument x runs from 0.35 to 0.69 in steps of 0.01. The previous folio (44r's predecessor in the transcription order) supplies the same table for x = 0.00 to 0.35. It overlaps this page at the row x = 0.35 (9.77209, 9.97188, 0.12209, 0.32188), which is identical on both pages, so the two pages form one continuous table.\n\nStructure (mine, verified on every row):\n- Write the columns as A(x), B(x), C(x), D(x).\n- Then C = A + x and D = B + x, taken modulo 10 for the 9-characteristic convention.\n- Example: 9.41764 + 0.57 = 9.98764. Example: 9.83451 + 0.65 = 10.48451, written 0.48451.\n- So if a = 10^A, b = 10^B and t = 10^x, then columns C and D are log(a·t) and log(b·t). The argument x therefore plays the role of a logarithm, for example log of a ratio, and the third and fourth columns are the first two multiplied by 10^x.\n\nBehaviour of the tabulated functions (from the numbers):\n- a(x) falls from 1.1068 at x = 0, through 0.592 at x = 0.35, to 0.0518 at x = 0.69. It is heading to a zero near x ≈ 0.70–0.71, which is why the last log-differences blow up (…6093, 7632, 10453, 17600).\n- a·t has a maximum of about 1.3335 near x = 0.30, i.e. t ≈ 2.\n- b(x) falls smoothly from 1.4646 at x = 0 to 0.669 at x = 0.69.\n- The log-slope dB/dx is about −0.50 at x = 0, reaches about −0.578 near x = 0.28, and then decreases in magnitude to −0.196 at x = 0.69. So b seems to level off.\n\nPurpose: the page carries the bundle label 'Phys. 4' (bundle PH.Induktion). The previous folio holds the normal equations of a least-squares fit for magnet deflections, of the form A/r^3 + B/r^5 = p and 2A/R^3 − C/R^5 = P, with sums like 2/r^6 + 4/R^6. The next folio is headed 'Die Nadeln / Zwei Apparate zugleich hinüberzuführen'. This suggests an auxiliary table for the magnetic/induction work of the 1830s (Gauss–Weber).\n\nI could not identify the closed-form functions A and B from the numbers alone. Simple trial forms in t or x did not fit, e.g. powers of t, a quadratic in t for a·t, and damping-factor formulas such as exp(−(λ/π)·arctan(π/λ)). So the precise physical meaning remains unidentified.",
+  "errors": [
+   "No arithmetic inconsistencies on this page: C = A + x and D = B + x hold exactly on all 35 rows.",
+   "Column A is smooth: its first differences run 1134, 1162, 1192, 1224, 1256, …, 17600. The second differences increase monotonically (28, 30, 32, 32, 35, 37, …, 7147), consistent with a zero of a(x) just beyond x = 0.69. The repeated 32 at x = 0.37–0.39 is within rounding; Gauss overwrote digits at x = 0.39 here.",
+   "Column B is smooth: its first differences run 568, 565, 562, …, 196, with second differences of about 3 to 20.",
+   "Context (next folio, not this page): the row x = 0.01 reads A = 0.03803, C = 0.04803. Differencing the neighbouring rows, where the A-differences run 535, 550, 565, … growing by about 15, implies A(0.01) ≈ 0.03902. So either the transcription or Gauss's entry has 8 for 9 in the third decimal. C is consistent with the stated A, so if it is Gauss's own slip it was carried into column C."
+  ],
+  "results": [
+   {
+    "what": "Table of log a(x), log b(x), log(a·10^x), log(b·10^x) for x = 0.35 to 0.69 (continuing a table from x = 0). It is evidently an auxiliary table for the magnetic/induction computations.",
+    "modern_name": "Auxiliary logarithmic function table (numerical tabulation)",
+    "usually_credited_to": "n/a (routine computation)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "A routine computational table of logarithms of two smooth auxiliary functions, presumably for Gauss–Weber magnetism/induction work. There is no new mathematical result; its only interest is as a working document, and the underlying functions are not identified here.",
+  "checkable": [
+   {
+    "sympy": "all(abs(((A + x) % 10) - C) < 1e-9 for x, A, C in [(0.35, 9.77209, 0.12209), (0.43, 9.67255, 0.10255), (0.57, 9.41764, 9.98764), (0.65, 9.13210, 9.78210), (0.69, 8.71432, 9.40432)])",
+    "asserts": "Column 3 equals column 1 plus the argument x, modulo 10 (sampled rows)."
+   },
+   {
+    "sympy": "all(abs(((B + x) % 10) - D) < 1e-9 for x, B, D in [(0.35, 9.97188, 0.32188), (0.48, 9.90165, 0.38165), (0.56, 9.86516, 0.42516), (0.65, 9.83451, 0.48451), (0.69, 9.82549, 0.51549)])",
+    "asserts": "Column 4 equals column 2 plus the argument x, modulo 10 (sampled rows)."
+   },
+   {
+    "sympy": "[ (Rational(a1) - Rational(a2)) for a1, a2 in zip([77209,76075,74913,73721,72497,71241,69950,68622,67255,65847], [76075,74913,73721,72497,71241,69950,68622,67255,65847,64395]) ]",
+    "asserts": "First differences of column A (×1e-5) are 1134, 1162, 1192, 1224, 1256, 1291, 1328, 1367, 1408, 1452: smooth and slowly increasing."
+   },
+   {
+    "sympy": "10**Rational(441,10000)",
+    "asserts": "a(0) = 10^0.04410 ≈ 1.1068 (from the previous folio's first row), for reference."
+   }
+  ],
+  "transcription_corrections": [
+   "Row 0.65, column 2: '983451' should read '9.83451'; the decimal point is faint in the image.",
+   "Header: '506' is struck through and replaced by '44'; the folio number 44 is also circled at right.",
+   "Row 0.43: the readings 9.67255 and 0.10255 are confirmed. The digit '2' is overwritten in bold, and the last column 0.35752 also has overwritten digits.",
+   "Rows 0.39, 0.54, 0.55, 0.56, 0.57, 0.59, 0.61, 0.62, 0.65, 0.66, 0.67, 0.68 contain bold overwritten digits (corrections by the author). The transcribed values (e.g. 9.72497, 9.94936, 9.87359, 9.86931, 9.41764, 9.30227, 9.13210) are consistent with the column relations.",
+   "Row 0.69, column 4: written 0.51549 with a corrected '1'; this is consistent with 9.82549 + 0.69."
+  ]
+ }
+}

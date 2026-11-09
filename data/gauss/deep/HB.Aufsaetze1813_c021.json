@@ -1,0 +1,80 @@
+{
+ "bundle": "HB.Aufsaetze1813",
+ "page": "c021",
+ "label": "[14]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354043:00000022/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to the manuscript on Gaussian quadrature behind Gauss's 'Methodus nova integralium valores per approximationem inveniendi' (presented 1814, published 1816). The previous page builds the node polynomial T (Legendre-type) and expresses the weights through U.\n\n(1) Six-point rule. The nodes are the roots of 0 = t^6 - (15/11)t^4 + (5/11)t^2 - 5/231. This is the monic Legendre polynomial P_6, since 16 P_6(t) = 231t^6 - 315t^4 + 105t^2 - 5. Its roots are ±a, ±b, ±c. Gauss tabulates:\n- the squares aa = 0.05693911596, bb = 0.43719735273, cc = 0.86949939497;\n- their Briggsian logarithms in the -10 convention (8.75541072, 9.64067302, 9.93926928);\n- the roots a = 0.2386192, b = 0.6612094, c = 0.9324696;\n- the fourth powers a^4 = 0.00324206293, b^4 = 0.19114196244, c^4 = 0.75602919777 (input for the polynomial weight formula of the previous page);\n- the Christoffel weights on [-1,1], A_i = 2/((1 - t_i^2) P_6'(t_i)^2): 0.467913934572, 0.360761573048, 0.171324492379.\nThese weights sum to 1 per symmetric pair, so 2 in total.\n\n(2) Worked example (Beispiel einer Anwendung): I = ∫ dx/log x from 100000 to 200000, i.e. li(2·10^5) - li(10^5).\n- Substitution (mine, implicit on the page): x = 100000(1+u) with u in [0,1], so I = 100000 ∫_0^1 du/ln x.\n- Nodes on [0,1]: u_i = (1+t_i)/2.\n- Columns of each table: column 1 is log10 x_i; column 2 is log10(log10 x_i), a logarithm used for the division; column 3 is the term 100000 · (A_i/2) / (ln10 · log10 x_i).\n- Example: the 7-point middle node is x = 150000, log10 = 5.1760912591, with weight 0.2089796. This gives 20897.96/(2.302585·5.17609) = 1753.4212 ✓.\n\nSums of the terms:\n| Points | Sum |\n|---|---|\n| 7 | 8406.2431211 |\n| 6 | 8406.2431207 |\n| 5 | 8406.2431172 |\n| 4 | 8406.2429694 |\n| 3 | 8406.2367758 |\n| 2 | 8405.9545986 |\n| 1 (midpoint) | 8390.3946079 |\n\n(3) 'Fehler': the errors of the n-point results, taking the 7-point value as exact:\n- I = 15.8485132\n- II = 0.2885225\n- III = 0.0063453\n- IV = 0.0001517\n- V = 0.0000039\n- VI = 0.0000001\nThe error falls by a factor of about 40–55 per added node, showing the rapid convergence of the method.",
+  "errors": [
+   "4-point table: the second-column values (log log x) for rows 2–4 are written in the wrong order. 0.7178962447 belongs to 5.2227140063, 0.7231012892 to 5.2856851384, and 0.7095968088 to 5.1238547360. Gauss's bracket/arrow on the page marks this reordering; the third-column terms are computed correctly.",
+   "5-point: the first term was first written as 972.4277629 (wrongly, by analogy with the symmetric last term) and corrected to 1024.8794451; the corrected value is right.",
+   "6-point: the six terms as transcribed (last term 702.7805709) add to 8406.2431215, not the stated 8406.2431207. The last digits of 702.78057.. are overwritten in the manuscript; 702.7805701 would give the stated sum.",
+   "Error VI: taking the 7-point value 8406.2431211 as reference, as for errors I–V, the 6-point error is 0.0000004, not 0.0000001. Gauss may have used a slightly different reference value or a different 6-point sum; this is a minor last-digit inconsistency.",
+   "Second column of 6-point row 1: 0.70022087[38] was corrected to ...33 (superscript 3); log10(5.0144219263) = 0.7002208733..., so the correction is right."
+  ],
+  "results": [
+   {
+    "what": "Nodes of the 6-point rule as roots of the monic Legendre polynomial t^6 - 15/11 t^4 + 5/11 t^2 - 5/231, with roots, squares, fourth powers and weights to 10–11 places",
+    "modern_name": "6-point Gauss–Legendre quadrature nodes and weights",
+    "usually_credited_to": "C. F. Gauss, Methodus nova integralium valores per approximationem inveniendi (1814/1816); tables published there",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Numerical comparison of 1- to 7-point Gaussian quadrature on ∫dx/log x from 10^5 to 2·10^5 (≈8406.24312), with error table",
+    "modern_name": "Gauss–Legendre quadrature applied to the logarithmic integral li(x) difference",
+    "usually_credited_to": "Gauss 1814; this same example is the worked example in the published Methodus nova",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft computation for the published 1814 paper on Gaussian quadrature, including its own worked example ∫dx/log x from 100000 to 200000. The material is fully known as Gauss's; only minor arithmetic corrections are visible.",
+  "checkable": [
+   {
+    "sympy": "expand(16*legendre(6,t)/231 - (t**6 - Rational(15,11)*t**4 + Rational(5,11)*t**2 - Rational(5,231)))",
+    "asserts": "The equation is the monic Legendre polynomial P_6 (difference is 0)."
+   },
+   {
+    "sympy": "[N(r,12) for r in nroots(t**6 - Rational(15,11)*t**4 + Rational(5,11)*t**2 - Rational(5,231), n=15)]",
+    "asserts": "Roots are ±0.238619186, ±0.661209386, ±0.932469514."
+   },
+   {
+    "sympy": "[N(2/((1-r**2)*diff(legendre(6,t),t).subs(t,r)**2),12) for r in [0.2386191860831969, 0.6612093864662645, 0.9324695142031521]]",
+    "asserts": "Weights are 0.4679139346, 0.3607615730, 0.1713244924."
+   },
+   {
+    "sympy": "N(0.2386191860831969**2,12), N(0.2386191860831969**4,12)",
+    "asserts": "aa = 0.0569391160, a^4 = 0.0032420629."
+   },
+   {
+    "sympy": "N(log(0.2386191860831969**2,10)+10, 11)",
+    "asserts": "log aa = 8.7554107200 (in -10 convention)."
+   },
+   {
+    "sympy": "N(li(200000)-li(100000), 15)",
+    "asserts": "Exact value ≈ 8406.24312 against which Gauss's quadrature sums are compared."
+   },
+   {
+    "sympy": "N(100000*Rational(4,9)/2/log(150000), 12)",
+    "asserts": "Middle term of the 3-point rule = 3729.0642702."
+   },
+   {
+    "sympy": "N(100000*(1/log(100000*(1+(1-1/sqrt(3))/2)) + 1/log(100000*(1+(1+1/sqrt(3))/2)))/2, 12)",
+    "asserts": "2-point Gauss value = 8405.9545986."
+   },
+   {
+    "sympy": "N(100000/log(150000), 12)",
+    "asserts": "1-point (midpoint) value = 8390.3946079."
+   }
+  ],
+  "transcription_corrections": [
+   "4-point table: the second column is listed in a permuted order in the manuscript (bracket and arrow in the image). The correct pairing is 5.1238547360 ↔ 0.7095968088, 5.2227140063 ↔ 0.7178962447, 5.2856851384 ↔ 0.7231012892.",
+   "6-point row 1, second column: the image shows 0.70022087(38) with a superscript '3' correcting the 8; the correct value is 0.7002208733.",
+   "6-point last term: the digits after 702.78057 are overwritten; from the stated sum 8406.2431207 the intended value is probably 702.7805701.",
+   "Equation sign: the constant term is −5/231 (the image shows an overwritten bar), consistent with P_6.",
+   "3-point row 1, second column: 0.7029798418 (the '02' is overwritten in the image), consistent with log10(5.0463787380)."
+  ]
+ }
+}

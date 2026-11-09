@@ -1,0 +1,86 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c146",
+ "label": "74r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000147/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This folio sits in the 'Primzahlen' bundle but has nothing to do with primes. It holds routine numerical bookkeeping: tallies of counts in age classes, and, written upside down, a small table of common logarithms. The next page also contains year-by-year counts (1838–1858), so this appears to be statistical scratch work.\n\n(A) Left table: age classes and counts.\n- Classes: 21–25, –30, 35, 40, …, 85, i.e. five-year groups labelled by their upper limit.\n- Counts n_k: 3, 8, 13, 18, 24, 27, 27, 23, 15, 6, 9, 2, 2.\n- Total written: 177. Check: 3+8+13+18+24+27+27+23+15+6+9+2+2 = 177. Correct.\n- Interpretation (mine): a frequency distribution of 177 individuals by age, e.g. deaths or members of some group. The object being counted is not stated.\n\n(B) Middle columns.\n- Column B (a heading '2020' is struck through): 2, 14, 60, 105, 117, 149, 181, 168, 180, 112, 92, 61, 18, 7, then a final entry written '53^1' or similar. The total 1267 forces this final entry to be 1: 2+14+…+7 = 1266, plus 1 gives 1267.\n- Column C: 2, 17, 68, 118, 135, 173, 208, 195, 203, 127, 98, 70, 20, 9, 1.\n- Key observation (mine, verified): C_k = B_k + n_{k-1}, with n_0 = 0 and n_14 = 0.\n  - The row differences C−B are 0, 3, 8, 13, 18, 24, 27, 27, 23, 15, 6, 9, 2, 2, 0.\n  - These are exactly column A shifted down one row.\n  - So column C is column B with the 177 cases of table A added class by class.\n- Totals:\n  - Under 1267 Riemann writes 177 and the digits '44'. This is the addition 1267 + 177 = 1444.\n  - Column C does indeed sum to 1444 (with 118, not 178, in row 4).\n  - The total at the foot of column C should therefore read 1444. The transcription has 1544, which is either a misreading or a slip of the pen.\n\n(C) Upside-down table, lower right: three columns of 7-figure-style logarithms (characteristic written as 9,… or 8,… for −1, −2), 15 rows.\n- Column 2 = column 1 − 0.49352 throughout (mod 10). Example: 10.20952 − 9.71600 = 0.49352; 8.79891 − 8.30539 = 0.49352.\n- Column 3 = column 2 − 1.01703 throughout. Example: 9.71600 − 8.69897 = 1.01703.\n- So each row is a quantity x divided successively by fixed factors:\n  - 10^0.49352 ≈ 3.1153;\n  - 10^1.01703 ≈ 10.400;\n  - combined factor 10^1.51055 ≈ 32.40.\n- The first and last rows are identical (0,20952 | 9,71600 | 8,69897). This suggests a cyclic or periodic sequence of 14 values with the first repeated to close the cycle.\n- The antilogarithms of column 1 are approximately 1.620, 0.0629, 0.2530, 0.6083, 0.7224, 1.732, 1.904, 2.449, 2.453, 2.016, 1.681, 1.483, 0.7153, 0.5315, 1.620.\n- What these quantities are cannot be determined from the page. They have no evident relation to primes, Li(x) or ζ.\n\nOverall, the page is arithmetic bookkeeping: summing a frequency distribution, merging two distributions, and scaling a table of logarithms by constant factors.",
+  "errors": [
+   "The total at the foot of column C should be 1444 (=1267+177, and also the column sum). The reading '1544' is either a transcription error or a slip by the writer.",
+   "Row 4 of column C must be 118 (=105+13). The alternative reading 178 would break both the row relation and the total.",
+   "The final entry of column B, read as '53^1', must effectively be 1 for the total 1267 to be correct. The '53' is probably a stray mark or misreading.",
+   "In the log table, the rows checked all have exactly constant column differences (0.49352 and 1.01703). No arithmetic error was found."
+  ],
+  "results": [
+   {
+    "what": "Sum of a frequency distribution over 5-year age classes (total 177)",
+    "modern_name": "frequency table / grouped data total",
+    "usually_credited_to": "routine statistical practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Merging two grouped distributions class by class (C = B + A shifted), totals 1267 + 177 = 1444",
+    "modern_name": "addition of frequency distributions",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Table of common logarithms with constant differences 0.49352 and 1.01703, i.e. division of a (possibly periodic) sequence by factors ≈3.1153 and ≈10.400",
+    "modern_name": "scaling via logarithm tables",
+    "usually_credited_to": "routine computational practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is pure numerical bookkeeping: age-class tallies, merging of two distributions, and log-table scaling. It is unrelated to prime number theory. It is only of archival interest as statistical scratch work misfiled in the 'Primzahlen' bundle.",
+  "checkable": [
+   {
+    "sympy": "sum([3,8,13,18,24,27,27,23,15,6,9,2,2]) == 177",
+    "asserts": "Total of the age-class counts is 177"
+   },
+   {
+    "sympy": "sum([2,14,60,105,117,149,181,168,180,112,92,61,18,7,1]) == 1267",
+    "asserts": "Column B sums to 1267 (last entry 1)"
+   },
+   {
+    "sympy": "sum([2,17,68,118,135,173,208,195,203,127,98,70,20,9,1]) == 1444",
+    "asserts": "Column C sums to 1444, not 1544"
+   },
+   {
+    "sympy": "[c-b for b,c in zip([2,14,60,105,117,149,181,168,180,112,92,61,18,7,1],[2,17,68,118,135,173,208,195,203,127,98,70,20,9,1])] == [0,3,8,13,18,24,27,27,23,15,6,9,2,2,0]",
+    "asserts": "Column C = column B + age counts shifted by one row"
+   },
+   {
+    "sympy": "1267 + 177 == 1444",
+    "asserts": "Addition written under column B"
+   },
+   {
+    "sympy": "Rational('10.20952') - Rational('9.71600') == Rational('0.49352') and Rational('8.79891') - Rational('8.30539') == Rational('0.49352')",
+    "asserts": "Constant difference between log columns 1 and 2"
+   },
+   {
+    "sympy": "Rational('9.71600') - Rational('8.69897') == Rational('1.01703') and Rational('8.30539') - Rational('7.28836') == Rational('1.01703')",
+    "asserts": "Constant difference between log columns 2 and 3"
+   },
+   {
+    "sympy": "N(10**Rational('1.01703'), 6)",
+    "asserts": "Second scaling factor is ≈10.400"
+   },
+   {
+    "sympy": "N(10**Rational('0.49352'), 6)",
+    "asserts": "First scaling factor is ≈3.1153"
+   }
+  ],
+  "transcription_corrections": [
+   "Column C row 4: read 118 (not 178); required by 105+13 and by the total.",
+   "Column C total: should be 1444 (transcribed '1544').",
+   "The entries '53^1' / '57^1' at the bottom of columns B and C are effectively 1 and 1. The preceding digits are stray marks or misreadings, since the totals require 1.",
+   "Under 1267, the '177' and '44' are the addition 1267 + 177 = 1444, not a separate quantity.",
+   "The struck heading '2020' above column B is a cancelled false start."
+  ]
+ }
+}

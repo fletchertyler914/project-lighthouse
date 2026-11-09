@@ -1,0 +1,58 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c204",
+ "label": "89",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000205/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 89 is not a Gauss manuscript. It is a printed page from an elementary German algebra textbook in Fraktur type, with signature 'F 5' and the catchword 'Also' at the foot. Gauss's own handwriting appears only in the cut-off left margin (and, as noted below, possibly as the date '21/12 07').\n\nPRINTED TEXT: method II for eliminating unknowns from linear systems.\nThe method: take the coefficients of the unknown to be eliminated from two equations, cross-multiply, and subtract.\n\nThe system is\n(1) a x + d y + g z = l\n(2) b x + e y + h z = m\n(3) c x + f y + k z = n\n\nStep 1. Multiply (1) by b and (2) by a, then subtract. This gives\n(ae - bd) y + (ah - bg) z = am - bl.\n\nStep 2. Multiply (1) by c and (3) by a, then subtract. This gives\n(af - cd) y + (ak - cg) z = an - cl.\n\nStep 3. The author introduces abbreviations:\n- alpha = ae - bd\n- beta = ah - bg\n- gamma = am - bl\n- delta = af - cd\n- epsilon = ak - cg\n- zeta = an - cl\n\nThis gives the reduced 2x2 system\n(I) alpha y + beta z = gamma\n(II) delta y + epsilon z = zeta.\n\nStep 4 (solve for z). Multiply (I) by delta and (II) by alpha, then subtract. This gives\n(alpha epsilon - beta delta) z = alpha zeta - gamma delta,\nso z = (alpha zeta - gamma delta)/(alpha epsilon - beta delta).\nWritten out, z = [(ae-bd)(an-cl) - (am-bl)(af-cd)] / [(ae-bd)(ak-cg) - (ah-bg)(af-cd)].\n\nStep 5 (solve for y). Multiply (I) by epsilon and (II) by beta, then subtract. This gives\n(alpha epsilon - beta delta) y = epsilon gamma - beta zeta.\nThe next page completes this as y = (epsilon gamma - beta zeta)/(alpha epsilon - beta delta), and back-substitutes x = (l - d y - g z)/a.\n\nMy addition (not stated in the text): alpha epsilon - beta delta = a * det[[a,d,g],[b,e,h],[c,f,k]], and the numerators are likewise a times the Cramer numerators. The common factor a cancels, so the result is Cramer's rule obtained by successive (Bezout/Gaussian-type) elimination.\n\nMARGINAL NOTES (Gauss's hand, fragmentary, cut off). They continue the previous page's work on the cosine (probably the lemniscatic cosine) of a complex argument t + u sqrt(-1). Legible fragments include:\n- products of the form 'cos u ... sin u sqrt(-1)' and 'sin u cos t sin t sqrt(-1)';\n- the roots '±m ± n sqrt(-1)';\n- quadratic factors 'xx - (mm+nn) ...' and '2(mm-nn)xx + ...'.\n\nThese belong to the factorisation\n(x^2 - (m+in)^2)(x^2 - (m-in)^2) = x^4 - 2(m^2-n^2)x^2 + (m^2+n^2)^2,\nwhich the previous page uses to build an infinite product for cos over lattice points m (odd) + n i (n even).\n\nThe date '21 / 12 / 07' (21 Dec 1807) also appears on the previous page. On this page it seems to be in the same handwriting as the marginalia; that is my inference. The margin carries no complete new derivation.",
+  "errors": [
+   "Printed typo: the second product in Step 4 reads 'alpha delta y + alpha epsilon zeta = alpha zeta'. It should read 'alpha delta y + alpha epsilon z = alpha zeta' (zeta printed instead of z).",
+   "Minor wording inconsistency: the text says 'subtract the second from the first' but writes the result as (alpha epsilon - beta delta) z = alpha zeta - gamma delta, which is second minus first. Both signs are equivalent, so the result is correct.",
+   "Not an error, but worth noting: the text does not remark that the factor a is common to numerator and denominator. The method also silently requires a != 0, which the following page acknowledges only vaguely ('Stellung der Größen ... leicht anders gemacht werden').",
+   "On the following page the printed 'alpha K' should be 'ak' (typo)."
+  ],
+  "results": [
+   {
+    "what": "Elimination of unknowns from a 3x3 linear system by pairwise cross-multiplication and subtraction, giving closed-form expressions for z and y (Cramer's rule up to a common factor a)",
+    "modern_name": "Successive elimination / Cramer's rule (determinant solution of linear systems)",
+    "usually_credited_to": "Cramer (1750), Maclaurin (1748), Bezout; elimination in general is ancient (Chinese Nine Chapters)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Marginal fragment: pairing the roots ±m ± n i into real quartic factors, x^4 - 2(m^2-n^2)x^2 + (m^2+n^2)^2, for a product expansion of a cosine-type (lemniscatic) function of complex argument",
+    "modern_name": "Weierstrass-type product over a Gaussian-integer lattice for lemniscatic functions",
+    "usually_credited_to": "Gauss (lemniscatic function work, c. 1797-1800, Nachlass); Abel and Eisenstein in print",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is a printed elementary textbook explanation of linear elimination, which is entirely routine. Gauss's marginal fragments are illegible remnants of his already well-documented lemniscatic-function product computations from the previous page.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d,e,f,g,h,k=symbols('a b c d e f g h k'); simplify((a*e-b*d)*(a*k-c*g)-(a*h-b*g)*(a*f-c*d) - a*Matrix([[a,d,g],[b,e,h],[c,f,k]]).det())",
+    "asserts": "The denominator alpha*epsilon - beta*delta equals a times the determinant of the coefficient matrix (result 0)."
+   },
+   {
+    "sympy": "a,b,c,d,e,f,g,h,k,l,m,n=symbols('a b c d e f g h k l m n'); simplify(((a*e-b*d)*(a*n-c*l)-(a*m-b*l)*(a*f-c*d))/((a*e-b*d)*(a*k-c*g)-(a*h-b*g)*(a*f-c*d)) - solve([a*x+d*y+g*z-l,b*x+e*y+h*z-m,c*x+f*y+k*z-n],[x,y,z])[z])",
+    "asserts": "The printed formula for z agrees with the true solution of the system (result 0)."
+   },
+   {
+    "sympy": "simplify(((a*k-c*g)*(a*m-b*l)-(a*h-b*g)*(a*n-c*l))/((a*e-b*d)*(a*k-c*g)-(a*h-b*g)*(a*f-c*d)) - solve([a*x+d*y+g*z-l,b*x+e*y+h*z-m,c*x+f*y+k*z-n],[x,y,z])[y])",
+    "asserts": "The formula y = (epsilon*gamma - beta*zeta)/(alpha*epsilon - beta*delta) is correct (result 0)."
+   },
+   {
+    "sympy": "x,m,n=symbols('x m n'); expand((x**2-(m+I*n)**2)*(x**2-(m-I*n)**2) - (x**4-2*(m**2-n**2)*x**2+(m**2+n**2)**2))",
+    "asserts": "The marginal/previous-page factorisation of the quartic with roots ±m±n*i is correct (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The printed line 'und αδy+αεζ=αζ' is transcribed faithfully, but the print itself is wrong there; the intended reading is αδy+αεz=αζ.",
+   "Left-margin handwriting is only partially visible. The first lines look like '...in t cos u sin u √-1' and '...in u cos t sin t √-1' (continuing the cos(t+u√-1) formula of p. 88) rather than 'in cos[?] sin[?]'.",
+   "The margin line read as '(mm+nn)±√-1' is more likely '-(mm+nn)±...' / 'xx-(mm+nn)...'. The line read as '2(mm+nn) xx+n' is more likely '2(mm-nn)xx+...' (the quartic factor coefficient).",
+   "The handwritten '+u' near the lower margin may be '+u' or '+4'; it is uncertain."
+  ]
+ }
+}

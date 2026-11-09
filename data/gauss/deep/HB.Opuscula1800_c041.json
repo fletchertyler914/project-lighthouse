@@ -1,0 +1,85 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c041",
+ "label": "[36]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000042/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PURPOSE. The page is a table for reducing zenith distances of Polaris observed near upper culmination to the meridian, for 1815. It serves latitude determination at Göttingen from circum-meridian observations of the pole star.\n\nDATA. The declination is δ = 88°19′30″. A = 36°47′35″ is the meridian zenith distance at upper culmination, A = 90° − φ − (90° − δ). This implies φ = 51°31′55″ (my inference). That value matches the logarithm 9.79384 = log cos φ, which I checked independently.\n\nFORMULA. Let h be the hour angle and z = A + x the zenith distance off the meridian. Start from cos z = sin φ sin δ + cos φ cos δ cos h and cos A = cos(φ − δ) (my steps). Then:\ncos A − cos(A + x) = 2 sin(A + x/2) sin(x/2) = 2 cos φ cos δ sin²(h/2),\nso sin(x/2) = cos φ cos δ sin²(h/2) / sin(A + x/2).\nThis is the formula written at the head of the page. Since x is small, sin(x/2) ≈ (x/2)·sin 1″, which gives:\nx[″] = (2/sin 1″) · cos φ cos δ · sin²(h/2) / sin(A + x/2).\nThe equation contains x on both sides; Gauss evaluates sin(A + x/2) using the already-known approximate x.\n\nCONSTANT.\n- log cos φ = 9.79384\n- log cos δ = 8.46583\n- log(2/sin 1″) = log 2 + log 206264.8 = 5.61546\n- Sum = 23.87513, i.e. 3.87513 after dropping 20.\n\nSEVEN LOGARITHMIC EVALUATIONS. These are made at h = 10′40″, 16′, 21′20″, 26′40″, 32′, 37′20″, 42′40″ (multiples of 5′20″). h is in minutes and seconds of time, so 42m40s = 10°40′ of arc and h/2 = 5°20′. Each column runs:\n1. the constant 3.87513;\n2. plus 2·log sin(h/2), e.g. 2·8.96825 = 7.93650 for h/2 = 5°20′;\n3. the sum, e.g. 1.81163;\n4. minus log sin(A + x/2), e.g. 9.77752;\n5. the antilogarithm, e.g. 10^2.03411 = 108.170″.\nNote that log sin A = 9.77737, and it grows by about 0.5805·(x/2)·sin 1″ as x increases. The results are 6.781, 15.254, 27.108, 42.337, 60.933, 82.880, 108.170.\n\nTABLES.\n- Base table: steps of 2′40″ from 0 to 42′40″. The intermediate entries (0.424, 3.813, 10.594, 20.759, 34.301, 51.215, 71.488, 95.108) were obtained by interpolation/differences. They agree with the direct formula: for 2′40″ the formula gives 0.4239, and for 5′20″ it gives 1.6954 (written 1.695+).\n- Fine table: steps of 20s from 0 to 40′. Its entries reproduce every base-table value exactly.\n- Supplementary run: steps of 20s from 40′ to 42′40″.\n\nIn effect x ≈ c·h², with c falling slowly from 0.05955 to 0.05942 ″/min² as h grows. This is because sin²(h/2)/h² decreases and sin(A + x/2) increases.",
+  "errors": [
+   "Supplementary table, 40′20″: the transcribed 96.195 is inconsistent with the neighbours. The differences require about 96.695: 95.108 + 1.588 ≈ 96.696, then +1.600 → 98.295, then +1.613 → 99.908. This is either a misreading of a '6' or a slip of the pen. 98.295 itself is correct.",
+   "Fifth log row: by my recomputation log sin(A + x/2) for h = 32′ is 9.777460 and for h = 42′40″ is 9.777526. Gauss writes 9.77745 and 9.77752, a last-digit rounding difference of no consequence for the results.",
+   "If the factor before the fraction in the header formula is a '2' (transcribed 's'), the formula as written would be off by a factor 2. The exact relation has no factor on the right when the left side is sin(x/2). The constant actually used, log(2/sin 1″), is correct for the exact relation, so the computation is right regardless."
+  ],
+  "results": [
+   {
+    "what": "Exact reduction-to-meridian formula for zenith distance, sin(x/2) = cosφ cosδ sin²(h/2)/sin(A + x/2), solved iteratively and tabulated for Polaris at upper culmination, Göttingen, 1815.",
+    "modern_name": "Reduction to the meridian (circum-meridian altitudes/zenith distances)",
+    "usually_credited_to": "Standard 18th-century practice (Delambre, Borda-circle methods; tables by Delambre and others).",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Table of Polaris reductions x(h) for h = 0 to 42m40s at 20s steps, built from seven logarithmic computations plus interpolation by differences.",
+    "modern_name": "Subtabulation / interpolation by finite differences",
+    "usually_credited_to": "Classical (Newton, Briggs); routine computing practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is routine observatory computation: a standard meridian-reduction table for Polaris, carried out correctly. Gauss's latitude work at Göttingen in this period is well known.",
+  "checkable": [
+   {
+    "sympy": "N(log(cos(rad(51+31/60+55/3600)),10)+10, 8)",
+    "asserts": "log cos φ ≈ 9.79384 for φ = 51°31′55″ (inferred latitude)."
+   },
+   {
+    "sympy": "N(log(cos(rad(88+19/60+30/3600)),10)+10, 8)",
+    "asserts": "log cos δ ≈ 8.46583–8.46586 for δ = 88°19′30″."
+   },
+   {
+    "sympy": "N(log(2*206264.806,10), 8)",
+    "asserts": "log(2/sin1″) = 5.61546."
+   },
+   {
+    "sympy": "N(90-(51+31/60+55/3600)-(90-(88+19/60+30/3600)) - (36+47/60+35/3600), 6)",
+    "asserts": "A = 90° − φ − (90° − δ) = 36°47′35″ (difference 0)."
+   },
+   {
+    "sympy": "N(2*log(sin(rad(5+20/60)),10)+20, 8)",
+    "asserts": "2 log sin 5°20′ = 7.93650 (h = 42m40s)."
+   },
+   {
+    "sympy": "N(2*log(sin(rad(2)),10)+20, 8)",
+    "asserts": "2 log sin 2° = 7.08564 (h = 16m)."
+   },
+   {
+    "sympy": "N(2*cos(rad(51+31/60+55/3600))*cos(rad(88+19/60+30/3600))*sin(rad(5+20/60))**2/sin(rad(36+47/60+35/3600+54.085/3600))*206264.806, 7)",
+    "asserts": "x(42m40s) ≈ 108.17″."
+   },
+   {
+    "sympy": "N(2*cos(rad(51+31/60+55/3600))*cos(rad(88+19/60+30/3600))*sin(rad(4))**2/sin(rad(36+47/60+35/3600+30.47/3600))*206264.806, 7)",
+    "asserts": "x(32m) ≈ 60.93″."
+   },
+   {
+    "sympy": "N(2*cos(rad(51+31/60+55/3600))*cos(rad(88+19/60+30/3600))*sin(rad(Rational(1,3)))**2/sin(rad(36+47/60+35/3600))*206264.806, 6)",
+    "asserts": "x(2m40s) ≈ 0.424″."
+   },
+   {
+    "sympy": "N(2*cos(rad(51+31/60+55/3600))*cos(rad(88+19/60+30/3600))*sin(rad(5+5/120))**2/sin(rad(36+47/60+35/3600+48.35/3600))*206264.806, 7)",
+    "asserts": "x(40m20s) ≈ 96.69″, not 96.195 (h/2 = 5°2.5′)."
+   },
+   {
+    "sympy": "N(10**(1.81163-9.77752+10), 7)",
+    "asserts": "antilog step: 108.170."
+   }
+  ],
+  "transcription_corrections": [
+   "Header formula: the 's' before the fraction is probably a stray mark or a '2'; the formula intended is sin½x = cosφ cosδ sin²½h / sin(A + ½x). Also 'sin ½h²' means sin²(½h).",
+   "Supplementary table: '40.20 96.195' should read 96.695, either a misread digit or Gauss's slip; '98.295 [?]' is correct.",
+   "Fine table, 11.0: the entry is 7.211 (partly blotted in the image), which is consistent with the differences.",
+   "Top block: '42.337' and '15.254' in the last row are 42″337 and 15″254, in the same format as the other results."
+  ]
+ }
+}

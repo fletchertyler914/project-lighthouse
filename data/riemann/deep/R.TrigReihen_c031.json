@@ -1,0 +1,61 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c031",
+ "label": "14v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000032/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Habilitationsschrift (1854, publ. 1867), 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe', §4: 'Über den Begriff eines bestimmten Integrals'. The previous page explains why this is needed. Dirichlet's theory settled representability only for integrable functions with finitely many maxima and minima. To drop these hypotheses, Riemann must first fix what ∫_a^b f(x)dx means.\n\n1) Definition of the (Riemann) integral.\n- Choose points a < x_1 < x_2 < … < x_{n-1} < b. Set δ_1 = x_1 − a, δ_k = x_k − x_{k-1}, and δ_n = b − x_{n-1}.\n- Let ε_k be 'positive proper fractions', i.e. 0 < ε_k < 1. Then x_{k-1} + ε_k δ_k is a point (tag) ξ_k in the k-th subinterval.\n- Form the tagged sum S = Σ_{k=1}^n δ_k f(x_{k-1} + ε_k δ_k), with x_0 = a. Its value depends on the choice of δ's and ε's.\n- If S tends to a fixed limit A as max δ_k → 0, however the δ and ε are chosen, that limit is called ∫_a^b f(x)dx.\n- Modern form: for every η > 0 there is d > 0 such that |S(P, ξ) − A| < η for every tagged partition P with mesh < d.\n- If S has no such limit, the symbol ∫_a^b f(x)dx has no meaning.\n\n2) The accepted extension: the improper integral at an isolated singularity.\n- Suppose f becomes unbounded as x → c, with c in (a, b). Then for any mesh, S can be made arbitrarily large by a suitable choice of the tag in a subinterval containing points near c. So S has no limit, and in the strict sense the integral does not exist.\n- If, however, ∫_a^{c−α_1} f dx + ∫_{c+α_2}^b f dx tends to a fixed limit as α_1 → 0 and α_2 → 0 independently, then ∫_a^b f dx is defined as that limit.\n- Riemann says this extension is accepted by all mathematicians. The page ends by turning to other conventions of Cauchy; the next page continues that these, e.g. the principal value, are arbitrary and not generally adopted.\n\nThe next page (§5) goes on to the integrability criterion: the oscillation sum Σ δ_k D_k → 0.",
+  "errors": [
+   "Minor overstatement: if f becomes infinite near c, the sums S are unbounded, so no limit exists; this conclusion is correct. But S need not attain 'jeden beliebigen Werth' (every value): if f → +∞ one-sidedly with f bounded below, S cannot be made arbitrarily negative. This wording is identical in the published version.",
+   "Notation: the text introduces 'ε' as a single proper fraction but uses indexed ε_1, ..., ε_n in the sum; the intent (independent tags) is clear."
+  ],
+  "results": [
+   {
+    "what": "Definition of the definite integral as the limit of tagged sums Σ δ_k f(x_{k-1}+ε_k δ_k) as the mesh tends to 0, independent of partition and tags",
+    "modern_name": "Riemann integral (Riemann sums)",
+    "usually_credited_to": "Bernhard Riemann, Habilitationsschrift 1854 (published 1867), building on Cauchy (1823), who used left-endpoint sums for continuous functions",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Observation that a function unbounded near a point cannot be integrable in this strict sense",
+    "modern_name": "Riemann-integrable functions are bounded",
+    "usually_credited_to": "Riemann 1854",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Extension to an isolated singularity c via independent limits α_1, α_2 → 0 of ∫_a^{c−α_1} + ∫_{c+α_2}^b",
+    "modern_name": "Improper Riemann integral (as opposed to the Cauchy principal value)",
+    "usually_credited_to": "Cauchy (1823), standard by the 1850s",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the manuscript of §4 of Riemann's Habilitationsschrift, whose published text contains exactly this definition of the integral and of the improper integral. These are well known as Riemann's and are textbook material.",
+  "checkable": [
+   {
+    "sympy": "limit(Sum((k/n)**2*(1/n),(k,1,n)).doit(), n, oo) == Rational(1,3)",
+    "asserts": "Right-endpoint Riemann sums of x^2 on [0,1] converge to the integral 1/3."
+   },
+   {
+    "sympy": "limit(Sum(((k-1)/n)**2*(1/n),(k,1,n)).doit(), n, oo) == Rational(1,3)",
+    "asserts": "Left-endpoint tags (ε=0 limit) give the same limit, illustrating independence of tags."
+   },
+   {
+    "sympy": "limit(integrate(1/sqrt(-x),(x,-1,-a1)), a1, 0, '+') + limit(integrate(1/sqrt(x),(x,a2,1)), a2, 0, '+') == 4",
+    "asserts": "The improper integral of 1/sqrt|x| over [-1,1] exists in Riemann's sense with independent α_1, α_2 and equals 4."
+   },
+   {
+    "sympy": "simplify(integrate(1/x,(x,-1,-a1)) + integrate(1/x,(x,a2,1)) - (log(a1) - log(a2)))",
+    "asserts": "For 1/x on [-1,1] the sum equals log(α_1) − log(α_2), which has no limit under independent α_1, α_2 → 0. It equals 0 only when α_1 = α_2 (Cauchy principal value), the kind of convention Riemann rejects next."
+   }
+  ],
+  "transcription_corrections": [
+   "No substantive errors found. In the image the singular point is written as 'c' in the interval '(a,b)', and the function is written 'fx' without parentheses ('die Function fx'), as transcribed.",
+   "The last term of S reads δ_n f(x_{n-1}+ε_n δ_n); the subscripts in the manuscript are hard to read but this is the intended form."
+  ]
+ }
+}

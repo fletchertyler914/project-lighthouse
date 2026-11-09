@@ -1,0 +1,75 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c242",
+ "label": "54r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000243/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two unrelated parts. It is an interleaved leaf in Leiste's Arithmetik und Algebra; the printed page shows §204 on indeterminate equations.\n\n(A) Latin note: 'Theorema generale demonstrandum' (general theorem to be proved).\n\n1. Let p be prime and, if possible, factor p-1 = e*f. The example is p = 43, 42 = 3*14, so e = 3, f = 14.\n\n2. Then there is always an equation of degree e whose roots are the Gaussian periods of f terms mod p. Write eps for a primitive p-th root of unity and rho for a primitive root mod p. The roots are eta_j = sum_{k=0}^{f-1} eps^(rho^(e*k+j)), for j = 0, ..., e-1.\n\nIn the case p = 43 Gauss writes a cubic x^3 + A x^2 + B x + C = 0 with three roots:\n- 1) eps + eps^(rho^3) + eps^(rho^6) + ... + eps^(rho^39);\n- 2) eps^rho + eps^(rho^4) + eps^(rho^7) + ... ;\n- 3) eps^(rho^2) + eps^(rho^5) + ... .\nHe first wrote these as sums of powers of rho (1 + rho^3 + ... + rho^39, and so on). He then struck that version out and rewrote the exponents as exponents of eps. This is a self-correction from the residues to the periods.\n\nThe coefficients are left unspecified. [Mine] The standard formula is eta^3 + eta^2 - ((p-1)/3) eta - (p(c+3)-1)/27, with 4p = c^2 + 27 d^2 and c ≡ 1 mod 3. For p = 43 this gives c = -8, d = 2, hence x^3 + x^2 - 14x + 8.\n\nClaim ('Dico'): this equation has all its roots 'real', i.e. it splits into linear factors, modulo any modulus m with m^e ≡ 1 (mod p). The parenthetical '(resid: f.)' seems to say that m is an f-th power residue. This is a conjectural decomposition law for primes in the degree-e subfield of the p-th cyclotomic field. No proof is given.\n\n(B) German note: a second method for the printed problem 2x + 3y = 25 in positive integers.\n- y = (25-2x)/3, so x ≤ 12.\n- Dividing out gives y = 8 - (2x-1)/3, so 3 | 2x-1.\n- Effectively z = 2x-1 and x = (z+1)/2. So z is odd, z ≤ 23, and 3 | z, giving z = 3, 9, 15, 21.\n- The solutions are (x,y) = (2,7), (5,5), (8,3), (11,1).\n- Gauss notes this agrees completely with the book's method, which found (11,1), (8,3), (5,5), (2,7).",
+  "errors": [
+   "The splitting condition appears inverted. The degree-e period polynomial splits mod a prime q ≠ p iff q lies in the index-e subgroup, i.e. q is an e-th power residue: q^f ≡ 1 (mod p).",
+   "As written, m^e ≡ 1 (equivalently m an f-th power residue) is not sufficient. Counterexample for p = 43: q = 307 ≡ 6 (mod 43) has 6^3 ≡ 1. But 307^14 ≡ 36 ≢ 1 (mod 43), so the cubic is irreducible mod 307.",
+   "Same failure for p = 7, e = 2, f = 3. The period polynomial x^2 + x + 2 (discriminant -7) does not split mod 13, although 13^2 ≡ 1 (mod 7).",
+   "Unless '(resid: f.)' and 'm^e' are meant in some other way, e and f have been swapped.",
+   "'modulo quocunque m' should be restricted to primes m ≠ p, or carefully qualified. Primes dividing the polynomial index (e.g. 2 for p = 43, where the reduction is x^2(x+1)) give repeated roots.",
+   "In part (B), the written line '2x-1=3z, x=(z+1):2' is internally inconsistent. The table actually uses z = 2x-1. The final solutions are correct."
+  ],
+  "results": [
+   {
+    "what": "Gaussian periods of f terms for p-1 = ef are the roots of an integer equation of degree e (period polynomial); illustrated for p = 43, e = 3, f = 14",
+    "modern_name": "Gaussian periods / period polynomial (cyclotomy)",
+    "usually_credited_to": "Gauss, Disquisitiones Arithmeticae Sect. VII (1801)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Conjectured criterion for the period polynomial to split completely modulo m in terms of m^e ≡ 1 mod p (correct form: q^f ≡ 1, i.e. q an e-th power residue)",
+    "modern_name": "Decomposition law of primes in subfields of cyclotomic fields (Kummer's criterion via period polynomials; Frobenius in the subgroup of e-th power residues)",
+    "usually_credited_to": "Kummer (1840s), Dedekind; special cases (cubic residuacity of 2 and p = x^2 + 27y^2) by Gauss",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Second solution method for 2x + 3y = 25 in positive integers",
+    "modern_name": "Linear Diophantine equation via reduction / parametrization",
+    "usually_credited_to": "classical (Bachet, Euler)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss's mastery of periods is well known. A stated (if mis-indexed) general law relating the splitting of period equations mod m to power-residue conditions anticipates Kummer-type decomposition results. Gauss's diary and Section 8 work make this plausible as his, and the pencil note links it to a diary entry. So it is a notable private detail, not a new major attribution.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; x=symbols('x'); z=exp(2*pi*I/43); g=primitive_root(43); eta=[sum(z**pow(g,3*k+j,43) for k in range(14)) for j in range(3)]; [N(e) for e in eta]",
+    "asserts": "Numerical values of the three 14-term periods for p = 43"
+   },
+   {
+    "sympy": "expand((x-eta[0])*(x-eta[1])*(x-eta[2])) numerically ≈ x**3 + x**2 - 14*x + 8",
+    "asserts": "Period cubic for p = 43 is x^3 + x^2 - 14x + 8"
+   },
+   {
+    "sympy": "factor_list(x**3+x**2-14*x+8, modulus=307)",
+    "asserts": "Irreducible mod 307 although 307^3 ≡ 1 mod 43, refuting the stated condition m^e ≡ 1"
+   },
+   {
+    "sympy": "[q for q in primerange(3,400) if q!=43 and len(factor_list(x**3+x**2-14*x+8, modulus=q)[1])==3 and all(d[0].as_poly().degree()==1 for d in factor_list(x**3+x**2-14*x+8, modulus=q)[1])] == [q for q in primerange(3,400) if q!=43 and pow(q,14,43)==1]",
+    "asserts": "Complete splitting mod q (q ≠ 2, 43) iff q^14 ≡ 1 mod 43, i.e. the correct condition is m^f ≡ 1"
+   },
+   {
+    "sympy": "factor_list(x**2+x+2, modulus=13)",
+    "asserts": "Quadratic period polynomial for p = 7 is irreducible mod 13 although 13^2 ≡ 1 mod 7"
+   },
+   {
+    "sympy": "[(xx,(25-2*xx)//3) for xx in range(1,13) if (25-2*xx)%3==0 and 25-2*xx>0] == [(2,7),(5,5),(8,3),(11,1)]",
+    "asserts": "Positive solutions of 2x + 3y = 25"
+   }
+  ],
+  "transcription_corrections": [
+   "The first list of roots (1 + rho^3 + ... + rho^39, rho + rho^4 + ... + rho^40, rho^2 + rho^5 + ... + rho^41) is struck through in the image and then rewritten with exponents of eps.",
+   "In the German part the image reads '2x-1 = z' (a '3' appears crossed or superscript) and 'x = (z+1):2'; the table confirms z = 2x-1, not 3z.",
+   "Root 3 should read eps^(rho rho) + eps^(rho^5) + ..., i.e. rho^2 written as rho rho.",
+   "'Sigma (p-th root of 1)^(rho^k)' carries an overstruck superscript, possibly rho^(ek); the period sum runs over f terms."
+  ]
+ }
+}

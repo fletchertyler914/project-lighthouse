@@ -1,0 +1,67 @@
+{
+ "bundle": "600_1",
+ "page": "c115",
+ "label": "[106]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000116/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a free-standing research note, following notes on topology and the Riemann existence problem. It restates Max Noether's 'Fundamentalsatz' (the AF+BG theorem) in local form, citing 'Math. Ann. Bd. 40 S. 140'.\n\nStatement (modern form). Let phi, psi be in C[x,y] with no common factor, so their common affine zeros P=(a,b),... are finite in number. Let f be in C[x,y]. Then f = A*phi + B*psi with A, B polynomials, i.e. f lies in the ideal (phi,psi), if and only if, for every common zero P=(a,b), the congruence f ≡ A_P*phi + B_P*psi (mod (x-a, y-b)^k) is solvable. Here k = I_P(phi,psi) is the intersection multiplicity at P. For a simple intersection point (k=1) the condition is just f ≡ 0 mod (x-a, y-b), i.e. f(a,b)=0. The 'bezieh.' (respectively) on the page distinguishes this simple case from the general power m_P^k.\n\nJustification (implicit, mine). Write O_P for the local ring at P and m_P for its maximal ideal. Because V(phi,psi) is finite, we have C[x,y]/(phi,psi) ≅ product over P of O_P/(phi,psi)O_P. This is the Chinese-remainder / local-global decomposition, and it is valid in the affine setting with no condition at infinity. So f is in (phi,psi) iff f lies in (phi,psi)O_P for every P.\n\nNext, dim O_P/(phi,psi)O_P = k. Hence the descending chain of ideals (phi,psi) + m_P^i stabilises by i = k. By Nakayama's lemma this gives m_P^k ⊂ (phi,psi)O_P. Therefore f in (phi,psi)O_P iff f in (phi,psi) + m_P^k, and the latter is a finite, purely polynomial congruence condition. So the stated equivalence holds.\n\nHilbert's comment: this subordinates Noether's theorem to 'the general principle of number theory'. He means deciding a global (divisibility or solvability) question by congruence conditions at each 'prime place'. He compares it with Kummer's ideal numbers and with Minkowski's theory of quadratic forms, where equivalence is decided by congruence or local invariants.\n\nHe ends by noting that these conditions are not independent of one another. The next page proposes reducing them to a minimum by studying the distinct modules (phi, psi, (x-a)^lambda (y-b)^mu) as lambda, mu vary, and requiring f ≡ 0 modulo all of them. That is an approach to the local (primary) component of (phi,psi) at P.",
+  "errors": [
+   "No mathematical error. Unstated hypotheses (Hilbert surely intends them): phi and psi have no common factor (finitely many common zeros), and the ground field is C (algebraically closed).",
+   "Only common zeros in the finite plane are used. This is correct for the affine polynomial-ring statement with unrestricted degrees of A and B. It would need modification if degree bounds on A and B (the projective form) were required.",
+   "The modulus (x-a, y-b) with exponent equal to the intersection multiplicity k is sufficient but generally not minimal. Often a smaller power, or a smaller monomial-type ideal, suffices. This is precisely the redundancy Hilbert flags at the bottom of the page and takes up on the next page."
+  ],
+  "results": [
+   {
+    "what": "Local criterion for Noether's AF+BG theorem: f in (phi,psi) iff for each common zero P, f ≡ A phi + B psi mod m_P^k, with k = intersection multiplicity",
+    "modern_name": "Max Noether's AF+BG theorem (Noether's conditions), local form, using m_P^{I_P} ⊂ (phi,psi)O_P",
+    "usually_credited_to": "M. Noether (1873). Local multiplicity conditions refined by Voss (1886), Bertini (1889) and others. Modern form e.g. Fulton, Algebraic Curves, Sect. 5.5.",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Viewing Noether's theorem as an instance of the number-theoretic local-global principle (global membership decided by congruences at each prime/point), by analogy with Kummer's ideals and Minkowski's quadratic forms",
+    "modern_name": "Local-global principle / Chinese remainder decomposition C[x,y]/I ≅ product of local rings O_P/I O_P; arithmetic-geometric analogy (Dedekind-Weber, Kronecker)",
+    "usually_credited_to": "Arithmetic-geometric analogy: Kronecker, Dedekind-Weber (1882). Explicit local-global principle: Hensel/Hasse (1890s-1920s). Ideal-theoretic form: Lasker (1905), Macaulay.",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Observation that the local conditions are redundant; programme (next page) to minimise them via modules (phi, psi, (x-a)^lambda (y-b)^mu)",
+    "modern_name": "Determining the primary component of (phi,psi) at P (precursor of primary decomposition / Macaulay inverse systems)",
+    "usually_credited_to": "Lasker (1905), Macaulay (1913/1916)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The local form of Noether's theorem was known in the 1880s-90s literature, so the statement itself is routine. Hilbert's ideal-theoretic module viewpoint is well known from his 1890 paper. What is mildly notable is the explicit framing as a number-theoretic local-global principle, with Minkowski's quadratic forms as the model. Also notable is the proposal to minimise the conditions via the modules (phi,psi,(x-a)^lambda(y-b)^mu), anticipating primary-component ideas usually attributed to Lasker and Macaulay. This is an unpublished heuristic remark, not a proved result.",
+  "checkable": [
+   {
+    "sympy": "from sympy import groebner, reduced, symbols; x,y=symbols('x y'); G=groebner([y, y-x**2], x, y, order='lex'); [reduced(m, list(G), x, y, order='lex')[1] for m in [x**2, x*y, y**2]]",
+    "asserts": "For phi=y, psi=y-x^2 (tangency at the origin, multiplicity k=2), m^2=(x^2,xy,y^2) lies in (phi,psi): all remainders are 0."
+   },
+   {
+    "sympy": "reduced(x, list(groebner([y, y-x**2], x, y, order='lex')), x, y, order='lex')[1]",
+    "asserts": "f=x is not in (y, y-x^2) (nonzero remainder x), although f vanishes at the intersection point. So the condition mod (x-a,y-b)^1 is insufficient and the full multiplicity k=2 is needed."
+   },
+   {
+    "sympy": "reduced(x, list(groebner([y, y-x**2, x**2, x*y, y**2], x, y, order='lex')), x, y, order='lex')[1]",
+    "asserts": "x is also not in (phi,psi)+m^2, so the mod-m^k test correctly detects the non-membership."
+   },
+   {
+    "sympy": "len(groebner([y, y-x**2], x, y, order='grevlex').exprs)",
+    "asserts": "The Groebner basis is {y, x^2}, so C[x,y]/(phi,psi) has basis {1, x}: dimension 2, the intersection multiplicity k."
+   },
+   {
+    "sympy": "phi=y; psi=x**2-1; f=y*(x+3)+(x**2-1)*x**5; reduced(f, list(groebner([phi,psi],x,y,order='lex')), x, y, order='lex')[1]",
+    "asserts": "With two simple intersection points (±1,0), f vanishing at both lies in (phi,psi): remainder 0. This illustrates the k=1 case f(a,b)=0."
+   }
+  ],
+  "transcription_corrections": [
+   "The congruence modulus reads '(x-a, y-b)' followed by 'bezieh. (x-a, y-b)^k'. The trailing comma inside the parenthesis is a stray mark in the hand, not part of the formula.",
+   "'ausgesprochen' (the hand writes approximately 'ausgesprochen'): spelling ok; the opening parenthesis '(vgl. Math. Ann. Bd. 40 S. 140' is never closed in the manuscript.",
+   "'Princip der Zahlentheorie' and '(vergl. Theorie der Idealzahlen nach Kummer, und der quadratischen Formen nach Minkowski.' are correctly read; the parenthesis is again unclosed in the original."
+  ]
+ }
+}

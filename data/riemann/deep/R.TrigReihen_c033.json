@@ -1,0 +1,56 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c033",
+ "label": "15v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000034/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is §5 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854; published by Dedekind 1867). Section 4 defines the integral. Section 5 asks: for which f does the integral in the narrower sense exist?\n\nSetup (from the previous page). Take a partition a=x_0<x_1<...<x_n=b with lengths δ_i = x_i - x_{i-1}. Let D_i = sup f - inf f on [x_{i-1},x_i], the oscillation ('Schwankung'). The Riemann sum S converges as max δ_i → 0 only if Σ δ_i D_i → 0. Let Δ(d) be the largest value of Σ δ_i D_i over all partitions with every δ_i < d. Then Δ(d) decreases with d and tends to 0. For σ>0, let s = s(σ; partition) be the total length of the intervals with D_i > σ. Those intervals alone contribute at least σ s to Σ δ_i D_i.\n\nThis page.\n(1) Necessity. σ s ≤ Σ δ_i D_i ≤ Δ, hence s ≤ Δ/σ. For fixed σ, Δ/σ can be made arbitrarily small by choosing d small. Hence so can s.\nTheorem (necessity): for S to converge it is required, besides the boundedness of f, that for every σ>0 the total length of the intervals with oscillation > σ can be made arbitrarily small by a suitable choice of d.\n\n(2) Converse (sufficiency). Assume f is bounded and, for every given σ, s → 0 as all δ_i → 0. Let D be the oscillation of f on [a,b], finite by hypothesis ('n. V.' = nach Voraussetzung).\n- Intervals with D_i > σ contribute at most s·D to Σ δ_i D_i.\n- The remaining intervals contribute at most σ·(b−a).\n- So Σ δ_i D_i ≤ s D + σ (b−a).\nFirst choose σ small, then choose the mesh d so small that s is also small. Then Σ δ_i D_i becomes arbitrarily small.\n\nCompleted on the next page: S is confined between the lower and upper sums, whose difference is Σ δ_i D_i. So S is enclosed in arbitrarily narrow bounds and converges (Cauchy). This is Riemann's necessary and sufficient criterion for integrability.\n\n[My filled step]: the equivalence between convergence of S and Σ δ_i D_i → 0 rests on S lying between Σ δ_i inf f and Σ δ_i sup f, with the δ_i arbitrary.",
+  "errors": [
+   "No substantive error.",
+   "Minor: Riemann says the contribution of the large-oscillation intervals is 'kleiner als' s·D; strictly it is ≤ s·D (equality possible). Likewise the rest contributes ≤ σ(b−a−s) ≤ σ(b−a). Harmless.",
+   "Minor/implicit: the necessity of Σ δ_i D_i → 0 for convergence of S is asserted ('so muß') rather than proved. It follows because the arbitrary choice of points in each subinterval lets S approach both the upper and lower sums."
+  ],
+  "results": [
+   {
+    "what": "Necessary condition for Riemann integrability: for every σ>0, the total length of partition intervals with oscillation > σ tends to 0 as the mesh tends to 0 (via s ≤ Δ/σ).",
+    "modern_name": "Riemann's integrability criterion (oscillation form); precursor of the Lebesgue criterion (discontinuity set of measure zero) and of Darboux's upper/lower-sum criterion",
+    "usually_credited_to": "Bernhard Riemann, Habilitationsschrift 1854 (publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Sufficiency: bounded f with s(σ) → 0 for each σ gives Σ δ_i D_i ≤ sD + σ(b−a) → 0, so S converges.",
+    "modern_name": "Riemann integrability criterion (sufficiency), equivalent to the upper-minus-lower-sum criterion",
+    "usually_credited_to": "Bernhard Riemann 1854; reformulated by Darboux 1875",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page is the draft or fair copy of §5 of Riemann's famous Habilitationsschrift on trigonometric series. It contains his celebrated, universally credited integrability criterion, exactly as in the published text.",
+  "checkable": [
+   {
+    "sympy": "n,i=symbols('n i',positive=True,integer=True); simplify(summation((1/n)*((i/n)**2-((i-1)/n)**2),(i,1,n)) - 1/n)",
+    "asserts": "For f=x^2 on [0,1] with a uniform partition, Σ δ_i D_i = 1/n → 0 (should give 0)."
+   },
+   {
+    "sympy": "s,sigma,Delta=symbols('s sigma Delta',positive=True); simplify((sigma*s<=Delta).subs(s,Delta/sigma))",
+    "asserts": "The bound s ≤ Δ/σ is consistent with σ s ≤ Δ (boundary case holds as equality)."
+   },
+   {
+    "sympy": "s,D,sigma,L=symbols('s D sigma L',positive=True); limit(limit(s*D+sigma*L,s,0),sigma,0)",
+    "asserts": "The sufficiency bound s·D + σ(b−a) → 0 when σ → 0 and then s → 0 (result 0)."
+   },
+   {
+    "sympy": "n=symbols('n',positive=True,integer=True); summation(1/n,(symbols('i',integer=True),1,n))",
+    "asserts": "For the Dirichlet function (D_i=1) on [0,1], Σ δ_i D_i = 1 for every partition, so the criterion fails: s = 1 for any σ<1."
+   }
+  ],
+  "transcription_corrections": [
+   "The relation symbols written '≡' in the transcription are inequality signs: the line should read σ s ≦ δ_1D_1 + δ_2D_2 + ... + δ_nD_n ≦ Δ, folglich s ≦ Δ/σ (as in the published text).",
+   "'(n. V.)' is the abbreviation 'nach Voraussetzung' (by hypothesis).",
+   "The symbol rendered as '6' in the image is σ throughout."
+  ]
+ }
+}

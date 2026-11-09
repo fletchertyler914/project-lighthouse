@@ -1,0 +1,62 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c016",
+ "label": "11",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000017/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (articles 10–13 of a small treatise, 'Litt. B'). Gauss takes m quantities a,b,c,d,… and defines S^n = Σ_i a_i^n / Π_{j≠i}(a_i − a_j). Let P = Π_{i<j}(a_i − a_j), the Vandermonde product, of degree m(m−1)/2. On the previous page he sets 𝔄 = P/[(a−b)(a−c)…], 𝔅 = P/[(b−a)(b−c)…], and so on. These are polynomials of degree (m−1)(m−2)/2. Then Q := P·S^n = 𝔄a^n + 𝔅b^n + … is a polynomial of degree (m−1)(m−2)/2 + n. For n < m−1 this is less than deg P. Steps 1°–4° there prove that a−b divides Q: every 𝔄_k with k ≥ 3 contains the factor a−b, 𝔄+𝔅 ≡ 0 mod (a−b), and 𝔄a^n + 𝔅b^n = (𝔄+𝔅)a^n − 𝔅(a^n − b^n).\n\nThis page:\n\n5° By the same argument (symmetry), Q is divisible by every difference a−c, a−d, …, b−c, b−d, …, c−d, …. One must then show that Q is divisible by their product P. The lemma he uses is the factor theorem in several variables: a polynomial Q is divisible by a−b iff Q vanishes under the substitution b=a. Likewise for a−c, a−d, b−c, …. Hence Q vanishes under c=a, d=a, c=b, d=b, d=c, ….\n\nInduction: write Q = (a−b)Q'. Under c=a, Q becomes 0 but (a−b) does not. So Q'|_{c=a} = 0 and a−c divides Q'. Write Q = (a−b)(a−c)Q''. Then a−d divides Q'', and so on. After removing the first m−1 factors, Q = (a−b)(a−c)(a−d)…R. Under c=b, Q → 0 while the prefactor → (a−b)^2(a−d)…, which is not 0. Hence R|_{c=b} = 0 and b−c divides R. Continuing in this way, P divides Q. [Implicit, mine: this uses that the polynomial ring is an integral domain.]\n\n7° (the label '6°' is skipped) Since deg Q < deg P and Q is homogeneous, P | Q forces Q = 0. Hence S^n = 0 for 0 ≤ n ≤ m−2. This is the theorem of art. 11.\n\nThe next page uses it to get S^{−1} = ±1/(abcd…) (art. 12) and S^{m−1} = 1 (art. 13).",
+  "errors": [
+   "Numbering slip: the steps run 5° then 7°; there is no 6° (the 'Um dieß zu beweisen…' passage functions as 6°).",
+   "Grammatical doubling 'Eben so wird wenn man … setzt, wird R …' — no mathematical consequence.",
+   "The step 'divisible by each a_i − a_j hence by P' is justified correctly by the successive-substitution argument. It tacitly assumes that cancellation of a nonzero factor is legitimate (integral domain) and that each prefactor does not vanish under the substitution, which Gauss checks explicitly only for c=b. Fine.",
+   "No mathematical errors found."
+  ],
+  "results": [
+   {
+    "what": "Σ_i a_i^n / Π_{j≠i}(a_i − a_j) = 0 for 0 ≤ n ≤ m−2, proved via the Vandermonde product: P·S^n is an alternating-type polynomial of degree < deg P that is divisible by P.",
+    "modern_name": "Euler's partial-fraction / Lagrange interpolation identity (divided differences of x^n vanish for n < m−1; in general they equal the complete homogeneous symmetric polynomial h_{n−m+1}).",
+    "usually_credited_to": "Euler (c. 1762–1770s); also implicit in Lagrange interpolation (1795) and Cauchy's alternant work (1815).",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Lemma: a polynomial divisible by each pairwise difference a_i − a_j is divisible by the Vandermonde product, proved by successive substitution and cancellation.",
+    "modern_name": "Factor theorem in several variables; divisibility of alternating polynomials by the Vandermonde determinant.",
+    "usually_credited_to": "Standard (Vandermonde 1772, Cauchy 1815 for alternants).",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a careful elementary proof of a classical identity already known to Euler. The method (Vandermonde divisibility plus a degree count) is standard. The only mild interest is seeing Gauss's didactic, fully rigorous treatment and his explicit analogy with congruences.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); S=lambda n: a**n/((a-b)*(a-c)*(a-d))+b**n/((b-a)*(b-c)*(b-d))+c**n/((c-a)*(c-b)*(c-d))+d**n/((d-a)*(d-b)*(d-c)); [simplify(S(k)) for k in (0,1,2)]",
+    "asserts": "S^n = 0 for n = 0,1,2 when m = 4 (art. 11)."
+   },
+   {
+    "sympy": "simplify(S(3))",
+    "asserts": "S^{m−1} = 1 for m = 4 (art. 13)."
+   },
+   {
+    "sympy": "simplify(S(-1) + 1/(a*b*c*d))",
+    "asserts": "S^{−1} = −1/(abcd) for even m = 4 (art. 12, lower sign); result 0."
+   },
+   {
+    "sympy": "simplify(S(4) - (a+b+c+d))",
+    "asserts": "Generalization: S^m = h_1 = a+b+c+d; result 0."
+   },
+   {
+    "sympy": "P=(a-b)*(a-c)*(a-d)*(b-c)*(b-d)*(c-d); [Poly(cancel(P*S(k)),a,b,c,d).total_degree() for k in (0,1,2)]",
+    "asserts": "Q = P·S^n is a polynomial (here identically zero); its claimed degree bound (m−1)(m−2)/2 + n < m(m−1)/2."
+   }
+  ],
+  "transcription_corrections": [
+   "'folgt[?] dass' reads 'folgt, dass' (a stray pen mark after 'folgt').",
+   "'musse' / 'mussen' should be 'müsse' / 'müssen' (umlaut present in the hand).",
+   "The page number at top right reads '11' beside a struck '19'.",
+   "The left margin column headings ('Mo-nath') are the ruled ledger-paper heading, not content."
+  ]
+ }
+}

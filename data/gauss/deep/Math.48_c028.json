@@ -1,0 +1,65 @@
+{
+ "bundle": "Math.48",
+ "page": "c028",
+ "label": "14r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382323:00000029/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is not a mathematical manuscript in the usual sense. It has three parts.\n\n(1) Upper left: a French poem, Rousseau's romance 'Que le jour me dure', three eight-line stanzas, signed 'Rousseau'. Faint marginal scribbles 'est / estre / es / is' look like idle conjugation jottings.\n\n(2) Upper right: a German verse rendering of the same romance ('Wie der Tag mir schleichet / Ohne dich vollbracht ...'), signed 'Gotter' (Friedrich Wilhelm Gotter). The folio number 14 appears twice.\n\n(3) Bottom: a framed table of places on the road east from Braunschweig to Helmstedt, with two numerical columns, plus scratch arithmetic.\n\nThe table, as read on the page:\n- Schöppenstedter Thurm: 43, 5236\n- Kl. Schöppenstedt: 67, 8158\n- Kremling[en]: 91, 11081\n- Appenrode: 150, 18265\n- Bornum: 180, 21918\n- Königslutter: 224, 27864\n- Süpplingen: 296, 36042\n- Helmstedt: 370, 45053\n\nWhat is computed. The second column is the first column multiplied by the constant written in the scratch area, 2070/17 ≈ 121.7647, then rounded to an integer: y = round(2070·x/17).\n\nThe scratch work contains the intermediate products 2070·x:\n- 43·2070 = 89010; /17 = 5235.9 → 5236\n- 67·2070 = 138690; /17 = 8158.2 → 8158 (also '815.8')\n- 91·2070 = 188370 (written '18837'); /17 = 11080.6 → 11081\n- 150·2070 = 310500; /17 = 18264.7 → 18265 (also '1826')\n- 180·2070 = 372600 (written '3726'); /17 = 21917.6 → 21918\n- 296·2070 = 612720 (with 300·2070 = 621000 nearby); /17 = 36042.4 → 36042\n- 370·2070 = 765900 (written '7659'); /17 = 45052.9 → 45053\n- '12,420' = 6·2070 is another partial product.\n\nFor Königslutter (224) the partial products 448 (= 224·2) and 1568 (= 224·7) are written, and their sum is given as '47368', i.e. 473680. The correct sum is 448000 + 15680 = 463680. My reconstruction is that the hundred-thousands/ten-thousands addition went wrong. Then 473680/17 = 27863.5 → 27864, which is the value entered in the table. The correct value is 463680/17 = 27275.3 → 27275. Alternatively the place-number was meant to be about 229 (229 gives 27884, still not 27864); the scratch partials 448 and 1568 confirm that 224 was intended.\n\nWhat the columns mean is not stated; the interpretation below is mine and conjectural. A factor of about 121.8 per unit fits a walking cadence in steps per minute (2070 steps counted in 17 minutes). On that reading, column 1 would be walking time in minutes from Braunschweig (370 min ≈ 6 h), and column 2 would be estimated paces: 45053 paces × ~0.8 m ≈ 36 km, which roughly matches the Braunschweig–Helmstedt distance. Gauss travelled this route around his 1799 Helmstedt doctorate. Other unit conversions cannot be excluded.\n\nOther marks are not interpretable with confidence: '2,071', '2,7', '102', '523', '3828', the circled symbols, and the line 'J. F. Boec[?] ... Per'. Nothing on the page relates to the matrix and sign computations on the following page.",
+  "errors": [
+   "Königslutter entry: 224·2070/17 = 27275.3, but the table has 27864. This comes from a mis-added partial product, 47368(0) instead of 463680 = 448000 + 15680.",
+   "All other rows are correctly computed as round(2070·x/17)."
+  ],
+  "results": [
+   {
+    "what": "Conversion table: a list of road stations Braunschweig→Helmstedt with values multiplied by the constant 2070/17 and rounded",
+    "modern_name": "linear unit/rate conversion (possibly time-to-paces estimate)",
+    "usually_credited_to": "n/a (routine arithmetic)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Copy of Rousseau's romance 'Que le jour me dure' and F. W. Gotter's German version",
+    "modern_name": "literary transcription, non-mathematical",
+    "usually_credited_to": "J.-J. Rousseau; F. W. Gotter (translation)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page contains no mathematics beyond routine multiplication and division for a travel or distance table, alongside a copied poem. It is of minor biographical interest only (a likely link to Gauss's Braunschweig–Helmstedt journeys).",
+  "checkable": [
+   {
+    "sympy": "[round(sympy.Rational(2070,17)*x) for x in [43,67,91,150,180,296,370]] == [5236,8158,11081,18265,21918,36042,45053]",
+    "asserts": "Column 2 equals round(2070*x/17) for all rows except Königslutter."
+   },
+   {
+    "sympy": "round(sympy.Rational(2070*224,17)) == 27275",
+    "asserts": "The correct Königslutter value is 27275, not 27864."
+   },
+   {
+    "sympy": "round(sympy.Rational(473680,17)) == 27864",
+    "asserts": "The tabulated 27864 results from the mis-added product 473680."
+   },
+   {
+    "sympy": "224*2000 + 224*70 == 463680",
+    "asserts": "The correct product 224*2070 is 463680 (partials 448 and 1568 as written)."
+   },
+   {
+    "sympy": "[x*2070 for x in [43,67,91,150,180,296,300,370]] == [89010,138690,188370,310500,372600,612720,621000,765900]",
+    "asserts": "The scratch partial products on the page are 2070*x."
+   },
+   {
+    "sympy": "sympy.N(sympy.Rational(2070,17)) - 121.7647 < 1e-4",
+    "asserts": "The conversion factor is about 121.765."
+   }
+  ],
+  "transcription_corrections": [
+   "'2070/17' is the conversion factor for the table, not a free-standing note; '89010', '138690', '18837', '3726', '310500', '612720', '7659' are 2070×(station value) products.",
+   "The scratch '47368' is the erroneous product for Königslutter (should be 46368, i.e. 463680).",
+   "German stanza 3, line 1 likely reads 'Wie ich ahnend zittre' rather than 'schmachtend'.",
+   "'Kremling' is the village Kremlingen; 'Schöpp. Thurm' is Schöppenstedter Turm.",
+   "The marginal 'est/estre/es/is' are scribbles, not corrections to the poem."
+  ]
+ }
+}

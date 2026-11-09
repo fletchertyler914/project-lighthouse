@@ -1,0 +1,48 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c146",
+ "label": "73r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000147/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Most of the page is non-mathematical. The upper half has travel and household notes: the Marseille agents of the Compagnia Valéry (a steamship line), a Venetian-style address (Luigi Lazzarini?, Calle dei Preti?, N° 1046 …), a note about 20 francs and the Compagnia, and pencil floor plans of apartments with rooms labelled Letto, Sala, Cam(era), Giardino. Together with the neighbouring pages (a linen inventory; a letter signed in Pisa to a consul), this fits Riemann's Italian stays of 1863–65. It indicates the time and setting but contains no mathematics.\n\nThe mathematics is in the lower half, written upside down, and is only partly legible. Riemann uses three symbols ε, ε', ε''. In the R.AbelTheta context these are half-period characteristics, i.e. half-integer vectors (ε_ν, ε'_ν) modulo 1. He also uses arguments e, e', e'', which may be further characteristics or argument vectors. He first lists combinations to be tracked:\n- ε, ε', ε''\n- e+ε'', e+ε', e+ε'+ε''\n- e+ε, e'+ε, e''+ε\n- e, e'+ε, e''+ε', ε+ε'\n- several struck-out variants.\n\nThis is bookkeeping: he is tabulating which characteristics occur when the summation characteristic is shifted.\n\nHe then writes a relation of the form\nΣ_ε Π ϑ(e+ε'+ε'') ϑ(e+ε) = Π ϑ(e+ε')ϑ(e'+ε) + Σ Π ϑ(e'+ε)ϑ(e''+ε') + Π ϑ(e'+ε+ε')ϑ(e'') + Σ Π ϑ(e'+e+ε)ϑ(e) + Σ Π ϑ(e'+e+e'')ϑ(e+e''+ε'),\nwith one struck-out term Π ϑ(e+ε'+ε'')ϑ(e). The Π carries indices (apparently ν or similar) over a small number of factors.\n\nMy interpretation (not certain): this is a sum over half-period characteristics of products of theta functions with shifted characteristics, re-expressed by splitting the summation range according to how the characteristic decomposes into ε, ε', ε''. That is the standard manipulation in deriving Riemann's theta formula (four-term product sums Σ_ε ±Π_{i=1..4} ϑ[ε](u_i)) and its generalisations to sums over subgroups of half-periods, as later systematised by Prym.\n\nThe exact identity cannot be recovered with confidence:\n- the subscripts on Π and Σ are illegible;\n- signs (the factors (−1)^{4ε ε'}) are not visible;\n- it is unclear whether e, e', e'' are characteristics or arguments.\n\nThe page is best read as a scratch computation in the theory of theta functions with half-integer characteristics, not a finished result.",
+  "errors": [
+   "The displayed relation cannot be checked as written: summation ranges, signs and the precise arguments are illegible or unspecified, and the right side mixes terms with e, e', e'' in a way that suggests ongoing trial (several lines are struck out). No definite error can be asserted, but no definite identity can be confirmed either.",
+   "Some RHS terms (e.g. Π ϑ(e'+e+e'')ϑ(e+e''+ε')) contain no summed characteristic. This is consistent only if the Σ ranges over e, e', e'' themselves, which suggests the roles of the letters shift between lines."
+  ],
+  "results": [
+   {
+    "what": "Manipulation of sums over half-period characteristics of products of theta functions with shifted characteristics (splitting the characteristic sum into ε, ε', ε'' parts)",
+    "modern_name": "Riemann theta formula / addition theorems for theta functions with characteristics (theta relations over subgroups of 2-torsion)",
+    "usually_credited_to": "Riemann (theta formula, communicated via Prym, 1865/1882) and Weber; systematised by Prym (1882) and Krazer",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Tabulation of combinations of characteristics e+ε, e+ε'+ε'', etc.",
+    "modern_name": "Bookkeeping of 2-torsion translates / characteristic arithmetic mod 1",
+    "usually_credited_to": "standard (Göpel, Rosenhain, Riemann, Weber)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The fragment is a scratch computation with theta functions and half-period characteristics, the circle of ideas around Riemann's theta formula. That formula is already attributed to Riemann (through Prym and Weber), and the page shows no complete new identity. Its main interest is biographical: it dates such theta work to his Italian period, 1863–65.",
+  "checkable": [
+   {
+    "sympy": "from mpmath import jtheta, mpf; q=mpf('0.1'); abs(jtheta(3,0,q)**4 - jtheta(2,0,q)**4 - jtheta(4,0,q)**4) < 1e-20",
+    "asserts": "Genus-1 Riemann/Jacobi quartic relation among the half-characteristic theta constants (the p=1 case of the theta formula)."
+   },
+   {
+    "sympy": "from mpmath import jtheta, mpf; q=mpf('0.2'); x,y,z,w=[mpf(t) for t in ('0.3','0.7','1.1','0.4')]; a=(x+y+z+w)/2; b=(x+y-z-w)/2; c=(x-y+z-w)/2; d=(x-y-z+w)/2; L=jtheta(3,x,q)*jtheta(3,y,q)*jtheta(3,z,q)*jtheta(3,w,q)+jtheta(2,x,q)*jtheta(2,y,q)*jtheta(2,z,q)*jtheta(2,w,q)+jtheta(4,x,q)*jtheta(4,y,q)*jtheta(4,z,q)*jtheta(4,w,q)-jtheta(1,x,q)*jtheta(1,y,q)*jtheta(1,z,q)*jtheta(1,w,q); R=2*jtheta(3,a,q)*jtheta(3,b,q)*jtheta(3,c,q)*jtheta(3,d,q); abs(L-R)<1e-15",
+    "asserts": "Riemann's theta formula in genus 1: the signed sum over the four half-characteristics of the four-fold theta products equals 2·ϑ3 at the orthogonally transformed arguments. This is the type of characteristic-sum identity the page manipulates."
+   }
+  ],
+  "transcription_corrections": [
+   "The lower block is written upside down. The 'Π' symbols carry sub- and superscripts (apparently ν and ε-type indices) that the machine transcription omits.",
+   "'47' at the bottom (upside down) is an older folio/page number, and '73' / '(1781. 84?)' at the right are archival foliation, not mathematics.",
+   "Several formula lines are struck out in the image beyond those marked, notably a line of ε-combinations near the top of the block and the line beginning Π ϑ(e+ε'+ε'').",
+   "The rotated left-margin address is very uncertain. 'Campo della Croce' and 'Inizio lire 20 fr' are doubtful readings; the second line looks more like a phrase about fr. 20 and the Compagnia."
+  ]
+ }
+}

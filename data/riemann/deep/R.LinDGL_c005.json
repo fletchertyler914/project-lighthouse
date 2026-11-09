@@ -1,0 +1,57 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c005",
+ "label": "2v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This folio is not by Riemann. It is page 2 of a letter from David Hilbert, then Privatdozent in Königsberg, dated 2 March 1892. He writes to the editor of Riemann's Werke, H. Weber, who was preparing the 2nd edition. The letter concerns Abhandlung XXI, Riemann's fragment 'Zwei allgemeine Lehrsätze über lineare Differentialgleichungen mit algebraischen Koefficienten', at Werke 1st ed., p. 369.\n\nContext. Riemann counts constants to make plausible what is now called the Riemann–Hilbert problem. The question is whether a linear system or ODE of order n can be found with prescribed singular points and prescribed monodromy substitutions. Each singular point carries a substitution matrix A = (A_i^{(k)}) in GL_n. A naive count gives n^2 entries per substitution. Riemann counts only n^2 - n, and the printed text gives a justification at p. 369, l. 9 that Hilbert considers wrong.\n\nHilbert's corrected reason, restated in modern terms:\n(1) For every substitution the n local exponents mu_1, ..., mu_n (Unstetigkeitsexponenten) are given data.\n(2) They are determined by the eigenvalues lambda_1, ..., lambda_n of A, the roots of the characteristic equation det(A - lambda I) = 0. Precisely, lambda_j = exp(2 pi i mu_j), so mu_j = log(lambda_j)/(2 pi i). Hilbert's phrase 'equal to the logarithms' omits the factor 1/(2 pi i).\n(3) Prescribing the n roots amounts to prescribing the n coefficients of the characteristic polynomial (the elementary symmetric functions). This gives n polynomial relations among the n^2 entries A_i^{(k)}.\n(4) Hence only n^2 - n entries remain free. In modern terms, for distinct eigenvalues the conjugacy class of a diagonalizable matrix has dimension n^2 - dim(centralizer) = n^2 - n.\n\nSecond remark: a misprint at p. 369, line 5 from bottom. It should read 'm n(n-1) - n^2 + 1 Bedingungen'. Hilbert underlines n^2, the term he says was misprinted. One reading (mine): m n(n-1) is the free entries of m substitutions with fixed exponents; subtracting n^2 - 1 accounts for one family of n^2 - 1 relations or conditions. Candidates are the product relation A_1...A_m = I with the determinant condition automatic, or the simultaneous conjugation by GL_n modulo scalars. Without Riemann's printed text I cannot decide which convention (m or m+1 points, which terms) is meant.\n\nFinally Hilbert says he redid the count in a simpler way and confirmed Riemann's result. The next page continues this, adds Hurwitz's regards, and gives the signature.",
+  "errors": [
+   "Hilbert's 'mu equal to the logarithms of the roots' is imprecise: lambda_j = exp(2*pi*i*mu_j), so mu_j = log(lambda_j)/(2*pi*i), defined only mod 1. This is a harmless normalization slip.",
+   "Prescribing eigenvalues gives n independent relations and an (n^2-n)-dimensional set only generically. Distinct eigenvalues or semisimplicity are tacitly assumed; for repeated eigenvalues the conjugacy class can be smaller (e.g. scalar matrices) and the count changes.",
+   "The page does not let one verify what the printed formula was, nor the full bookkeeping behind m n(n-1) - n^2 + 1. A naive modern dimension count for m matrices with fixed generic classes, product = I and modulo conjugation gives m n(n-1) - 2(n^2-1), so the formula depends on Riemann's convention (number of points, what is subtracted)."
+  ],
+  "results": [
+   {
+    "what": "Justification that each monodromy substitution contributes n^2 - n free parameters: prescribed local exponents fix the n eigenvalues, i.e. the n coefficients of the characteristic polynomial.",
+    "modern_name": "Dimension of a (regular semisimple) conjugacy class in GL_n = n^2 - n; parameter count for the Riemann–Hilbert problem / character variety with fixed local monodromy classes",
+    "usually_credited_to": "Riemann (count, 1857 fragment); the remark is Hilbert's (1892 letter to Weber), later incorporated in the 2nd edition's notes",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Correction of a misprint in Riemann's constant count: 'm n(n-1) - n^2 + 1 Bedingungen'.",
+    "modern_name": "Constant counting (Konstantenzählung) for Fuchsian systems with prescribed monodromy",
+    "usually_credited_to": "Riemann (count); Hilbert (correction)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is a letter by Hilbert (1892), not a Riemann manuscript. Its content is an editorial correction and a routine justification (fixed eigenvalues give n relations). Hilbert's involvement with the Riemann–Hilbert problem and with the 2nd edition of Riemann's Werke is well known; it is mildly interesting as an early trace of his interest in what became his 21st problem.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; l=symbols('l'); a,b,c,d=symbols('a b c d'); A=Matrix([[a,b],[c,d]]); expand((A-l*eye(2)).det()) == expand(l**2-(a+d)*l+(a*d-b*c))",
+    "asserts": "For n=2 the characteristic equation gives exactly n=2 relations on entries (trace and determinant fixed by the eigenvalues)."
+   },
+   {
+    "sympy": "from sympy import *; X=Matrix(3,3,symbols('x0:9')); D=diag(1,2,3); sol=solve(list(D*X-X*D),list(X)); len(sol)",
+    "asserts": "The centralizer of a diagonal matrix with distinct eigenvalues in M_3 is cut out by 6 = n^2-n equations (dim n), so the conjugacy class has dimension n^2-n = 6."
+   },
+   {
+    "sympy": "from sympy import *; m,n=symbols('m n'); expand(m*n*(n-1)-(n**2-1)) == expand(m*n*(n-1)-n**2+1)",
+    "asserts": "The corrected formula m n(n-1) - n^2 + 1 equals m(n^2-n) - (n^2-1)."
+   },
+   {
+    "sympy": "from sympy import *; mu=symbols('mu'); simplify(log(exp(2*pi*I*mu))/(2*pi*I) - mu).subs(mu,Rational(1,3))",
+    "asserts": "mu = log(lambda)/(2*pi*i) for lambda = exp(2*pi*i*mu), valid on the principal branch (here for mu = 1/3)."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is Hilbert's handwriting (letter of 2.3.1892 to Weber), not Riemann's.",
+   "'Relationenen' is as written by Hilbert (a slip for 'Relationen').",
+   "The determinant is drawn with a vertical bar on the left and a parenthesis on the right; the middle row is indicated only by dashes. The bottom-left entry is A_1^{(n)}, the bottom-right A_n^{(n)} - lambda.",
+   "In 'Seite369' the space is missing in the original ('Seite 369'). The formula 'mn(n-1) - n^2 + 1' has n^2 underlined and a caret/insertion mark before it in the manuscript."
+  ]
+ }
+}

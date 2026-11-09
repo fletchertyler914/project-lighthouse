@@ -1,0 +1,93 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c148",
+ "label": "143",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000149/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is not a derivation. It is one month (November, rows 1-31; row 31 = 1 December, repeated as row 1 of the next page) of a 10-column ephemeris of daily reduction quantities ('day numbers') for converting mean star places to apparent places. October, November and December share the format.\n\nThe columns can be identified by recomputing them. Notation (mine): lambda = solar longitude in column 4; kappa = aberration constant, about 20.6 arcsec; epsilon = obliquity, about 23 deg 28'.\n\nCol 1, tau: a time argument (fraction of the year). It rises by 0.0027-0.0028 per row, average about 0.00273. That is close to 1/366.24, so the step may be a sidereal day (star-transit epochs), though 1/365.25 is not excluded. Values: 0.8361 on 1 Nov to 0.9180 on 1 Dec.\n\nCol 2, A: tau plus a solar nutation-in-longitude term in units of the annual precession. It fits to within a unit of the last decimal: A = tau - 0.0199*sin(2*lambda), i.e. about Delta_psi_sun/50.2 with Delta_psi_sun of about -1.0 arcsec * sin(2*lambda). No lunar (node) term is visible: A - tau is about 0 at the solstice.\n\nCol 3, B: B = -0.43*cos(2*lambda) arcsec, the solar term of nutation in obliquity with sign (Bessel's B = -Delta_eps). It is zero near 6-7 Nov (lambda about 225 deg) and has its maximum, +0.43, at the solstice.\n\nCol 4: apparent solar longitude lambda in deg.min.sec. It runs from 219 deg 20' 21\" to 249 deg 31' 54\" and reaches 270 deg on about 21/22 Dec.\n\nCol 5: C*tan(epsilon) = -kappa*sin(epsilon)*cos(lambda), coefficient about 8.21. Col5/Col6 = 0.434 = tan(23.48 deg).\n\nCol 6: C = -kappa*cos(epsilon)*cos(lambda), coefficient about 18.91.\n\nCol 7: D = -kappa*sin(lambda), with kappa about 20.6 (D = 20.62 at the solstice).\n\nCol 8: H in deg.min, with tan H = C/D, i.e. h*sin H = C and h*cos H = D. Example: atan(14.62/13.06) = 48.22 deg = 48 deg 13'.\n\nCol 9: log10 h, with h = sqrt(C^2 + D^2). Example: sqrt(14.62^2 + 13.06^2) = 19.60, log10 = 1.2923-1.2924.\n\nPurpose: daily aberration and solar-nutation day numbers. Columns 6-9 are in the form Bessel used: C, D and the 'independent' pair h, H, giving aberration as h*sin(H+alpha)*sec(delta) etc. They serve to reduce star positions (e.g. Göttingen meridian observations) to apparent places. The marginal years 1817-1819 on the facing page hint at the date.",
+  "errors": [
+   "No computational errors found in spot checks. Rows 1, 15, 30 and 31 of columns 5-9 reproduce to within one unit of the last place. Column 3 = -0.43*cos(2*lambda) and column 2 = tau - 0.0199*sin(2*lambda) reproduce to 0.01 and 0.0001 respectively.",
+   "Not an error: the row labelled 31 under November is 1 December (November has 30 days). It is carried over as row 1 of the December page, as October's row 32 = 1 November.",
+   "The implied aberration constant of about 20.6 arcsec is larger than the later standard of about 20.45-20.47. It lies between Delambre's 20.25 and Bessel's 1818 value of 20.708; this is a historical value, not a slip."
+  ],
+  "results": [
+   {
+    "what": "Daily table of aberration day numbers C = -kappa*cos(eps)*cos(lambda), D = -kappa*sin(lambda), and C*tan(eps), with kappa about 20.6 arcsec",
+    "modern_name": "Besselian day numbers C, D (annual aberration)",
+    "usually_credited_to": "F. W. Bessel (Fundamenta Astronomiae 1818; Tabulae Regiomontanae 1830)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Conversion of (C, D) to polar form h = sqrt(C^2+D^2) (tabulated as log h), H = atan(C/D)",
+    "modern_name": "Bessel's independent day numbers h, H",
+    "usually_credited_to": "F. W. Bessel (Tabulae Regiomontanae, 1830)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Solar nutation terms: A = tau - 0.0199*sin(2*lambda) (about -1.0 arcsec*sin(2*lambda) divided by the precession) and B = -0.43*cos(2*lambda)",
+    "modern_name": "Besselian day numbers A, B (solar part of nutation)",
+    "usually_credited_to": "Bessel (day-number formalism); the solar nutation theory goes back to Laplace and others",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a routine computed ephemeris of reduction day numbers. It is mildly notable that Gauss tabulated them in Bessel's C, D, h, H form, possibly around 1818 (marginal years) and before the Tabulae Regiomontanae (1830). However, Gauss and Bessel corresponded closely and such tables were standard observatory practice, so this is at most a minor detail.",
+  "checkable": [
+   {
+    "sympy": "N(-20.62*sin(rad(219+20/60+21/3600)))",
+    "asserts": "D for 1 Nov is about 13.06"
+   },
+   {
+    "sympy": "N(-20.62*cos(rad(23.47))*cos(rad(219+20/60+21/3600)))",
+    "asserts": "C for 1 Nov is about 14.62"
+   },
+   {
+    "sympy": "N(-20.62*sin(rad(23.47))*cos(rad(219+20/60+21/3600)))",
+    "asserts": "C*tan(eps) for 1 Nov is about 6.35"
+   },
+   {
+    "sympy": "N(log(sqrt(14.62**2+13.06**2),10))",
+    "asserts": "log h for 1 Nov is about 1.2924"
+   },
+   {
+    "sympy": "N(atan(14.62/13.06)*180/pi)",
+    "asserts": "H for 1 Nov is about 48.22 deg = 48 deg 13'"
+   },
+   {
+    "sympy": "N(atan(6.92/19.18)*180/pi)",
+    "asserts": "H for 30 Nov is about 19.84 deg = 19 deg 50-51'"
+   },
+   {
+    "sympy": "N(log(sqrt(6.92**2+19.18**2),10))",
+    "asserts": "log h for 30 Nov is about 1.3094"
+   },
+   {
+    "sympy": "N(-0.43*cos(2*rad(249+31/60+54/3600)))",
+    "asserts": "B for 1 Dec is about +0.33"
+   },
+   {
+    "sympy": "N(0.8361-0.0199*sin(2*rad(219+20/60+21/3600)))",
+    "asserts": "A for 1 Nov is about 0.8166"
+   },
+   {
+    "sympy": "N(0.9180-0.0199*sin(2*rad(249+31/60+54/3600)))",
+    "asserts": "A for 1 Dec is about 0.9050"
+   },
+   {
+    "sympy": "N(6.35/14.62 - tan(rad(23.47)))",
+    "asserts": "the ratio col5/col6 equals tan(obliquity), so the difference is about 0"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 31 under November is 1 December (duplicated on the December page); November itself has 30 days.",
+   "Row 30, col 8: the last digit is blotted. Recomputation gives 19 deg 50.4', so the reading 19.51 (or 19.50) is consistent.",
+   "Rows 1-10, col 3: several digits are written over (e.g. -0.06 on day 3, +0.01/+0.02/+0.04/+0.05 on days 7-10). The transcribed values agree with -0.43*cos(2*lambda).",
+   "Row 12, col 7: the final digit of 15.87 is overwritten but correct (computed 15.87).",
+   "Decimal separators alternate between ',' and '.' in the original (e.g. 1,2924 vs 1.2990); these are the same notation."
+  ]
+ }
+}

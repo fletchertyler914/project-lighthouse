@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.28",
+ "page": "c031",
+ "label": "16r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000032/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Gauss records a result from Euler, Novi Commentarii Academiae Scientiarum Petropolitanae 16, p. 101. This is almost certainly E421, 'Evolutio formulae integralis ∫x^{f-1}dx(lx)^{m/n} integratione a valore x=0 ad x=1 extensa', Novi Comm. 16 (1771, publ. 1772), pp. 91–139. Gauss then turns it into the Gaussian integral.\n\n(1) Euler's theorem: I = ∫_0^1 sqrt(log(1/x)) dx = (1/2)sqrt(pi). In modern terms this is Γ(3/2) = √π/2.\n\n(2) Substitution. The manuscript writes it as '1/x = e^{-tt}'. The sense requires x = e^{-t^2}, i.e. log(1/x) = t^2 with t ≥ 0. Then:\n- dx = -2t e^{-t^2} dt\n- sqrt(log(1/x)) = t\n- so sqrt(log(1/x)) dx becomes -2t^2 e^{-t^2} dt, exactly as written.\n\n(3) Limits (my addition): x = 0 corresponds to t = ∞, and x = 1 to t = 0. Hence I = ∫_∞^0 (-2t^2 e^{-t^2}) dt = 2∫_0^∞ t^2 e^{-t^2} dt. Euler's theorem is therefore equivalent ('gleichbedeutend') to ∫_0^∞ t^2 e^{-t^2} dt = √π/4.\n\n(4) Integration by parts in differential form: d(t e^{-t^2}) = e^{-t^2} dt - 2t^2 e^{-t^2} dt. Hence 2t^2 e^{-t^2} dt = -d(t e^{-t^2}) + e^{-t^2} dt.\n\n(5) Integrate from 0 to ∞. The boundary term t e^{-t^2} vanishes at both ends (my addition). So 2·(√π/4) = ∫_0^∞ e^{-t^2} dt, i.e. ∫_0^∞ e^{-t^2} dt = √π/2.\n\nPurpose: to obtain the probability (Gaussian) integral from Euler's log-integral, i.e. from Euler's Gamma-function evaluation. This was presumably for Gauss's work on least squares and the error law, or as a reading note.",
+  "errors": [
+   "The substitution is written (at least per the transcription) as 1/x = e^{-tt}. That would give log(1/x) = -t^2 < 0. The intended substitution is x = e^{-tt}, which is consistent with all the following lines. The sign/limit reversal between ∫_0^1 and ∫_0^∞ is left implicit, but the result is correct.",
+   "The vanishing of the boundary term [t e^{-t^2}]_0^∞ is not stated, but it is trivially true.",
+   "No substantive mathematical errors."
+  ],
+  "results": [
+   {
+    "what": "∫_0^1 sqrt(log(1/x)) dx = √π/2, cited from Euler",
+    "modern_name": "Γ(3/2) = √π/2 (Euler's integral of the second kind)",
+    "usually_credited_to": "Euler (1729–30 letters to Goldbach; E421, 1771)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Reduction via x = e^{-t^2} to ∫_0^∞ t^2 e^{-t^2} dt = √π/4, then integration by parts to ∫_0^∞ e^{-t^2} dt = √π/2",
+    "modern_name": "Gaussian / probability integral, derived from the Gamma function",
+    "usually_credited_to": "de Moivre (1733), Euler, Laplace (1774/1782)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a standard textbook manipulation: substitution plus integration by parts, yielding the well-known Gaussian integral from Euler's published Gamma result. Gauss certainly knew and used ∫e^{-t^2} = √π/2 (Theoria motus, 1809).",
+  "checkable": [
+   {
+    "sympy": "integrate(sqrt(log(1/x)), (x, 0, 1)) - sqrt(pi)/2",
+    "asserts": "Euler's theorem; should simplify to 0"
+   },
+   {
+    "sympy": "simplify(sqrt(log(1/x)).subs(x, exp(-t**2))*diff(exp(-t**2), t) + 2*t**2*exp(-t**2))",
+    "asserts": "With x = e^{-t^2} and t > 0, sqrt(log(1/x)) dx = -2t^2 e^{-t^2} dt; result 0 (declare t positive)"
+   },
+   {
+    "sympy": "integrate(t**2*exp(-t**2), (t, 0, oo)) - sqrt(pi)/4",
+    "asserts": "The equivalent form; result 0"
+   },
+   {
+    "sympy": "simplify(2*t**2*exp(-t**2) - (-diff(t*exp(-t**2), t) + exp(-t**2)))",
+    "asserts": "The differential identity used; result 0"
+   },
+   {
+    "sympy": "integrate(exp(-t**2), (t, 0, oo)) - sqrt(pi)/2",
+    "asserts": "The final Gaussian integral; result 0"
+   }
+  ],
+  "transcription_corrections": [
+   "'setzt man 1/x = e^{-tt}': the manuscript most likely reads x = e^{-tt}, with a stray stroke before the x; mathematically it must be x = e^{-tt}.",
+   "'gleichb.[?] mit' should be expanded to 'gleichbedeutend mit'.",
+   "In the line '2tte^{-tt}dt', the 'tt' is heavily overwritten or corrected in ink; the reading 2tt is confirmed by the mathematics.",
+   "'48c/16' is a struck-through old shelf or folio mark; the circled (16) is the current folio number. Both are archival, not mathematical.",
+   "The 'next page' transcription is only the library stamp (Niedersächs. Staats- u. Univ.-Bibliothek Göttingen), which shows through faintly on this page."
+  ]
+ }
+}

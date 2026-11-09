@@ -1,0 +1,73 @@
+{
+ "bundle": "R.Ellipsoid",
+ "page": "c125",
+ "label": "58v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205083:00000126/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is written upside down relative to the scan. Read right way up, it is a scratch sheet setting out the Lagrangian (material-coordinate) form of the hydrodynamic equations. This is the framework Dirichlet used and Riemann adopted in his 1861 paper on the motion of a homogeneous fluid ellipsoid. The next page (58r/59) turns to the ellipsoid potential integrals p, q and their derivatives for a stability/variation computation.\n\n(1) Linear (Dirichlet) motions. The particle position is written as a function of initial coordinates (a, b, c) and t, linear in the initial coordinates: x = l a + m b (+ n c), y = l' a + m' b (+ n' c), z = ... A first attempt is struck out. This is the standard ansatz for ellipsoidal motions, with l, m, n, ... functions of t.\n\n(2) Rotation example. Put x = r cos(eps), y = r sin(eps). For r fixed along a particle path the velocities are u = dx/dt = -y eps', v = dy/dt = x eps'. Riemann also notes the form -y dx + x dy (= r^2 d eps), i.e. twice the areal velocity / angular momentum density.\n\n(3) Lagrange's equations of motion with potential U and pressure p, density 1:\n x_tt x_a + y_tt y_a + z_tt z_a + p_a - U_a = 0, and similarly for b and c.\n\n(4) Applied in polar coordinates, with (r, eps) as the coordinates being differentiated:\n - radial component: x_tt x_r + y_tt y_r = r_tt - r eps_t^2, so r_tt - r eps_t^2 = d(U-p)/dr;\n - angular component: x_tt x_eps + y_tt y_eps = r(2 r_t eps_t + r eps_tt) = d/dt(r^2 eps_t). With d(U-p)/d eps = 0 (axisymmetry, implicit) this gives d/dt(r^2 eps_t) = 0, hence r^2 eps_t = alpha (conservation of angular momentum).\n - Substituting: r_tt - alpha^2/r^3 = d(U-p)/dr.\n - First integral: (1/2) r_t^2 + (1/2) alpha^2/r^2 = U - p + Const. The derivative of the left side is r_t (r_tt - alpha^2/r^3).\n\n(5) The equations are written in differential form: x_tt dx + y_tt dy + z_tt dz [= d(U - p)]. The note da : db : dc presumably refers to displacements along a direction in the initial configuration.\n\n(6) Relation between material and spatial time derivatives: the substantial derivative of u along particle paths equals du/dt + u du/dx (+ v du/dy + w du/dz). The line as transcribed is incomplete or garbled.\n\n(7) Velocity form of Lagrange's equation: u_t x_a + v_t y_a + w_t z_a = d(U - p)/da (+ ...). Here u_t means the time derivative at fixed (a, b, c).",
+  "errors": [
+   "The polar angular equation d/dt(r^2 eps_t)=0 tacitly assumes d(U-p)/d eps = 0 (rotational symmetry); this is not stated.",
+   "The integral (1/2)r_t^2 + (1/2)alpha^2/r^2 = U - p + Const follows by multiplying by r_t and integrating in t only if U-p is a time-independent function of r along the path. Alternatively, for steady circular motion (r_t=0) it follows by integrating in r. The condition is unstated.",
+   "The material-derivative line as transcribed (u_x x_t + u_y y_t + u_z z_t = u_t + u u_x) is incomplete. The correct identity is D u/Dt = u_t + u u_x + v u_y + w u_z, and the left side as written omits the explicit u_t. This is probably a transcription problem or an unfinished jotting.",
+   "Sign in the last line: from equation (3), u_t x_a + v_t y_a + w_t z_a = U_a - p_a. If the manuscript really has +p_a on the right with U_a, it is a sign slip (unclear in the image)."
+  ],
+  "results": [
+   {
+    "what": "Lagrangian form of the Euler equations: x_tt x_a + y_tt y_a + z_tt z_a = d(U-p)/da",
+    "modern_name": "Lagrangian (material) form of the Euler equations of an ideal fluid",
+    "usually_credited_to": "Euler (1757-1770) / Lagrange (Mécanique analytique, 1788); used for ellipsoids by Dirichlet (1857/1860)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Linear ansatz x = la + mb + nc for ellipsoidal fluid motions",
+    "modern_name": "Dirichlet's linear (affine) motions; Dirichlet-Dedekind-Riemann ellipsoids",
+    "usually_credited_to": "Dirichlet (1857, publ. 1860 by Dedekind); Riemann 1861 used it",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Polar reduction: r_tt - r eps_t^2 = d(U-p)/dr, r^2 eps_t = alpha, energy-type first integral",
+    "modern_name": "Central-force / swirling-flow reduction with angular-momentum conservation and energy integral",
+    "usually_credited_to": "classical (Newton/Euler/Kepler problem)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Material derivative relation",
+    "modern_name": "Substantial (convective) derivative",
+    "usually_credited_to": "Euler",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Standard textbook hydrodynamics (Lagrangian equations, polar reduction, angular momentum conservation). This is exactly the known framework of Riemann's published 1861 ellipsoid paper, and the page is preparatory scratch work.",
+  "checkable": [
+   {
+    "sympy": "t=symbols('t'); r=Function('r')(t); e=Function('e')(t); x=r*cos(e); y=r*sin(e); simplify(diff(x,t,2)*cos(e)+diff(y,t,2)*sin(e) - (diff(r,t,2)-r*diff(e,t)**2))",
+    "asserts": "Radial projection of acceleration equals r'' - r eps'^2 (result 0)"
+   },
+   {
+    "sympy": "simplify(diff(x,t,2)*(-r*sin(e))+diff(y,t,2)*(r*cos(e)) - diff(r**2*diff(e,t),t))",
+    "asserts": "x_tt x_eps + y_tt y_eps = d/dt(r^2 eps_t) (result 0)"
+   },
+   {
+    "sympy": "al=symbols('alpha'); R=Function('R')(t); simplify(diff(Rational(1,2)*diff(R,t)**2+al**2/(2*R**2),t) - diff(R,t)*(diff(R,t,2)-al**2/R**3))",
+    "asserts": "Energy integral: derivative of (1/2)r_t^2 + alpha^2/(2r^2) is r_t(r_tt - alpha^2/r^3) (result 0)"
+   },
+   {
+    "sympy": "r0=symbols('r0'); X=r0*cos(e); Y=r0*sin(e); simplify(diff(X,t)-(-Y*diff(e,t))), simplify(diff(Y,t)-X*diff(e,t))",
+    "asserts": "u = -y eps', v = x eps' for fixed r (both 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The page is rotated 180 degrees in the scan; reading order runs from the bottom of the image upward.",
+   "In the polar equations the angle symbol is likely epsilon (or a similar Greek letter); the 'r^2' fragment to its right is a marginal note anticipating r^2 eps_t = alpha.",
+   "The line transcribed 'd^2 eps/dt^2 = [-...-] 0' is a struck-out attempt, superseded by d(r^2 eps_t)/dt = 0.",
+   "The material-derivative line likely reads (or was intended as) du/dt + u du/dx + v du/dy + w du/dz; the transcription truncates it.",
+   "The small grid of crossing lines at the lower left of the image (top of the page when upright) is a doodle or sketch, not formula text."
+  ]
+ }
+}

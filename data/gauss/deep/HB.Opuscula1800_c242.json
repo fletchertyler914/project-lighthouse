@@ -1,0 +1,65 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c242",
+ "label": "237",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000243/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Göttingen, 25 Oct 1832. This is an early experiment by Gauss with a galvanic circuit ('Galvanische Kette') acting on a magnetic needle. It belongs to the period of his intensity measurements (Intensitas, 1832) and comes before the 1833 telegraph work with Weber. The page holds raw observations, not a derivation.\n\nColumns:\n- Clock time (h, m, s).\n- Scale reading of the mirror/telescope needle (magnetometer), in scale divisions.\n- A 'Compas' column. This is very likely the reading of a second, independent declination instrument. It records the natural drift of the Earth's field, so that drift can be separated from the galvanic effect. A brace assigns one compass value to each pair of observations.\n\nData, with elapsed times since the 8h29m19s closing my own calculation:\n- Rest position, circuit open: 8h24m58s, reading 640.875, compass 381.8.\n- 8h29m19s: circuit closed ('Kette geschlossen').\n- 8h36m22s (t = 7m03s = 7.05 min): 227.25, deflection D = 640.875 − 227.25 = 413.625.\n- 8h40m59s (11m40s ≈ 11.67 min): 325.40, D = 315.475.\n- 8h53m30s (24m11s): 426.90, D = 213.975.\n- 8h57m13s (27m54s): 442.40, D = 198.475. Compass for this pair: 379.1.\n- 9h37m13s (67m54s): 520.50, D = 120.375.\n- 9h40m15s (70m56s): 524.65, D = 116.225. Compass: 375.9.\n- Circuit opened ('Kette geöffnet'). The needle returns to 640.90, essentially the original rest point 640.875, so there is no permanent displacement of the zero.\n- 9h46m45s: circuit closed again.\n- 9h48m58s (2m13s): 487.55, D = 153.35.\n- 9h50m50s (4m05s): 509.10, D = 131.80.\n\nSketch: a plot of deflection (proportional to current) against time.\n- First closure: a high initial value decays monotonically and asymptotically toward a non-zero level.\n- Second closure, after a short opening: the curve starts only slightly above the level reached before opening. It then drops steeply back toward the same asymptote.\n\nInterpretation: this is the time decay of a voltaic cell's current through polarization ('Ladung' of the plates). There is only partial recovery during a brief opening (about 6 minutes), followed by a fast re-decline.\n\nThe compass drift (381.8 → 379.1 → 375.9, about 6 divisions) is small compared with the deflection changes (about 300 divisions). So the decay is galvanic, not geomagnetic. Gauss presumably recorded it in order to correct for it; the subtraction is not done on the page.\n\nNo formula is fitted on the page. The decay is not a pure exponential to zero:\n- Over the first 4.6 min it drops by a factor of 0.76.\n- Between 24 and 28 min it drops by only 0.93.\n- It tends to a plateau, consistent with the sketched asymptote.",
+  "errors": [
+   "No computational errors are possible to identify: the page is raw data.",
+   "The deflections are recorded only as raw scale readings. No reduction to angle (division by twice the mirror–scale distance) and no correction for the compass drift appear. This is an omission, not an error."
+  ],
+  "results": [
+   {
+    "what": "Observation that a galvanic cell's current (measured as needle deflection) decays with time after closing, toward a nonzero asymptote. The current recovers only partly after a short interruption and then decays faster.",
+    "modern_name": "Electrode polarization / battery current decay (polarization of voltaic cells)",
+    "usually_credited_to": "Ritter (secondary piles, c. 1803), Ohm and Fechner (1820s–1831) for quantitative observations of current decline",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of a separate compass/variation instrument read simultaneously to control for changes in the Earth's declination during the galvanic measurement.",
+    "modern_name": "Differential/reference magnetometer correction for geomagnetic variation",
+    "usually_credited_to": "Gauss (and Weber), Göttingen Magnetic Observatory 1832–34",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are laboratory notes of a known type from Gauss's 1832–33 electromagnetic experiments. Battery polarization was already known by then. Gauss's galvanic experiments with mirror magnetometers in this period are documented, so nothing here is new mathematically or historically beyond the archival detail.",
+  "checkable": [
+   {
+    "sympy": "[640.875-x for x in [227.25,325.40,426.90,442.40,520.50,524.65]] == [413.625,315.475,213.975,198.475,120.375,116.225]",
+    "asserts": "Deflections from rest point during first closure (floating-point equality approximate)"
+   },
+   {
+    "sympy": "[640.90-x for x in [487.55,509.10]]",
+    "asserts": "Deflections after second closure: approximately [153.35, 131.80]"
+   },
+   {
+    "sympy": "[(h*3600+m*60+s-(8*3600+29*60+19))/60.0 for (h,m,s) in [(8,36,22),(8,40,59),(8,53,30),(8,57,13),(9,37,13),(9,40,15)]]",
+    "asserts": "Elapsed minutes since first closure: approx [7.05, 11.67, 24.18, 27.9, 67.9, 70.93]"
+   },
+   {
+    "sympy": "315.475/413.625",
+    "asserts": "Ratio ≈ 0.763 over first ~4.6 min, showing fast initial decay"
+   },
+   {
+    "sympy": "198.475/213.975",
+    "asserts": "Ratio ≈ 0.928 over ~3.7 min at ~25 min, showing slowing decay toward an asymptote (not pure exponential to zero)"
+   },
+   {
+    "sympy": "381.8-375.9",
+    "asserts": "Compass drift ≈ 5.9 divisions, small compared with the galvanic deflection change (~300 divisions)"
+   }
+  ],
+  "transcription_corrections": [
+   "Time entries '9 37.13' and '40 15' have overwritten (thickened) seconds digits; the reading 13 and 15 seems right, so the '[?]' markup can be dropped.",
+   "'640.9[-0-]{+0+}' is 640.90, with the final 0 overwritten (possibly corrected from another digit).",
+   "'48.58' is 9h48m58s; '46.45' is 9h46m45s; '50.50' is 9h50m50s (hour 9 implied).",
+   "The first closure note reads 'Kette geschlossen' (spelled 'geschlossen' with long s); the later abbreviation is 'Kette geschl.'.",
+   "The compass readings 379,1 and 375,9 are bracketed to the pairs (426.90, 442.40) and (520.50, 524.65) respectively."
+  ]
+ }
+}

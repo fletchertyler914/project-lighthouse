@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c137",
+ "label": "66v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000138/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is a draft of §21 of Riemann's Inauguraldissertation (1851), the conformal-mapping (Riemann mapping) theorem. The previous page computes the winding-point term in the boundary integral of ∂u/∂p. This page carries out the step 'map a simply connected surface T conformally onto the disc'.\n\n(1) Construction of t. Fix an interior point O_0 (z = z'). Put Θ = log(z − z') = log r + iφ. To make Θ single-valued, cut T along a line from O_0 to the boundary. Crossing this line from its negative to its positive side, Θ changes by −2πi (sign as the manuscript gives it). Riemann seeks an auxiliary function, call it w = α + iβ (my label), with three properties:\n- Θ + w is purely imaginary on the boundary, i.e. α = −log r on ∂T.\n- w is continuous inside T.\n- Any infinitely small change of position changes w only by an amount of the same order.\nThe garbled formula ∫((∂w/∂x)² + (∂w/∂y)²) is the Dirichlet integral. It vanishes in the part of T where the comparison function coincides with Θ and is finite in the rest. By the Dirichlet-principle theorem of the earlier sections (§§16–18), such a function exists. It is then turned into a single-valued function t = m + ni = log(z − z') + w of z, determined up to a purely imaginary additive constant.\n\n(2) Properties of the real part m:\n- m = 0 on the boundary.\n- m → −∞ at O_0 (like log r).\n- m is harmonic and continuous in the rest of T.\n\n(3) Maximum-principle argument. For a constant a < 0, the set {m < a} is a single connected piece containing O_0.\n- A separate piece would have m = a on its border and m < a inside, so m would have an interior minimum. A harmonic function cannot.\n- Any region enclosed by {m < a} on which m > a would have m = a on its border and m > a inside, giving an interior maximum. Again impossible.\n- Likewise the level line cannot run into the region m > a. Near its points m must increase on one side and decrease on the other.\nHence each level curve m = a is a single closed curve surrounding O_0. Along it, m < a on the inner side, so ∂m/∂p > 0 for the outward normal p. By Cauchy–Riemann (my step), ∂n/∂s = ∂m/∂p > 0, so n increases monotonically along the curve (the manuscript writes 'folglich ∂n/∂s positiv').\n\n(4) Sign of m. m cannot become positive in the interior of T. Since m = 0 on the boundary, a positive value would force an interior maximum, contradicting the principle marked x.\n\nThe page breaks off at 'Der imaginäre Theil…'. In the published text this continues: n increases by 2π around each level curve, so e^t maps T one-to-one onto the unit disc.",
+  "errors": [
+   "No mathematical error is visible. The sign of the jump of Θ across the cut (−2πi from the negative to the positive side) depends on orientation conventions and is stated without justification.",
+   "Existence of w rests on the Dirichlet principle as used in the dissertation. By modern standards this is unjustified (Weierstrass's 1870 critique); it was later rigorized by Hilbert and others.",
+   "The level-set argument is heuristic: smoothness of level curves and the absence of critical points of m are tacitly assumed. Since t' ≠ 0 was not yet established, critical points are not excluded at this stage."
+  ],
+  "results": [
+   {
+    "what": "Construction of a function t with Re t = 0 on ∂T and logarithmic pole at O_0 (the complex Green's function), via the Dirichlet principle",
+    "modern_name": "Green's function / Dirichlet principle construction in the proof of the Riemann mapping theorem",
+    "usually_credited_to": "Riemann, Inauguraldissertation 1851, §21",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Level sets {m<a} are connected and contain O_0; m<0 inside; ∂n/∂s>0 along level curves",
+    "modern_name": "Maximum/minimum principle for harmonic functions; level curves of the Green's function",
+    "usually_credited_to": "Gauss/Riemann (the maximum principle in this use appears in Riemann 1851)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Preparation for conformal mapping of a simply connected T onto the disc by e^t",
+    "modern_name": "Riemann mapping theorem",
+    "usually_credited_to": "Riemann 1851 (rigorous proofs: Osgood 1900, Carathéodory, Koebe)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a working draft of §21 of Riemann's published 1851 dissertation (the Riemann mapping theorem via the Green's function and the maximum principle). Its content is well known and credited to him.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); simplify(diff(log(sqrt(x**2+y**2)),x,2)+diff(log(sqrt(x**2+y**2)),y,2))",
+    "asserts": "Re Θ = log r is harmonic away from z'=0, so m has the right singularity at O_0"
+   },
+   {
+    "sympy": "z,z0=symbols('z z0'); t=log((z-z0)/(1-conjugate(z0)*z)); simplify(Abs(((exp(I*symbols('th',real=True))-Rational(1,2))/(1-Rational(1,2)*exp(I*symbols('th',real=True))))))",
+    "asserts": "For T = unit disc and z0=1/2, the model t = log((z−z0)/(1−z0̄ z)) has Re t = 0 on |z|=1, i.e. the modulus simplifies to 1"
+   },
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); integrate(diff(log(r),r)*r,(phi,0,2*pi))",
+    "asserts": "The flux of log r through a circle around z' is 2π, matching the total increase of n = arg-part around a level curve"
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); m=log(sqrt(x**2+y**2)); n=atan2(y,x); simplify(diff(m,x)-diff(n,y)), simplify(diff(m,y)+diff(n,x))",
+    "asserts": "Cauchy–Riemann for t = log z, used to pass from ∂m/∂p > 0 to ∂n/∂s > 0"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3: '1 f um −2πi' is most likely '[Θ] sich um −2πi ändert'.",
+   "'Theil wo m > ist' should read 'Theil wo m > a ist' (the 'a' is omitted in the transcription).",
+   "The final line 'x. [?]' appears to read 'x. zuwider'. It completes the footnote marked x: the conclusion contradicts the principle that a harmonic function has no interior maximum or minimum.",
+   "'Fortgang' is likely correct, though possibly 'Fortgang/Übergang'. 'wächst[?]' above the integral is uncertain and may be 'erhält'.",
+   "'abgerundet[?]' is doubtful; it is probably 'abgesondert' or similar."
+  ]
+ }
+}

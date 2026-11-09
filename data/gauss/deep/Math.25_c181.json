@@ -1,0 +1,92 @@
+{
+ "bundle": "Math.25",
+ "page": "c181",
+ "label": "90r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000182/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page derives an AGM-based expression for the nome x = q = exp(-pi K'/K) of the modulus with complementary modulus k' = n/m. Start with m_0 = m, n_0 = n and iterate m_{i+1} = (m_i + n_i)/2, n_{i+1} = sqrt(m_i n_i) until both reach mu = AGM(m,n). Then\n\nx = (m^2 - n^2) / (16 m' m'') * (m''/m''')^(1/2) * (m'''/m^IV)^(1/4) * ...\n\nIn practice one stops where the terms become equal to working precision. If m''' ≈ m^IV, this gives x = (m^2 - n^2) / (16 m' sqrt(m'' m''')). As a check (mine): to first order x ≈ k^2/16 when m = 1 and n = k' is close to 1.\n\nThis page gives two worked examples using 7-place common logarithms.\n\nExample I: m = sqrt2, n = 1, so k' = 1/sqrt2 (the lemniscatic case).\n- AGM table: m' = 1.20710678, n' = 1.18920712 (= 2^(1/4)), m'' = 1.19815695, n'' = 1.19812352, m''' = n''' = mu = 1.19814023. This mu is Gauss's lemniscatic constant AGM(sqrt2, 1).\n- Logarithm of the denominator: log sqrt(m'' m''') = (0.0785137 + 0.0785077)/2 = 0.0785107. Adding log m' = 0.0817456 gives 0.1602563. Adding log 16 = 1.2041200 gives 1.3643763.\n- Since m^2 - n^2 = 1, its log is 0. Hence log x = -1.3643763 = 8.6356237 - 10.\n- So x = 0.04321392 and 1/x = 23.14069. This is x = e^(-pi), 1/x = e^pi: here K' = K, so q = e^(-pi).\n\nExample 2: m = 1, n = sqrt2 - 1. A marginal note gives the equivalent choice m = 1 + sqrt2, n = 1 (same ratio). Here k' = sqrt2 - 1, which is the singular modulus k_2, so K'/K = 1/sqrt2.\n- AGM table: m' = 0.70710678, n' = 0.64359433 (log 9.8086122), m'' = 0.67535055, n'' = 0.67460354, m''' = n''' = mu = 0.67497704 (log 9.8292890).\n- Logarithm of the denominator: log sqrt(m'' m''') = 9.8294091. Adding log m' gives 9.6788941. Adding log 16 gives 0.8830141.\n- Numerator: m^2 - n^2 = 2sqrt2 - 2 = 0.8284271, with log 9.9182543. A struck-out figure lies beneath.\n- So log x = 9.9182543 - 0.8830141 - 10 = -0.9647598.\n- Hence x = 0.10845(27) and 1/x = 9.2206125, i.e. x = e^(-pi/sqrt2), 1/x = e^(pi/sqrt2).\n\nThe page illustrates numerically how fast the AGM product for the nome converges: two or three AGM steps give q to 7 places.",
+  "errors": [
+   "Example 2: n' = sqrt(sqrt2 - 1) is 0.64359425, not 0.64359433 (an error of 8e-8). It propagates into m'' (0.67535052 rather than 0.67535055). It is harmless at 7-place logarithms: log n' = 9.8086122 is correct.",
+   "Example 2: the value written x = 0.1084549 does not match Gauss's own log x = -0.9647598 or 1/x = 9.2206125. Both of those give x = 0.1084527, since e^(-pi/sqrt2) = 0.10845266. This is either a slip in the final digits or a misreading of the image.",
+   "No other errors: all logarithms and sums in Example 1, and the logarithmic chain in Example 2, check to the 7th place."
+  ],
+  "results": [
+   {
+    "what": "AGM iteration of (sqrt2, 1), giving 1.19814023",
+    "modern_name": "Arithmetic-geometric mean; Gauss's lemniscatic constant (AGM(1,sqrt2) = 1.19814023)",
+    "usually_credited_to": "Gauss (1799 diary entry linking it to the lemniscate), Lagrange/Legendre for the algorithm",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The nome q = exp(-pi K'/K) obtained from the AGM sequence as x = (m^2-n^2)/(16 m' sqrt(m'' sqrt(m''' ...))), applied to give e^(-pi) = 0.04321392 and e^pi = 23.14069",
+    "modern_name": "AGM/Landen-transformation formula for the nome; rapidly convergent computation of q (related to theta-function AGM identities)",
+    "usually_credited_to": "Gauss (Nachlass, Werke III, on the AGM), later Jacobi",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Evaluation for k' = sqrt2 - 1 (the singular modulus k_2), giving q = e^(-pi/sqrt2) = 0.108453 and 1/q = 9.2206125",
+    "modern_name": "Singular moduli / evaluation of the nome at singular values",
+    "usually_credited_to": "Legendre, Jacobi, Abel; Gauss in his Nachlass",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's AGM theory, his lemniscatic constant, and his AGM-based computation of the nome are well documented from his Nachlass (Werke III). This page is a worked numerical illustration (e^pi, e^(pi/sqrt2)), consistent with known material. It is interesting as an early AGM computation of e^pi, but not new.",
+  "checkable": [
+   {
+    "sympy": "N(sqrt(sqrt(2)*1), 9)  # n' = 1.18920712",
+    "asserts": "The first geometric mean in Example I is n' = 2^(1/4) = 1.18920712."
+   },
+   {
+    "sympy": "N(Function('agm')(sqrt(2),1)) if False else N(pi/(2*elliptic_k(Rational(1,2))) * sqrt(2), 9)",
+    "asserts": "AGM(sqrt2, 1) = 1.19814023. This uses AGM(1, k') = pi/(2K(k)) with parameter m = k^2 = 1/2, scaled by sqrt2."
+   },
+   {
+    "sympy": "N(log(exp(-pi),10), 8)  # -1.3643763",
+    "asserts": "log10 x = -1.3643763 in Example I, i.e. x = e^(-pi)."
+   },
+   {
+    "sympy": "N(exp(pi), 8)  # 23.140693",
+    "asserts": "1/x = 23.14069 in Example I."
+   },
+   {
+    "sympy": "N(exp(-pi*elliptic_k(1-Rational(1,2))/elliptic_k(Rational(1,2))), 10)",
+    "asserts": "The nome for k' = 1/sqrt2 equals e^(-pi) = 0.0432139183."
+   },
+   {
+    "sympy": "N(1/(16*((sqrt(2)+1)/2)*sqrt(Rational(119815695,10**8)*Rational(119814023,10**8))), 9)",
+    "asserts": "Gauss's truncated formula with m = sqrt2, n = 1 gives 0.0432139, matching e^(-pi) to about 8 digits."
+   },
+   {
+    "sympy": "N(sqrt(sqrt(2)-1), 10)",
+    "asserts": "Equals 0.6435942529, so Gauss's n' = 0.64359433 is off by 8e-8."
+   },
+   {
+    "sympy": "N(log(2*sqrt(2)-2,10), 8)",
+    "asserts": "log10(m^2 - n^2) = -0.0817457 (written 9.9182543) in Example 2."
+   },
+   {
+    "sympy": "N(exp(-pi*elliptic_k(1-(sqrt(2)-1)**2)/elliptic_k((sqrt(2)-1)**2)) - exp(-pi/sqrt(2)), 10)",
+    "asserts": "For k' = sqrt2 - 1 the nome is e^(-pi/sqrt2). Here elliptic_k takes the parameter m = k^2, so k^2 = 1 - (sqrt2-1)^2 and k'^2 = (sqrt2-1)^2. The difference should be about 0."
+   },
+   {
+    "sympy": "N(-pi/sqrt(2)*log(E,10), 8)",
+    "asserts": "log10 x = -0.9647598 in Example 2."
+   },
+   {
+    "sympy": "(N(exp(-pi/sqrt(2)),8), N(exp(pi/sqrt(2)),8))",
+    "asserts": "x = 0.10845266 (not 0.1084549) and 1/x = 9.2206125."
+   }
+  ],
+  "transcription_corrections": [
+   "'x = 0,0432139[?]2' should read 'x = 0,04321392'. The digits are clear and agree with e^(-pi) = 0.0432139183.",
+   "The struck figure under mm-nn in Example 2 appears to be '8.012686' or '8.0126.86' (cancelled). It is not part of the final computation.",
+   "The marginal '{+m=1+sqrt2+}' above 'Beispiel 2' is an alternative choice of the same example (m = 1+sqrt2, n = 1, same ratio n/m), not a correction of m = 1.",
+   "Example 2's final x is written 0.1084549 in the image, but the correct value consistent with its log is 0.1084527."
+  ]
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "bundle": "R.Modulfunctionen",
+ "page": "c093",
+ "label": "46v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3223711:00000094/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "IMPORTANT CONTEXT: this folio is not a Riemann computation. It is the second page of a letter (previous page begins 'Lieber Freund!') written by an editor of Riemann's Gesammelte Werke (Teubner, 1876). The mention of the proof sheets 'R. g. m. W.', the 'elliptischen Fragmente', and formulas the writer found 'aus log eta(omega)' identify the writer almost certainly as Richard Dedekind, writing to Heinrich Weber. The letter reports Dedekind's recomputation of the eight formulas in Riemann's fragment on the limiting cases of the elliptic modular functions (Werke XXVIII, second fragment). Those formulas describe the behaviour of log k, -log k' and log(2K/pi) as q = e^{omega pi i} tends radially to a root of unity e^{pi i m/n}.\n\n(1) Remarks on the manuscript. Riemann's sheet is faint and heavily struck through. Its steps have gaps that cannot be bridged mentally, so the writer guesses Riemann worked on a slate and copied only the key intermediate points.\n\n(2) The hardest gap is in formula 2 of 8: the passage from the penultimate to the last expression. Here E(x) is the floor function, the sums run over s = 1..n-1, and m, mu are integers tied to the case.\n\nFirst form:\n(m - mu)/2 + mu/(2n) + 2 sum_{s=1}^{n-1} (-1)^s [E(mu s/2n) - E(m s/2n)] = m/(2n) + (4/n) sum (-1)^s s [(m s - n)/(2n) - E(m s/2n)].\n\nThe writer calls this equivalent to the second form, using the sawtooth ((x)) = x - E(x) - 1/2 for non-integer x and 0 for integer x:\n2 sum (-1)^s ((m s/2n + 1/2)) - 2 sum (-1)^s ((mu s/2n + 1/2)) = (4/n) sum (-1)^s s ((m s/2n + 1/2)).\n\nThe equivalence uses two facts (my reading):\n- ((x + 1/2)) = x - E(x) whenever 2x is not an integer.\n- Elementary values of the alternating sums sum (-1)^s and sum (-1)^s s over 1..n-1.\nThis is a Dedekind-sum-type reciprocity/reduction identity. The writer proved it only after several failed attempts. No proof is written on this page.\n\n(3) Corrections to Riemann's final expressions:\n- Case 3: replace ((3m/4n)) by ((3m/4n + 1/2)).\n- Piece 4: dots are needed after 1/(2n) in the penultimate formula (already present). The sign of the last formula must be reversed, to -pi i((m-2)n - 4 sum_{s=0}^{n-1} E(m(2s+1)/4n)).\n- Piece 5: inside the parenthesis after pi i, (n^2-1)mu/n should read (n^2-1)mu/(2n).\n\n(4) Claim about real parts. All real parts in pieces 2, 3, 5, 6, 7, 8 disagree with the writer's own formulas derived from the transformation of log eta(omega). The writer diagnoses that Riemann mis-estimated the real parts of the infinite series and of the nonzero finite terms, and also made outright errors. The next page carries out the comparison using A = pi i/(24 N^2 (omega - omega0)) and B = (1/2) log((omega - omega0)/i) + (1/2) log N.",
+  "errors": [
+   "No error by the letter writer is visible on this page; the stated identity is asserted, not derived here.",
+   "The writer reports errors in Riemann's fragment: a sawtooth argument missing +1/2 in case 3, a sign error in the last formula of piece 4, a missing factor 1/2 in piece 5, and wrong real (constant/logarithmic) parts in pieces 2, 3, 5, 6, 7, 8.",
+   "Caveat: the parity and coprimality conditions on m, n, mu are not stated on this page. Testing n=2 shows the second form forces mu ≡ 2 (mod 4), so the identity cannot hold for unrestricted integers. Its exact hypotheses must be taken from the case definitions in Riemann's fragment (likely n odd, or mu defined by a congruence relative to m)."
+  ],
+  "results": [
+   {
+    "what": "Alternating sawtooth-sum identity used to bridge step 2 of Riemann's limiting formula for log k at a rational cusp",
+    "modern_name": "Elementary Dedekind-sum-type identity / sawtooth function ((x)) manipulations (precursor of Dedekind sums)",
+    "usually_credited_to": "Dedekind (Erläuterungen zu Riemann's Fragmenten, 1876/1892; Dedekind sums 1892)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Writer's own asymptotics of log k, log k', log(2K/pi) at rational points derived from the transformation law of log eta(omega)",
+    "modern_name": "Transformation formula of the Dedekind eta function and behaviour of modular functions at cusps",
+    "usually_credited_to": "Dedekind (1877 letter to Borchardt; 1892 Erläuterungen)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "List of corrections to Riemann's eight formulas (sign, factor 1/2, +1/2 in sawtooth argument)",
+    "modern_name": "Editorial verification of Riemann Werke XXVIII",
+    "usually_credited_to": "Dedekind and Weber (editors, 1876)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The page is an editor's letter (almost certainly Dedekind to Weber, c. 1876), not Riemann's own work. It documents the known story that Dedekind's work on log eta and sawtooth sums grew out of editing Riemann's fragment on limiting values of modular functions. The details (Riemann's slips, Dedekind's difficulty with one identity) are pleasant archival colour but not new mathematics attributable to Riemann.",
+  "checkable": [
+   {
+    "sympy": "from sympy import floor, Rational\nsaw=lambda x: 0 if x==floor(x) else x-floor(x)-Rational(1,2)\nE=floor\nf1=lambda m,mu,n: (Rational(m-mu,2)+Rational(mu,2*n)+2*sum((-1)**s*(E(Rational(mu*s,2*n))-E(Rational(m*s,2*n))) for s in range(1,n))) - (Rational(m,2*n)+Rational(4,n)*sum((-1)**s*s*(Rational(m*s-n,2*n)-E(Rational(m*s,2*n))) for s in range(1,n)))",
+    "asserts": "f1(m,mu,n)==0 for admissible (m,mu,n); the first form of the identity. Search small m, mu, n (n odd, gcd conditions, mu linked to m by a congruence) to find the hypotheses."
+   },
+   {
+    "sympy": "f2=lambda m,mu,n: 2*sum((-1)**s*saw(Rational(m*s,2*n)+Rational(1,2)) for s in range(1,n)) - 2*sum((-1)**s*saw(Rational(mu*s,2*n)+Rational(1,2)) for s in range(1,n)) - Rational(4,n)*sum((-1)**s*s*saw(Rational(m*s,2*n)+Rational(1,2)) for s in range(1,n))",
+    "asserts": "f2(m,mu,n)==0 exactly when f1(m,mu,n)==0, i.e. the two forms are equivalent for admissible parameters."
+   },
+   {
+    "sympy": "saw(x+Rational(1,2)) - (x-floor(x))  # for 2x not integer",
+    "asserts": "((x+1/2)) = x - E(x) when 2x is not an integer; the key conversion between the two forms."
+   }
+  ],
+  "transcription_corrections": [
+   "'Stützpunkte[?]' is plausible for the faint word; possibly 'Stationspunkte' or similar — uncertain.",
+   "In the next-page transcription, 'q_0^N - q_0^N' in item 3 is surely 'q_0^N - q^N'.",
+   "The first-form RHS sum lacks explicit limits in the image; by analogy they are s=1..n-1."
+  ]
+ }
+}

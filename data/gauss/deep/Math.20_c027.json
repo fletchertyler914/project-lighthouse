@@ -1,0 +1,68 @@
+{
+ "bundle": "Math.20",
+ "page": "c027",
+ "label": "13v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381608:00000028/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): the cubic (⊙) f(Y) = Y^3 + Y^2 - H*Y + H/9 = 0 with H > 0 is examined. f(-Y) = -Y^3 + Y^2 + H*Y + H/9 has exactly one sign change, so f has exactly one negative root. Y = 0 is not a root, since f(0) = H/9 ≠ 0. So either (I) one negative root and two imaginary roots, or (II) one negative root and two positive roots.\n\nGauss rewrites f in the form (☾):\n(Y - a)^2 (Y + b) - (Y - 1/9)(H - c) = 0, with a = (√5-1)/6, b = (√5+2)/3, c = (√5+1)/6.\nThe identity holds because (Y-a)^2(Y+b) = Y^3 + Y^2 - cY + c/9. This uses b - 2a = 1, a^2 - 2ab = -c and a^2 b = c/9.\n\nThe previous page settles Case 1 (H = c: double root a, plus the negative root -b, so case II). It also starts Case 2 (H < c). There, a positive root Y > 1/9 is impossible, because both parts of ☾ are then positive. A positive root Y < 1/9 is impossible, because Y^3 + Y^2 > 0 and H(1/9 - Y) > 0 in ⊙.\n\nThis page:\n(Case 2, third point) Y = 1/9 is not a root either. In ⊙, f(1/9) = 1/729 + 1/81 = 10/729 ≠ 0. In ☾ the second term vanishes and the first is positive. Hence for H < c there is no positive root, and the case falls under I. Q.E.D.\n\n(Case 3) H > c.\n(i) Let F(Y) be the left side of ☾. At Y = a the first term vanishes, leaving F(a) = -(a - 1/9)(H - c). This is negative because a ≈ 0.206 > 1/9 and H > c. Also F(Y) → +∞ as Y → ∞. By the intermediate value property there is a root in (a, ∞).\n(ii) F(1/9) = (1/9 - a)^2 (1/9 + b) > 0 and F(a) < 0, so there is a root in (1/9, a).\nThus there are two positive roots, one > a and one < a (in fact one in (1/9, a)). The case falls under II.\n\nGauss concludes that all assertions of 'Art. 162' are proved. Which text this article belongs to is not identified on the page.\n\nMy addition: in modern terms, H = c is the only positive value of H for which f has a double root. The double-root condition gives Y(Y^2 + Y/3 - 1/9) = 0, i.e. Y = 0 or Y = (-1 ± √5)/6. The positive root Y = a yields H = c; the other two yield H = 0 and a negative H.",
+  "errors": [
+   "In Case 3(i) the manuscript evaluates the left side of ☾ at 'Y = (√5+1)/6'. It should be Y = (√5-1)/6 = a. Only there does the first term vanish and the sign become 'obviously negative'. The conclusion drawn (a root greater than (√5-1)/6) also requires a. At Y = (√5+1)/6 the sign depends on H; e.g. it is positive for H slightly above c. This is a slip of the pen; the argument is correct with a.",
+   "Minor gap: Case 3(ii) proves a root between 1/9 and a, which is stronger than the stated summary '<(√5-1)/6'. No error there.",
+   "Uniqueness of the negative root (previous page) is asserted without proof. It follows from Descartes' rule of signs or from the sign pattern."
+  ],
+  "results": [
+   {
+    "what": "Identity Y^3+Y^2-HY+H/9 = (Y-(√5-1)/6)^2 (Y+(√5+2)/3) - (Y-1/9)(H-(√5+1)/6), used to separate the critical value H=(√5+1)/6 at which a double root occurs",
+    "modern_name": "Rewriting a one-parameter family of cubics about its discriminant-zero (double-root) member",
+    "usually_credited_to": "Standard algebraic technique (18th-century theory of equations)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Classification: for H<(√5+1)/6 one real (negative) root and two complex roots; for H=(√5+1)/6 a double positive root; for H>(√5+1)/6 three real roots, two positive, separated by (√5-1)/6, the smaller lying in (1/9,(√5-1)/6)",
+    "modern_name": "Root counting/isolation by sign changes (intermediate value theorem, Bolzano-type argument)",
+    "usually_credited_to": "Classical; rigorous IVT Bolzano 1817, but sign-change root location is routine in Euler/Lagrange era",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "An elementary, careful case analysis of a specific cubic family by sign changes. The style is that of a textbook or lecture proof (it refers to 'Art. 162'), and nothing goes beyond 18th-century theory of equations.",
+  "checkable": [
+   {
+    "sympy": "expand((Y-(sqrt(5)-1)/6)**2*(Y+(sqrt(5)+2)/3) - (Y-Rational(1,9))*(H-(sqrt(5)+1)/6) - (Y**3+Y**2-H*Y+H/9)) == 0",
+    "asserts": "Identity between forms ☾ and ⊙"
+   },
+   {
+    "sympy": "expand((Y-(sqrt(5)-1)/6)**2*(Y+(sqrt(5)+2)/3) - (Y**3+Y**2-(sqrt(5)+1)/6*Y+(sqrt(5)+1)/54)) == 0",
+    "asserts": "For H=(√5+1)/6 the cubic has double root (√5-1)/6 and root -(√5+2)/3"
+   },
+   {
+    "sympy": "(Rational(1,9))**3+(Rational(1,9))**2 == Rational(10,729)",
+    "asserts": "f(1/9) = 10/729 ≠ 0 for every H, so 1/9 is never a root"
+   },
+   {
+    "sympy": "solve([Y**3+Y**2-H*Y+H/9, diff(Y**3+Y**2-H*Y+H/9, Y)], [Y, H])",
+    "asserts": "Double roots occur only at (Y,H)=(0,0), ((√5-1)/6,(√5+1)/6) and one point with H<0, so H=(√5+1)/6 is the unique positive critical value"
+   },
+   {
+    "sympy": "Poly(Y**3+Y**2-Rational(1,2)*Y+Rational(1,18), Y).count_roots() == 1",
+    "asserts": "For H=1/2 < (√5+1)/6 there is only one real root (case I)"
+   },
+   {
+    "sympy": "nroots(Y**3+Y**2-Y+Rational(1,9))",
+    "asserts": "For H=1 > (√5+1)/6: one negative root and two positive roots, one in (1/9,(√5-1)/6) and one > (√5-1)/6"
+   },
+   {
+    "sympy": "simplify(-((sqrt(5)-1)/6 - Rational(1,9))) < 0",
+    "asserts": "(√5-1)/6 > 1/9, so F(a) = -(a-1/9)(H-c) < 0 for H > c"
+   }
+  ],
+  "transcription_corrections": [
+   "The manuscript indeed reads 'für Y = (√5+1)/6' in Case 3(i). The transcription is faithful, but the intended value is (√5-1)/6 (Gauss's slip).",
+   "'aus der Form O als C' refers to the symbols ⊙ and ☾ (sun and moon signs) introduced on the previous page. Likewise 'in C' should be read as 'in ☾'.",
+   "In '3) Ist H [-grö-] >' the deleted word is written over/struck with the '>' sign. The transcription is acceptable."
+  ]
+ }
+}

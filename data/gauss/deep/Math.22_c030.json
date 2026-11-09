@@ -1,0 +1,57 @@
+{
+ "bundle": "Math.22",
+ "page": "c030",
+ "label": "16r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000031/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: folio 15v states Lagrange's series. If x = t + u X(x), with X = X(x), then for any function φ: φ(x) = φ(t) + u X φ'(t) + u^2/2! d/dt[X^2 φ'] + u^3/3! d^2/dt^2[X^3 φ'] + ..., with x = t after differentiation. That page also says the needed identities will be proved (section II). This page carries out that proof. It is the classical partial-differential-equation proof. Regard x = x(t,u) as defined implicitly by x = t + u X(x).\n\n(a) Differentiate the defining equation partially with respect to t and to u:\n x_t = 1 + u X_t = 1 + u X'(x) x_t,\n x_u = X + u X_u = X + u X'(x) x_u.\n\n(b) Eliminate X'(x). [Step filled in by me:] (1 - uX') x_t = 1 and (1 - uX') x_u = X. Hence\n x_u = X x_t.\n\n(c) By the chain rule, ∂φ(x)/∂t = φ'(x) x_t and ∂φ(x)/∂u = φ'(x) x_u. (Gauss's second factor reads dx/dt; it should be dx/du.) Therefore\n ∂φ/∂u = X ∂φ/∂t ...(1).\n\n(d) Taking φ = X (allowed, since X is a function of x) gives\n X_u = X X_t ...(2).\n\n(e) Differentiate (1) with respect to t and with respect to u:\n φ_tu = X_t φ_t + X φ_tt ...(3),\n φ_uu = X_u φ_t + X φ_tu.\n\n(f) Substitute (2) and (3) into the second relation:\n φ_uu = X X_t φ_t + X(X_t φ_t + X φ_tt) = 2 X X_t φ_t + X^2 φ_tt = ∂/∂t (X^2 φ_t) ...(4).\n\n(g) Differentiating (4) with respect to u gives φ_uuu = ∂^2/∂t∂u (X^2 φ_t). The page breaks off here.\n\nThe next page continues: interchange the order of differentiation, then show ∂_u(X^n φ_t) = ∂_t(X^{n+1} φ_t) (6). Induction then gives ∂^n φ/∂u^n = ∂^{n-1}/∂t^{n-1}(X^n φ_t). At u = 0 we have x = t, so these become Lagrange's coefficients d^{n-1}/dt^{n-1}[X(t)^n φ'(t)]. Inserted into Taylor's series in u, this yields Lagrange's inversion series.",
+  "errors": [
+   "In the chain-rule line Gauss writes (dφx/du) = (dφx/dx)(dx/dt). The second factor should be (dx/du); the letter appears to be overwritten in the manuscript. The conclusion (1) is nevertheless correct, because it uses x_u = X x_t.",
+   "Equation (1) and all of (1)-(4) are correct. The elimination of dX/dx tacitly assumes 1 - uX'(x) ≠ 0, i.e. that the implicit function is locally regular. This is unstated but standard.",
+   "No other errors on this page. On the following page, the citation of '(3) u. (4)' for deriving (6) should read (2) and (3). That slip is not on this page."
+  ],
+  "results": [
+   {
+    "what": "For x = t + uX(x): ∂x/∂u = X ∂x/∂t, and hence ∂φ(x)/∂u = X ∂φ(x)/∂t for any φ.",
+    "modern_name": "First-order PDE characterization of the implicit function in Lagrange inversion (the key lemma of Laplace's proof)",
+    "usually_credited_to": "Laplace (1777/1780, Mémoires de l'Académie des Sciences); standard in textbooks, e.g. Whittaker & Watson §7.32",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "∂^2φ/∂u^2 = ∂/∂t (X^2 ∂φ/∂t). This is the first step of the induction ∂^nφ/∂u^n = ∂^{n-1}/∂t^{n-1}(X^n ∂φ/∂t), leading to the Lagrange series.",
+    "modern_name": "Lagrange inversion theorem (Lagrange–Bürmann series), Laplace's proof",
+    "usually_credited_to": "Lagrange (1770) for the series; Laplace (1777) for this proof",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a careful, correct student-style write-up of Laplace's well-known PDE proof of Lagrange's inversion formula. The references on the previous page (Lexell, Condorcet, Cousin, Pfaff's Archiv) suggest an early date, around 1795-1800. The page is of biographical interest as evidence of young Gauss's reading, but it contains nothing mathematically new.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; t,u,x=symbols('t u x'); X=Function('X'); F=x-t-u*X(x); xt=-diff(F,t)/diff(F,x); xu=-diff(F,u)/diff(F,x); simplify(xu - X(x)*xt)",
+    "asserts": "Implicit differentiation of x = t + uX(x) gives x_u = X x_t (result 0)."
+   },
+   {
+    "sympy": "from sympy import *; t,u=symbols('t u'); x=Function('x')(t,u); X=Function('X'); phi=Function('phi'); xu=X(x)*diff(x,t); expr=diff(phi(x),u).subs(diff(x,u),xu) - X(x)*diff(phi(x),t); simplify(expr)",
+    "asserts": "Equation (1): φ_u = X φ_t, given x_u = X x_t (result 0)."
+   },
+   {
+    "sympy": "from sympy import *; t,u=symbols('t u'); x=Function('x')(t,u); X=Function('X'); phi=Function('phi'); r={Derivative(x,u):X(x)*Derivative(x,t)}; lhs=diff(X(x)*diff(phi(x),t),u).subs(r).doit().subs(r); rhs=diff(X(x)**2*diff(phi(x),t),t); simplify(lhs.subs(r)-rhs)",
+    "asserts": "Equation (4): φ_uu = ∂_t(X^2 φ_t), using φ_u = X φ_t and x_u = X x_t (should simplify to 0, possibly after expanding mixed derivatives with the rule x_ut = ∂_t(X x_t))."
+   },
+   {
+    "sympy": "from sympy import *; t,u=symbols('t u'); x=symbols('x'); X=exp(x); phi=x; sol=t+u*0; ser=t+sum(u**n/factorial(n)*diff(X.subs(x,t)**n,t,n-1) for n in range(1,6)); w=symbols('w'); expr=(ser-t-u*exp(ser)).series(u,0,6).removeO(); simplify(expr)",
+    "asserts": "Concrete check of the Lagrange series for X = e^x, φ = x: x = t + Σ u^n/n! d^{n-1}/dt^{n-1} e^{nt} satisfies x = t + u e^x to order u^5 (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'schließlich wenn man {+statt+} φx [-=-] X setzt' should read 'folglich auch wenn man statt φx X setzt (welches erlaubt ist)'. The manuscript has 'folglich auch', and the '≠'/'=' sign is struck through.",
+   "In 'und (dφx/du) = (dφx/dx)(dx/dt)' the second factor's numerator is overwritten in the manuscript; the intended reading is (dx/du).",
+   "The equation label '(4)' is written over another digit.",
+   "In the first struck-out attempt the manuscript reads roughly '2X(dX/dt)(dφx/dt) + X^2 d^2' (cancelled); the transcription is acceptable."
+  ]
+ }
+}

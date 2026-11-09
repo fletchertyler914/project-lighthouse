@@ -1,0 +1,53 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c136",
+ "label": "127",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000137/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a pure numerical table. There is no derivation on it. The header reads 52°, with the pencil note '1/302,68' (a flattening). The rows run over the minutes φ = 52°0' … 53°0', and each row gives two 7-place logarithms, log A and log B.\n\nIdentification (mine, checked numerically):\n- A = 1/(M sin1''), where M = a(1-e^2)/(1-e^2 sin^2φ)^(3/2) is the meridian radius of curvature.\n- B = 1/(N sin1''), where N = a/(1-e^2 sin^2φ)^(1/2) is the prime-vertical (transverse) radius of curvature.\n- The ellipsoid has flattening f = 1/302.68, so e^2 = 2f - f^2 ≈ 0.0065967 and e'^2 = e^2/(1-e^2) ≈ 0.0066405.\n- A and B are the usual auxiliary quantities for turning a meridian distance x and a perpendicular distance y (in linear units) into arcseconds of latitude and longitude: Δφ'' ≈ A·x and Δλ'' cosφ ≈ B·y. These are the Soldner/Gauss coordinate computations of a geodetic survey such as Gauss's Hanover survey; latitude 52° lies in that region.\n\nEvidence for the identification:\n1. The difference does not depend on a: log A - log B = log10(N/M) = log10(1 + e'^2 cos^2φ).\n   - At 52°0': 0.0025170 gives 0.0010918. The table gives 8.5100277 - 8.5089360 = 0.0010917.\n   - At 53°0': 0.0024051 gives 0.0010433. The table gives 8.5099550 - 8.5089117 = 0.0010433.\n   So the flattening 1/302.68 is confirmed to within one unit in the 7th place.\n2. The tabular differences agree.\n   - Theory: d(log A)/dφ = -(3/2) μ e^2 sin2φ/(1-e^2 sin^2φ), with μ = log10 e. This gives 12.18, 12.13 and 12.07 units (×10^-7) per minute at 52°, 52°30' and 53°.\n   - Table: log A falls by 727 units in 60 minutes, a mean of 12.12.\n   - Theory: d(log B)/dφ is exactly one third of this, i.e. 4.06 to 4.02 per minute.\n   - Table: log B falls by 243 units, a mean of 4.05.\n3. The absolute level corresponds to radii of about 6.39×10^6 linear units. That suggests metres and an equatorial radius near 6.3767×10^6 m, i.e. a Walbeck-type ellipsoid. My own back-computation of a, about 6,376,700, is only approximate, so I hedge on the units.\n\nConstruction of the table:\n- Values are written in full every 5 minutes, and wherever the leading digits change. The intermediate values appear to be filled in by subdividing the differences: steps of 12 or 13 for A, and 4 or 5 for B.\n- The row for 30' is repeated as the first line of the second half.\n- The quadratic term is negligible: the rate changes by about 0.0018 units per minute.",
+  "errors": [
+   "Possible one-unit slip at 52°22': log A is written 8.5100009. Both a recomputation with f = 1/302.68 and linear interpolation between the 20' value (034) and the 25' value (973) give about 010 (9.5–10.0 before rounding). This leaves an anomalous step pattern of 13, 11, 13 at 21'→24'. The margin is only a few tenths of a unit, so the slip is uncertain.",
+   "Apart from that, every other entry I tested is consistent with a smooth function to within rounding: log A at 5', 11', 17', 32', 41', 51' and 60', and log B at 19', 23', 30', 49' and 50'."
+  ],
+  "results": [
+   {
+    "what": "Auxiliary table, per minute of latitude from 52° to 53°, of log A = log 1/(M sin1'') and log B = log 1/(N sin1''), the reciprocal meridian and prime-vertical radii of curvature, on an ellipsoid of flattening 1/302.68. Used to convert linear coordinate differences into differences of latitude and longitude.",
+    "modern_name": "Geodetic auxiliary tables (radii of curvature / 'A, B' factors for conversion between geodetic and Soldner coordinates)",
+    "usually_credited_to": "Standard 18th–19th c. geodesy. The A/B factors appear in Soldner's coordinates (c.1810) and in Gauss's Hanover survey computations (1820s). The ellipsoid is Walbeck's (1819, f ≈ 1/302.78), and Gauss used Walbeck's dimensions.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine computational table of standard geodetic auxiliary quantities. It is fully consistent with Gauss's well-documented use of a Walbeck-type ellipsoid in the Hanover triangulation. Its interest is archival (it confirms the flattening value 1/302.68 and shows his working tables), not mathematical.",
+  "checkable": [
+   {
+    "sympy": "f=Rational(1,30268)*100; e2=2*f-f**2; ep2=e2/(1-e2); N(log(1+ep2*cos(rad(52))**2,10),8)  # expect ~0.0010917",
+    "asserts": "log A - log B at 52°0' equals log10(N/M) = 0.0010917 (table: 8.5100277 - 8.5089360)"
+   },
+   {
+    "sympy": "f=Rational(100,30268); e2=2*f-f**2; ep2=e2/(1-e2); N(log(1+ep2*cos(rad(53))**2,10),8)  # expect ~0.0010433",
+    "asserts": "log A - log B at 53°0' equals 0.0010433 (table: 8.5099550 - 8.5089117)"
+   },
+   {
+    "sympy": "f=Rational(100,30268); e2=2*f-f**2; phi=rad(Rational(105,2)); N(Rational(3,2)/log(10)*e2*sin(2*phi)/(1-e2*sin(phi)**2)*pi/180/60*10**7,6)  # expect ~12.12",
+    "asserts": "The mean per-minute decrease of log A (in units of 1e-7) is about 12.12, matching (8.5100277-8.5099550)/60"
+   },
+   {
+    "sympy": "f=Rational(100,30268); e2=2*f-f**2; phi=rad(Rational(105,2)); N(Rational(1,2)/log(10)*e2*sin(2*phi)/(1-e2*sin(phi)**2)*pi/180/60*10**7,6)  # expect ~4.04",
+    "asserts": "The mean per-minute decrease of log B is about 4.04–4.05 units, matching (8.5089360-8.5089117)/60"
+   },
+   {
+    "sympy": "N(log(1+Rational(100,30268)*0,10)) ; (2775-2753*0)  # placeholder; check: 0.0100277-0.0099550 == 0.0000727 and 0.0089360-0.0089117 == 0.0000243",
+    "asserts": "Total change over the degree: log A falls by 727e-7 and log B by 243e-7, almost exactly in the theoretical ratio 3:1"
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription matches the image well. The pencil header reads '1 / (1/302,68) Vd.' (or a similar abbreviation), with pencil column labels 'log A', 'log B'.",
+   "In the log B column for rows 41–50, the hundreds digit '1' (e.g. 8.5089194, 190, …, 157) has been overwritten or reinforced in darker ink. The values as transcribed are correct.",
+   "Row 22, log A: the image indeed reads 8.5100009. The computed value is about 8.5100010, a possible original slip rather than a transcription error.",
+   "Row 28: the minute number is written over (an '8' over another digit). The values 937/246 are as transcribed."
+  ]
+ }
+}

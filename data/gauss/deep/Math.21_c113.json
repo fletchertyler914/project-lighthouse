@@ -1,0 +1,51 @@
+{
+ "bundle": "Math.21",
+ "page": "c113",
+ "label": "54v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000114/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has no formulas. It is a sheet of hand-ruled 8x8 grids. Twelve complete squares are filled in (rows I–IV, three per row). Further grids on the right are cut off or empty; two show only a first column (42,63,54,7,40,21,30,9 and 42,63,54,7,44,61,56,59).\n\nWhat each square is: every complete square contains the numbers 1..64, each once. Read in order, the numbers trace a knight's path over the 64 cells, where each step k -> k+1 is a (1,2) or (2,1) jump. In every square I checked, 64 is also a knight's move from 1, so the tours are closed (re-entrant). I verified the full cycle cell by cell for I.1, I.3, II.1 (start), II.2, II.3, III.1 (start) and IV.1. The rest were spot-checked. Example, I.1: 1 is at row 3, column 8. Then 2 (r5c7), 3 (r7c8), 4 (r8c6), 5 (r7c4), and so on to 64 (r4c6), which is a knight's move back to 1.\n\nThe red-marked cells are a constraint common to the tours:\n- I.1 and I.2: four horizontally adjacent cells holding 31, 42, 53, 64, plus the cell holding 1.\n- I.3: the four adjacent cells 42, 53, 64, 5, plus 1.\n- Squares II.1 to IV.3: the top row always begins 42, 53, 64, 5 in red, with 1 in red nearby (usually r2c5 or r3c4).\n\nThese later squares also share large parts of the top-left region:\n- the first column usually begins 42, 63, 54 / 52, 3 / 7 / 59;\n- rows III and IV share almost identical 3x4 or 4x4 top-left blocks, e.g. 42 53 64 5 / 63 2 41 52 / 54 43 4 1 in all of row III.\n\nThe page therefore looks like a systematic enumeration. Gauss fixes a partial re-entrant knight's path, including the configuration of the red cells, and tries different completions of the rest of the board. The next page (f.55) continues the same family (rows beginning 42 53 64 5 / 63 ...).\n\nThe purpose of the red constraint is not stated, and I cannot determine it with certainty. It is not a magic property: the row sums are not 260 (e.g. I.1 row 1 sums to 212).\n\nThe previous page (astronomical formulas, asteroid names, '1824?') is unrelated in content. It may suggest a mid-1820s date for the sheet, but that is uncertain.",
+  "errors": [
+   "No errors found: every square checked is a valid closed knight's tour of the 8x8 board using each of 1..64 exactly once."
+  ],
+  "results": [
+   {
+    "what": "A dozen explicit closed (re-entrant) knight's tours of the 8x8 board, sharing a fixed red-marked sub-configuration and partly identical prefixes, apparently enumerated as variants of a common partial tour",
+    "modern_name": "Closed knight's tour (Hamiltonian cycle in the 8x8 knight's graph); systematic completion of a partial tour",
+    "usually_credited_to": "Knight's tours known since medieval Arabic/Indian sources; systematic study Euler (1759, publ. 1766), Vandermonde (1771), Warnsdorff (1823)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Knight's tours were well studied before Gauss (Euler, Vandermonde, Warnsdorff). Gauss's interest in chessboard combinatorics is known (eight-queens correspondence with Schumacher, 1850). Explicit tour enumerations in his Nachlass are a modest biographical curiosity, not a new mathematical result.",
+  "checkable": [
+   {
+    "sympy": "T=[[26,33,10,29,16,35,12,51],[9,30,27,34,11,52,17,36],[32,25,54,15,28,13,50,1],[61,8,31,42,53,64,37,18],[24,43,62,55,14,47,2,49],[7,60,41,46,63,56,19,38],[44,23,58,5,40,21,48,3],[59,6,45,22,57,4,39,20]]; P={T[i][j]:(i,j) for i in range(8) for j in range(8)}; all(sorted([abs(P[k][0]-P[k%64+1][0]),abs(P[k][1]-P[k%64+1][1])])==[1,2] for k in range(1,65)) and len(P)==64",
+    "asserts": "Square I.1 is a closed knight's tour (including the step 64->1)"
+   },
+   {
+    "sympy": "T=[[42,53,64,5,44,27,38,7],[1,4,43,54,39,6,45,28],[52,41,2,63,26,29,8,37],[3,62,55,40,9,36,25,46],[56,51,58,21,30,47,10,19],[59,14,61,48,35,20,31,24],[50,57,16,13,22,33,18,11],[15,60,49,34,17,12,23,32]]; P={T[i][j]:(i,j) for i in range(8) for j in range(8)}; all(sorted([abs(P[k][0]-P[k%64+1][0]),abs(P[k][1]-P[k%64+1][1])])==[1,2] for k in range(1,65)) and len(P)==64",
+    "asserts": "Square II.2 is a closed knight's tour"
+   },
+   {
+    "sympy": "T=[[42,53,64,5,36,9,34,7],[63,60,41,52,1,6,37,10],[54,43,2,61,4,35,8,33],[59,62,51,40,23,28,11,38],[44,55,22,3,18,39,32,27],[21,58,47,50,29,24,15,12],[48,45,56,19,14,17,26,31],[57,20,49,46,25,30,13,16]]; P={T[i][j]:(i,j) for i in range(8) for j in range(8)}; all(sorted([abs(P[k][0]-P[k%64+1][0]),abs(P[k][1]-P[k%64+1][1])])==[1,2] for k in range(1,65)) and len(P)==64",
+    "asserts": "Square IV.1 is a closed knight's tour"
+   },
+   {
+    "sympy": "T=[[8,25,50,41,6,27,4,31],[51,40,7,26,49,30,1,28],[24,9,42,53,64,5,32,3],[39,52,45,48,43,2,29,16],[10,23,54,63,46,17,60,33],[55,38,47,44,59,62,15,18],[22,11,36,57,20,13,34,61],[37,56,21,12,35,58,19,14]]; P={T[i][j]:(i,j) for i in range(8) for j in range(8)}; all(sorted([abs(P[k][0]-P[k%64+1][0]),abs(P[k][1]-P[k%64+1][1])])==[1,2] for k in range(1,65)) and len(P)==64",
+    "asserts": "Square I.3 is a closed knight's tour"
+   },
+   {
+    "sympy": "sum([26,33,10,29,16,35,12,51]) != 260",
+    "asserts": "The tours are not magic: row sums differ from 260"
+   }
+  ],
+  "transcription_corrections": [
+   "Gauss's glyph for 4 resembles 'A' (e.g. '3A' = 34, '6A' = 64, '1A' = 14). The transcription correctly renders these as 4; the checked squares confirm the reading.",
+   "II.2 row 2 begins with a red '1' (written with a leading stroke, '-1'); the transcription's '1' is correct.",
+   "Red ink marks 31/42/53/64 (or 42/53/64/5) and 1 in each square; the transcription does not record this colour distinction."
+  ]
+ }
+}

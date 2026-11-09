@@ -1,0 +1,71 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c132",
+ "label": "64r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000133/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This page is a draft of Riemann's Inaugural Dissertation (1851, 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse'), Arts. 7-8. X and Y are functions on a surface T spread over the plane A. Except at isolated points they satisfy dX/dx + dY/dy = 0. The previous article (Green's theorem) gives, for every piece of the surface, the boundary integral ∫(X dx/dp + Y dy/dp) ds = -∬(dX/dx + dY/dy) dT = 0, where p is the inward normal. With Riemann's orientation (dx/dp = dy/ds, dy/dp = -dx/ds) this integral equals ∫(X dy/ds - Y dx/ds) ds.\n\n(A) Removable point singularities.\n- Let O be an isolated point of discontinuity. Bound it by a circle of radius ρ about O, with polar coordinates x = x0 + ρcosφ, y = y0 + ρsinφ.\n- On the circle: dx/dρ = cosφ, dy/dρ = sinφ and ds = ρ dφ.\n- So the boundary integral attached to the point is I = ∫_0^{2π} (X dx/dρ + Y dy/dρ) ρ dφ = ∫_0^{2π} ρ(X cosφ + Y sinφ) dφ.\n- [Implicit, mine] I does not depend on ρ. Applying the vanishing result to the annulus between two such circles shows the integrals over the two circles agree.\n- Claim: if ρX and ρY tend to 0 as ρ → 0 (uniformly in φ), then I = 0.\n- Proof by contradiction. Suppose I = K ≠ 0. By hypothesis one can take ρ so small that |(X dx/dρ + Y dy/dρ)ρ| < |K|/(2π) for every φ ('absolut genommen' is inserted).\n- Then |I| < 2π · |K|/(2π) = |K|, which contradicts I = K. Hence the integral around a mere point of discontinuity is 0.\n\n(B) Section IV: path independence. The hypothesis is that, in a surface spread over A, ∫(X dx/dp + Y dy/dp) ds = ∫(X dy/ds - Y dx/ds) ds = 0 for the boundary of every piece. By the logic, and probably by the actual wording, the surface is simply connected.\n- Claim: for fixed points O0 and O, the integral ∫(X dy/ds - Y dx/ds) ds along any line from O0 to O has the same value.\n- Proof sketch. Two such lines together form a closed curve.\n- Such a curve is either free of self-intersections, or it can be split into closed curves that do not cut themselves. To do this, traverse it from some point; whenever you return to an earlier point, cut off the loop traversed in between.\n- Each simple closed curve cuts the simply connected surface into a simply connected piece and a doubly connected piece. It therefore forms the entire boundary of one of these pieces.\n- So the integral over it is 0, and the integrals along the two paths are equal.\n- The next page continues: cut a multiply connected surface by Querschnitte into a simply connected T*, then define Z(x, y) = ∫_{O0}^{O} as a function of O.",
+  "errors": [
+   "The inequality is stated without absolute values (Riemann partly patches this with 'absolut genommen'). It must read |(X dx/dρ + Y dy/dρ)ρ| < |K|/(2π), concluding |I| < |K|.",
+   "The independence of the circle integral from ρ (Green's theorem on the annulus) is used tacitly. It is needed for the contradiction argument with a fixed K.",
+   "The hypothesis 'ρX, ρY → 0' must be uniform in φ for the estimate to hold for every φ. This is tacit.",
+   "The loop-cutting decomposition of a self-intersecting closed path assumes finitely many self-intersections, or some regularity. That a simple closed curve bounds a piece of a simply connected surface is a Jordan-curve-type fact, taken for granted. Both are standard 1851 levels of rigour, not real errors.",
+   "If Section IV really says 'zweifach ausgedehnten' rather than 'einfach zusammenhängenden', the simple-connectivity hypothesis would be missing. But the last paragraph's use of 'einfach und zweifach zusammenhängende' pieces shows simple connectivity is intended."
+  ],
+  "results": [
+   {
+    "what": "Flux of a divergence-free field around an isolated singular point vanishes if ρX, ρY → 0 (removable-singularity lemma for the Green integral)",
+    "modern_name": "Removable singularity criterion for flux/period of a closed form; precursor of the Riemann removable singularity theorem",
+    "usually_credited_to": "Riemann, Dissertation 1851, Art. 7",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Vanishing of the boundary integral on every piece of a simply connected surface implies path independence of ∫(X dy - Y dx)",
+    "modern_name": "Path independence / exactness of closed 1-forms on simply connected domains (Cauchy/Green)",
+    "usually_credited_to": "Cauchy (complex case), Green/Gauss; in this form Riemann 1851, Art. 8",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Decomposition of a self-intersecting closed path into simple closed loops by cutting off returns",
+    "modern_name": "Loop decomposition of closed curves (Jordan-curve-based argument)",
+    "usually_credited_to": "folklore; appears in Riemann's dissertation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a working draft of Arts. 7-8 of Riemann's published 1851 dissertation. The removable-singularity argument for the Green integral and the path-independence lemma both appear there essentially verbatim; nothing beyond the published text.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y'); simplify(diff(x/(x**2+y**2),x)+diff(y/(x**2+y**2),y))",
+    "asserts": "X = x/r^2, Y = y/r^2 is divergence-free away from 0, but ρX does not → 0 (expected output 0)."
+   },
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); integrate(r*((r*cos(phi))/r**2*cos(phi)+(r*sin(phi))/r**2*sin(phi)),(phi,0,2*pi))",
+    "asserts": "For that field the circle integral equals 2*pi (nonzero), so the hypothesis ρX, ρY → 0 is necessary."
+   },
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); X=lambda x,y: x**2*y; Y=lambda x,y: -x*y**2; integrate(r*(X(r*cos(phi),r*sin(phi))*cos(phi)+Y(r*cos(phi),r*sin(phi))*sin(phi)),(phi,0,2*pi))",
+    "asserts": "For the smooth divergence-free field X = x^2*y, Y = -x*y^2 the circle flux integral is 0 (expected output 0)."
+   },
+   {
+    "sympy": "phi,X,Y=symbols('phi X Y'); simplify((X*cos(phi)-Y*(-sin(phi)))-(X*cos(phi)+Y*sin(phi)))",
+    "asserts": "On a counterclockwise circle, X dy/ds - Y dx/ds equals X dx/dρ + Y dy/dρ (expected output 0), i.e. the two forms of the integrand agree."
+   },
+   {
+    "sympy": "K,phi=symbols('K phi',positive=True); integrate(K/(2*pi),(phi,0,2*pi))",
+    "asserts": "The bound |integrand| < K/(2π) integrates over [0, 2π] to K, so |I| < K (expected output K)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: probably 'Ist O ein [solcher Punkt]' rather than 'Ist [?] ϱ ein'. The circle is described about O with radius ϱ.",
+   "Section IV: the phrase transcribed 'zweifach ausgedehnten' appears to read 'einfach zusammenhängenden' (in einer einfach zusammenhängenden ... über A ausgebreiteten Fläche). This fits the later argument.",
+   "'in Bezug auf jeden Flächentheil = 0' is correct; the stray 'T [?]' before the integral is likely the end of 'Fläche' or 'Flächentheil'.",
+   "'unmittelbare Fortsetzung des vorhergehenden Unterschiede' is likely 'unmittelbare Folge des vorhergehenden Satzes' (uncertain).",
+   "In the second argument the integral is written ∫(X dx/dp + Y dy/dp) ds with p, while ρ is used earlier; the meaning is the same (normal direction)."
+  ]
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c180",
+ "label": "77",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000181/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is printed text in Fraktur type, not Gauss's handwriting. It is from a German arithmetic and algebra textbook bound into the bundle; the shelfmark suggests Christian Leiste's 'Arithmetik und Algebra'. The page itself carries no handwritten notes. The facing page 78 has handwritten columns of numbers in the margin; on the transcription they look like primes between about 9700 and 9973, consistent with Gauss's prime-counting tables.\n\nSetting: a capital a earns interest at rate b/c per year. Write q = (c+b)/c. The numerical values come from §163 and are confirmed on p.78: b=1, c=25 (so 4%), ab=5000 (a=5000), n=10.\n\n(§165, conclusion) Each year an extra amount d is added. After n years the capital has grown to q^n·a, and to this one must add the sum of a geometric series with first term d, ratio q and n terms. By §155 that sum is d(q^n−1)/(q−1). Since q−1 = b/c, this equals (q^n·c − c)d/b. Total: S = q^n·a + cd(q^n−1)/b = q^n·(ab+cd)/b − cd/b.\n\nExample with d=100: n·log q = 10·log(26/25) = 0.170333, and log(ab+cd) = log 7500 = 3.8750613. Adding gives 4.0453943 = log 11101.8. Here b=1, so the division by b is tacit. Subtract cd = 2500: S = 8601.8 Reichsthaler.\n\n(§166, corollary) If instead d is withdrawn every year, the geometric sum is subtracted: S = q^n·a − cd(q^n−1)/b = [q^n(ab−cd) + cd]/b.\n\n(§167) Find the n at which the capital is fully consumed. Setting S=0 requires cd > ab, since otherwise every term is positive. Write ab−cd = −(cd−ab). Then −q^n(cd−ab) + cd = 0, so q^n = cd/(cd−ab), n·log q = log(cd/(cd−ab)), and n = log(cd/(cd−ab)) / log q.\n\nThe example follows on p.78: d=500 gives q^n = 12500/7500 = 5/3, so n = 0.2218487/0.0170333 ≈ 13.02 years.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "In the numerical example the final division by b is omitted without comment; this is harmless because b=1.",
+   "The value 11101.8 is correct (7500·1.04^10 = 11101.83), and so is 8601.8 (5000·1.04^10 + 100·(1.04^10−1)/0.04 = 8601.83).",
+   "The page gives log(26/25)·10 as 0.170333 (seven-place logs truncated to six places); this is fine. On p.78 the per-year value 0.0170333 is consistent with it."
+  ],
+  "results": [
+   {
+    "what": "Accumulated value of a capital with annual deposits: q^n·a + d(q^n−1)/(q−1) = q^n(ab+cd)/b − cd/b",
+    "modern_name": "Future value of a principal plus an ordinary annuity (compound interest)",
+    "usually_credited_to": "Standard commercial and political arithmetic of the 17th–18th centuries (e.g., Leibniz, de Witt, Euler textbooks)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Value after n years with annual withdrawals: [q^n(ab−cd)+cd]/b",
+    "modern_name": "Annuity drawdown / amortization balance formula",
+    "usually_credited_to": "Standard 18th-century textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Term until exhaustion: n = log(cd/(cd−ab)) / log((c+b)/c), valid only if cd > ab",
+    "modern_name": "Number of periods of an annuity that exhausts a loan or capital (logarithmic solution)",
+    "usually_credited_to": "Standard 18th-century textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed page of a standard 18th-century arithmetic textbook on compound interest and annuities. It contains no Gauss handwriting and nothing beyond routine material.",
+  "checkable": [
+   {
+    "sympy": "simplify(((c+b)/c)**n*a + d*(((c+b)/c)**n - 1)/((c+b)/c - 1) - (((c+b)/c)**n*(a*b+c*d)/b - c*d/b))",
+    "asserts": "The closed form for capital plus deposits; the expression simplifies to 0."
+   },
+   {
+    "sympy": "N(5000*Rational(26,25)**10 + 100*(Rational(26,25)**10-1)/Rational(1,25))",
+    "asserts": "Equals about 8601.83, matching 8601.8 rthl."
+   },
+   {
+    "sympy": "N(10**(10*log(Rational(26,25),10) + log(7500,10)))",
+    "asserts": "Equals about 11101.8."
+   },
+   {
+    "sympy": "simplify(((c+b)/c)**n*a - c*d*(((c+b)/c)**n-1)/b - (((c+b)/c)**n*(a*b-c*d)+c*d)/b)",
+    "asserts": "The withdrawal formula of §166; the expression simplifies to 0."
+   },
+   {
+    "sympy": "N(log(Rational(5,3))/log(Rational(26,25)))",
+    "asserts": "Equals about 13.02 years, the §167 example on p.78."
+   },
+   {
+    "sympy": "N(log(7500,10)), N(10*log(Rational(26,25),10))",
+    "asserts": "These evaluate to 3.8750613 and 0.170333."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is printed Fraktur type, not a Gauss manuscript; there are no handwritten annotations on this page.",
+   "The §155 formula should read ((q^n − 1)·d)/(q − 1) with q=(c+b)/c; the transcription renders this correctly.",
+   "'Größe des Capitals mit Zinsen und Zulage ist 8601, 8 rthl.' means 8601.8 rthl (the comma is a decimal separator)."
+  ]
+ }
+}

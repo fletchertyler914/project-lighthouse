@@ -1,0 +1,80 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c123",
+ "label": "[118]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000124/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem (general form of the preceding geodetic rule). There are three linear observation equations in two unknowns x, y:\n  a x + b y + m = e,  a' x + b' y + m' = e',  a'' x + b'' y + m'' = e''.\nThe coefficients a, b, m, a', ... are given. We seek x, y so that Sigma = e^2 + e'^2 + e''^2 is a minimum, i.e. ordinary least squares with 3 equations and 2 unknowns.\n\nStep 0 (substitution). Put a_i = b_i theta_i and m_i = b_i n_i. Each equation then reads e_i / b_i = theta_i x + y + n_i. Geometrically this is the line y = -theta_i x - n_i. That matches the next page, where each ray is written Y = b + theta(X - a).\n\nStep 1 (residual direction). Define f = (theta''-theta')/b, f' = (theta-theta'')/b', f'' = (theta'-theta)/b''.\n- Then sum a_i f_i = sum theta_i (theta_j - theta_k) = 0 and sum b_i f_i = sum (theta_j - theta_k) = 0. [Implicit, mine]\n- So f is orthogonal to both columns of the design matrix. Up to the factor -b b' b'', it is their cross product.\n- The least-squares residual vector e must be orthogonal to both columns (normal equations). In R^3 that orthogonal complement is one-dimensional, so e = g f for some scalar g. This is Gauss's 1): e = f g, e' = f' g, e'' = f'' g.\n\nStep 2 (the scalar g). Write e = A z + m. Since A^T f = 0, we get e.f = m.f. [Implicit, mine]\n- m.f = sum b_i n_i (theta_j - theta_k)/b_i = sum n_i (theta_j - theta_k).\n- Gauss writes this as h = (n-N)(theta''-theta') + (n'-N)(theta-theta'') + (n''-N)(theta'-theta) with N arbitrary. N drops out because the theta-differences sum to zero; it is a numerical convenience (next page: take Delta equal to one of the Y's).\n- Hence g = h/(ff + f'f' + f''f''), as on the page.\n- Geometrically h = det[[theta_i, 1, n_i]]. It vanishes exactly when the three lines are concurrent, so it measures the 'error triangle' of the three rays.\n\nStep 3 (Gauss's 2), solving for x). Subtract the equations theta_i x + y + n_i = e_i/b_i = f_i g/b_i pairwise. This gives:\n  (theta''-theta')x + (n''-n') = (f''/b'' - f'/b') g,\n  (theta-theta'')x + (n-n'') = (f/b - f''/b'') g,\n  (theta'-theta)x + (n'-n) = (f'/b' - f/b) g.\nAny one of these determines x.\n\nStep 4 (Gauss's 3), solving for y). y follows from any of theta_i x + y + n_i = e_i/b_i = f_i g/b_i.\n\nStep 5 (minimum value). Sigma = e.e = g^2 (f.f) = g h.\n\nContext. The previous page reduces the adjustment of three 'Schnitte' (directions in an intersection/resection problem) to corrections proportional to fixed quantities. This page gives the general algebraic lemma behind that. The next page restates it in surveying variables: Y_i are the ordinates of the rays at a trial abscissa X, rho = (X-a)/cos^2 t, and corrections dt = 206265 phi l in arc-seconds, with sum dt^2 = 206265^2 phi M.",
+  "errors": [
+   "No mathematical errors in the formulas as intended; every stated identity checks out (1, 2, 3 and Sigma = g h).",
+   "In the image, the left factor of the second equation of group 2) appears to be written '(theta - theta')' (with a written-over first theta). For consistency with (n - n'') and (f/b - f''/b'') it must be (theta - theta''). Either this is a slip/ink correction in the manuscript or an ambiguity of reading; the correct form is theta - theta''.",
+   "Unstated assumptions: b, b', b'' must be nonzero (needed for the substitution a = b theta, m = b n), and the theta_i must not all be equal (otherwise f = 0 and g is undefined)."
+  ],
+  "results": [
+   {
+    "what": "For 3 linear observation equations in 2 unknowns, the least-squares residual vector is proportional to the vector orthogonal to both coefficient columns (their cross product). The scale factor is g = (m.f)/(f.f), and the minimum sum of squares is g*h = (m.f)^2/(f.f).",
+    "modern_name": "Least squares via residual projection onto the orthogonal complement of the column space (one redundant observation; the residual is a multiple of the left-null vector / condition equation)",
+    "usually_credited_to": "Gauss (least squares, 1809/1821-23 Theoria combinationis; method of condition equations); Legendre 1805 for least squares in print",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Arbitrary shift N in h = sum (n_i - N)(theta_j - theta_k), allowed because sum (theta_j - theta_k) = 0. A computational device to keep numbers small.",
+    "modern_name": "Translation invariance of a determinant / centering for numerical convenience",
+    "usually_credited_to": "standard computing practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Geometric meaning: h = det[[theta_i, 1, n_i]] measures the non-concurrence (error triangle) of three rays. The adjusted point and the direction corrections are proportional to fixed weights, applied to the three-ray intersection problem in geodesy.",
+    "modern_name": "Least-squares adjustment of a point fixed by three intersecting rays (error triangle / Fehlerdreieck adjustment)",
+    "usually_credited_to": "Gauss (Hannover survey practice, 1820s), later geodetic textbooks (Gerling, Helmert)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a clean, correct closed-form least-squares solution for the 3-equation/2-unknown case, as used in Gauss's geodetic adjustment of three-ray intersections. Gauss's authorship of least squares and of such geodetic adjustment rules is well known. The compact cross-product form of the residual is a nice working detail but not a new result.",
+  "checkable": [
+   {
+    "sympy": "b,b1,b2,t,t1,t2,n,n1,n2,N=symbols('b b1 b2 t t1 t2 n n1 n2 N'); f=(t2-t1)/b; f1=(t-t2)/b1; f2=(t1-t)/b2; simplify(b*t*f+b1*t1*f1+b2*t2*f2)",
+    "asserts": "Equals 0: f is orthogonal to the column a = (b theta, b' theta', b'' theta'')."
+   },
+   {
+    "sympy": "simplify(b*f+b1*f1+b2*f2)",
+    "asserts": "Equals 0: f is orthogonal to the column b."
+   },
+   {
+    "sympy": "h=(n-N)*(t2-t1)+(n1-N)*(t-t2)+(n2-N)*(t1-t); simplify(diff(h,N))",
+    "asserts": "Equals 0: h is independent of the arbitrary quantity N."
+   },
+   {
+    "sympy": "simplify(h - (b*n*f+b1*n1*f1+b2*n2*f2))",
+    "asserts": "Equals 0: h = m.f with m_i = b_i n_i."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); E=[b*t*x+b*y+b*n, b1*t1*x+b1*y+b1*n1, b2*t2*x+b2*y+b2*n2]; S=sum(e**2 for e in E); sol=solve([diff(S,x),diff(S,y)],[x,y]); g=h/(f**2+f1**2+f2**2); [simplify(E[0].subs(sol)-f*g), simplify(E[1].subs(sol)-f1*g), simplify(E[2].subs(sol)-f2*g)]",
+    "asserts": "All three entries are 0: at the least-squares optimum, e_i = f_i g (formula 1)."
+   },
+   {
+    "sympy": "simplify(S.subs(sol) - g*h)",
+    "asserts": "Equals 0: the minimum Sigma = g h."
+   },
+   {
+    "sympy": "simplify(((t-t2)*x+(n-n2)-(f/b-f2/b2)*g).subs(sol))",
+    "asserts": "Equals 0: the second equation of group 2) holds with (theta - theta''), confirming theta-theta'' is the correct left factor."
+   },
+   {
+    "sympy": "simplify((t*x+y+n - f*g/b).subs(sol))",
+    "asserts": "Equals 0: formula 3) for y."
+   }
+  ],
+  "transcription_corrections": [
+   "Second equation of group 2): the image appears to read '(theta - theta')x + (n - n'')' with an overwritten first theta. Mathematically it must be (theta - theta''), as the machine transcription gives. Flag this as a possible manuscript slip or correction.",
+   "'N eine willkürliche Grösse' is spelled 'Grosse/Grösse' with long s in the manuscript; the meaning is unchanged.",
+   "The final line has the small word 'und' written above 'Sigma = g h', as transcribed.",
+   "Header 'Allgemein,' and the marginal notes 'a, b, m, a' u.s.w gegeben / x, y gesucht, so dass ... ein Minimum werde' and 'Aus einer dieser Gleichungen wird x bestimmt' are correctly read."
+  ]
+ }
+}

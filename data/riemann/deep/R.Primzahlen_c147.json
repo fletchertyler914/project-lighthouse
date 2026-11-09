@@ -1,0 +1,70 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c147",
+ "label": "74v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000148/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a numerical data table, not a mathematical derivation. It most likely belongs to actuarial or statistical work: the previous folio has age-class frequencies and a table of logarithms, and the next folio has an age-indexed table running from 5 to 70 that looks like part of a life table. That actuarial reading is an inference from context.\n\nRows are labelled by the years 1838, 39, 40, 1, 2, …, 9, 50, 51, 52, 3, …, 8, that is 1838–1858, so 21 rows. Call the four numeric columns a_t, b_t, c_t, d_t.\n- a_t runs 49 to 126, roughly an annual count of entries or new cases.\n- b_t runs 1 to 35 and is blank for 1838 and 1840. It reads like an annual count of exits or deaths.\n- c_t runs 2277 to 4969 and is nearly monotone, like a stock or capital figure.\n- d_t runs 133 to 1347 and is not monotone (824 then 810), so it is not a running total.\n\nThe computations on the page are column sums, with the carry digits written small above the totals:\n1. Σ a_t (1838–1858) = 1490. The carries '12 8' are written over the total.\n2. Σ b_t = 374.\n3. 1490 − 374 = 1116, the net balance of entries minus exits over the whole period.\n4. Σ c_t = 72686. The carries '11 9 10' are written over the total.\n5. The totals 1490 and 72686 are copied out again below.\n\nThe left margin, beside the rows 1855–1858, holds running net balances, each the cumulative a minus the cumulative b (my verification):\n- 1838–1855: 1207 − 268 = 939.\n- 1838–1856: 1263 − 306 = 957.\n- 1838–1857: 1364 − 339 = 1025.\n- 1838–1858: 1490 − 374 = 1116.\n\nThis cumulative 'entered minus left' count is exactly the kind of quantity used to estimate the current membership of a fund (for example a widows' fund) or a population at risk. That reading is my interpretation. The column d_t is not summed, and its meaning cannot be determined from this page.",
+  "errors": [
+   "No arithmetic errors: all three column sums (1490, 374, 72686), the difference 1116, and the marginal partial balances check out exactly.",
+   "The value 2712 appears for both 1844 and 1845 in column c. This may be a copying slip or genuine source data; it cannot be decided from the page.",
+   "Column d drops from 824 (1848) to 810 (1849), so it is not cumulative. This is not an error, but it shows d is a different kind of quantity."
+  ],
+  "results": [
+   {
+    "what": "Column totals of annual counts for 1838–1858 and the net balance entries − exits = 1490 − 374 = 1116, with running balances for 1855–1858",
+    "modern_name": "Elementary demographic/actuarial bookkeeping (cumulative inflow minus outflow, exposure/membership count)",
+    "usually_credited_to": "Standard 18th–19th-century actuarial practice (cf. Gauss's work on the Göttingen professors' widows' fund, 1845–51)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Sum of a yearly stock/capital-like series, Σ c_t = 72686",
+    "modern_name": "Aggregate exposure/total over observation period",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is pure statistical bookkeeping: column sums and running balances of annual counts, presumably for an actuarial or widow-fund investigation. That Riemann did such calculations is mildly interesting biographically, but there is no new mathematics here.",
+  "checkable": [
+   {
+    "sympy": "sum([49,42,44,45,49,50,58,62,75,77,80,70,82,71,98,73,87,95,56,101,126]) == 1490",
+    "asserts": "Total of column a (1838–1858) is 1490"
+   },
+   {
+    "sympy": "sum([1,4,5,12,9,14,16,16,16,22,19,16,24,27,35,32,38,33,35]) == 374",
+    "asserts": "Total of column b is 374"
+   },
+   {
+    "sympy": "1490 - 374 == 1116",
+    "asserts": "Net balance entries minus exits"
+   },
+   {
+    "sympy": "sum([2277,2349,2415,2460,2534,2600,2712,2712,2947,3169,3326,3388,3554,3612,4186,4406,4581,4699,4878,4912,4969]) == 72686",
+    "asserts": "Total of column c is 72686 (with 2712 counted twice)"
+   },
+   {
+    "sympy": "sum([49,42,44,45,49,50,58,62,75,77,80,70,82,71,98,73,87,95]) - sum([1,4,5,12,9,14,16,16,16,22,19,16,24,27,35,32]) == 939",
+    "asserts": "Marginal running balance through 1855 is 939"
+   },
+   {
+    "sympy": "sum([49,42,44,45,49,50,58,62,75,77,80,70,82,71,98,73,87,95,56]) - sum([1,4,5,12,9,14,16,16,16,22,19,16,24,27,35,32,38]) == 957",
+    "asserts": "Marginal running balance through 1856 is 957 (not 987)"
+   },
+   {
+    "sympy": "sum([49,42,44,45,49,50,58,62,75,77,80,70,82,71,98,73,87,95,56,101]) - sum([1,4,5,12,9,14,16,16,16,22,19,16,24,27,35,32,38,33]) == 1025",
+    "asserts": "Marginal running balance through 1857 is 1025"
+   }
+  ],
+  "transcription_corrections": [
+   "Left-margin value beside 1856 is 957, not 987: it equals cumulative a minus cumulative b through 1856.",
+   "The marginal numbers 939, 957, 1025, 1116 belong to the left margin beside the rows 5–8 (1855–1858); they are not part of the year labels.",
+   "Small carry digits '12 8' over 1490 and '11 9 10' over 72686 are addition carries, not data.",
+   "The struck '9' at the lower left is probably the start of a row 1859 (or a sum mark) that was cancelled.",
+   "The 1857 entry in the last column is 1317 (overwritten), consistent with the transcription's '1317[?]'."
+  ]
+ }
+}

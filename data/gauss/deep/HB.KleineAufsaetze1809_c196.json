@@ -1,0 +1,75 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c196",
+ "label": "187",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000197/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from p.186): S and S' are two closed conductors ('Rheophoren'). r is the distance between a point of S and a point of S'. Gauss sets r = rho^2, so rho = sqrt(r). theta is the total resistance of S'. d and d' denote partial differentiation along S and along S' respectively. Law II.A states the induction law: if a current of intensity epsilon arises in s during the short time delta t, the element ds' receives an electromotive ('stromerzeugende') force -(epsilon ds ds' cos u)/(delta t r), where u is the angle between ds and ds'. Let z be the projection of the vector r onto the direction of ds'. Then ds cos u = dz, and the total EMF in ds' due to all of s is -(epsilon ds'/delta t) * Int_s dz/r.\n\nThis page:\n(1) d(z/r) = dz/r - z dr/r^2 is an exact differential along s (ds' is held fixed, so z/r is a single-valued function of the point on the closed curve s). Its integral around the closed s is therefore 0, giving Int_s dz/r = Int_s z dr/r^2. Hence EMF(ds') = -(epsilon ds'/delta t) Int_s z dr/r^2.\n(2) Moving the endpoint on s' by ds' changes r by d'r = -(z/r) ds' (because r = |x - x'|, with z = (x - x').t'). So -z ds'/r^2 = d'r/r, and EMF(ds') = +(epsilon/delta t) Int_s dr d'r / r.\n(3) With r = rho^2: dr = 2 rho d rho and d'r = 2 rho d'rho, so dr d'r/r = 4 d rho d'rho. Thus EMF(ds') = (4 epsilon/delta t) Int_s d rho d'rho.\n(4) Total EMF in s' = (4 epsilon/delta t) Int_s Int_s' d rho d'rho. By Ohm's law the induced current in s' during delta t is (4 epsilon/(theta delta t)) IntInt' d rho d'rho.\n(5) Integration by parts along s: d rho d'rho = d(rho d'rho) - rho d d'rho. The first term integrates to 0 around the closed s. Therefore the current can also be written -(4 epsilon/(theta delta t)) IntInt' rho dd'rho.\n\nPurpose: transform Neumann-type elementary induction (cos u / r) into Gauss's own rho-form, which matches the form of his Ampère-type force law on p.186 (epsilon epsilon'/rho * dd'rho, or d rho d'rho). This shows that the inductive action between closed circuits is governed by the same double integral (the mutual-inductance / electrodynamic potential) as the ponderomotive action.",
+  "errors": [
+   "In the final integration by parts Gauss writes Int Int' d rho d'rho = Int rho d rho - IntInt' rho dd'rho, and says 'Int rho d rho = 0'. The boundary term should be the integral along s of the exact differential d(rho d'rho), i.e. a [rho d'rho] term, not Int rho d rho. The conclusion (it vanishes around the closed curve s) is correct, so this is a notational slip.",
+   "Minor: in steps (1)-(2) the dependence of z on the fixed direction of ds' is left implicit. The argument is valid because, for a fixed element ds', z/r is single-valued on the closed curve s.",
+   "Otherwise every step checks: d'r = -z ds'/r, and dr d'r/r = 4 d rho d'rho when r = rho^2."
+  ],
+  "results": [
+   {
+    "what": "Elementary induction law: EMF in ds' from a current epsilon started in ds during delta t equals -epsilon ds ds' cos u/(r delta t). Summed over closed circuits this gives the EMF -(epsilon/delta t) IntInt cos u/r ds ds'.",
+    "modern_name": "Neumann's law of induction / mutual inductance M = double integral of cos(u)/r ds ds'",
+    "usually_credited_to": "F. E. Neumann (1845); W. Weber (1846) in equivalent form",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Equivalence over closed circuits: IntInt cos u/r ds ds' = IntInt (dr/ds)(dr/ds')/r ds ds' = 4 IntInt d sqrt(r) d' sqrt(r) = -4 IntInt sqrt(r) dd' sqrt(r).",
+    "modern_name": "Equivalence of Neumann and Weber (Ampère-type) forms of the mutual-inductance double integral (Neumann formula for M)",
+    "usually_credited_to": "Neumann 1845 / Weber 1846; also Helmholtz and Maxwell later",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Induced current = EMF / total resistance theta",
+    "modern_name": "Ohm's law",
+    "usually_credited_to": "G. S. Ohm 1827",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Integration by parts around a closed curve to drop an exact differential",
+    "modern_name": "Integration by parts / vanishing of an exact differential over a closed loop",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "These are Gauss's electrodynamic notes (c. 1835) that anticipate Neumann's mutual-inductance formula and Weber-type forms. They are published in Werke V (the next page cites V p.611), and historians know Gauss had an induction law and the rho = sqrt(r) form of Ampère's law before Neumann and Weber. The page is a notable anticipation, but it is already documented, so surprise is modest.",
+  "checkable": [
+   {
+    "sympy": "rho=symbols('rho',positive=True); drho,dprho=symbols('drho dprho'); r=rho**2; simplify((diff(r,rho)*drho)*(diff(r,rho)*dprho)/r - 4*drho*dprho)",
+    "asserts": "With r = rho^2, dr*d'r/r = 4 d rho d'rho (result 0)."
+   },
+   {
+    "sympy": "x,y,z,xp,yp,zp,a,b,c=symbols('x y z xp yp zp a b c',real=True); R=sqrt((x-xp)**2+(y-yp)**2+(z-zp)**2); Z=((x-xp)*a+(y-yp)*b+(z-zp)*c); simplify((diff(R,xp)*a+diff(R,yp)*b+diff(R,zp)*c) + Z/R)",
+    "asserts": "d'r/ds' = -z/r, where z is the projection of (x - x') on the unit direction (a,b,c) of ds' (taking a^2+b^2+c^2=1); result 0."
+   },
+   {
+    "sympy": "t,s=symbols('t s'); X=Matrix([cos(t),sin(t),0]); Xp=Matrix([2+cos(s)/2,0,sin(s)/2]); R=sqrt(((X-Xp).T*(X-Xp))[0]); f1=(X.diff(t).T*Xp.diff(s))[0]/R; f2=diff(R,t)*diff(R,s)/R; # numerically integrate f1 and f2 over [0,2pi]^2 and compare",
+    "asserts": "For two closed curves, IntInt cos u/r ds ds' equals IntInt (dr/ds)(dr/ds')/r ds ds' (Neumann form equals Gauss/Weber form)."
+   },
+   {
+    "sympy": "t,s=symbols('t s'); X=Matrix([cos(t),sin(t),0]); Xp=Matrix([2+cos(s)/2,0,sin(s)/2]); rho=sqrt(sqrt(((X-Xp).T*(X-Xp))[0])); g1=diff(rho,t)*diff(rho,s); g2=-rho*diff(rho,t,s); # numerically integrate both over [0,2pi]^2",
+    "asserts": "IntInt d rho d'rho = -IntInt rho dd'rho over closed curves (integration by parts step)."
+   },
+   {
+    "sympy": "t=symbols('t'); X=Matrix([cos(t),sin(t),0]); P=Matrix([2,0,0]); u=Matrix([0,0,1]); R=sqrt(((X-P).T*(X-P))[0]); Z=((X-P).T*u)[0]; integrate(diff(Z/R,t),(t,0,2*pi))",
+    "asserts": "The integral of d(z/r) around a closed curve s vanishes (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: the word written above the struck-out 'Strom' reads 'Rheophor s' (i.e. 'durch den geschlossenen Rheophor s ausgedehnt'), not 'Strecke s'.",
+   "In 'oder da -z/r.ds' = d'r' the right side is d'r (r with the prime on the d), consistent with the subsequent dr.d'r.",
+   "The last formula is indeed written 'Int rho d rho' in the manuscript; mathematically it should be the integral of d(rho d'rho). This is Gauss's slip, not a transcription error.",
+   "'während der Zeit δt statt findende Strom' – the manuscript has 'Zeit δt stattfindende Strom'."
+  ]
+ }
+}

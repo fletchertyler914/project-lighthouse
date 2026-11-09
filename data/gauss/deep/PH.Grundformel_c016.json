@@ -1,0 +1,44 @@
+{
+ "bundle": "PH.Grundformel",
+ "page": "c016",
+ "label": "9r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382435:00000017/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This folio (9r) contains no mathematics. It is a title page that reads 'Tafel zur Auflösung der Lambert'schen Gleichung.' ('Table for the solution of Lambert's equation'). Below the title is a printed ornamental rule and a stamp of the Niedersächsische Staats- und Universitätsbibliothek Göttingen. At the top are handwritten shelf and foliation marks: '1474', 'Phys. 9', '(9)' and '5071' struck through and replaced by '11'. The title is typeset, so this is a cover sheet for a table, not a Gauss autograph derivation. Faint ruled columns of digits show through from the next leaf.\n\nContext from the next page (not this one): a table of log μ and log ν against η, with η running 0.00, 0.01, 0.02, … The definitions given there are η = [8.5366114]·t/(r+r')^(3/2), chord k = [8.5366114]·t/(r+r')^(1/2)·μ, and ν = [8.3860964]·t·√q/(r r' sin(v'−v)).\n- The bracketed numbers are Gaussian logarithms. The constant 8.5366114 equals log(2k_G) and 8.3860964 equals log(√2·k_G), where k_G = 0.01720209895 is the Gaussian gravitational constant. (My identification.)\n- The log μ column fits the parabolic Lambert (Euler) equation 6k_G t = (m+s)^(3/2) − (m−s)^(3/2), with m = r+r' and s the chord. Put x = s/m. Then 3η = (1+x)^(3/2) − (1−x)^(3/2), so η = x − x³/24 − x⁵/128 − …, and μ = x/η ≈ 1 + η²/24. (My reconstruction.)\n- Check: at η = 0.1 this gives log10 μ ≈ 0.0001815; the table has 0.00018 16.\n\nNone of this derivation appears on folio 9r itself.",
+  "errors": [],
+  "results": [
+   {
+    "what": "Title page announcing a table for solving Lambert's equation (time of flight in terms of r+r' and the chord), used in orbit determination.",
+    "modern_name": "Lambert's theorem / Lambert's time-of-flight equation (here apparently the parabolic Euler–Lambert form)",
+    "usually_credited_to": "J. H. Lambert (1761); parabolic case Euler (1744); Gauss treats it in Theoria Motus (1809)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is a printed title or cover sheet with library stamps and shelfmarks. It contains no mathematical content, and the subject (tables for Lambert's equation) is standard 19th-century orbit computation well known in connection with Gauss.",
+  "checkable": [
+   {
+    "sympy": "abs(log(2*0.01720209895, 10) + 10 - 8.5366114) < 1e-7",
+    "asserts": "The constant [8.5366114] in the next page's definition of η is log10(2k), with k the Gaussian gravitational constant (context, not on this page)."
+   },
+   {
+    "sympy": "abs(log(sqrt(2)*0.01720209895, 10) + 10 - 8.3860964) < 1e-7",
+    "asserts": "The constant [8.3860964] in the definition of ν is log10(√2·k)."
+   },
+   {
+    "sympy": "series(((1+x)**Rational(3,2) - (1-x)**Rational(3,2))/3, x, 0, 7)",
+    "asserts": "Gives x - x**3/24 - x**5/128 + ..., i.e. η as a function of x = chord/(r+r') in the parabolic Lambert equation."
+   },
+   {
+    "sympy": "abs(log(nsolve(((1+x)**Rational(3,2)-(1-x)**Rational(3,2))/3 - Rational(1,10), x, 0.1)/Rational(1,10), 10) - 0.0001816) < 2e-7",
+    "asserts": "With μ = x/η, the parabolic Lambert equation reproduces the next page's tabulated log μ = 0.0001816 at η = 0.10."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription is essentially correct. The title and the stamp ('NIEDERSÄCHS. STAATS- U. UNIV: BIBLIOTHEK GÖTTINGEN') are printed or stamped; '1474', 'Phys. 9' and '(9) 5071 [struck] 11' are handwritten archival marks, not Gauss's text.",
+   "There is a printed ornamental rule (wavy line) between the title and the stamp. The faint columns of numbers visible on the page are show-through from the following table page, not content of this page."
+  ]
+ }
+}

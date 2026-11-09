@@ -1,0 +1,71 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c052",
+ "label": "24br",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000053/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Art. 9-10 of Riemann's Inauguraldissertation (1851). The theorem is stated on the previous page. Let u satisfy u_xx + u_yy = 0 on a surface T, except on a set with no area and containing no continuous lines. Suppose further that at every discontinuity point the quantities rho*u_x and rho*u_y tend to 0, where rho is the distance to that point. Then u and all its derivatives are continuous and finite inside T. The previous page introduced O = (x0, y0) and log r = (1/2) log((x-x0)^2 + (y-y0)^2). This function is harmonic in x, y everywhere except at the single point O.\n\nThis page:\n\n(1) Green's identity. For two functions u, v that are harmonic in a region, the boundary integral of (u dv/dp - v du/dp) ds over the whole boundary is 0 (Riemann's §7; p is the normal). Take v = log r and cut out small neighbourhoods of O and of each discontinuity point of u. Then the integral of (u dlog r/dp - log r du/dp) ds around a small neighbourhood of O equals the same integral over the boundary of T, minus the integrals around the discontinuity points of u. The struck-out words 'vermindert um ...' state exactly this correction.\n\n(2) Lemma. Let u' be any function that is harmonic and continuous throughout the region, with bounded derivatives, at a given discontinuity point of u. Then the integral of (u du'/dp - u' du/dp) ds around that point vanishes.\n\nProof: take a circle of radius rho about the point and polar coordinates (rho, phi) with an arbitrary initial direction. The integral becomes\n  ∫ (u du'/drho - u' du/drho) rho dphi.\nBy Green's theorem on an annulus, this value does not depend on rho. The page breaks off at 'um einen beliebigen Anfangs-'.\n\nThe completion below is mine; it follows the published Dissertation.\n- Second term: u' is bounded and rho du/drho -> 0 uniformly, so the term tends to 0.\n- First term: du'/drho is bounded. Integrating du/drho = o(1/rho) gives u = o(log rho), hence rho*u -> 0, so this term also tends to 0.\n- Since the integral is independent of rho, it is exactly 0.\n\n(3) Application. The lemma applies with u' = log r, because log r is regular at the discontinuities of u, all of which differ from O. The next steps are implicit and mine:\n- Around O, the integral equals ∫ u dphi - log rho ∫ (du/drho) rho dphi.\n- The flux ∫ (du/drho) rho dphi is 0 (Green's identity with v = 1).\n- Letting rho -> 0 then gives 2*pi*u(O) (up to the sign convention for the normal).\n\nResult: u(O) = (1/2pi) times the integral over the boundary of T of (u dlog r/dp - log r du/dp) ds. The right-hand side is a smooth, indeed harmonic, function of (x0, y0). This removes the singularities.",
+  "errors": [
+   "In the second integral the machine-transcribed form (u' du/dp - u' du'/dp) is inconsistent. It must be (u du'/dp - u' du/dp), as the polar-coordinate version at the bottom of the page confirms.",
+   "The step needed for the first term, rho*u -> 0, is not written on the page. It follows from condition 3 (rho*grad u -> 0 gives u = o(log rho)) but is left implicit in this fragment.",
+   "The fact that the integral is independent of the radius, which is what turns the limit argument into exact vanishing, is likewise only implicit in the broken-off phrase."
+  ],
+  "results": [
+   {
+    "what": "Green's second identity applied with the logarithmic fundamental solution, with excision of a small disk about the point O",
+    "modern_name": "Green's representation formula / Green's second identity in 2D",
+    "usually_credited_to": "George Green (1828); Gauss (1839-40)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Isolated singularities of a harmonic function with rho*grad u -> 0 contribute nothing to Green's integral; such a function is regular there",
+    "modern_name": "Removable singularity theorem for harmonic functions",
+    "usually_credited_to": "Riemann, Dissertation 1851 (Art. 9-10)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Value of u at O expressed as a boundary integral involving log r, which implies smoothness of u",
+    "modern_name": "Green/Gauss mean-value representation; regularity of harmonic functions",
+    "usually_credited_to": "Gauss/Green; this proof by Riemann 1851",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of material published in Riemann's 1851 Dissertation (Art. 9-10, the removable-singularity theorem proved via Green's formula with log r). It is well known as his.",
+  "checkable": [
+   {
+    "sympy": "x,y,x0,y0=symbols('x y x0 y0',real=True); L=log((x-x0)**2+(y-y0)**2)/2; simplify(diff(L,x,2)+diff(L,y,2))==0",
+    "asserts": "log r is harmonic away from O"
+   },
+   {
+    "sympy": "rho,phi=symbols('rho phi',positive=True); simplify(diff(log(rho),rho)*rho)==1",
+    "asserts": "rho * d(log rho)/drho = 1, so the u-term around O gives ∫ u dphi -> 2*pi*u(O)"
+   },
+   {
+    "sympy": "rho,phi=symbols('rho phi',positive=True); u=rho*cos(phi)+rho**2*sin(2*phi); integrate(diff(u,rho)*rho,(phi,0,2*pi))==0",
+    "asserts": "The flux of a harmonic function through a circle vanishes, so the log(rho) term drops out"
+   },
+   {
+    "sympy": "rho=symbols('rho',positive=True); limit(rho*log(rho),rho,0)==0",
+    "asserts": "u = O(log rho) implies rho*u -> 0, so the first term in the lemma vanishes"
+   },
+   {
+    "sympy": "rho,phi=symbols('rho phi',positive=True); u=cos(phi)/rho; up=rho*cos(phi); simplify(integrate((u*diff(up,rho)-up*diff(u,rho))*rho,(phi,0,2*pi)))",
+    "asserts": "Counterexample check: u = cos(phi)/rho violates condition 3 and the integral is 2*pi, not 0, so condition 3 is essential"
+   }
+  ],
+  "transcription_corrections": [
+   "The first integral should read ∫(u dlog r/dp - log r du/dp) ds. The deletions are of the earlier fraction form (log r / u), not of log r inside the final derivative.",
+   "The second integral should read ∫(u du'/dp - u' du/dp) ds, not (u' du/dp - u' du'/dp).",
+   "'des Punktes O_0': the point is O_0 (the point O of the previous page).",
+   "'Müsste man für die' is probably 'Wählt man für die' / 'Nimmt man für die'.",
+   "'zu verdecken der Differentialgl.' (struck) is likely a garbled reading; the surviving sense is 'eine ... der Differentialgleichung ... genügende Function u''.",
+   "The marginal insertion near the top right reads roughly 'wie das für eine ... in allen Theilen der Fläche stetig ...' and qualifies u' as continuous throughout the surface.",
+   "'24b' at the right edge is the folio number, not part of the text."
+  ]
+ }
+}

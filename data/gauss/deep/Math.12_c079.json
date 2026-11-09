@@ -1,0 +1,61 @@
+{
+ "bundle": "Math.12",
+ "page": "c079",
+ "label": "37v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376631:00000080/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (§10 of a draft on biquadratic residues). The set-up is m=a+bi, M=A+Bi, t=xi+eta*i, and (xi+eta*i)M/m = X+Yi. Theta(z) is an integer-valued index that changes only when the integer parts [X] or [Y] jump. The page fixes eta and lets xi run over the integers between xi^0 and xi^00. The points where X or Y passes through an integer are xi', xi'', ..., xi^n. The increments are delta^k = Theta(xi^k ...) - Theta(xi^(k-1) ...). The goal is the signed aggregate of Theta over one horizontal row of lattice points.\n\nStep 1 (counting parities). For non-integral u<v:\n- the number of even integers in (u,v) is [v/2]-[u/2];\n- the number of odd integers in (u,v) is [v/2+1/2]-[u/2+1/2].\nTheta is constant on each interval (xi^k, xi^(k+1)), where it equals S_k = Theta(xi^0)+delta'+...+delta^k.\n\nStep 2 (the row sum). The sign is + for even eta and - for odd eta, so the left side is effectively sum over xi of (-1)^xi Theta(...). Gauss writes\n+-Sum Theta = sum_{k=0}^{n} E_k S_k, with E_k = ([xi^(k+1)/2]-[xi^k/2]) - ([xi^(k+1)/2+1/2]-[xi^k/2+1/2]) and xi^(n+1)=xi^00.\n\nStep 3 (my notation). Put e(u) = [u/2]-[u/2+1/2]. For non-integral u, e(u) = 0 if [u] is even and -1 if [u] is odd. Then E_k = e(xi^(k+1)) - e(xi^k).\n\nStep 4 (Abel summation). Gauss's first attempt after '=' is struck through with a wavy line. The valid final form is\n+-Sum Theta = -e(xi^0) Theta((xi^0+eta i)M/m) - sum_{k=1}^{n} e(xi^k) delta^k + e(xi^00) Theta((xi^00+eta i)M/m),\nusing S_n = Theta at xi^00. This is exactly the list of lines on the page.\n\nStep 5 (the jumps). Each delta is +-1. Gauss tabulates when delta' = +1, according to the quadrant of M/m, which fixes the directions in which X and Y move:\n- Q1 (X up, Y up): X' an even integer with [Y] odd, or Y' an even integer with [X] even.\n- Q2 (X down, Y up): X' even with [Y] even, or Y' even with [X] even.\n- Q3 (both down): X' even with [Y] (written 'gerade', marked '?'), or Y' even with [X] odd.\n- Q4 (X up, Y down): X' even with [Y] odd, or Y' even with [X] odd.\nIf exactly one condition is reversed (the integer is odd, or the parity of [.] is flipped), delta = -1. If both are reversed, delta = +1.\n\nInterpretation (mine). This is consistent with Theta being the counterclockwise index of the unit cell ([X] mod 2, [Y] mod 2) around the odd lattice point (1,1): NE=0, NW=1, SW=2, SE=3. Under that model, every entry of the table checks out, including the doubted Q3 entry, which should read [Y] even.\n\nPurpose. This is a lattice-point (Eisenstein-style 'Gauss lemma') evaluation of a biquadratic character. Next page (§11) gives the formulas for the boundary values xi^0, xi^00 and an example m=-11+4i, M=-1+2i.",
+  "errors": [
+   "The first expansion after '=' (Theta(...){[1/2 xi^00]-...} + delta{...}) is wrong and Gauss struck it out; the correct result is the Abel-summed list that follows.",
+   "In the line '-([1/2 xi^0]-[1/2 xi^00+1/2])Theta(...)' the second bracket must be [1/2 xi^0+1/2]. This is a slip or a transcription misreading.",
+   "Brackets are missing in the delta''' and delta^n lines; they should be [1/2 xi'''] and [1/2 xi^n].",
+   "In the final line the parentheses around ([1/2 xi^00]-[1/2 xi^00+1/2]) are missing.",
+   "In the Q3 column Gauss doubted the entry ('?'). Under the consistent cell-index model the correct condition is X' even with [Y] even, so the hesitation was unnecessary.",
+   "Implicit assumption: the xi^k, xi^0 and xi^00 are non-integers. This holds except for eta=0, as stated on the previous page; if they were integers the parity counts would need endpoint care."
+  ],
+  "results": [
+   {
+    "what": "Counting even/odd integers in an interval via [v/2]-[u/2] and [v/2+1/2]-[u/2+1/2], combined with Abel (summation-by-parts) reduction of a signed row sum to boundary terms plus jump terms",
+    "modern_name": "Summation by parts / lattice-point counting",
+    "usually_credited_to": "Abel (1826) for summation by parts; standard technique",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Rule that the cell-index Theta of (xi+eta i)M/m jumps by +-1 at each lattice line, with sign determined by line parity, the parity of the other coordinate, and the quadrant of M/m",
+    "modern_name": "Lattice-point/Gauss-lemma approach to the biquadratic character (analogue of Gauss's third proof and Eisenstein's lattice proof of quadratic reciprocity)",
+    "usually_credited_to": "Eisenstein (1844) for a published biquadratic reciprocity proof; Busche and others for later lattice-point versions",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss's unpublished work towards biquadratic reciprocity is known, and some Nachlass fragments are in Werke II/X. A detailed lattice-point, Gauss-lemma-style row-by-row evaluation in Z[i] is a notable unpublished technical detail, but it is neither a completed new theorem nor clearly ahead of what is attributed to him.",
+  "checkable": [
+   {
+    "sympy": "all(floor(Rational(v,1)/2)-floor(Rational(u,1)/2) == len([k for k in range(ceiling(u),floor(v)+1) if k%2==0]) for u,v in [(Rational(-161,22),Rational(13,7)),(Rational(1,3),Rational(29,4)),(Rational(-5,2),Rational(-1,3))])",
+    "asserts": "[v/2]-[u/2] counts even integers in (u,v) for non-integral u<v"
+   },
+   {
+    "sympy": "all(floor(Rational(v,1)/2+Rational(1,2))-floor(Rational(u,1)/2+Rational(1,2)) == len([k for k in range(ceiling(u),floor(v)+1) if k%2==1]) for u,v in [(Rational(-161,22),Rational(13,7)),(Rational(1,3),Rational(29,4))])",
+    "asserts": "[v/2+1/2]-[u/2+1/2] counts odd integers in (u,v)"
+   },
+   {
+    "sympy": "all(floor(u/2)-floor(u/2+Rational(1,2)) == (0 if floor(u)%2==0 else -1) for u in [Rational(1,2),Rational(3,2),Rational(-1,2),Rational(-7,3),Rational(22,7)])",
+    "asserts": "e(u)=[u/2]-[u/2+1/2] equals 0 for [u] even and -1 for [u] odd"
+   },
+   {
+    "sympy": "e=lambda u: floor(u/2)-floor(u/2+Rational(1,2)); P=[Rational(-161,22),Rational(-9,4),Rational(1,3),Rational(5,2),Rational(37,5)]; d=[1,-1,-1,1]; S=[3+sum(d[:k]) for k in range(5)]; sum((e(P[k+1])-e(P[k]))*S[k] for k in range(4)) == e(P[4])*S[3]-e(P[0])*S[0]-sum(e(P[k])*d[k-1] for k in range(1,4))",
+    "asserts": "Abel-summation identity turning the row sum into boundary terms minus jump terms (as on the page)"
+   }
+  ],
+  "transcription_corrections": [
+   "The lines '= Theta(xi^0+eta i)M/m .{[1/2 xi^00]-...}' and '+ delta {[1/2 xi^00]-[1/2 xi^00+1/2]}' are crossed out by a wavy line in the image and are not part of the final result.",
+   "In '-([1/2 xi^0]-[1/2 xi^00+1/2])' the image shows a correction; mathematically it must be [1/2 xi^0+1/2].",
+   "The delta''' and delta^n lines should read ([1/2 xi'''] - [1/2 xi'''+1/2]) and ([1/2 xi^n] - [1/2 xi^n+1/2]); the brackets are missing in the transcription.",
+   "In the second and following lines the Theta argument is written (xi^0+eta i)/m . M, the same as (xi^0+eta i)M/m; the first line has Theta (xi^0+eta i)M/m.",
+   "In the Q3 column, '[Y] gerade' is written with a query mark (and partly struck); the second Q2 row begins with a cancelled 'Y'' before 'Y' ganze gerad Zahl'."
+  ]
+ }
+}

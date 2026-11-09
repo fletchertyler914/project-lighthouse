@@ -1,0 +1,56 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c065",
+ "label": "32v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000066/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. On the previous page (32r) Riemann works with linear forms numbered 1,...,8. A symbol like sqrt12 means the square root of the product of forms 1 and 2. He studies the irrational relation sqrt12+sqrt34+sqrt56+sqrt78=0 and its partial rationalisation 12+34-56-78 = 2(sqrt5678 - sqrt1234), and inserts parameters (mu, nu, alpha, beta, ...) between the forms. This looks like the theory of quartic loci with eight distinguished linear forms (theta-characteristic or bitangent/trope type relations, genus 2/3) that he pursued in his p=3 work. That reading is mine. The next page continues with forms in x,y,z,t, i.e. quadrics in 4 variables.\n\nThis page.\n(1) Riemann writes a diagonal quadratic form in eight quantities:\n  (1) z1^2 + (2) z2^2 + ... + (8) z8^2 = 0,\n  where (i) are constant coefficients. In the 4th term he overwrote the exponent.\n(2) To the right he imposes that the four pairs are linearly related by 2x2 substitutions:\n  (z1,z2) = M(z3,z4) = M'(z5,z6) = M''(z7,z8),\n  with M = [[alpha, beta],[gamma, delta]], M' = [[alpha', beta'],[gamma', delta']], M'' = [[alpha'', beta''],[gamma'', delta'']].\n  Below 'z1, z2' he writes the substitution out explicitly:\n  z1 = alpha z3 + beta z4,\n  z2 = gamma z3 + delta z4.\n(3) He inverts it: z3 (alpha delta - beta gamma) = delta z1 - beta z2.\n  The companion (my completion) is z4 (alpha delta - beta gamma) = -gamma z1 + alpha z2.\n  He notes the typical inverse entry beta/(alpha delta - beta gamma) and writes the trivial 'z1 = z1'.\n(4) A first attempt 'sqrt12 + sqrt34' is struck out.\n(5) He then writes the normalised four-term relation\n  sqrt12 + sqrt34/(alpha delta - beta gamma) + sqrt56/(alpha' delta' - beta' gamma') + sqrt78/(alpha'' delta'' - beta'' gamma'') = 0.\n\nInterpretation (mine, tentative). Each pair is carried to the reference pair (z1,z2) by a unimodular-up-to-scale substitution. Only the determinant is invariant under such a change of basis of a pair: for any antisymmetric pairing, [z1 w2 - z2 w1] = det(M) [z3 w4 - z4 w3]. So the determinants are exactly the factors needed to normalise the relative weights of the four root terms when all pairs are referred to one basis. The page records the result of that normalisation; the actual derivation of the weights 1/det is not written out.",
+  "errors": [
+   "The final weighted relation is asserted rather than derived. For generic M the product z1*z2 is not a multiple of z3*z4, so the weights 1/det cannot come from substituting the products directly. They are justified only under an implicit interpretation (e.g. the root symbols scaling like 2x2 brackets, or a determinant normalisation). This step cannot be verified from the page alone.",
+   "The first displayed equation has an overwritten exponent on the z4 term. The intended term is clearly (4) z4^2.",
+   "The line 'z1 = z1' is a trivial placeholder. The inverse formula for z4 is not written; only z3's is."
+  ],
+  "results": [
+   {
+    "what": "Inversion of a 2x2 linear substitution: z3*det = delta z1 - beta z2",
+    "modern_name": "inverse of a 2x2 matrix (adjugate formula)",
+    "usually_credited_to": "classical (Cramer/Gauss era)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Normalising a four-term relation of square roots of products of paired linear forms, sqrt12+sqrt34+sqrt56+sqrt78=0, under linear changes of the pairs, with weights equal to the reciprocal determinants",
+    "modern_name": "normal forms of quartics as sums of square roots of products of linear forms (theta-characteristic / Goepel-Rosenhain type relations)",
+    "usually_credited_to": "Riemann's p=3 work (Werke XXXI, Weber 1876), Goepel/Rosenhain, Kummer, Cayley",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a scratch page of linear-algebra bookkeeping (a 2x2 inverse and determinant weights) in service of square-root normal forms of quartic loci. Riemann is already known to have worked on such forms in his genus-3 theory. Nothing here goes beyond routine manipulation.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d,z3,z4=symbols('a b c d z3 z4'); z1=a*z3+b*z4; z2=c*z3+d*z4; simplify(d*z1-b*z2-(a*d-b*c)*z3)",
+    "asserts": "z3*(alpha*delta-beta*gamma) = delta*z1 - beta*z2 (equals 0)"
+   },
+   {
+    "sympy": "simplify(-c*z1+a*z2-(a*d-b*c)*z4)",
+    "asserts": "Companion inverse: z4*det = -gamma*z1 + alpha*z2 (equals 0)"
+   },
+   {
+    "sympy": "w3,w4=symbols('w3 w4'); w1=a*w3+b*w4; w2=c*w3+d*w4; expand(z1*w2-z2*w1-(a*d-b*c)*(z3*w4-z4*w3))",
+    "asserts": "An antisymmetric bracket of a pair scales by the determinant (equals 0), which motivates the 1/det weights."
+   },
+   {
+    "sympy": "p,q,r,s=symbols('p q r s',positive=True); expand((p**2+q**2+2*p*q)-(r**2+s**2+2*r*s))",
+    "asserts": "If sqrt12=p, sqrt34=q, sqrt56=-r, sqrt78=-s with p+q=r+s, squaring gives 12+34-56-78 = 2(sqrt5678 - sqrt1234), the rationalisation used on the previous page."
+   }
+  ],
+  "transcription_corrections": [
+   "In the first equation the z4 term has an overwritten exponent; read (4) z4^2.",
+   "The fragment 'beta/(alpha delta - beta gamma)' stands alone to the right of the inversion line; it is not part of that equation.",
+   "The struck line reads 'sqrt12 + sqrt34' (the second root is partly illegible under the strike)."
+  ]
+ }
+}

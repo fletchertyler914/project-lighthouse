@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c009",
+ "label": "5v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000010/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is Riemann's work on the minimal surface (Plateau) problem. The previous page reduces finding x, y, z to finding X as a function of the complex variable eta. Eta comes from mapping the surface to the unit sphere by its normals (the Gauss map) and then projecting the sphere onto a plane. This page justifies that choice of eta and works out how eta changes when the sphere is rotated.\n\n(1) Line element of the unit sphere. In polar coordinates (r = polar distance, phi = longitude): ds^2 = dr^2 + sin^2 r dphi^2. Riemann uses eta = tan(r/2) e^{i phi} and eta' = conjugate of eta (implicit here; it is the standard stereographic coordinate). Then d log eta = d log tan(r/2) + i dphi = dr/sin r + i dphi. Hence ds^2 = sin^2 r * d log eta * d log eta'. The 'd eta d eta'' written above the line indicates the equivalent form sin^2 r/(eta eta') * d eta d eta'. Since sin r = 2|eta|/(1+|eta|^2), this equals 4 d eta d eta'/(1+eta eta')^2 (that step is mine).\n\n(2) Conformality. The ratio ds_sphere/|d eta| = sin r/|eta| = 2/(1+|eta|^2) depends only on the point. It does not depend on the argument (direction) of d eta. So corresponding infinitesimal triangles on the sphere and in the eta-plane are similar, with proportional sides. Riemann remarks that eta was introduced precisely in order to map the sphere 'similar in the smallest parts' onto the plane.\n\n(3) Change of pole. Take a second stereographic coordinate eta_1, with respect to another pole. Each plane is a conformal image of the sphere, so the map eta -> eta_1 is conformal (and orientation-preserving). Therefore eta_1 is a complex-analytic function of eta. Riemann adds that introducing this coordinate is not so easy by other routes.\n\n(4) Determining eta_1(eta).\n- eta_1 is a single-valued, one-to-one conformal map of the whole extended plane, so it is a fractional linear function.\n- eta_1 = 0 at the new pole alpha.\n- eta_1 = infinity at the diametrically opposite point. The antipode of eta is -1/eta', so this point is -1/alpha'.\n- Hence eta_1 = C (eta - alpha)/(1 + alpha' eta).\n\n(5) Fixing the constant. C is to be chosen so that the modulus of eta_1 equals 1 on the new equator. That is the great circle perpendicular to the axis through alpha and -1/alpha'.\n- My completion: the chordal distances from eta to alpha and to -1/alpha' are proportional to |eta - alpha| and |1 + alpha' eta| with the same factor.\n- So the equator is exactly the set |eta - alpha| = |1 + alpha' eta|.\n- This forces |C| = 1, so C = e^{i theta}.\n- Result: eta_1 = e^{i theta}(eta - alpha)/(1 + alpha' eta), the general rotation of the sphere written as a Moebius transformation (an element of SU(2)/±1).\n\nThe page breaks off before stating |C| = 1 explicitly.",
+  "errors": [
+   "No mathematical error. The written formula ds^2 = sin^2 r dlog eta dlog eta' is correct with eta = tan(r/2)e^{i phi}, but that definition of eta is not stated on this page.",
+   "The step 'eta_1 analytic in eta, so it is fractional linear' is not justified on the page. It needs bijectivity of the extended plane (or the explicit geometry of rotations). Riemann goes directly to the zero/pole argument.",
+   "The constant is said to make the modulus 1 on the equator, but its value (|C| = 1) is not written down. The page ends there."
+  ],
+  "results": [
+   {
+    "what": "Unit-sphere line element in the stereographic variable: dr^2 + sin^2 r dphi^2 = sin^2 r dlog eta dlog eta' = 4 d eta d eta'/(1+eta eta')^2",
+    "modern_name": "Conformal (stereographic) metric on the Riemann sphere",
+    "usually_credited_to": "Conformality of stereographic projection: Harriot (c.1590s), Halley (1696); complex form: Gauss / Riemann era",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Conformal map between two planes is an analytic function of the complex variable",
+    "modern_name": "Conformal maps = holomorphic maps (Cauchy-Riemann characterization)",
+    "usually_credited_to": "Gauss (1822 Copenhagen prize essay), Riemann (1851 dissertation)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Change of pole: eta_1 = C(eta - alpha)/(1 + conj(alpha) eta) with |C| = 1",
+    "modern_name": "Rotations of the sphere as Moebius transformations (SU(2) -> SO(3), Cayley-Klein parameters)",
+    "usually_credited_to": "Gauss (unpublished, c.1819), Cayley (1840s), Klein (1870s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of material that appears in Riemann's posthumously published memoir on minimal surfaces ('Ueber die Flaeche vom kleinsten Inhalt bei gegebener Begrenzung', ed. Hattendorff, 1867). That memoir uses exactly this eta and this rotation formula. The content is classical and already associated with Riemann.",
+  "checkable": [
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); simplify(sin(r)**2*((diff(log(tan(r/2)),r))**2) - 1)",
+    "asserts": "d log tan(r/2) = dr/sin r, so the real part of sin^2 r dlog eta dlog eta' gives dr^2"
+   },
+   {
+    "sympy": "r=symbols('r',positive=True); t=tan(r/2); simplify(4*t**2/(1+t**2)**2 - sin(r)**2)",
+    "asserts": "sin^2 r = 4|eta|^2/(1+|eta|^2)^2, so sin^2 r/(eta eta') d eta d eta' = 4 d eta d eta'/(1+eta eta')^2"
+   },
+   {
+    "sympy": "a,e=symbols('a e'); f=lambda z:(z-a)/(1+conjugate(a)*z); simplify(f(-1/conjugate(a)).as_numer_denom()[1])",
+    "asserts": "The denominator vanishes at -1/conj(a), the antipode of a, so eta_1 has its pole there"
+   },
+   {
+    "sympy": "x,y,u,v=symbols('x y u v',real=True); e=x+I*y; a=u+I*v; simplify(expand(Abs(e-a)**2-Abs(1+conjugate(a)*e)**2) - expand((x**2+y**2-1)*(1-u**2-v**2)-0) )",
+    "asserts": "|e-a|^2 - |1+conj(a)e|^2 = (|e|^2-1)(1-|a|^2); its zero set describes the equidistant great circle, consistent with |C| = 1"
+   }
+  ],
+  "transcription_corrections": [
+   "'sin r^2' should read sin^2 r (sin r squared).",
+   "Second line: '= sin r^2 dlog eta dlog eta'' uses ordinary d, not partial; 'd eta d eta'' is written above as an alternative form, not as a product appended to the line.",
+   "'Argument von d eta' (the differential d eta), not 'partial eta'.",
+   "'(die Einführung von alpha geschieht sich ...' probably reads '(die Einführung von eta gestaltet sich aber auf anderm Wege nicht so leicht)'.",
+   "'hat man nur. dies muß stattfinden' probably reads something like 'hat man nur [zu beachten, daß eta_1 = 0, ∞] stattfinden in zwei einander gegenüberliegenden Punkten alpha u. -1/alpha''.",
+   "Last lines: 'daß der Modul ... für den auf der Linie [alpha alpha'?] senkrechten Aequator = 1 wird'. The equator is perpendicular to the axis through alpha and its antipode; 'Linie eta eta'' is doubtful."
+  ]
+ }
+}

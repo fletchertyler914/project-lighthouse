@@ -1,0 +1,82 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c137",
+ "label": "82v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000138/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Riemann's 1860 paper 'Ueber die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite', in the isothermal case p_pressure = a^2*rho. The previous page sets 4ap = u + a log rho and 4aq = u - a log rho, so u = 2a(p+q). The equations of motion then become p_t = -(u+a) p_x and q_t = -(u-a) q_x.\n\n[2] The page notes that these equations are nonlinear. They become linear if p and q are taken as the independent variables instead of x and t (hodograph transformation). 'In der That' is followed by a blank space where the computation was to go. It runs as follows [mine].\n- Let x = x(p,q), t = t(p,q) with J = x_p t_q - x_q t_p.\n- Then p_x = t_q/J, p_t = -x_q/J, q_x = -t_p/J, q_t = x_p/J.\n- So p_t = -(u+a) p_x becomes x_q = (u+a) t_q.\n- And q_t = -(u-a) q_x becomes x_p = (u-a) t_p.\n\n[3] Eliminating x gives a linear equation for t with constant coefficients [computation mine].\n- Cross-differentiating: u_p t_q + (u+a) t_pq = u_q t_p + (u-a) t_pq.\n- With u_p = u_q = 2a this gives t_pq - t_p + t_q = 0.\n\nRiemann prefers a route that leads to a known equation. Using u = 2a(p+q):\n- d/dq [x - (u+a)t] = x_q - (u+a) t_q - u_q t = -2at.\n- d/dp [x - (u-a)t] = -2at.\n\nHence (x-(u+a)t) dp + (x-(u-a)t) dq = dw is an exact differential, with:\n- w_p = x - (u+a)t,\n- w_q = x - (u-a)t.\n\nTherefore -2at = w_pq = w_p - w_q, i.e. w_pq - w_p + w_q = 0. This linear constant-coefficient equation 'can be integrated by known methods'; the next page begins Riemann's method for it. [Mine:] the substitution w = exp(q-p)*v reduces it to v_pq + v = 0, whose Riemann function is J0(2*sqrt((p-p0)(q-q0))). Note that t satisfies the same equation as w, consistent with t = -w_pq/(2a).\n\n[4] Exceptional case. The change of variables requires p and q to be independent functions of x and t, i.e. Delta = p_x q_t - p_t q_x ≠ 0. Using the characteristic equations, Delta = 2a p_x q_x. So Delta = 0 exactly when p_x = 0, or q_x = 0, or both.\n- If p_x = 0, then p_t = 0 too, so p is constant. Then dq = q_x (dx - (u-a) dt), and d(x-(u-a)t) = dx - (u-a)dt - t du = dq (1 - 2a t q_x)/q_x. So x - (u-a)t is a function of q alone, independent of t. This is a simple (forward/backward) wave.\n- Likewise, if q_x = 0, then q is constant and x - (u+a)t is an arbitrary function of p.\n- If both vanish, p and q are both constant (constant state).\n\nThe page breaks off here.",
+  "errors": [
+   "As read from the image, the denominators of the two derivatives appear as d/dp and d/dq. Exactness of (x-(u+a)t)dp + (x-(u-a)t)dq requires the cross derivatives d/dq[x-(u+a)t] = d/dp[x-(u-a)t] = -2at. Either Riemann swapped the labels or the denominators are misread; the intended relations are the cross ones.",
+   "The transcribed 'u = 2(p+q)' is inconsistent with the previous page's 4ap = u + a log rho. It should read u = 2a(p+q); only with this does -2at come out.",
+   "The transcription gives Delta = (dp/dx)(dq/dx). The full Jacobian is Delta = 2a (dp/dx)(dq/dx); the factor is irrelevant to the vanishing criterion.",
+   "Section 2 ('In der That') is left blank; the hodograph computation is not written out. Otherwise the steps are correct."
+  ],
+  "results": [
+   {
+    "what": "Hodograph transformation linearizing the 1D isothermal gas equations in Riemann-invariant form: x_q = (u+a)t_q, x_p = (u-a)t_p",
+    "modern_name": "Hodograph transformation / Riemann invariants",
+    "usually_credited_to": "Riemann 1860 (Riemann invariants); hodograph method also Earnshaw/Stokes context",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Potential w with w_p = x-(u+a)t, w_q = x-(u-a)t satisfying w_pq - w_p + w_q = 0 (constant coefficients in the isothermal case); t satisfies the same equation",
+    "modern_name": "Linear hyperbolic (telegraph-type) equation in characteristic variables, reducible to v_pq + v = 0",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Degenerate case Delta = 2a p_x q_x = 0: one invariant constant, giving x-(u∓a)t = f(q or p)",
+    "modern_name": "Simple waves (Riemann simple waves)",
+    "usually_credited_to": "Poisson 1808 (implicit form), Earnshaw 1858/60, Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of material Riemann published in 1860 (Riemann invariants, hodograph linearization, the w-equation, simple waves). It has interest only as a draft showing the route via the exact differential.",
+  "checkable": [
+   {
+    "sympy": "a,t,x,rho_l=symbols('a t x L'); u=Function('u')(x,t); L=Function('L')(x,t); E1=diff(u,t)+u*diff(u,x)+a**2*diff(L,x); E2=diff(L,t)+u*diff(L,x)+diff(u,x); simplify(E1+a*E2-(diff(u+a*L,t)+(u+a)*diff(u+a*L,x)))==0",
+    "asserts": "Adding a times the continuity equation (L = log rho) to the momentum equation gives a transport equation for u + a log rho with speed u+a."
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); t=Function('t')(p,q); u=2*a*(p+q); simplify(diff((u+a)*diff(t,q),p)-diff((u-a)*diff(t,p),q) - 2*a*(diff(t,p,q)+diff(t,q)-diff(t,p)))==0",
+    "asserts": "Compatibility of x_q=(u+a)t_q and x_p=(u-a)t_p gives t_pq - t_p + t_q = 0."
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); x=Function('x')(p,q); t=Function('t')(p,q); u=2*a*(p+q); expr=diff(x-(u+a)*t,q).subs(diff(x,q),(u+a)*diff(t,q)); simplify(expr+2*a*t)==0",
+    "asserts": "d/dq[x-(u+a)t] = -2at given x_q=(u+a)t_q."
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); x=Function('x')(p,q); t=Function('t')(p,q); u=2*a*(p+q); expr=diff(x-(u-a)*t,p).subs(diff(x,p),(u-a)*diff(t,p)); simplify(expr+2*a*t)==0",
+    "asserts": "d/dp[x-(u-a)t] = -2at given x_p=(u-a)t_p."
+   },
+   {
+    "sympy": "p,q=symbols('p q'); v=Function('v')(p,q); w=exp(q-p)*v; simplify(exp(p-q)*(diff(w,p,q)-diff(w,p)+diff(w,q)) - (diff(v,p,q)+v))==0",
+    "asserts": "w = e^(q-p) v reduces w_pq - w_p + w_q = 0 to v_pq + v = 0."
+   },
+   {
+    "sympy": "p,q,p0,q0=symbols('p q p0 q0'); R=besselj(0,2*sqrt((p-p0)*(q-q0))); simplify(diff(R,p,q)+R)==0",
+    "asserts": "J0(2 sqrt((p-p0)(q-q0))) solves v_pq + v = 0 (Riemann function)."
+   },
+   {
+    "sympy": "a,u,px,qx=symbols('a u px qx'); pt=-(u+a)*px; qt=-(u-a)*qx; simplify(px*qt-pt*qx-2*a*px*qx)==0",
+    "asserts": "Jacobian Delta = p_x q_t - p_t q_x = 2a p_x q_x."
+   },
+   {
+    "sympy": "x,t,a,p0=symbols('x t a p0'); f=Function('f'); q=Function('q')(x,t); u=2*a*(p0+q); eq=x-(u-a)*t-f(q); qx=solve(diff(eq,x),diff(q,x))[0]; qt=solve(diff(eq,t),diff(q,t))[0]; simplify(qt+(u-a)*qx)==0",
+    "asserts": "Simple wave x-(u-a)t = f(q) with p = p0 constant satisfies q_t + (u-a) q_x = 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'da u = 2(p+q)' should be 'u = 2a(p+q)' (consistent with 4ap = u + a log rho).",
+   "The two derivative relations should have denominators dq and dp respectively (cross derivatives); as written they appear as dp, dq.",
+   "The line beginning 'dq = ...' reads: dq = (dq/dx)(dx - (u-a)dt), d(x-(u-a)t) = dq/(dq/dx) - 2at dq = dq(1 - 2at dq/dx)/(dq/dx).",
+   "Delta = (dp/dx)(dq/dx) lacks the factor 2a; the reading of the struck-out part is uncertain.",
+   "Section 3: 'eine lineare Differentialgleichung mit constanten Coefficienten liefern' is a plausible reading. The partly illegible passage after it concerns the equation being reduced to one of known form."
+  ]
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "bundle": "R.Modulfunctionen",
+ "page": "c066",
+ "label": "33r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3223711:00000067/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): x = h/m is rational, (nx) is the periodic sawtooth function (nx minus the nearest integer, with h_n the least absolute residue of nh mod m), and Riemann is studying the boundary behaviour of series like sum (nx)/n at rational points. This is the material of the fragment on the limiting values (Grenzfaelle) of elliptic modular functions.\n\nThis page:\n\n(1) Roots of unity. Write sin(2 n x pi) = (e^{2 n x pi i} - e^{-2 n x pi i})/(2i) = (omega^n - omega^{-n})/(2i). Here omega = e^{2 pi i x}, and since x = h/m we have omega^m = 1. The struck-out 'Sigma ... /n^s' at the top was an abandoned start of line 2.\n\n(2) The series. The series under study is\nS(x,s) = sum_{n>=1} psi(n) sin(2 pi n x)/(pi n^s), with psi(n) = sum_{theta | n} (-1)^{theta+1}.\nIt is rewritten as\nS(x,s) = (1/(2 pi i)) sum_n (omega^n - omega^{-n}) psi(n)/n^s.\nSince omega^n depends only on n mod m, this reduces S to finitely many Hurwitz-type series sum_{n = r mod m} psi(n) n^{-s}. The factor n^{-s} is presumably a convergence device, with s tending to 1 (the 'n^s' in the denominator).\n\n(3) Multiplicativity. If gcd(n', n'') = 1 and n = n' n'', then every divisor theta of n factors uniquely as theta = theta' theta'' with theta' | n' and theta'' | n''. The struck line Sigma(-1)^theta = Sigma(-1)^{theta' theta''} was abandoned.\n- [Mine:] It is nonetheless true that d -> (-1)^{d+1} is multiplicative on coprime arguments, so psi is multiplicative.\n\n(4) Splitting off the power of 2. Write n = 2^mu n' with n' odd. The divisors are 2^j theta' with 0 <= j <= mu and theta' | n'. Let alpha(k) denote the number of divisors of k ('Anzahl der Divisoren').\n- The odd divisors (j = 0) number alpha(n') and each contributes (-1)^theta = -1.\n- The even divisors number mu alpha(n') and each contributes +1.\n- Hence Sigma_{theta|n} (-1)^theta = -alpha(n') + mu alpha(n') = (mu - 1) alpha(n').\n- Since alpha(n) = (mu + 1) alpha(n'), this equals alpha(n) - 2 alpha(n').\n\n(5) Conclusion. Therefore\npsi(n) = Sigma(-1)^{theta+1} = 2 alpha(n') - alpha(n) = (1 - mu) alpha(n').\nThe same formula is restated for 2n (same odd part n'): psi(2n) = 2 alpha(n') - alpha(2n).\n\n[Mine:] Equivalently, sum psi(n) n^{-s} = zeta(s) eta(s) = (1 - 2^{1-s}) zeta(s)^2. Also sum psi(n) q^n = sum_d (-1)^{d+1} q^d/(1 - q^d), which is a logarithmic derivative of an eta-quotient. This is the arithmetic input needed for the limiting values of log of modular functions at rational points (cusps).",
+  "errors": [
+   "No mathematical errors. Divisor count: odd divisors alpha(n') contribute -1 each, even divisors mu*alpha(n') contribute +1 each, so (mu-1)alpha(n') = alpha(n) - 2alpha(n') is correct.",
+   "The psi(2n) line silently keeps n' as the odd part, which is correct but not restated.",
+   "The struck-out line Sigma(-1)^theta = Sigma(-1)^{theta'theta''} was abandoned, though the multiplicativity it gestures at is valid.",
+   "Convergence of the series as s->1 is not addressed on this page."
+  ],
+  "results": [
+   {
+    "what": "Expansion of sin(2 pi n h/m) via an m-th root of unity omega, reducing the series to residue classes mod m",
+    "modern_name": "Splitting a twisted Dirichlet series into Hurwitz-type partial sums by additive characters",
+    "usually_credited_to": "Standard (Dirichlet, 19th century)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "psi(n) = sum_{d|n} (-1)^{d+1} = 2 alpha(n') - alpha(n) = (1-mu) alpha(n') for n = 2^mu n', n' odd",
+    "modern_name": "Alternating divisor sum; multiplicative function with Dirichlet series (1-2^{1-s}) zeta(s)^2",
+    "usually_credited_to": "Classical (Jacobi/Dirichlet-era elementary number theory)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of these divisor sums in studying boundary values at rational x of series tied to elliptic modular functions",
+    "modern_name": "Limiting values of log eta-type functions at cusps; background to Dedekind sums",
+    "usually_credited_to": "Riemann's fragment 'Grenzfaelle der elliptischen Modulfunctionen' (Werke 1876), with Dedekind's 1876 commentary",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is elementary divisor-sum bookkeeping belonging to Riemann's already published and well-studied fragment on limiting values of modular functions, which Dedekind edited and which led to Dedekind sums. Nothing here goes beyond what is known to be his.",
+  "checkable": [
+   {
+    "sympy": "all(sum((-1)**(d+1) for d in divisors(n)) == 2*divisor_count(n//2**multiplicity(2,n)) - divisor_count(n) for n in range(1,500))",
+    "asserts": "psi(n) = 2 alpha(n') - alpha(n), with n' the odd part of n"
+   },
+   {
+    "sympy": "all(sum((-1)**d for d in divisors(n)) == (multiplicity(2,n)-1)*divisor_count(n//2**multiplicity(2,n)) for n in range(1,500))",
+    "asserts": "Sigma_{theta|n} (-1)^theta = (mu-1) alpha(n')"
+   },
+   {
+    "sympy": "all(sum((-1)**(d+1) for d in divisors(2*n)) == 2*divisor_count((2*n)//2**multiplicity(2,2*n)) - divisor_count(2*n) for n in range(1,300))",
+    "asserts": "psi(2n) = 2 alpha(n') - alpha(2n)"
+   },
+   {
+    "sympy": "simplify(sin(2*n*x*pi) - (exp(2*n*x*pi*I) - exp(-2*n*x*pi*I))/(2*I)).rewrite(exp) == 0",
+    "asserts": "Euler form of sin(2 n x pi)"
+   },
+   {
+    "sympy": "all(sum((-1)**(d+1) for d in divisors(n)) == sum(sum((-1)**(d+1) for d in divisors(e)) for e in [1]) * 0 + sum(((-1)**(a+1)) for a in divisors(n)) for n in range(1,50))",
+    "asserts": "(trivial placeholder) consistency check of the definition of psi"
+   },
+   {
+    "sympy": "all(sum((-1)**(d+1) for d in divisors(a*b)) == sum((-1)**(d+1) for d in divisors(a))*sum((-1)**(d+1) for d in divisors(b)) for a in range(1,60) for b in range(1,60) if gcd(a,b)==1)",
+    "asserts": "psi is multiplicative on coprime arguments"
+   }
+  ],
+  "transcription_corrections": [
+   "Struck-out symbol at top left appears to be 'Sigma theta/n^s' (abandoned start), consistent with the transcription.",
+   "In the Sigma(-1)^theta line, the struck-out word before '-alpha(n')' is illegible; the surviving formula '-alpha(n') + mu alpha(n') = (mu-1) alpha(n')' is correct as transcribed.",
+   "Marginal note reads 'Anzahl der Divisoren von n'' (number of divisors of n'), defining alpha(n')."
+  ]
+ }
+}

@@ -1,0 +1,50 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c017",
+ "label": "8v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000018/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page belongs to the historical introduction (§1) of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published by Dedekind in 1867). The text matches the published version. It continues the discussion of Lagrange's formula quoted on the previous page from Misc. Taur. III, p. 261:\n\ny = 2 Σ_m [∫ Y sin(mXπ) dX] sin(mxπ), m = 1..n.\n\nRiemann's point is that Lagrange's ∫ dX is not an integral. It is a finite sum Σ ΔX, with ΔX = 1/(n+1), taken over the nodes X_k = k/(n+1), k = 1..n.\n\nModern restatement:\n- The problem is to find a_1..a_n such that S(x) = Σ_{m=1}^n a_m sin(mπx) takes prescribed values Y_k at x = X_k = k/(n+1), k = 1..n.\n- The tool is the discrete orthogonality relation Σ_{k=1}^n sin(mkπ/(n+1)) sin(lkπ/(n+1)) = ((n+1)/2) δ_{ml} for 1 ≤ m, l ≤ n. This step is mine, implicit in the text.\n- It gives a_m = (2/(n+1)) Σ_k Y_k sin(mkπ/(n+1)) = 2 Σ_k Y_k sin(mπX_k) ΔX. This is exactly Lagrange's formula with ∫ dX read as Σ ΔX.\n- In modern terms this is trigonometric interpolation, i.e. the inverse of the type-I discrete sine transform (DST-I).\n\nRiemann then observes:\n- If n → ∞, the sums become integrals, a_m → 2∫_0^1 f(X) sin(mπX) dX. These are the Fourier sine coefficients, so Lagrange 'would have arrived at' Fourier's result.\n- Lagrange did not take this step. He had begun the work precisely because he believed arbitrary functions could not be expressed by a formula. He also believed trigonometric series represent only analytically given periodic functions.\n- Riemann explains this by the preconceptions Lagrange formed during the Euler–d'Alembert controversy. Lagrange had treated the string loaded with n equal, equally spaced masses and then passed to the limit; the next page continues this.\n\nThe page is historical and expository. Its only mathematics is the reading of Lagrange's formula as a finite discrete interpolation.",
+  "errors": [
+   "No mathematical errors. Riemann's reinterpretation of Lagrange's ∫ dX as Σ ΔX with nodes k/(n+1) is correct: the discrete orthogonality makes the coefficient formula exact interpolation at those n nodes.",
+   "Historical judgement (not an error): the claim that Lagrange 'would' have reached Fourier's result by letting n → ∞ is heuristic. The passage from Riemann sums to integrals and the convergence of the resulting series are exactly what is not automatic. Riemann himself uses this gap to explain why Lagrange did not draw the conclusion."
+  ],
+  "results": [
+   {
+    "what": "Lagrange's formula reinterpreted as finite sine interpolation: a_m = (2/(n+1)) Σ_{k=1}^n Y_k sin(mkπ/(n+1)) makes Σ a_m sin(mπx) equal Y_k at x = k/(n+1).",
+    "modern_name": "Trigonometric (sine) interpolation / inverse discrete sine transform (DST-I), based on discrete orthogonality of sines",
+    "usually_credited_to": "Lagrange (Misc. Taur. III, 1762–65; vibrating-string memoirs c. 1759); also Euler and Clairaut for related discrete orthogonality",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Historical argument that Lagrange's ∫ dX denotes a finite sum, so Poisson's attribution of the Fourier series to Lagrange is unfounded.",
+    "modern_name": "Historiography of the vibrating-string controversy and the priority of Fourier series",
+    "usually_credited_to": "Riemann, Habilitationsschrift §1 (1854, publ. 1867); the Dirichlet tradition",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a manuscript (apparently a fair copy) of the well-known historical section of Riemann's published Habilitationsschrift on trigonometric series. The mathematical content is Lagrange's discrete sine interpolation, standard and long attributed to Lagrange; Riemann's commentary on it is already published.",
+  "checkable": [
+   {
+    "sympy": "n=5; all(simplify(Sum(sin(m*k*pi/(n+1))*sin(l*k*pi/(n+1)),(k,1,n)).doit() - (Rational(n+1,2) if m==l else 0))==0 for m in range(1,n+1) for l in range(1,n+1))",
+    "asserts": "Discrete orthogonality of sin(mkπ/(n+1)) for n=5: the sum equals (n+1)/2 if m=l, else 0."
+   },
+   {
+    "sympy": "n=4; Y=symbols('Y1:5'); a=[Rational(2,n+1)*sum(Y[k-1]*sin(m*k*pi/(n+1)) for k in range(1,n+1)) for m in range(1,n+1)]; [simplify(sum(a[m-1]*sin(m*j*pi/(n+1)) for m in range(1,n+1)) - Y[j-1]) for j in range(1,n+1)]",
+    "asserts": "Lagrange's coefficients (∫ dX read as Σ ΔX, ΔX=1/(n+1)) give exact interpolation at x=j/(n+1); the list should simplify to all zeros."
+   },
+   {
+    "sympy": "limit(Sum(2*sin(k*pi/(N+1))**2/(N+1),(k,1,N)).doit(), N, oo) - 2*integrate(sin(pi*X)**2,(X,0,1))",
+    "asserts": "As n → ∞ the discrete coefficient sum (here for Y=sin πX, m=1) tends to the Fourier sine integral; result should be 0."
+   }
+  ],
+  "transcription_corrections": [
+   "The marginal 'pag. 112.' attributed to the left margin is not part of this page. The left half of the image shows faint show-through/offset of the facing page (the previous page's text and its footnote 1, 'Tome I. pag. 112'), so it should be dropped from this page's transcription.",
+   "Otherwise the transcription agrees with the image and with the published text. Spellings such as 'willkührlich'/'willkührliche' in the manuscript are period orthography, while the previous page uses 'willkürlich'."
+  ]
+ }
+}

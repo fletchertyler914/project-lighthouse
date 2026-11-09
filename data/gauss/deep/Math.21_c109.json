@@ -1,0 +1,81 @@
+{
+ "bundle": "Math.21",
+ "page": "c109",
+ "label": "52v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000110/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page, 1852 Sept 22): a puzzle from the Illustrirte Zeitung asks for the 'letter numbers' x, y, z of the word 'Don' satisfying (1) xy - z = 43, (2) xz - y = 38, (3) yz - x = 178, (4) xyz = 728. Gauss then sets himself the harder variant of using only (1)-(3). From (1), z = xy - 43. Substituting into (2) gives y = (43x + 38)/(x^2 - 1). Substituting that into (3) and clearing denominators gives the quintic x^5 + 178x^4 - 2x^3 - 1990x^2 - 3292x - 1456 = 0. This quintic has the rational roots x = 4 and x = -2.\n\nThis page:\n\nStep 1 (deflation). 'The three other roots are contained in the equation x^3 + 180x^2 + 366x + 182 = 0.' [Implicit, mine] Dividing the quintic by (x-4)(x+2) = x^2 - 2x - 8 gives exactly this cubic with zero remainder.\n\nStep 2 (shift). Put x = p - 1. Then (p-1)^3 + 180(p-1)^2 + 366(p-1) + 182 = p^3 + 177p^2 + 9p - 5. The shift is natural because the cubic takes the small value -5 at x = -1, so the cubic in p has a small constant term and a root near 0.\n\nStep 3 (numerical roots of the p-cubic). Gauss gives p ≈ +0.1445113 (written with overwritten digits), p ≈ -0.19553345 and p ≈ -176.94898. The next page shows how the small root was obtained. He rewrites the cubic as the fixed-point form p^2 = -p^3/177 - 3p/59 + 5/177 and iterates. He works with 7-place logarithms: 2.2479733 = log10 177, and 0.5677768 ≈ log10 3.696381. The successive values are 0.144, 0.14460, 0.144495, 0.14451, 0.1445112, ...\n\nStep 4 (back to x = p - 1). An earlier, cruder set of x-values (-0.85659?, -1.19608, -177.94900) is struck through. It is replaced by:\n- x ≈ -0.8554887\n- x ≈ -1.1955330\n- x ≈ -177.9489782\n\n[My check] These refined values satisfy the root-sum relation p1 + p2 + p3 = -177 to all seven decimals. This strongly suggests the large root was obtained as -177 - p1 - p2. The other symmetric functions check too: p1p2 + p3(p1 + p2) ≈ 9 and p1p2p3 ≈ 5.\n\nStep 5 (conclusion). As a letter number only x = +4 is admissible. Then y = (43·4 + 38)/15 = 14 and z = 4·14 - 43 = 13. In the 24-letter alphabet with I = J: D = 4, O = 14, N = 13, which spells 'Don'. [Mine] The other rational root gives the integer solution x = -2, y = -16, z = -11 of (1)-(3). This solution does not satisfy (4), since xyz = -352.",
+  "errors": [
+   "The second root on the p-line, -0.19553345, is slightly inaccurate. One Newton step from it gives p2 ≈ -0.1955331 (f(-0.19553345) ≈ +2.2e-5, f' ≈ -60.1). The corrected x-value -1.1955330, i.e. p2 = -0.1955330, is right to about 1 unit in the 7th decimal. So the x-column supersedes the p-line.",
+   "The first p-value is written with overwritten or blotted digits (transcribed 0.14451426). The true root is p1 ≈ 0.14451127, consistent with the final x1 = -0.8554887.",
+   "The struck-out first approximations (e.g. -0.85659, -1.19608) were wrong or crude and were properly replaced. No errors remain in the final values beyond the last decimal.",
+   "Otherwise the algebra (deflation and shift) is exactly correct."
+  ],
+  "results": [
+   {
+    "what": "Elimination of z and y from xy - z = 43, xz - y = 38, yz - x = 178 to a quintic in x, then deflation by the rational roots 4 and -2 to the cubic x^3 + 180x^2 + 366x + 182",
+    "modern_name": "Elimination / resultant, rational root extraction, polynomial deflation",
+    "usually_credited_to": "Standard algebra (Newton, Euler era)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Shift x = p - 1 to the cubic p^3 + 177p^2 + 9p - 5 = 0 and numerical solution of it",
+    "modern_name": "Taylor shift (Horner-type translation) plus fixed-point iteration with logarithmic arithmetic; remaining root via Vieta's relation (sum of roots = -177)",
+    "usually_credited_to": "Classical numerical algebra (Newton, Horner 1819, Vieta)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Solution of the newspaper puzzle 'Don': x = 4, y = 14, z = 13 (D, O, N in the 24-letter alphabet)",
+    "modern_name": "Recreational Diophantine-type system",
+    "usually_credited_to": "Puzzle in the Illustrirte Zeitung (1852)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine recreational computation: deflating a quintic and finding the real roots of a cubic numerically by standard iteration and logarithms. It is charming as evidence of Gauss amusing himself with a newspaper puzzle in 1852, but it contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "expand((x-4)*(x+2)*(x**3+180*x**2+366*x+182) - (x**5+178*x**4-2*x**3-1990*x**2-3292*x-1456))",
+    "asserts": "equals 0: the quintic factors as (x-4)(x+2)(cubic)"
+   },
+   {
+    "sympy": "expand((p-1)**3+180*(p-1)**2+366*(p-1)+182 - (p**3+177*p**2+9*p-5))",
+    "asserts": "equals 0: the shift x = p - 1 gives the stated cubic in p"
+   },
+   {
+    "sympy": "nroots(p**3+177*p**2+9*p-5, n=12)",
+    "asserts": "approx [-176.948978, -0.1955331, 0.1445113], matching the corrected x-values plus 1"
+   },
+   {
+    "sympy": "nroots(x**3+180*x**2+366*x+182, n=12)",
+    "asserts": "approx [-177.9489782, -1.1955331, -0.8554887]"
+   },
+   {
+    "sympy": "factor(numer(together(x*((43*x+38)/(x**2-1))**2 - 43*(43*x+38)/(x**2-1) - x - 178)))",
+    "asserts": "equals (x-4)*(x+2)*(x**3+180*x**2+366*x+182): the elimination yields the quintic"
+   },
+   {
+    "sympy": "[4*14-13, 4*13-14, 14*13-4, 4*14*13]",
+    "asserts": "equals [43, 38, 178, 728]: x=4, y=14, z=13 satisfies all four equations"
+   },
+   {
+    "sympy": "[(-2)*(-16)-(-11), (-2)*(-11)-(-16), (-16)*(-11)-(-2), (-2)*(-16)*(-11)]",
+    "asserts": "equals [43, 38, 178, -352]: x=-2 gives an integer solution of (1)-(3) only"
+   },
+   {
+    "sympy": "log(177,10).evalf(8)",
+    "asserts": "approx 2.2479733, the logarithm used on the next page"
+   }
+  ],
+  "transcription_corrections": [
+   "The first p-value, transcribed '+0,14451426', is written with overwritten or blotted digits. It should be read as approximately +0.1445113 (true root 0.14451127), consistent with x = -0.8554887 and with the next page's 0.1445112/0.1445128.",
+   "The third p-value is -176.94898 (digits partly overwritten). The final x3 reads -177.9489782 with one digit overwritten (looks like 7 over another digit).",
+   "The struck-out first column of x-values reads roughly -0.85?659, -1.19608, -177.94900, with the 4 inked over. These are superseded approximations.",
+   "In 'Schreibt man x = p-1' the '-1' is partly blotted. The algebra confirms x = p - 1."
+  ]
+ }
+}

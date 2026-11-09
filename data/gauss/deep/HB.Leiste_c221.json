@@ -1,0 +1,83 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c221",
+ "label": "98",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000222/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a page of a printed German algebra textbook in Fraktur type, §§189–192, with pencil numerical marginalia in the right margin. It is not a Gauss manuscript text proper. The marginalia are presumably the owner's (Gauss's, if the attribution holds).\n\n(a) End of the §189 example, carried over from p. 97. The task is to factor P(x) = x^4+6x^3+3x^2-26x-24.\n- On p. 97, x = -1 was found to be a root, and P was divided by (x+1). The quotient is Q1 = x^3+5x^2-2x-24.\n- Trying x = 2 gives 8+20-4-24 = 0, so (x-2) is a 'Wurzel-Gleichung' (linear factor).\n- Dividing gives Q1 = (x^2+7x+12)(x-2). [Division step implicit; mine: synthetic division of 1,5,-2,-24 by root 2 gives 1,7,12, remainder 0.]\n- The quadratic x^2+7x+12 = 0 is solved by the quadratic formula (§182), giving roots -3 and -4.\n- Hence P = (x+1)(x-2)(x+3)(x+4).\n\n(b) §190. The book claims as a 'generally proven theorem' that every polynomial equation brought to zero is a product of as many linear factors as its degree. Equivalently, an equation of degree n has n roots.\n- The 'proof' runs as follows. A quadratic has 2 roots (§182). Multiplying by a linear factor gives a cubic, multiplying again gives a quartic, and so on.\n\n(c) §191. Signs of the coefficients of a quadratic with roots ±a, ±b (a, b > 0):\n1. (x-a)(x-b) = x^2-(a+b)x+ab: two sign changes, two positive roots.\n2. (x+a)(x+b) = x^2+(a+b)x+ab: two permanences, two negative roots.\n3. (x+a)(x-b) = x^2+(a-b)x-ab: one permanence and one change, one negative and one positive root.\n\n(d) §192. The same for cubics.\n1. (x^2-(a+b)x+ab)(x-c) = x^3-(a+b+c)x^2+(ab+ac+bc)x-abc: three changes, three positive roots.\n2. (x^2+(a+b)x+ab)(x+c): three permanences, three negative roots.\nCase 3) continues on the next page.\n\n(e) Pencil marginalia.\n- They include 0.343 (= 0.7^3), 21.266…, 26.2676…, -0.159…, and a row '50 | 52.5 | 50,6' with 15625000(000) (= 50^6).\n- On the next page they continue as a numerical evaluation of a degree-6 polynomial near x = 50 with coefficients 1, -50, 2625, -132800, …. This looks like Horner/Newton-type root approximation, ending at x ≈ 52.4909555.\n- These calculations are unrelated to the printed text and cannot be fully reconstructed from this page.",
+  "errors": [
+   "§192 as printed reads 'x^2 - (a+b+c)x^2 + ...'. The leading term should be x^3 (typographical error in the book).",
+   "§190's 'proof' of the fundamental theorem of algebra is circular. Building polynomials by multiplying linear factors shows only that such products have n roots, not that every polynomial of degree n factors this way. It also ignores complex roots.",
+   "§§191–192 present the sign rule only for the case where all roots are real and factorizations are given. This illustrates Descartes' rule of signs but does not prove it in general. In general the rule gives only an upper bound, reduced by an even number.",
+   "The arithmetic on the page (division by x+1 and x-2, the roots -3 and -4, the final factorization) is correct."
+  ],
+  "results": [
+   {
+    "what": "Factorization of x^4+6x^3+3x^2-26x-24 by finding rational roots and dividing out linear factors",
+    "modern_name": "Factor theorem / polynomial division (synthetic division)",
+    "usually_credited_to": "Descartes (factor theorem, 1637); standard textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Claim that every degree-n equation is a product of n linear factors and has n roots",
+    "modern_name": "Fundamental theorem of algebra (naive statement)",
+    "usually_credited_to": "Girard 1629 / Descartes (statement); proofs by d'Alembert, Euler, Lagrange; first essentially rigorous proof by Gauss 1799",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Correspondence between sign changes/permanences in coefficients and positive/negative roots for quadratics and cubics",
+    "modern_name": "Descartes' rule of signs (illustration)",
+    "usually_credited_to": "Descartes 1637",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Pencil marginal numerical evaluation of a polynomial near x = 50 (root ≈ 52.49)",
+    "modern_name": "Numerical root approximation (Horner/Newton style)",
+    "usually_credited_to": "Newton, Horner (standard)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is a printed elementary algebra textbook (factor theorem, a naive statement of the fundamental theorem of algebra, Descartes' sign rule), with routine numerical scratch work in the margin. Nothing here is non-standard or unknown as Gauss's.",
+  "checkable": [
+   {
+    "sympy": "expand((x+1)*(x**3+5*x**2-2*x-24)) - (x**4+6*x**3+3*x**2-26*x-24)",
+    "asserts": "Division by x+1 gives the stated quotient (result 0)"
+   },
+   {
+    "sympy": "expand((x**2+7*x+12)*(x-2)) - (x**3+5*x**2-2*x-24)",
+    "asserts": "The cubic factors as (x^2+7x+12)(x-2) (result 0)"
+   },
+   {
+    "sympy": "expand((x+1)*(x-2)*(x+3)*(x+4)) - (x**4+6*x**3+3*x**2-26*x-24)",
+    "asserts": "Full factorization of the quartic (result 0)"
+   },
+   {
+    "sympy": "solve(x**2+7*x+12, x)",
+    "asserts": "Roots are -3 and -4"
+   },
+   {
+    "sympy": "expand((x-a)*(x-b)*(x-c)) - (x**3-(a+b+c)*x**2+(a*b+a*c+b*c)*x-a*b*c)",
+    "asserts": "Corrected §192 identity, with x^3 as the leading term (result 0)"
+   },
+   {
+    "sympy": "expand((x+a)*(x-b)) - (x**2+(a-b)*x-a*b)",
+    "asserts": "§191 case 3 identity (result 0)"
+   },
+   {
+    "sympy": "50**6",
+    "asserts": "Equals 15625000000, matching the marginal figure"
+   }
+  ],
+  "transcription_corrections": [
+   "§192 line: the book prints 'x² − (a+b+c)x²'. The transcription reproduces this faithfully, but it is a misprint for x³.",
+   "§191 case 3: the print reads 'eine Folge vdn + und +' (typo 'vdn' for 'von'). The transcription silently normalized it.",
+   "This page is printed text (a Fraktur textbook), not Gauss's handwriting. Only the pencil numbers in the right margin are handwritten, and they are partly cut off at the page edge (e.g. '21,266 162842', '26.26762842', '-0,159…', '50|52.5|50,6', '15625000…', '131250', '6250', '700', '52,4…', '16.…', '83…')."
+  ]
+ }
+}

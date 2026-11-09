@@ -1,0 +1,69 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c414",
+ "label": "212r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000415/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a narrow strip of very faint pencil notes, two lines of formulas with no words. The symbols are partly illegible, so any reading is tentative. The most plausible reading is a set of elementary trigonometric relations for a triangle, with letters a, b, c and α, β, γ.\n\nLine 1, first group. Riemann writes (b/c)·cot(αβ) + (c/b)·cot(αγ) = 1/(bc) = sin(αα)/(sin(αβ)·sin(αγ)) = … . Here 'αβ' and 'αγ' most likely denote angles: either the angle between lines/sides labelled α and β, or simply the angles β and γ.\n\nThe structural core, which is certain as an identity and is my reading, is the triangle relation\n  cot β + cot γ = sin(β+γ)/(sin β sin γ) = sin α/(sin β sin γ), with α+β+γ = π.\nIn a plane triangle with opposite sides a, b, c and area Δ, this equals a²/(2Δ) = 2R·a/(bc), where R is the circumradius. The weights b/c and c/b and the value 1/(bc) suggest the variables have been rescaled or normalized; the exact normalization cannot be recovered from the image. The trailing expression, transcribed as a·sin γ/(α·α·b·c), is consistent with rewriting sin α/(sin β sin γ) through the law of sines. This is my interpretation.\n\nLine 1, second group. Riemann writes\n  1 = sin b/(β sin a sin c) + sin a/(α sin b sin c) + sin c/(γ sin a sin b),\nfollowed by '= a+b+c', a fragment read as '(2π−1)/(abc)' (more likely something like Σ/(abc)), and 'b'+c' = −1/(bc)'.\n\nThis is a weighted cyclic sum of the type Σ sin A/(sin B sin C). The unweighted sum equals 2(cot A + cot B + cot C) when A+B+C = π. If a, b, c are small spherical sides, then sin x ≈ x and the sum becomes (a²/α + b²/β + c²/γ)/(abc). That may be what the '…/(abc)' fragment records; this is my conjecture.\n\nThe relation b'+c' = −1/(bc) looks like a definition of auxiliary quantities b', c'. The primes could also be derivatives, but nothing on the page decides this.\n\nLine 2. Riemann writes (b/c·cot(αβ) + b')² = a²/(b·sin²(αβ)) + p. This reads as completing a square: an expression containing the cotangent term plus the auxiliary b' is squared, and the result is a cosecant-squared term plus a remainder p. It parallels the elementary 1 + cot²x = 1/sin²x, i.e. (cot x)² + 1 = csc²x.\n\nThe purpose is unclear. It could be a computation with a quadratic form attached to a triangle (e.g. an ellipse or conic through the vertices, or a metric form), or a scratch computation in spherical/geodesic trigonometry. The previous page is part of a private German letter draft and gives no mathematical context. The next page is illegible.",
+  "errors": [
+   "No step can be verified as erroneous, because the notation and normalization are not recoverable.",
+   "Taken literally with α, β, γ as angles of a triangle, (b/c)cot β + (c/b)cot γ = 1/(bc) is not an identity. It must rely on a normalization or definitions not visible on the strip.",
+   "Taken literally, '1 = Σ sin b/(β sin a sin c)' is not a general identity. It presupposes special meanings for α, β, γ (weights or coefficients), which are not stated.",
+   "The fragment '(2π−1)/(abc)' is almost certainly a misreading."
+  ],
+  "results": [
+   {
+    "what": "cot β + cot γ = sin α/(sin β sin γ) for a triangle (α+β+γ=π), equivalently a²/(2Δ)",
+    "modern_name": "Elementary triangle cotangent identity / law of sines consequence",
+    "usually_credited_to": "Classical trigonometry (Euler-era and earlier)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Weighted cyclic sum Σ sin A/(sin B sin C) and its small-triangle approximation",
+    "modern_name": "Cyclic trigonometric sums in a triangle; small-triangle approximation of spherical trigonometry",
+    "usually_credited_to": "Classical (Euler, Legendre for small spherical triangles)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Completing the square with a cotangent term, giving a csc² term plus remainder",
+    "modern_name": "Completing the square / 1+cot²=csc²",
+    "usually_credited_to": "Classical",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are fragmentary scratch computations with standard triangle trigonometry and completing a square. Nothing is non-standard, and the context cannot be identified.",
+  "checkable": [
+   {
+    "sympy": "simplify(cot(B)+cot(C) - sin(B+C)/(sin(B)*sin(C)))",
+    "asserts": "cot B + cot C = sin(B+C)/(sin B sin C), which equals sin A/(sin B sin C) when A = pi-B-C (expected 0)"
+   },
+   {
+    "sympy": "simplify((cot(A)*cot(B)+cot(B)*cot(C)+cot(C)*cot(A)).subs(C, pi-A-B) - 1)",
+    "asserts": "In a triangle, the sum of pairwise cotangent products is 1 (expected 0)"
+   },
+   {
+    "sympy": "simplify((sin(A)/(sin(B)*sin(C)) + sin(B)/(sin(A)*sin(C)) + sin(C)/(sin(A)*sin(B)) - 2*(cot(A)+cot(B)+cot(C))).subs(C, pi-A-B))",
+    "asserts": "The cyclic sum Σ sin A/(sin B sin C) equals 2(cot A+cot B+cot C) for a triangle (expected 0)"
+   },
+   {
+    "sympy": "simplify((sin(A)/(sin(B)*sin(C)) - (2*R*sin(A))**2/(2*Rational(1,2)*(2*R*sin(B))*(2*R*sin(C))*sin(A))).subs(C, pi-A-B))",
+    "asserts": "sin A/(sin B sin C) = a^2/(2*Delta), with a=2R sin A, b=2R sin B, c=2R sin C, Delta=(1/2) b c sin A (expected 0)"
+   },
+   {
+    "sympy": "simplify(cot(x)**2 + 1 - 1/sin(x)**2)",
+    "asserts": "The completing-square identity underlying line 2 (expected 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "'sin αα' in the first equation is doubtful. It is probably sin α (or sin of an angle labelled α), possibly preceded by a stroke.",
+   "The fragment after the first group read as 'a sin γ/(α α b c)' is very uncertain. It may be a law-of-sines rewriting such as a·sin…/(…bc).",
+   "'(2π−1)/(abc)' is very likely a misreading. The image shows a small superscripted mark followed by a fraction with denominator abc, possibly Σ…/(abc) or (2Δ…)/(abc).",
+   "In the second line the right-hand side may be a²/(b² sin²(αβ)) + p rather than a²/(b sin αβ²) + p."
+  ]
+ }
+}

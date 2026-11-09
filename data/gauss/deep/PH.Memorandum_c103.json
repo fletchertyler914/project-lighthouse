@@ -1,0 +1,74 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c103",
+ "label": "[102]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000104/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Only the upright entries are Gauss's. The upside-down text, in another hand, is a guardian's cash account from 1793 to 1803 for a ward named August Mohrhoff. It has no mathematical content; it shows the notebook was second-hand.\n\n(A) Top table: the birth dates of Gauss's five children, with each date converted to a day count from Joseph's birth (Joseph = day 0).\n- J = Joseph, 1806 Aug 21: 0\n- M = Minna (Wilhelmine), 1808 Feb 29: 557\n- E = Eugen, 1811 Jul 29: 1803\n- W = Wilhelm, 1813 Oct 23: 2620\n- T = Therese, 1816 Jun 9: 3580\n\nThe symbols beside J and M are weekday signs, not numbers. The '4' is the Jupiter sign for Thursday, and the moon sign is Monday.\n- 1806 Aug 21 is day-of-year 233. Since 1806 Jan 1 was a Wednesday, 232 ≡ 1 (mod 7) gives Thursday. ✓\n- 557 ≡ 4 (mod 7), so Thursday + 4 = Monday for 1808 Feb 29. ✓\n- My extension: 1803 ≡ 4 gives Monday, 2620 ≡ 2 gives Saturday, 3580 ≡ 3 gives Sunday. These are not written for E, W, T.\n\nVerification of the day counts (mine):\n- 557 = 365 + 192.\n- 1803 = (5·365 + 1) − 23.\n- 2620 = (7·365 + 2) + 63.\n- 3580 = (10·365 + 3) − 73.\n\nThe last line, '+ 10704', is unexplained. It is not the column sum, which is 8560. If it is a day count, it lands on 1835 Dec 11. The cross may be a death or event mark, as with '+ 1850 Dec. 5' on the next page.\n\n(B) Side computations: day-of-year numbers, used to convert the dates of the height measurements on the facing page (heights in metres against age in days) into ages in days.\n- 1813 → 296 = day-of-year of Oct 23.\n- 1811 → 210 = Jul 29.\n- 233 = Aug 21.\n- 730 = 2·365 and 1096 = 3·365 + 1 (year blocks); 1461 = 4·365 + 1.\n- 1814 → 121 (May 1), 264 (Sep 21), 358 (Dec 24); 1815 → 74 (Mar 15), 158 (Jun 7); 1816 → 67 (Mar 7, leap year); 1826 → 23 (Jan 23); 1827 → 143 (May 23).\n\nThese match ages listed on the next page.\n- Eugen: 155 + 366 + 365 = 886 days to the end of 1813.\n  - 886 + 121 = 1007 ✓\n  - 886 + 264 = 1150 ✓\n  - 886 + 358 = 1244 ✓\n  - 886 + 365 + 74 = 1325 ✓\n  - 886 + 365 + 158 = 1409 ✓\n  - 886 + 730 + 67 = 1683 (the next-page transcription has '1684[?]').\n- Wilhelm: 69 + 365 + 74 = 508 ✓\n- Therese: 1816 day 161 + 103 = 264 ✓\n\n(C) Small block: 365 × 7 = 2555, then + 1 + 2 = 2558. This is a 7-year span plus leap days, matching Eugen's entry 2558 on the facing page.",
+  "errors": [
+   "'+ 10704' is not the sum of the column (0+557+1803+2620+3580 = 8560); its meaning is unclear, possibly a day count to some event (1835 Dec 11), not an arithmetic error.",
+   "Minor: the 1816 day 67 (Mar 7) for Eugen gives 1683, while the next-page transcription reads 1684[?]; probably a transcription issue or a one-day convention difference.",
+   "Wilhelm's age 424 implies 1814 day 355, while the side list has 358 (which gives 427). This is a possible one-to-three-day inconsistency, or Wilhelm was measured on a different date."
+  ],
+  "results": [
+   {
+    "what": "Conversion of family birth dates to day counts and weekdays (Julian-day-like bookkeeping) used to tabulate children's heights against age in days",
+    "modern_name": "day-count / day-of-year date arithmetic; weekday computation mod 7",
+    "usually_credited_to": "standard calendrical practice",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Purely private, routine calendar arithmetic about Gauss's children's birthdays and growth records. Gauss's interest in day counts and calendars is well known.",
+  "checkable": [
+   {
+    "sympy": "(datetime.date(1808,2,29)-datetime.date(1806,8,21)).days == 557",
+    "asserts": "Minna's birth is day 557 after Joseph's"
+   },
+   {
+    "sympy": "(datetime.date(1811,7,29)-datetime.date(1806,8,21)).days == 1803",
+    "asserts": "Eugen day count"
+   },
+   {
+    "sympy": "(datetime.date(1813,10,23)-datetime.date(1806,8,21)).days == 2620",
+    "asserts": "Wilhelm day count"
+   },
+   {
+    "sympy": "(datetime.date(1816,6,9)-datetime.date(1806,8,21)).days == 3580",
+    "asserts": "Therese day count"
+   },
+   {
+    "sympy": "0+557+1803+2620+3580",
+    "asserts": "column sum is 8560, not 10704"
+   },
+   {
+    "sympy": "datetime.date(1806,8,21)+datetime.timedelta(days=10704) == datetime.date(1835,12,11)",
+    "asserts": "date corresponding to day 10704"
+   },
+   {
+    "sympy": "datetime.date(1806,8,21).weekday() == 3 and datetime.date(1808,2,29).weekday() == 0",
+    "asserts": "Thursday (Jupiter sign) and Monday (moon sign) labels are correct"
+   },
+   {
+    "sympy": "datetime.date(1813,10,23).timetuple().tm_yday == 296 and datetime.date(1811,7,29).timetuple().tm_yday == 210",
+    "asserts": "day-of-year side entries"
+   },
+   {
+    "sympy": "(datetime.date(1814,5,1)-datetime.date(1811,7,29)).days == 1007",
+    "asserts": "Eugen age 1007 at 1814 day 121"
+   },
+   {
+    "sympy": "365*7+1+2 == 2558",
+    "asserts": "small side computation"
+   }
+  ],
+  "transcription_corrections": [
+   "Top-left '4' before J is the astronomical sign of Jupiter (Thursday), a weekday mark, not the numeral 4.",
+   "The crescent before M is the Moon sign (Monday).",
+   "'+ 10704': the '+' is likely a cross or event mark rather than a summation sign, since the column sum is 8560.",
+   "The upside-down text is in a different (non-Gauss) hand: a guardian's account for the ward ('Curand') August Mohrhoff, 1793–1803."
+  ]
+ }
+}

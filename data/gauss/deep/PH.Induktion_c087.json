@@ -1,0 +1,63 @@
+{
+ "bundle": "PH.Induktion",
+ "page": "c087",
+ "label": "44v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382427:00000088/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "WHAT THE PAGE IS. This page is one block of a single numerical table. It runs from argument x = 0.00 to 0.35. The previous page (44) continues it from 0.35 to 0.69, and the entry for 0.35 appears on both pages. The heading reads \"Zwei Apparate zugleich hinüberzuführen\", with \"Die Nadeln\" written above \"Zwei\" as an alternative. That is: to carry two apparatus (the needles) across at the same time. The next page holds data on magnetized needles A, B, C (oscillation periods, ratios of strength) and Biot's results on saturated needles and their maximum carrying power. So the table almost certainly belongs to Gauss's study of magnetized needles. Exactly what is being 'carried across' cannot be read off the page; one possibility is the stroke method of magnetizing.\n\nSTRUCTURE OF THE COLUMNS. Each row has an argument x and four numbers L1, L2, L3, L4. The four numbers are 5-place common logarithms written in the usual tabular way (9.xxxxx means 9.xxxxx − 10).\n(a) L3 = L1 + x in every row (my check). Examples: 0.13: 9.96685 + 0.13 = 0.09685. 0.30: 9.82494 + 0.30 = 0.12494.\n(b) L4 = L2 + x in every row (my check). Example: 0.20: 0.05818 + 0.20 = 0.25818.\n(c) Adding x to a logarithm only makes sense if x is itself a logarithm. So x = log10 t, with t running from 1 to about 4.9 over both pages. Then L1 = log f(t), L2 = log g(t), L3 = log(t·f(t)), L4 = log(t·g(t)).\n\nNUMERICAL VALUES. At t = 1: f = 10^0.04410 ≈ 1.107 and g = 10^0.16582 ≈ 1.465. Near t = 1, both d log f/d log t and d log g/d log t are about −1/2, so both behave roughly like t^(−1/2) there. Further out, f falls steeply toward 0 near x ≈ 0.70 (t ≈ 5). On the previous page f² is nearly linear in x close to its zero, so f vanishes like a square root. The first differences of L1 reach −0.01 per step (slope −1) between x = 0.30 and 0.31. Hence L3 = log(t f) has its maximum there: 0.12494 at x = 0.30, i.e. t ≈ 2. L4 = log(t g) increases throughout. A maximum of t·f is what a 'best ratio' question would need: an optimum near t ≈ 2 for doing something to two needles at once. That interpretation is plausible but mine.\n\nWHAT IS NOT ON THE PAGE. The defining formulas for f and g are not stated here or on the adjacent pages. I could not identify them with confidence; simple trial forms (power laws, quadratic forms in t or 1/t) do not fit. The page is the output of a computation, not a derivation.\n\nSMOOTHNESS CHECK. L1 and L2 are smooth to 5 places, with regular second differences: about 0.00015 for L1 at the start and about 0.00004 for L2. The single exception is the row x = 0.01, discussed under errors.",
+  "errors": [
+   "Row 0.01, column 1: Gauss wrote 0.03803. The differences around it are 607 and 421 units, against a regular sequence ~505, 520, 535, 550, 565, ... Interpolating backwards gives ≈0.03903 (0.04410 − 0.00505 ≈ 0.03905; 0.03382 + 0.00520 ≈ 0.03902). This is a copying slip (8 for 9).",
+   "The slip propagates to column 3 of the same row: 0.04803 should be ≈0.04903, as L1 + x. The corrected value restores the regular differences 493, 479, 465 in column 3.",
+   "Columns 2 and 4 of row 0.01 (0.16080, 0.17080) are consistent and correct.",
+   "Visible corrections at rows 0.10 (9.98689, digit overwritten) and 0.16 (9.94542, overwritten) leave values that fit the difference pattern. No other inconsistencies were found: L3 = L1 + x and L4 = L2 + x hold in all other rows."
+  ],
+  "results": [
+   {
+    "what": "Table of logarithms of two auxiliary functions f(t), g(t) and of t·f, t·g, with argument x = log10 t. It serves an optimization about handling two magnetic needles at once (heading 'Die Nadeln / Zwei Apparate zugleich hinüberzuführen'). log(t f) peaks near t ≈ 2.",
+    "modern_name": "numerical tabulation / tabulated maximization of an auxiliary function (log-tabular computation)",
+    "usually_credited_to": "routine 19th-century computing practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a purely numerical working table from Gauss's magnetism papers. It shows the usual careful log-tabulation and one copying slip, but no new mathematical method or result. The underlying physical formula is not stated on the page.",
+  "checkable": [
+   {
+    "sympy": "Eq(Rational(996685,100000) - 10 + Rational(13,100), Rational(9685,100000))",
+    "asserts": "Column 3 = column 1 + x at row x=0.13 (9.96685-10+0.13 = 0.09685)"
+   },
+   {
+    "sympy": "Eq(Rational(5818,100000) + Rational(20,100), Rational(25818,100000))",
+    "asserts": "Column 4 = column 2 + x at row x=0.20"
+   },
+   {
+    "sympy": "Abs(Rational(4410,100000) - 2*Rational(3903,100000) + Rational(3382,100000)) < Rational(30,100000)",
+    "asserts": "Corrected value 0.03903 at x=0.01 gives a second difference of the expected small size (~0.00015)"
+   },
+   {
+    "sympy": "Abs(Rational(4410,100000) - 2*Rational(3803,100000) + Rational(3382,100000)) > Rational(150,100000)",
+    "asserts": "The written value 0.03803 produces an anomalous second difference (~0.0019), confirming a slip"
+   },
+   {
+    "sympy": "N(10**0.04410)",
+    "asserts": "f(1) ≈ 1.107"
+   },
+   {
+    "sympy": "N(10**0.16582)",
+    "asserts": "g(1) ≈ 1.465"
+   },
+   {
+    "sympy": "(Rational(12494,100000) > Rational(12480,100000)) & (Rational(12494,100000) > Rational(12485,100000))",
+    "asserts": "Column 3 (log t f) attains its maximum at x=0.30, i.e. t ≈ 2"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 0.01 col 1: the image clearly reads 0.03803 (transcription correct), but the intended value is ≈0.03903; likewise col 3 0.04803 should be ≈0.04903.",
+   "Row 0.10 col 1 and col 3: the image shows 9.98689 / 0.08689 with an overwritten digit (8 over 9); the readings 9.98689 / 0.08689 are correct.",
+   "Row 0.16 col 1: overwritten, reads 9.94542; consistent with col 3 0.10542.",
+   "Heading: 'Die Nadeln' is written above 'Zwei' as an alternative or insertion. The heading reads 'Zwei Apparate [Die Nadeln] zugleich hinüberzuführen'."
+  ]
+ }
+}

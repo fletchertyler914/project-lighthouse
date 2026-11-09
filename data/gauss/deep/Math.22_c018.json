@@ -1,0 +1,103 @@
+{
+ "bundle": "Math.22",
+ "page": "c018",
+ "label": "10r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000019/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT (from the neighbouring pages). The next page begins with phi = n - n^2/2 + n^3/12 - n^4/144 + ..., i.e. phi(n) = Sum_k (-1)^k n^(k+1)/(k!(k+1)!). In modern terms phi(n) = sqrt(n)*J_1(2*sqrt(n)), and its derivative is phi'(n) = Sum (-1)^k n^k/(k!)^2 = J_0(2*sqrt(n)). The next page sums the positive and the negative terms of both series separately at n = 100, carrying about 10 significant digits. The previous page does the same at n = 96, using powers 96^2/2 = 4608, 96^3/12 = 73728, and so on.\n\n1. TOP LINES: values at n = 100 by brute-force summation.\n- phi(100) = 212274867.2597 - 212274866.5915 = 0.6682.\n- phi'(100) = 21779141.3633 - 21779141.1960 = 0.1673.\n- The partial sums are of order 2.1e8 and 2.2e7. They match sqrt(100)*I_1(20)/2 and I_0(20)/2, since the alternating series is half of the corresponding modified-Bessel sum on each side. So eight digits cancel, and only about four significant figures survive.\n- The sums here differ slightly from the first totals on the next page (e.g. 212274867.0283 / ...866.5610). These look like corrected recomputations.\n\n2. HIGHER DERIVATIVES from the differential equation x*phi'' + phi = 0, written on the page as psi dx^2 + x dd psi = 0 (my explicit derivation):\n- phi'' = -phi/x = -0.006682. Gauss: -0.00668.\n- Differentiating gives x*phi''' + phi'' + phi' = 0, so phi''' = -(phi'' + phi')/100 = -0.001606. Gauss: -0.00160.\n- Differentiating again gives x*phi'''' + 2*phi''' + phi'' = 0, so phi'''' = -(2*phi''' + phi'')/100 = +0.0000989. Gauss: +0.00009.\n\n3. TAYLOR POLYNOMIAL.\nphi(100+x) = 0.6682 + 0.1673x - 0.00334x^2 - 0.00027x^3 + 0.000004x^4. The coefficients are phi^(k)/k!, and all are correct to the precision used.\n\n4. ROOT BY FIXED-POINT ITERATION.\n- Setting phi(100+x) = 0 and writing x = -y (implicit sign change), the equation becomes y(1673 + 33.4y - 2.7y^2 - 0.04y^3) = 6682.\n- First guess 6682/1673 ~ 4. With y = 4 the correction terms are +133.6, -43.2 and -2.6 (= 0.04*64). The denominator is 1761 and y = 6682/1761 = 3.8.\n- The entries '1500' and '4,4' seem to be another trial denominator/quotient (6682/1500 ~ 4.45).\n- Result: the zero lies near 96.2, refined to 96.1985, with sqrt = 9.808. So 2*sqrt(n) = 19.616, which is the 6th positive zero of J_1.\n- The bottom-middle column '96, 68, 45, 26, 12, (3,5)' lists the successive zeros of phi: (j_{1,k}/2)^2 = 3.67, 12.31, 25.87, 44.38, 67.82, 96.20.\n- The adjacent '1673, 267.2, 1940.2' and '6692, 534.4' look like further trial denominators.\n\n5. FIGURE: two oscillating curves, apparently phi and phi' (or J_1- and J_0-type curves), with growing wavelength.\n- Labels 1.4, 7.6, 18 and the crossed-out 56 agree with the zeros of J_0(2 sqrt x): 1.446, 7.618, 18.72, (34.8), 55.7, 81.6. These are the extrema of phi.\n- Labels 3, 12, (30), 68, 96 approximate the zeros of phi: 3.67, 12.3, 25.9, 44.4, 67.8, 96.2.\n- The 56 was struck and replaced by 68, i.e. Gauss switched from the J_0 zero to the phi zero.\n\n6. ASYMPTOTIC EXPLORATION.\n- He considers A e^{2 sqrt x} + psi, apparently testing exponential solutions. For f = e^{2 sqrt x} the page has f' = x^{-1/2} e^{2 sqrt x} and x f'' = -1/2 x^{-1/2} e^{2 sqrt x} + e^{2 sqrt x}. So x f'' - f = -(1/2) x^{-1/2} f, which is the correction term relevant to the modified equation x psi'' = psi.\n- This is a first step towards the WKB-type form psi ~ x^{1/4} e^{+-2 sqrt x} (or e^{+-2i sqrt x} for the oscillatory case).\n\n7. ENERGY-TYPE QUANTITY.\n- From psi dx^2 + x dd psi = 0, multiplying by 2 d psi gives 2 psi d psi dx^2 + 2x d psi dd psi = 0.\n- He then writes psi^2 dx^2 + x d psi^2, i.e. the quantity E = psi^2 + x psi'^2. This is not conserved: dE/dx = psi'^2 (my computation).\n- E serves as an amplitude envelope, consistent with amplitude growing like x^{1/4}.\n\n8. RIGHT-HAND AND BOTTOM COLUMNS: miscellaneous multiplications and divisions (187265, 877885, 1804529604160, ...). I could not securely assign their purpose; they may be auxiliary products for the series terms.",
+  "errors": [
+   "phi'(100) = 0.1673 is off in the 4th digit: the true value is J_0(20) = 0.167025. This is cancellation loss in the ~10-digit alternating sums.",
+   "phi(100) = 0.6682 vs true 10*J_1(20) = 0.668331 (error ~1e-4, same cause).",
+   "phi'''' given as +0.00009. From the recurrence with his own values it is +0.0000989 (~0.0001). The effect on the x^4 coefficient (0.000004) is negligible.",
+   "The final root 96.1985 is slightly off: the true zero is (j_{1,6}/2)^2 = 96.1955. The ~0.003 error comes from the inaccurate phi'(100) and phi(100).",
+   "Unannounced substitution x -> -y in the iteration formula; correct, but the sign change is implicit.",
+   "psi^2 dx^2 + x dpsi^2 is not a first integral (its derivative is psi'^2). If it was intended as one, that would be a slip, but it is more plausibly just an envelope quantity under examination."
+  ],
+  "results": [
+   {
+    "what": "Series phi(n) = Sum (-1)^k n^(k+1)/(k!(k+1)!) = sqrt(n) J_1(2 sqrt n) and its derivative J_0(2 sqrt n) = Sum (-1)^k n^k/(k!)^2, evaluated at n=100 by direct summation.",
+    "modern_name": "Bessel functions J_0, J_1 (Bessel-Clifford form)",
+    "usually_credited_to": "Daniel Bernoulli (hanging chain, 1732-38), Euler; Fourier (1822); Bessel (1824)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Differential equation x psi'' + psi = 0 satisfied by phi, used recursively to obtain higher derivatives for a Taylor expansion.",
+    "modern_name": "Bessel-type ODE in variable 2 sqrt x; Taylor-series root finding",
+    "usually_credited_to": "Euler / D. Bernoulli (equation); standard method",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Numerical location of the 6th zero of sqrt(x)J_1(2 sqrt x) at x ~ 96.2 (j_{1,6} ~ 19.616), with a list of the earlier zeros (3.5, 12, 26, 45, 68, 96) and of the J_0 zeros (1.4, 7.6, 18, 56).",
+    "modern_name": "Zeros of Bessel functions",
+    "usually_credited_to": "D. Bernoulli computed the first zero of J_0(2 sqrt x) (~1.4458); Fourier and Bessel computed further roots; systematic tables later (Meissel, Stokes asymptotics 1850)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Trial exponential solution e^{2 sqrt x} and the quantity psi^2 + x psi'^2, as steps toward asymptotic behaviour for large x.",
+    "modern_name": "Liouville-Green/WKB asymptotics of Bessel functions; energy/envelope method",
+    "usually_credited_to": "Poisson (1823), Stokes (1850), Liouville-Green (1837)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The page is a careful numerical study of the Bernoulli/Fourier/Bessel function J_1(2 sqrt x) and its zeros: series summation, Taylor expansion via the ODE, and fixed-point root refinement. The material was known in Gauss's time. The tentative asymptotic exploration and the sketched oscillation picture are interesting as unpublished detail, but they do not go beyond what Poisson and Fourier had.",
+  "checkable": [
+   {
+    "sympy": "N(10*besselj(1,20))",
+    "asserts": "phi(100) ~ 0.66833 (Gauss 0.6682)"
+   },
+   {
+    "sympy": "N(besselj(0,20))",
+    "asserts": "phi'(100) ~ 0.16702 (Gauss 0.1673)"
+   },
+   {
+    "sympy": "simplify(x*diff(sqrt(x)*besselj(1,2*sqrt(x)),x,2)+sqrt(x)*besselj(1,2*sqrt(x)))",
+    "asserts": "phi = sqrt(x) J_1(2 sqrt x) satisfies x phi'' + phi = 0 (should be 0)"
+   },
+   {
+    "sympy": "series(sqrt(x)*besselj(1,2*sqrt(x)),x,0,5)",
+    "asserts": "equals x - x**2/2 + x**3/12 - x**4/144 + O(x**5)"
+   },
+   {
+    "sympy": "simplify(diff(sqrt(x)*besselj(1,2*sqrt(x)),x) - besselj(0,2*sqrt(x)))",
+    "asserts": "phi' = J_0(2 sqrt x) (should be 0)"
+   },
+   {
+    "sympy": "N((besselj(1,19.6158585)/1))",
+    "asserts": "J_1 vanishes near 19.6158585, i.e. phi has a zero at (19.6158585/2)**2 = 96.1955 (Gauss 96.1985)"
+   },
+   {
+    "sympy": "[N((z/2)**2) for z in [3.8317060, 7.0155867, 10.1734681, 13.3236919, 16.4706301, 19.6158585]]",
+    "asserts": "zeros of phi: 3.67, 12.30, 25.87, 44.38, 67.82, 96.20 (cf. page 3.5, 12, 26, 45, 68, 96)"
+   },
+   {
+    "sympy": "[N((z/2)**2) for z in [2.4048256, 5.5200781, 8.6537279, 14.9309177]]",
+    "asserts": "zeros of J_0(2 sqrt x): 1.446, 7.618, 18.72, 55.73 (figure labels 1.4, 7.6, 18, 56)"
+   },
+   {
+    "sympy": "simplify(x*diff(exp(2*sqrt(x)),x,2) - (exp(2*sqrt(x)) - exp(2*sqrt(x))/(2*sqrt(x))))",
+    "asserts": "x f'' = e^{2 sqrt x} - (1/2) x^{-1/2} e^{2 sqrt x} for f = e^{2 sqrt x} (should be 0)"
+   },
+   {
+    "sympy": "solve(0.6682 - 0.1673*y - 0.00334*y**2 + 0.00027*y**3 + 0.000004*y**4, y)",
+    "asserts": "with Gauss's coefficients the small root is y ~ 3.80, giving zero at 100 - y ~ 96.2"
+   },
+   {
+    "sympy": "phi0=0.6682; d1=0.1673; d2=-phi0/100; d3=-(d2+d1)/100; d4=-(2*d3+d2)/100; (d2,d3,d4)",
+    "asserts": "derivatives from the recurrence: -0.006682, -0.001606, +0.0000989"
+   }
+  ],
+  "transcription_corrections": [
+   "Top-left label is phi(100) (the function value, 0.6682), not phi'''100; the superscript-like mark is the '100' argument.",
+   "phi'100 = 21779141,3633 - 21779141,1960 (one number, 21 779141; the comma after 21 is spurious).",
+   "The iteration denominator is 1673 + 33,4x - 2,7x^2 - 0,04x^3 with x understood as -(shift); the correction terms are +133,6 (=33.4*4), -43,2 (=2.7*16), -2,6 (=0.04*64), and the resulting denominator is 1761, giving 3,8 ('38').",
+   "In the exponential trial the term should read -1/2 x^{-1/2} e^{2 sqrt x} (as part of x f''), not -1/2 x^{1/2} e^{2 sqrt x}.",
+   "The column '96 68 45 26 12' with '3,5' is a list of successive zeros of phi."
+  ]
+ }
+}

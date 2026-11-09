@@ -1,0 +1,68 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c173",
+ "label": "[168]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000174/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "WHAT THE PAGE IS. This is the final page (arguments 324–400) of a three-column numerical table. It continues the previous folio (244–323) and is signed 'Geendigt den 28 April 1809' ('finished 28 April 1809'). There is no algebra on the page. Below, 'mine' marks my own identification and checks.\n\nCOLUMN 3 IS PROPORTIONAL TO COLUMN 2. In every row, col3/col2 = 0.434074 (e.g. 1946.297/4483.795, 3484.448/8027.323, 3915.762/9020.966).\n- arctan(0.434074) = 23°27'52''.\n- This matches the mean obliquity of the ecliptic for 1809 (about 23°27'51'').\n- So (col1, col2, col3) = (X, Y, Z) = (R cos λ, R sin λ cos ε, R sin λ sin ε). These are rectangular equatorial coordinates of a body moving in the ecliptic: the Sun, or the Earth with signs reversed. Signs are suppressed in the columns; the previous page marks them with ±.\n- Units are 10^-4 AU (a = 10000).\n- Checks (mine): R = sqrt(X²+Y²+Z²) is 10027.4 near argument 290–291 (Earth–Sun distance 1.0028 at the autumn equinox) and 9834.4 near 389–390 (0.98344 near the winter solstice). The ratio of in-plane angular steps there, 0.9304°/0.8950° = 1.0396, equals (10027.4/9834.4)² as Kepler's second law requires.\n\nTHE ARGUMENT IS MEAN ANOMALY IN CENTESIMAL DEGREES. The argument n runs 0..400 and each step is 0.9° of mean motion, i.e. a year/400 ≈ 0.913 d. So n is the solar mean anomaly in grads, counted from perigee.\n- Test (mine): at n = 389 (M = 350.1° = −9.9°) the equation of centre v = M + 2e sin M + (5/4)e² sin 2M with e = 0.01679 gives v = −10.238°.\n- From the table, λ(389) = 270° − arctan(99.842/9834.2) = 269.418°.\n- Hence Π = λ − v = 279.656°. This is exactly the Sun's perigee longitude for 1809 (about 279.65°).\n- Likewise, the predicted λ = 180° at M ≈ 262.4° (291.6 grads) agrees with the table's Y = 0 between n = 291 and 292.\n- X passes through zero between 389 and 390 (Gauss underlines 99.842); that is λ = 270°. The maximum of Y (and Z) is likewise near 389–390.\n\nPROCEDURE (implicit, reconstructed). For each grad M_n:\n1. Solve Kepler's equation E − e sin E = M.\n2. Compute R = a(1 − e cos E) and the true anomaly v.\n3. Set λ = Π + v.\n4. Form X = R cos λ, Y = R sin λ cos ε, Z = R sin λ sin ε.\nThe differences are smooth (second differences, e.g. −2.156, −2.136, −2.116 in col1 at 324–328), so the table was computed, or at least controlled, by differencing.\n\nPURPOSE. Not stated. It is a year-independent solar ephemeris (only Π and ε drift slowly), finished just as Theoria Motus (1809) was going to press. Plausible uses, all speculative: an auxiliary table for reducing planetary or asteroid observations; or a dense equal-mean-anomaly subdivision of Earth's orbit, of the kind used for mechanical quadrature in perturbation work (e.g. the action of the Earth on minor planets).",
+  "errors": [
+   "Row 371, column 1: 2930.106 appears to be off by about 0.05. Second differences of col1 run 0.873, 0.834, 0.846, 0.657, 0.763, 0.686, … where a smooth decline (…0.834, 0.796, 0.757, 0.718, 0.681…) is expected. Interpolating from the correct neighbours gives 2930.156, and row 372 (2777.194) is consistent with that corrected value. So either Gauss slipped (0 for 5) or the digit is ambiguous in the hand.",
+   "No other inconsistencies were found in spot checks. Checked: col3/col2 constant to 6 digits throughout; second differences of col1 at 324–347 and 385–392 and of col2 at 338–343 and 378–384 smooth; the entry 6652.382 at row 344 is confirmed by differences."
+  ],
+  "results": [
+   {
+    "what": "Table of rectangular equatorial coordinates (X, Y, Z) of the Sun in units of 10^-4 AU, for each centesimal degree of mean anomaly (shown here: 324–400). Built from the Kepler ellipse with e ≈ 0.0168, perigee longitude ≈ 279.66°, obliquity ≈ 23°27'52'' (epoch 1809).",
+    "modern_name": "Solar rectangular (equatorial) coordinates ephemeris; tabulated solution of Kepler's equation",
+    "usually_credited_to": "Standard astronomical practice (solar tables of Lacaille, Delambre, von Zach; rectangular solar coordinates later standard in nautical almanacs)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of a centesimal (400-part) division of the anomaly as the table argument, giving equal-time steps of a year/400.",
+    "modern_name": "Grads / centesimal division; equal-mean-anomaly tabulation",
+    "usually_credited_to": "French metric reform (1790s); Gauss is known to have used decimal and centesimal subdivisions in computing",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "A carefully computed but routine solar-coordinate table. Its interest is documentary: a dated (28 April 1809) piece of Gauss's computing practice, with mean anomaly in grads and 1809 values of ε and Π. There is no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "abs(3915.762/9020.966 - 1946.297/4483.795) < 2e-6",
+    "asserts": "Columns 3 and 2 are in a constant ratio (first and last-maximum rows)."
+   },
+   {
+    "sympy": "abs(atan(Rational(434074,1000000))*180/pi - (23 + Rational(27,60) + Rational(52,3600))).evalf() < 0.001",
+    "asserts": "The constant ratio is tan(ε) with ε ≈ 23°27'52'', the mean obliquity of 1809."
+   },
+   {
+    "sympy": "abs(sqrt(10026.670**2 + 198.714**2 + 86.256**2) - 10028.9) < 0.5",
+    "asserts": "Radius vector at argument 290 is about 1.0029 AU (row from previous page)."
+   },
+   {
+    "sympy": "abs(sqrt(99.842**2 + 9020.966**2 + 3915.762**2) - 9834.7) < 0.5",
+    "asserts": "Radius vector at argument 389 is about 0.98347 AU, near the perigee distance."
+   },
+   {
+    "sympy": "e=0.016788; M=(389*pi/200-2*pi).evalf(); E=nsolve(Symbol('E')-e*sin(Symbol('E'))-M, Symbol('E'), M); R=10000*(1-e*cos(E)); v=2*atan(sqrt((1+e)/(1-e))*tan(E/2)); lam=279.656*pi/180+v; eps=23.46444*pi/180; [R*cos(lam), R*sin(lam)*cos(eps), R*sin(lam)*sin(eps)]  # approx [-99.8, 9021.0, 3915.8]",
+    "asserts": "Keplerian solar orbit with mean anomaly = 389 grads reproduces row 389 to within a few units of the last digits (X sign = Sun's cos λ)."
+   },
+   {
+    "sympy": "d=[3233.770,3082.361,2930.106,2777.194,2623.519,2469.158]; [d[i]-2*d[i+1]+d[i+2] for i in range(4)]",
+    "asserts": "Second differences are irregular (0.846, 0.657, 0.763, 0.686), indicating an error of about −0.05 in X(371)."
+   },
+   {
+    "sympy": "d=[3233.770,3082.361,2930.156,2777.194,2623.519,2469.158]; [d[i]-2*d[i+1]+d[i+2] for i in range(4)]",
+    "asserts": "With X(371)=2930.156 the second differences become smooth (≈0.796, 0.757, 0.718, 0.686)."
+   }
+  ],
+  "transcription_corrections": [
+   "Header: the title is most likely 'Litt. V.' (as on the previous and next folios), not 'Litt. J.'. The top-left marks are old page or folio numbers (one crossed out), not an argument '323'. The column heads read roughly 'No.' / 'mo. nat.' and are uncertain.",
+   "Row 344, column 1: '6652.382' is confirmed by differences; the '[?]' can be removed (the last digits are overwritten in the image).",
+   "Row 382, column 2: '8956.336' has overwritten final digits; 8956.336 is consistent with the differences.",
+   "Gauss's underline under 99.842 (row 389) marks the sign change of column 1 between rows 389 and 390 (λ passing 270°). Values from 390 on have the opposite sign of X; signs are not written in the columns on this page."
+  ]
+ }
+}

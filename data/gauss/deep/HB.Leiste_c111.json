@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c111",
+ "label": "21v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000112/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page sets up the cyclotomic equation x^13 - 1 = 0. The three Gaussian periods of length 4, such as eta = r+r^5+r^12+r^8 with r = exp(2*pi*i/13), are the roots of the period cubic A^3 + A^2 - 4A + 1 = 0. That page lists eta1 ~ 0.273890554914, eta2 ~ 1.377202853977 and eta3 ~ -2.651093408956. This page is the scratch work that refines eta1 to about 12 decimals.\n\n(1) Powers of the starting value a = 0.27389.\n- a^2 = 0.0750157321, since 27389^2 = 750157321.\n- a^3 = 750157321*27389*10^-15. The top right and centre right attempt this as 750157321*27400 - 750157321*11, using 3*750157321 = 2250471963 and 274*... = 24775081331. The first result, 20548038972469, is partly struck. A second attempt, 20570814053800 - 24775081331 = 20546038972469, is also wrong.\n- At bottom left the product is redone by partial products. These are 750157321 times 9, 8, 3 and 27, i.e. 6751415889, 6001258568, 2250471963 and 20254247667. Their sum is the correct a^3 = 0.020546058864869.\n- The small numbers 548 and 128 are 2a = 0.54778 and 3a = 0.82167.\n\n(2) Taylor expansion about a. Gauss puts A = 0.27389 + B and reuses the letter A for the increment B. Then:\nf(a+B) = f(a) + f'(a)B + (f''(a)/2)B^2 + B^3, where\n- f(a) = a^3 + a^2 - 4a + 1, computed column-wise as a^3 + a^2 - 1.09556 + 1;\n- f'(a) = 3a^2 + 2a - 4 = 0.2250471963 + 0.54778 - 4 = -3.2271728037;\n- f''(a)/2 = 3a + 1 = 1.82167.\nWith the faulty cube 0.020546038972469, the constant comes out as f(a) = 0.000001771072469, the number written on the page.\n\n(3) Solving for the increment. Neglecting B^3, the equation is rearranged as the fixed-point form\nB = f(a) / (3.2271728037 - 1.82167 B).\nThis is Newton's step with a second-order (Halley-type) correction.\n- First pass: B ~ 1.771072469e-6 / 3.2271728 = 5.488e-7, written as 5488026 and struck out.\n- After recomputing the cube, the constant is rewritten as 1790801869, i.e. f(a) ~ 1.790801869e-6.\n- This gives B ~ 5.549137e-7 (the '5549137' on the page). Hence eta1 ~ 0.2738905549137, which is the value 0.273890554914 entered on the previous page.\n- The quadratic correction changes B only by about 1.7e-13.\n- The adjacent sums 2488384 + 5088221 (struck), 7394143, 2530475 + 5088221 and 7442254 look like partial work in this division. Their exact role is unclear to me.",
+  "errors": [
+   "The first cube a^3 = 0.020548038972469 is wrong (an arithmetic slip); Gauss struck it.",
+   "The second cube via 20570814053800 - 24775081331 = 20546038972469 is also wrong. It led to f(a) = 1.771072469e-6 and B = 5.488e-7, which was struck out.",
+   "Even after the correct cube 0.020546058864869 is found, the constant is written 1790801869 (i.e. f(a) = 1.790801869e-6). The correct value is a^3 + a^2 - 4a + 1 = 1.790964869e-6, so the slip is 1.63e-10.",
+   "Because of this, B is 5.54914e-7 instead of 5.54964e-7. The root carried to the previous page, 0.273890554914, should be 0.273890554964 (= 2cos(2pi/13) + 2cos(10pi/13)), an error of 5e-11.",
+   "This slip is consistent with the previous page's sum of the three roots, which gives -1.000000000065 instead of -1."
+  ],
+  "results": [
+   {
+    "what": "Numerical root of the 13-gon period cubic A^3 + A^2 - 4A + 1 = 0 near 0.27389, by Taylor expansion and a Newton step with quadratic correction",
+    "modern_name": "Newton-Raphson / Halley-type iteration for a cubic root (Gaussian periods of length 4 for p = 13)",
+    "usually_credited_to": "Newton/Raphson (iteration); Gauss 1801 (periods, Disquisitiones Sec. VII)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine numerical computation of a Gaussian period, which is well-known Gauss territory. The only point of interest is that the page locates the arithmetic slip behind an 11th-decimal error in the previous page's root.",
+  "checkable": [
+   {
+    "sympy": "27389**2 == 750157321",
+    "asserts": "the square of 0.27389 is 0.0750157321"
+   },
+   {
+    "sympy": "750157321*27389 == 20546058864869",
+    "asserts": "the corrected cube a^3 = 0.020546058864869"
+   },
+   {
+    "sympy": "Rational(27389,10**5)**3 + Rational(27389,10**5)**2 - 4*Rational(27389,10**5) + 1 == Rational(1790964869,10**15)",
+    "asserts": "the true f(a) is 1.790964869e-6, not 1.790801869e-6"
+   },
+   {
+    "sympy": "3*Rational(27389,10**5)**2 + 2*Rational(27389,10**5) - 4 == Rational(-32271728037,10**10)",
+    "asserts": "f'(a) = -3.2271728037"
+   },
+   {
+    "sympy": "N(2*cos(2*pi/13) + 2*cos(10*pi/13), 15)",
+    "asserts": "the period root is 0.273890554964..., i.e. Gauss's 0.273890554914 has a 5e-11 error"
+   },
+   {
+    "sympy": "expand((x**4 + x**12 + x**5 + x**8)) ",
+    "asserts": "(placeholder) the period of length 4 is a root of A**3 + A**2 - 4*A + 1"
+   },
+   {
+    "sympy": "N(1.790801869e-6/3.2271728037, 10)",
+    "asserts": "gives 5.549137e-7, the B written on the page"
+   }
+  ],
+  "transcription_corrections": [
+   "'0,00000[?] 771072 469' should read 0,000001771072469 (the blotted digit is 1). It arises from the wrong cube 0.020546038972469.",
+   "'+0,54778' and the marginal '548/548/128' are 2a = 0.54778 and 3a = 0.82167.",
+   "'2025424 7667' is the single number 20254247667 (= 27 x 750157321).",
+   "'750157321.' on the top line: the struck digit is corrected to 7."
+  ]
+ }
+}

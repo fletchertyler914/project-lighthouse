@@ -1,0 +1,67 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c230",
+ "label": "221",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000231/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PROBLEM. Find a solution of Laplace's equation V_xx+V_yy+V_zz=0 that takes the constant value V0 on the surface of an ellipsoid of revolution. The generating ellipse of that ellipsoid has foci F, F'. In modern terms this is the exterior potential of a charged conducting spheroid, equivalently of a homoeoid.\n\nSTATED RESULT. At any point O of space,\n  V(O) = V0 * arcsin( FF'/(OF+OF') ) / theta0.\nHere theta0 is the 'eccentricity angle' of the given generating ellipse, sin theta0 = e/a. F, F' are taken in the meridian plane through O, which is the meaning of the clause 'die erzeugende Ellipse wird durch O gehend angenommen'.\n\nWhy the formula has the right boundary value (my gloss). With FF' = 2e, the quantity OF+OF' equals 2a(O), where a(O) is the semi-major axis of the confocal ellipse through O. So FF'/(OF+OF') = e/a(O) is the eccentricity of that confocal ellipse. On the given surface the argument therefore equals sin theta0, and V = V0.\n\nWhich spheroid. The coordinates introduced below put the foci at u = ±e, z = 0, where u is the distance from the z-axis. The meridian ellipse is thus rotated about its minor axis, so the surface is an OBLATE spheroid. Its focal set is a circle of radius e.\n\nDERIVATION BEGUN ON THE PAGE.\n(1) Cylindrical coordinates x = u cos(lam), y = u sin(lam) turn the Laplace equation into\n  V_uu + V_u/u + V_zz + V_lamlam/u^2 = 0.\n(2) Gauss proposes new variables theta, psi in place of (u, z), using the focal radii\n  r'^2 = (u-e)^2 + z^2,  r''^2 = (u+e)^2 + z^2.\nThey are defined by\n  sin theta = 2e/(r'+r'') = (r''-r')/(2u),\n  cos psi = 2u/(r'+r'') = (r''-r')/(2e) = (u/e) sin theta.\n\nMy reconstruction of these definitions:\n- On the confocal ellipse through the point, r'+r'' = 2a.\n- From r''^2 - r'^2 = 4ue one gets r''-r' = 2ue/a.\n- Hence sin theta = e/a (the eccentricity), and cos psi = u/a, so psi is the eccentric anomaly (reduced latitude): u = a cos psi, z = b sin psi, b^2 = a^2 - e^2.\n- In modern oblate spheroidal coordinates u = e cosh(mu) cos(nu), z = e sinh(mu) sin(nu), this gives sin theta = sech(mu) and psi = nu. Thus theta = pi/2 - gd(mu).\n\nCompletion the page does not carry out (mine):\n- For axisymmetric V depending only on mu, the oblate Laplacian reduces to d/dmu( cosh(mu) dV/dmu ) = 0.\n- So V = C*gd(mu) + D. Equivalently V is linear in theta = arcsin(sech mu).\n- Choosing V -> 0 at infinity (theta -> 0) and V = V0 at theta = theta0 gives V = V0 theta/theta0, which is the stated result.\n- Limit theta0 -> pi/2 (flat disc of radius e): V = (2V0/pi) arcsin( 2e/(r'+r'') ).\n\nCONTEXT. The next page treats confocal ellipses and potentials using the parametrisation u + lambda/u, closely related material.",
+  "errors": [
+   "The statement says only 'Revolutionsellipsoid'. The arcsin formula holds only for rotation about the minor axis (oblate spheroid, focal circle). For a prolate spheroid the analogous solution is artanh(e/a) = (1/2)log((r'+r''+2e)/(r'+r''-2e)), not arcsin. The coordinate equations on the page confirm Gauss means the oblate case, so this is an imprecision, not an error.",
+   "theta is used both for the fixed eccentricity angle of the given surface and, later, for the variable coordinate. This is harmless but ambiguous.",
+   "The derivation breaks off after defining the new variables. Harmonicity of arcsin(e/a) is asserted, not proved on this page. It is nevertheless correct."
+  ],
+  "results": [
+   {
+    "what": "Laplace operator in cylindrical coordinates: V_uu + V_u/u + V_zz + V_lamlam/u^2",
+    "modern_name": "Laplacian in cylindrical coordinates",
+    "usually_credited_to": "Euler/Laplace (18th c.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Coordinates theta, psi with sin theta = 2e/(r'+r''), cos psi = 2u/(r'+r''), i.e. confocal ellipses and hyperbolas, using focal radii",
+    "modern_name": "Oblate spheroidal (elliptic) coordinates",
+    "usually_credited_to": "Lamé (confocal/elliptic coordinates, 1830s); Jacobi",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Harmonic function equal to V0 on an oblate spheroid: V = V0 arcsin(FF'/(OF+OF'))/theta0, in closed form via focal distances",
+    "modern_name": "Potential of a charged conducting oblate spheroid / exterior potential of a homoeoid; disc limit gives the potential of a charged disc, (2V0/pi) arcsin(2a/(r1+r2))",
+    "usually_credited_to": "Ellipsoid conductor: Green (1828), Lamé; disc focal-distance form usually associated with Weber/Kelvin/Heine (mid-19th c.)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "The potential of a conducting or homoeoidal spheroid was in principle accessible from Maclaurin–Laplace–Ivory–Green work. The elegant closed form arcsin(FF'/(OF+OF')) with the oblate-spheroidal substitution is a neat unpublished detail showing Gauss using confocal coordinates for a Dirichlet problem, probably in the 1830s–40s. It is not a major priority claim, since the result was soon standard (Lamé, Green, Weber).",
+  "checkable": [
+   {
+    "sympy": "u,z,e=symbols('u z e',positive=True); r1=sqrt((u-e)**2+z**2); r2=sqrt((u+e)**2+z**2); V=asin(2*e/(r1+r2)); simplify(diff(V,u,2)+diff(V,u)/u+diff(V,z,2))",
+    "asserts": "arcsin(2e/(r'+r'')) is harmonic (axisymmetric Laplacian = 0) for the oblate configuration (foci at u=±e). Should simplify to 0; check numerically at random points if simplify stalls."
+   },
+   {
+    "sympy": "simplify(((u+e)**2+z**2)-((u-e)**2+z**2) - 4*u*e)",
+    "asserts": "r''^2 - r'^2 = 4ue, which underlies (r''-r')/(2u) = 2e/(r'+r'') = sin theta and (r''-r')/(2e) = 2u/(r'+r'') = cos psi."
+   },
+   {
+    "sympy": "mu,nu=symbols('mu nu',positive=True); U=e*cosh(mu)*cos(nu); Z=e*sinh(mu)*sin(nu); simplify(sqrt((U-e)**2+Z**2)+sqrt((U+e)**2+Z**2) - 2*e*cosh(mu))",
+    "asserts": "In oblate spheroidal coordinates r'+r'' = 2a = 2e cosh(mu), so sin theta = sech(mu) and cos psi = cos(nu). Should give 0 (may need numeric check)."
+   },
+   {
+    "sympy": "simplify(diff(cosh(mu)*diff(asin(1/cosh(mu)),mu),mu))",
+    "asserts": "theta = arcsin(sech mu) satisfies the radial oblate Laplace equation d/dmu(cosh mu dV/dmu) = 0."
+   },
+   {
+    "sympy": "simplify(diff(atanh(2*e/(r1+r2)),u,2)+diff(atanh(2*e/(r1+r2)),u)/u+diff(atanh(2*e/(r1+r2)),z,2))",
+    "asserts": "Contrast: atanh is NOT harmonic in this oblate configuration (nonzero), showing the arcsin form is specific to the oblate case."
+   }
+  ],
+  "transcription_corrections": [
+   "The interlinear insertion above the struck 'die' before 'Erzeugende Ellipse' is transcribed '{+die Plus[?]+}'. The image shows a short word beginning 'die Pl…' (perhaps 'die Plan…'); the reading 'Plus' is doubtful and should stay flagged as uncertain.",
+   "The formula reads V^0 × Arc.sin(FF'/(OF+OF')) / theta, with the fraction bar under the whole arcsin expression. The transcription is correct.",
+   "The struck word before 'Gleichung' in the second paragraph is 'Die'. The transcription is correct."
+  ]
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "bundle": "Math.17",
+ "page": "c037",
+ "label": "17v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376641:00000038/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio continues the previous one ('Fractionum communium per fractiones decimales expressarum periodi'), i.e. a table of the repeating decimal periods of 1/p for primes p. The previous page goes upward from 3 to 83; this page and the next go downward through primes near 400 (397, 389, 383, 379 here; 373 down to 337 on the next page).\n\nFor each prime p the page gives the full period of 1/p = 0.\\overline{a_1 a_2 ... a_n}, with n = ord_p(10).\n- The two leading zeros (1/p < 1/100) are not written.\n- The rest is written in blocks of 10 digits, and each block end is marked with a Roman numeral I, II, III, ...\n- The dot over the first written digit marks the start of the period.\n- After the last digit Gauss writes the next few digits again and underlines them ('0025188...', '0025 706', '00261...', '0026 38...'). This shows that the expansion has returned to its start, so the length of the period is checked visually.\n\n(1) p = 397. Written: 9 full blocks (90 digits), then 030226, then one overwritten digit, then 0025188... repeating.\n- Period length = 2 + 90 + 7 = 99 = 396/4. So 10 has order 99 (index 4) mod 397. This is consistent with 10 being a quadratic residue mod 397: (2/397) = -1 and (5/397) = -1.\n- The overwritten digit must be 7. Check (mine): the period P = (10^99 - 1)/397 satisfies 397·P ≡ -1 mod 10^k, and 397·267 = 105999, so P ends in ...267, giving ...0302267.\n\n(2) p = 389 (a full-reptend prime, ord = 388).\n- 2 + 386 digits = 38 blocks plus 6 digits (781491). After these the period restarts: 0025 706(94087).\n- Check (mine): 389·491 = 190999, so the period ends in ...491. Correct.\n\n(3) p = 383 (full reptend, ord = 382).\n- 2 + 380 digits = exactly 38 blocks, followed by the restart 00261...\n- Check (mine): 383·953 = 364999, consistent with the final block ...845953.\n- Midy's property holds (digit k + digit k+191 = 9). Applying it confirms block XXI = 2558746736, which is visibly corrected in the manuscript.\n\n(4) p = 379 (full reptend, ord = 378).\n- 2 + 376 digits = 37 blocks plus 6 digits (176781), followed by the restart 0026 38...\n- Check (mine): 379·781 = 295999.\n- By the half-period nines-complement (half = 189), block XXXVII is the complement of digits 174–183, i.e. of '007915567' + '2'. This gives 9920844327, so the doubtful last digit is 7.\n- The same check confirms block VII = 8865435356, which is overwritten in the manuscript.\n\nBottom line: '317.311.293.81.69.63.57.51.39.33.227.' I read this as a list of primes in descending order with the hundreds digit 2 dropped: 317, 311, 293, 281, 269, 263, 257, 251, 239, 233, 227. It is plausibly a working list of denominators still to be done (or done elsewhere). This reading is my interpretation; its exact purpose is unsure.",
+  "errors": [
+   "No arithmetical errors were found in the spot checks (final digits via 397·267 = 105999, 389·491 = 190999, 383·953 = 364999, 379·781 = 295999; Midy complement checks on several 383 and 379 blocks).",
+   "Several digits are visibly overwritten or corrected by Gauss: 397 block X, 383 block XXI, 379 block VII, 379 block XXXVII, and 389 blocks XII/XXVI/XXXII. The checked corrected values are consistent with the true expansions."
+  ],
+  "results": [
+   {
+    "what": "Full decimal periods of 1/397 (length 99), 1/389 (388), 1/383 (382), 1/379 (378), written in 10-digit blocks with the repetition marked",
+    "modern_name": "Repeating decimal expansion; multiplicative order of 10 mod p (full-reptend primes 389, 383, 379)",
+    "usually_credited_to": "Tables of decimal periods by J. H. Lambert, Robertson, Burckhardt; Gauss's own table published in his Werke vol. II",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of the restart of the period ('00 25...') as a check on its length",
+    "modern_name": "Detecting the order of 10 mod p by long division",
+    "usually_credited_to": "standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is working material for Gauss's well-known table converting common fractions into decimal fractions (discussed in Disquisitiones Arithmeticae §§312–318 and published in Werke II). It is purely computational and already attributed to him.",
+  "checkable": [
+   {
+    "sympy": "n_order(10,397)==99",
+    "asserts": "The period of 1/397 has length 99."
+   },
+   {
+    "sympy": "n_order(10,389)==388 and n_order(10,383)==382 and n_order(10,379)==378",
+    "asserts": "389, 383 and 379 are full-reptend primes."
+   },
+   {
+    "sympy": "str((10**99-1)//397).zfill(99)[:12]=='002518891687' and str((10**99-1)//397).zfill(99)[-9:]=='030226700'[:0]+str((10**99-1)//397).zfill(99)[-9:] and str((10**99-1)//397)[-7:]=='0302267'",
+    "asserts": "The period of 1/397 starts 00 2518891687 and ends ...0302267 (the overwritten digit is 7)."
+   },
+   {
+    "sympy": "str((10**388-1)//389).zfill(388)[-6:]=='781491'",
+    "asserts": "The period of 1/389 ends with 781491, before 0025706... restarts."
+   },
+   {
+    "sympy": "str((10**382-1)//383).zfill(382)[202:212]=='2558746736'",
+    "asserts": "Block XXI of 1/383 is 2558746736."
+   },
+   {
+    "sympy": "str((10**378-1)//379).zfill(378)[362:372]=='9920844327'",
+    "asserts": "Block XXXVII of 1/379 is 9920844327."
+   },
+   {
+    "sympy": "str((10**378-1)//379).zfill(378)[62:72]=='8865435356'",
+    "asserts": "Block VII of 1/379 is 8865435356."
+   }
+  ],
+  "transcription_corrections": [
+   "397, row 3: '030226[-?-]0025188' should read '0302267 0025188'. The overwritten digit is 7, completing a 99-digit period.",
+   "383, block XXI: '2558746736' is correct, though the second digit is written over in the manuscript.",
+   "379, block XXXVII: '9920844327[?]' should read '9920844327'.",
+   "Bottom line: '81.69.63.57.51.39.33' are abbreviations of 281, 269, 263, 257, 251, 239, 233 (interpretation)."
+  ]
+ }
+}

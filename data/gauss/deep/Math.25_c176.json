@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.25",
+ "page": "c176",
+ "label": "87v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000177/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the definitional part of a short treatise in which Gauss proves theorems 1–3 (finite, Gaussian-polynomial analogues) on the previous page. Letting n→∞ turns them into theorems 4 and 5.\n\nTop of page (end of the statement of Theorem 5, the limit n→∞ of Theorem 3 on the previous page). As n→∞, each factor (1-x^{n+k}) tends to 1, so the finite quotient becomes ∏(1-x^{2m}):\n  Σ_{k odd ≥1} x^{k²/4}(y^{k/2}+y^{-k/2}) = x^{1/4}(y^{1/2}+y^{-1/2}) · ∏_{m≥1}(1+x^{2m}y) · ∏_{m≥1}(1+x^{2m}/y) · ∏_{m≥1}(1-x^{2m}).\nIn modern form this is the Jacobi triple product for θ₂: Σ_{n∈Z} q^{(n+1/2)²} z^{2n+1} = q^{1/4}(z+z^{-1}) ∏(1-q^{2m})(1+q^{2m}z²)(1+q^{2m}z^{-2}), with q=x and z²=y.\n(My check: the n=0 factor (1+1/y) of the standard triple product, multiplied by x^{1/4}y^{1/2}, gives x^{1/4}(y^{1/2}+y^{-1/2}). This is exactly Gauss's grouping.)\n\nSection 5 (notation). Gauss introduces names for the functions turned into products by Theorems 4 and 5:\n  P(x,y) = 1 + Σ_{n≥1} x^{n²}(y^n+y^{-n})  (= θ₃ with nome x, variable y = e^{2iv}),\n  R(x,y) = Σ_{k odd} x^{k²/4}(y^{k/2}+y^{-k/2})  (= θ₂),\n  Q(x,y) = 1 + Σ_{n≥1} (-1)^n x^{n²}(y^n+y^{-n})  (= θ₄).\nHe notes Q(x,y) = P(-x,y) = P(x,-y). Reason: (-1)^{n²} = (-1)^n, and (-y)^{±n} = (-1)^n y^{±n}.\n\nThe simplest value y=1 gives the 'Nullwerte', abbreviated Px, Qx, Rx.\nNotational convention: an exponent written inside brackets applies to the argument, e.g. P(x³). Without brackets it applies to the function value, so Px³ = (Px)³.\n\nHence:\n  Px = 1+2x+2x⁴+2x⁹+…\n  Qx = 1-2x+2x⁴-2x⁹+…\n  Rx = 2x^{1/4}+2x^{9/4}+2x^{25/4}+…\nGauss writes only the leading terms.\n\nThis prepares the next page. There he introduces Fx = ∏(1-x^m) and derives:\n- the product forms of P, Q, R;\n- the eta-quotient expressions of Px, Qx, Rx;\n- the relations Px·Qx = (Qx²)² and Px·Rx = ½(R√x)².",
+  "errors": [
+   "No mathematical errors. The expansion of Rx is written only as '2x^{1/4}'; it should continue +2x^{9/4}+2x^{25/4}+…. This is a truncated listing (like the other two lines ending in '+'), not a slip.",
+   "In the Q(x,y) line the sign before x^9 is blotted in the manuscript; it must be '-'."
+  ],
+  "results": [
+   {
+    "what": "Theorem 5: Σ_{k odd} x^{k²/4}(y^{k/2}+y^{-k/2}) = x^{1/4}(y^{1/2}+y^{-1/2})∏(1+x^{2m}y)(1+x^{2m}/y)(1-x^{2m}), obtained as the n→∞ limit of a finite (q-binomial) identity",
+    "modern_name": "Jacobi triple product identity (θ₂ form), obtained via a finite Gaussian-polynomial version",
+    "usually_credited_to": "Jacobi 1829 (Fundamenta Nova); the finite form is related to Gauss/Cauchy/MacMahon-type q-binomial identities",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Definition of the three theta series P, Q, R in (x,y), with Q(x,y)=P(-x,y)=P(x,-y), and the theta-constants Px, Qx, Rx",
+    "modern_name": "Jacobi theta functions θ₃, θ₄, θ₂ and their null values",
+    "usually_credited_to": "Jacobi (1829); Gauss's unpublished treatment is printed in Werke III ('Zur Theorie der neuen Transscendenten')",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Notational convention: f(x^3) versus fx^3 = (fx)^3",
+    "modern_name": "notation",
+    "usually_credited_to": "—",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is Gauss's well-known Nachlass treatment of theta functions and the triple product, published in Werke III. His priority over Jacobi for these identities is already acknowledged in the literature. The page itself is mainly definitional.",
+  "checkable": [
+   {
+    "sympy": "t,z=symbols('t z'); N=60; lhs=sum(t**((2*n+1)**2)*(z**(2*n+1)+z**(-(2*n+1))) for n in range(0,5)); rhs=t*(z+1/z)*prod([(1+t**(8*m)*z**2)*(1+t**(8*m)/z**2)*(1-t**(8*m)) for m in range(1,9)]); expand(series(expand(lhs-rhs),t,0,N).removeO())==0",
+    "asserts": "Theorem 5 (θ₂ triple product), with x=t^4 and y=z^2, up to t^59."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); P=1+sum(x**(n**2)*(y**n+y**-n) for n in range(1,5)); Q=1+sum((-1)**n*x**(n**2)*(y**n+y**-n) for n in range(1,5)); simplify(Q-P.subs(x,-x))==0 and simplify(Q-P.subs(y,-y))==0",
+    "asserts": "Q(x,y)=P(-x,y)=P(x,-y) (truncated series)."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); N=30; lhs=1+sum(x**(n**2)*(y**n+y**-n) for n in range(1,6)); rhs=prod([(1+x**(2*m-1)*y)*(1+x**(2*m-1)/y)*(1-x**(2*m)) for m in range(1,16)]); expand(series(expand(lhs-rhs),x,0,N).removeO())==0",
+    "asserts": "Theorem 4 product for P(x,y), as used in the definitions."
+   },
+   {
+    "sympy": "x=symbols('x'); series(1+2*sum(x**(n**2) for n in range(1,5)),x,0,10)",
+    "asserts": "Px = 1+2x+2x^4+2x^9+…"
+   }
+  ],
+  "transcription_corrections": [
+   "The Rx line should read 'Rx = 2x^{1/4} + …': the series continues, as do the Px and Qx lines.",
+   "In the Q(x,y) line the sign before x^9 is an ink blot in the manuscript; reading it as '-' is correct.",
+   "In the 'Wir bemerken noch' sentence, the inserted word above the line is 'dies' / 'dann' (uncertain). The sense is unchanged."
+  ]
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c050",
+ "label": "39r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000051/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page has no derivation. It is a pencil plan, a table of contents, for a treatise on plane air waves of finite amplitude. The bundle 'Luftwellen', the previous page (which sets up the 1-D gas equations with an isothermal law p = a^2*rho) and the 1858 date on the next page together show this is a draft outline of Riemann's paper 'Ueber die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite' (Göttingen Abh. 8, presented Nov. 1859, publ. 1860).\n\nThe outline went through several redactions:\n(a) First attempt, struck: '1. Zurückführung der Aufgabe auf die [lineare Diff.?]'.\n(b) Second attempt, partly struck: '1. Aufstellung der Differentialgleichungen [Zustandsgleichung? struck] und Zurückführung ... auf eine lineare [Diff. struck]'.\n(c) Third attempt, struck except for its last word: '1. Zurückführung der Aufgabe auf die Auflösung einer linearen Differentialgleichung'. 'Differentialgleichung' was left standing, so it serves as the end of item 1.\n(d) '2. Auflösung dieser Differentialgleichung.'\n(e) '[2 overwritten to] 3.' with no title.\n(f) '4. Entstehung der Gleichgewichtsstörung(?)'. The machine reading 'des Gleichgewichtszustandes' is less likely.\n(g) '5. Verdichtungs...(?)'. The word is very uncertain.\n\nMapped onto modern notation, the plan corresponds to the published paper as follows.\n\nItem 1: write the 1-D Euler equations.\n- Continuity: rho_t + (rho*u)_x = 0, i.e. (log rho)_t + u*(log rho)_x = -u_x. This is eq. (1) on the previous page.\n- Momentum: rho*(u_t + u*u_x) = -p_x, with p = phi(rho). In the draft this is the isothermal case p = a^2*rho.\n- Introduce the Riemann invariants r, s = (1/2)*(F(rho) ± u) with F(rho) = ∫ sqrt(phi'(rho)) d rho/rho. In the isothermal case F = a*log rho. Each invariant is constant along the characteristics dx/dt = u ± sqrt(phi'(rho)).\n- Then interchange dependent and independent variables (hodograph transformation): treat t and x as functions of (r, s). The nonlinear system becomes a linear second-order hyperbolic equation for t(r, s) or an associated potential.\n\nItem 2: solve that linear equation for given data. This is Riemann's integration method with the auxiliary 'Riemann function', developed in §2 of the paper.\n\nItem 3: left empty.\n\nItem 4: probably the evolution of an initial disturbance of equilibrium confined to a finite interval, which splits into two simple waves running in opposite directions.\n\nItem 5: probably compression waves, i.e. the steepening of condensation waves and Riemann's 'Verdichtungsstösse' (shocks) with their jump conditions.\n\nThe left-margin fragments ('(2) u. (6))', 'dx', '±z') belong to the adjacent sheet. They are not part of this outline.",
+  "errors": [
+   "No mathematical content to check on this page. The only oddity is editorial: the third version of item 1 is struck through except for its final word 'Differentialgleichung', which is left as the end of item 1.",
+   "Item 3 is numbered but has no title, so the plan is incomplete."
+  ],
+  "results": [
+   {
+    "what": "Plan: derive the 1-D gas-dynamic equations and reduce them to a linear PDE, i.e. Riemann invariants followed by the hodograph transformation",
+    "modern_name": "Riemann invariants / hodograph transformation",
+    "usually_credited_to": "Riemann 1860 (Earnshaw 1858-60 had related simple-wave results)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Plan: solve the linear hyperbolic equation",
+    "modern_name": "Riemann's method of integration / Riemann function",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Plan: evolution of an initial local disturbance and compression waves/shocks",
+    "modern_name": "wave steepening; shock waves ('Verdichtungsstoß')",
+    "usually_credited_to": "Riemann 1860 (with Stokes, Earnshaw, later Rankine-Hugoniot)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is an outline of the well-known 1860 Luftwellen paper. Its only interest is documentary: it shows the drafting order and suggests the draft dates from around 1858, given the dated letter on the verso/next page. It contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "rho,u,a=symbols('rho u a',positive=True); simplify(diff(a*log(rho),rho) - sqrt(diff(a**2*rho,rho))/rho)",
+    "asserts": "For p = a^2*rho, F(rho) = a*log(rho) satisfies F'(rho) = sqrt(p'(rho))/rho, so the Riemann invariants are u ± a*log(rho). Expected output: 0."
+   },
+   {
+    "sympy": "x,t=symbols('x t'); R=Function('rho')(x,t); U=Function('u')(x,t); simplify((diff(R,t)+diff(R*U,x))/R - (diff(log(R),t)+U*diff(log(R),x)+diff(U,x)))",
+    "asserts": "Continuity rho_t + (rho*u)_x = 0 is equivalent to (log rho)_t + u*(log rho)_x = -u_x, eq. (1) on the previous page. Expected output: 0."
+   },
+   {
+    "sympy": "Matrix([[u, rho],[a**2/rho, u]]).eigenvals()",
+    "asserts": "The isothermal system has characteristic speeds u ± a."
+   }
+  ],
+  "transcription_corrections": [
+   "Item 4 more plausibly reads '4. Entstehung der Gleichgewichtsstörung' rather than 'Entstehung des Gleichgewichtszustandes' (uncertain).",
+   "Item 5: 'Verdichtungswellen' is uncertain. The first part 'Verdichtungs-' fits the image and the published paper's terminology ('Verdichtungsstösse'), but the ending is unclear.",
+   "'[-2-]3.': the 3 is written over a struck character (2 or 4); the line has no title.",
+   "In the third version of item 1, 'Differentialgleichung' is not struck and completes item 1."
+  ]
+ }
+}

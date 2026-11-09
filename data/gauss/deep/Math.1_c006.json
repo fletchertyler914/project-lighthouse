@@ -1,0 +1,60 @@
+{
+ "bundle": "Math.1",
+ "page": "c006",
+ "label": "4r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000007/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds no derivation. It is a computed lookup table, sheet 4 in a series; the red crayon '7' is a later archival or sequence number. The previous sheet covers columns 661–827 and the next sheet uses small primes as columns against rows 191–433.\n\nLayout:\n- Columns (header and footer): the 24 primes p with 827 < p < 1000, namely 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997.\n- Rows: the odd primes q from 3 to 181, grouped in blocks of seven (3–19, 23–47, 53–79, 83–109, 113–151, 157–181).\n\nWhat a circle means: a small circle at (q, p) marks that p is a quadratic residue mod q, i.e. the Legendre symbol (p/q) = +1. By reciprocity this is equivalent to (q*/p) = +1, where q* = (-1)^((q-1)/2) q.\n\nI checked this reading against the image:\n- Row 3: circles exactly at the columns with p ≡ 1 (mod 3): 829, 853, 859, 877, 883, 907, 919, 937, 967, 991, 997. There is no circle at 839, 857, 863, ...\n  - Note that 859 ≡ 3 (mod 4) has a circle although (3/859) = -1. This settles that the entry is (p/q), not (q/p).\n- Row 5: circles exactly at p ≡ ±1 (mod 5): 829, 839, 859, 881, 911, 919, 929, 941, 971, 991.\n- Row 7: circles exactly at p ≡ 1, 2, 4 (mod 7): 863, 877, 883, 907, 911, 919, 947, 953, 967, 977, 991.\n- Further spot checks agree:\n  - (829/13): 829 ≡ 10 (mod 13), a residue.\n  - (829/17): 829 ≡ 13 (mod 17), a residue.\n  - (829/19): 829 ≡ 12 (mod 19), a non-residue, and there is no circle.\n  - (829/23) = (1/23).\n  - (953/181) = (48/181) = +1.\n  - (967/181) = (62/181) = (2/181)(31/181) = (-1)(-1) = +1, matching the pair of circles in the last row.\n\nThe connecting lines: horizontal and vertical strokes join neighbouring circles into chains and rectangles. They carry no extra arithmetic content as far as can be seen. They appear to be a visual or reading aid that makes runs of residues easy to follow along a row or column; my interpretation is not certain.\n\nPurpose: an extended table of quadratic characters of primes below 1000 with respect to small primes. Together with the companion sheets it covers the same territory as, and extends, Table II of the Disquisitiones Arithmeticae (art. 99 ff.), which records for prime moduli below 1000 which small primes are residues. Such a table serves to read off quadratic characters quickly. Uses include checking the reciprocity law empirically, Gauss's exclusion method for factoring and primality (DA art. 329 ff.), and finding non-residues and primitive-root data.",
+  "errors": [
+   "No errors detected in the entries spot-checked (all of rows 3, 5, 7; column 829 for rows 3–23; row 181 for columns 953 and 967). A full cell-by-cell verification was not possible from the image, so isolated slips cannot be excluded."
+  ],
+  "results": [
+   {
+    "what": "Table of the Legendre symbols (p/q) for primes 829 ≤ p ≤ 997 and odd primes 3 ≤ q ≤ 181; a circle means p is a quadratic residue mod q.",
+    "modern_name": "Table of quadratic residues / Legendre symbols",
+    "usually_credited_to": "Gauss, Disquisitiones Arithmeticae (1801), Table II; later Jacobi, Canon Arithmeticus (1839)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's extensive hand-computed residue tables are well known; the Disquisitiones contains such a table for primes below 1000. This sheet is a working or extended version of that material with no new theory.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [p for p in [829,839,853,857,859,863,877,881,883,887,907,911,919,929,937,941,947,953,967,971,977,983,991,997] if legendre_symbol(p%3,3)==1] == [829,853,859,877,883,907,919,937,967,991,997]",
+    "asserts": "Row 3: circles exactly at columns with p ≡ 1 mod 3"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [p for p in [829,839,853,857,859,863,877,881,883,887,907,911,919,929,937,941,947,953,967,971,977,983,991,997] if legendre_symbol(p%5,5)==1] == [829,839,859,881,911,919,929,941,971,991]",
+    "asserts": "Row 5: circles exactly at these columns"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [p for p in [829,839,853,857,859,863,877,881,883,887,907,911,919,929,937,941,947,953,967,971,977,983,991,997] if legendre_symbol(p%7,7)==1] == [863,877,883,907,911,919,947,953,967,977,991]",
+    "asserts": "Row 7: circles exactly at these columns"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [legendre_symbol(829%q,q) for q in [3,5,7,11,13,17,19,23]] == [1,1,-1,1,1,1,-1,1]",
+    "asserts": "Column 829, rows 3–23: circle, circle, blank, circle, circle, circle, blank, circle"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; legendre_symbol(953%181,181)==1 and legendre_symbol(967%181,181)==1",
+    "asserts": "Row 181 has circles in columns 953 and 967"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; legendre_symbol(3,859)==-1 and legendre_symbol(859%3,3)==1",
+    "asserts": "The circle at (3, 859) shows the table records (p/q), not (q/p)"
+   },
+   {
+    "sympy": "from sympy import primerange; list(primerange(828,1000)) == [829,839,853,857,859,863,877,881,883,887,907,911,919,929,937,941,947,953,967,971,977,983,991,997]",
+    "asserts": "The column headers are exactly the primes between 828 and 1000"
+   }
+  ],
+  "transcription_corrections": [
+   "The header entry printed over a correction (looks like '87'/'877') is 877.",
+   "The footer entry '958' or '953' is 953.",
+   "The circled '(4)' at the top right is the sheet number; a faint pencil '4' also appears in the corner.",
+   "The circles mark that the column prime p is a quadratic residue modulo the row prime q, i.e. (p/q) = +1."
+  ]
+ }
+}

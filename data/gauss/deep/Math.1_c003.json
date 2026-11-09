@@ -1,0 +1,61 @@
+{
+ "bundle": "Math.1",
+ "page": "c003",
+ "label": "[2v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000004/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a table, not a derivation. It is sheet (4) of a multi-sheet table of quadratic-residue characters. The previous sheet has columns 227–359 and the next has 509–659, so earlier sheets presumably start near 3.\n\nLayout:\n- The column headings, repeated at the bottom, are the 24 consecutive primes p = 367, 373, …, 503.\n- The row headings are the 42 primes q = 3, …, 181, grouped in blocks of seven by horizontal rules.\n\nWhat the circles mean. I tested this against the image. A small circle at (q, p) means that p is a quadratic residue modulo q, i.e. Legendre (p/q) = +1. Equivalently, it means p mod q lies in the set of residues of q.\n- Row 3: circles stand exactly at the p ≡ 1 (mod 3) columns: 367, 373, 379, 397, 409, 421, 433, 439, 457, 463, 487, 499. Several of these p ≡ 7 (mod 12) primes have 3 as a non-residue, so the circle does not encode (3/p). It encodes (p/3).\n- Row 5: circles at p ≡ ±1 (mod 5): 379, 389, 401, 409, 419, 421, 431, 439, 449, 461, 479, 491, 499.\n- Row 7: circles at p mod 7 ∈ {1, 2, 4}: 373, 379, 389, 401, 421, 431, 443, 449, 457, 463, 487, 491, 499.\n- Row 11: circles at p mod 11 ∈ {1, 3, 4, 5, 9}: 367, 379, 383, 389, 397, 401, 419, 421, 433, 443, 449, 463, 467, 487, 499.\n- Spot check, row 13 / column 503: 503 ≡ 9 is a residue mod 13, and a circle is present.\n\nBy quadratic reciprocity, (q/p) = (p/q) unless p ≡ q ≡ 3 (mod 4). So the table also yields the character of each small prime q modulo each large prime p.\n\nThe connecting lines. Circles in the same row or column are joined by horizontal and vertical strokes into chains, crosses and rectangles. These carry no arithmetic information that I can decode. They appear to be a reading or verification aid that makes isolated marks hard to misread or lose. Their exact purpose is uncertain (my interpretation).\n\nAnnotations:\n- The red-ink ring at row 59, column 439 marks a genuine residue: 439 ≡ 26 (mod 59) and (26/59) = +1.\n- A faint red tick near row 59, column 419 sits on a non-residue: 419 ≡ 6 (mod 59) and (6/59) = −1, so no circle there is correct. Both are probably later checking marks.\n- The large red '4' is an archival sheet number.\n\nPurpose. The whole set of sheets is an extension of the kind of material in Disquisitiones Arithmeticae Table II. That table runs moduli up to 503 and residues −1, 2, 3, …, 97. Here the small primes go to 181 and the primes beyond 503. Such tables are the tool for Gauss's exclusion method of factoring (DA §§319–322, 329ff.) and for reciprocity checks.",
+  "errors": [
+   "No errors found in the cells checked: rows 3, 5, 7 and 11 across all columns, plus spot checks at 13/503, 59/439 and 59/419.",
+   "The connecting lines' meaning cannot be verified arithmetically; they may encode nothing."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic residue characters (p/q) for the primes 367 ≤ p ≤ 503 against the small primes 3 ≤ q ≤ 181; a circle marks p as a residue mod q.",
+    "modern_name": "Table of Legendre symbols / quadratic residue table (exclusion tables)",
+    "usually_credited_to": "Gauss (Disquisitiones Arithmeticae 1801, Table II); later extended tables by Jacobi (Canon arithmeticus, 1839) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's computation of quadratic residue tables is well known; DA Table II stops at modulus 503, and this sheet is consistent with his known computational practice. Extending the small primes to 181 is only a minor unpublished detail. The graph-like connecting lines are curious but appear to be visual aids.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; [p for p in [367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503] if legendre_symbol(p % 3, 3) == 1] == [367,373,379,397,409,421,433,439,457,463,487,499]",
+    "asserts": "Row 3 circles are exactly the columns p with p ≡ 1 (mod 3)."
+   },
+   {
+    "sympy": "[p for p in [367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503] if legendre_symbol(p % 5, 5) == 1] == [379,389,401,409,419,421,431,439,449,461,479,491,499]",
+    "asserts": "Row 5 circles."
+   },
+   {
+    "sympy": "[p for p in [367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503] if legendre_symbol(p % 7, 7) == 1] == [373,379,389,401,421,431,443,449,457,463,487,491,499]",
+    "asserts": "Row 7 circles."
+   },
+   {
+    "sympy": "[p for p in [367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503] if legendre_symbol(p % 11, 11) == 1] == [367,379,383,389,397,401,419,421,433,443,449,463,467,487,499]",
+    "asserts": "Row 11 circles."
+   },
+   {
+    "sympy": "legendre_symbol(503 % 13, 13) == 1",
+    "asserts": "Circle at row 13, column 503."
+   },
+   {
+    "sympy": "legendre_symbol(439 % 59, 59) == 1 and legendre_symbol(419 % 59, 59) == -1",
+    "asserts": "The red-ringed entry 59/439 is a residue; 59/419 (red tick, no circle) is a non-residue."
+   },
+   {
+    "sympy": "legendre_symbol(3, 367) == -1 and legendre_symbol(367 % 3, 3) == 1",
+    "asserts": "Shows the circles encode (p/q), not (q/p): 3 is a non-residue mod 367, yet 367 is a residue mod 3 and the cell is circled."
+   }
+  ],
+  "transcription_corrections": [
+   "The body is not just 'circles at intersections': each circle marks that the column prime p is a quadratic residue modulo the row prime q, i.e. (p/q) = +1.",
+   "The row label '41' is written in heavy, overwritten ink.",
+   "Red-ink annotations exist besides the large '4': a small red ring around the 59/439 circle and a faint red tick near 59/419.",
+   "Top-left sheet number is '4' in a circle; the transcription's '(4)' is fine."
+  ]
+ }
+}

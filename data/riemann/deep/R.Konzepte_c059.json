@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c059",
+ "label": "27v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000060/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a pencil draft of the passage that became §§7–8 of Riemann's Göttingen dissertation (1851), 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse'. There, Lehrsatz I is the Gauss–Green divergence theorem for a surface T. The page drafts the statement labelled IV and the step to the singularities. The previous page is an unrelated explicit integral computation (Ω with arctan and log terms).\n\nSetting (modern). T is a plane region with boundary ∂T, p is the normal direction and s is arc length. The functions u, u' satisfy Δu = Δu' = 0 in T. Let J(T) = ∮_{∂T} (u ∂u'/∂p − u' ∂u/∂p) ds.\n\n1. Green's second identity (implicit; my filling-in). From Lehrsatz I applied to X = u ∂u'/∂x − u' ∂u/∂x and Y = u ∂u'/∂y − u' ∂u/∂y:\n J(T) = ∓∫∫_T (u Δu' − u' Δu) dT.\n The sign depends on Riemann's choice of the normal p as interior. Since Δu = Δu' = 0 wherever the hypotheses of Satz I hold, the area integral vanishes there.\n\n2. Statement IV (deformation invariance). The value of J over the whole boundary of a surface stays constant under any enlargement or shrinking of the surface, provided no surface pieces are added or removed in which the hypotheses of Satz I (continuity of u, u' and their derivatives, harmonicity) fail.\n Proof sketch, my filling-in, as on the next page: the difference T'' = T \\ T' is free of singularities. Hence J(T'') = 0, and J(T'') = J(T) − J(T').\n\n3. Isolated singularities. Suppose u, u' satisfy the differential equations except that continuity is violated on isolated lines or points. Then T may be replaced by a collection of arbitrarily small surface pieces ('Hüllen'), each enclosing one discontinuity. J(∂T) equals the sum of the J's over these small enclosures. Each summand is independent of the particular enclosing contour.\n\n4. Special case u' = 1. The flux ∮_{∂T} ∂u/∂p ds equals the sum of the fluxes around the individual singularities. Each flux is independent of the curve enclosing that singularity. This is the harmonic analogue of 'periods' or residues; e.g. log r has flux 2π.\n\n5. Then '§. 8': the heading of the consequences ('unmittelbar folgende Lehrsätze'). In the printed dissertation this leads to the representation of harmonic functions via log r and the mean-value and uniqueness statements.",
+  "errors": [
+   "No mathematical errors. The draft is heavily crossed out and the sentence structure is incomplete (e.g. 'ohne daß das Int…' breaks off; 'ds' is omitted in ∫∂u/∂p).",
+   "The sign convention for p (inner vs outer normal) is not stated on this page. It affects only the sign in Green's identity, not the invariance statements.",
+   "Independence 'in welche Grenzen man sie auch einschließen möge' tacitly requires that each enclosure contains exactly one singularity and no other. This is implicit."
+  ],
+  "results": [
+   {
+    "what": "Green's second identity: for harmonic u, u' the boundary integral ∮(u ∂u'/∂p − u' ∂u/∂p) ds over a region with no singularities vanishes",
+    "modern_name": "Green's second identity / Green's reciprocity",
+    "usually_credited_to": "George Green (1828); Gauss (1839–40)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Invariance of the boundary integral under deformation of the region as long as no singularities are crossed (Lehrsatz IV of the dissertation)",
+    "modern_name": "Deformation (homology) invariance of integrals of closed forms; harmonic analogue of Cauchy's integral theorem",
+    "usually_credited_to": "Cauchy (complex case, 1825); Riemann's formulation in the 1851 dissertation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reduction of the boundary integral to a sum of contributions from small enclosures of the isolated singularities; flux ∮∂u/∂p ds around each singularity is contour-independent",
+    "modern_name": "Residue/period decomposition for harmonic functions (logarithmic flux)",
+    "usually_credited_to": "Cauchy (residues); Riemann 1851 for this harmonic-function formulation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of Lehrsatz IV and the transition to §8 of Riemann's published 1851 dissertation. The content is well known as his. The draft only shows the wording evolving, e.g. 'Voraussetzungen' replacing 'Bedingungen' and the 'Hülle' idea for singularities.",
+  "checkable": [
+   {
+    "sympy": "r,R,th=symbols('r R theta',positive=True); u=log(r); integrate(diff(u,r).subs(r,R)*R,(th,0,2*pi))",
+    "asserts": "Flux of log r around any circle centred at the singularity is 2*pi, independent of R (contour independence of ∮∂u/∂p ds)."
+   },
+   {
+    "sympy": "r,R,th=symbols('r R theta',positive=True); u=cos(th)/r; up=r*cos(th); simplify(integrate(((u*diff(up,r)-up*diff(u,r))*r).subs(r,R),(th,0,2*pi)))",
+    "asserts": "For u = x/(x^2+y^2) and u' = x, the integral J around a circle about the singularity equals 2*pi for every R (deformation invariance of statement IV)."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); u=x**2-y**2; up=x*y**3-x**3*y; simplify(u*(diff(up,x,2)+diff(up,y,2))-up*(diff(u,x,2)+diff(u,y,2)))",
+    "asserts": "For harmonic u, u' the integrand u Δu' − u' Δu of Green's second identity vanishes identically, so J = 0 for singularity-free regions."
+   },
+   {
+    "sympy": "r,R,th=symbols('r R theta',positive=True); u=log(r); up=r*cos(th); integrate(((u*diff(up,r)-up*diff(u,r))*r).subs(r,R),(th,0,2*pi))",
+    "asserts": "For u = log r and u' = x, J around circles centred at 0 is 0 for all R."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the line-end word read 'Ergänzung[?]' is more plausibly 'T bezogen' ('über die ganze Begrenzung einer Fläche T bezogen'), matching the parallel phrasing on the next page.",
+   "Lines 3–4: the sense is 'wenn nur dadurch keine Flächentheile hinzugefügt oder ausgeschlossen werden, innerhalb welcher die Voraussetzungen des Satzes I nicht erfüllt sind'. 'innerhalb für' should read 'innerhalb welcher'.",
+   "Line 5: likely begins '[-Wenn-] Können nun die u, u' …'. The inserted '{+die Eigenschaften haben+}' probably belongs to a struck alternative. The intended sense is 'in der Fläche T den Differentialgleichungen genügen, aber in einzelnen Linien oder Punkten eine Verletzung der Stetigkeitsbedingungen vorkommen kann'.",
+   "Middle block: the sense is 'das Integral ∫∂u/∂p ds über die ganze Begrenzung [ist gleich] der Summe der Integrale ∫∂u/∂p ds in Bezug auf alle Unstetigkeitsstellen'. 'ds' is missing in the transcription.",
+   "Line near bottom: '[-ungeben man-] … gesetzt man umgeben' should read 'Hat man [Gesetzt man habe] jede Unstetigkeitsstelle mit einem beliebig kleinen Flächentheil als Hülle umgeben, so [ergibt] die Anwendung unseres Satzes:'.",
+   "Final line '§. 8 … unmittelbar … folgende Lehrsätze' likely reads '§. 8 [-für-] unmittelbar ergeben sich daraus die folgenden Lehrsätze' or similar. The underlined fragment is the start of the dissertation's §8 consequences."
+  ]
+ }
+}

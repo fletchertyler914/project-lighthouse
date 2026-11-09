@@ -1,0 +1,65 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c096",
+ "label": "91",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000097/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has no derivation. It is a single fair-copy numerical table headed 'Die Correctionstafel bei der Hyperbel schärfer', i.e. the correction table for the hyperbola, computed more precisely. The old folio number 123 is struck through and replaced by 91.\n\nLayout: six double columns. The argument (call it A) runs from 0.000 to 0.300 in steps of 0.001. Each tabulated value C(A) is apparently given in units of 10^-7, with two further decimals, so effectively to 9 decimal places. Each block ends with the same entry that opens the next block (0.050 → 1388.55, 0.100 → 5403.41, and so on), which acts as a check.\n\nBehaviour of the numbers (my analysis):\n- Near 0 the values are C ≈ (2/35)·A²·10^7. For example, 0.001 → 0.571 (0.57 on the page), 0.002 → 2.286 (2.28), 0.004 → 9.14 (9.12).\n- The first differences start 0.57, 1.71, 2.85, so the second difference is 1.14 = 2·(2/35)·10^7·10^-6.\n- The second differences fall smoothly to about 0.97 near A = 0.09, about 0.82 near A = 0.2 and about 0.7 near A = 0.3.\n- Fitting the page gives roughly C(A) ≈ (2/35)A² − 0.033A³ + 0.02A⁴ + … (in units of 10^-7·10^7, i.e. as pure numbers). At A = 0.300 the value is 0.0043906.\n\nContext: the neighbouring pages (Litt. M) concern orbit determination: the formation of constants from three geocentric places, and the n, n″ ratios with corrections S and T. The argument range 0–0.3 is the same as in Gauss's auxiliary table for elliptic and hyperbolic motion near the parabola (Theoria Motus, Book I, arts. 41–45, Table I/II). That table has columns A, log B and C for the ellipse and for the hyperbola. This page is therefore almost certainly a working, more precise computation of the hyperbolic C-column, carried two decimals beyond the printed table.\n\nWhat C plausibly measures (my reconstruction, partly uncertain): Gauss replaces Kepler's equation near e = 1 by the auxiliary quantity A = 15(E − sin E)/(9E + sin E), or its hyperbolic analogue. C is the small higher-order correction in the relation between A and the 'true' anomaly variable. I checked the series of this A against x = sin²(½E):\n- A = x + x²/5 + 3x³/35 + …\n- inverted, x = A − A²/5 − A³/175 − 13A⁴/2625.\nThe natural correction terms that follow from this have leading coefficient 8/175 A². The page's leading coefficient 2/35 = (5/4)(8/175) suggests C is defined with a factor 4/5 attached. However, the cubic coefficient I derive (∓2/105) does not reproduce the page's ≈ −0.033. So I cannot reconstruct Gauss's exact definition of C with certainty. The identification as his hyperbolic C-table rests on the argument range, the size and form of the values, and the context.",
+  "errors": [
+   "Entry 0.095 reads 4799.83 (as transcribed; the image looks similar). From the neighbours 0.094 = 4790.03 and 0.096 = 4990.60, with first differences ≈ 98.8, 99.8, 100.8, the value must be 4889.83. This is a digit slip (7 for 8), either on the page or in the transcription.",
+   "Entry 0.217 reads 23931.76 (?). From 0.216 = 23725.19 and 0.218 = 24142.14, with second differences ≈ 0.8, it should be ≈ 23933.28. The page value breaks the difference pattern by about 1.5 units; this is probably a writing or reading slip.",
+   "Entry 0.181 = 16959.90 (overwritten digits) gives slightly irregular second differences (0.80, 0.96, 0.80). A value near 16959.94–16959.98 would be smoother. This is a minor, within-rounding-scale irregularity and is uncertain.",
+   "Corrected entries 0.124 = 8201.72 and 0.127 = 8589.62 (overwritten on the page) check correctly against their neighbours by differences."
+  ],
+  "results": [
+   {
+    "what": "Table of the hyperbolic correction function C(A), A = 0.000 … 0.300 step 0.001, in units of 10^-7 with two extra decimals. C ≈ (2/35)A² − 0.033A³ + …",
+    "modern_name": "Auxiliary table for near-parabolic (hyperbolic) orbits: Gauss's A, B, C method replacing Kepler's equation near e = 1",
+    "usually_credited_to": "Carl Friedrich Gauss, Theoria motus corporum coelestium (1809), Book I, arts. 41–45 with tables",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript working copy, computed to higher precision, of a table Gauss published in Theoria Motus (1809) for hyperbolic orbits near the parabola. It is of interest only as evidence of how the published table was computed; nothing here is new or uncredited.",
+  "checkable": [
+   {
+    "sympy": "abs(Rational(2,35)*Rational(1,1000)**2*10**7 - Rational(57,100)) < Rational(1,100)",
+    "asserts": "Leading behaviour: the entry at A = 0.001 (0.57) equals (2/35)A²·10^7 to rounding."
+   },
+   {
+    "sympy": "abs(Rational(2,35)*Rational(4,1000)**2*10**7 - Rational(912,100)) < Rational(5,100)",
+    "asserts": "The entry at A = 0.004 (9.12) agrees with (2/35)A²·10^7 = 9.143 up to a small negative cubic correction."
+   },
+   {
+    "sympy": "abs((Rational(479003,100)+Rational(499060,100))/2 - Rational(488983,100) - Rational(97,200)) < Rational(5,100)",
+    "asserts": "The corrected value 4889.83 at A = 0.095 fits its neighbours (the midpoint minus half the second difference ≈ 0.485); 4799.83 does not."
+   },
+   {
+    "sympy": "abs((Rational(2372519,100)+Rational(2414214,100))/2 - Rational(2393328,100) - Rational(39,100)) < Rational(5,100)",
+    "asserts": "The consistent value at A = 0.217 is ≈ 23933.28, not 23931.76."
+   },
+   {
+    "sympy": "abs((Rational(807428,100)+Rational(833009,100))/2 - Rational(820172,100) - Rational(47,100)) < Rational(3,100)",
+    "asserts": "The overwritten entry 8201.72 at A = 0.124 is consistent with its neighbours."
+   },
+   {
+    "sympy": "series(15*(E - sin(E))/(9*E + sin(E)) - sin(E/2)**2, E, 0, 6)",
+    "asserts": "Gives E**4/80 + O(E**6). This supports the reconstruction that A = 15(E − sin E)/(9E + sin E) agrees with sin²(½E) to second order, so that a correction C of order A² is needed."
+   },
+   {
+    "sympy": "Rational(2,35) - Rational(5,4)*Rational(8,175)",
+    "asserts": "Equals 0: the observed leading coefficient 2/35 equals (5/4)·(8/175), where 8/175 is the A² coefficient of A/x − 1 − A/5 for the A defined above."
+   }
+  ],
+  "transcription_corrections": [
+   "Heading: 'Die Correctionstafel bei der Hyperbel schärfer' (the last word is somewhat unclear but reads as schärfer); folio 91 with the old number 123 struck through.",
+   "0.095: the transcription '4799.83' should be 4889.83 by differences; the image may actually show 4889.83 or a slip.",
+   "0.217: '23931.76' is doubtful; by differences ≈ 23933.28.",
+   "0.124: 8201.72 (digits overwritten in the image, confirmed by differences).",
+   "0.127: 8589.62 (overwritten, confirmed).",
+   "0.181: 16959.90 (overwritten; possibly 16959.9x)."
+  ]
+ }
+}

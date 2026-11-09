@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c040",
+ "label": "21r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000041/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the closing paragraph of Riemann's 1859 paper 'Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse'. It is headed 'Nachtrag zu dem Aufsatze' and was intended as a replacement text for the final part. Drafts of three letters follow it. The next page (folio 21v/22) carries the derivation of the explicit formula. The present page states its consequence.\n\n(1) Mathematical content (top of page). From the previous derivation, Riemann's prime-power counting function is\nf(x) = Σ_{n≥1} (1/n) π(x^{1/n}).\nIt satisfies the explicit formula\nf(x) = Li(x) − Σ_α [Li(x^{1/2+iα}) + Li(x^{1/2−iα})] + ∫_x^∞ dt/((t²−1) t log t) + log ξ(0).\nHere α runs over the roots of ξ(1/2+it)=0 with positive real part. log ξ(0) = −log 2 in the modern normalisation.\n\nRiemann then remarks two things:\n(a) If Σ_α is truncated to finitely many terms, the derivative of the expression gives the *mean* (mittlere) density of primes of size x. The word 'mittlere' is inserted above the line.\n(b) The derivative of f(x), up to a part that decreases very rapidly as x grows, is\n1/log x − 2 Σ_α cos(α log x) x^{−1/2} / log x.\nThis approximates the density of primes + ½ the density of prime squares + ⅓ the density of prime cubes + … of size x.\n\nImplicit steps (mine):\n- For any complex ρ, d/dx Li(x^ρ) = ρ x^{ρ−1}/(ρ log x) = x^{ρ−1}/log x.\n- With ρ = 1/2 ± iα, the pair contributes x^{−1/2}(x^{iα} + x^{−iα})/log x = 2 x^{−1/2} cos(α log x)/log x.\n- Hence the derivative of −Σ_α[Li(x^ρ) + Li(x^{ρ̄})] is −2 Σ_α cos(α log x) x^{−1/2}/log x.\n- The derivative of Li(x) is 1/log x.\n- The derivative of ∫_x^∞ dt/((t²−1) t log t) is −1/((x²−1) x log x) = O(x^{−3}/log x). This is the 'sehr schnell abnehmende Theil'.\n- The constant log ξ(0) contributes nothing.\n- Since f = Σ π(x^{1/n})/n, f' is the density of primes plus 1/n times the density of n-th prime powers, as stated.\n\nThe page then begins the next sentence of the paper: 'Die bekannte Näherungsformel …'. In print this continues with 'F(x) = Li(x) ist also nur bis auf Grössen von der Ordnung x^{1/2} richtig …'.\n\n(2) Non-mathematical part. Three items follow.\n- A cover note to a 'Hochverehrtester Herr Professor', signed 'ergebenster Schüler B. Riemann'. Riemann asks to replace the last part of the paper, which he had written very hastily, pressed by the start of term ('Vorlesungen', reading uncertain). He encloses a rewritten ending on a separate sheet.\n- A short note returning a borrowed Crelle volume. It mentions a copy of Gauss's letter to Encke on the frequency of primes.\n- A long letter, drafted twice, to a 'Verehrtester Herr Doctor' whom Riemann had visited in Berlin. Riemann sends photographs, including copies for Borchardt and Weierstrass. He reports that he has sent the Academy a short paper on the frequency of primes. He says this does not pre-empt the addressee's reconstruction of Dirichlet's unpublished investigations, since his own route is entirely different from Dirichlet's. He asks for the passage of Dirichlet's letter on those investigations, which had been read aloud to Dedekind and him. The addressee is probably Kronecker; Riemann and Dedekind visited Berlin in autumn 1859, and Dirichlet died in May 1859.",
+  "errors": [
+   "No mathematical error. The derivative 1/log x − 2Σ cos(α log x) x^{-1/2}/log x is correct.",
+   "The neglected remainder −1/((x²−1) x log x) does decay rapidly, as claimed.",
+   "The phrase 'angenäherter Ausdruck' is appropriate: the series over α converges only conditionally (with roots ordered by size), and its termwise derivative is not literally convergent as a pointwise density. Riemann's qualifier 'mittlere Dichtigkeit' for finite truncations reflects this. Rigour came later (von Mangoldt 1895 for the corresponding formula)."
+  ],
+  "results": [
+   {
+    "what": "Differentiated explicit formula: f'(x) ≈ 1/log x − 2Σ_α cos(α log x) x^{-1/2}/log x, interpreted as the density of primes plus 1/n times the density of n-th prime powers; finite truncation gives a mean density.",
+    "modern_name": "Riemann's explicit formula (density form); oscillatory contribution of the zeta zeros to prime distribution",
+    "usually_credited_to": "Riemann 1859 (published in this very form in the Monatsberichte paper)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Draft letters: replacement ending for the prime paper; reference to Gauss's letter to Encke; remark that Riemann's method differs from Dirichlet's lost unpublished approach to prime frequency, and a request for Dirichlet's letter passage.",
+    "modern_name": "Historical correspondence (Riemann, probably to Kronecker and a Berlin professor, autumn 1859)",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The mathematics is verbatim the published conclusion of Riemann's 1859 paper. The page's interest is historical: it shows the ending was rewritten after submission, and it contains draft letters referring to Dirichlet's lost investigations on prime frequency and to Gauss's letter to Encke. This is a minor documentary detail, not a new result.",
+  "checkable": [
+   {
+    "sympy": "x,a=symbols('x a',positive=True); rho=Rational(1,2)+I*a; simplify(diff(li(x**rho),x) - x**(rho-1)/log(x))",
+    "asserts": "d/dx Li(x^rho) = x^(rho-1)/log x (should simplify to 0, possibly up to branch subtleties)"
+   },
+   {
+    "sympy": "x,a=symbols('x a',positive=True); simplify(expand_complex((x**(-Rational(1,2)+I*a)+x**(-Rational(1,2)-I*a))/log(x)) - 2*cos(a*log(x))*x**(-Rational(1,2))/log(x))",
+    "asserts": "A conjugate pair of zeros contributes 2 cos(alpha log x) x^(-1/2)/log x to the density"
+   },
+   {
+    "sympy": "x,t=symbols('x t',positive=True); diff(Integral(1/((t**2-1)*t*log(t)),(t,x,oo)),x)",
+    "asserts": "The derivative of the integral term is -1/((x^2-1) x log x), the rapidly decreasing part"
+   },
+   {
+    "sympy": "x=symbols('x',positive=True); limit(x**3*log(x)/((x**2-1)*x*log(x)),x,oo)",
+    "asserts": "The remainder is O(x^-3/log x) relative scale (limit equals 1)"
+   },
+   {
+    "sympy": "N(log(pi)/2*0) ; # log xi(0) = log(1/2)\nlog(Rational(1,2))",
+    "asserts": "The constant log ξ(0) equals -log 2 in modern normalisation and disappears on differentiation"
+   }
+  ],
+  "transcription_corrections": [
+   "Formula: '− Σ^α' should be '− 2Σ^α cos(α log x)/log x · x^{-1/2}'; the factor 2 is visible in the image and matches the printed paper.",
+   "'und die Ableitung des Ausdrucks für f(x) oder[?] ... mit wachsendem x' should read 'die Ableitung des Ausdrucks für f(x) oder, bis auf einen mit wachsendem x sehr schnell abnehmenden Theil,'.",
+   "'Die Lehmann'sche Reihungsformel' should read 'Die bekannte Näherungsformel'; this is the opening of the next sentence of the published paper.",
+   "'Nachtrag zu der Aufsatze' should read 'Nachtrag zu dem Aufsatze'.",
+   "'Den letzten Theil dieses Aufsatzes' should probably read 'Dem letzten Theile dieses Aufsatzes'.",
+   "'die ich in dem letzten Theile darstellen[?], den ich von dem Anfange der Abschnitte[?] gedrängt' probably reads 'da ich in dem letzten Theile desselben, den ich von dem Anfange der Vorlesungen gedrängt, sehr rasch niederschrieb, einige Stellen zu ändern wünschte'.",
+   "'wenn ich auf einmal wegen' is possibly 'wenn ich noch einmal wegen'.",
+   "'die Photographie, um die ich Ihnen versprochen habe' probably reads 'die Photographie, die ich Ihnen versprochen habe'."
+  ]
+ }
+}

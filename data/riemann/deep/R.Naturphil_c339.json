@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c339",
+ "label": "171v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000340/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page computes two standard elastic moduli of an isotropic body from the Lamé constants λ, μ. It gives compressibility under uniform pressure, and Young's modulus (its reciprocal β) under simple tension. The stress law used throughout is N_i = λθ + 2μ ∂u_i/∂x_i, with θ = div u. It is not written out but is implicit; the formulas fit it exactly.\n\n(1) Uniform dilatation (hydrostatic pressure P). Take u = ax, v = ay, w = az. Then each normal stress is N = λ·3a + 2μa = (3λ+2μ)a. Setting N = -P (pressure) gives a = -P/(3λ+2μ). The dilatation is θ = ∂u/∂x + ∂v/∂y + ∂w/∂z = 3a = -3P/(3λ+2μ). Riemann names this coefficient α. In modern terms the cubic compressibility is α = 3/(3λ+2μ) = 1/K, with bulk modulus K = λ + 2μ/3. (The completion θ = -αP with α = 3/(3λ+2μ) is my reading; the numerator in the manuscript is ambiguous.)\n\n(2) Simple tension F per unit area ('F, Zug auf die Flächeneinheit') along z. Take u = -ax, v = -ay, w = cz, with lateral contraction a and axial extension c. Then θ = c - 2a.\n- The lateral faces are free: N1 = N2 = (c-2a)λ - 2aμ = 0. This gives cλ - 2a(λ+μ) = 0, i.e. λc = 2a(λ+μ).\n- The axial stress is N3 = (c-2a)λ + 2cμ = F, i.e. c(λ+2μ) - 2aλ = F.\n- Substituting c = 2a(λ+μ)/λ gives F = 2a[(λ+μ)(λ+2μ) - λ²]/λ.\n- Riemann expands (λ+μ)(λ+2μ) = λ² + 3μλ + 2μ² (the auxiliary line below), so F = 2aμ(3λ+2μ)/λ.\n- Using 2a/λ = c/(λ+μ), this becomes F = cμ(3λ+2μ)/(λ+μ).\n- Hence c/F = β = (λ+μ)/(μ(3λ+2μ)).\n\nSo β = 1/E, where E = μ(3λ+2μ)/(λ+μ) is Young's modulus. Implicitly (my addition), Poisson's ratio is a/c = λ/(2(λ+μ)).\n\nThe page is a scratch derivation of textbook isotropic elasticity relations. It plausibly serves the Naturphilosophie/physics notes (e.g. an elastic aether or matter model). It is unrelated to the next page, a lecture on complex integration.",
+  "errors": [
+   "As machine-transcribed, θ = 3a = -3λ/(3λ+2μ) would be wrong. From N = (3λ+2μ)a = -P it should read θ = -3P/(3λ+2μ) (= -αP with α = 3/(3λ+2μ)). This is most likely a misreading of P as λ, or at worst a trivial slip.",
+   "No other errors: the tension computation, the expansion and the final β = (λ+μ)/(μ(3λ+2μ)) are all correct.",
+   "Minor point: the symbol a is reused with different meanings in the two problems (dilatation vs. lateral contraction). This is harmless."
+  ],
+  "results": [
+   {
+    "what": "Normal stress under uniform dilatation N = (3λ+2μ)a; volume compressibility α = 3/(3λ+2μ)",
+    "modern_name": "Bulk modulus K = λ + 2μ/3 (compressibility 1/K) in terms of Lamé constants",
+    "usually_credited_to": "Navier/Cauchy/Poisson (1820s); Lamé constants, Lamé (Leçons, 1852)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Simple tension with free lateral faces: λc = 2a(λ+μ), F = cμ(3λ+2μ)/(λ+μ), β = c/F = (λ+μ)/(μ(3λ+2μ))",
+    "modern_name": "Young's modulus E = μ(3λ+2μ)/(λ+μ) and Poisson ratio ν = λ/(2(λ+μ)) in terms of Lamé parameters",
+    "usually_credited_to": "Cauchy, Poisson (1820s-1830s); standard in Lamé 1852 and in Kirchhoff/Clebsch-era texts",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are textbook relations between Lamé constants and the bulk/Young moduli, well known by the 1850s. The page is a routine scratch calculation with no novelty.",
+  "checkable": [
+   {
+    "sympy": "a,P,l,m=symbols('a P lambda mu'); simplify(3*solve(Eq((3*l+2*m)*a,-P),a)[0] - (-3*P/(3*l+2*m)))==0",
+    "asserts": "Uniform dilatation: θ = 3a = -3P/(3λ+2μ)"
+   },
+   {
+    "sympy": "a,c,l,m,F=symbols('a c lambda mu F'); s=solve([Eq((c-2*a)*l-2*a*m,0),Eq((c-2*a)*l+2*c*m,F)],[a,c]); simplify(s[c]/F-(l+m)/(m*(3*l+2*m)))==0",
+    "asserts": "Simple tension: c/F = β = (λ+μ)/(μ(3λ+2μ))"
+   },
+   {
+    "sympy": "l,m=symbols('lambda mu'); expand((l+m)*(l+2*m)-l**2 - m*(3*l+2*m))==0",
+    "asserts": "(λ+μ)(λ+2μ) - λ² = μ(3λ+2μ)"
+   },
+   {
+    "sympy": "a,l,m=symbols('a lambda mu'); c=2*a*(l+m)/l; simplify(c*(l+2*m)-2*a*l - 2*a*m*(3*l+2*m)/l)==0",
+    "asserts": "F = 2aμ(3λ+2μ)/λ after eliminating c"
+   },
+   {
+    "sympy": "a,l,m=symbols('a lambda mu'); c=2*a*(l+m)/l; simplify(2*a*m*(3*l+2*m)/l - c*m*(3*l+2*m)/(l+m))==0",
+    "asserts": "Equivalent form F = cμ(3λ+2μ)/(λ+μ)"
+   },
+   {
+    "sympy": "a,l,m=symbols('a lambda mu'); c=2*a*(l+m)/l; simplify(a/c - l/(2*(l+m)))==0",
+    "asserts": "Implied Poisson ratio a/c = λ/(2(λ+μ))"
+   }
+  ],
+  "transcription_corrections": [
+   "The first line 'u=ax v=ay w=az' is written small above the line N = (3λ+2μ)a = -P, as a heading.",
+   "In θ = 3a = -3λ/(3λ+2μ) = α the numerator is most plausibly 3P, not 3λ. The intended relation is θ = -3P/(3λ+2μ) = -αP (or α denoting 3/(3λ+2μ)); the last symbol is hard to read.",
+   "'λ²+3μλ+2μ²' is an auxiliary expansion of (λ+μ)(λ+2μ) written under the fraction. It is not equated to the following expression; '= cμ(3λ+2μ)/(λ+μ)' continues the chain for F.",
+   "In 'F = 2a μ(3λ+2μ)/λ' the μ is partly overwritten in the manuscript but is required and present."
+  ]
+ }
+}

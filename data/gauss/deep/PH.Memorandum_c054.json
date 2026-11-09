@@ -1,0 +1,89 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c054",
+ "label": "53",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000055/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds three unrelated memoranda.\n\n(A) Bibliographic notes. Fraunhofer's instructions for cleaning object glasses are in Astronomische Nachrichten (A.N.) No. 59. Bessel's paper on orienting the plane table (Messtisch) is in A.N. Nos. 60 and 61. There is no mathematics here.\n\n(B) Whist probabilities. The heading asks for the probability that a particular player in whist receives exactly k aces (k = 0..4). His hand is 13 cards dealt from 52, so k is hypergeometric:\nP(k) = C(4,k)*C(48,13-k)/C(52,13).\n\nThe following reduction is mine. P(k) = C(13,k)*C(39,4-k)/C(52,4), so every P(k) has denominator C(52,4) = 270725 = 13*20825. Gauss writes the probabilities over the common denominator 20825:\n- k=0: C(39,4)/13 = 82251/13 = 6327\n- k=1: 13*C(39,3)/13 = 9139\n- k=2: C(13,2)*C(39,2)/13 = 78*741/13 = 4446\n- k=3: C(13,3)*39/13 = 286*39/13 = 858\n- k=4: C(13,4)/13 = 715/13 = 55\n\nThese numerators sum to 20825, as they must.\n\nThe column 'oder nahe :379' rescales the distribution so that the rarest event (all four aces) has weight 1. Since 20825/55 ≈ 378.6, the denominator becomes 379. Each entry is 379*n/20825 rounded:\n- 115.15 → 115\n- 166.33 → 166\n- 80.91 → 81\n- 15.62 → 16\n- 1.0009 → 1\n\nThe rounded values happen to sum exactly to 379. So a given player holds all four aces about once in 379 deals and no ace about 115 times in 379.\n\n(C) Thunderstorm days in Göttingen. This is a table of thunderstorm days per month (March–October) for 1848–1853, in ink, with year totals at the bottom:\n- 1848: 9\n- 1849: 7\n- 1850: 12\n- 1851: 12\n- 1852: 19\n- 1853: 18\n\nA right-hand column of row (month) totals, apparently added later in pencil, reads March 1, April 2, May 19, June 18, July 15, August 15, September 6, October 1. The grand total is 77.",
+  "errors": [
+   "No errors found. All five hypergeometric numerators over 20825 are exact.",
+   "The rounded column over 379 is correct, and the rounded values sum to 379.",
+   "All row and column totals of the thunderstorm table check out: 9+7+12+12+19+18 = 77 and 1+2+19+18+15+15+6+1 = 77."
+  ],
+  "results": [
+   {
+    "what": "Exact distribution of the number of aces in one 13-card whist hand: 6327, 9139, 4446, 858, 55 over 20825. Also expressed approximately over 379, so that four aces is about 1 in 379.",
+    "modern_name": "Hypergeometric distribution (card-hand probabilities)",
+    "usually_credited_to": "Classical combinatorial probability (de Moivre, Montmort, 18th century); whist calculations were common in 18th–19th-century probability texts",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Monthly counts of thunderstorm days at Göttingen, 1848–1853, with marginal totals",
+    "modern_name": "Meteorological record keeping / tabulation",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Bibliographic references to Fraunhofer (A.N. 59) and Bessel (A.N. 60–61)",
+    "modern_name": "Bibliographic note",
+    "usually_credited_to": "Fraunhofer; Bessel",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The whist computation is a routine exact hypergeometric calculation, correctly done; the neat 1-in-379 normalization is a nice touch but standard. The meteorological table is data recording. Nothing here is non-standard mathematics.",
+  "checkable": [
+   {
+    "sympy": "binomial(4,0)*binomial(48,13)/binomial(52,13) - Rational(6327,20825)",
+    "asserts": "P(0 aces) = 6327/20825 (expression equals 0)"
+   },
+   {
+    "sympy": "binomial(4,1)*binomial(48,12)/binomial(52,13) - Rational(9139,20825)",
+    "asserts": "P(1 ace) = 9139/20825"
+   },
+   {
+    "sympy": "binomial(4,2)*binomial(48,11)/binomial(52,13) - Rational(4446,20825)",
+    "asserts": "P(2 aces) = 4446/20825"
+   },
+   {
+    "sympy": "binomial(4,3)*binomial(48,10)/binomial(52,13) - Rational(858,20825)",
+    "asserts": "P(3 aces) = 858/20825"
+   },
+   {
+    "sympy": "binomial(4,4)*binomial(48,9)/binomial(52,13) - Rational(55,20825)",
+    "asserts": "P(4 aces) = 55/20825"
+   },
+   {
+    "sympy": "6327+9139+4446+858+55 - 20825",
+    "asserts": "The numerators sum to the denominator 20825"
+   },
+   {
+    "sympy": "[round(Rational(n*379,20825)) for n in [6327,9139,4446,858,55]] == [115,166,81,16,1]",
+    "asserts": "Rescaled values over 379 are 115, 166, 81, 16, 1"
+   },
+   {
+    "sympy": "115+166+81+16+1 - 379",
+    "asserts": "Rounded values sum to 379"
+   },
+   {
+    "sympy": "binomial(52,4)/13 - 20825",
+    "asserts": "The common denominator 20825 equals C(52,4)/13"
+   },
+   {
+    "sympy": "(1+1+3+1+9+4, 2+1+2+4+4+5, 1+1+5+3+1+4, 2+2+2+4+2+3, 9+7+12+12+19+18) == (19,18,15,15,77)",
+    "asserts": "Thunderstorm table row totals and grand total are correct"
+   }
+  ],
+  "transcription_corrections": [
+   "The pencil row-total column on the right appears to be in a lighter, possibly later hand. The May entry looks like '19' with a stray mark after it; 19 is the correct sum.",
+   "The 1848 column header is written '1848' (the 8 is somewhat malformed in the image).",
+   "'A N.' = Astronomische Nachrichten.",
+   "'Reinigen der Objective' is correctly read: Gauss writes 'Reinigen' somewhat compressed.",
+   "Header 'oder nahe 379' is correctly read; it is the column heading for the approximate values over 379."
+  ]
+ }
+}

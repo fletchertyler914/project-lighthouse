@@ -1,0 +1,56 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c252",
+ "label": "127r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000253/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page has no mathematical derivation. It is a heavily corrected draft of an official expert opinion (Gutachten), apparently written for the Royal Hanoverian government. The previous and next pages continue the same text. Its subject is General-Lieutenant J. J. Baeyer's proposal of 1861 ('Über die Größe und Figur der Erde', the 'Mitteleuropäische Gradmessung'). Baeyer proposed to join the central-European triangulations into one arc, so that their material could be used to determine the figure of the Earth.\n\nStructure of the text:\n(i) Riemann praises the undertaking. Linking the triangulations would let their rich material be used to a far higher degree for determining the Earth's shape, and would make an important contribution to knowledge of the Earth's figure.\n(ii) To answer the question put in the government's letter, he proposes first to break the task into parts. Using geodetic measurements to determine the Earth's figure requires three essentially different, mutually independent operations:\n  1. Determine the positions of the stations where astronomical observations are or will be made, on the ellipsoid closest to the Earth. That is, find their geodetic latitudes and longitudes on the best available reference ellipsoid. This part is purely geodetic and independent of astronomy, apart from the orientation and initial data.\n  2. Determine the astronomical differences of longitude and latitude between these stations.\n  3. Compare the astronomical with the geodetic differences. On the next page this is made explicit as the study of the deflections of the vertical (Lotabweichungen), and of the geoid's undulations relative to the ellipsoid.\n(iii) On the geodetic part, he argues that the Hanoverian material needs no supplementing. Gauss's Hanoverian Gradmessung and triangulation were carried out so completely that new geodetic measurements are hardly needed. What remains is linking them to Baeyer's Prussian chains, which reach through Mecklenburg to the border. How Hanover could cooperate cannot be said before more definite proposals arrive from the (Prussian) government.\n(iv) He summarises Baeyer's adjustment proposals:\n  a) The lengths of sides common to two adjacent triangulations are computed from each triangulation, and their difference is stated in toises.\n  b) This difference is distributed according to the weights of the two determinations. With equal weights it is halved, and it is treated as the error of the respective triangle chains.\n(v) The page ends saying that the Hanoverian government should not refuse to communicate the data needed to carry out the proposal, since this poses no difficulty and would further the whole undertaking.\n\nImplicit content (my formalisation, not on the page): let a common side have lengths L1 and L2 from the two chains, with weights p1 and p2. The adjusted value is the weighted mean L = (p1*L1 + p2*L2)/(p1+p2). The corrections are v1 = L - L1 = p2*(L2-L1)/(p1+p2) and v2 = L - L2 = -p1*(L2-L1)/(p1+p2). So each chain absorbs a share of the discrepancy inversely proportional to its own weight. With p1 = p2 each absorbs half, as Riemann states.",
+  "errors": [
+   "No mathematical errors; the page contains no computation.",
+   "'Distributed according to the weights' is correct only if each chain receives a share inversely proportional to its own weight, i.e. the weighted mean. The text leaves this implicit; the equal-weight case (halving) is stated correctly.",
+   "On the next page Riemann hints that Baeyer's piecewise side-by-side adjustment is not optimal and that 'something more perfect' (a joint least-squares adjustment) could be achieved. That is a sound criticism of the procedure, not an error."
+  ],
+  "results": [
+   {
+    "what": "Decomposition of the arc-measurement problem into (1) geodetic positions on a reference ellipsoid, (2) astronomical latitude/longitude differences, (3) their comparison, i.e. deflections of the vertical",
+    "modern_name": "Astro-geodetic method of determining the figure of the Earth (astrogeodetic deflections of the vertical / geoid determination)",
+    "usually_credited_to": "Standard geodetic practice from Gauss, Bessel, Baeyer; the geoid concept from Gauss (1828) and Listing (1873)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Baeyer's rule: the discrepancy in common sides of adjacent triangulations is distributed by weights (halved for equal weights)",
+    "modern_name": "Weighted mean / simple least-squares reconciliation of overlapping networks",
+    "usually_credited_to": "Gauss and Legendre (least squares); proposal by J. J. Baeyer (1861)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is administrative and scientific-policy drafting, an expert opinion on Baeyer's 1861 Mitteleuropäische Gradmessung proposal, with no new mathematics. That Riemann, as Gauss's successor at Göttingen, was consulted on Hanover's participation is a mildly interesting biographical detail. The geodetic content is standard for its time.",
+  "checkable": [
+   {
+    "sympy": "p1,p2,L1,L2=symbols('p1 p2 L1 L2',positive=True); L=(p1*L1+p2*L2)/(p1+p2); simplify(L-L1 - p2*(L2-L1)/(p1+p2))==0",
+    "asserts": "The correction to chain 1 equals the share p2/(p1+p2) of the discrepancy L2-L1."
+   },
+   {
+    "sympy": "simplify(((p1*L1+p2*L2)/(p1+p2)-L1).subs(p2,p1) - (L2-L1)/2)==0",
+    "asserts": "With equal weights the discrepancy is halved, as stated in proposal b)."
+   },
+   {
+    "sympy": "simplify(p1*((p1*L1+p2*L2)/(p1+p2)-L1)**2+p2*((p1*L1+p2*L2)/(p1+p2)-L2)**2 - p1*p2*(L2-L1)**2/(p1+p2))==0",
+    "asserts": "The weighted sum of squared corrections at the weighted mean equals p1*p2*d^2/(p1+p2), its least-squares minimum."
+   }
+  ],
+  "transcription_corrections": [
+   "'Zoisen' should be 'Toisen' (toises, the unit of length used by Baeyer).",
+   "Line 1 likely reads 'Das von ihm [Hrn. Gen. Lt. Baeyer] angeregte Unternehmen ..., die mitteleuropäischen Triangulationen zu einem Bogen zu verbinden'; the 'in den' is probably spurious.",
+   "The opening of the second paragraph probably reads 'Um die mir in dem Schreiben vom ... gestellte Frage zu beantworten ...' rather than 'die meisten Vorschläge'.",
+   "'auf dem der Erde am nächsten kommenden Ellipsoid' fits better than 'am nächsten [?] ... Ellipsoid'.",
+   "'der Kön. [Preuß.] Regierung' is likely, since the definite proposals would come from Prussia, Baeyer's employer.",
+   "The final line's 'Verringerung' is probably 'Förderung' (furthering) of the whole undertaking.",
+   "On the next page, 'unvergeßlich' is more plausibly 'unmaßgeblich' or 'vorläufig'."
+  ]
+ }
+}

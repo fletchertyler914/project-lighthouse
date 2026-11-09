@@ -1,0 +1,63 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c224",
+ "label": "215",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000225/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): induction between two oscillating magnetized bars, presumably the Gauss–Weber magnetometer and induction-coil set-up of the later 1830s, even though the bundle is labelled 1809. The inducing bar has half-period 180°/n = 60.4 s and the passive bar 180°/N = 20.6 s. At t = 0 the inducing bar passes through the middle position with positive velocity. The connection is closed at time θ, opened at θ' and closed again at θ''. After that the passive bar's motion is\n\nA sin Nt + B cos Nt − N cos nt,\n\nwith\n- f(θ) = N cos nθ sin Nθ − n sin nθ cos Nθ,\n- g(θ) = N cos nθ cos Nθ + n sin nθ sin Nθ,\n- A = f(θ) − f(θ') + f(θ''),\n- B = g(θ) − g(θ') + g(θ'').\n\nProblem on this page: choose the switching times so that the free oscillation (the sin Nt and cos Nt terms) is annulled. Only the pure forced term −N cos nt then remains.\n\nStep 1. Gauss takes the symmetric choice θ = −u, θ' = 0, θ'' = +u.\n- f is odd (each of its terms is a product of an even and an odd function) and f(0) = 0. Hence A = −f(u) − 0 + f(u) = 0. The first condition holds automatically.\n- g is even and g(0) = N. Hence B = 2g(u) − N.\n\nStep 2. The second condition B = 0 reads\n\nN(2 cos nu cos Nu − 1) + n(2 sin nu sin Nu) = 0.\n\nStep 3 (product-to-sum, filled in by me). Use 2cos a cos b = cos(a−b) + cos(a+b) and 2 sin a sin b = cos(a−b) − cos(a+b). This gives\n\n(N+n) cos((N−n)u) + (N−n) cos((N+n)u) = N.\n\nStep 4 (numerics). Angles are expressed in right angles ('R' = rectus, 1R = 90°). Hence N = 2/20.6 R/s and n = 2/60.4 R/s, so that\n- (N+n)/(N−n) = 81/39.8 = 2.03518,\n- N/(N−n) = 60.4/39.8 = 1.51759.\n\nGauss's root is (N−n)u = 0.480425 R and (N+n)u = 0.977766 R. From these:\n- Nu = half the sum = 0.729095 R,\n- nu = half the difference = 0.248671 R,\n- u = Nu/N = 0.729095 · 20.6/2 ≈ 7.5096 s.\n\nSo the circuit must be closed 7.51 s before the inducing bar's passage through the middle, opened at the passage, and closed again 7.51 s after it.",
+  "errors": [
+   "No errors found. The parity argument, the product-to-sum reduction and the numerics all check.",
+   "Check of the root: in radians, (N−n)u = 0.75465 and (N+n)u = 1.53587. Then 2.03518·cos(0.75465) + cos(1.53587) ≈ 1.48265 + 0.03492 = 1.51757, against N/(N−n) = 1.51759.",
+   "u = 7.5096 s agrees to the last digit; computing u from nu instead gives 7.5099 s, a negligible rounding difference.",
+   "A wrong first attempt was struck out ('wo also sein muss'). The first equation has a cancelled fragment after 'sin Nu'. Neither affects the result."
+  ],
+  "results": [
+   {
+    "what": "Choosing the switching times −u, 0, +u of the induction circuit so that the free oscillation of the passive bar cancels. The odd part of the condition vanishes by symmetry; the even part gives (N+n)cos(N−n)u + (N−n)cos(N+n)u = N.",
+    "modern_name": "Superposition of free and forced harmonic responses; impulsive/switching control to cancel transient (homogeneous) solution",
+    "usually_credited_to": "Standard linear-oscillator theory; applied in Gauss–Weber magnetometer/induction experiments (1830s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Numerical solution of the transcendental condition for the half-periods 60.4 s and 20.6 s, giving u ≈ 7.51 s, with angles in right-angle units.",
+    "modern_name": "Root of a trigonometric equation (numerical computation)",
+    "usually_credited_to": "Routine computation",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a careful but elementary laboratory-planning calculation. It fixes when to make and break the circuit so that only the forced motion of the passive magnet remains. It fits the known Gauss–Weber induction and magnetometer work and contains no new mathematics, only an unpublished experimental detail.",
+  "checkable": [
+   {
+    "sympy": "simplify(expand_trig(N*(2*cos(n*u)*cos(N*u)-1)+n*2*sin(n*u)*sin(N*u) - ((N+n)*cos((N-n)*u)+(N-n)*cos((N+n)*u)-N)))",
+    "asserts": "The two forms of the second condition are identical (result 0)."
+   },
+   {
+    "sympy": "f=lambda t: N*cos(n*t)*sin(N*t)-n*sin(n*t)*cos(N*t); simplify(f(-u)-f(0)+f(u))",
+    "asserts": "The sin Nt coefficient vanishes identically for θ = −u, θ' = 0, θ'' = u."
+   },
+   {
+    "sympy": "g=lambda t: N*cos(n*t)*cos(N*t)+n*sin(n*t)*sin(N*t); simplify(g(-u)-g(0)+g(u) - (2*N*cos(n*u)*cos(N*u)+2*n*sin(n*u)*sin(N*u)-N))",
+    "asserts": "The cos Nt coefficient reduces to 2g(u) − N (result 0)."
+   },
+   {
+    "sympy": "N_=pi/20.6; n_=pi/60.4; nsolve((N_+n_)*cos((N_-n_)*x)+(N_-n_)*cos((N_+n_)*x)-N_, x, 7)",
+    "asserts": "The root is u ≈ 7.5096 s."
+   },
+   {
+    "sympy": "N_=pi/20.6; n_=pi/60.4; u_=7.5096; [N.evalf() for N in [(N_+n_)*u_/(pi/2),(N_-n_)*u_/(pi/2),N_*u_/(pi/2),n_*u_/(pi/2)]]",
+    "asserts": "In right-angle units these are ≈ 0.977766, 0.480425, 0.729095, 0.248671."
+   }
+  ],
+  "transcription_corrections": [
+   "'0^R' denotes angles measured in right angles (R = 90°), not radians.",
+   "The sign between the two terms of the second equation is a '+' partly obscured by an ink blot.",
+   "In the first equation the bracket after 'sin Nu' contains a struck-out fragment. It should read n(2 sin nu · sin Nu) = 0 after the deletion.",
+   "The '[?]' after u = 7\"5096 can be removed: the value 7.5096 seconds is confirmed by computation.",
+   "The inserted superscript 'n' above the cancelled words 'wo also sein muss' is an insertion mark or correction, not a mathematical symbol."
+  ]
+ }
+}

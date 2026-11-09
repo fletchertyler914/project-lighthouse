@@ -1,0 +1,73 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c040",
+ "label": "20v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000041/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: these are notes for a lecture course on the general theory of functions of a complex variable. The previous page states the course programme: to study functions given only implicitly, for example as solutions of differential equations, without an explicit expression. This page opens a new lecture hour (Stunde) by recapitulating the previous one.\n\n(1) Recap. Last hour treated ∫(X dx + Y dy), with X and Y functions of x and y. The theorem proved was that this integral depends only on its limits (endpoints) and not on the path, provided ∂X/∂y − ∂Y/∂x = 0. Equivalently, X dx + Y dy = dF(x,y), as on the previous page. Riemann then says to regard x, y as coordinates of a point in a plane. A sketch of a region, later scribbled over, illustrates a domain T with boundary curve ∂T.\n\n(2) Green's theorem in the plane, as written: ∬_T (∂X/∂y − ∂Y/∂x) dx dy = −∮_{∂T} (X dx + Y dy). [My gloss: this holds with ∂T traversed counterclockwise, i.e. the region on the left. It is the same sign convention as in Riemann's 1851 dissertation, where he uses the inner normal.] Path independence follows at once: if the integrand vanishes on the region between two paths, their integrals agree.\n\n(3) Extension to complex functions. 'Dieser Satz gilt auch wenn X, Y complex' (reading uncertain): the theorem holds for complex-valued X and Y, by linearity applied to real and imaginary parts. Apply it to w = f(x + yi), z = x + yi, and ∫ f(z) dz = ∫ (f dx + i f dy). [Implicit, mine: take X = f, Y = i f. Then ∂X/∂y − ∂Y/∂x = f_y − i f_x. This vanishes because f depends only on x + yi (the Cauchy–Riemann condition ∂f/∂y = i ∂f/∂x). Hence ∮ f(z) dz = 0, and ∫ f(z) dz depends only on its endpoints.] The fragmentary words 'Folgerung des Satzes ... Calcül ... angewendet' indicate this consequence is being drawn: the theorem applied to the calculus of complex quantities.\n\n(4) Geometry of complex quotients. The diagram shows axes and two directed segments, q→p and s→t. In polar form, p − q = r(cos φ + i sin φ) and t − s = ρ(cos ψ + i sin ψ). Hence (p − q)/(t − s) = (r/ρ)(cos(φ − ψ) + i sin(φ − ψ)). The quotient of two segments has modulus equal to the ratio of their lengths and argument equal to the angle between them. This is presumably preparation for interpreting dw/dz: the existence of a direction-independent derivative means infinitesimal similarity, i.e. a conformal map (as in Riemann's dissertation, art. 3).",
+  "errors": [
+   "No mathematical errors. The sign in ∬(∂X/∂y − ∂Y/∂x) dx dy = −∮(X dx + Y dy) is correct for counterclockwise (positive) traversal of the boundary; the orientation is not stated on the page.",
+   "The step from the real theorem to ∫f(z)dz = 0 (X = f, Y = i f, Cauchy–Riemann) is not written out; it is reconstructed.",
+   "The symbol ∂ is used for the differentials dx, dy and dz ('∂x ∂y', '∫f(z)∂z'). This is merely notational."
+  ],
+  "results": [
+   {
+    "what": "Line integral ∫(X dx + Y dy) is path-independent iff ∂X/∂y = ∂Y/∂x (exact differential)",
+    "modern_name": "Exactness / closed 1-forms on simply connected domains",
+    "usually_credited_to": "Clairaut, Euler (18th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "∬(∂X/∂y − ∂Y/∂x) dx dy = −∮(X dx + Y dy)",
+    "modern_name": "Green's theorem in the plane",
+    "usually_credited_to": "Green (1828), Gauss, Ostrogradsky; Cauchy (1846)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "∮ f(z) dz = 0 for f a function of x+iy, via Green's theorem and Cauchy–Riemann",
+    "modern_name": "Cauchy integral theorem (Green-theorem proof)",
+    "usually_credited_to": "Cauchy (1825; Green-type proof 1846); Riemann's 1851 dissertation uses this route",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "(p−q)/(t−s) has modulus r/ρ and argument φ−ψ",
+    "modern_name": "Polar form of complex division; geometric meaning of the quotient (basis of conformality)",
+    "usually_credited_to": "Wessel, Argand, Gauss",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are lecture notes reproducing Riemann's well-known 1851 dissertation approach: Green's theorem, then Cauchy's theorem via Cauchy–Riemann, then the geometric meaning of complex quotients. The material is routine and already known to be his.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; r,t=symbols('r t'); simplify(integrate(-2*r,(r,0,1),(t,0,2*pi)) + integrate(sin(t)**2+cos(t)**2,(t,0,2*pi)))",
+    "asserts": "Green's formula with Riemann's sign on the unit disk for X=-y, Y=x. LHS = ∬(-2) dA = -2π, RHS = -∮(-y dx + x dy) = -2π; the expression evaluates to 0."
+   },
+   {
+    "sympy": "from sympy import *; x,y=symbols('x y',real=True); f=(x+I*y)**3+exp(x+I*y); simplify(diff(f,y)-I*diff(f,x))",
+    "asserts": "For X=f, Y=i f with f a function of x+iy, ∂X/∂y − ∂Y/∂x = f_y − i f_x = 0 (result 0), so ∮ f dz = 0."
+   },
+   {
+    "sympy": "from sympy import *; t=symbols('t',real=True); z=exp(I*t); simplify(integrate((z**2+3*z)*diff(z,t),(t,0,2*pi)))",
+    "asserts": "Cauchy integral theorem example: ∮_{|z|=1} (z^2+3z) dz = 0."
+   },
+   {
+    "sympy": "from sympy import *; r,rho,phi,psi=symbols('r rho phi psi',positive=True); simplify(expand_complex(r*(cos(phi)+I*sin(phi))/(rho*(cos(psi)+I*sin(psi))) - r/rho*(cos(phi-psi)+I*sin(phi-psi))))",
+    "asserts": "The quotient formula (p−q)/(t−s) = (r/ρ)(cos(φ−ψ) + i sin(φ−ψ)); the difference is 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'nur von der Form begrenzt' should probably read 'nur von den Grenzen abhängt' (the integral depends only on its limits).",
+   "'Denken wir uns x, y als Coordinaten eines Punktes in einer Ebene' is the full sentence written to the right; it is not interrupted by 'wenn.'.",
+   "'Dieser Satz gilt auch wenn X + Y i' is likely 'Dieser Satz gilt auch wenn X, Y complex' (or similar, uncertain); the stroke under it is not part of a formula.",
+   "The struck symbol in '[-w-] = f(x+yi)' appears to be '∫w' or 'w' crossed out; the letter rendered as z is Riemann's script z.",
+   "In the diagram the lower-right labels are s (near the segment) and t; the segments run q→p and s→t.",
+   "'p = ... Folgerung des Satzes ... Calcül angewendet' is fragmentary; it appears to say the theorem's consequence is applied to the calculus of complex quantities. The 'p =' is probably unrelated or incomplete."
+  ]
+ }
+}

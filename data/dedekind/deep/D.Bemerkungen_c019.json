@@ -1,0 +1,56 @@
+{
+ "bundle": "D.Bemerkungen",
+ "page": "c019",
+ "label": "9v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234986:00000020/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from p.1). θ is an algebraic integer generating the field Ω, with minimal polynomial F(t) = t^n + a_1 t^{n-1} + ... + a_n in Z[t]. The index is k = [O_Ω : Z[θ]]. A rational prime p is of the 'second kind' if p | k. §1 of Dedekind's 1878 paper characterises this: p | k iff some G in Z[t] of degree < n, with coefficients not all divisible by p, has G(θ)/p an algebraic integer.\n\nSatz II, the sufficiency half of what is now Dedekind's criterion: if F = AB − pM, where A, B, M in Z[t] have a common factor of degree ≥ 1 modulo p, then p | k.\n\nWhat this page is for. In the 1878 paper both proofs of Satz II used ideal theory. Dedekind wants an ideal-free proof so that §3 can be placed before §2. The note is dated 22 Aug 1895 on the next page.\n\nStep 1 (decomposition). Let E in Z[t] be a common divisor mod p of A, B, M, with deg E ≥ 1 (we may take E monic). Write A = E A1 + p A2, B = E B1 + p B2, M = E M1 + p M2.\n\nStep 2 (substitution). F = AB − pM = 𝔛 E^2 + 𝔜 E p + ℨ p^2. Dedekind leaves the coefficients implicit; they are [mine]:\n- 𝔛 = A1 B1\n- 𝔜 = A1 B2 + A2 B1 − M1\n- ℨ = A2 B2 − M2\n\nStep 3 (evaluation). Put t = θ, with ε = E(θ), ξ = 𝔛(θ), η = 𝔜(θ), ζ = ℨ(θ), all algebraic integers. Since F(θ) = 0, we get ξ ε^2 + η ε p + ζ p^2 = 0.\n\nStep 4 (make the equation monic). Multiply by ξ/p^2: (ξε/p)^2 + η (ξε/p) + ξζ = 0. So ξε/p is a root of a monic quadratic whose coefficients η and ξζ are algebraic integers.\n\nStep 5 (integrality). By the known theorem that a root of a monic polynomial with algebraic-integer coefficients is an algebraic integer, ξε/p is an algebraic integer. Dedekind cites Dirichlet–Dedekind §160.3 (2nd ed. 1871), §160.2 (3rd ed. 1879), §173.V (4th ed. 1894), and Sur la théorie des nombres entiers algébriques (1877) §13.2°. Hence p divides ξε.\n\nStep 6 (next page). The polynomial 𝔛E takes the value ξε at θ. Reduce mod p: F ≡ 𝔛 E^2 (mod p). Since F is monic of degree n and deg E ≥ 1, 𝔛E mod p is nonzero of degree n − deg E < n. By §1, p is of the second kind.\n\nImplicit adjustment [mine]. As literal integer polynomials 𝔛E need not have degree < n. One replaces it by a representative G of its residue mod p with degree < n. Then G(θ) = ξε + p·(algebraic integer), so G(θ) is still divisible by p, and G is not ≡ 0 mod p. The §1 criterion then applies.",
+  "errors": [
+   "No mathematical error. Minor gap: the degree claim ('degree of 𝔛E less than n') holds only mod p. 𝔛E must be replaced by a reduced representative mod p; this keeps divisibility of the value by p, so the argument is sound.",
+   "The explicit forms of 𝔛, 𝔜, ℨ are not written out but follow immediately.",
+   "That E is non-constant mod p is the hypothesis ('common divisor of at least first degree'). It is essential, since it guarantees deg(𝔛E mod p) < n."
+  ],
+  "results": [
+   {
+    "what": "Ideal-free proof that F = AB − pM with A, B, M sharing a nonconstant common factor mod p implies p divides the index [O : Z[θ]]. It writes F = 𝔛E^2 + 𝔜Ep + ℨp^2 and shows (𝔛E)(θ)/p is integral via a monic quadratic.",
+    "modern_name": "Dedekind's criterion (Dedekind–Kummer), sufficiency direction for p | [O_K : Z[θ]]",
+    "usually_credited_to": "Dedekind 1878 (the criterion itself); elementary proofs of this type appear in modern textbooks (e.g. Cohen, A Course in Computational Algebraic Number Theory, §6.1)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Integral closure lemma: a root of a monic polynomial with algebraic-integer coefficients is an algebraic integer",
+    "modern_name": "Transitivity of integrality / integral closure",
+    "usually_credited_to": "Dedekind (Dirichlet–Dedekind Vorlesungen, Supplement XI, 1871)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The criterion is Dedekind's own (1878). This is an unpublished, dated (1895) elementary reproof avoiding ideal theory, a nice detail of his reworking but essentially the standard textbook proof today.",
+  "checkable": [
+   {
+    "sympy": "t,p=symbols('t p'); E,A1,A2,B1,B2,M1,M2=symbols('E A1 A2 B1 B2 M1 M2'); expand((E*A1+p*A2)*(E*B1+p*B2)-p*(E*M1+p*M2) - (A1*B1*E**2 + (A1*B2+A2*B1-M1)*E*p + (A2*B2-M2)*p**2)) == 0",
+    "asserts": "AB − pM = 𝔛E^2 + 𝔜Ep + ℨp^2 with 𝔛 = A1B1, 𝔜 = A1B2 + A2B1 − M1, ℨ = A2B2 − M2"
+   },
+   {
+    "sympy": "xi,eps,eta,zeta,p=symbols('xi eps eta zeta p'); simplify((xi*eps**2+eta*eps*p+zeta*p**2)*xi/p**2 - ((xi*eps/p)**2+eta*(xi*eps/p)+xi*zeta)) == 0",
+    "asserts": "Multiplying ξε^2 + ηεp + ζp^2 = 0 by ξ/p^2 gives the monic equation in ξε/p"
+   },
+   {
+    "sympy": "t=symbols('t'); expand((t+1)*(t+1) - 2*(t-1) - (t**2+3)) == 0",
+    "asserts": "Example: F = t^2 + 3 = AB − 2M with A = B = t+1, M = t−1, all ≡ t+1 mod 2"
+   },
+   {
+    "sympy": "x=symbols('x'); minimal_polynomial((1+sqrt(-3))/2, x) == x**2 - x + 1",
+    "asserts": "In the example, (θ+1)/2 with θ = sqrt(-3) is an algebraic integer, so 2 divides the index of Z[sqrt(-3)]"
+   }
+  ],
+  "transcription_corrections": [
+   "The struck-out word before 'Satze' is illegible; it is likely 'Hülfssatz(e)' but uncertain.",
+   "In the cited edition list, 'ersten' is struck through and replaced by 'zweiten (1871)'; the transcription renders this correctly.",
+   "The fraktur symbols 𝔛, 𝔜, ℨ are correct. On the next page, 'Function Xε' should read 'Function 𝔛E' (the polynomial 𝔛E, whose value at θ is ξε), and 'F ≡ Xε^2' should read 'F ≡ 𝔛E^2 (mod p)'."
+  ]
+ }
+}

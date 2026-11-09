@@ -1,0 +1,60 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c264",
+ "label": "255",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000265/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: excerpt notes on Cauchy, Comptes rendus 1849 (No. 17, p. 875), 'second theorem'. The previous page treats Amyot's lemma from the same issue.\n\nSetup (modern notation):\n- F(x,y,z) is a polynomial of degree n.\n- f(x,y,z) is its homogeneous top-degree part.\n- Surface F: F=0. Auxiliary surface f: f=1.\n- P=(A,B,C) is an arbitrary point. p=(a,b,c) is a point on f, so f(a,b,c)=1. O is the origin, and s=|Op|=sqrt(a^2+b^2+c^2).\n- The line through P parallel to Op is assumed to meet F in n real points R^0, R', R'', ..., R^(n-1).\n- S^(i)=PR^(i) are signed distances, all counted in the same sense.\n\nStep 1. Coordinates of R^(i): (xi,eta,zeta)^(i) = (A + S^(i) a/s, B + S^(i) b/s, C + S^(i) c/s).\n\nStep 2. Hence F(A+S a/s, B+S b/s, C+S c/s)=0 for S = S^0, S', ...\n\nStep 3. Gauss changes the parameter (he strikes out the S-form) and sets Omega(t)=F(A+at, B+bt, C+ct) = L + L't + L''t^2 + ... + L^(n) t^n. Its n roots are t_i = S^(i)/s.\n\nStep 4 (implicit, mine). By Vieta, L/L^(n) = (-1)^n prod t_i = (-1)^n prod S^(i) / s^n. Therefore s^n L = ±L^(n) S^0 S' S''..., with the sign exactly (-1)^n.\n\nStep 5. Evaluating at t=0 gives L = F(A,B,C). The coefficient of t^n comes only from the top-degree part, so L^(n) = f(a,b,c) = 1 (Gauss writes ±1).\n\nResult, stated on the next page: s^n F(A,B,C) = ± S^0 S' ... S^(n-1). Equivalently, F(P) = (-1)^n prod PR_i / |Op|^n.\n\nThe value of the polynomial at P therefore measures the product of the segments cut off on any line through P, normalised by the direction-dependent factor |Op|^n. This generalises the power of a point and Newton's theorem on products of segments of parallel chords.\n\nThe next page specialises to n=2: s^2 F(P) = S^0 S'. The cases S^0 = ±S' correspond to a tangent from P or to P being the midpoint of a chord. This gives F(P) as the squared tangent length or squared half-chord, in the units fixed by f.",
+  "errors": [
+   "Sign: the ± is exactly (-1)^n, by Vieta's product of roots. Gauss leaves it undetermined.",
+   "L^(n)=f(a,b,c) equals +1 exactly, since p lies on f=1 by hypothesis. The '±1' is unnecessary unless f=-1 points are also allowed (for even n, f may be negative-definite).",
+   "The hypothesis of n real intersection points is needed for a real geometric statement. Otherwise the identity still holds with complex roots.",
+   "Notational inconsistency: R, S are used alongside R^0, S^0 for the first point.",
+   "The next page writes 'S^n F(A,B,C)'; it should be lowercase s^n (= |Op|^n), as on this page."
+  ],
+  "results": [
+   {
+    "what": "For a degree-n polynomial F with top form f, and a line through P in direction p (f(p)=1, |p|=s) meeting F=0 in n points at signed distances S_i: s^n F(P) = (-1)^n prod S_i.",
+    "modern_name": "Generalised power of a point / Newton's (Carnot's) theorem on products of segments along parallel transversals",
+    "usually_credited_to": "Newton (Enumeratio, 1704) for curves; Carnot (1803); this formulation by Cauchy, Comptes rendus 1849",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Leading coefficient of F(P+tv) in t equals f(v), and the constant term equals F(P); the product of roots follows by Vieta.",
+    "modern_name": "Vieta's formulas applied to the restriction of a polynomial to a line",
+    "usually_credited_to": "Viète / standard",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are reading notes explicitly summarising Cauchy's 1849 Comptes rendus theorem, with an elementary Vieta argument. Nothing original or ahead of its time.",
+  "checkable": [
+   {
+    "sympy": "A,B,C,a,b,c,t=symbols('A B C a b c t'); F=lambda x,y,z: x**3+2*x*y*z-y**2*z+3*x**2-z+5; f=lambda x,y,z: x**3+2*x*y*z-y**2*z; P=Poly(expand(F(A+a*t,B+b*t,C+c*t)),t); simplify(P.LC()-f(a,b,c))==0",
+    "asserts": "The leading coefficient L^(n) of Omega(t) is f(a,b,c), the top homogeneous part evaluated at the direction."
+   },
+   {
+    "sympy": "simplify(Poly(expand(F(A+a*t,B+b*t,C+c*t)),t).coeff_monomial(1)-F(A,B,C))==0",
+    "asserts": "The constant coefficient L is F(A,B,C)."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); F2=x**2+2*y**2-5; A0,B0=Rational(1,3),Rational(1,2); a0,b0=1/sqrt(3),1/sqrt(3); s=sqrt(a0**2+b0**2); S=symbols('S'); roots_=solve(F2.subs({x:A0+S*a0/s,y:B0+S*b0/s}),S); simplify(s**2*F2.subs({x:A0,y:B0})-roots_[0]*roots_[1])==0",
+    "asserts": "n=2 case: with f(a,b)=a^2+2b^2=1, s^2 F(P) = S0*S1, the product of signed distances (sign (-1)^2=+)."
+   },
+   {
+    "sympy": "simplify(Poly(expand(F(A+a*t,B+b*t,C+c*t)),t).all_coeffs()[-1]/Poly(expand(F(A+a*t,B+b*t,C+c*t)),t).LC() - (-1)**3*prod_of_roots)",
+    "asserts": "Vieta for n=3: L/L^(n) = (-1)^n times the product of the roots t_i = S_i/s. Here prod_of_roots is the product of the three roots of Omega(t), computed numerically for a sample point, so the expression should evaluate to 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'f(x,y,z) Inbegriff der Theile von F(x,y,z), die bloss von der Ordnung n sind' is correct ('blofs' = bloss).",
+   "'auf Einer Geraden durch P gehenden Linie, parallel mit Op': the image shows 'Geraden' written and the line is fine, though 'Geraden ... Linie' is a self-correction left uncancelled.",
+   "In the Omega expansion the image shows a stray mark (possibly a struck 'S') before L't. The intended reading is Omega = L + L't + L''tt + L'''t^3 + ... + L^(n) t^n.",
+   "In 'P ein bestimmter Punkt [-im Raume-]' the struck words appear to be '[im] Raume'; the transcription is acceptable.",
+   "Row for R^0: the first row is xi^0, eta^0, zeta^0, with superscript 0 on S as well (S^0 a/s etc.)."
+  ]
+ }
+}

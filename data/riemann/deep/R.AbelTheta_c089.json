@@ -1,0 +1,73 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c089",
+ "label": "44v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000090/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is written upside down relative to the scan (rotated 180°). It holds four unrelated groups of notes.\n\n(A) Polar coordinates and the wave equation (the main computation).\n- Riemann sets x = r cos φ, y = r sin φ, so r^2 = x^2 + y^2.\n- From y/x = tan φ he writes log tan φ = log y − log x.\n- He notes ∂r/∂x = cos φ and ∂r/∂y = sin φ.\n- Differentiating gives dx = cos φ dr − r sin φ dφ and dy = sin φ dr + r cos φ dφ.\n- Inverting this rotation gives dr = cos φ dx + sin φ dy and r dφ = −sin φ dx + cos φ dy.\n- The chain rule then gives ∂w/∂x = cos φ ∂w/∂r − (sin φ / r) ∂w/∂φ.\n- He starts '∂²w/∂x² =' and leaves it unfinished.\n- He then writes the result directly: ∂²w/∂t² = c^2 · (1/r) [ ∂/∂r ( r ∂w/∂r ) + (1/r) ∂²w/∂φ² ]. This is the 2-D wave equation (vibrating membrane) in polar coordinates, i.e. c^2 (w_rr + w_r/r + w_φφ/r^2).\n- The omitted step (mine) is to compute ∂²w/∂x² and ∂²w/∂y² the same way and add them; the cross terms cancel.\n- The next page continues with the 3-D Laplace equation in cylindrical coordinates. There, separation gives R'' + R'/r − μ²R = 0, solved by a power series and an integral representation, i.e. Bessel functions. So this page is the preparatory coordinate change.\n\n(B) Long-number arithmetic.\n- About a dozen many-digit numbers are written as staggered rows with a sum underneath. This looks like the partial products of a long multiplication, with intermediate results 1996125, 1993215(6), …, ending in 1642504 61946.\n- Above them is a 40-odd-digit result: 596451111593912163277961 258326570258222679686 07.\n- What is being computed cannot be determined from the image.\n\n(C) Counting.\n- He writes n + 2·n(n−1)/2 + n(n−1)(n−2)/(1·2·3) = n(n+1)(n+2)/(1·2·3).\n- He checks it numerically: n = 4 gives 4 + 12 + 4 = 20, and n = 5 gives 5 + 20 + 10 = 35. He lists the sequence 10, 20, 35 and the binomial 5·4·3/(1·2·3).\n- He rewrites the sum as n( n + (n−1)(n−2)/6 ) = n(n²+3n+2)/6.\n- Nearby are the monomial types x³, x²y, xyz. So the count is the number of cubic monomials in n variables: n of type x³, n(n−1) of type x²y, C(n,3) of type xyz. The total is C(n+2,3).\n- Related fragments: n(n−1)(n−2)/6 + 1, and an unfinished 'y + 2(n−2) + 2(n−2)(n−3)/2 ='.\n- These counts presumably serve the genus-3 / Göpel-type theta relations on the neighbouring pages: the 0/1 characteristic tables, and relations like √(xξ)+√(yη)+√(zζ)=0 among the six quantities x, y, z, ξ, η, ζ.\n\n(D) Fragmentary radical relations (bottom of the image, i.e. top of the inverted page).\n- Lines of the form a a' x √(yz) + a a'' √(xz)·… = √(f₁ f₂) …\n- Linear relations a a' x + a a'' t = f', and a a' y + a a'' z = f''.\n- These seem to continue the previous page's elimination among square roots of products of linear forms (theta-function relations for a genus-3 curve). They are too fragmentary to reconstruct reliably.",
+  "errors": [
+   "No mathematical errors detected in the polar-coordinate computation or the combinatorial identity.",
+   "∂²w/∂x² is left unfinished; the final polar Laplacian is stated without the intermediate work, but it is correct.",
+   "The long-number computation cannot be checked from the image: the digits are uncertain and the purpose is unknown."
+  ],
+  "results": [
+   {
+    "what": "Chain rule and differentials for polar coordinates: dr = cos φ dx + sin φ dy, r dφ = −sin φ dx + cos φ dy, w_x = cos φ w_r − sin φ w_φ / r",
+    "modern_name": "Polar coordinate transformation / Jacobian inversion",
+    "usually_credited_to": "Euler / Lagrange (18th century), standard",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Wave equation in polar coordinates: w_tt = c^2 (1/r)[(r w_r)_r + w_φφ / r]",
+    "modern_name": "Polar form of the 2-D Laplacian / membrane equation",
+    "usually_credited_to": "Euler (1766, vibrating drum), Poisson",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "n + n(n−1) + C(n,3) = C(n+2,3), counting cubic monomials in n variables",
+    "modern_name": "Multiset / stars-and-bars count of degree-3 monomials",
+    "usually_credited_to": "classical combinatorics",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "All identifiable content is standard textbook material: the polar Laplacian, the chain rule, and an elementary count. The arithmetic and the radical relations are scratch work.",
+  "checkable": [
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); w=Function('w'); x=r*cos(phi); y=r*sin(phi); J=Matrix([[diff(x,r),diff(x,phi)],[diff(y,r),diff(y,phi)]]); simplify(J.inv()) == Matrix([[cos(phi),sin(phi)],[-sin(phi)/r,cos(phi)/r]])",
+    "asserts": "dr = cos φ dx + sin φ dy and dφ = (−sin φ dx + cos φ dy)/r"
+   },
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); W=Function('W')(r,phi); simplify((diff(r*diff(W,r),r)+diff(W,phi,2)/r)/r - (diff(W,r,2)+diff(W,r)/r+diff(W,phi,2)/r**2)) == 0",
+    "asserts": "The written polar Laplacian equals w_rr + w_r/r + w_φφ/r^2"
+   },
+   {
+    "sympy": "X,Y=symbols('X Y'); f=X**3*Y**2+X*Y**5; r,phi=symbols('r phi',positive=True); g=f.subs({X:r*cos(phi),Y:r*sin(phi)}); simplify((diff(r*diff(g,r),r)+diff(g,phi,2)/r)/r - (diff(f,X,2)+diff(f,Y,2)).subs({X:r*cos(phi),Y:r*sin(phi)})) == 0",
+    "asserts": "The polar form agrees with the Cartesian Laplacian on a test function"
+   },
+   {
+    "sympy": "n=symbols('n'); simplify(n + 2*n*(n-1)/2 + n*(n-1)*(n-2)/6 - n*(n+1)*(n+2)/6) == 0",
+    "asserts": "n + n(n−1) + C(n,3) = C(n+2,3)"
+   },
+   {
+    "sympy": "n=symbols('n'); simplify(n*(n+(n-1)*(n-2)/6) - n*(n**2+3*n+2)/6) == 0",
+    "asserts": "The intermediate rewriting n(n + (n−1)(n−2)/6) = n(n²+3n+2)/6"
+   },
+   {
+    "sympy": "[k + k*(k-1) + binomial(k,3) for k in (4,5)] == [20,35]",
+    "asserts": "Numerical checks 4+12+4=20 and 5+20+10=35"
+   }
+  ],
+  "transcription_corrections": [
+   "The whole page is written upside down (rotated 180°) relative to the scan; the reading order is reversed.",
+   "The last formula should read ∂²w/∂t² = cc·(1/r)( ∂(r ∂w/∂r)/∂r + ∂²w/(r ∂φ²) ). The inner 1/r on the φ-term combines with the outer 1/r to give 1/r²; the formula is correct as written.",
+   "The monomial types 'x³  x²y  xyz' appear near the combinatorial formulas and were omitted or garbled in the transcription.",
+   "The line transcribed 'x(...) = x ...' is an illegible fragment of a radical/product relation (something like ∂(…)/… = x·…), not a usable formula.",
+   "The fragment near the top of the inverted page reads n(n−1)(n−2)/(1·2·3) + 1, consistent with the transcription."
+  ]
+ }
+}

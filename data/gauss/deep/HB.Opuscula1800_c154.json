@@ -1,0 +1,74 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c154",
+ "label": "149",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000155/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page continues a one-argument table that starts on the previous folio (t = -12.0 ... -8.0) and runs onto the next (t = +8.0 ... +24.0). Here it covers t = -8.0 to +8.0 in steps of 0.1, in four columns of 41 entries each.\n\nThe previous page states the function being tabulated:\n  2.32906 - log(205.889 + t) = log[213.333 / (205.889 + t)].\nTabulated value = 10^5 * log10[213.333 / (205.889 + t)], rounded to an integer.\n\nSpot checks (mine):\n- t = -8: log10(213.333/197.889) = 0.032635, giving 3264.\n- t = 0: log10(213.333/205.889) = 0.015425, giving 1542.\n- t = 3: 0.009143, giving 914.\n- t = 4: 0.007068, giving 707.\n- t = 7.4: +0.0000895, giving +9.\n- t = 7.5: -0.000114, giving -11.\n- t = 8: -0.001130, giving -113.\nAll agree with the page. Successive differences per 0.1 fall slowly from about 22 to about 20, as they should for a logarithm.\n\nInterpretation (partly mine):\n- 213.333 = 0.8 * 266.667. This is the air-expansion coefficient 0.00375 per degree C (Gay-Lussac, 1/266.67) converted to degrees Reaumur. So t is in Reaumur, and (213.333 + t) is proportional to absolute temperature.\n- The table gives log of the ratio of air density at t to air density at the normal temperature t0 = 7.444 deg R. That is where the entry vanishes (213.333 - 205.889 = 7.444).\n- 7.444 deg R = 9.31 deg C = 48.75 deg F, which is Bessel's normal temperature for his refraction tables (Tabulae Regiomontanae).\n- Hence this is the logarithmic temperature factor (Bessel's log gamma) for astronomical refraction.\n- The previous page compares it with the table in Encke's Berliner Jahrbuch, which uses log[227/(219.556 + t)]. That has the same normal temperature but a smaller expansion coefficient (1/227 per deg R).\n- The barometer factor is b/332.669 here versus b/333.244 in Encke, and the constants are 1.76014 versus Encke's 1.76056.\n- Gauss is thus recomputing the refraction temperature-correction table with his own preferred expansion coefficient.",
+  "errors": [
+   "No errors found on this page. Spot checks across all four columns agree with 10^5*log10(213.333/(205.889+t)) to within rounding.",
+   "Gauss used 2.32906 for log 213.333 (exact value 2.3290587). This biases entries upward by about 0.13 units in the last place, which explains borderline roundings such as 1967 at t = -2.0 (strict value about 1966.4 to 1966.6). This is not a real error."
+  ],
+  "results": [
+   {
+    "what": "Table of 10^5*log10[213.333/(205.889+t)] for t = -8.0..+8.0 deg Reaumur. It is the logarithmic temperature (air-density) factor for refraction, referred to the normal temperature 7.444 deg R = 48.75 deg F and using an air-expansion coefficient of 1/266.67 per deg C.",
+    "modern_name": "Temperature factor (log gamma) in the astronomical refraction formula; ideal-gas density correction",
+    "usually_credited_to": "Bessel (refraction tables, Fundamenta Astronomiae 1818 and Tabulae Regiomontanae 1830); Gay-Lussac/Dalton for the expansion coefficient; Encke for the Jahrbuch tables",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine numerical auxiliary table: a recomputation of a standard refraction temperature-correction table with a different air-expansion coefficient. It is ordinary practice for an observing astronomer of the period.",
+  "checkable": [
+   {
+    "sympy": "round(10**5*log(Rational(213333,1000)/(Rational(205889,1000)-8), 10))",
+    "asserts": "equals 3264 (entry at t=-8.0)"
+   },
+   {
+    "sympy": "round(10**5*log(Rational(213333,1000)/(Rational(205889,1000)-7), 10))",
+    "asserts": "equals 3045 (entry at t=-7.0)"
+   },
+   {
+    "sympy": "round(10**5*log(Rational(213333,1000)/(Rational(205889,1000)-5), 10))",
+    "asserts": "equals 2610 (entry at t=-5.0)"
+   },
+   {
+    "sympy": "round(10**5*log(Rational(213333,1000)/Rational(205889,1000), 10))",
+    "asserts": "equals 1542 (entry at t=0)"
+   },
+   {
+    "sympy": "round(10**5*log(Rational(213333,1000)/(Rational(205889,1000)+3), 10))",
+    "asserts": "equals 914 (entry at t=+3.0)"
+   },
+   {
+    "sympy": "round(10**5*log(Rational(213333,1000)/(Rational(205889,1000)+Rational(74,10)), 10))",
+    "asserts": "equals 9 (entry at t=+7.4)"
+   },
+   {
+    "sympy": "round(10**5*log(Rational(213333,1000)/(Rational(205889,1000)+Rational(75,10)), 10))",
+    "asserts": "equals -11 (entry at t=+7.5)"
+   },
+   {
+    "sympy": "round(10**5*log(Rational(213333,1000)/(Rational(205889,1000)+8), 10))",
+    "asserts": "equals -113 (entry at t=+8.0)"
+   },
+   {
+    "sympy": "Rational(213333,1000)-Rational(205889,1000)",
+    "asserts": "normal temperature 7.444 deg R where the table vanishes (=48.75 F)"
+   },
+   {
+    "sympy": "Rational(4,5)*Rational(800,3)",
+    "asserts": "213.333 = 0.8*266.667, i.e. coefficient 1/266.67 per deg C expressed per deg Reaumur"
+   }
+  ],
+  "transcription_corrections": [
+   "Second column, eleventh row: the argument is -3,0. The leading digit is overwritten (it looks like 2 corrected to 3), so the '[?]' can be dropped.",
+   "Top of the third column reads '-0' (i.e. t = 0) with value +1542, repeated at the bottom of the second column as '0 +1542'.",
+   "Entry at t=-1.9 is 1945, with the final digit 5 written over a correction.",
+   "Entry at t=+1.5 is 1228, with the final 8 overwritten.",
+   "Entry at t=-7.1 is 3066, with an overwritten digit."
+  ]
+ }
+}

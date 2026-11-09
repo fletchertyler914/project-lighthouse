@@ -1,0 +1,51 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c464",
+ "label": "236ar",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000465/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (my interpretation; the page has no definitions and the next page is empty). This is a two-line computation on an otherwise blank sheet. The most plausible reading is a net of orthogonal coordinates u, v with line element ds^2 = r'^2 du^2 + r''^2 dv^2. Here a' and a'' are the angles that the unit tangents e1 = (1/r') dX/du and e2 = (1/r'') dX/dv make with a fixed axis. So cos a' and cos a'' are one Cartesian component of e1 and e2.\n\nFirst-order rules (implicit, my reconstruction; the term with p/Δ suggests an extra normal or third-direction component for a surface or a Lamé triply-orthogonal system):\n- d(cos a')/du = -(1/r'')(dr'/dv) cos a'' + ...\n- d(cos a')/dv = (1/r')(dr''/du) cos a'' + ...\n- d(cos a'')/du = (1/r'')(dr'/dv) cos a' + ...\n- d(cos a'')/dv = -(1/r')(dr''/du) cos a' - p/Δ (the term Riemann writes).\n\nLine 1: Riemann differentiates d(cos a')/du with respect to v:\nd2 cos a'/du dv = -d/dv[(1/r'') dr'/dv] cos a'' - (1/r'')(dr'/dv) * d(cos a'')/dv.\nInto the last factor he substitutes d(cos a'')/dv = -p/Δ - (1/r')(dr''/du) cos a'. He writes this as '· - p/Δ - (1/r') dr''/du cos a''', leaving the substitution unexpanded.\n\nLine 2: he differentiates d(cos a')/dv with respect to u:\nd2 cos a'/du dv = d/du[(1/r') dr''/du] cos a'' + (1/r')(dr''/du) * (1/r'')(dr'/dv) cos a'.\nThis uses d(cos a'')/du = (1/r'')(dr'/dv) cos a'.\n\nPurpose (my completion). Equating the two mixed derivatives, the cos a' terms (1/(r'r''))(dr'/dv)(dr''/du) cancel. Comparing the coefficients of cos a'' leaves:\nd/du[(1/r') dr''/du] + d/dv[(1/r'') dr'/dv] = (normal-component terms).\nIn the plane this right side is 0, which is the flatness condition for an orthogonal net. On a surface it equals -K r' r'', which is Gauss's curvature formula in orthogonal coordinates.\n\nRiemann stops before equating the two lines. The page is an integrability-condition (compatibility) computation for the frame equations of an orthogonal coordinate system.",
+  "errors": [
+   "In line 1 a leading 'cos a''' appears before the derivative; it is evidently a false start (overwritten or deleted) and is not part of the formula.",
+   "The factor '· - p/Δ - (1/r') dr''/du cos a'' stands for the substituted d(cos a'')/dv but is not multiplied out. The term p/Δ is undefined on this page, so its exact meaning cannot be checked.",
+   "The computation is unfinished: the two expressions are never equated, and the resulting curvature/flatness condition is not written down.",
+   "Under the reconstruction above, all signs that can be checked are consistent; the (1/(r'r''))(dr'/dv)(dr''/du) cos a' terms agree in both lines."
+  ],
+  "results": [
+   {
+    "what": "Mixed second derivative of a direction cosine of the coordinate-line tangent in an orthogonal net, computed in two orders to obtain an integrability condition",
+    "modern_name": "Compatibility (Gauss–Codazzi type) equations for the orthonormal moving frame of an orthogonal coordinate system; in the plane, the flatness condition d_u(r''_u/r') + d_v(r'_v/r'') = 0",
+    "usually_credited_to": "Gauss (Disquisitiones generales, 1827) for the curvature formula; Lamé (1830s–1859) for orthogonal curvilinear coordinate systems and their compatibility conditions; Liouville",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "A routine compatibility computation for orthogonal curvilinear coordinates, well established by Gauss and Lamé. Riemann's familiarity with such curvature calculations is well documented (Habilitationsvortrag 1854, Commentatio 1861). It may be connected to the elasticity/plate calculation on the previous page, but nothing here is novel.",
+  "checkable": [
+   {
+    "sympy": "u,v=symbols('u v',positive=True); rp=1; rpp=u; ca=cos(v); caa=-sin(v); simplify(diff(ca,u) - (-(1/rpp)*diff(rp,v)*caa))==0 and simplify(diff(ca,v) - (1/rp)*diff(rpp,u)*caa)==0",
+    "asserts": "In plane polar coordinates (r'=1, r''=u), the frame rules d(cos a')/du = -(1/r'')r'_v cos a'' and d(cos a')/dv = (1/r')r''_u cos a'' hold."
+   },
+   {
+    "sympy": "u,v=symbols('u v',positive=True); rp=1; rpp=u; ca=-sin(v); cb=cos(v); simplify(diff(ca,u) - (1/rpp)*diff(rp,v)*cb)==0 and simplify(diff(ca,v) + (1/rp)*diff(rpp,u)*cb)==0",
+    "asserts": "In polar coordinates, d(cos a'')/du = (1/r'')r'_v cos a' and d(cos a'')/dv = -(1/r')r''_u cos a' hold (here cos a'' = -sin v, cos a' = cos v, and the p/Δ term vanishes)."
+   },
+   {
+    "sympy": "u,v=symbols('u v',positive=True); rp=1; rpp=u; simplify(diff(diff(rpp,u)/rp,u)+diff(diff(rp,v)/rpp,v))==0",
+    "asserts": "The flatness condition obtained by equating the two lines holds for a plane orthogonal net."
+   },
+   {
+    "sympy": "u,v=symbols('u v',positive=True); rp=1; rpp=sin(u); simplify(-(diff(diff(rpp,u)/rp,u)+diff(diff(rp,v)/rpp,v))/(rp*rpp))==1",
+    "asserts": "On the unit sphere (r'=1, r''=sin u), the same combination gives Gaussian curvature K = 1, consistent with the general (normal-term) version."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the leading 'cos a''' before the derivative appears to be a deleted or false start; the intended formula begins '= -d((1/r'') dr'/dv)/dv cos a'''.",
+   "Line 1: '· - p/Δ - (1/r') dr''/du cos a'' is the substituted factor d(cos a'')/dv (it should be read inside parentheses); the '[?]' is unnecessary.",
+   "A small mark '2' (or similar) stands at the left margin of line 2; it is not part of the formula.",
+   "The folio number at the right margin reads '236a'."
+  ]
+ }
+}

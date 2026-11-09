@@ -1,0 +1,57 @@
+{
+ "bundle": "600_1",
+ "page": "c124",
+ "label": "115",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000125/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (pp. 114–116). The page belongs to an exposition of the correspondence between linear substitutions and bilinear forms, in the style of Frobenius 1878. It probably comes from lecture notes; the preceding text on p. 114 is an unrelated invariant-theory argument.\n\nSetup from p. 114: a general binary substitution S: x1' = a11 x1 + a12 x2, x2' = a21 x1 + a22 x2. In matrix form x' = A x with A = (alpha_ik). Its associated bilinear form is phi = u1(a11 x1 + a12 x2) + u2(a21 x1 + a22 x2) = u^T A x.\n\nStep 1 (this page). After S, a second substitution T is applied: x'' = B x' with B = (beta_ik). The product, written ST (meaning first S, then T), is x'' = B A x. Hilbert writes out only the first coefficient: x1'' = (alpha11 beta11 + beta12 alpha21) x1 + ... . This is the (1,1) entry of BA. The remaining entries are left as dashes. My completion: x1'' = (b11 a11 + b12 a21) x1 + (b11 a12 + b12 a22) x2 and x2'' = (b21 a11 + b22 a21) x1 + (b21 a12 + b22 a22) x2.\n\nStep 2. A Fraktur letter (B, later K) denotes the map 'substitution -> its bilinear form'. So B(S) = phi = u^T A x.\n\nStep 3. For the transformed substitution T S T^{-1}, the form is written in new variables omega (contravariant) and xi (covariant): B(TST^{-1}) = sum_{i,k} a_ik omega_i xi_k = x1'' omega1 + x2'' omega2. Here x'' is to be expressed in xi, and (p. 116) xi = B x. Since x = B^{-1} xi, we get x'' = B A x = (B A B^{-1}) xi. So (a_ik) = B A B^{-1}, and the page's T S T^{-1} must be read as the matrix product B A B^{-1}.\n\nStep 4 (completed on p. 116). How is B(TST^{-1}) obtained from B(S)? Compute omega^T x'' = omega^T B A x = (B^T omega)^T A x. Hence B(TST^{-1}) arises from B(S) = u^T A x by the substitutions x -> B^{-1} xi (i.e. xi = Bx) and u = B^T omega, i.e. u1 = b11 w1 + b21 w2, u2 = b12 w1 + b22 w2. These are exactly the formulas on p. 116.\n\nPurpose. Conjugating (similarity-transforming) a substitution corresponds to transforming its bilinear form by a cogredient/contragredient pair of substitutions. This is the basis for classifying substitutions up to similarity via bilinear forms (Weierstrass–Kronecker–Frobenius elementary divisors).",
+  "errors": [
+   "Composition-order notation is not consistent. 'ST' is used for 'first S then T' (matrix BA). Under that left-to-right convention, the matrix B A B^{-1} computed for 'TST^{-1}' would be written T^{-1} S T. The label TST^{-1} matches the right-to-left (matrix-product) convention instead. The mathematics is correct once B A B^{-1} is understood.",
+   "The coefficients a_ik on this page are not defined. Implicitly they are the entries of B A B^{-1}.",
+   "The product ST is left mostly unwritten (dashes). The one written coefficient, alpha11 beta11 + beta12 alpha21, is correct.",
+   "Next page (transcription): '(beta21 x1' + beta2 x2'')' should read beta22 x2'. This is a slip in the manuscript or in the transcription."
+  ],
+  "results": [
+   {
+    "what": "Composition of two binary linear substitutions corresponds to matrix multiplication (coefficient of x1 in x1'' is b11 a11 + b12 a21)",
+    "modern_name": "matrix product / composition of linear maps",
+    "usually_credited_to": "Cayley (1858), Eisenstein; standard",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Correspondence substitution <-> bilinear form u^T A x, with the conjugate substitution B A B^{-1} corresponding to the form transformed by xi = Bx and u = B^T omega (contragredient transformation)",
+    "modern_name": "similarity transformation of a matrix vs. cogredient/contragredient transformation of a bilinear form (Frobenius' symbolic calculus of bilinear forms)",
+    "usually_credited_to": "Frobenius 1878 ('Über lineare Substitutionen und bilineare Formen'); Weierstrass 1868, Kronecker",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is textbook material from Frobenius' 1878 theory of substitutions and bilinear forms, apparently written as lecture or study notes. Nothing here is original or non-standard.",
+  "checkable": [
+   {
+    "sympy": "a11,a12,a21,a22,b11,b12,b21,b22=symbols('a11 a12 a21 a22 b11 b12 b21 b22'); A=Matrix([[a11,a12],[a21,a22]]); B=Matrix([[b11,b12],[b21,b22]]); simplify((B*A)[0,0]-(a11*b11+b12*a21))==0",
+    "asserts": "Coefficient of x1 in x1'' for 'first S then T' is alpha11*beta11 + beta12*alpha21"
+   },
+   {
+    "sympy": "x1,x2,w1,w2=symbols('x1 x2 w1 w2'); x=Matrix([x1,x2]); w=Matrix([w1,w2]); xi=B*x; u=B.T*w; simplify((w.T*(B*A*B.inv())*xi)[0]-(u.T*A*x)[0])==0",
+    "asserts": "The form of B A B^{-1} in (omega, xi) with xi = Bx equals the form of S, u^T A x, under u = B^T omega"
+   },
+   {
+    "sympy": "simplify((w.T*(B*A*B.inv())*xi)[0]-(w.T*B*A*x)[0])==0",
+    "asserts": "B(TST^{-1}) = x1''*omega1 + x2''*omega2 with x'' = B A x"
+   },
+   {
+    "sympy": "expand((B.T*w)[0]-(b11*w1+b21*w2))==0 and expand((B.T*w)[1]-(b12*w1+b22*w2))==0",
+    "asserts": "u1 = beta11 w1 + beta21 w2 and u2 = beta12 w1 + beta22 w2 (formulas on p. 116)"
+   }
+  ],
+  "transcription_corrections": [
+   "The crossed-out words before 'so entsteht' are most likely 'auf S an' (continuing 'Wende ich nun die Substitution S an' from p. 114), not 'auf Sau'.",
+   "The Fraktur symbol rendered \\mathfrak{B} (stands for 'Bilinearform') appears as K on the next page; the same letter is meant throughout.",
+   "On the ST line, x1 is unprimed as written ('x_1 +'), which is consistent with x'' expressed in the original variables."
+  ]
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "bundle": "Math.21",
+ "page": "c108",
+ "label": "52r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000109/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: a puzzle from the Leipzig 'Illustrirte Zeitung'. The unknowns x, y, z are the letter-numbers of the word DON. The page is dated 1852 Sept 22 on the continuation sheet. The numbering uses the 24-letter alphabet with I=J (A=1,...,I=9, K=10, L=11, M=12, N=13, O=14). So D=4, O=14, N=13, i.e. x=4, y=14, z=13 [interpretation mine]. Four equations are imposed on three unknowns:\n(1) xy - z = 43\n(2) xz - y = 38\n(3) yz - x = 178\n(4) xyz = 728.\n\nStep A (overdetermined shortcut). Combine each of (1),(2),(3) with (4) to get a quadratic in one unknown. Steps filled in by me:\n- From (1) with xy = 728/z: z^2 + 43z - 728 = 0, so z = 13 or z = -56.\n- From (2) with xz = 728/y: y^2 + 38y - 728 = 0, so y = 14 or y = -52.\n- From (3) with yz = 728/x: x^2 + 178x - 728 = 0, so x = 4 or x = -182.\nThe positive roots give x=4, y=14, z=13. Gauss remarks that only two of (1)-(3) are needed: e.g. (2),(3) fix x and y, and z then follows from (4).\n\nStep B (harder problem: drop (4), solve (1),(2),(3) alone).\n- From (1): z = xy - 43.\n- Substituting into (2): x^2 y - 43x - y = 38.\n- Substituting into (3): x y^2 - x - 43y = 178.\n- The first is linear in y: y = (43x+38)/(x^2-1).\n- Substituting into the second: x((43x+38)/(x^2-1))^2 - 43(43x+38)/(x^2-1) - x - 178 = 0.\n- Clearing the denominator (x^2-1)^2 gives x(43x+38)^2 - 43(43x+38)(x^2-1) - (x+178)(x^2-1)^2 = 0. The x^3 terms cancel (1849x^3 - 1849x^3).\n- Expanded: x^5 + 178x^4 - 2x^3 - 1990x^2 - 3292x - 1456 = 0.\n- This quintic has the two rational roots x=4 and x=-2.\n\nContinuation on the next page:\n- The quotient is x^3 + 180x^2 + 366x + 182.\n- With x = p-1 it becomes p^3 + 177p^2 + 9p - 5, with roots approximately 0.14451, -0.19553 and -176.94898.\n- Only x=4 is admissible as a letter-number, giving y=14, z=13.\n\nThe root x=-2 [check mine] gives y=-16, z=-11. This satisfies (1)-(3) but not (4), since xyz = -352.",
+  "errors": [
+   "No errors on this page: the elimination, the expanded quintic, and both rational roots check exactly.",
+   "Minor: the excluded values x = ±1 (where x^2-1 = 0) are not discussed. They yield no solution, since (2) would then force 0 = 81. So nothing is lost.",
+   "On the next page, the stated root x = -0.8554887 does not match p = 0.14451426 exactly (p-1 = -0.85548574). This is likely a transcription or reading issue on that page, not on this one."
+  ],
+  "results": [
+   {
+    "what": "Solving an overdetermined symmetric-looking system by pairing each equation with xyz=728 to get quadratics",
+    "modern_name": "elementary substitution / elimination",
+    "usually_credited_to": "folklore (routine algebra)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Elimination of z and y from (1)-(3) giving the quintic x^5+178x^4-2x^3-1990x^2-3292x-1456=0, with rational roots 4 and -2 found",
+    "modern_name": "elimination (resultant) and the rational root test",
+    "usually_credited_to": "classical (Newton/Bezout era methods)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a recreational newspaper puzzle solved by routine elimination and the rational root test. It is a charming biographical detail (Gauss in 1852 working a puzzle from the Illustrirte Zeitung) but mathematically elementary.",
+  "checkable": [
+   {
+    "sympy": "expand(x*(43*x+38)**2 - 43*(43*x+38)*(x**2-1) - (x+178)*(x**2-1)**2 + (x**5+178*x**4-2*x**3-1990*x**2-3292*x-1456))",
+    "asserts": "equals 0: the cleared equation equals minus the stated quintic"
+   },
+   {
+    "sympy": "factor(x**5+178*x**4-2*x**3-1990*x**2-3292*x-1456)",
+    "asserts": "(x-4)*(x+2)*(x**3+180*x**2+366*x+182)"
+   },
+   {
+    "sympy": "[ (x*y-z, x*z-y, y*z-x, x*y*z) for x,y,z in [(4,14,13)] ]",
+    "asserts": "gives (43,38,178,728)"
+   },
+   {
+    "sympy": "[ (x*y-z, x*z-y, y*z-x, x*y*z) for x,y,z in [(-2,-16,-11)] ]",
+    "asserts": "gives (43,38,178,-352): the second rational root satisfies (1)-(3) but not (4)"
+   },
+   {
+    "sympy": "solve(z**2+43*z-728, z), solve(y**2+38*y-728, y), solve(x**2+178*x-728, x)",
+    "asserts": "[-56,13], [-52,14], [-182,4]: the quadratics obtained by combining (1),(2),(3) with (4)"
+   },
+   {
+    "sympy": "expand((p-1)**3+180*(p-1)**2+366*(p-1)+182)",
+    "asserts": "p**3+177*p**2+9*p-5 (next page's substitution)"
+   }
+  ],
+  "transcription_corrections": [
+   "'Hier wird dann' — the image more likely reads 'Es wird dann'.",
+   "'genüge leisten' is correct (Genüge leisten sollen).",
+   "The order 'für z, y, x' is correct: (1),(2),(3) combined with (4) give quadratics in z, y, x respectively.",
+   "'(Buchstabenzahlen des Wortes Don)': D=4, O=14, N=13 in the alphabet with I=J, consistent with x=4, y=14, z=13."
+  ]
+ }
+}

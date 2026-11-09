@@ -1,0 +1,76 @@
+{
+ "bundle": "PH.Induktion",
+ "page": "c026",
+ "label": "14r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382427:00000027/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: This is a dated observation sheet headed 'März 15. Sternwarte', 'Temp 7°.3 Cent.' It records an experiment on the damping of a swinging magnetometer needle ('Kette offen' = circuit open, 'Kette geschlossen' = circuit closed). The induced currents in the closed multiplier circuit should increase the damping. It belongs to the Gauss–Weber induction and magnetometer work of the 1830s, but no year is written.\n\nColumns, for each turning point n (numbered half-swings):\n(a) n.\n(b) A clock time for the first entry of each block: 10h10'38\", 17'38\", 21'57\", 29'0\", 33'15\", 40'18\".\n(c) A scale reading near 1000, probably the computed rest point or equilibrium. It drifts: 1008.5 (open), 1007 (open), 1001 then 998.5 (closed), 1003.4 then 1001.8 (open).\n(d) The swing amplitude a_n in scale divisions.\n(e) log10(a_n) to 5 decimals.\n\nVerified by me: column (e) is log10 of column (d). Examples: log10(1416.5)=3.15122, log10(1361.5)=3.13401, log10(1101.6)=3.04202, log10(969.15)=2.98639.\n\nEach block of four consecutive logs is averaged (the brackets):\n- Open: L1 = (3.15298+3.15122+3.14938+3.14745)/4 = 3.1502575 (written 3.15025.75). L2 = (3.13402+3.13220+3.12989+3.12778)/4 = 3.1309725 (written 3.13097.25).\n- Closed: L3 = (3.11426+3.10685+3.09973+3.09251)/4 = 3.1033375. L4 = (3.04203+3.03481+3.02704+3.01982)/4 = 3.030925.\n- Open again: L5 = (3.00608+3.00406+3.00221+3.00045)/4 = 3.0032. L6 = (2.98639+2.98480+2.98318+2.98141)/4 = 2.983945.\n\nPaired blocks are 10 swings apart (1–4 vs 11–14, 17–20 vs 27–30, 33–36 vs 43–46). The margin differences are in units of 1e-4:\n- L1−L2 = 0.019285 → '192.85'.\n- L3−L4 = 0.0724125 → '724.125'.\n- L5−L6 = 0.019255 → written '192.58'.\n\nHence (my inference) the logarithmic decrement per swing in log10 is:\n- λ_open ≈ 0.001928,\n- λ_closed ≈ 0.007241.\n\nIn natural logs these are ≈0.00444 and ≈0.01667. The excess λ_closed − λ_open ≈ 0.00531 measures the electromagnetic (induction) damping exerted by the closed circuit. Averaging four logs and differencing blocks 10 swings apart is Gauss's standard way of getting a robust decrement.\n\nThe timings give 10 swings ≈ 420–423 s, i.e. about 42 s per numbered swing. The next page continues the alternation with the same results: open ~197, closed ~722.7 and ~741.",
+  "errors": [
+   "Margin value '192.58' for the second open-circuit pair: from the listed logs, 3.0032 − 2.983945 = 0.019255, i.e. 192.55. This is a small slip, or a 5 misread as 8.",
+   "Row 1: log10(1422.75)=3.15313, but 3.15298 is written. 3.15298 corresponds to amplitude 1422.25, so either the amplitude or the log carries a slip of 0.5 division.",
+   "Row 4: log10(1404.75)=3.14760, but 3.14745 is written. 3.14745 corresponds to 1404.25, the same kind of 0.5-division discrepancy.",
+   "Row 17: log10(1300.55)=3.11413, but 3.11426 is written. 3.11426 corresponds to 1300.95, so the amplitude may actually read 1300.95.",
+   "Minor last-digit rounding differences: row 3 has 3.14938 vs 3.14937, row 14 has 3.12778 vs 3.12780, row 36 has 3.00045 vs 3.00046. These are negligible."
+  ],
+  "results": [
+   {
+    "what": "Determination of the logarithmic decrement of a freely oscillating magnetometer from block means of log amplitudes 10 swings apart (log10 decrement ≈0.00193 per swing)",
+    "modern_name": "logarithmic decrement of a damped oscillator",
+    "usually_credited_to": "Gauss and Weber (Göttingen Magnetic Union, 1830s); the concept is standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Comparison of damping with the circuit open vs closed (decrement rises to ≈0.00724), isolating the damping due to induced currents",
+    "modern_name": "electromagnetic (eddy-current/induction) damping; galvanometer damping by circuit resistance",
+    "usually_credited_to": "Gauss and W. Weber (induction experiments 1830s; Weber's damper/'Dämpfer')",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine experimental log of the well-documented Gauss–Weber induction and damping measurements at the Göttingen observatory: amplitudes, their logarithms, block means and decrements. The method and the phenomenon are already known to be theirs.",
+  "checkable": [
+   {
+    "sympy": "N(log(1416.5,10),7)",
+    "asserts": "≈3.151216, matching 3.15122"
+   },
+   {
+    "sympy": "N(log(1422.75,10),7) - 3.15298",
+    "asserts": "≈0.00015 discrepancy: row 1 log fits 1422.25 rather than 1422.75"
+   },
+   {
+    "sympy": "N(log(1300.55,10),7)",
+    "asserts": "≈3.11413, not 3.11426 (which fits 1300.95)"
+   },
+   {
+    "sympy": "(Rational('3.15298')+Rational('3.15122')+Rational('3.14938')+Rational('3.14745'))/4",
+    "asserts": "= 3.1502575"
+   },
+   {
+    "sympy": "(Rational('3.13402')+Rational('3.13220')+Rational('3.12989')+Rational('3.12778'))/4",
+    "asserts": "= 3.1309725"
+   },
+   {
+    "sympy": "(Rational('3.11426')+Rational('3.10685')+Rational('3.09973')+Rational('3.09251'))/4 - (Rational('3.04203')+Rational('3.03481')+Rational('3.02704')+Rational('3.01982'))/4",
+    "asserts": "= 0.0724125 (margin 724.125)"
+   },
+   {
+    "sympy": "(Rational('3.00608')+Rational('3.00406')+Rational('3.00221')+Rational('3.00045'))/4 - (Rational('2.98639')+Rational('2.98480')+Rational('2.98318')+Rational('2.98141'))/4",
+    "asserts": "= 0.019255, not 0.019258 as written"
+   },
+   {
+    "sympy": "N(log(969.15,10),7)",
+    "asserts": "≈2.986391, matching 2.98639"
+   }
+  ],
+  "transcription_corrections": [
+   "Margin difference '192.58' is as written, but the arithmetic gives 192.55.",
+   "Row 17 amplitude may read 1300.95 rather than 1300.55; the written log 3.11426 implies 1300.95.",
+   "Row 46 rest value: the image shows '1001.85' with a possibly overwritten digit; it could be 1002.85.",
+   "The mean '2.98394.5' has its final 5 written over another digit.",
+   "Bracket values like '3.15025.75' denote 3.1502575; the margin figures 192.85, 724.125 and 192.58 are differences in units of 1e-4."
+  ]
+ }
+}

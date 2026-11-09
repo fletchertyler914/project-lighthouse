@@ -1,0 +1,70 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c069",
+ "label": "34v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000070/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (my reconstruction from this page and the previous one). A uniformly covered circular plate (disc) of radius R has its axis along the x-axis. The 'Bild der Platte auf der Kugel' is the central projection of the disc onto a sphere around the observation point, i.e. the solid angle Omega subtended by the disc. The 'gesuchte Fläche' is the level surface Omega = const through a given axis point p = (h, 0). The physical role is my inference: Omega is the potential of a uniform double layer, or magnetic shell, on the disc, i.e. of a circular current. By symmetry this surface is a surface of revolution about the x-axis. So it suffices to study its meridian curve in a plane through the axis. That plane cuts the disc in the diameter AB, with A = (0, R) and B = (0, -R) in meridian coordinates (x, y).\n\nStep 1 (previous page, finished at the top of this page): the circle through A, B and p. Its centre is ((h^2 - R^2)/(2h), 0) and its radius is (h^2 + R^2)/(2h) (my computation). By the inscribed-angle theorem, AB is seen under the same angle from every point of this circle. Moving along the circle away from p, the cone opening perpendicular to the meridian plane grows. Hence the solid angle grows along the circle, and Omega is even larger inside the region between circle and plate. Conclusion (as corrected by the insertions): no point of the sought curve lies between this circle and the plate.\n\nStep 2 (this page): the ellipse with foci A and B (the plate's diameter AB as 'Centrallinie') passing through p. Its semi-axes are b = h along x and a_maj = sqrt(h^2 + R^2) along y. Parametrize p' = (h cos t, a_maj sin t), with t = 0 at p. The normal at p' bisects the angle between the focal radii p'A and p'B. It meets AB at the point a = (0, y0 R^2/a_maj^2), where y0 = a_maj sin t.\n\nRiemann claims that, seen from p', the image has its largest extent along the chord of the disc that passes through a and is perpendicular to the meridian plane. He measures this extent by the ratio (half-chord, or 'ordinate', of the disc at a) / |p'a|. He asserts that |p'a| decreases much more slowly than the ordinate as p' moves away from p. Hence this extent, and the whole image, shrinks along the ellipse. So the solid angle on the ellipse is at most its value at p, and the sought meridian curve lies between this ellipse and the circle of Step 1.\n\nMy check of Step 2: ordinate^2 = R^2 (1 - (R^2/a_maj^2) sin^2 t) and |p'a|^2 = h^2 (1 - (R^2/a_maj^2) sin^2 t). So the ratio ordinate/|p'a| = R/h is exactly constant on the ellipse. The angle subtended in the meridian plane is the angle Ap'B between the focal radii. It satisfies cos(Ap'B) = 2h^2/(a_maj^2 - R^2 sin^2 t) - 1, so it is maximal at p (end of the minor axis) and decreases away from it. The image therefore still shrinks, because the meridian width decreases while the transverse measure stays constant. The final bracketing conclusion is plausible, but not for the reason given.",
+  "errors": [
+   "The key justification is false. Along the confocal ellipse, |p'a| and the disc ordinate at a decrease at exactly the same relative rate: ordinate/|p'a| = R/h is identically constant. It is not true that p'a 'weit langsamer abnimt als die betreffende Ordinate'. The shrinking of the image must instead come from the decrease of the angle Ap'B between the focal radii, which Riemann does not invoke here.",
+   "The claim that the maximal extent of the image lies exactly along the chord through the foot a of the normal, perpendicular to the meridian plane, is asserted without proof and is at best heuristic.",
+   "Using 'extent in one direction' as a proxy for the solid angle is a heuristic comparison, not a proof that Omega(p') <= Omega(p). The argument establishes a bracketing region only qualitatively.",
+   "In Step 1, the claim that the perpendicular cone opening grows monotonically along the circle is plausible but unproved."
+  ],
+  "results": [
+   {
+    "what": "Level surface of the solid angle subtended by a uniform circular disc (potential of a uniform double layer / circular current) is a surface of revolution; its meridian through an axis point is bounded between the circle through the disc rim points and that point, and the ellipse with the rim points as foci through that point.",
+    "modern_name": "Equipotentials of a magnetic shell / solid-angle function of a disc (qualitative bounds)",
+    "usually_credited_to": "Solid-angle potential of a current loop: Ampère/Gauss (1830s-40s); explicit level surfaces via toroidal coordinates / elliptic integrals later (19th c.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Inscribed-angle theorem: a segment is seen under constant angle from a circular arc through its endpoints.",
+    "modern_name": "Inscribed angle theorem",
+    "usually_credited_to": "Euclid",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The normal of an ellipse bisects the angle between the focal radii, and it meets the major axis at a = e^2*y0.",
+    "modern_name": "Reflection property of the ellipse / foot of the normal",
+    "usually_credited_to": "Apollonius",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine qualitative geometry bounding a potential-theoretic level surface, probably connected with Weber-school electrodynamics or Riemann's Nobili-ring work. The only notable feature is a flawed step, and nothing here anticipates a later result.",
+  "checkable": [
+   {
+    "sympy": "h,R,t=symbols('h R t',positive=True); A=sqrt(h**2+R**2); x0=h*cos(t); y0=A*sin(t); ya=y0*R**2/A**2; simplify((R**2-ya**2)/(x0**2+(y0-ya)**2) - R**2/h**2)",
+    "asserts": "Equals 0: the ratio (disc ordinate at foot of normal)/|p'a| is constant R/h along the confocal ellipse, contradicting Riemann's 'decreases much more slowly' claim."
+   },
+   {
+    "sympy": "h,R,t=symbols('h R t',positive=True); A=sqrt(h**2+R**2); x0=h*cos(t); y0=A*sin(t); simplify(x0**2/h**2+y0**2/A**2-1)",
+    "asserts": "Equals 0: p' lies on the ellipse with foci (0,+-R) passing through p=(h,0)."
+   },
+   {
+    "sympy": "h,R,t=symbols('h R t',positive=True); A=sqrt(h**2+R**2); x0=h*cos(t); y0=A*sin(t); r1=sqrt(x0**2+(y0-R)**2); r2=sqrt(x0**2+(y0+R)**2); simplify((r1**2+r2**2-4*R**2)/(2*r1*r2) - (2*h**2/(A**2-R**2*sin(t)**2)-1))",
+    "asserts": "Equals 0: cos of the angle Ap'B equals 2h^2/(A^2-R^2 sin^2 t)-1, which increases with |sin t|, so the meridian angle is maximal at p."
+   },
+   {
+    "sympy": "h,R=symbols('h R',positive=True); c=(h**2-R**2)/(2*h); simplify((h-c)**2-(c**2+R**2))",
+    "asserts": "Equals 0: the circle with centre (c,0) passes through p=(h,0) and both rim points (0,+-R)."
+   },
+   {
+    "sympy": "h,R,t=symbols('h R t',positive=True); A=sqrt(h**2+R**2); x0=h*cos(t); y0=A*sin(t); ya=y0*R**2/A**2; simplify((x0-0)*(y0/A**2) - (y0-ya)*(x0/h**2))",
+    "asserts": "Equals 0: the point a=(0, y0*R^2/A^2) lies on the normal line of the ellipse at p'."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the insertion above the line reads 'kein Punkt der', so the intended sentence is 'also kein Punkt der gesuchten Curve fällt zwischen diesen Kreis und die Platte'. 'stets' and 'jenseits' are struck out, and the marginal 'zwischen' replaces 'jenseits'.",
+   "'Ellipsegewonnene' in the image is 'Ellipse gewonnene'. The inserted 'p'' is placed above 'Punkte'.",
+   "'(a)' is inserted above 'Fußpunkt', naming the foot point a.",
+   "The struck word before 'durch den betreffenden' is uncertain ('darin'/'deren').",
+   "'Radien Vektoren' = focal radii (Radii vectores)."
+  ]
+ }
+}

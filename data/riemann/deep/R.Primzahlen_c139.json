@@ -1,0 +1,75 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c139",
+ "label": "70v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000140/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 70v has no independent derivation that I can read. The image is extremely faint, and every legible trace sits in the same position as an item on the preceding page (70r). This points to show-through or offset of the facing writing (or a very washed-out duplicate image), not a fresh layer of work.\n\nThe traces correspond to these items of 70r:\n- top: zeta(s)=sum n^{-s} and Pi(s)zeta(s)=int_0^oo x^{s-1}/(e^x-1)dx;\n- the contour-integral line Pi(s)zeta(s)e^{pi i s}2 sin(pi s)=int x^{s-1}/(e^x-1)dx, with the residues at x=2 pi i n leading to zeta(1-s);\n- Prod(1-x^2/p^2);\n- log zeta(s) = -sum_p log(1-p^{-s});\n- zeta'/zeta(s) = -sum_p log p * p^{-s}/(1-p^{-s});\n- the representation of log zeta via a prime-counting step function f(x);\n- psi(s)=zeta(s)+zeta(2s)+... and psi(s)-psi(2s); the alternating chain -psi(3s)+psi(6s)-psi(5s)+psi(10s)+psi(15s)-psi(30s), i.e. Moebius inversion;\n- the terms x^{1/n-1}/log x and the integrals of dx/log x between a^{1/n} and b^{1/n};\n- d log Pi(x)/dx = psi(x), psi(x)=1/x+psi(x-1), i.e. the digamma recurrence;\n- the partial sum psi(n,s)=sum_1^n k^{-s} with its integral representation;\n- at the bottom: log p * s = 2 pi i n, hence x = p^{1/n}.\n\nThe last item is the poles/periodicity of 1/(1-p^{-s}) at s=2 pi i n/log p, which links the primes p to the prime powers p^{1/n}.\n\nMathematically, the content is the ingredient list of Riemann's 1859 paper:\n- Gamma integral for zeta;\n- loop integral and functional equation;\n- Euler product and log zeta;\n- Moebius inversion from Pi(x)=sum pi(x^{1/n})/n to pi(x) via li(x^{1/n}).\n\nThese are all reconstructed from 70r, since nothing beyond it is legible here. No new step can be attributed to 70v itself.",
+  "errors": [
+   "No independent content is legible on 70v, so there is nothing new to check.",
+   "The shadowed items mirror 70r. Their known slips (e.g. the factor/sign bookkeeping in the 2 sin(pi s) loop-integral line, written there as 'sin s pi i') belong to 70r, not to this page."
+  ],
+  "results": [
+   {
+    "what": "Show-through of: Pi(s)zeta(s)=int_0^oo x^{s-1}/(e^x-1)dx and the loop-integral derivation of the functional equation",
+    "modern_name": "Gamma-integral representation of zeta; Riemann's functional equation",
+    "usually_credited_to": "Riemann 1859 (integral representation earlier in Abel/Chebyshev contexts)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Show-through of: log zeta(s) = -sum_p log(1-p^{-s}) and the log-derivative",
+    "modern_name": "Euler product, logarithmic derivative of zeta",
+    "usually_credited_to": "Euler 1737",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Show-through of: psi(s)=sum_n zeta(ns) and the Moebius-type alternating chain over squarefree n",
+    "modern_name": "Moebius inversion of Pi(x)=sum pi(x^{1/n})/n",
+    "usually_credited_to": "Riemann 1859 (Moebius 1832 for the inversion formula)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Show-through of: d log Pi(x)/dx = psi(x), psi(x)=1/x+psi(x-1)",
+    "modern_name": "Digamma function recurrence",
+    "usually_credited_to": "Gauss/Legendre",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page carries no original writing. The faint traces reproduce material from 70r, which is itself the well-known groundwork of Riemann's 1859 paper.",
+  "checkable": [
+   {
+    "sympy": "simplify(digamma(x) - (1/(x-1) + digamma(x-1)))",
+    "asserts": "Digamma recurrence psi(x)=1/x+psi(x-1) in Riemann's Pi-convention, i.e. Gamma(x)=Pi(x-1); should be 0."
+   },
+   {
+    "sympy": "N(gamma(3)*zeta(3) - Integral(x**2/(exp(x)-1),(x,0,oo)))",
+    "asserts": "Gamma(s)zeta(s)=int_0^oo x^{s-1}/(e^x-1)dx at s=3; should be ~0."
+   },
+   {
+    "sympy": "N(zeta(Rational(1,2)+I) - 2**(Rational(1,2)+I)*pi**(-Rational(1,2)+I)*sin(pi*(Rational(1,2)+I)/2)*gamma(Rational(1,2)-I)*zeta(Rational(1,2)-I))",
+    "asserts": "Functional equation zeta(s)=2^s pi^{s-1} sin(pi s/2) Gamma(1-s) zeta(1-s) at s=1/2+i; should be ~0."
+   },
+   {
+    "sympy": "N(log(zeta(2)) - Sum(mobius(n)*0,(n,1,1)) - sum(-log(1-p**-2) for p in primerange(2,20000)))",
+    "asserts": "log zeta(2) = -sum_p log(1-p^{-2}) via a truncated Euler product; should be ~0 (small truncation error)."
+   },
+   {
+    "sympy": "N(log(zeta(2)) - sum(mobius(n)*0 for n in [1]) - sum(sum(mobius(k)/k*0 for k in [1]) for _ in [1]))",
+    "asserts": "Placeholder sanity line; the meaningful check is the next one."
+   },
+   {
+    "sympy": "N(sum(mobius(n)*sum(zeta(n*m*2) for m in range(1,40)) for n in range(1,40)) - zeta(2))",
+    "asserts": "Moebius inversion of psi(s)=sum_m zeta(ms): sum_n mu(n) psi(ns) = zeta(s), tested at s=2 and truncated; should be ~0."
+   }
+  ],
+  "transcription_corrections": [
+   "The page carries only show-through/offset of folio 70r and should be transcribed as blank or 'show-through of 70r'. The items listed in the machine transcription (Prod(1-x^2/...), Prod(1-1/p), d log Pi(x)/dx = psi(x), log p s, x=p^{1/n}) are traces of 70r's writing, not original entries on 70v."
+  ]
+ }
+}

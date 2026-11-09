@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c130",
+ "label": "79r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000131/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of what became Art. 3 of Riemann's 1860 paper 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'. The draft treats the isothermal case (Boyle's law, pressure = a^2*rho, constant sound speed a, written alpha = a in the log terms). The page uses the Riemann invariants p and q, normalised here as 4*alpha*p = u + alpha*log(rho), with q the analogue built from alpha*log(rho) - u.\n\nThe preceding page established the setup. Initially p = p1, q = q1 for x < x1 and p = p2, q = q2 for x > x2. After a finite time the disturbance splits into two simple waves:\n- a forward wave in which q = q2 and p varies;\n- a backward wave in which p = p1 and q varies.\n\n(1) Forward wave. Since q = q2 is constant, each value of p fixes u and rho. The relation is alpha*log(rho) = alpha*log(rho2) + w, with w the velocity measured from the rest state, i.e. u when u2 = 0. Each such state is carried with the constant speed dx/dt = a + u along a straight characteristic. Larger rho means larger u, which means a larger propagation speed.\n\n(2) Backward wave. Here p = p1 and alpha*log(rho) = alpha*log(rho1) - w. States move backward with speed a - u, i.e. dx/dt = u - a. Larger rho means smaller u, which means faster backward motion.\n\n(3) Consequence (my explicit step). Take two states in the same wave with speeds c_A and c_B. Their separation changes as L(t) = L(0) + (c_front - c_back)*t, which is exactly linear in t. In the isothermal case c_front - c_back = Delta u = a*Delta(log rho).\n- In a rarefaction wave (lower density behind the front, in the direction of travel) the width grows proportionally to time.\n- In a condensation (compression) wave the width shrinks proportionally to time.\n\n(4) A compression wave therefore reaches zero width after the finite time T = L0/(a*Delta log rho). Beyond that the solution cannot stay continuous: the condensation becomes a jump ('Verdichtungsstoß', shock).\n\n(5) The fragments at the bottom are two things:\n- the normalisation 4*alpha*p = u + alpha*log(rho);\n- a rewording of the initial-value statement (p, q constant outside [x1, x2], arbitrary inside), with a reference to 'S. 3'.\n\nThe next page goes on to treat the jump conditions (rho1*v1 = rho2*v2, the momentum balance, v1 = ±a*sqrt(rho2/rho1)) and the Riemann-function method.",
+  "errors": [
+   "No mathematical errors. The 'Breite proportional der Zeit' claim is exact here, since every state moves along a straight characteristic with fixed speed.",
+   "The normalisation 4*alpha*p = u + alpha*log(rho) differs from the published one (r, s = (f(rho) ± u)/2). This is only a convention, but the factor 4 does not obviously match the p, q used elsewhere in the draft.",
+   "The words 'zu derselben p' in the forward wave and the formulas alpha*log(rho) = alpha*log(rho2) + w tacitly take the reference velocity in the undisturbed region to be zero (w = u - u2)."
+  ],
+  "results": [
+   {
+    "what": "Simple-wave (one invariant constant) solution: each state propagates with constant speed u ± a",
+    "modern_name": "Riemann simple waves / characteristics, Riemann invariants",
+    "usually_credited_to": "Riemann 1860 (with Earnshaw 1858/60, Poisson, Stokes for special cases)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Rarefaction waves widen and compression waves narrow linearly in time",
+    "modern_name": "Wave steepening / nonlinear distortion of simple waves",
+    "usually_credited_to": "Stokes 1848, Earnshaw, Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Compression wave reaches zero width in finite time, so a discontinuity (Verdichtungsstoß) must form",
+    "modern_name": "Gradient catastrophe / shock formation",
+    "usually_credited_to": "Stokes 1848; Riemann 1860 (shock waves in gas dynamics)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of material printed in Riemann's 1860 Luftwellen paper: simple waves, steepening, finite-time shock formation. It is well known as his; only the draft wording and normalisation are new.",
+  "checkable": [
+   {
+    "sympy": "x,t,a,rho2=symbols('x t a rho2',positive=True); u=Function('u')(x,t); rho=rho2*exp(u/a); ut=-(u+a)*diff(u,x); cont=simplify((diff(rho,t)+diff(rho*u,x)).subs(Derivative(u,t),ut)); mom=simplify((diff(u,t)+u*diff(u,x)+a**2*diff(rho,x)/rho).subs(Derivative(u,t),ut)); (cont,mom)",
+    "asserts": "rho = rho2*exp(u/a) with u_t = -(u+a)u_x (forward simple wave) satisfies isothermal continuity and momentum equations (both give 0)."
+   },
+   {
+    "sympy": "L0,a,dl,t=symbols('L0 a dl t',positive=True); solve(L0 - a*dl*t, t)",
+    "asserts": "A compression wave of initial width L0 and log-density jump dl reaches zero width at t = L0/(a*dl) (finite-time shock)."
+   },
+   {
+    "sympy": "u,a,rho1=symbols('u a rho1'); rho=rho1*exp(-u/a); diff(u-a,u)",
+    "asserts": "In the backward wave the speed u - a decreases as u decreases, i.e. as rho increases, so denser states move backward faster."
+   }
+  ],
+  "transcription_corrections": [
+   "'In beiden Wellen nimmt daher die Breite einer Verdünnungswelle proportional der Zeit zu, die einer Verdichtungswelle proportional der Zeit ab' is a correct reading; the struck text above it reads 'die Verdichtungswellen immer schmaler, die Verdünnungswellen immer breiter'.",
+   "Final sentence of the main paragraph is likely '... oder es muß die Verdichtung sprungweise [plötzlich] geschehen' rather than 'sprunghaft[?] ...'.",
+   "The superscript annotations above 'Verdichtungswelle' in the line 'Ein vorwärts schreitender ...' appear to read 'Verdichtungsstoß' / 'Verdichtung'.",
+   "Bottom fragment likely reads 'allmählich anschwellend'; the struck one above likely reads 'allmählich schwindend'."
+  ]
+ }
+}

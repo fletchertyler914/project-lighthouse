@@ -1,0 +1,73 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c122",
+ "label": "60r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000123/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the part of Riemann's Habilitationsschrift (1854, publ. 1867), 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe', that deals with functions having only finitely many maxima and minima. That is the case Dirichlet's 1829 proof covers. The previous page proves that the Fourier coefficients of an integrable f tend to 0 (Riemann–Lebesgue). The next page gives the local criteria I and II for the series Ω.\n\nProgramme (lines 1–4). For a function without infinitely many maxima and minima, Riemann wants to find the conditions under which it is still representable by Dirichlet's proof.\n\nRemark 1. Such a function can be integrated only where it does not become infinite. Obviously it can become infinite at only finitely many argument values.\n- My filling: on each monotone piece f can be unbounded only at an endpoint, and there are finitely many pieces.\n\nRemark 2 (Dirichlet's local lemma). Write the partial sum as\nS_n(x) = (1/2π) ∫_{-π}^{π} f(t) · sin((2n+1)(x-t)/2) / sin((x-t)/2) dt\n(Dirichlet kernel; the normalisation is mine).\n- Dirichlet's proof settles that if f increases (monotonically) towards its limit f(x+0), then ∫_x^{x+b} f(t)·[kernel] dt tends to π f(x+0). Read with the half-angle kernel as written, the value is π f(x+0) (my normalisation). The page shows π/2, which fits the kernel sin((2n+1)u)/sin u; see errors.\n- Combine this with the earlier theorem: when the terms of the series tend to 0 at x, convergence depends only on the behaviour of f in an infinitely small neighbourhood of x.\n- Conclusion: in this case the series always converges to (f(x+0)+f(x-0))/2, provided this value is finite.\n\nRemark 3 (localisation). Take the integral formulas for the n-th term and for the n-th partial sum. Dirichlet's proof also shows that the contribution of all places tends to 0 as n→∞, except:\n- the points where f becomes infinite;\n- the points infinitely near the argument x.\nIt also shows that ∫_x^{x+b} f(t)·kernel dt (for small b, where f stays finite between the limits) converges to the stated value, provided f is monotone ('stetig zu- oder abnimmt') there.\n\nRemaining question. It only remains to determine when the contribution of the points where f becomes infinite tends to 0 for n→∞.\n- Dirichlet showed this incidentally under the hypothesis that f admits integration near the singular point (∫|f| finite).\n- Riemann remarks that this hypothesis is not necessary, and that the question is therefore not settled.\n- The next page develops the point: contributions from points symmetric about x can cancel, e.g. principal-value-type singularities.\n\nLast lines. They begin recalling the earlier result (from the coefficient section): if the terms of the series tend to 0 for every x, then f(x) ... (continued on the next page as Satz I).",
+  "errors": [
+   "As written, the half-angle Dirichlet kernel sin((2n+1)u/2)/sin(u/2) integrated over (0,b) tends to π, not π/2. So the limit should be π f(x+0). The value π/2 f(x+0) corresponds to the kernel sin((2n+1)u)/sin(u) with ∫_0^b du. This is likely a normalisation slip in the draft (or a misreading of the bound on b as π/2 vs π).",
+   "The transcription '\\frac{\\pi}{2}(x+0)' omits f; it must be (π/2)·f(x+0) or π f(x+0).",
+   "The claim that 'a function with finitely many maxima/minima can become infinite only at finitely many points' is correct. The claim that it 'can be integrated only where it does not become infinite' is loose. The intended meaning is the Riemann (proper) integral; improper integrals are exactly what is discussed afterwards."
+  ],
+  "results": [
+   {
+    "what": "A function with finitely many maxima and minima can be unbounded only at finitely many points.",
+    "modern_name": "piecewise monotone functions have finitely many singularities",
+    "usually_credited_to": "Dirichlet 1829 (implicit); Riemann 1854/67",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Dirichlet's lemma: for f monotone near x, ∫_0^b f(x+u) sin((2n+1)u/2)/sin(u/2) du → π f(x+0).",
+    "modern_name": "Dirichlet's convergence theorem / Dirichlet–Jordan test (local form)",
+    "usually_credited_to": "Dirichlet 1829",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Combining 'terms → 0 at x' with the localisation principle and Dirichlet's lemma: the series converges to (f(x+0)+f(x-0))/2 for piecewise monotone f, even with singularities, if this value is finite.",
+    "modern_name": "Riemann localisation principle + Dirichlet test, extended to improperly integrable functions",
+    "usually_credited_to": "Riemann, Habilitationsschrift (1854, publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Remark that Dirichlet's integrability hypothesis near points where f is infinite is sufficient but not necessary for the singular contribution to vanish (symmetric cancellation).",
+    "modern_name": "principal-value / non-absolutely integrable singularities in Fourier series",
+    "usually_credited_to": "Riemann 1854/67",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of material that appears in Riemann's published Habilitationsschrift: the discussion of Dirichlet's proof for functions with finitely many extrema and possible infinities, and the localisation principle. It is well known as his. The draft only adds wording variants and a normalisation slip.",
+  "checkable": [
+   {
+    "sympy": "simplify(1 + 2*Sum(cos(k*u),(k,1,3)).doit() - sin(7*u/2)/sin(u/2))",
+    "asserts": "Dirichlet kernel identity for n=3: 1+2Σcos(ku) = sin((2n+1)u/2)/sin(u/2); should simplify to 0."
+   },
+   {
+    "sympy": "limit(Integral(sin(m*u)/u, (u, 0, b)).doit(), m, oo)  # with b>0",
+    "asserts": "Equals π/2. Since sin((2n+1)u/2)/sin(u/2) ~ 2 sin((2n+1)u/2)/u, the kernel integral over (0,b) tends to π, giving limit π f(x+0) for the half-angle kernel."
+   },
+   {
+    "sympy": "integrate(sin(n*(x-a)), (x, a, a+pi/n))",
+    "asserts": "Equals 2/n. This is the half-period integral behind the previous page's bound |∫ f sin n(x-a)| ≤ (2/n)(M-m) per interval."
+   },
+   {
+    "sympy": "integrate(1/(t*sqrt(Abs(t))), (t, -1, 1))",
+    "asserts": "Example of a non-absolutely integrable singularity (|t|^{-3/2}·sign t, odd) whose symmetric contributions cancel. It illustrates why Dirichlet's integrability hypothesis is not necessary (principal value 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'Auch lässt der Beweis dunkel[?]' (twice) should read 'Auch lässt der Beweis Dirichlet's ... nichts zu untersuchen übrig'.",
+   "'\\frac{\\pi}{2}(x+0)' should read '\\frac{\\pi}{2} f(x+0)'.",
+   "'die Grenze der f in unendlicher Reihe von x abhängt' is likely 'nur von dem Gange der f in unendlicher Nähe von x abhängt'.",
+   "'wenn man die Voraussetzung, dass die Function stetig [?] lässt' is likely '... dass die Function stetig zu- oder abnimmt, ... lässt' (monotonicity hypothesis).",
+   "Opening: 'Für eine solche Function ... diejenigen Voraussetzungen zu geben suchen, unter denen sie nach dem Dirichlet'schen Beweise der Darstellung noch fähig ist'.",
+   "'wo die Function unendlich wird ... und für den Argumentwerth der Reihe unendlich nah liegenden' should read 'der dem Argumentwerth unendlich nahe liegenden [Stellen]'."
+  ]
+ }
+}

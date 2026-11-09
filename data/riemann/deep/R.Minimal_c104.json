@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c104",
+ "label": "53r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000105/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is not by Riemann. It is the first leaf of a letter from Heinrich Weber, dated Königsberg, 21 January 1876 and signed on the next page. Weber was the editor of the first edition of Riemann's Gesammelte mathematische Werke (1876). He addresses the printer or publisher (Teubner) and asks for corrections to proof sheet (Bogen) 19, pp. 298-302. Those pages fall in the edited text of Riemann's posthumous memoir 'Ueber die Fläche vom kleinsten Inhalt bei gegebener Begrenzung', which Hattendorff worked up from Riemann's papers (Abh. Ges. Wiss. Göttingen 13, 1867). The passage in question is the minimal surface bounded by straight lines (a skew polygon), treated through the Gauss map. There is no derivation on the page; its mathematical content is in the replacement wording.\n\n(1) p. 298, line 2 from the bottom onward. Delete the old wording: 'which also satisfy differential equation (13). We now denote by H the quotient K2:K1 and set in general'. Replace it with: K1 and K2 are two solutions of a linear second-order ODE in t with real coefficients and real singular points, 'whose quotient K2:K1 = H yields an image of the positive t half-plane on the sphere bounded by arcs of great circles'. In modern terms, H is the Schwarz triangle (polygon) function. It maps the upper half-plane conformally onto a circular-arc polygon whose sides lie on great circles of the Riemann sphere, after stereographic projection. These are the spherical images of the straight boundary edges of the minimal surface.\n\nThen: 'The same is done by every expression of the form ...', followed by a formula that is not reproduced in the letter. (2) The p. 299 correction, 'where θ is real and α, α' are conjugate complex quantities', fixes that formula. It is evidently the general rotation of the sphere in stereographic coordinates, H ↦ e^{iθ}(H − α)/(1 + α' H) with α' = conj(α), or an equivalent form. Composing with a rotation carries great circles to great circles. So every such expression again maps the half-plane onto a great-circle polygon, congruent to the first. This is the correct statement: the quotient of two solutions is fixed only up to a Möbius transformation, and requiring the image to be a great-circle polygon restricts that transformation to the rotation group SU(2)/±1 ≅ SO(3).\n\n(3) p. 301, last line: change the number 7 to 10. On the next page, a further passage changes 7 and 3 to 10 and 6. These are evidently corrections to a parameter or constant count.\n\n(4) p. 302, line 2: after the constants b, c, e (the real singular points), insert 'of which one can give three arbitrary values by making a linear substitution with real coefficients for t'. This is the fact that PSL(2,R) acts sharply 3-transitively on the boundary R ∪ {∞} of the upper half-plane. So three real singular points can be normalized, for example to 0, 1, ∞.\n\nThe next page adds that Professor Schwarz has sent Weber his own copy with corrections, and asks for second proofs of Bogen 19. This explains the provenance: the corrections reflect H. A. Schwarz's 1860s-70s work on minimal surfaces and on conformal maps onto circular-arc polygons.",
+  "errors": [
+   "No mathematical errors are visible. The mathematical content consists of corrections of errors in the proof sheets (wrong constant counts 7→10 and 3→6; imprecise description of the quotient K2:K1 and its admissible transformations; missing remark on the normalization of the real singular points).",
+   "The formula referred to as 'every expression of the form' is not given in the letter, so the exact form of the rotation cannot be verified from this page alone."
+  ],
+  "results": [
+   {
+    "what": "The quotient of two solutions of a real linear second-order ODE maps the upper half-plane onto a circular-arc polygon (here bounded by great-circle arcs on the sphere, the Gauss image of a straight-line boundary).",
+    "modern_name": "Schwarz triangle/polygon functions; Schwarzian derivative; Weierstrass–Enneper/Riemann–Schwarz method for the Plateau problem with polygonal boundary",
+    "usually_credited_to": "Riemann (hypergeometric/minimal surface work, 1850s-60s), H. A. Schwarz (1865-1873), Weierstrass",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Admissible changes of the quotient that preserve the great-circle property are the sphere rotations e^{iθ}(H−α)/(1+conj(α)H).",
+    "modern_name": "SU(2)/±1 ≅ SO(3) acting by Möbius transformations on the Riemann sphere",
+    "usually_credited_to": "Classical (Cayley, Klein, Riemann)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Three of the real singular points can be prescribed arbitrarily by a real linear-fractional substitution of t.",
+    "modern_name": "Sharp 3-transitivity of PSL(2,R) on RP^1",
+    "usually_credited_to": "Classical",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is H. Weber's 1876 editorial correspondence giving printer's corrections to the Werke edition of Riemann's minimal surface memoir, partly prompted by Schwarz. It contains no new mathematics by Riemann. It is of modest historical interest for the editing of the Werke and for Schwarz's influence on the published text.",
+  "checkable": [
+   {
+    "sympy": "a,b=symbols('a b'); A=Matrix([[1,-(a+I*b)],[a-I*b,1]]); simplify(A*A.H - (1+a**2+b**2)*eye(2))",
+    "asserts": "The matrix of H -> (H - α)/(1 + conj(α) H), with α = a+ib and a, b real, is a scalar multiple of a unitary matrix, i.e. a rotation of the Riemann sphere. The result should be the zero matrix."
+   },
+   {
+    "sympy": "x,y,a,b,th=symbols('x y a b theta',real=True); H=x+I*y; al=a+I*b; w=exp(I*th)*(H-al)/(1+conjugate(al)*H); simplify((1+w*conjugate(w)) - (1+a**2+b**2)*(1+H*conjugate(H))/((1+conjugate(al)*H)*conjugate(1+conjugate(al)*H)))",
+    "asserts": "The spherical (chordal) normalization transforms correctly under the rotation, consistent with it being an isometry of the sphere. Expected result: 0."
+   },
+   {
+    "sympy": "t=symbols('t'); f=Function('f')(t); a,b,c,d=symbols('a b c d'); S=lambda g: diff(g,t,3)/diff(g,t)-Rational(3,2)*(diff(g,t,2)/diff(g,t))**2; simplify(S((a*f+b)/(c*f+d))-S(f))",
+    "asserts": "Invariance of the Schwarzian derivative under Möbius transformations: all quotients of two solutions of the same ODE differ by a Möbius map. Expected result: 0."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is the first leaf of a letter by H. Weber (signature and date, Königsberg 21 Jan 1876, on the following page), not a Riemann manuscript.",
+   "'Pag. 298 Z. 2 v. u. f.' = page 298, line 2 from the bottom and following ('folgende').",
+   "Line 4 of the struck passage reads '... die Differentialgleichung (13) befriedigen' (likely preceded by 'welche auch'); the transcription is essentially correct.",
+   "'von denen man dreien beliebige Werthe geben kann' – reading confirmed by sense ('dreien' = to three of them).",
+   "'positiven t Halbebene' = 'positiven t-Halbebene' (upper half-plane in t)."
+  ]
+ }
+}

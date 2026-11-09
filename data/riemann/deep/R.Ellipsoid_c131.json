@@ -1,0 +1,63 @@
+{
+ "bundle": "R.Ellipsoid",
+ "page": "c131",
+ "label": "61v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205083:00000132/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is §1 of Riemann's paper 'Ein Beitrag zu den Untersuchungen über die Bewegung eines flüssigen gleichartigen Ellipsoids' (Abh. Ges. Wiss. Göttingen 9, 1861). It extends Dirichlet's posthumous paper (edited by Dedekind) on self-gravitating homogeneous fluid ellipsoids.\n\nNotation. a, b, c are the principal semi-axes at time t. x, y, z are the coordinates of a fluid particle at time t. A subscript 0 marks initial values. At t = 0 the ellipsoid's principal axes coincide with the fixed coordinate axes.\n\nDirichlet's ansatz. The equations of motion can be satisfied by a motion that is linear in the initial positions, with coefficients depending only on t. In modern form, with X = (x0/a0, y0/b0, z0/c0)^T and F(t) = [[l, m, n], [l', m', n'], [l'', m'', n'']], this is\n(1) x = F X.\nThe initial configuration is |X| <= 1.\n\nBody-axis coordinates. Let (ξ, η, ζ) be coordinates in a moving frame whose axes are, at each instant, the principal axes of the ellipsoid. Then\n(2) ξ = A x,\nwhere A = [[α, β, γ], [α', β', γ'], [α'', β'', γ'']] is a matrix of direction cosines (α = cos(ξ,x), β = cos(ξ,y), etc.). The six conditions on A come from requiring ξ²+η²+ζ² = x²+y²+z² identically, i.e. A A^T = I (symmetric, hence 6 equations).\n\nMaterial-surface condition. The boundary always consists of the same particles. Hence ξ²/a²+η²/b²+ζ²/c² = |X|², with D = diag(a, b, c).\n\nImplicit step, made explicit here: by linearity both sides are quadratic forms in X. Their zero-level sets... more precisely, the boundary of the current ellipsoid is the image of |X| = 1, so the form on the left equals 1 on the unit sphere. By homogeneity of degree 2 it then equals |X|² for all X.\n\nThe page breaks off at 'setzt man also'. The next page completes the step:\n- D^{-1} A F X = B X with |B X| = |X|, so B is orthogonal (the α1, β1, … of eq. 3).\n- Solving gives F = A^T D B, i.e. l = aαα1 + bα'α1' + cα''α1'', etc. (eq. 4).\n- Exchanging the two frames transposes F.\n\nModern reading: this is the singular-value (polar-type) decomposition of the deformation gradient, F = R1 D R2, with two rotating frames and the axes as singular values. The page itself contains only the set-up: eqs. (1), (2), the orthogonality conditions, and the surface identity.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "The step 'so muss ξ²/a²+η²/b²+ζ²/c² = x0²/a0²+y0²/b0²+z0²/c0² sein' is asserted only from the boundary being a material surface. Strictly, it needs the (routine) remark that two quadratic forms agreeing on the unit sphere agree everywhere by homogeneity. Riemann leaves this implicit.",
+   "'Sechs Bedingungsgleichungen' is correct: the independent entries of A A^T = I."
+  ],
+  "results": [
+   {
+    "what": "Dirichlet's linear (affine-homogeneous) motion ansatz x = F(t) X for a self-gravitating fluid ellipsoid.",
+    "modern_name": "Dirichlet's homogeneous-deformation (affine) ansatz; Dirichlet–Dedekind–Riemann ellipsoids",
+    "usually_credited_to": "Dirichlet (posthumous, ed. Dedekind, 1860)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Body-frame direction cosines with six orthogonality conditions derived from invariance of ξ²+η²+ζ².",
+    "modern_name": "Orthogonal matrix / rotation of axes",
+    "usually_credited_to": "Euler, Lagrange (classical)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Material-boundary condition giving |D^{-1} A F X| = |X|. On the next page this leads to F = A^T D B with A, B orthogonal (two rotating frames).",
+    "modern_name": "Singular value decomposition of the deformation gradient (Riemann's two-frame representation)",
+    "usually_credited_to": "SVD generally: Beltrami 1873, Jordan 1874. In ellipsoid dynamics: Riemann 1861 (Riemann ellipsoids; cf. Chandrasekhar 1969)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is the fair-copy manuscript of the opening of Riemann's published 1861 ellipsoid paper. Its content (Dirichlet's ansatz and the two-frame set-up) is well known and attributed to him in the fluid-ellipsoid literature. Only the minor point that it anticipates the SVD (usually credited to Beltrami and Jordan) is of passing interest, and it is already in print.",
+  "checkable": [
+   {
+    "sympy": "A = rot_matrix_from_euler(p1,p2,p3); simplify(A*A.T - eye(3)) == zeros(3)",
+    "asserts": "Direction-cosine matrix A satisfies the six orthogonality conditions (A A^T = I), equivalent to ξ²+η²+ζ² = x²+y²+z²."
+   },
+   {
+    "sympy": "D=diag(a,b,c); F=A.T*D*B; Xv=Matrix([X1,X2,X3]); simplify(((D.inv()*A*F*Xv).T*(D.inv()*A*F*Xv))[0] - (Xv.T*Xv)[0]) == 0  (A,B orthogonal)",
+    "asserts": "With F = A^T D B, the surface identity ξ²/a²+η²/b²+ζ²/c² = |X|² holds identically."
+   },
+   {
+    "sympy": "F=A.T*D*B; F[0,0] - (a*A[0,0]*B[0,0] + b*A[1,0]*B[1,0] + c*A[2,0]*B[2,0]) == 0",
+    "asserts": "l = aαα1 + bα'α1' + cα''α1'' (component form of F = A^T D B, eq. 4 of next page)."
+   },
+   {
+    "sympy": "(A.T*D*B).T - (B.T*D*A) == zeros(3)",
+    "asserts": "Swapping the two coordinate frames (A<->B) transposes F, so l, m', n'' are unchanged and m<->l', n<->l'', n'<->m''."
+   }
+  ],
+  "transcription_corrections": [
+   "The insertion after 'β = cos ξ y' is '+ etc.' (an inserted 'etc.'), correctly marked; no formula is missing there.",
+   "In the final line before the break, the struck word is an abbreviated 'Flüssigkeits-' followed by 'Flüssigkeitstheilchen'; the transcription is essentially right.",
+   "In the last displayed equation the denominator of y0² is written b0² (overwritten, perhaps from b²); the intended reading is b0²."
+  ]
+ }
+}

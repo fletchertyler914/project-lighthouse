@@ -1,0 +1,55 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c100",
+ "label": "49r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000101/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the historical introduction (section 1) of Riemann's Habilitationsschrift 'Ueber die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published 1867). The previous page tells the string-vibration controversy (d'Alembert, Euler, D. Bernoulli, Lagrange) and Fourier's discovery. It then reports Poisson's habit of referring the Fourier representation back to Lagrange.\n\n(a) Opening (partly struck through). Riemann says this attribution can only be explained by a known rivalry (the reading is uncertain). To refute it he must return once more to Lagrange's work. The margin reference is to the Bulletin des sciences par la Société philomatique, t. I, p. 115. This is Poisson's 1808 report on Fourier's memoir.\n\n(b) The quoted formula. Riemann cites the Lagrange passage referred to: Miscellanea Taurinensia III, 'Recherches sur la nature et la propagation du son', the vibrating string of n beads. It reads\n  y = sum_{m=1}^{n} 2 ∫ Y sin(m X π) dX · sin(m x π),\n'de sorte que, lorsque x = X, on aura y = Y'.\nRead with ∫ as a true integral over [0,1] and n → ∞, this is exactly the Fourier sine series on [0,1]:\n  a_m = 2 ∫_0^1 f(X) sin(mπX) dX.\n\n(c) Riemann's analysis. The appearance is misleading. Lagrange's '∫ dX' is what one would today write 'Σ ΔX'. The formula actually solves a finite trigonometric interpolation problem:\n- Find the finite sine sum S(x) = a_1 sin πx + ... + a_n sin nπx.\n- It must take prescribed values Y_k at the n nodes X_k = k/(n+1), k = 1..n. Lagrange denotes these nodes generically by X.\n\nMy fill-in of the implicit step: the solution is\n  a_m = 2 Σ_{k=1}^{n} Y_k sin(mπ k/(n+1)) · ΔX, with ΔX = 1/(n+1).\nThis follows from the discrete orthogonality\n  Σ_{k=1}^{n} sin(mπk/(n+1)) sin(m'πk/(n+1)) = ((n+1)/2) δ_{mm'} for 1 ≤ m, m' ≤ n.\nHence S(X_j) = Y_j for every j. In modern terms this is the discrete sine transform (DST-I) and its inverse.\n\n(d) Lagrange's own words. Riemann quotes Lagrange to show he meant interpolation: 'je vais faire voir comment on peut trouver une infinité de telles courbes, qui coïncident avec une courbe donnée en un nombre quelconque de points aussi près les uns des autres qu'on voudra.'\n\n(e) Riemann's historical thesis. Reading the memoir shows Lagrange was far from believing that an arbitrary function is given by an infinite sine series with integral coefficients. He undertook the work precisely because he believed such arbitrary functions could not be expressed by one formula and so could not be treated by calculus (margin: 'diese willkürlichen F. lassen sich nicht durch eine Formel darstellen'). The next page continues: had Lagrange let n → ∞ he would have reached Fourier's result, but his approach (finite system first, then limits) was fixed in advance by the Euler–d'Alembert dispute.\n\nThe page contains two drafts of the same argument (middle paragraph and bottom paragraph). The bottom one is essentially the published wording.",
+  "errors": [
+   "No mathematical error. The interpolation reading with nodes k/(n+1) and coefficient factor 2·ΔX = 2/(n+1) is consistent and correct.",
+   "Citation slip: the page reference (Bulletin t. I, p. 115) differs from the printed footnote, which I recall as p. 112; Poisson's report spans those pages.",
+   "Possible source slip: the formula is said to be found 'an der von Fourier citirten Stelle'. In the printed text it is Poisson who points to Lagrange, so 'Poisson' may be intended or the transcription may be wrong.",
+   "Historical judgement (not a mathematical error): whether Lagrange 'nearly had' Fourier series is debated by historians. Riemann's reading, that Lagrange's ∫ denotes a finite sum, is accurate for the formula quoted."
+  ],
+  "results": [
+   {
+    "what": "Lagrange's finite sine-sum interpolation: S(x) = Σ_{m=1}^n a_m sin(mπx) with a_m = (2/(n+1)) Σ_k Y_k sin(mπk/(n+1)) interpolates the data at x = k/(n+1)",
+    "modern_name": "Discrete sine transform (DST-I) / trigonometric interpolation via discrete orthogonality",
+    "usually_credited_to": "Lagrange (1759, Misc. Taur. I/III); Euler and Clairaut also had related finite trigonometric sums",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical argument that Lagrange's ∫dX means ΣΔX, so he did not anticipate Fourier series",
+    "modern_name": "Historiography of Fourier series priority",
+    "usually_credited_to": "Riemann, Habilitationsschrift §1 (1854, publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the well-known historical section of Riemann's published Habilitationsschrift. The Lagrange ∫dX vs ΣΔX remark and the interpolation reading appear almost verbatim in the printed text. Only minor draft variants (rivalry remark, page number) are new.",
+  "checkable": [
+   {
+    "sympy": "n=6; [[simplify(sum(sin(m*pi*k/(n+1))*sin(mp*pi*k/(n+1)) for k in range(1,n+1)) - (Rational(n+1,2) if m==mp else 0)) for mp in range(1,n+1)] for m in range(1,n+1)]",
+    "asserts": "Discrete orthogonality: the sum is (n+1)/2·δ_{m,m'} for 1≤m,m'≤n (all entries zero)"
+   },
+   {
+    "sympy": "n=4; Y=symbols('Y1:5'); a=[Rational(2,n+1)*sum(Y[k-1]*sin(m*pi*k/(n+1)) for k in range(1,n+1)) for m in range(1,n+1)]; [simplify(sum(a[m-1]*sin(m*pi*j/(n+1)) for m in range(1,n+1)) - Y[j-1]) for j in range(1,n+1)]",
+    "asserts": "Lagrange's formula with ∫dX read as ΣΔX, ΔX=1/(n+1), interpolates: y(X_j)=Y_j at X_j=j/(n+1) (all zeros)"
+   },
+   {
+    "sympy": "m=symbols('m',integer=True,positive=True); simplify(2*integrate(sin(m*pi*X)**2,(X,0,1)))",
+    "asserts": "Continuous limit: the normalization 2∫_0^1 sin^2(mπX)dX = 1, i.e. Fourier sine coefficients on [0,1]"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'aus der bekannten Autorität gewisser Fourier'scher Physiker' is probably 'aus der bekannten Rivalität zwischen Fourier u. Poisson' (uncertain; the image shows 'Rivalität'-like word followed by 'Fourier u. Poisson'-like words).",
+   "'Bewegung in der Akademie' is uncertain; it may be a word like 'Strömung'/'Stimmung' with a different noun. Low confidence.",
+   "'an der von Fourier citirten Stelle' may be 'von Poisson citirten'; check the image.",
+   "In the formula line, '&c' is written 'cc' (i.e. etc.). The subscript after the final X in the French line is a stray mark, not an index.",
+   "'Sie entfällt die Lösung' / 'Sie giebt': the inserted word above is 'giebt', replacing struck 'enthält' (as in the printed text)."
+  ]
+ }
+}

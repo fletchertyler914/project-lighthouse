@@ -1,0 +1,64 @@
+{
+ "bundle": "Math.1",
+ "page": "c023",
+ "label": "[12v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000024/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is one sheet of a large hand-ruled table that runs across several folios. The previous folio has column primes 97 to 223. This folio has 227 to 359. The next folio has 367 to 503.\n\nLayout:\n- The 24 column headers, repeated at the foot, are the consecutive primes q = 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359. Heavy rules group them in sixes.\n- The sheet is cut into horizontal blocks. Only the lowest block is used. Its row labels are primes p between 950 and 1000: 953, a faint 971, 977, 983, 991, 997. The prime 967 is absent.\n- Rows 953 and 971 are empty. Small circles are entered only in rows 977, 983, 991 and 997.\n\nWhat the circles mean. I tested this by computing Legendre symbols with quadratic reciprocity, cell by cell. A circle in row p, column q means (q/p) = +1, that is, the column prime q is a quadratic residue modulo the row prime p.\n- For p = 977 (≡ 1 mod 4) the direction does not matter.\n- For p = 983 and 991 (≡ 3 mod 4) it does, and it settles the question. For example, (983/251) = −1 but (251/983) = +1, and 251 is circled in row 983. Likewise (991/239) = −1 but (239/991) = +1, and 239 is circled in row 991.\n\nSo the page is a strip of a table of quadratic characters: moduli p are the primes 953–997, and the residues tested are the primes q. It is a large extension, in form, of the tables of quadratic residues at the end of Disquisitiones Arithmeticae (Tabula II).\n\nCircled cells read from the image, each confirmed by computation:\n- Row 977: 227, 229, 269, 271, 277, 313, 317, 349, 353.\n- Row 983: 233, 251, 263, 269, 281, 293, 313, 337, 349, 353, 359.\n- Row 991: 227, 229, 239, 241, 251, 263, 277, 283, 311, 313, 349, 353.\n- Row 997: 227, 229, 257, 263, 269, 307, 311, 313, 331, 337.\n\nThe connecting lines. Short horizontal and vertical strokes join circles that sit in adjacent columns or adjacent rows. Examples:\n- the 2×2 square at 227/229 × 991/997;\n- the chain 269–271–277 in row 977, dropping through 269 (row 983) to 263 in rows 983, 991 and 997, and on to 257 and 269 in row 997;\n- the square block at 349/353 over rows 977–991, with a spur to 359 in row 983.\n\nThese strokes are a purely graphical aid. They make the residue pattern visible and easy to check; they carry no arithmetic content.\n\nMethod I assume (mine): each entry was obtained by reducing p mod q and evaluating (p mod q / q). Reciprocity, with its sign for p, q ≡ 3 mod 4, then converts this to (q/p). Equivalently, one could list the quadratic residues mod p directly.",
+  "errors": [
+   "Probable omission: (317/991) = +1. Indeed 991 ≡ 40 (mod 317), (2/317) = −1 and (5/317) = −1, so (40/317) = +1, and 317 ≡ 1 (mod 4). The cell row 991 / column 317 should therefore carry a circle. In the image the 307–317 cluster shows 317 circled only in row 977, so Gauss appears to have missed this entry (or the mark is too faint to see).",
+   "Every other cell in rows 977, 983, 991 and 997 agrees with the computed Legendre symbols, both marked and unmarked.",
+   "Rows 953 and 971 are left blank, and the row for 967 is missing altogether. The table is incomplete rather than wrong."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic characters (q/p) for row moduli p ∈ {977, 983, 991, 997} (953 and 971 ruled but empty) and prime arguments q from 227 to 359. A circle marks a quadratic residue. The sheet is part of a multi-folio table covering q from about 97 to 503.",
+    "modern_name": "Table of Legendre symbols / quadratic residue table",
+    "usually_credited_to": "Legendre (1798) and Gauss (Disquisitiones Arithmeticae 1801, Tabula II) for the first such tables; extensive tables later by Jacobi (Canon Arithmeticus, 1839) and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Graphical linking of adjacent residue entries into connected clusters, as a visual or checking aid",
+    "modern_name": "none (visual aid; resembles plotting a residue pattern)",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss is well known to have computed extensive quadratic residue tables, both in the Disquisitiones and in his Nachlass. This page is a routine, largely correct strip of such a table for moduli near 1000. The only mildly notable features are its range and the line-drawing visualization.",
+  "checkable": [
+   {
+    "sympy": "from sympy import primerange; from sympy.ntheory import legendre_symbol; [q for q in primerange(227,360) if legendre_symbol(q,977)==1] == [227,229,269,271,277,313,317,349,353]",
+    "asserts": "Row 977 circles are exactly the primes 227..359 that are quadratic residues mod 977"
+   },
+   {
+    "sympy": "from sympy import primerange; from sympy.ntheory import legendre_symbol; [q for q in primerange(227,360) if legendre_symbol(q,983)==1] == [233,251,263,269,281,293,313,337,349,353,359]",
+    "asserts": "Row 983 circles are exactly the quadratic residues q mod 983 (the direction (q/p) matters since 983 ≡ 3 mod 4)"
+   },
+   {
+    "sympy": "from sympy import primerange; from sympy.ntheory import legendre_symbol; [q for q in primerange(227,360) if legendre_symbol(q,991)==1] == [227,229,239,241,251,263,277,283,311,313,317,349,353]",
+    "asserts": "Computed residues mod 991; the manuscript shows all of these except 317 (probable omission)"
+   },
+   {
+    "sympy": "from sympy import primerange; from sympy.ntheory import legendre_symbol; [q for q in primerange(227,360) if legendre_symbol(q,997)==1] == [227,229,257,263,269,307,311,313,331,337]",
+    "asserts": "Row 997 circles are exactly the quadratic residues q mod 997"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; (legendre_symbol(251,983), legendre_symbol(983,251)) == (1,-1)",
+    "asserts": "The table records (q/p), not (p/q): 251 is circled in row 983"
+   },
+   {
+    "sympy": "from sympy.ntheory import legendre_symbol; legendre_symbol(317,991) == 1",
+    "asserts": "Cell 991/317 should be marked (apparently missing in the manuscript)"
+   }
+  ],
+  "transcription_corrections": [
+   "The left margin carries a faint row label 971 between 953 and 977. The machine transcription omits it, and the row is empty. The prime 967 has no row.",
+   "Marked cells: row 977 — 227, 229, 269, 271, 277, 313, 317, 349, 353; row 983 — 233, 251, 263, 269, 281, 293, 313, 337, 349, 353, 359; row 991 — 227, 229, 239, 241, 251, 263, 277, 283, 311, 313, 349, 353; row 997 — 227, 229, 257, 263, 269, 307, 311, 313, 331, 337.",
+   "The circles mean 'column prime is a quadratic residue of the row prime'. The lines join horizontally or vertically adjacent circles."
+  ]
+ }
+}

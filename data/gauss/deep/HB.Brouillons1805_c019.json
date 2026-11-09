@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c019",
+ "label": "[14]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000020/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (from the preceding pages, my reading): for m distinct quantities a,b,c,d,... put S^n = sum_i a_i^n / prod_{j!=i}(a_i - a_j). x^m - A x^{m-1} + B x^{m-2} - ... = (x-a)(x-b)... , so A,B,C,... are the elementary symmetric functions. Facts already in hand: S^n = 0 for 0<=n<=m-2, S^{m-1} = 1, S^m = A. S^n satisfies the linear recurrence S^n - A S^{n-1} + B S^{n-2} - ... = 0. T^n is S^n with a=0, and A',B',... are A,B,... with a=0. My addition: T^n then equals the m-1 variable sum S'^{n-1}(b,c,d,...). On the previous page it was shown that T^n satisfies the same order-m recurrence. Hence Z^n := S^n - a S^{n-1} - T^n satisfies it too (equation C): Z^n - A Z^{n-1} + B Z^{n-2} - ... = 0.\n\nThis page, §15 end: the goal is to prove Z^n = 0 for all n.\n(i) For 1<=n<=m-2: S^n = S^{n-1} = 0 and T^n = S'^{n-1} = 0 (n-1 <= (m-1)-2), so Z^n = 0. This justification is mine; the page only asserts it.\n(ii) For n = m-1: Z = 1 - a*0 - T^{m-1} = 1 - 1 = 0, since T^{m-1} = S'^{m-2} = 1.\n(iii) For n = m: Z = S^m - a S^{m-1} - T^m = A - a - A' = 0, because A = A' + a.\nSo Z^1,...,Z^m vanish: m consecutive zeros of an order-m linear recurrence. By (C), Z^{m+1}, Z^{m+2}, ... are all 0. Hence generally S^n = a S^{n-1} + T^n.\n\n§16: the closed form is found by induction on m.\n- m=2: S^0=0, S^1=1, S^2=a+b, S^3=aa+ab+bb, S^4=a^3+aab+abb+b^3, ... So S^n is the sum of all products of combinations with repetition of n-1 elements from {a,b}, i.e. h_{n-1}(a,b). Here T^1=1, T^2=b, T^3=bb, T^4=b^3 (T^n = b^{n-1}).\n- m=3: T^n is obtained from the m=2 values S^{n-1} by writing c for a. So T^0=0, T^1=0 (marginal note), T^2=1, T^3=b+c, T^4=bb+bc+cc, T^5=b^3+bbc+bcc+c^3. With S^0=S^1=0, S^2=1 the recursion gives S^3=a+b+c, S^4=aa+ab+ac+bb+bc+cc. In general S^n = h_{n-2}(a,b,c).\n  Combinatorial justification: the combinations of n-2 elements from {a,b,c} are (a times each combination of n-3 elements) plus (those with no a, i.e. combinations of n-2 elements from {b,c}). This is h_k(a,R) = a h_{k-1}(a,R) + h_k(R), exactly parallel to S^n = a S^{n-1} + T^n.\n- m=4 (begins here, continues on the next page): T^n comes from the m=3 values S^{n-1} with d written for a. So T^n = h_{n-3}(b,c,d).\n\nGeneral theorem (stated on the next page): S^n = h_{n+1-m}(a,b,c,...).",
+  "errors": [
+   "No mathematical errors on this page.",
+   "Unjustified step: Z^n = 0 for 1<=n<=m-2 is asserted without saying why. It needs T^n = S'^{n-1}(b,c,...) = 0 (with a=0, b^n/(b-0) = b^{n-1}), which is never stated explicitly.",
+   "The term Z^{m+1} is written twice in the sentence beginning 'Hieraus wird man finden'. This is a slip of the pen only.",
+   "The induction rests on Z^1,...,Z^m being exactly m consecutive zeros of an order-m recurrence. The argument handles this correctly but leaves it implicit."
+  ],
+  "results": [
+   {
+    "what": "Recursion S_m^n(a,b,...) = a S_m^{n-1} + S_{m-1}^{n-1}(b,c,...), proved by showing the difference satisfies the order-m linear recurrence and has m vanishing initial terms",
+    "modern_name": "Recurrence h_k(x1,...,xm) = x1 h_{k-1}(x1,...,xm) + h_k(x2,...,xm) for complete homogeneous symmetric polynomials (via divided differences of x^n)",
+    "usually_credited_to": "Classical (divided differences: Newton; symmetric functions: 18th-19th century)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "sum_i a_i^n / prod_{j!=i}(a_i-a_j) = sum of all monomials of degree n+1-m in a,b,c,... (combinations with repetition)",
+    "modern_name": "Divided difference of x^n equals the complete homogeneous symmetric polynomial h_{n-m+1}; Euler-Jacobi type identity",
+    "usually_credited_to": "Euler (vanishing cases and value 1, c. 1760s), general h-form: Jacobi (1825 dissertation on partial fractions) and others",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page carefully derives the classical identity that sum a_i^n / prod(a_i - a_j) equals the complete homogeneous symmetric polynomial h_{n-m+1}, using a recurrence argument. This was known to Euler and is standard; the page is an expository elaboration. The hand and style may not even be Gauss's own.",
+  "checkable": [
+   {
+    "sympy": "a,b,c=symbols('a b c'); S=lambda n: a**n/((a-b)*(a-c))+b**n/((b-a)*(b-c))+c**n/((c-a)*(c-b)); simplify(S(4)-(a**2+a*b+a*c+b**2+b*c+c**2))==0",
+    "asserts": "For m=3, S^4 = h_2(a,b,c)"
+   },
+   {
+    "sympy": "simplify(S(3)-(a+b+c))==0 and simplify(S(2)-1)==0 and simplify(S(1))==0 and simplify(S(0))==0",
+    "asserts": "For m=3: S^0=S^1=0, S^2=1, S^3=a+b+c"
+   },
+   {
+    "sympy": "T=lambda n: (b**(n-1)/(b-c)+c**(n-1)/(c-b)); all(simplify(S(n)-a*S(n-1)-T(n))==0 for n in range(1,8))",
+    "asserts": "S^n = a S^{n-1} + T^n with T^n = S^{n-1}(b,c) (S with a=0)"
+   },
+   {
+    "sympy": "a,b=symbols('a b'); simplify(a**4/(a-b)+b**4/(b-a)-(a**3+a**2*b+a*b**2+b**3))==0",
+    "asserts": "For m=2, S^4 = a^3+aab+abb+b^3"
+   },
+   {
+    "sympy": "simplify(T(5)-(b**3+b**2*c+b*c**2+c**3))==0",
+    "asserts": "For m=3, T^5 = b^3+bbc+bcc+c^3"
+   }
+  ],
+  "transcription_corrections": [
+   "The script letter written \\mathfrak{L}^n is the quantity Z^n defined on the previous page (Gauss's script Z).",
+   "Line 2 reads 'Eben so für n=m-1 wird Z^n = S^{m-1} - aS^{m-2} - T^{m-1} = 0'. The word 'ist' there is struck or extraneous.",
+   "Third line: 'und für n=m: Z^m = S^m - aS^{m-1} - T^m = A - a - A' = 0'.",
+   "m=3 values: the image reads T^0=0, (margin) T^1=0, T^2=1, T^3=b+c, T^4=bb+bc+cc, T^5=b^3+bbc+bcc+c^3, not 'T^1=1, T^2=b+c, ...' as machine-transcribed.",
+   "m=2 line: S^3 = aa+ab+bb and S^4 = a^3+aab+abb+b^3 are written over corrected indices.",
+   "'so wird S^n aus S^{n-1} und T^n gebildet' (S^{n-1}, as in the image)."
+  ]
+ }
+}

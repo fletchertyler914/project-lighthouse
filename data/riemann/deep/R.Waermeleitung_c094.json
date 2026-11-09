@@ -1,0 +1,47 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c094",
+ "label": "49r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000095/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is the title page and opening of Riemann's 'Commentatio mathematica, qua respondere tentatur quaestioni ab Ill.ma Academia Parisiensi propositae', his Paris prize essay on heat conduction. It was submitted on 1 July 1861; the receipt line 'Reçu le 1er Juillet 1861' at the top is struck through.\n\n(a) The Academy's question, quoted in French: find the thermal state of an indefinite homogeneous solid body such that a system of isothermal curves at a given instant remains isothermal at all later times. Equivalently, the temperature at a point should be expressible as a function of time and of two other independent variables.\n\n(b) The motto: 'Et his principiis via sternitur ad majora' ('and by these principles the way is paved to greater things').\n\n(c) §1, the plan. Riemann first solves a more general question: what must the conduction properties of the body and the heat distribution be for there to exist a system of lines that always remain isothermal? He then selects from the general solution the cases in which those properties are the same everywhere, i.e. the body is homogeneous.\n\n(d) Pars prima, §2. Heat motion in an arbitrary, possibly inhomogeneous and anisotropic, body. Let u(x1,x2,x3,t) be the temperature. The general conduction equation (I) is\n\n  sum_i d/dx_i ( sum_j a_{ij}(x) du/dx_j ) = h(x) du/dt,\n\nthat is, div(A grad u) = h u_t. Here A = (a_{ij}) is the conductivity tensor and h is the heat capacity per unit volume (specific heat times density), as the next page states.\n\nNothing is derived on this page; the equation is stated as known ('constat'). From the next page (my addition, for context): Riemann assumes a_{ij} = a_{ji} and A positive definite. He then obtains the coordinate transformation via the variational characterisation: (I) is the Euler–Lagrange condition for the Dirichlet-type integral ∫ sum a_{ij} u_i u_j dV together with a 2h u_t δu term.\n\n(e) The German footnote, added by the later editor (as printed in the Gesammelte Werke): the prize question was set in 1858 and withdrawn in 1868. Riemann submitted his answer on 1 July 1861. The prize was not awarded to it because the methods by which the results were obtained were not fully given, and his state of health prevented him from completing an intended more detailed treatment.\n\n(f) A pencil marginal note 'indéfini 2' appears beside the French text.",
+  "errors": [
+   "No mathematical errors. Equation (I) is the standard divergence-form anisotropic heat equation. Symmetry and positive definiteness of A are not yet imposed on this page; they are imposed on the next page.",
+   "The coefficient on the right-hand side should be read as h, not b, consistent with the next page."
+  ],
+  "results": [
+   {
+    "what": "Conduction equation for an inhomogeneous anisotropic body: div(A(x) grad u) = h(x) u_t",
+    "modern_name": "Anisotropic (divergence-form) heat equation",
+    "usually_credited_to": "Fourier (isotropic, 1807/1822); Duhamel and Lamé (crystalline/anisotropic conduction, 1830s–1850s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Strategy of generalising the Paris prize question to inhomogeneous anisotropic bodies and then specialising to homogeneous ones; framing of the persistent-isotherm problem",
+    "modern_name": "Riemann's 1861 Paris prize essay (Commentatio mathematica)",
+    "usually_credited_to": "Riemann (published posthumously in the Werke, 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the well-known, published title page of Riemann's 1861 Commentatio. It contains only the problem statement, the plan and the standard heat equation. The famous content (the curvature quantities and flatness criterion) comes on later folios.",
+  "checkable": [
+   {
+    "sympy": "x1,x2,x3,t=symbols('x1 x2 x3 t'); u=Function('u')(x1,x2,x3,t); a=Matrix(3,3,lambda i,j: Function('a%d%d'%(min(i,j)+1,max(i,j)+1))(x1,x2,x3)); X=[x1,x2,x3]; g=Matrix([diff(u,v) for v in X]); L=(g.T*a*g)[0]/2; from sympy.calculus.euler import euler_equations; simplify(euler_equations(L,u,X)[0].lhs + sum(diff((a*g)[i],X[i]) for i in range(3)))",
+    "asserts": "For symmetric A, the Euler–Lagrange expression of (1/2) sum a_ij u_i u_j equals -div(A grad u), the left side of (I). Expected result: 0."
+   },
+   {
+    "sympy": "simplify(sum(diff((eye(3)*Matrix([diff(u,v) for v in [x1,x2,x3]]))[i],[x1,x2,x3][i]) for i in range(3)) - (diff(u,x1,2)+diff(u,x2,2)+diff(u,x3,2)))",
+    "asserts": "With a_ij = delta_ij, the left side of (I) reduces to the Laplacian, giving Fourier's heat equation. Expected result: 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Right-hand side of (I): read 'h ∂u/∂t' (heat capacity per unit volume), not 'b ∂u/∂t'; the next page names it h.",
+   "The heading 'Reçu le 1er Juillet 1861.' is struck through in the manuscript.",
+   "'Parisiensi' is an interlinear insertion above 'Academia'."
+  ]
+ }
+}

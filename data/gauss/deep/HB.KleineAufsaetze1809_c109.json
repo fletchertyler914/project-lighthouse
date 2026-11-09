@@ -1,0 +1,49 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c109",
+ "label": "[100]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000110/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is an adjustment procedure for an instrument with three axes, probably a small altazimuth or universal instrument. The axes are taken to be: (1) the azimuth axis, turned by the 'Azimuthalbewegung'; (2) a second axis about which the 'Kreis' (circle) turns, with readings taken at an index; (3) a third axis to which one reticle thread is parallel. The previous page found, from the readings h, v, V, h', v', the reading B. It is the mean of two readings and is fixed by a firm setting of the drum ('Trommel') B. The next page adds that B can be found independently of this task.\n\nTask: bring the third axis into one plane with the first and second axes.\n\nProcedure as written:\n(i) Set the circle roughly horizontal by eye.\n(ii) Put the index at B+u, with u arbitrary, best 90°. Use the azimuth motion and the foot screw to bring a well-visible object onto the line of sight.\n(iii) Put the index at B−u. Bring the object as close to the line of sight as possible by azimuth motion alone, measured on the thread parallel to the third axis.\n(iv) Remove half the remaining distance. Then bring the object exactly onto the line of sight with the foot screw, helping with the azimuth motion if needed.\n(v) Go back to B+u and repeat, then B−u again. Continue until the azimuth motion alone returns the object to the line of sight at both settings.\n(vi) If the first setting by eye is poor, a large u throws the object out of the field. So begin with a small u, about 10°, converge, then refine with a large u.\n\nModern linearized model (my reconstruction, not on the page). Let φ = reading − B. For small errors, the out-of-plane offset of the object from the reference thread is f(φ) = α + ε·sin φ, where:\n- α is the part the azimuth motion can remove (even in φ);\n- ε is the non-coplanarity of axis 3, changed by the foot screw (odd in φ).\n\nZeroing f at +u by azimuth leaves a discrepancy f(−u) − f(+u) = −2ε·sin u at −u. Only this odd part shows non-coplanarity. Correcting half of it (by azimuth, then the rest by foot screw) is the classical reversal / half-correction principle, the same as levelling a plate level by turning it 180° and correcting half the bubble error.\n\nSensitivity is proportional to sin u, so it is largest at u = 90°, matching 'am besten 90°'. A small u gives a small discrepancy (2ε·sin u), which keeps the object inside the field of view. Hence the coarse-to-fine strategy with u ≈ 10° first.\n\nThe process is iterative because the foot screw does not act purely on the odd part. Gauss accordingly prescribes repetition until the azimuth motion alone suffices, i.e. f(+u) = f(−u), i.e. ε = 0.",
+  "errors": [
+   "No mathematical errors; the page is a verbal procedure. The phrase 'nähere man das Object der Gesichtslinie um die Hälfte näher' is pleonastic but clear. Exact halving gives one-step convergence only if the foot screw acts purely on the asymmetric component; Gauss sensibly prescribes iteration, so nothing is unjustified."
+  ],
+  "results": [
+   {
+    "what": "Iterative reversal (half-correction) procedure making the third axis of an instrument coplanar with the first two, using settings B±u, with u = 90° optimal and a small u first for coarse adjustment",
+    "modern_name": "Reversal method / half-correction adjustment (Umlegung, halving the error), as in theodolite levelling and collimation adjustment",
+    "usually_credited_to": "Standard instrument-adjustment practice of 18th–19th-century practical astronomy and geodesy (Tobias Mayer, Borda reversal, Bessel's instrument theory)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Observation that sensitivity scales as sin u, so u = 90° is best, while a small u keeps the object in the field for the first approximation",
+    "modern_name": "Sensitivity/conditioning consideration in instrument calibration",
+    "usually_credited_to": "Common practical knowledge",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine practical adjustment procedure for a three-axis instrument based on the well-known reversal/halving principle. It is interesting as documentation of Gauss's instrument work, but contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "simplify((alpha + eps*sin(-u)) - (alpha + eps*sin(u)) + 2*eps*sin(u))",
+    "asserts": "In the linear model f(phi) = alpha + eps*sin(phi), the discrepancy between the settings B-u and B+u is -2*eps*sin(u), independent of the azimuth term alpha (result 0)."
+   },
+   {
+    "sympy": "solve(diff(2*eps*sin(u), u), u)",
+    "asserts": "Sensitivity 2*eps*sin(u) to the non-coplanarity is extremal at u = pi/2 (90 degrees), as the page recommends."
+   },
+   {
+    "sympy": "N(sin(10*pi/180)/sin(pi/2))",
+    "asserts": "At u = 10 degrees the discrepancy is only about 0.17 of that at 90 degrees, which justifies starting with a small u to keep the object in the field."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 5: the manuscript reads 'bringe durch' with the words run together ('bringdurch'); the meaning is unchanged.",
+   "Otherwise the machine transcription agrees with the image."
+  ]
+ }
+}

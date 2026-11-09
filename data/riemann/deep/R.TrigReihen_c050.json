@@ -1,0 +1,58 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c050",
+ "label": "24r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000051/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is the end of §11 and the start of §12 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854; published by Dedekind 1867). Page number 39; the '24' in the right margin is the folio number.\n\n(a) End of §11. The page opens mid-sentence, finishing the hypotheses on an auxiliary cutoff function ϱ(t) on [0,b] used in the last theorem of §11:\n- ϱ and ϱ' are continuous and vanish at t=b;\n- ϱ'' does not have infinitely many maxima and minima;\n- at t=0, ϱ(0)=ϱ'(0)=ϱ''(0)=0, while ϱ''' and ϱ^{IV} are finite and continuous.\n\nIn that theorem, F is the twice-integrated series (F'' = f in Riemann's generalized sense) and G(t) is the even combination of F(x+t) and F(x−t) about the point x. With D_n(t) = sin((2n+1)t/2)/sin(t/2) (the Dirichlet kernel), the theorem concerns the behaviour as n→∞ of\nI_n = (2/π) ∫_0^b G(t) ∂²D_n(t)/∂t² ϱ(t) dt.\n\n(b) §12, first paragraph. Riemann remarks that the hypothesis ϱ''(0)=0 can be dropped if G(t) is replaced by G(t)−G(0). He adds that nothing essential is gained by this.\n\nReason (my reconstruction): the difference between the two integrals is G(0)·(2/π)∫_0^b D_n'' ϱ dt. Integrate by parts twice:\n- At t=b the boundary terms vanish because ϱ(b)=ϱ'(b)=0.\n- At t=0 they vanish because ϱ(0)=ϱ'(0)=0 and D_n, D_n' are finite.\n- So the integral equals (2/π)∫_0^b D_n ϱ'' dt.\n- By Dirichlet's limit this tends to (2/π)·π·ϱ''(0) = 2ϱ''(0).\n\nHence the extra term is asymptotically 2G(0)ϱ''(0). It vanishes either when ϱ''(0)=0 or when G is replaced by G−G(0). That is exactly the trade-off Riemann describes.\n\n(c) §12, second and third paragraphs. Turning to special cases, Riemann proposes first to complete Dirichlet's theory for functions with finitely many maxima and minima. He makes four points:\n1. Such a function is integrable wherever it is not infinite (remarked earlier in the paper).\n2. It can become infinite only at finitely many points.\n3. Dirichlet's proof already shows that, in the integral expressions for the n-th term and for the n-th partial sum, the contribution of every interval vanishes as n→∞, except intervals around the singularities and around the point x.\n4. For 0<b<π, if f is bounded on [x, x+b], then ∫_x^{x+b} f(t) sin((2n+1)(x−t)/2)/sin((x−t)/2) dt → π f(x+0).\n   - Substituting u=t−x and using the evenness of the kernel, this is Dirichlet's lemma ∫_0^b g(u) D_n(u) du → π g(0+) for monotone pieces.\n\nSo Dirichlet's argument is complete once the continuity assumption is dropped. The sentence continues on the next page: what remains is to decide when the singularities' contribution vanishes.",
+  "errors": [
+   "No mathematical errors on this page. The claimed limit π f(x+0) is correct for 0<b<π (the kernel is even in x−t). The remark about replacing G by G−G(0) is correct, by the integration-by-parts argument in the reconstruction.",
+   "Slight notational looseness: 'ϱ''t' is written for ϱ''(t), and conditions like 'für t=0 ϱ(t)=0' mean ϱ(0)=0. These are not errors."
+  ],
+  "results": [
+   {
+    "what": "Dropping the hypothesis ϱ''(0)=0 in the localization theorem by replacing G(t) with G(t)−G(0).",
+    "modern_name": "Riemann localization principle (technical refinement of the cutoff-function form)",
+    "usually_credited_to": "Riemann, Habilitationsschrift 1854 (publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Dirichlet's limit: ∫_x^{x+b} f(t) D_n(x−t) dt → π f(x+0) for 0<b<π, f bounded with finitely many extrema.",
+    "modern_name": "Dirichlet's theorem / Dirichlet integral lemma (Dirichlet–Jordan convergence criterion)",
+    "usually_credited_to": "Dirichlet 1829",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Programme of extending Dirichlet's theory to functions with finitely many maxima and minima that become infinite at finitely many points (improper integrability).",
+    "modern_name": "Fourier series of improperly integrable functions; Riemann's §12 extension of the Dirichlet conditions",
+    "usually_credited_to": "Riemann 1854/1867",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page is a draft or fair copy of §12 of Riemann's published Habilitationsschrift on trigonometric series. The text matches the published version essentially verbatim, so it is well known as his.",
+  "checkable": [
+   {
+    "sympy": "n=3; t=symbols('t'); simplify(sin((2*n+1)*t/2)/sin(t/2) - (1+2*sum(cos(k*t) for k in range(1,n+1)))) == 0",
+    "asserts": "The Dirichlet kernel identity sin((2n+1)t/2)/sin(t/2) = 1 + 2Σ_{k=1}^n cos(kt), checked for n=3."
+   },
+   {
+    "sympy": "n=4; u=symbols('u'); integrate(1+2*sum(cos(k*u) for k in range(1,n+1)), (u,0,pi)) == pi",
+    "asserts": "∫_0^π D_n(u) du = π. This is the normalization behind the limit π f(x+0)."
+   },
+   {
+    "sympy": "n=5; t=symbols('t'); D=1+2*sum(cos(k*t) for k in range(1,n+1)); rho=t**2*(pi-t)**2; simplify(integrate(diff(D,t,2)*rho,(t,0,pi)) - integrate(D*diff(rho,t,2),(t,0,pi))) == 0",
+    "asserts": "Integration by parts: ∫_0^b D_n'' ϱ dt = ∫_0^b D_n ϱ'' dt when ϱ(0)=ϱ'(0)=ϱ(b)=ϱ'(b)=0 (here b=π). So the G(0)-term tends to (2/π)·π·ϱ''(0)·G(0) = 2G(0)ϱ''(0), which is why ϱ''(0)=0 can be dropped if G is replaced by G−G(0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The '24' after the displayed integral is the folio number written in the right margin, not part of the formula.",
+   "The page number '39' at the top right is omitted from the transcription.",
+   "'ϱ''t' (without parentheses) appears twice exactly as in the manuscript and means ϱ''(t). Similarly 'für t=0 ϱ(t)=0, ϱ'(t)=0' means values at t=0."
+  ]
+ }
+}

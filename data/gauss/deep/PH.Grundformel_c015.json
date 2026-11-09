@@ -1,0 +1,73 @@
+{
+ "bundle": "PH.Grundformel",
+ "page": "c015",
+ "label": "8v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382435:00000016/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page, 8r): Gauss gives the sextic 4x^6 - 450x^4 + 8910x^2 - 19305 = 0, which is a cubic in y = x^2. He reduces it to the depressed cubic t^3 - 885t - 7930 = 0 via x^2 = (3/2)(t+25). He reports one root, log t = 1.3683811(n), t = -23.3550645, and x = ±1.570797, 'very nearly = π/2'. He asks the recipient to return the sheet after finishing the computation. This page (8v) is evidently that finished computation, carried to about 10 places. The next page is headed 'Tafel zur Auflösung der Lambert'schen Gleichung'.\n\nStep 0 (my verification of the reduction). Put y = x^2 = (3/2)u with u = t+25. Then 4y^3 - 450y^2 + 8910y - 19305 = 13.5u^3 - 1012.5u^2 + 13365u - 19305. Dividing by 13.5 gives u^3 - 75u^2 + 990u - 1430 = 0. Substituting u = t+25 removes the quadratic term (75 = 3·25) and gives t^3 - 885t - 7930 = 0. The discriminant is 4·885^3 - 27·7930^2 = 1,074,724,200 > 0, so there are three real roots (casus irreducibilis). The three roots were presumably found trigonometrically or by iteration with logarithms; the page shows only the results.\n\nStep 1. The three roots of the cubic, with their Briggsian logarithms ((n) marks a negative number):\n- log|t| = 1.3683810976(n), t1 = -23.35506593(14);\n- log t = 1.5249514, t2 = +33.49280;\n- log|t| = 1.0059407(n), t3 = -10.13773.\n\nChecks: t1+t2+t3 = 0 (no t^2 term). t1·t2·t3 = 7930 = -q.\n\nStep 2. The roots of the sextic follow from x = ±sqrt((3/2)(t+25)):\n- t1 gives x^2 = 2.4674011, so x = ±1.5707963273;\n- t2 gives x^2 = 87.73920, so x = ±9.366921;\n- t3 gives x^2 = 22.293405, so x = ±4.721589.\nThe smallest two lie near π/2 and 3π/2 (4.712).\n\nStep 3 (the remark below). Setting x = π/2 exactly would require t'' = -25 + π²/6 (written '= -25 + ⅙ππ'). The page gives t'' = -23.35506593315; the exact value of π²/6 - 25 is -23.3550659332. So the computed root differs from the value that would give exactly x = π/2 only in about the 9th decimal of t. The coincidence noted on 8r is close but not exact. The figure '274,8' near the struck-through last digits, and '27.4.8' below, look like a difference or interpolation number (or possibly a date); their meaning is uncertain.\n\nWhat problem this serves: the bundle and the following table suggest a numerical investigation connected with a transcendental ('Lambert's') equation or a 'Grundformel'. The sextic's roots approximate (2k+1)π/2-like values. The precise physical origin cannot be determined from this page.",
+  "errors": [
+   "The 10-figure root is slightly off in its last digits. A high-precision solution gives t1 = -23.3550659275 and x = 1.5707963295, versus the recorded t1 = -23.3550659314 and x = 1.5707963273. The discrepancy (~4e-9 in t) corresponds to about 1 unit in the 10th decimal of log t, i.e. the limit of 10-place logarithms. It is a precision limitation, not a conceptual error.",
+   "As a result, the page's comparison of t1 with t'' (both at about -23.355065933) suggests near-equality to roughly 1e-10. The true gap is about 5.6e-9 in t (2.7e-9 in x). The conclusion 'very nearly π/2, but not exactly' still stands.",
+   "Previous page value t = -23.3550645 (7-place work) is off by ~1.5e-6. This page corrects it.",
+   "Minor: the stated t'' = -23.35506593315 vs exact π²/6 - 25 = -23.35506593319, a difference in the 11th digit."
+  ],
+  "results": [
+   {
+    "what": "Reduction of the sextic 4x^6-450x^4+8910x^2-19305=0 to the depressed cubic t^3-885t-7930=0 by x^2=(3/2)(t+25), and numerical solution of all three real roots",
+    "modern_name": "Tschirnhaus/linear shift to depressed cubic; numerical (trigonometric/logarithmic) solution of casus irreducibilis",
+    "usually_credited_to": "Cardano/Viète (16th c.) for the methods",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Observation that the smallest root is extremely close to, but not exactly, π/2; equivalently t'' = π²/6 - 25 would give x = π/2",
+    "modern_name": "numerical near-coincidence check",
+    "usually_credited_to": "none (incidental numerical remark)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine high-precision numerical solution of a cubic, plus a check of a numerical near-coincidence with π/2. It is interesting only as documentation of Gauss's computing practice (sending sheets out for completion).",
+  "checkable": [
+   {
+    "sympy": "expand(4*(Rational(3,2)*(t+25))**3 - 450*(Rational(3,2)*(t+25))**2 + 8910*Rational(3,2)*(t+25) - 19305 - Rational(27,2)*(t**3 - 885*t - 7930)) == 0",
+    "asserts": "the substitution x^2=(3/2)(t+25) reduces the sextic to 13.5*(t^3-885t-7930)"
+   },
+   {
+    "sympy": "[N(r, 15) for r in Poly(t**3 - 885*t - 7930, t).nroots(n=15)]",
+    "asserts": "roots are approx -23.3550659275, -10.13773, 33.49280"
+   },
+   {
+    "sympy": "N(pi**2/6 - 25, 15)",
+    "asserts": "t'' = -23.3550659331905, the t-value giving x = pi/2 exactly"
+   },
+   {
+    "sympy": "N((4*x**6 - 450*x**4 + 8910*x**2 - 19305).subs(x, pi/2), 15)",
+    "asserts": "about -5.73e-5, so pi/2 is not an exact root"
+   },
+   {
+    "sympy": "N(sqrt(Rational(3,2)*(33.49280+25)), 10)",
+    "asserts": "approx 9.366921"
+   },
+   {
+    "sympy": "N(sqrt(Rational(3,2)*(-10.13773+25)), 10)",
+    "asserts": "approx 4.721589"
+   },
+   {
+    "sympy": "N(log(23.35506593, 10), 12)",
+    "asserts": "approx 1.368381098 (recorded log t = 1.3683810976)"
+   },
+   {
+    "sympy": "4*885**3 - 27*7930**2 > 0",
+    "asserts": "positive discriminant, so three real roots (casus irreducibilis)"
+   }
+  ],
+  "transcription_corrections": [
+   "The line read '= [?]54 + ½π' should read '= -25 + ⅙ππ', i.e. t'' = -25 + π²/6.",
+   "The struck digits after t = -23.35506593 appear to be '14' (overwritten). '274,8' written above is a working number (difference or interpolation), not part of x.",
+   "'27.4.8' at the bottom is likely the same working figure 274.8 (or a date); uncertain."
+  ]
+ }
+}

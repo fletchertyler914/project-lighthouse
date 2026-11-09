@@ -1,0 +1,63 @@
+{
+ "bundle": "Math.29",
+ "page": "c005",
+ "label": "3v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381845:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): the problem reduces to a linear second-order PDE for an auxiliary function k(x,y), with coefficients from a given surface z(x,y):\n  z_yy k_xx - 2 z_xy k_xy + z_xx k_yy = 0.\nThe previous-page transcription has z_xy as the last coefficient; it must be z_xx, as the later comparison of coefficients shows. This is the classical equation for infinitesimal bending of z = z(x,y), and also the linearisation of the Monge-Ampère expression z_xx z_yy - z_xy^2. The author claims it can only hold if z satisfies a certain third-order relation, and that developable surfaces are one such class.\n\nMethod: try k = phi(p) + psi(q) with phi, psi arbitrary. Comparing principal parts gives p_y q_y = z_yy, p_x q_y + q_x p_y = 2 z_xy, p_x q_x = z_xx. Eliminating q gives z_xx p_y^2 - 2 z_xy p_x p_y + z_yy p_x^2 = 0. With T = sqrt(z_xy^2 - z_xx z_yy) this factors as p_y (z_xy + T) - p_x z_yy = 0 and q_y (z_xy - T) - q_x z_yy = 0. So p and q are the two characteristic variables.\n\nThis page:\n(1) To find p and q one must integrate the characteristic ODEs (implicit step, mine: p is constant along dy/dx = -p_x/p_y = -(z_xy + T)/z_yy):\n  z_yy dy + z_xy dx + T dx = 0,  z_yy dy + z_xy dx - T dx = 0.\nThese are the asymptotic directions z_xx dx^2 + 2 z_xy dx dy + z_yy dy^2 = 0, real where the curvature is negative. If u and v are their first integrals, then k = phi(u) + psi(v) would be the solution.\n(2) Since z_xy dx + z_yy dy = d(z_y), the equations read d(z_y) + T dx = 0 and d(z_y) - T dx = 0.\n(3) Suppose R and R' are integrating factors, so R d(z_y) + R T dx and R' d(z_y) - R' T dx are exact. The author argues that their sum and difference must then also be exact 'of the form P d(z_y) ± P T dx'. But the sum is (R+R') d(z_y) + (R-R') T dx and the difference is (R-R') d(z_y) + (R+R') T dx, which are not of that form. He concludes that no integrating factors exist unless T_y = 0, i.e. T = T(x). Q.E.D.",
+  "errors": [
+   "The central argument is invalid. In two independent variables every Pfaffian equation d(z_y) ± T dx = 0, i.e. (z_xy ± T) dx + z_yy dy = 0, locally has an integrating factor and a first integral (Euler/Clairaut-type existence). The characteristic ODEs are always integrable.",
+   "Sum and difference of two exact forms are exact, but nothing forces them into the shape P d(z_y) ± P T dx. That shape belongs to the individual equations, not to arbitrary combinations. The 'mismatch' proves nothing.",
+   "Even with T = T(x), d(z_y) ± T dx is exact in (x, z_y)-terms only when the integrating variables are chosen suitably. The criterion T_y = 0 has no invariant meaning as the condition stated.",
+   "The real obstruction lies on the previous page. Eliminating phi', phi'', psi', psi'' from k = phi(p) + psi(q) yields a second-order equation that in general contains first-order terms in k_x, k_y. Matching only the principal parts silently assumes these vanish. In characteristic coordinates the equation becomes k_uv + a k_u + b k_v = 0. The ansatz phi(u) + psi(v) works only if a = b = 0, and that, not integrability of the characteristics, is where a third-order condition on z comes from.",
+   "Counterexample to the claim: z = x*y^2 gives T = 2y (not a function of x alone). Yet the characteristic equation x dy + 2y dx = 0 integrates to u = x^2*y, and the other family gives v = y. The real failure is that k = x^2*y does not solve the PDE: the lower-order-term problem.",
+   "Previous page, minor: the coefficient of k_yy should be z_xx, not z_xy. The third-order condition's first term should involve z_xxy (d^3z/dx^2dy), not 'd^3z/dxdy'."
+  ],
+  "results": [
+   {
+    "what": "Reduction of the linear second-order PDE z_yy k_xx - 2 z_xy k_xy + z_xx k_yy = 0 to its characteristics, which are the asymptotic directions of z; the d'Alembert/Monge-type ansatz k = phi(u) + psi(v).",
+    "modern_name": "Method of characteristics for linear hyperbolic 2nd-order PDE (characteristic = asymptotic lines); the infinitesimal-bending (Darboux) equation",
+    "usually_credited_to": "Euler, d'Alembert, Monge, Laplace for the method (18th c.); the bending equation is associated with Darboux, Weingarten and Bianchi (1860s-1890s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Rewriting the characteristic equations as d(z_y) ± T dx = 0 and an (incorrect) integrating-factor argument that they are integrable only if T = T(x).",
+    "modern_name": "Integrating factors for Pfaffian forms in two variables (existence always holds; the argument is fallacious)",
+    "usually_credited_to": "Euler/Clairaut (integrating factors)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The material is an early-19th-century style use of characteristics with a fallacious integrating-factor 'proof'. The only point of interest is that the PDE is the infinitesimal-bending equation, with characteristics along asymptotic lines, tied to developable surfaces. That fits Gauss's interest in surface theory, but the treatment is elementary and wrong. The hand and style may be a student's or very early work. Notable as a document, not as a result.",
+  "checkable": [
+   {
+    "sympy": "a,b,c=symbols('a b c'); T=sqrt(b**2-a*c); m=-(b+T)/c; simplify(a+2*b*m+c*m**2)",
+    "asserts": "The slope dy/dx = -(z_xy+T)/z_yy (a=z_xx, b=z_xy, c=z_yy) satisfies the asymptotic/characteristic quadratic z_xx + 2 z_xy m + z_yy m^2 = 0 (result 0)."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); z=Function('z')(x,y); simplify(diff(diff(z,y),x)*Symbol('dx')+diff(z,y,2)*Symbol('dy'))",
+    "asserts": "z_xy dx + z_yy dy is the total differential d(z_y), as used on the page."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); z=x*y**2; T=sqrt(diff(z,x,y)**2-diff(z,x,2)*diff(z,y,2)); u=x**2*y; simplify(diff(u,y)*(diff(z,x,y)+T.subs(sqrt(4*y**2),2*y))-diff(u,x)*diff(z,y,2))",
+    "asserts": "For z = x*y^2 (T = 2y, not a function of x alone), u = x^2*y is a first integral of the '+T' characteristic equation (result 0), contradicting the page's claim."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); z=x*y**2; k=x**2*y; simplify(diff(z,y,2)*diff(k,x,2)-2*diff(z,x,y)*diff(k,x,y)+diff(z,x,2)*diff(k,y,2))",
+    "asserts": "Gives -4*x*y != 0: k = phi(u) with u = x^2*y fails the PDE. The ansatz fails because of first-order terms, not non-integrability."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); p=Function('p')(x,y); q=Function('q')(x,y); f=Function('f'); g=Function('g'); k=f(p)+g(q); expand(diff(k,x,2))",
+    "asserts": "Shows k_xx contains f'(p)*p_xx + g'(q)*q_xx terms, so elimination produces first-order terms that the principal-part comparison ignores."
+   }
+  ],
+  "transcription_corrections": [
+   "Second displayed equation: the image shows '- Tdx' over a struck/overwritten '+'; the transcription '-Tdx' is correct.",
+   "'die Differenz' is written abbreviated/partly smudged as 'die Differ...' in the image.",
+   "Previous page (for context): in the main PDE the last factor should be (ddz/dx^2), not (ddz/dxdy). In the third-order condition the first factor should be d^3z/dx^2dy."
+  ]
+ }
+}

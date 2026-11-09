@@ -1,0 +1,62 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c024",
+ "label": "11r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000025/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 11r (page 13) is a fair copy, in a hand other than Riemann's, of §2 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1854, published by Dedekind 1867). The page is historical narrative. It contains no derivations, only mathematical claims.\n\n(a) End of the Lagrange discussion. Lagrange believed he first had to solve the vibrating-string problem completely for an indeterminate finite number of masses before passing to the limit. This required a lengthy investigation (Misc. Taur. III, p. 251), which would have been unnecessary had he known the Fourier series.\n\n(b) Fourier recognised the nature of trigonometric series correctly (Bulletin des sciences [Soc. philomatique] I, p. 115: 'Les coefficients a, a', a''... étant ainsi déterminés'). Physicists then used the series widely and checked convergence case by case. A general proof came late.\n\n(c) Cauchy's 1826 proof (memoir read to the Paris Academy on 27 Feb 1826, Mém. Acad. Sci. Paris VI, p. 603) is inadequate, as Dirichlet showed (Crelle IV, pp. 157-158). Cauchy assumed that the periodic f, continued to the complex argument x+iy, is finite for every y.\n- Riemann's objection, in modern terms: if f(x+iy) is entire, 2π-periodic and finite for all y, then f is constant.\n- My filling of the implicit step: read 'finite' as bounded. A periodic entire function bounded on the strip 0 ≤ x ≤ 2π is bounded everywhere, so it is constant by Liouville's theorem.\n\n(d) Riemann's repair. Cauchy's hypothesis is not needed. It suffices that there is a function φ(x+iy), holomorphic and finite for all y > 0, with Re φ(x+i0) = f(x).\n- My modern reading: put z = e^{ix}. Then y > 0 corresponds to the unit disc |z| = e^{-y} < 1. So the condition is the solvability of the Dirichlet problem for the disc with boundary data f, plus taking the harmonic conjugate.\n- For a trigonometric series f = a0/2 + Σ(a_n cos nx + b_n sin nx), the candidate is φ(w) = a0/2 + Σ(a_n − i b_n) e^{inw}.\n- Riemann asserts that the existence of such a φ is true, citing his 1851 Inauguraldissertation, where it follows from the Dirichlet-principle existence theorem. Granting it, Cauchy's route works.\n- The sentence continues on the next page.",
+  "errors": [
+   "No mathematical errors. 'Endlich für jeden Werth von y' must be read as uniformly bounded (or entire and bounded) for the conclusion 'only constants' to follow. This is the standard Liouville argument, left implicit.",
+   "The existence claim for φ (finite for y>0, Re φ = f on y=0) relies, in the cited dissertation, on the Dirichlet principle. That principle was not rigorously justified until Hilbert (1900). For the disc it is however settled directly by the Poisson integral for integrable f. 'Endlich' here means finite at each interior point, not bounded."
+  ],
+  "results": [
+   {
+    "what": "A periodic function that remains finite for all complex arguments x+iy is constant (critique of Cauchy's 1826 convergence proof)",
+    "modern_name": "Liouville's theorem (bounded entire functions are constant)",
+    "usually_credited_to": "Cauchy 1844 / Liouville 1847 (lectures)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Cauchy's method succeeds if f is the boundary real part of a function holomorphic and finite in the upper half-plane; existence proven in Riemann's dissertation",
+    "modern_name": "Dirichlet problem for the disc / harmonic conjugate (Poisson integral); Abel–Poisson boundary behaviour",
+    "usually_credited_to": "Poisson (integral), Riemann 1851 dissertation (Dirichlet principle)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Historical account: Lagrange, Fourier, Cauchy 1826, Dirichlet 1829",
+    "modern_name": "History of Fourier series (Riemann's Habilitationsschrift §2)",
+    "usually_credited_to": "Riemann 1854 (publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a copy of the published historical section of Riemann's Habilitationsschrift (1854/1867). All content is well known and long attributed to him.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y',real=True); simplify(Abs(sin(x+I*y))**2 - (sin(x)**2+sinh(y)**2))",
+    "asserts": "|sin(x+iy)|^2 = sin^2 x + sinh^2 y, so a nonconstant periodic entire function is unbounded as y grows (illustrates Cauchy's hypothesis failing)."
+   },
+   {
+    "sympy": "a,b,x=symbols('a b x',real=True); n=symbols('n',integer=True,positive=True); simplify(re(expand_complex((a-I*b)*exp(I*n*x))) - (a*cos(n*x)+b*sin(n*x)))",
+    "asserts": "Re((a_n - i b_n) e^{inx}) = a_n cos nx + b_n sin nx, so φ(w)=a0/2+Σ(a_n−i b_n)e^{inw} has real part f on y=0."
+   },
+   {
+    "sympy": "r,t=symbols('r t',positive=True); simplify(re(expand_complex((1+r*exp(I*t))/(1-r*exp(I*t)))) - (1-r**2)/(1-2*r*cos(t)+r**2))",
+    "asserts": "The Poisson kernel is the real part of (1+z)/(1-z); it solves the Dirichlet problem behind Riemann's sufficient condition."
+   },
+   {
+    "sympy": "x,y=symbols('x y',real=True); n=symbols('n',integer=True,positive=True); simplify(Abs(exp(I*n*(x+I*y))) - exp(-n*y))",
+    "asserts": "|e^{in(x+iy)}| = e^{-ny} < 1 for y>0, so the upper half-plane maps into the unit disc."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'vollständig ableiten zu müssen' should read 'vollständig absolviren zu müssen' (matches the image and the published text). The sentence began on the previous page: 'für eine unbestimmte endliche Anzahl von Massen'.",
+   "Footnote 4: the image reads 'Crelle. Journal für die Mathematik. Bd. IV. p. 157 & 158'.",
+   "Footnote 2 is cut off. It refers to Fourier's note in the Bulletin des sciences (Société philomatique), Tome I, p. 115."
+  ]
+ }
+}

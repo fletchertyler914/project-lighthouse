@@ -1,0 +1,51 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c033",
+ "label": "17v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000034/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to Riemann's physiological-acoustical fragment on the mechanics of the ear. Henle published it posthumously in 1867 as 'Mechanik des Ohres'; it is reprinted in the Werke. The previous page ends the discussion of the narrow free rim of the oval-window membrane, and this page finishes that sentence: the stapes footplate is brought into its equilibrium position by forces other than the rim's elasticity ('...gebracht wird').\n\nSection III begins here. The parts of the middle-ear apparatus must interlock continually with 'more than microscopic precision' to give the ear its observed acuity. Riemann therefore argues that correction devices compensating for thermal expansion and contraction of the parts are indispensable. Temperature changes inside the tympanic cavity may be very small, but they certainly occur.\n\nTo support this he states an approximate law for steady-state temperature distribution in the body, valid when the external temperature has been constant long enough. In modern notation, with T(x) the temperature at a point x, T_b the brain (core) temperature and T_e the external temperature:\n  T(x) - T_b = c(x) * (T_e - T_b).\nHere c(x) is a factor depending only on position.\n\nThe next page justifies the law. It follows from Newton's law (of cooling/heat transfer) together with constant thermal conductivity and specific heat over the relevant temperature range. The justification, filled in by me: the steady heat equation div(k grad T) = 0 is linear. It is solved with T = T_b fixed at the core and a Newton (Robin) boundary condition -k dT/dn = h(T - T_e) at the skin. The solution is then affine in the data (T_b, T_e). Hence T - T_b is linear in (T_e - T_b) with a position-dependent coefficient.\n\nApplied to the tympanic cavity, the law lets one infer temperature changes there from the difference between cavity and brain temperature. Riemann argues on the next page that this difference is appreciable, because of communication with outside air through the external canal and the Eustachian tube, and because of the cavity's blood supply.",
+  "errors": [
+   "No mathematical error on the page itself. The proportionality is only approximate, and Riemann correctly says 'nahe'.",
+   "Implicit assumptions, which are mine to spell out: brain temperature is held fixed (homeothermy); metabolic heat production and blood perfusion are neglected or absorbed. With volumetric heat sources independent of T_e, the law would acquire an additive term g(x) independent of T_e, i.e. T - T_b = c(x)(T_e - T_b) + g(x), so strict proportionality fails.",
+   "The geometry and boundary coefficients must be assumed independent of temperature, for example no vasomotor change in skin heat-transfer coefficient. This is physiologically not exact."
+  ],
+  "results": [
+   {
+    "what": "Steady-state body temperature at any point deviates from core (brain) temperature in proportion to the deviation of ambient temperature from core temperature; derived from linearity of the heat equation with Newton's cooling boundary condition and constant material coefficients.",
+    "modern_name": "Linearity/superposition of solutions of the steady heat equation with Robin (Newton cooling) boundary conditions; dimensionless temperature profile",
+    "usually_credited_to": "Fourier (1822) for the linear heat-conduction theory and Newton (1701) for the cooling law; the physiological application is standard 19th-century reasoning",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Argument that the middle ear must possess compensation mechanisms for thermal expansion, given the precision required for hearing.",
+    "modern_name": "Thermal-compensation hypothesis for middle-ear mechanics (qualitative)",
+    "usually_credited_to": "Riemann, 'Mechanik des Ohres' (posthumous, 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This text corresponds to Riemann's published posthumous fragment 'Mechanik des Ohres' (Henle 1867, Werke). The mathematics is an elementary consequence of linear heat conduction with Newton's cooling law, so the page contains nothing unknown or ahead of its time.",
+  "checkable": [
+   {
+    "sympy": "x,L,k,h,Tb,Te=symbols('x L k h Tb Te',positive=True); T=Tb+(Te-Tb)*h*x/(k+h*L); simplify([diff(T,x,2), T.subs(x,0)-Tb, -k*diff(T,x).subs(x,L)-h*(T.subs(x,L)-Te)])",
+    "asserts": "1D steady heat conduction with fixed core temperature Tb at x=0 and Newton cooling to ambient Te at x=L has the solution T; all three residuals are 0."
+   },
+   {
+    "sympy": "simplify((T-Tb)/(Te-Tb))",
+    "asserts": "The ratio (T - Tb)/(Te - Tb) equals h*x/(k+h*L), independent of Te and Tb. This is Riemann's proportionality law."
+   },
+   {
+    "sympy": "q=symbols('q'); Tq=Tb+(Te-Tb)*h*x/(k+h*L)+q/(2*k)*(-x**2+x*(2*k*L+h*L**2)/(k+h*L)); simplify([k*diff(Tq,x,2)+q, Tq.subs(x,0)-Tb, -k*diff(Tq,x).subs(x,L)-h*(Tq.subs(x,L)-Te)])",
+    "asserts": "With uniform internal heat source q the problem is still solved (all residuals 0), but T - Tb gains a term independent of Te. So proportionality is only approximate, consistent with Riemann's 'nahe'."
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription matches the image well. 'Gehör=apparats' could also be read 'Gehörapparats'; this is a hyphenation-only difference.",
+   "The struck-out words 'an einer belie-big' after 'äußeren Temperatur' are correctly identified as a deletion."
+  ]
+ }
+}

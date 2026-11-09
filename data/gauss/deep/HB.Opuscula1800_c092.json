@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c092",
+ "label": "87",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000093/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem: find the exact relation between the dip of the sea horizon δ, the Earth's radius R and the eye height h when terrestrial refraction is included. The total refraction is taken to be a fixed fraction ε of the angle v at the Earth's centre subtended by the arc from observer to horizon point (εv; ε is essentially the later 'coefficient of refraction' k).\n\nNotation (as on the page): δ = dip of the horizon; R = Earth radius; h = eye height; v = amplitude (central angle) of the arc; εv = total refraction; r = R+h.\n\n(1) Ray model. Gauss writes the light path as r^{1-ε} cos((1-ε)θ) = R^{1-ε}, with θ the polar angle measured from the horizon point, where the ray grazes the surface. Justification (mine): this is a sinusoidal spiral r^k cos kθ = const with k = 1-ε. Along such a curve, d(ln r)/dθ = tan kθ. So the angle ψ between the tangent and the radius vector is ψ = π/2 - kθ, and r·sinψ = r cos kθ. Then the ray invariant n·r·sinψ = const (Bouguer's law for a spherically stratified medium) holds exactly when n ∝ r^{-ε}. The model is therefore an atmosphere whose index falls off as a power of r.\n- At the horizon point (θ = 0, r = R) the ray is horizontal.\n- At the observer (θ = v) the ray makes the angle (1-ε)v below the local horizontal, so δ = (1-ε)v.\n- The ray's direction has turned by v - δ = εv, which is the total refraction. This is consistent with the definition.\n\n(2) Substituting θ = v and δ = (1-ε)v gives ((R+h)/R)^{1-ε} cos δ = 1 (exact within the model).\n\n(3) Hence 2 sin²(δ/2) = 1 - cos δ = 1 - (R/(R+h))^{1-ε}. Expanding with the binomial series in h/R (step mine) gives (1-ε)h/R - (1-ε)(2-ε)/2·(h/R)² + O((h/R)³).\n\n(4) Alternative model: the light path is a circular arc ('Nimmt man aber die Bahn des Lichts wie einen Kreisbogen an'). The ray turns through εv along the arc. By the tangent–chord angle, the chord makes the angle εv/2 with the ray at each end.\n- In triangle O(centre), A(horizon point), B(eye), the angle at O is v. The angle at A is 90° - εv/2 and the angle at B is 90° - v + εv/2 (the ray is concave toward the Earth, so the arc lies above the chord).\n- The dip at B is again v - εv = δ, so v = δ/(1-ε).\n- The law of sines gives (R+h)/R = cos(εv/2)/cos(v - εv/2) = cos(εδ/(2-2ε)) / cos((2-ε)δ/(2-2ε)).\n- Gauss writes this fraction upside down (see errors). Check (mine): to second order both models give δ² ≈ 2(1-ε)h/R, since ((2-ε)² - ε²)/(2-2ε)² = 1/(1-ε).",
+  "errors": [
+   "The circular-arc formula as written, (R+h)/R = cos((2-ε)δ/(2-2ε)) / cos(εδ/(2-2ε)), is inverted. The right side is < 1 for small δ while (R+h)/R > 1. The correct relation is (R+h)/R = cos(εδ/(2-2ε)) / cos((2-ε)δ/(2-2ε)), or equivalently R/(R+h) equals Gauss's fraction. Most likely a slip in labelling the left side.",
+   "The series in step (3) is truncated at second order without remark; this is harmless.",
+   "The ray equation r^{1-ε}cos(1-ε)v = R^{1-ε} is stated without derivation. It is correct for a refractive index proportional to r^{-ε}, but that physical assumption is implicit."
+  ],
+  "results": [
+   {
+    "what": "Exact dip-of-horizon relation ((R+h)/R)^{1-ε} cos δ = 1, obtained by modelling the ray as a sinusoidal spiral (index ∝ r^{-ε}) with total refraction εv",
+    "modern_name": "Dip of the horizon with terrestrial refraction; power-law refractive-index atmosphere whose rays are sinusoidal spirals",
+    "usually_credited_to": "Ray invariant n r sinψ: Bouguer/Laplace (18th c.). Sinusoidal spirals: Maclaurin (1718). Dip with refraction coefficient: various 18th–19th c. geodesists (Lambert, Delambre, Biot)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Series 2sin²(δ/2) = (1-ε)h/R - (1-ε)(2-ε)/2·(h/R)², giving δ ≈ sqrt(2(1-ε)h/R)",
+    "modern_name": "Standard dip formula with refraction coefficient k: δ ≈ sqrt(2(1-k)h/R)",
+    "usually_credited_to": "Standard in nautical astronomy and geodesy (18th–19th c.)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Circular-arc ray model giving (R+h)/R = cos(εδ/(2-2ε))/cos((2-ε)δ/(2-2ε))",
+    "modern_name": "Circular-arc (constant curvature) refraction model with coefficient of refraction k",
+    "usually_credited_to": "Classical geodesy (Lambert, Delambre, Laplace); Gauss himself used the refraction coefficient in the Hannover survey",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Dip of the horizon with a refraction coefficient is standard 18th–19th c. material, and Gauss's interest in terrestrial refraction is well documented through his geodetic work. The exact closed form via a power-law atmosphere (sinusoidal-spiral rays) is a neat, slightly non-standard touch, but not a major result.",
+  "checkable": [
+   {
+    "sympy": "x,e=symbols('x e'); simplify(series(1-(1/(1+x))**(1-e),x,0,3).removeO() - ((1-e)*x - (1-e)*(2-e)/2*x**2))",
+    "asserts": "The second-order expansion of 1-(R/(R+h))^{1-ε} in x=h/R matches the page (result 0)."
+   },
+   {
+    "sympy": "t,k=symbols('t k'); r=cos(k*t)**(-1/k); simplify(diff(r,t)/r - tan(k*t))",
+    "asserts": "Along r^k cos(kθ)=1 one has (dr/dθ)/r = tan(kθ), so the tangent makes the angle π/2-kθ with the radius and r·sinψ = r·cos(kθ). Result 0."
+   },
+   {
+    "sympy": "d,e=symbols('d e'); simplify(series(cos(e*d/(2-2*e))/cos((2-e)*d/(2-2*e)),d,0,3).removeO() - (1 + d**2/(2*(1-e))))",
+    "asserts": "The corrected circular-arc formula gives (R+h)/R ≈ 1 + δ²/(2(1-ε)), matching the first model to leading order (result 0)."
+   },
+   {
+    "sympy": "v,e=symbols('v e'); simplify(sin(pi/2-e*v/2)/sin(pi/2-v+e*v/2) - cos(e*v/2)/cos(v-e*v/2))",
+    "asserts": "The law of sines in triangle (centre, horizon point, eye) gives (R+h)/R = cos(εv/2)/cos(v-εv/2) (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'2\\sin\\frac{1}{2}\\delta^2' means 2 sin²(δ/2) (Gauss's notation sin½δ²).",
+   "The marginal pencil notes 'Bs' (top left and lower right), likely a later archival or attribution mark, are not in the transcription.",
+   "In the last line of the first derivation, the final factor is (2-ε)/2, partly cut off at the page edge; the transcription is correct.",
+   "The fraction in the last formula is transcribed faithfully: numerator cos((2-ε)/(2-2ε)·δ), denominator cos(ε/(2-2ε)·δ). The inversion is Gauss's own slip, not a transcription error."
+  ]
+ }
+}

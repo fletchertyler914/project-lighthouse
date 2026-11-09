@@ -1,0 +1,88 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c388",
+ "label": "199r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000389/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Notation: Log = common (Briggs) logarithm, log = natural logarithm, M = Log e = 0.4342945. Riemann follows the convention, explained in step 3, of writing negative logarithms with +10 added (9.xxx means 9.xxx - 10).\n\nProblem. A quantity x is found from two measured magnitudes a and b by x = (Log a - Log b)/n. This is typical of a decay or damping constant (logarithmic decrement) found from two amplitudes after n units. Both a and b carry the same probable error ±ε, and the errors are independent. The question is: at what ratio m = a/b should one stop observing so that the error in x is smallest?\n\nStep 1 (error propagation; intermediate steps mine).\n- Differentiating: dx = (M/n)(da/a - db/b).\n- Probable error of x: (M/n)·ε·sqrt(1/a^2 + 1/b^2) = (M/n)(ε/a)·sqrt(1+m^2).\n- Since n = M·log(m)/x, we have M/n = x/log m.\n- Hence the error is ±[sqrt(1+m^2)/log m]·(ε/a)·x = ±(p/a)·x·ε, with p(m) = sqrt(1+m^2)/log m (natural log, written lowercase as on the page).\n\nStep 2 (minimizing p). Riemann first wrote 'Maximum', then corrected it to 'Minimum'.\n- d/dm log p = m/(1+m^2) - 1/(m log m) = 0, which gives m^2 (log m - 1) = 1.\n- Riemann substitutes Log m = z/2 + M. Then log m - 1 = z/(2M) and m^2 = 10^(z+2M).\n- So the condition becomes 10^(z+2M)·z/(2M) = 1.\n- Taking Briggs logarithms: z + Log z = Log(2 Log e) - 2 Log e. This is exactly the page's equation, an exact rewrite rather than an approximation.\n- At the optimum, 1+m^2 = m^2 log m, so p = m/sqrt(log m).\n- Since log m = Log m / M: Log p = Log m - ½ Log Log m + ½ Log Log e, as written.\n\nStep 3 (numerics).\n- Log Log e = 9.6377843 (i.e. -0.3622157).\n- Log 2 = 0.3010300.\n- -2 Log e = -0.8685890, written 0.1314110 with the characteristic -1 suppressed.\n- Sum: z + Log z = 9.0702253, i.e. -0.9297747.\n- Solving numerically: z = 0.09455247, Log z = 8.97567282 (-1.02432718). Check: 0.09455247 - 1.02432718 = -0.92977471.\n- z/2 = 0.04727623.\n- Log m = z/2 + Log e = 0.04727623 + 0.43429448 = 0.48157071, written as m = 3.030906.\n- Log Log m = 9.6826600, so -½ Log Log m = 0.1586700.\n- ½ Log Log e = 9.8188921.\n- Log p = 0.4591328, so p = 2.878278.\n\nStep 4 (comparison with round ratios).\n- m = 3: p = sqrt(10)/log 3 = 2.878430.\n- m = 2: p = sqrt(5)/log 2 = 3.225964.\n- Conclusion: the optimum is very flat, and simply stopping at a ratio of 3 is practically optimal, while a ratio of 2 is about 12% worse.\n\nContext. The page belongs to an error-theory or experimental-physics computation, plausibly the damping of oscillations or a residue/decay measurement in Riemann's Göttingen physics work around 1853–55. Its link to the optics theses on the previous page is unclear.",
+  "errors": [
+   "Antilogarithm slip: Log m = 0.48157071 gives m = 3.030894 (and the exact root of m^2(ln m - 1) = 1 is m ≈ 3.030894), not 3.030906. The difference is about 1.2e-5. It does not propagate, because the downstream steps use Log m.",
+   "All other steps (the error-propagation formula, the substitution yielding z + Log z = Log(2 Log e) - 2 Log e, the formula for Log p, and all logarithm values) check out. The value p = 2.878278 is correct.",
+   "Minor point: the derivation assumes the errors of a and b are independent and equal in absolute size; this is implicit. The correction of 'Maximum' to 'Minimum' is right."
+  ],
+  "results": [
+   {
+    "what": "Probable error of x = (Log a - Log b)/n with equal absolute probable errors ±ε on a and b: ±sqrt(1+m^2)/ln(m)·(ε/a)·x, with m = a/b",
+    "modern_name": "Gaussian error propagation (law of propagation of errors)",
+    "usually_credited_to": "Gauss (1809/1823); standard in 19th-century observational practice",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Optimal ratio of the two measured magnitudes minimizing the relative error of the logarithmic decrement: m^2(ln m - 1) = 1, giving m ≈ 3.0309 and p_min ≈ 2.87828; p(3) = 2.87843, p(2) = 3.22596",
+    "modern_name": "Optimal design of a decay/damping-constant measurement (choice of observation interval)",
+    "usually_credited_to": "Routine experimental-physics optimization (cf. Gauss–Weber magnetic practice, later Kohlrausch's manuals); no specific attribution",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Transformation of the transcendental optimality condition into the form z + Log z = const, solved with Briggs logarithm tables",
+    "modern_name": "Numerical solution of a transcendental equation (Lambert-W type: m^2(ln m - 1) = 1)",
+    "usually_credited_to": "Standard computational technique",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a careful but routine piece of error theory and log-table computation: optimizing the observation interval for a logarithmically determined constant. It is a nice glimpse of Riemann's experimental and physics work, but contains no mathematically non-standard content.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(log(sqrt(1+m**2)/log(m)), m) - (m/(1+m**2) - 1/(m*log(m))))",
+    "asserts": "Logarithmic derivative of p(m) = sqrt(1+m^2)/ln m; setting it to zero gives m^2(ln m - 1) = 1 (result 0)"
+   },
+   {
+    "sympy": "nsolve(m**2*(log(m)-1)-1, m, 3)",
+    "asserts": "Optimal ratio m ≈ 3.030894 (Riemann wrote 3.030906)"
+   },
+   {
+    "sympy": "nsolve(z + log(z,10) - (log(2*log(E,10),10) - 2*log(E,10)), z, 0.09)",
+    "asserts": "Riemann's equation gives z ≈ 0.0945525"
+   },
+   {
+    "sympy": "N(log(10)*(Rational(9455247,10**8)/2 + log(E,10)))",
+    "asserts": "ln m = 1 + z/(2M) ≈ 1.108858, consistent with m^2(ln m - 1) = 1"
+   },
+   {
+    "sympy": "N(10**(Rational(48157071,10**8)))",
+    "asserts": "Antilog of Log m = 0.48157071 is 3.030894, showing Riemann's slip in the last digits"
+   },
+   {
+    "sympy": "N(sqrt(1+3.030894**2)/log(3.030894))",
+    "asserts": "p_min ≈ 2.878278"
+   },
+   {
+    "sympy": "N(sqrt(10)/log(3))",
+    "asserts": "p(3) ≈ 2.878430"
+   },
+   {
+    "sympy": "N(sqrt(5)/log(2))",
+    "asserts": "p(2) ≈ 3.225964"
+   },
+   {
+    "sympy": "N(log(log(E,10),10))",
+    "asserts": "Log Log e ≈ -0.3622157, written 9.6377843"
+   },
+   {
+    "sympy": "N(log(0.48157071,10))",
+    "asserts": "Log Log m ≈ -0.3173399, written 9.6826600"
+   }
+  ],
+  "transcription_corrections": [
+   "In the probable-error formula the denominator is lowercase 'log m' (natural logarithm), as distinct from 'Log' (Briggs) elsewhere. The transcription preserves this correctly, and it is essential to the meaning.",
+   "'-2 Log e = 0,1314110' is written with the characteristic suppressed; its true value is 0.1314110 - 1 = -0.8685890. Likewise, 9.xxx values mean 9.xxx - 10.",
+   "In the line '½ Log Log e = 9,8188921' the final 'e' is written over another letter in the manuscript; the reading 'Log Log e' is confirmed by the numerical value.",
+   "'Maximum' is struck through and 'Minimum' is written above it, as transcribed."
+  ]
+ }
+}

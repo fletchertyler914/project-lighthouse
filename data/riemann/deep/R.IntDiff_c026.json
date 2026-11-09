@@ -1,0 +1,58 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c026",
+ "label": "13r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000027/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (folio 12v/13r). This is the manuscript of Riemann's student-era study 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (dated 1847). It was published posthumously in the Gesammelte Werke (1876, ed. Weber/Dedekind). Riemann writes Π(s) for Gauss's factorial, so Π(s)=Γ(s+1).\n\nOn the previous page he expands z(x+h) in a generalized Taylor series: z(x+h)=Σ_μ h^μ/Π(μ)·p_μ. Each coefficient is p_μ(x,k)=Σ_{n≥0} z^{(n)}(k)(x−k)^{n−μ}/Π(n−μ). The coefficient of h^μ/Π(μ) is the x-derivative of the coefficient of h^{μ−1}/Π(μ−1), so p_μ is taken as 'a value of ∂_x^μ z'. Differentiating in k telescopes: dp_μ/dk = −z(k)(x−k)^{−μ−1}/Π(−μ−1). For μ<0 every term of p_μ vanishes at k=x.\n\nThis page.\n\n(7) Integrating dp_μ/dk from x to k gives\np_μ = ∫_x^k −z(κ)(x−κ)^{−μ−1}/Π(−μ−1) dκ = (1/Π(−μ−1)) ∫_k^x (x−t)^{−μ−1} z(t) dt.\nIn modern notation this is (1/Γ(−μ)) ∫_k^x (x−t)^{−μ−1} z(t) dt, the Riemann–Liouville integral of order −μ with lower terminal k. It is valid when z is continuous between k and x and μ<0, so that the exponent −μ−1>−1 and the integral converges at t=x.\n\nApplying the same formula to the coefficient of order μ−n (also negative) gives the value belonging to the same expansion:\n∂^{μ−n} z = (1/Π(n−μ−1)) ∫_k^x (x−t)^{n−μ−1} z(t) dt.\n\nChange of base point. Different choices of k give different expansions of z(x+h) and different values of ∂^μ z, but they belong to 'one system'. Replacing k by k_1 adds\n(1/Π(−μ−1)) ∫_{k_1}^{k} (x−t)^{−μ−1} z(t) dt.\nExpanding (x−t)^{−μ−1} binomially in powers of t/x (my step: binom(−μ−1,n) = Π(−μ−1)/(Π(n)Π(−μ−1−n))) gives\nΣ_{n=0}^∞ x^{−μ−1−n}/Π(−μ−1−n) · ∫_{k_1}^{k} (−t)^n/Π(n) z(t) dt.\n\nSince z is continuous between k_1 and k, every integral is a finite constant independent of x. So the ambiguity in ∂_x^μ z is a series Σ K_n x^{−μ−1−n}/Π(−μ−1−n) with arbitrary constants K_n. This is Riemann's 'complementary function'; the next page writes it as Σ_{n≥1} K_n x^{−n−ν}/Π(−n−ν).\n\nThe red marginalia ('∂_x^μ z', 'besonderen Zeile!') are later editorial or typesetting marks, apparently for the 1876 edition: notation changes and instructions to set formulas on separate lines.",
+  "errors": [
+   "The binomial expansion of (x−t)^{−μ−1} in powers of t/x converges only if |t|<|x| for all t between k_1 and k. Riemann does not state this; in general the difference is an analytic function of x near x, not globally such a power series.",
+   "The term-by-term identification of p_μ with the k-integral assumes the generalized Taylor series and its k-derivative converge, and that term-wise differentiation is allowed. These are formal steps, not justified on the page.",
+   "The resulting 'complementary function' with arbitrary constants is the known weak point of Riemann's theory. It was criticized by Cayley (1880) because the operator then lacks a clean index law. This is a conceptual issue rather than an algebraic slip; the algebra itself is correct."
+  ],
+  "results": [
+   {
+    "what": "For μ<0, ∂_x^μ z = (1/Π(−μ−1)) ∫_k^x (x−t)^{−μ−1} z(t) dt, derived from a generalized Taylor expansion of z(x+h)",
+    "modern_name": "Riemann–Liouville fractional integral (with arbitrary lower terminal)",
+    "usually_credited_to": "Abel (1823), Liouville (1832); this form with general terminal named after Riemann (1847 MS, publ. 1876); Sonine/Letnikov (1868–69)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Changing the lower terminal k→k_1 changes the fractional integral by Σ x^{−μ−1−n}/Π(−μ−1−n)·c_n with constants c_n (via binomial expansion)",
+    "modern_name": "Riemann's complementary function / terminal dependence of Riemann–Liouville operators",
+    "usually_credited_to": "Riemann (Werke 1876), critiqued by Cayley 1880",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the manuscript of Riemann's known posthumously published 1847 paper on generalized differentiation. The Riemann–Liouville integral and the complementary function are already attributed to him from exactly this text.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate((x-t)**(Rational(1,2)-1)*t**2,(t,0,x))/gamma(Rational(1,2)) - gamma(3)/gamma(3+Rational(1,2))*x**Rational(5,2))",
+    "asserts": "Riemann–Liouville integral of order 1/2 (μ=−1/2) of t^2 from k=0 equals Γ(3)/Γ(7/2) x^{5/2}; result 0 (assume x>0)"
+   },
+   {
+    "sympy": "simplify(binomial(-m-1,n) - gamma(-m)/(gamma(n+1)*gamma(-m-n)))",
+    "asserts": "Binomial coefficient identity used in the expansion, with Π(s)=gamma(s+1); result 0"
+   },
+   {
+    "sympy": "simplify(diff(sum(diff(exp(k),k,n)*(x-k)**(n+Rational(1,2))/gamma(n+Rational(3,2)) for n in range(0,6)),k) + exp(k)*(x-k)**Rational(-1,2)/gamma(Rational(1,2)) - (-exp(k)*(x-k)**Rational(11,2)/gamma(Rational(13,2))))",
+    "asserts": "Telescoping dp_μ/dk = −z(k)(x−k)^{−μ−1}/Π(−μ−1) for μ=−1/2, z=exp, up to the truncation remainder; result 0"
+   },
+   {
+    "sympy": "simplify(integrate(integrate((x-s)**(Rational(1,2)-1)*(s-t)**(Rational(1,2)-1)*t,(t,0,s)),(s,0,x))/gamma(Rational(1,2))**2 - integrate((x-t)*t,(t,0,x)))",
+    "asserts": "Semigroup check: two half-integrals from 0 equal one full integral for z=t; result 0"
+   }
+  ],
+  "transcription_corrections": [
+   "In (7) the left integrand carries a minus sign: ∫_x^k −z_(k)(x−k)^{−μ−1}/Π(−μ−1) dk. The transcription dropped the '−'.",
+   "The parenthetical condition reads 'und μ negativ ist'; this is consistent with −μ−1>−1 on the previous page.",
+   "In the struck formula after ∂^{μ−n}z, the original reads ∫_k^x (x−t)^{−μ+n} z_t dt (an abandoned version without −1); the main formula has exponent −μ+n−1.",
+   "'dass zu verschiedenen dem k verschiedenen Werthe giebt' should be read as 'dass, je nachdem man dem k verschiedene Werthe giebt, verschiedene Entwicklungen von z(x+h) daraus hervorgehen'.",
+   "The red marginal note at top right reads approximately '∂_x^μ z ∂_x^μ z' (a notation substitution mark), not '∂_z^μ z'."
+  ]
+ }
+}

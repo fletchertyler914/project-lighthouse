@@ -1,0 +1,83 @@
+{
+ "bundle": "Math.17",
+ "page": "c008",
+ "label": "4r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376641:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is part of Gauss's table of decimal periods of 1/p, with primes taken in descending order. The previous page has 857, 853, 839, 829, 827 and 809; the next page continues with 797, 787 and so on. This page holds three complete periods: p = 823, 821 and 811. There is no algebra on the page; every entry is a long division.\n\n(1) p = 823. 1/823 = 0.00 1215066828 6755771567 ... The digits are written in blocks of ten, starting after the two leading zeros, i.e. at decimal position 3. Eleven rows of 7 blocks plus 5 blocks give 820 digits, covering positions 3 to 822. The final '0012150668' shows the period restarting at position 823 = 1 + 822. So the period length is 822 = p - 1. Hence 10 is a primitive root mod 823 (ord_823(10) = 822 = 2*3*137).\n\n(2) p = 821. 1/821 = 0.00 1218026796 ... Rows 1-7 have 7 blocks each, rows 8-11 have 8 blocks each, and row 12 has one block. That is 82 blocks = 820 digits, after which '1218026796' recurs. The period length is 820 = p - 1, so 10 is a primitive root mod 821.\n\n(3) p = 811. 1/811 = 0.00 1233045622 ... There are 77 + 4 = 81 blocks = 810 digits, then '1233045622' recurs. The period length is 810 = p - 1, so 10 is a primitive root mod 811.\n\nThe repetition of the opening block (underlined in the manuscript) is Gauss's built-in check that the division has closed up.\n\nChecks I made (not on the page):\n(a) End of period. If N = (10^(p-1) - 1)/p, then pN = 99...9.\n- 823 * 8347509113 = 6869999999999.\n- 821 * 28136419 = 23099999999.\n- 811 * 32675709 = 26499999999.\nSo all three periods end correctly.\n(b) Half-period complement (Midy). The digit at position k + (p-1)/2 should be the 9's complement of the digit at position k.\n- 823: '1215066828' at positions 3-12 against '8784933171' at 414-423. Agrees.\n- 821: '1218026796' against '8781973203' at 413-422. Agrees.\n- 811: positions 188-197 read '1565967940'. Positions 593-602 read '8434032059', which is exactly their complement.\nCheck (b) for 811 confirms the superscript correction in row 9: the digit 4 inserted in '843[4]032059' is right.\n\nPurpose: this is the material for the table of periods of fractions with prime denominators below 1000. The method is that of Disquisitiones Arithmeticae arts. 312-318: when 10 is a primitive root mod p, one full period of 1/p yields every fraction a/p by cyclic shift, using indices (discrete logarithms). Gauss announced such a table in art. 317, and it was printed posthumously in Werke II as the 'Tafel zur Verwandlung gemeiner Brüche ... in Decimalbrüche'.",
+  "errors": [
+   "No arithmetic errors detected in the parts I checked: period lengths, period endings, and complement symmetry at sampled positions. The one visible correction (inserted 4 in 8434032059, prime 811) is correct."
+  ],
+  "results": [
+   {
+    "what": "Full decimal periods of 1/823, 1/821 and 1/811, of lengths 822, 820 and 810, i.e. 10 is a primitive root modulo each of these primes",
+    "modern_name": "Full reptend primes; period of 1/p equals ord_p(10)",
+    "usually_credited_to": "Decimal period tables: Wallis, Lambert, Robertson, J. Bernoulli; Burckhardt and Goodwyn (c. 1817-1818); Gauss, Disq. Arith. arts. 312-318 (1801)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Implicit consistency check: the second half of each period is the 9's complement of the first half (10^((p-1)/2) = -1 mod p)",
+    "modern_name": "Midy's theorem",
+    "usually_credited_to": "E. Midy (1836); the underlying congruence is in Gauss's Disquisitiones",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a working sheet for Gauss's known table of decimal periods for primes below 1000, announced in the Disquisitiones and published in Werke II. The computations are routine and correct.",
+  "checkable": [
+   {
+    "sympy": "n_order(10, 823) == 822",
+    "asserts": "10 is a primitive root mod 823, so 1/823 has period 822"
+   },
+   {
+    "sympy": "n_order(10, 821) == 820",
+    "asserts": "1/821 has full period 820"
+   },
+   {
+    "sympy": "n_order(10, 811) == 810",
+    "asserts": "1/811 has full period 810"
+   },
+   {
+    "sympy": "floor(Integer(10)**12/823) == 1215066828",
+    "asserts": "First digits of 1/823 are 0.001215066828"
+   },
+   {
+    "sympy": "floor(Integer(10)**12/821) == 1218026796",
+    "asserts": "First digits of 1/821"
+   },
+   {
+    "sympy": "floor(Integer(10)**12/811) == 1233045622",
+    "asserts": "First digits of 1/811"
+   },
+   {
+    "sympy": "((10**822-1)//823) % 10**10 == 8347509113",
+    "asserts": "Last ten digits of the 1/823 period match the manuscript"
+   },
+   {
+    "sympy": "((10**820-1)//821) % 10**8 == 28136419",
+    "asserts": "Period of 1/821 ends ...28136419 (last block 2813641900 includes the restart 00)"
+   },
+   {
+    "sympy": "((10**810-1)//811) % 10**8 == 32675709",
+    "asserts": "Period of 1/811 ends ...32675709"
+   },
+   {
+    "sympy": "(10**602 // 811) % 10**10 == 8434032059",
+    "asserts": "Decimal digits 593-602 of 1/811 are 8434032059, confirming the inserted correction"
+   },
+   {
+    "sympy": "(10**411 + 1) % 823 == 0",
+    "asserts": "Half-period complement (Midy) property for 823"
+   }
+  ],
+  "transcription_corrections": [
+   "Header: 'Math. 17' and '441' are later archival/foliation marks; '(4)' is the circled folio number.",
+   "811 block, row 9: '843{+4+}032059' should read 8434032059. The 4 is a correct superscript insertion, verified by the half-period complement check.",
+   "The two trailing dots after the last block of 823 belong to the ellipsis, and the final blocks of each section ('0012150668', '1218026796', '1233045622') are underlined in the manuscript as the period restart.",
+   "821 block: rows 8-11 contain 8 blocks each, not 7; the transcription correctly reflects this."
+  ]
+ }
+}

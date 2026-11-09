@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Primzahlen",
+ "page": "c057",
+ "label": "29v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3226542:00000058/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page tabulates Riemann's prime-power counting function and then uses it to recover the ordinary prime count at x = 100.\n\n**1. The left-hand column.** It lists the prime powers n ≤ 103 together with the running value of\n\nf(x) = J(x) = Σ_{p^k ≤ x} 1/k = π(x) + ½π(x^{1/2}) + ⅓π(x^{1/3}) + …\n\nThis is the function f(x) of the 1859 paper 'Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse'.\n\n- At each prime p the value increases by 1.\n- At each prime power p^k (k ≥ 2) it increases by 1/k.\n- The values recorded are the full values at the jump points, not Riemann's averaged value ½(f(x+0)+f(x−0)).\n\nThe recoverable steps are:\n\n- **Start (partly hidden by the stain):** 2 → 1, 3 → 2, 4 → 2½, 5 → 3½, 7 → 4½, 8 → 4⅚ (+⅓), 9 → 5⅓ (+½).\n- **Primes 11, 13:** 6⅓, 7⅓.\n- **16 → 7 7/12** (+¼).\n- **Primes 17, 19, 23:** up to 10 7/12.\n- **Squares and cubes:** 25 → 11 1/12 (+½); 27 → 11 5/12 (+⅓).\n- **Primes 29, 31:** 13 5/12.\n- **32 → 13 37/60** (+1/5).\n- **Primes 37, 41, 43:** 16 37/60.\n- **Slip (see errors):** 49 → 17 7/60; 51 → 18 7/60.\n- **Primes 53, 59, 61:** 21 7/60.\n- **64 → 21 17/60** (+1/6).\n- **Primes 67, 71, 73, 79:** 25 17/60.\n- **81 → 25 8/15** (+¼ = 15/60, giving 25 32/60).\n- **Primes 83, 89, 97:** 28 8/15.\n- **100:** an entry was begun and struck out, since 100 is not a prime power.\n- **Primes 101, 103:** 29 8/15, 30 8/15.\n\nSo J(100) = 28 8/15.\n\n**2. The computation at bottom right.** This is the Möbius inversion stated in the 1859 paper:\n\nπ(x) = Σ_n μ(n)/n · f(x^{1/n}).\n\nApplied at x = 100, the needed values are:\n\n- f(10) = 4 + ½·2 + ⅓·1 = 5⅓\n- f(100^{1/3} ≈ 4.64) = 2 + ½ = 2½\n- f(100^{1/5} ≈ 2.51) = 1\n- f(100^{1/6} ≈ 2.15) = 1\n- f(100^{1/7}) = 0, since 100^{1/7} < 2\n\nHence\n\nπ(100) = 28 8/15 − ½·5⅓ − ⅓·2½ − 1/5 + 1/6 = 28 8/15 − 8/3 − 5/6 − 1/5 + 1/6.\n\nThe second line on the page records exactly these simplified terms. The final subtraction is left unwritten; only a dash begins a third line.\n\n(My completion:) in thirtieths, 856 − 80 − 25 − 6 + 5 = 750, so π(100) = 25, which is correct.\n\n**Purpose.** This is a hand verification of the identity linking f and π, done as a numerical check of the 1859 framework.",
+  "errors": [
+   "The prime 47 is omitted. As a result, 49 is given 17 7/60, whereas the true f(49) = 18 7/60.",
+   "51 = 3·17 is listed as if it were a prime, with +1. This compensating error restores the correct running total (f(51) = 18 7/60), so every value from 51 onward, including f(100) = 28 8/15, is correct.",
+   "At the entry for 100 an alternative value was begun and struck out; it may read 28 8/30. This is harmless, since 100 is not a prime power.",
+   "The final arithmetic is left unfinished. It would give π(100) = 25, which is correct."
+  ],
+  "results": [
+   {
+    "what": "Tabulation of f(x) = Σ_{p^k ≤ x} 1/k at the prime powers up to 103.",
+    "modern_name": "Riemann prime-power counting function J(x) (= Π₀(x) up to the convention at jumps)",
+    "usually_credited_to": "Riemann (1859)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Recovery of π(100) = 25 from f via π(x) = Σ μ(n)/n f(x^{1/n}).",
+    "modern_name": "Möbius inversion of J(x) to π(x)",
+    "usually_credited_to": "Riemann (1859), with Möbius inversion (1832)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine numerical check of the f(x)/π(x) inversion published in Riemann's 1859 paper. It is mildly interesting only as evidence that he computed small cases by hand, including a slip with 47/51 that cancels itself.",
+  "checkable": [
+   {
+    "sympy": "sum(Rational(1,k)*primepi(floor(100**(Rational(1,k))+Rational(1,10**9))) for k in range(1,8)) == Rational(428,15)",
+    "asserts": "J(100) = 28 8/15 (floor guard for exact roots)"
+   },
+   {
+    "sympy": "Rational(428,15) - Rational(1,2)*Rational(16,3) - Rational(1,3)*Rational(5,2) - Rational(1,5) + Rational(1,6) == 25",
+    "asserts": "The Möbius inversion at x = 100 gives π(100) = 25"
+   },
+   {
+    "sympy": "primepi(100) == 25",
+    "asserts": "π(100) = 25"
+   },
+   {
+    "sympy": "primepi(53) + Rational(1,2)*primepi(7) + Rational(1,3)*primepi(3) + Rational(1,4)*primepi(2) + Rational(1,5)*primepi(2) == 19 + Rational(7,60)",
+    "asserts": "f(53) = 19 7/60, as on the page"
+   },
+   {
+    "sympy": "primepi(49) + Rational(1,2)*primepi(7) + Rational(1,3)*primepi(3) + Rational(1,4)*primepi(2) + Rational(1,5)*primepi(2) == 18 + Rational(7,60)",
+    "asserts": "The true f(49) is 18 7/60, not the page's 17 7/60"
+   },
+   {
+    "sympy": "isprime(47) and not isprime(51)",
+    "asserts": "47 should appear in the list and 51 should not"
+   }
+  ],
+  "transcription_corrections": [
+   "The stained top entries should read 2: 1, 3: 2, 4: 2½, 5: 3½, 7: 4½, 8: 4⅚, 9: 5⅓. The 'n' labels for 2–5 are hidden by the stain, and the value beside 8 is obscured.",
+   "The '51' entry is genuinely what is written on the page, but it is a slip (51 is not prime), and the prime 47 is missing between 43 and 49.",
+   "The struck-out entry is '100' with a struck value (possibly 28 8/30), not a meaningful datum.",
+   "The bottom computation is π(100) = f(100) − ½f(10) − ⅓f(100^{1/3}) − ⅕f(100^{1/5}) + ⅙f(100^{1/6}), with f(10) = 5⅓, f(100^{1/3}) = 2½, f(100^{1/5}) = 1 and f(100^{1/6}) = 1."
+  ]
+ }
+}

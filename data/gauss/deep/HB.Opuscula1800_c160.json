@@ -1,0 +1,71 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c160",
+ "label": "155",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000161/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has three unrelated pieces. (A) and (B) are observational and are not reconstructed here in detail; (C) is mathematical.\n\n(A) Observation table headed '(1823?)'. Rows for Dec. 17, 21 and 28 begin with an angle of about 270°39'50\" and give seconds readings (45.0, 47.5, 49.0, ...) plus small signed corrections. They are almost certainly meridian-circle or collimation readings. The next page gives the reduced values 270°39'49\"02, 50\"14 and 54\"55 for the same dates. The intermediate reduction is not shown, and I could not reproduce those means from the printed figures.\n\n(B) Meridian marks ('Südliches Zeichen' = southern mark, 'Nördliches Zeichen' = northern mark), pointings to 'Stein' (stone) and 'Obres Queerpf.' (upper cross-post). Each is given as a pair of angles. Internal check (mine): in every row the two columns differ by the same constant, 38°28'12.0\".\n- South: -37°41'4.6\" + 38°28'12.0\" = +0°47'7.4\".\n- North: 39°10'4.1\" - 38°28'12.0\" = 0°41'52.1\", and 39°10'58.5\" - 38°28'12.0\" = 0°42'46.5\".\n- The stone and the cross-post differ by 54.4\" in both columns.\nSo the second column is the first column re-referred to a different zero, with opposite sign for the north and south marks.\n\n(C) Gauss's 'Transformationsscale' (a,b,c,d), i.e. a quaternion q = a + b i + c j + d k, acting on space by v -> q v q̄. The next page gives the matrix with entries ad+bc, bd-ac, ... ; the page itself states three facts.\n\n1. Magnification. The scale represents a magnification N = aa+bb+cc+dd together with a rotation by an angle λ. With the quadratic-entry matrix, lengths are multiplied by the norm N.\n\n2. Pole of the rotation. The rotation is about the point with coordinates (b/a)cot(λ/2), (c/a)cot(λ/2), (d/a)cot(λ/2).\n- Write a = √N cos(λ/2) and (b,c,d) = √N sin(λ/2)·n, with n a unit vector. Then tan(λ/2) = √(b²+c²+d²)/a.\n- Hence (b,c,d)·cot(λ/2)/a = (b,c,d)/√(b²+c²+d²) = n.\n- So the 'Punct' is the pole of the rotation axis on the unit sphere.\n\n3. Composition. Suppose three successive scales compose to (M,0,0,0), i.e. their product is a pure magnification with no rotation. Let their poles be P, P', P'' and their angles λ, λ', λ''. Then λ/2, λ'/2, λ''/2 are the angles of the spherical triangle PP'P''.\n- In modern terms: if R_{P''}(λ'') R_{P'}(λ') R_P(λ) = Id, then the poles span a spherical triangle whose angles are the half rotation angles.\n- This is the Rodrigues–Hamilton geometric composition rule for rotations. Proof sketch (mine): each rotation is a product of reflections in two great-circle planes through its pole, meeting at angle λ/2; choose the planes to be the sides of the triangle and the reflections cancel pairwise.\n- Equivalently, q'' q' q = scalar, where q = cos(λ/2) + sin(λ/2)·P etc.",
+  "errors": [
+   "The third pole coordinate is written '(d/a) cotg ½a'; it should be '(d/a) cotg ½λ'. This is a slip of the pen.",
+   "The spherical-triangle statement holds only up to orientation conventions. The rotations must all be taken in the same sense relative to the triangle's orientation, otherwise some angles become π - λ/2. Gauss leaves this implicit.",
+   "Gauss does not say that the magnification N refers to the quadratic-entry matrix q v q̄. In the half-normalized form on the next page the factor is N/2. This is a matter of normalization, not an error."
+  ],
+  "results": [
+   {
+    "what": "A quaternion-like 4-tuple (a,b,c,d) represents a similarity of space: scaling by a²+b²+c²+d² combined with rotation by λ, where tan(λ/2) = √(b²+c²+d²)/a",
+    "modern_name": "Quaternion (Euler–Rodrigues) parametrization of rotations",
+    "usually_credited_to": "Euler (1770), Rodrigues (1840), Hamilton (1843)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "The rotation axis meets the unit sphere at (b,c,d)·cot(λ/2)/a",
+    "modern_name": "Rotation pole / Rodrigues vector (b,c,d)/a = tan(λ/2)·n",
+    "usually_credited_to": "Rodrigues (1840)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Three rotations composing to the identity have poles forming a spherical triangle whose angles are the half rotation angles",
+    "modern_name": "Rodrigues–Hamilton spherical-triangle construction for composing rotations",
+    "usually_credited_to": "Olinde Rodrigues (1840); W. R. Hamilton (1844 onward)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss's 'Mutationen des Raumes' quaternion notes are known and printed in Werke VIII, with an editorial date around 1819. His anticipation of the quaternion parametrization of rotations is therefore already part of the historiography. The explicit spherical-triangle composition rule (usually credited to Rodrigues 1840 and Hamilton) is a notable detail; I am unsure whether it appears in the printed excerpt. That raises the score slightly above routine, but it is not a new major attribution.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d=symbols('a b c d',real=True); N=a**2+b**2+c**2+d**2; R=Matrix([[a**2+b**2-c**2-d**2,2*(b*c-a*d),2*(b*d+a*c)],[2*(b*c+a*d),a**2-b**2+c**2-d**2,2*(c*d-a*b)],[2*(b*d-a*c),2*(c*d+a*b),a**2-b**2-c**2+d**2]]); simplify(R.T*R - N**2*eye(3))",
+    "asserts": "The quadratic-entry matrix of the scale is N times an orthogonal matrix (magnification aa+bb+cc+dd); result is the zero matrix."
+   },
+   {
+    "sympy": "simplify(R*Matrix([b,c,d]) - N*Matrix([b,c,d]))",
+    "asserts": "(b,c,d) lies on the rotation axis; result is the zero vector."
+   },
+   {
+    "sympy": "l,s=symbols('lambda s',positive=True); n1,n2,n3=symbols('n1 n2 n3'); expr=(s*sin(l/2)*n1/(s*cos(l/2)))*cot(l/2); simplify(expr-n1)",
+    "asserts": "With a = s·cos(λ/2) and b = s·sin(λ/2)·n1, (b/a)cot(λ/2) = n1, the pole coordinate; result is 0."
+   },
+   {
+    "sympy": "from sympy.algebras.quaternion import Quaternion; Quaternion(0,0,0,1)*Quaternion(0,0,1,0)*Quaternion(0,1,0,0)",
+    "asserts": "Rotations by π about the x, y, z axes compose to a scalar (-1) quaternion. The octant triangle has all angles π/2 = λ/2, a special case of the triangle theorem."
+   },
+   {
+    "sympy": "from sympy.algebras.quaternion import Quaternion; A=Matrix([0,0,1]); B=Matrix([1,0,0]); C=Matrix([1,1,1])/sqrt(3); ang=lambda P,Q,S: acos(((Q-P.dot(Q)*P).normalized()).dot((S-P.dot(S)*P).normalized())); al,be,ga=ang(A,B,C),ang(B,C,A),ang(C,A,B); q=lambda P,t: Quaternion(cos(t),sin(t)*P[0],sin(t)*P[1],sin(t)*P[2]); r=q(C,ga)*q(B,be)*q(A,al); [N(r.b),N(r.c),N(r.d)]",
+    "asserts": "For a generic spherical triangle, rotations by twice the vertex angles compose to a pure scalar; the vector part is 0 up to a sign/orientation convention (with opposite orientation use -angles or reversed order)."
+   },
+   {
+    "sympy": "(-37*3600-41*60-4.6)+38*3600+28*60+12.0 - (47*60+7.4); (39*3600+10*60+4.1)-(38*3600+28*60+12.0)-(41*60+52.1); (39*3600+10*60+58.5)-(38*3600+28*60+12.0)-(42*60+46.5)",
+    "asserts": "The meridian-mark columns differ by the constant 38°28'12.0\" in every row; each expression is 0 up to floating-point rounding."
+   }
+  ],
+  "transcription_corrections": [
+   "The last pole coordinate is indeed written 'd/a cotg ½a' in the manuscript; this is Gauss's slip for ½λ, not a transcription error.",
+   "Dec. 17 row: '27. 7,0' is unclear; it is probably a separate reading such as '27,7' followed by '0', or a ditto mark. The rows for Dec. 21 and 28 show a ditto-like sign before 10,6 and 8,9.",
+   "'Obres Queerpf.' is probably 'Obrer Querpfahl/Querpfeiler' (upper cross-post); 'Stein' = stone (mark)."
+  ]
+ }
+}

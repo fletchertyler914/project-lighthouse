@@ -1,0 +1,61 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c308",
+ "label": "305",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000309/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (p.304): Gauss traces paraxial rays through a centred system of glasses with index n. The quantity f is a surface power: the radius is (n-1)/f, convex counted +. The quantity h is a reduced distance: thickness = n·h in glass, the plain distance in air. The recursion is α=1, β=fα, α'=hβ-α, β'=f'α'-β, and so on. These are Gauss's alternating-sign continuants (Gaussian brackets). The α_k are ray heights and the β_k reduced ray angles, both up to alternating signs.\n\nOn p.304 he wrote the achromatism conditions. On this page he turns to the same machinery 'wegen Kugelgestalt', i.e. for the spherical aberration of the surfaces.\n\nSetup: 'Sind 4 Gläser da'. Four lenses give 8 surfaces f,f',…,f^vii, 7 intervals h,…,h^vi, and ray quantities α,β,…,α^vii,β^vii.\n\n(1) Variational identity. α^vii/β^vii is the back focal intercept of the parallel incident ray. For arbitrary small changes of the surface powers and intervals:\nβ^vii² · d(α^vii/β^vii) = -df - α'² df' - α''² df'' - … - β² dh - β'² dh' - β''² dh'' - …\nThis is the same linear form used for colour on p.304. My check for a 2- and 3-surface chain confirms it: (β')² d(α'/β') = -df - α'² df' - β² dh.\n\n(2) Application to spherical aberration (my interpretation, consistent with every term). A finite aperture makes each surface act as if its power were changed by an effective δf_k, proportional to the square of the ray height. Substituting these into (1) gives the longitudinal aberration of the final focus as a sum of surface contributions. An overall aperture factor ε² is suppressed, with α=1 normalised.\n= -α β³/(2n²(n-1)²)\n  - α'(nβ'+β)²(n²β'+β)/(2n²(n-1)²)\n  - α''(nβ'+β'')²(n²β'+β'')/(2n²(n-1)²) - etc.\n\nGeneral rule: each surface contributes -α_k (n·b_air + b_glass)² (n²·b_air + b_glass)/(2n²(n-1)²). Here b_air and b_glass are the reduced angles on the air and glass sides of that surface. For the first surface b_air=0, giving β³. At the 2nd surface the glass side is β and the air side β'. At the 3rd surface the air side is β' and the glass side β''.\n\nMy derivation, surface 1: exact refraction of a parallel ray at height y gives the axial crossing l' = r + r·sin i'/sin(i-i') = nr/(n-1) - y²/(2n(n-1)r) + O(y⁴). The effective reduced power therefore rises by δf = y² f³/(2n²(n-1)²). Hence α²δf = αβ³/(2n²(n-1)²), which is exactly Gauss's first term.\n\nMy derivation, general surface: the term equals ½ of Seidel's S_I = A² y Δ(u/n) written in Gauss's variables.\n- Surface 2: A = (nβ'+β)/(n-1), Δ(u/n) = (n²β'+β)/n², y = -α'.\n- Surface 3: A = (nβ'+β'')/(n-1), Δ(u/n) = -(n²β'+β'')/n², y = α''.\nAll three printed terms come out with the same overall sign, as on the page.",
+  "errors": [
+   "No mathematical error found; all three written terms agree with third-order theory, including the alternating-sign bookkeeping.",
+   "Implicit, not an error: the right-hand side omits the overall factor (square of the semi-aperture), and the equality is valid only to third order (lowest order in aperture).",
+   "The left side reuses the symbol ∂ for the aberration-induced change of the intercept rather than an ordinary differential. This is a notational identification, not a slip."
+  ],
+  "results": [
+   {
+    "what": "Linear variational identity: β_N² d(α_N/β_N) = -Σ α_k² df_k - Σ β_k² dh_k for the paraxial continuant recursion (sensitivity of back focal distance to surface powers and reduced separations)",
+    "modern_name": "Paraxial sensitivity / thin-perturbation formula (Lagrange-invariant based), first-order chromatic and perturbation sum",
+    "usually_credited_to": "Implicit in Euler/Lagrange dioptrics; systematic Gaussian-bracket form Gauss (Dioptrische Untersuchungen 1841), later Seidel",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Spherical aberration of a multi-lens system (with thicknesses) as a sum of surface contributions -α_k (n b_air + b_glass)² (n² b_air + b_glass)/(2n²(n-1)²)",
+    "modern_name": "Surface contributions to the third-order spherical-aberration Seidel sum S_I (=½ A² y Δ(u/n) per surface)",
+    "usually_credited_to": "Spherical aberration of lens systems: Euler, Klügel, Lagrange (18th c.); general surface-by-surface third-order sums: Seidel 1856 (also Petzval)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss's paraxial continuant method is known as his, and his 1817 paper on achromatic double objectives treats spherical aberration. Third-order spherical-aberration formulas for lens systems also predate him (Euler, Klügel, Lagrange). What is mildly notable is the compact, fully general surface-by-surface form for thick multi-lens systems in Gaussian-bracket variables, equivalent to Seidel's S_I sum. It appears around 1816, decades before Seidel, but it covers only one aberration and only a sketch.",
+  "checkable": [
+   {
+    "sympy": "f,h,f1,h1,f2=symbols('f h f1 h1 f2'); a=1; b=f*a; a1=h*b-a; b1=f1*a1-b; a2=h1*b1-a1; b2=f2*a2-b1; R=a2/b2; [simplify(b2**2*diff(R,f)+a**2), simplify(b2**2*diff(R,f1)+a1**2), simplify(b2**2*diff(R,f2)+a2**2), simplify(b2**2*diff(R,h)+b**2), simplify(b2**2*diff(R,h1)+b1**2)]",
+    "asserts": "All five are zero: β_N² d(α_N/β_N) = -Σα_k² df_k - Σβ_k² dh_k (the page's first equation)."
+   },
+   {
+    "sympy": "s,n,r=symbols('s n r',positive=True); L=r+r*sin(asin(s/n))/sin(asin(s)-asin(s/n)); simplify(series(L,s,0,4).removeO()-(n*r/(n-1)-r*s**2/(2*n*(n-1))))",
+    "asserts": "Zero: the exact back-intercept of a parallel ray at a single spherical surface (s = y/r) shortens by r s²/(2n(n-1)), which gives the first term -αβ³/(2n²(n-1)²)."
+   },
+   {
+    "sympy": "n,y,f=symbols('n y f',positive=True); r=(n-1)/f; F=n/(n*r/(n-1)-y**2/(2*n*(n-1)*r)); simplify(series(F,y,0,3).removeO()-(f+y**2*f**3/(2*n**2*(n-1)**2)))",
+    "asserts": "Zero: the effective reduced power increase is δf = y² f³/(2n²(n-1)²), so α²δf = αβ³/(2n²(n-1)²) with β = fα."
+   },
+   {
+    "sympy": "n,b,b1,a1,f1=symbols('n b b1 a1 f1'); simplify((-b+n*a1*f1/(n-1)).subs(f1,(b1+b)/a1)-(n*b1+b)/(n-1))",
+    "asserts": "Zero: the refraction invariant at the 2nd surface (glass→air) is A = (nβ'+β)/(n-1), the factor squared in the second term."
+   },
+   {
+    "sympy": "n,b1,b2,a2,f2=symbols('n b1 b2 a2 f2'); simplify((b1+a2*f2/(n-1)).subs(f2,(b2+b1)/a2)-(n*b1+b2)/(n-1))",
+    "asserts": "Zero: the refraction invariant at the 3rd surface (air→glass) is A = (nβ'+β'')/(n-1), the factor squared in the third term."
+   }
+  ],
+  "transcription_corrections": [
+   "The symbol transcribed '6' is β throughout (β, β', β'', …).",
+   "The upper indices are vii and vi, not '''. Line 2 should read 'f, h, f', h' … h^vi, f^vii' (4 glasses = 8 surfaces), and line 3 'α, β, α', β' … α^vii, β^vii'. The left side should read β^vii β^vii ∂(α^vii/β^vii).",
+   "'Sind 4 Gläser da' is correct; 'wegen Kugelgestalt' belongs to the line of f,h.",
+   "Third term: the denominator is 2nn(n-1)², with a stray stroke in the manuscript; the factors (nβ'+β'')²(nnβ'+β'') are correctly read."
+  ]
+ }
+}

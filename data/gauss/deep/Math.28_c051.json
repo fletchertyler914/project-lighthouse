@@ -1,0 +1,68 @@
+{
+ "bundle": "Math.28",
+ "page": "c051",
+ "label": "26r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000052/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is an excerpt, explicitly headed and attributed: 'Berliner Akademie 1846. November. S. 351 ff. Jacobi.' It copies the general theorem of Jacobi's note in the Monatsberichte. The previous page, signed 'J.', treated Poisson/Jacobi brackets. The next page applies the theorem to Kepler motion in spherical coordinates. The page is a summary of Jacobi's work, not an original Gauss derivation.\n\n(1) Setting. A conservative system has independent coordinates q_1..q_n, with constraints allowed. Energy conservation is written T = U + h, where 2T is the vis viva, U the force function (potential with Jacobi's sign, so H = T - U = h) and h the energy constant. Put q_i' = dq_i/dt and write T = T(q, q'), quadratic in q'.\n\n(2) Hamilton–Jacobi equation. Impose dT/dq_i' = dV/dq_i. In modern terms the momenta are p_i = dT/dq_i' and are set equal to grad V. Invert this map, which is linear because T is quadratic. Then T = (1/2) p^T M(q)^{-1} p becomes a function of q and dV/dq. So T = U + h turns into the time-independent Hamilton–Jacobi equation (1/2) grad V^T M^{-1} grad V = U(q) + h, a first-order PDE for V(q).\n\n(3) Complete integral. Take a solution V(q; alpha_1..alpha_{n-1}, h) containing arbitrary constants. Jacobi's criterion for completeness: V satisfies no other first-order PDE free of V and of the constants. Modern equivalent: the constants cannot be eliminated, i.e. det(d^2V/dq_i d alpha_j) is nonzero, counting h among the constants.\n\n(4) Integration. The complete integral equations are dV/d alpha_k = beta_k and dV/dh = t + tau, with beta_k and tau new arbitrary constants. These give the q's as functions of t and 2n constants (Jacobi's theorem).\n\n(5) Perturbations. For the perturbed problem T = U + Omega + h, the elements alpha, beta (and the pair h, tau, implicit in the '...') vary according to:\n- d alpha_k/dt = dOmega/d beta_k,\n- d beta_k/dt = -dOmega/d alpha_k.\nOmega is expressed through the elements and t.\n\n[My check, not on the page] Use the time-dependent generating function S = V - h t. Then (alpha, h) are new momenta and (beta, tau) their conjugates. The new Hamiltonian is K = H - h, which is 0 unperturbed and -Omega perturbed. Hamilton's equations then give exactly the stated signs, plus dh/dt = dOmega/d tau and d tau/dt = -dOmega/dh.",
+  "errors": [
+   "No mathematical errors. The signs of the perturbation equations are correct for Jacobi's convention T = U + Omega + h, i.e. H = T - U - Omega.",
+   "Notation is inconsistent (partial and straight d mixed, e.g. '∂T/dq_1''). This is cosmetic.",
+   "The pair (h, tau) is not written out in the perturbation equations; it is only implied by the '...'. Jacobi's general statement includes dh/dt = dOmega/d tau and d tau/dt = -dOmega/dh.",
+   "'Function selbst' in the completeness criterion means the unknown V. The criterion is stated as in Jacobi and is not proved here."
+  ],
+  "results": [
+   {
+    "what": "Reduction of a conservative mechanical problem to the first-order PDE T(q, dV/dq) = U + h",
+    "modern_name": "Time-independent Hamilton–Jacobi equation",
+    "usually_credited_to": "Hamilton (1834–35) and Jacobi (1837, Crelle; lectures 1842–43)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Complete integral V(q, alpha, h) gives the solution via dV/d alpha_k = beta_k and dV/dh = t + tau",
+    "modern_name": "Jacobi's theorem (Hamilton–Jacobi integration method)",
+    "usually_credited_to": "C.G.J. Jacobi (1837)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Criterion of completeness: the solution satisfies no other first-order PDE free of V and the constants",
+    "modern_name": "Non-degeneracy det(d^2 V/dq d alpha) != 0 of a complete integral",
+    "usually_credited_to": "Lagrange/Jacobi",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Perturbed elements satisfy d alpha/dt = dOmega/d beta and d beta/dt = -dOmega/d alpha",
+    "modern_name": "Canonical (Jacobi) elements; variation of constants in canonical form",
+    "usually_credited_to": "Jacobi (1837/1846), building on Lagrange and Poisson and Hamilton",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is an explicitly attributed excerpt of Jacobi's 1846 Berlin Academy note. It shows Gauss reading and copying Jacobi's Hamilton–Jacobi and canonical-perturbation theory, with no original contribution.",
+  "checkable": [
+   {
+    "sympy": "q,h=symbols('q h',positive=True); simplify(diff(asin(q/sqrt(2*h)),q) - diff(diff(Integral(sqrt(2*h-q**2),q).doit(),h),q))",
+    "asserts": "For the oscillator H=p^2/2+q^2/2=h, the complete integral is V=∫sqrt(2h-q^2)dq. Here dV/dh = asin(q/sqrt(2h)) = t+tau, so q = sqrt(2h) sin(t+tau); the expression simplifies to 0."
+   },
+   {
+    "sympy": "t,tau=symbols('t tau'); h=symbols('h',positive=True); q=sqrt(2*h)*sin(t+tau); p=sqrt(2*h)*cos(t+tau); simplify(diff(q,tau)*diff(p,h)-diff(q,h)*diff(p,tau))",
+    "asserts": "The Lagrange bracket of the conjugate elements (h, tau) equals 1, so the canonical perturbation equations hold with the stated sign convention; it should give 1."
+   },
+   {
+    "sympy": "r,phi,pr,pphi,ppsi=symbols('r phi p_r p_phi p_psi',positive=True); rd,phid,psid=pr, pphi/r**2, ppsi/(r**2*sin(phi)**2); simplify(Rational(1,2)*(rd**2+r**2*phid**2+r**2*sin(phi)**2*psid**2) - Rational(1,2)*(pr**2+pphi**2/r**2+ppsi**2/(r**2*sin(phi)**2)))",
+    "asserts": "Expressing T through the momenta dT/dq' = dV/dq gives the Hamilton–Jacobi kinetic term used in the next page's Kepler example; the result is 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Image reads 'Es sein q1, q2' (Gauss's spelling), transcribed as 'Es seien'.",
+   "The struck-out folio number at the top right looks like '48a' or '48d' crossed out and replaced by '26'; the reading is uncertain.",
+   "The first equation is written '∂T/dq1' = dV/dq1' with a mixed partial/straight d. The transcription keeps this, which is faithful.",
+   "'Sind nemlich α1, α2 … die in V enthaltenen' is written in the manuscript as 'in Venthaltenen' (V run together with the following word)."
+  ]
+ }
+}

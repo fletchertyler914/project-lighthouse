@@ -1,0 +1,65 @@
+{
+ "bundle": "Math.34",
+ "page": "c003",
+ "label": "1r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382187:00000004/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous sheet refers to Lobachevsky's 'Application of imaginary geometry to certain integrals' (Kazan, 1836), which Gauss read in Russian in the 1840s. 'Astralgeometrie' is Schweikart's term, adopted by Gauss, for non-Euclidean (hyperbolic) geometry. The page sets up an elementary volume computation in hyperbolic space with curvature -1.\n\nSetup:\n- Triangle ABC lies in a plane P1.\n- At A, B, C the perpendiculars Aa, Bb, Cc to P1 are erected.\n- A second plane P2 passes through a, b, c.\n- Aa is the shortest distance between P1 and P2, so it is their common perpendicular, and it is infinitesimal: Aa = eps.\n- AD is perpendicular to BC, with D on BC (from the figure).\n\nClaim: Vol(ABCabc) = (1/2) * Aa * BC * sin(i*AD)/i = (1/2) * eps * BC * sinh(AD).\n\nReconstruction (my steps):\n(a) Height of the slab. Take a point Q in P1 at distance rho from A. The plane through Aa and AQ is perpendicular to P1, so it contains the normal at Q. In that plane, A, Q, the foot on P2 and a form a Lambert quadrilateral, so sinh h = sinh(eps)*cosh(rho). To first order, h = eps*cosh(rho).\n(b) Volume element. In Fermi coordinates over P1, dV = cosh^2(s) ds dA. To first order in eps, the slab volume is therefore V = eps * integral over triangle ABC of cosh(rho) dA.\n(c) Polar coordinates about A. With dA = sinh(rho) d(rho) d(theta), the radial integral gives integral_0^R cosh*sinh d(rho) = sinh(R)^2/2. Hence V = (eps/2) * integral of sinh(R(theta))^2 d(theta), where R(theta) is the distance from A to BC in direction theta.\n(d) Change of variable to arclength t along BC, measured from D. Write p = AD. In the right triangle ADX:\n  - cosh R = cosh p cosh t,\n  - tan(theta) = tanh t / sinh p.\n  Then d(theta) = sinh p dt / (sinh(p)^2 cosh(t)^2 + sinh(t)^2) and sinh(R)^2 = sinh(t)^2 + sinh(p)^2 cosh(t)^2. So sinh(R)^2 d(theta) = sinh(p) dt.\n(e) Integrating over BC (with signed t if D falls outside BC) gives V = (1/2) * eps * BC * sinh(AD). Since sin(i x)/i = sinh x, this is exactly Gauss's formula.\n\nIn the Euclidean limit sinh(AD) -> AD, and V reduces to eps * (1/2 * BC * AD) = Aa * area(ABC), as it should. Gauss writes sinh through the circular sine of an imaginary argument, the device of Lambert, Taurinus and Lobachevsky.\n\nThe next page ('Noch zierlicher', 'even more elegantly') turns to a pyramid with an infinitesimal dihedral angle theta at AB. This is the same type of differential volume element used in Lobachevsky's integral computations.",
+  "errors": [
+   "No mathematical error, provided i is the imaginary unit and curvature is normalized to -1 (space constant 1).",
+   "The text line reads like 'AB normal gegen BC'; taken literally (AB perpendicular to BC) the formula needs D = B. The figure clearly shows AD perpendicular to BC, so the intended statement is 'AD normal gegen BC'.",
+   "The formula is first-order in Aa; this is implicit in 'unendlich klein'. The exact relation sinh h = sinh(Aa)*cosh(rho) and the cosh^2 volume factor are dropped, which is legitimate to first order.",
+   "Unstated but essential: Aa being the minimal distance means A is the foot of the common perpendicular of the two planes. Without that, the cosh(rho) height law about A fails."
+  ],
+  "results": [
+   {
+    "what": "Volume of an infinitesimally thin hyperbolic prism over triangle ABC, cut off by a plane whose common perpendicular with the base plane is at vertex A: V = 1/2 * Aa * BC * sinh(AD), written as sin(i AD)/i",
+    "modern_name": "First-order (differential) volume of a hyperbolic wedge/slab; ingredient in computing hyperbolic polyhedral volumes (Lobachevsky/Schläfli-type volume differentials)",
+    "usually_credited_to": "N. I. Lobachevsky (1829-1836, esp. 'Application of imaginary geometry to certain integrals', 1836); later systematized by Schläfli (1850s)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Use of sin(ix)/i (i.e. sinh) to pass from spherical/Euclidean formulas to the 'astral' (hyperbolic) case",
+    "modern_name": "Hyperbolic geometry as spherical geometry of imaginary radius",
+    "usually_credited_to": "Lambert (1766), Taurinus (1826), Lobachevsky; Gauss's acquaintance with it is documented in correspondence",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss's interest in hyperbolic geometry and his reading of Lobachevsky are well known. This sheet shows him independently re-deriving, in a compact and correct form, a Lobachevsky-type volume element (V = 1/2 Aa BC sinh AD). Unpublished hyperbolic volume computations by Gauss are a notable detail. However, the result is elementary, is likely prompted by Lobachevsky's 1836 paper, and adds no priority claim.",
+  "checkable": [
+   {
+    "sympy": "p,t=symbols('p t',positive=True); simplify((cosh(p)**2*cosh(t)**2-1)*diff(atan(tanh(t)/sinh(p)),t) - sinh(p))",
+    "asserts": "sinh(R)^2 dtheta = sinh(AD) dt, with cosh R = cosh p cosh t and tan theta = tanh t/sinh p (should simplify to 0)"
+   },
+   {
+    "sympy": "simplify(cosh(p)**2*cosh(t)**2-1 - (sinh(t)**2+sinh(p)**2*cosh(t)**2))",
+    "asserts": "sinh(R)^2 = sinh(t)^2 + sinh(p)^2 cosh(t)^2 (should be 0)"
+   },
+   {
+    "sympy": "R,r=symbols('R r',positive=True); simplify(integrate(cosh(r)*sinh(r),(r,0,R)) - sinh(R)**2/2)",
+    "asserts": "Radial integral of cosh(rho)*sinh(rho) over [0,R] equals sinh(R)^2/2 (should be 0)"
+   },
+   {
+    "sympy": "x=symbols('x',real=True); simplify(sin(I*x)/I - sinh(x))",
+    "asserts": "sin(i x)/i = sinh x, so Gauss's factor sin(i AD)/i is sinh(AD) (should be 0)"
+   },
+   {
+    "sympy": "e,rho=symbols('e rho',positive=True); series(asinh(sinh(e)*cosh(rho)),e,0,2)",
+    "asserts": "Lambert-quadrilateral height h = asinh(sinh(eps) cosh rho) = eps*cosh(rho) + O(eps^2)"
+   },
+   {
+    "sympy": "limit((sinh(k*p)/k),k,0)",
+    "asserts": "Euclidean limit (curvature -> 0) of sinh(AD) gives AD, recovering V = Aa * area(ABC)"
+   }
+  ],
+  "transcription_corrections": [
+   "'AB[?] normal gegen BC' should almost certainly read 'AD normal gegen BC', as the figure shows the perpendicular AD dropped to BC.",
+   "Formula: the argument is 'sin i.AD' over i, i.e. sin(i*AD)/i, with AD (not AB) in the numerator; the underline is Gauss's grouping of i.AD.",
+   "'157 d/10' is struck through in the original (old shelfmark); 'Math 34' is the current shelfmark, not Gauss's text."
+  ]
+ }
+}

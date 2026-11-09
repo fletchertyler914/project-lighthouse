@@ -1,0 +1,70 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c120",
+ "label": "47",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000121/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The printed text is from C. Leiste's textbook (the bundle 'HB.Leiste' is Gauss's copy). It works an example of linear interpolation in a 7-place common-logarithm table. The page also carries a few pencil marginal fragments by Gauss.\n\nPrinted example. Task: find log10(27675.7) when the table only gives logarithms of 4-digit numbers.\n\n(1) Factor 27675 = 5535*5:\n- log 5535 = 3.7431176\n- log 5 = 0.6989700\n- Sum: log 27675 = 4.4420876. The print labels this line 'l. 27975'; it should read 27675.\n\n(2) Factor 27676 = 6919*4:\n- log 6919 = 3.8400433. The print shows '2,8800433'; see errors.\n- log 4 = 0.6020600\n- Sum: log 27676 = 4.4421033.\n\n(3) Tabular difference: D = 4.4421033 - 4.4420876 = 0.0000157, i.e. 157 units of the 7th decimal.\n\n(4) Proportional part for the fraction 0.7: 0.7*157 = 109.9, rounded to 110 units. The text phrases this as (157/10)*7 = 109.9.\n\n(5) Result: log 27675.7 = 4.4420876 + 0.0000110 = 4.4420986.\n\nIn modern terms: log(N + t) ≈ log N + t*(log(N+1) - log N) for 0 < t < 1, with log(N+1) - log N ≈ M/N, where M = log10(e) ≈ 0.4342945.\n\nAnmerkung (note on Vega's tables, which share the layout of Sherwin's and Schulze's tables). Each page has 13 columns:\n- the number;\n- its mantissa;\n- columns 1 to 9 giving the last 4 mantissa digits for the next decimal digit;\n- a difference column with proportional parts in tenths and hundredths.\n\nApplied to the example:\n- At 2767 the mantissa is 4420092.\n- Column 5 replaces the last four digits with 0876, giving log 27675 = 4.4420876.\n- The tabulated difference is 156, so 156*0.7 = 109.2, rounded to 109.\n- This gives about 4.4420985.\n- Using hundredths as well extends the method to 7-digit arguments. Example: log 2767578 = 6.4420998 (2.4420876 + 0.78*157 units, plus the characteristic).\n\n§120 begins: the inverse problem (number from logarithm) is the reverse procedure, limited to 7 significant figures.\n\nMarginal pencil (Gauss), partly cut off. These fragments continue the work on the previous page:\n- '000 / 136 53 / 44' belong to the series computation of the cube root of 1.024 there.\n- '1-6+15', '-16x^4+20', '-160', '-384B+462', '-544', '+1024D', '11/8' (or 11/6), 'C x^8' are pieces of the undetermined-coefficient computation there. That computation is the series x^2 + A x^4 + B x^6 + ... with A = 1/2, B = 11/32, C = 17/64, connected with the product K(x)K(sqrt(1-x^2))/x^2 of complete elliptic integrals.\n- No new derivation appears on this page itself.",
+  "errors": [
+   "Printed label 'l. 27975 = 4,4420876' should read 'l. 27675' (the sum of log 5535 and log 5).",
+   "Printed 'l. 6919 = 2,8800433' is wrong. The correct value is 3.8400433 (characteristic 3, mantissa .8400433), which is required for the sum 4.4421033 shown. This is either a misprint or a misreading of a poor impression.",
+   "'also 15,7 . 0,7 = 110' is a slip. 15.7*0.7 = 10.99; the intended product is 15.7*7 = 157*0.7 = 109.9, which is what the running text says.",
+   "The note's claim that the difference is 156 for all logarithms between 27600 and 27900 is approximate. The true difference falls from about 157.3 to about 155.6 units across that range. The local difference near 27675 is 156.9, so the computed 157 is closer than Vega's 156; both results are fine to within 1 unit."
+  ],
+  "results": [
+   {
+    "what": "Linear interpolation (proportional parts) in a 7-place common log table to obtain logarithms of 5- to 7-digit numbers, including the description of Vega's table layout",
+    "modern_name": "Linear interpolation of tabulated logarithms / proportional parts",
+    "usually_credited_to": "Standard practice since Briggs and Vlacq (17th c.); table layout per Sherwin, Schulze, Vega (18th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed textbook page (Leiste's arithmetic) on routine interpolation in logarithm tables. Gauss's marginal pencil notes are only spillover fragments of the series and cube-root computations on the previous page and contain nothing new here.",
+  "checkable": [
+   {
+    "sympy": "N(log(5535,10),10)",
+    "asserts": "≈ 3.7431176"
+   },
+   {
+    "sympy": "N(log(27675,10),10)",
+    "asserts": "≈ 4.4420876"
+   },
+   {
+    "sympy": "N(log(6919,10),10)",
+    "asserts": "≈ 3.8400433 (not 2.8800433)"
+   },
+   {
+    "sympy": "N(log(27676,10),10)",
+    "asserts": "≈ 4.4421033"
+   },
+   {
+    "sympy": "N((log(27676,10)-log(27675,10))*10**7,6)",
+    "asserts": "≈ 156.9, i.e. the tabular difference of about 157"
+   },
+   {
+    "sympy": "N(log(Rational(276757,10),10),10)",
+    "asserts": "≈ 4.4420986"
+   },
+   {
+    "sympy": "N(log(2767578,10),10)",
+    "asserts": "≈ 6.4420998"
+   },
+   {
+    "sympy": "N(log(2767,10),10)",
+    "asserts": "mantissa ≈ .4420092"
+   },
+   {
+    "sympy": "Rational(157,10)*7",
+    "asserts": "= 109.9 (the correct proportional part; 15.7*0.7 would be 10.99)"
+   }
+  ],
+  "transcription_corrections": [
+   "'l. 27975 = 4,4420876' is as printed, but should be read as l. 27675 (printer's error).",
+   "'l. 6919 = 2,8800433' should mathematically be 3,8400433.",
+   "The marginal pencil items are continuations of Gauss's notes from the previous page: the cube root of 1.024 ('136 53', '44') and the series coefficients ('-16x^4 + 20', '+16A -64A +160A -160', '+64B -384B +462', '+256C -544', '+1024D', '11/8'). They are better read as matching the previous-page transcription than as '-156 C - 544' and '11/6'."
+  ]
+ }
+}

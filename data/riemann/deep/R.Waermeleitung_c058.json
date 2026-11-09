@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c058",
+ "label": "31r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000059/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the closing page of Riemann's Latin prize essay for the Paris Academy (the 'Commentatio mathematica, qua respondere tentatur quaestioni ab Ill.ma Academia Parisiensi propositae', 1861). The Academy asked when, in a homogeneous (or anisotropic) body, the temperature u can be a function of time and of only two space variables, i.e. when there are isothermal families of the required kind.\n\nThe previous page derived the Riemann curvature quantities (II) and (III). In 3 dimensions these give six equations. They are necessary for the quadratic form sum b dx dx to be transformable to constant coefficients, and Riemann states they are sufficient, with only three independent.\n\nThis page:\n\n(1) Program. In those six equations one should substitute the forms of the functions b found by the earlier method. That would yield every case in which u, in homogeneous bodies, is a function of t and only two variables alpha, beta. Riemann then says that shortness of time did not permit carrying out these calculations. Having explained the methods, he will only list the solutions.\n\n(2) He restricts to the simplest case, the isotropic heat equation\n(I) u_{x1x1} + u_{x2x2} + u_{x3x3} = a^2 u_t.\nHe asserts that the other (anisotropic, constant-coefficient) cases reduce to it by a linear change of coordinates.\n\n(3) Enumeration by the case index m. The index comes from the earlier classification (not on this page), apparently the number of terms or functions in the linear structure of u in alpha, beta, t.\n- m=1: occurs only if one of the following holds, with suitably chosen rectangular/cylindrical coordinates z, r, phi:\n  - u is constant on parallel straight lines;\n  - u is constant on circles;\n  - u is constant on helices, i.e. alpha = r, beta = z + epsilon*phi (my reading; for circles or lines one degenerates).\n  Then Delta u = u_rr + u_r/r + (1 + epsilon^2/r^2) u_bb, so (I) is genuinely two-variable.\n- m=2: u = f(alpha) + phi(beta).\n- m=3: u = alpha e^{lambda t} + f(beta), with lambda a real constant.\n- m=4, 'as found above': either u = alpha e^{lambda t} + beta e^{mu t} + const, or u = (alpha + beta t) e^{lambda t} + const, or u = f(alpha).\n\n(4) Determining the functions alpha. It suffices to note a classical fact: unless u = alpha e^{lambda t}, u can be a function of t and a single variable only when its level sets are parallel planes, concentric spheres, or coaxial cylinders.\n- If u = alpha(x) e^{lambda t}, (I) requires Delta alpha = lambda a^2 alpha (Helmholtz equation).\n- In case four one substitutes u into (I) likewise. The step left implicit (mine):\n  - for alpha e^{lambda t} + beta e^{mu t}: Delta alpha = lambda a^2 alpha and Delta beta = mu a^2 beta;\n  - for (alpha + beta t) e^{lambda t}: Delta beta = lambda a^2 beta and Delta alpha = a^2 (lambda alpha + beta).\n- Riemann notes that alpha e^{lambda t} and beta e^{mu t} may be complex conjugates (lambda, mu conjugate), so that u is real.\n\nThe next page contains the scratch work behind case m=4: a reduced equation p u_bb + q u_b = u_t, an ansatz u linear in alpha, and the resulting system for the coefficients a(beta,t), b(beta,t).",
+  "errors": [
+   "No mathematical errors detected in what is stated.",
+   "The claim that the six curvature conditions are sufficient (previous page) and the full enumeration are asserted without proof; Riemann explicitly admits the calculations were not carried out ('angustia temporis'). The list of cases is therefore unproven on the page.",
+   "The phrase 'functionem temporis et unius variabilis' presupposes nontrivial time dependence. Static harmonic one-variable families (e.g. other solutions of Laplace's equation depending on one function) are excluded only implicitly. The classical result (Lamé) that only planes, spheres and coaxial cylinders occur for one-variable time-dependent solutions is correct, but it is cited, not proved."
+  ],
+  "results": [
+   {
+    "what": "Program: classify heat-equation solutions depending on t and two space variables, via the flatness (vanishing curvature) conditions of the transformed metric",
+    "modern_name": "Use of the Riemann curvature tensor as the integrability/flatness criterion; reduction of the heat equation to two variables",
+    "usually_credited_to": "Riemann, Commentatio (1861, publ. 1876 in Werke)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Case m=1: u constant along parallel lines, circles, or helices (alpha=r, beta=z+epsilon*phi)",
+    "modern_name": "Solutions invariant under a one-parameter group of Euclidean motions (translations, rotations, screw motions)",
+    "usually_credited_to": "Riemann, Commentatio 1861 (symmetry reduction later systematized by Lie)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "u depending on t and one variable only for parallel planes, concentric spheres, coaxial cylinders",
+    "modern_name": "Lamé's classification of isothermal families for the heat equation",
+    "usually_credited_to": "Lamé (1830s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Separated form u=alpha e^{lambda t} gives Delta alpha = lambda a^2 alpha; complex-conjugate pairs give real solutions",
+    "modern_name": "Separation of variables / Helmholtz equation",
+    "usually_credited_to": "Fourier",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is the known final part of Riemann's Paris prize essay, printed in his Gesammelte Werke (1876) and widely discussed (e.g. in the literature on the origin of the curvature tensor). The case list is published; nothing here is new.",
+  "checkable": [
+   {
+    "sympy": "r,z,phi,t,a,eps=symbols('r z phi t a epsilon',positive=True); F=Function('F'); beta=z+eps*phi; u=F(r,beta,t); lap=diff(u,r,2)+diff(u,r)/r+diff(u,phi,2)/r**2+diff(u,z,2); # check lap equals F_rr+F_r/r+(1+eps**2/r**2)F_bb",
+    "asserts": "Helical case: u(r, z+eps*phi, t) satisfies a heat equation in only the two variables r and beta, with Laplacian F_rr + F_r/r + (1+eps^2/r^2) F_bb."
+   },
+   {
+    "sympy": "x,y,z,t,a,lam=symbols('x y z t a lambda'); A=Function('A')(x,y,z); u=A*exp(lam*t); simplify((diff(u,x,2)+diff(u,y,2)+diff(u,z,2)-a**2*diff(u,t))/exp(lam*t))",
+    "asserts": "Result is Delta A - lambda a^2 A, so u=A e^{lambda t} solves (I) iff Delta A = lambda a^2 A."
+   },
+   {
+    "sympy": "A=Function('A')(x,y,z); B=Function('B')(x,y,z); u=(A+B*t)*exp(lam*t); expand(simplify((diff(u,x,2)+diff(u,y,2)+diff(u,z,2)-a**2*diff(u,t))/exp(lam*t)))",
+    "asserts": "Coefficient of t gives Delta B = lambda a^2 B; the t^0 term gives Delta A = a^2(lambda A + B). These are the conditions for the second form in case m=4."
+   }
+  ],
+  "transcription_corrections": [
+   "In the m=1 line the image reads roughly 'ut coordinatis rectangularibus z, radii r, [phi] rite electis poni possit alpha = r, beta = z + epsilon [phi?]'. The 'const' after epsilon is probably the azimuth angle (helix beta = z + epsilon*phi) rather than a constant; uncertain.",
+   "'eadem axi' should read 'eodem axi' (as written by Riemann, the slip is his or the transcriber's)."
+  ]
+ }
+}

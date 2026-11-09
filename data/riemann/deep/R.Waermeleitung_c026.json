@@ -1,0 +1,76 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c026",
+ "label": "15r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000027/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has three unrelated groups of jottings. None of them is a continuous derivation.\n\n(A) Top block: an exponential (plane-wave) ansatz and a case distinction. Written are:\n- k^2/(1+f) > v^2+w^2 and, below a rule, k^2/(1+f) < v^2+w^2;\n- xi = xi_0;\n- xi = A e^{ux+vy+...} (the exponent continues, presumably + wz);\n- f = -1, giving k^2/(1+f) = infinity > v^2+w^2;\n- (xi - xi_0)/A = (eta - eta_0)/B.\n\nMy reading, which is conjectural: xi, eta are components of a field satisfying a constant-coefficient linear equation. Substituting xi = A e^{ux + i(vy + wz)} (or a similar form) gives a characteristic relation of the type u^2 = v^2 + w^2 - k^2/(1+f).\n- If k^2/(1+f) > v^2+w^2, u is imaginary and the solution oscillates (propagates) in x.\n- If k^2/(1+f) < v^2+w^2, u is real and the solution grows or decays exponentially (evanescent case).\n- The special value f = -1 makes the left side infinite, so one is always in the first case.\n- (xi-xi_0)/A = (eta-eta_0)/B states that the vector (xi-xi_0, eta-eta_0) is parallel to the fixed amplitude vector (A, B). This is a fixed direction of the disturbance, like a polarization or straight-line motion.\nThe underlying equation is not written on the page, so this interpretation cannot be confirmed.\n\n(B) Middle: a figure. It shows a roughly quadrilateral region with curved upper and lower boundaries and a hatched oblique segment near the top edge. At top left there is a small sketch of two lines meeting a horizontal line. The labels (possibly 'f', 'z', 'h') are illegible. I cannot reconstruct what it represents; it may be a body or domain for a conduction or flow problem.\n\n(C) Lower right: the initial-value problem for the 1-D heat equation.\n- Equation: du/dt = a^2 d^2u/dx^2 (written 'aa'), with the condition 'for t=0, u=f(x)'.\n- Solution: the Laplace-Poisson integral u = C ∫_{-inf}^{inf} exp(-(x-lambda)^2/(4 a^2 t)) f(lambda) dlambda.\n- The correct constant is C = 1/(2a sqrt(pi t)). That constant is fixed by ∫ exp(-s^2/(4a^2 t)) ds = 2a sqrt(pi t) and the requirement u -> f(x) as t -> 0+.\n\n(D) Bottom:\n- A horizontal line with a segment subdivided by tick marks.\n- The condition f(-x) = f(x). My inference: this is an even extension, i.e. the method of images for the half-line x > 0. With insulated boundary du/dx(0,t) = 0, extending f evenly makes the full-line Poisson integral solve the half-line problem.\n- The functional equation of the factorial function, written in Gauss's notation Pi(n) = n Pi(n-1). Here Pi(n) = Gamma(n+1); this is Riemann's habitual notation. It is presumably wanted for evaluating Gaussian moment integrals such as ∫ s^{2n} e^{-s^2} ds = Gamma(n+1/2), which arise when expanding the Poisson integral.",
+  "errors": [
+   "The constant in front of the Poisson integral looks like '2/sqrt(pi ...)' in the image. The correct normalization is 1/(2a sqrt(pi t)) (equivalently 1/sqrt(pi) after substituting lambda = x + 2a sqrt(t) s). As read, the factor 2 in the numerator would be a slip; it may instead be a compressed or illegible writing of the correct constant.",
+   "If the last formula is read as Gamma(n) = n Gamma(n-1), it is wrong: the correct form is Gamma(n) = (n-1) Gamma(n-1). Read as Gauss's Pi(n) = n Pi(n-1), which Riemann used, it is correct.",
+   "Block (A): no equation is written from which the case distinction follows, so its correctness cannot be checked. The quantity k^2/(1+f) at f = -1 is written as infinity, which is formally a limit and not a value."
+  ],
+  "results": [
+   {
+    "what": "Solution of du/dt = a^2 u_xx, u(x,0) = f(x), on the whole line by the Gaussian kernel integral",
+    "modern_name": "Heat kernel / Poisson (Laplace-Poisson) integral solution of the Cauchy problem for the heat equation",
+    "usually_credited_to": "Laplace (1809-1810), Fourier, Poisson (1818-1823)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Even extension f(-x) = f(x) to reduce a half-line problem to the full line",
+    "modern_name": "Method of images / reflection for Neumann boundary condition",
+    "usually_credited_to": "classical (Fourier, Poisson; Kelvin for electrostatic images)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Functional equation Pi(n) = n Pi(n-1)",
+    "modern_name": "Gamma function recurrence Gamma(n+1) = n Gamma(n)",
+    "usually_credited_to": "Euler; Pi-notation due to Gauss (1812)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Exponential ansatz xi = A e^{ux+vy+wz} and the sign condition k^2/(1+f) vs v^2+w^2 separating oscillatory from exponentially decaying behaviour",
+    "modern_name": "Plane-wave ansatz / dispersion relation; propagating vs evanescent modes",
+    "usually_credited_to": "classical (Fourier, Cauchy, Poisson)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The heat-kernel solution, even extension and Gamma recurrence are textbook material of the time. They appear in Riemann's own lectures on partial differential equations (ed. Hattendorff, 1869). The top block is a fragmentary plane-wave case distinction with no visible non-standard content.",
+  "checkable": [
+   {
+    "sympy": "x,lam,a,t=symbols('x lam a t',positive=True); K=exp(-(x-lam)**2/(4*a**2*t))/(2*a*sqrt(pi*t)); simplify(diff(K,t)-a**2*diff(K,x,2))",
+    "asserts": "The kernel with constant 1/(2a sqrt(pi t)) satisfies the heat equation (result 0)."
+   },
+   {
+    "sympy": "x,lam,a,t=symbols('x lam a t',positive=True); integrate(exp(-(x-lam)**2/(4*a**2*t)),(lam,-oo,oo))",
+    "asserts": "The Gaussian integral equals 2*a*sqrt(pi*t), fixing the normalization constant 1/(2a sqrt(pi t))."
+   },
+   {
+    "sympy": "n=symbols('n',positive=True); simplify(gamma(n+1)-n*gamma(n))",
+    "asserts": "Gauss's Pi(n) = Gamma(n+1) satisfies Pi(n) = n Pi(n-1) (result 0)."
+   },
+   {
+    "sympy": "u,v,w,k,f,x,y,z=symbols('u v w k f x y z'); X=exp(u*x+I*v*y+I*w*z); simplify((diff(X,x,2)+diff(X,y,2)+diff(X,z,2)+k**2/(1+f)*X)/X)",
+    "asserts": "Under the conjectural equation Laplacian(xi) + k^2/(1+f) xi = 0, the ansatz gives u^2 = v^2 + w^2 - k^2/(1+f). Hence u is imaginary iff k^2/(1+f) > v^2 + w^2."
+   },
+   {
+    "sympy": "s,n=symbols('s n',positive=True); simplify(integrate(s**(2*n)*exp(-s**2),(s,-oo,oo))-gamma(n+Rational(1,2)))",
+    "asserts": "Gaussian moment integrals reduce to Gamma values; a plausible reason for the Pi recurrence beside the Poisson integral."
+   }
+  ],
+  "transcription_corrections": [
+   "The final formula is better read as Pi(n) = n Pi(n-1) (Gauss's factorial function, Riemann's usual notation), not Gamma(n) = n Gamma(n-1).",
+   "The prefactor of the Poisson integral is unclear in the image ('2/sqrt(pi ...)'). The mathematically correct constant is 1/(2a sqrt(pi t)); the transcription's '2/sqrt(pi)[?]' should be flagged as uncertain.",
+   "The cancelled '[-f-]' before 't=0' is likely the start of 'für' (German 'for'), not a mathematical symbol.",
+   "The ansatz exponent should read u x + v y + ... (presumably + w z), matching the v, w in k^2/(1+f) vs v^2 + w^2.",
+   "'k^2/(1+f) ∞ > v^2+w^2' should be read as k^2/(1+f) = ∞ > v^2 + w^2 in the case f = -1."
+  ]
+ }
+}

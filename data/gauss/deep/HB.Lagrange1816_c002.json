@@ -1,0 +1,47 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c002",
+ "label": "1",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000003/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two unrelated parts.\n\n(a) Top: a bibliographic note in German Kurrent, not mathematics. It records a book title, \"Oswald der Greis oder mein letzter Glaube\", edited (\"herausgegeben\") by someone whose name is hard to read, published in Leipzig by Gerhard Fleischer the younger, 1814, apparently priced at 1 Thaler. Below it are two words, probably \"Elysion\" and \"Tartarus\". These may be section headings of that book or reading notes. Later library shelfmarks (\"20\", \"Bh\", \"N.288\", \".1.\") are also present.\n\n(b) Below, headed \"Lagranges Theorem\", Gauss states the Lagrange inversion (Lagrange–Bürmann) series without proof. In modern notation:\n\n- Hypothesis: x is defined implicitly by x = t + u·ψ(x).\n- Claim: for any function f, analytic near t,\n  f(x) = f(t) + u f'(t)ψ(t) + (u²/2!)·d/dt[f'(t)ψ(t)²] + (u³/3!)·d²/dt²[f'(t)ψ(t)³] + …\n- General term (my completion of his \"&c.\"): (u^n/n!)·d^{n-1}/dt^{n-1}[f'(t)ψ(t)^n].\n- Notation: Gauss writes ψt² for ψ(t)² and f't.ψt² for the product f'(t)·ψ(t)². He writes uu for u² and 2.3 for 3!.\n\nNo derivation is given; it is a heading-plus-formula memorandum. It most likely opens a bundle of notes on applying the series, for example to Kepler's equation E = M + e·sin E, i.e. ψ = sin, u = e.",
+  "errors": [
+   "No errors. The coefficients 1, u, u²/2, u³/6 and the derivative orders 0, 1, 2 applied to f'(t)ψ(t)^n are exactly Lagrange's series.",
+   "The formula is stated without convergence conditions (|u| small enough relative to ψ near t). This is normal for the period."
+  ],
+  "results": [
+   {
+    "what": "Series expansion of f(x) where x = t + u ψ(x): f(x) = f(t) + Σ_{n≥1} u^n/n! · d^{n-1}/dt^{n-1}[f'(t) ψ(t)^n]",
+    "modern_name": "Lagrange inversion theorem / Lagrange–Bürmann formula",
+    "usually_credited_to": "J.-L. Lagrange (1770); generalized by H. Bürmann (1799)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a verbatim statement of Lagrange's well-known 1770 theorem, which was standard textbook material by 1816. Gauss knew and used such series, for instance in celestial mechanics in connection with Kepler's equation. There is no new content.",
+  "checkable": [
+   {
+    "sympy": "u,t=symbols('u t'); X=(1-sqrt(1-4*u*t))/(2*u); simplify(series(X,u,0,4).removeO() - (t + u*t**2 + u**2/2*diff(t**4,t) + u**3/6*diff(t**6,t,2)))",
+    "asserts": "Case f(x)=x, ψ(x)=x²: the root of x = t + u x² regular at u=0 matches the Lagrange series through u³. The expected result is 0."
+   },
+   {
+    "sympy": "u,t=symbols('u t'); X=t/(1-u); f=lambda z: z**2; lag = f(t) + u*2*t*t + u**2/2*diff(2*t*t**2,t) + u**3/6*diff(2*t*t**3,t,2); simplify(series(f(X),u,0,4).removeO() - lag)",
+    "asserts": "Case ψ(x)=x, f(x)=x²: the exact solution x=t/(1-u) gives f(x) agreeing with the series through u³. The expected result is 0."
+   },
+   {
+    "sympy": "u,t,x=symbols('u t x'); S = t + u*sin(t) + u**2/2*diff(sin(t)**2,t) + u**3/6*diff(sin(t)**3,t,2); simplify(series(S - t - u*sin(S),u,0,4).removeO())",
+    "asserts": "Kepler case ψ=sin, f=id: the truncated Lagrange series satisfies x = t + u sin x up to O(u⁴). The expected result is 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 publisher: 'Lpz. bei Gerh. Fleischer d. J.' means Leipzig, Gerhard Fleischer der Jüngere, a known Leipzig publisher. 'd. J.' is 'der Jüngere', not 'des Jahres'.",
+   "The editor's name read as 'Dintreib' is uncertain and probably misread. The initials are equally uncertain.",
+   "'1 th.' is probably the price (1 Thaler).",
+   "The two words under the title are uncertain; 'Elysion' is plausible, and the second may be 'Tartarus' or a similar word.",
+   "Formula: 'f't.ψt^2' means f'(t)·ψ(t)², i.e. the square applies to ψ(t), not to t.",
+   "The final '&c.' appears on the page as 'bc' / '&c'."
+  ]
+ }
+}

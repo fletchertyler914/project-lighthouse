@@ -1,0 +1,66 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c112",
+ "label": "107",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000113/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the next page is dated 1832 (Sept., reduction of oscillations, i.e. magnetometer/pendulum work), and the previous page is headed 'Darstellung von I für Kreis in O.st' and holds a harmonic analysis with cos k / sin k coefficients up to k = 12. This page (fol. 107) is the raw table behind that analysis: a calibration of the reading points of a divided circle.\n\n(1) Header geometry. There are four reading points (verniers or microscopes) I, II, III, 0. When I reads z, II sits at z+270°, III at z+90° and 0 at z+45°.\n\n(2) Constant offsets. For the series of Nov. 3 ('Kreis in O[st]'):\n- II−I = −5'19.8\"\n- III−I = −1'54.2\"\n\nFor the series of Nov. 20 ('ebenso', same arrangement):\n- II−I = −5'18.7\" (a sign was struck out and rewritten)\n- III−I = −1'54.0\"\n\nThe two series reproduce the offsets to about 1\". So the reading points are not at exactly 90°/270° separation; these mean offsets are removed before tabulating.\n\n(3) Main table. For z = 0°, 15°, …, 345° (24 equidistant settings), Gauss lists the residual readings in arc-seconds of I, II and III: first for Nov. 3 (left block), then for Nov. 20 (right block). Presumably these are taken relative to the reference point 0 after the constant offsets are removed (my inference).\n\nEach column sums to nearly zero, which is consistent with residuals about the mean (my check):\n- Nov. 3: ΣI = −2.35, ΣII = +0.5, ΣIII = −0.25 over 24 values.\n- Nov. 20: ΣI = −1.15.\n\nThe two dates agree closely in pattern, so the deviations are systematic (division/eccentricity-type errors), not random. Typical features are:\n- maxima near z = 15–45°, 195° and 300°;\n- minima near 90–120° and 270°.\n\n(4) Purpose. The 24 equidistant values allow a trigonometric (Fourier) representation f(z) = Σ_{k=0}^{12} (a_k cos kz + b_k sin kz). This is what the previous page carries out with its α, β, γ, δ = α−γ, ε = 2β bookkeeping and its logarithmic computation of a_k, b_k. The aim is to model the periodic graduation errors and reading-point eccentricities of the circle.\n\nThe previous page's coefficients do not reproduce directly from column I of either series. My check of Nov. 3, col. I gives a1 ≈ 1.61, a2 ≈ 2.63, b2 ≈ 0.96, against −1.392, 2.920 and 0.788 there. So the analysed quantity is presumably some combination of columns or series, which cannot be fixed from this page alone.",
+  "errors": [
+   "No computational errors are detectable on this page; it is a data table.",
+   "The Nov. 20 II−I entry has a struck-out sign/character before 5'18\"7; it should be −5'18.7\", consistent with Nov. 3 (−5'19.8\").",
+   "The row label '225' appears overwritten (looks like 245 corrected to 225); the 15° sequence requires 225."
+  ],
+  "results": [
+   {
+    "what": "Calibration of a divided circle by four reading points (offsets 0°, 270°, 90°, 45°), with tabulated residual readings at 24 equidistant settings in two independent series (Nov. 3 and Nov. 20); constant reading-point offsets II−I ≈ −5'19\", III−I ≈ −1'54\"",
+    "modern_name": "Graduation-error / eccentricity determination of a divided circle via multiple reading microscopes",
+    "usually_credited_to": "Standard 19th-century observatory practice (Reichenbach-era instruments; Bessel's systematic treatment of division errors, 1810s–1820s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Preparation of 24 equally spaced values for trigonometric interpolation up to the 12th harmonic (carried out on the previous page)",
+    "modern_name": "Discrete Fourier / harmonic analysis of periodic instrumental errors",
+    "usually_credited_to": "Bessel (division errors), Gauss (trigonometric interpolation, Theoria interpolationis c. 1805), Lagrange/Clairaut earlier",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine observational calibration table of a circle's reading points. Gauss's use of trigonometric interpolation for instrumental errors is well known; nothing mathematically novel is on this page.",
+  "checkable": [
+   {
+    "sympy": "sum([0.5,4.0,4.7,3.75,0.6,-1.6,-4.4,-2.9,-4.4,-1.7,-1.6,-1.4,1.2,3.7,2.9,-1.6,-2.8,-2.8,-5.4,-1.1,2.6,1.9,1.9,1.6])",
+    "asserts": "Nov. 3 column I sums to −2.35 (near-zero residuals)"
+   },
+   {
+    "sympy": "sum([-0.2,3.4,5.4,5.6,2.7,0.4,-2.0,-3.3,-2.6,-0.6,0,0,2.9,4.2,2.4,-4.4,-5.2,-5.2,-8.6,-0.1,2.5,2.6,0.2,0.4])",
+    "asserts": "Nov. 3 column II sums to 0.5"
+   },
+   {
+    "sympy": "sum([-1.5,1.9,3.8,3.65,0.6,-1.0,-4.0,-3.3,-3.5,-0.4,-1.5,0.5,4.4,6.4,3.1,-0.6,-2.4,-3.0,-5.0,0.8,1.6,1.6,-0.9,-1.5])",
+    "asserts": "Nov. 3 column III sums to −0.25"
+   },
+   {
+    "sympy": "y=[0.5,4.0,4.7,3.75,0.6,-1.6,-4.4,-2.9,-4.4,-1.7,-1.6,-1.4,1.2,3.7,2.9,-1.6,-2.8,-2.8,-5.4,-1.1,2.6,1.9,1.9,1.6]; sum(y[i]*cos(2*pi*15*i/180) for i in range(24))/12",
+    "asserts": "a2 for Nov. 3 column I ≈ 2.63 (compare 2.920 on the previous page; they differ, so a different combination was analysed)"
+   },
+   {
+    "sympy": "y=[0.5,4.0,4.7,3.75,0.6,-1.6,-4.4,-2.9,-4.4,-1.7,-1.6,-1.4,1.2,3.7,2.9,-1.6,-2.8,-2.8,-5.4,-1.1,2.6,1.9,1.9,1.6]; sum(y[i]*cos(pi*15*i/180) for i in range(24))/12",
+    "asserts": "a1 for Nov. 3 column I ≈ 1.61"
+   },
+   {
+    "sympy": "(5*60+19.8)-(5*60+18.7)",
+    "asserts": "The II−I offsets from the two dates differ by 1.1 arcsec"
+   }
+  ],
+  "transcription_corrections": [
+   "Header: 'Kreis in 0/1' is better read 'Kreis in O.st' (Ost), matching the previous page's heading.",
+   "'Nov. 20 i eben 10' is better read 'Nov. 20 ebenso'.",
+   "Nov. 20 II−I: the struck character before 5'18\"7 is a corrected sign; the value is −5'18.7\".",
+   "Row label read as 225 (overwritten), not 245.",
+   "Header line 'I z' should be read as reading point I at z (the 'z' is the setting variable, not a numeral 2 as in the previous page's margin transcription)."
+  ]
+ }
+}

@@ -1,0 +1,61 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c012",
+ "label": "7r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a numerical table, not a derivation. It is a reduction table for meridian (transit-instrument) observations of eleven bright northern stars, of the kind used to reduce wire transits to the middle wire.\n\nColumns, left to right:\n(a) Star name.\n(b) Declination δ in degrees, minutes and seconds. The values fit the epoch of about 1853. For example, γ UMa has J2000 δ ≈ +53°41.7'; precessed by about −20\"/yr cos α over 147 years this gives ≈ +54°30.7', matching the page.\n(c) log cos δ, written in the usual 10-shifted form. Check for α Cygni: cos 44°45'24.27\" = 0.710103, whose log is −0.148679, written 9.8513210. I verified this column to within 1 unit of the 7th decimal for α Cyg, α Aur, α Per, η UMa, γ Dra, α Cas, α Cep, β Cep and β UMi.\n(d)–(i) Six columns of the form log(i_k · sec δ) = log i_k − log cos δ.\n\nFinding the constants (my reconstruction):\n- In every row, (c) + (d) = 11.6171002, so (d) = 1.6171002 − log cos δ.\n- The remaining columns differ from (d) by fixed amounts in every row: −0.1652030, −0.4733627, −0.4616005, −0.1537628 and +0.0025653.\n- The six constants are therefore log i_k = 1.6171002, 1.4518972, 1.1437375, 1.1554997, 1.4633374, 1.6196655.\n- Antilogs: i ≈ 41.410, 28.307, 13.923, 14.305, 29.063, 41.655, which I read as seconds of time.\n\nThese are clearly the equatorial wire intervals of a seven-wire transit instrument or meridian circle. They give the distances of wires I, II, III, V, VI, VII from the middle wire IV: about 41.4, 28.3, 13.9 s on one side and 14.3, 29.1, 41.7 s on the other. This is plausibly the Göttingen meridian instrument.\n\nPurpose: a star of declination δ needs i_k sec δ seconds to pass from wire k to the middle wire. Tabulating log(i_k sec δ) lets an observer reduce a transit observed on any wire to the middle-wire time, or combine several wires, or fill in missed wires. This is standard practice (Bessel/Gauss-era reduction of transit observations).\n\nThe page uses δ only through sec δ. There is no theory here, only careful 7-place logarithmic computation.",
+  "errors": [
+   "γ Ursae maj.: with δ = 54°30'41.90\" as read, log cos δ = 9.7638303, but the table has 9.7638333. This is 3×10⁻⁶ too large, equivalent to about 1.1\" in δ; the table value corresponds to δ ≈ 54°30'40.8\". Either the seconds are misread (e.g. 40.90 rather than 41.90) or there is a small slip in the source declination or the log lookup. The other columns of this row are internally consistent with 9.7638333.",
+   "No other arithmetic errors found. All rows satisfy the constant-sum and constant-difference relations exactly to 7 decimals (checked for β Cep, β UMi, α UMa, α Cyg and others)."
+  ],
+  "results": [
+   {
+    "what": "Table of log cos δ and log(i_k sec δ) for 11 northern fundamental stars, with six wire-interval constants i_k ≈ 41.41, 28.31, 13.92, 14.31, 29.06, 41.66 s",
+    "modern_name": "Reduction of transit observations to the middle wire (wire-interval reduction, factor sec δ)",
+    "usually_credited_to": "Standard 18th–19th c. positional astronomy practice (Bradley, Bessel, Gauss; Göttingen and Königsberg observatories)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is purely routine astronomical computation: logarithmic sec δ factors for transit-wire reduction. It is mildly interesting biographically, as evidence of Riemann doing or copying observatory reduction work around 1853 in Göttingen, but there is no mathematical novelty.",
+  "checkable": [
+   {
+    "sympy": "N(10 + log(cos(rad(44 + Rational(45,60) + Rational(2427,360000))), 10), 10)",
+    "asserts": "log cos δ for α Cygni ≈ 9.8513210"
+   },
+   {
+    "sympy": "N(10 + log(cos(rad(74 + Rational(45,60) + Rational(2111,360000))), 10), 10)",
+    "asserts": "log cos δ for β Ursae min. ≈ 9.4198442"
+   },
+   {
+    "sympy": "N(10 + log(cos(rad(50 + Rational(2,60) + Rational(5431,360000))), 10), 10)",
+    "asserts": "log cos δ for η Ursae maj. ≈ 9.8076297"
+   },
+   {
+    "sympy": "N(10 + log(cos(rad(54 + Rational(30,60) + Rational(4190,360000))), 10), 10)",
+    "asserts": "log cos δ for γ UMa with 41.90\" gives ≈ 9.7638303, not the tabulated 9.7638333"
+   },
+   {
+    "sympy": "N(10**Rational(16171002,10000000), 8)",
+    "asserts": "first wire interval ≈ 41.41 s"
+   },
+   {
+    "sympy": "[N(10**x, 7) for x in [1.4518972, 1.1437375, 1.1554997, 1.4633374, 1.6196655]]",
+    "asserts": "other wire intervals ≈ 28.31, 13.92, 14.31, 29.06, 41.66 s"
+   },
+   {
+    "sympy": "Rational(95358102,10000000) + Rational(20812900,10000000) - Rational(116171002,10000000)",
+    "asserts": "β Cephei row satisfies column(c) + column(d) = 11.6171002 (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "η Urs. maj. declination should be read as +50°2'54.31\", and γ Draconis as +51°30'27.00\".",
+   "γ Urs. maj. declination is +54°30'41.90\" (the image looks like 41 90). The tabulated log cos is consistent with about 40.8\", so the seconds may be a slip.",
+   "α Cassiop. declination is +55°43'48.48\".",
+   "β Cephei log cos is 9.5358102. The handwriting looks like 9,5758102, but 9.5358102 is confirmed by computation and by the row sum."
+  ]
+ }
+}

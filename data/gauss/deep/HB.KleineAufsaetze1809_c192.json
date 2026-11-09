@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c192",
+ "label": "183",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000193/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: a page of electromagnetic notes, Gauss Werke V p. 605, 'Law of the galvanic current'. It is placed just before the induction law dated 23 Jan 1835 on the next page, so it was presumably written about 1833–35, the period of the Gauss–Weber collaboration.\n\n(1) Sign convention. Positive current is the one that, at the contact with water (the electrolyte), flows in the sense zinc → water → copper. In the external wire it therefore flows copper → zinc. This is the usual conventional current of a Zn/Cu cell.\n\n(2) Force of a current element on a magnetic pole (Biot–Savart law). Let RR' be a current element with positive current running from R to R'. Let P be a point carrying an element of positive (north) magnetic fluid. Write μ for the element, i.e. current strength times length (i·ds). The page says the force has magnitude μ·sin(R'RP)/(RR')². Physically the denominator must be the square of the distance from the element to the pole, (RP)².\n\nDirection, main text: the force lies in the plane to which PR is normal, perpendicular to the projection of RR' onto that plane. It lies to the left of that projection (corrected from 'right') when PR points upward.\n\nDirection, simplified footnote: PQ is perpendicular to the plane through P, R, R'. It points downward (corrected from 'upward') if P lies to the right of RR', equivalently R' lies to the right of PR.\n\nModern form: dF = m · i (ds × r)/r³, with r = P − R. Its magnitude is m i ds sinθ/r².\n\nCheck of orientation (mine): take R at the origin, ds = x̂, z up. P to the right of RR' seen from above means P = (0,−1,0). Then ds × r = x̂ × (−ŷ) = −ẑ, i.e. downward. This agrees with the corrected text.\n\n(3) Equivalence of a closed current with a magnetic double layer (Ampère's magnetic shell). Let the closed circuit RR'R''R bound an arbitrary surface S. Spread north magnetism on S with an arbitrary density δ. At each point erect an infinitesimal normal of length ε proportional to i/δ, directed up or down according as the current, going round, has the surface on its right or on its left. The endpoints of the normals form a second surface. On it place exactly as much south magnetism, piece by piece, as the corresponding piece of the first surface carries.\n\nThen the dipole moment per unit area is δ·ε = const·i, uniform and independent of δ. So the pair of sheets is a uniform magnetic shell of strength i. For every point outside the sheets it is equivalent to the current. Its potential is i times the solid angle subtended by the circuit, and it depends only on the boundary curve.\n\nCheck of orientation (mine): a current running counterclockwise seen from above has the surface on its left. Gauss then puts the normal downward, so south is below and north above. The moment points up, which agrees with the right-hand rule. The page states the result without derivation.",
+  "errors": [
+   "Denominator: the page (as transcribed, apparently also in the image) has (RR')^2. RR' is the current element itself; the inverse-square distance must be (RP)^2 (or PR^2). This is either a slip of the pen or a misreading.",
+   "Direction words were corrected by Gauss himself: 'rechts' → 'links' in the main text and 'oben' → 'unten' in the footnote. The corrected versions are consistent with the modern Biot–Savart orientation.",
+   "The double-layer equivalence is stated without proof. Its validity 'for every point outside' is correct only in the limit of infinitesimal separation with δ·ε held fixed; Gauss implicitly assumes this."
+  ],
+  "results": [
+   {
+    "what": "Force of a current element on a magnetic pole: magnitude ∝ μ sinθ / r², direction perpendicular to the plane of the element and the point, with an explicit right/left orientation rule",
+    "modern_name": "Biot–Savart law (elementary form, Laplace)",
+    "usually_credited_to": "Biot and Savart (1820), Laplace",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "A closed current is equivalent, for external points, to a pair of oppositely charged magnetic sheets with moment density ∝ current, bounded by the circuit, whatever the surface",
+    "modern_name": "Equivalence of a current loop with a magnetic shell (double layer); potential = i × solid angle",
+    "usually_credited_to": "Ampère (1820–1826); double-layer formulation later used by Helmholtz (1853) and Maxwell",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Sign convention for positive current (Zn → water → Cu inside the cell)",
+    "modern_name": "Conventional current direction",
+    "usually_credited_to": "standard convention",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The material is the Biot–Savart law and Ampère's magnetic-shell equivalence, both published in the 1820s. This note is already printed in Gauss's Werke V p. 605. The neat double-layer phrasing, with an arbitrary density δ and normals ∝ i/δ, is elegant but not new relative to Ampère.",
+  "checkable": [
+   {
+    "sympy": "Matrix([1,0,0]).cross(Matrix([0,-1,0])) == Matrix([0,0,-1])",
+    "asserts": "For ds along +x and P to the right (−y) of it, ds × r points down: matches the corrected footnote ('nach unten')."
+   },
+   {
+    "sympy": "simplify(Matrix([1,0,0]).cross(Matrix([cos(t),sin(t),0])).norm() - Abs(sin(t)))",
+    "asserts": "|ds × r̂| = sin of the angle R'RP, so magnitude ∝ μ sinθ / r² (should be 0)."
+   },
+   {
+    "sympy": "a,z,i=symbols('a z i',positive=True); simplify(-i*diff(2*pi*(1-z/sqrt(z**2+a**2)),z) - 2*pi*i*a**2/(z**2+a**2)**Rational(3,2))",
+    "asserts": "On the axis of a circular loop, the field derived from the shell potential i·Ω (solid angle) equals the Biot–Savart field 2πi a²/(a²+z²)^{3/2} (should be 0)."
+   },
+   {
+    "sympy": "d,e,i,k=symbols('delta epsilon i k',positive=True); simplify(d*(k*i/d) - k*i)",
+    "asserts": "Moment per unit area δ·ε with ε ∝ i/δ is independent of δ, so the arbitrary distribution of δ is irrelevant (should be 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The denominator 'RR')²' should physically be (RP)²; check the image whether Gauss wrote RP or RR'. If RR', it is Gauss's slip.",
+   "'[-Jenach-]' is a struck 'Je nach'.",
+   "'ausbreite[?]' reads 'ausbreite' (subjunctive: 'auf welcher … man … ausbreite').",
+   "'RR'R''R' is an interlinear insertion above '(kann man' in item 3, as transcribed."
+  ]
+ }
+}

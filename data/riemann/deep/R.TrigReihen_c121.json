@@ -1,0 +1,62 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c121",
+ "label": "59v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000122/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Riemann's Habilitationsschrift (1854) on trigonometric series. The previous page reduces the question of representing a function by a trigonometric series to the case where the terms of the series eventually become infinitely small. This page shows that this hypothesis holds automatically for the Fourier coefficients of any integrable function. In modern terms it proves the Riemann–Lebesgue lemma for (bounded) Riemann-integrable functions.\n\n(1) Remark. In general, whether the coefficients tend to 0 must often be decided by means other than their integral expressions. One case can be read off directly from the nature of f: f stays bounded (a cancelled or unclear clause seems to allow f to become infinite) and f admits integration.\n\n(2) Integrability criterion (Riemann's oscillation form). Partition [-π, π] into pieces of lengths δ_1, δ_2, .... Let D_i be the oscillation (\"größte Schwankung\") of f on the i-th piece. Then f is integrable when Σ δ_i D_i → 0 as max δ_i → 0.\n\n(3) Coefficients. Apart from the factor 1/π, the coefficients are contained in I_n(a) = ∫_{-π}^{π} f(x) sin n(x-a) dx. Since sin n(x-a) = sin nx cos na − cos nx sin na, varying a covers both the cosine and sine coefficients. By 2π-periodicity of f (implicit, my addition), I_n(a) = ∫_a^{a+2π} f(x) sin n(x-a) dx.\n\n(4) Split [a, a+2π] into the n intervals J_s = [a + 2πs/n, a + 2π(s+1)/n], s = 0, ..., n-1, each of length 2π/n.\n- On J_s, sin n(x-a) is ≥ 0 on the first half and ≤ 0 on the second half.\n- Each half-integral of |sin n(x-a)| equals 2/n, since ∫_0^{π/n} sin(nt) dt = 2/n.\n- Let M_s and m_s be the sup and inf of f on J_s. Replacing f by M_s on the first half and m_s on the second gives an upper bound: (2/n)M_s − (2/n)m_s = (2/n)(M_s − m_s).\n- Swapping the roles gives the lower bound (2/n)(m_s − M_s).\n- Hence |∫_{J_s} f sin n(x-a) dx| ≤ (2/n)(M_s − m_s).\n\n(5) Summing over s: |I_n(a)| ≤ Σ_s (2/n)(M_s − m_s). With δ = 2π/n (my rewriting), this equals (1/π) Σ_s δ (M_s − m_s). By the criterion in (2), this tends to 0 as n → ∞, because the interval length 2π/n → 0. The final added line concludes: in this case the coefficients of the series eventually become infinitely small.",
+  "errors": [
+   "Riemann writes 'kleiner als' (strictly less); in general only ≤ holds (equality when f is constant on a half-interval), but this is harmless.",
+   "The step ∫_{-π}^{π} = ∫_a^{a+2π} tacitly assumes f is extended 2π-periodically. This is standard and unstated.",
+   "The transcription has 'durch m_s den größten'. It must be (and in the image most plausibly is) 'den kleinsten'; even if Riemann wrote größten, it is an obvious slip.",
+   "The restriction to bounded f is needed for the oscillation bound. The hedged clause about f becoming infinite would require an improper-integral argument, which is not supplied here."
+  ],
+  "results": [
+   {
+    "what": "Fourier coefficients ∫ f(x) sin n(x-a) dx of a Riemann-integrable function tend to 0. Proof: split into periods of length 2π/n and bound each piece by (2/n)·(oscillation of f).",
+    "modern_name": "Riemann–Lebesgue lemma (Riemann-integrable case)",
+    "usually_credited_to": "Riemann (Habilitationsschrift 1854, publ. 1867); Lebesgue 1903 for Lebesgue-integrable functions",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Integrability expressed as Σ δ_i D_i → 0 (sum of interval length times oscillation) as the mesh → 0.",
+    "modern_name": "Riemann integrability criterion (oscillation / Darboux form)",
+    "usually_credited_to": "Riemann 1854",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the argument in Riemann's published Habilitationsschrift, which proves exactly this lemma by exactly this method. It is well known as his and is not new.",
+  "checkable": [
+   {
+    "sympy": "integrate(sin(n*t), (t, 0, pi/n)).subs(n, 7) - Rational(2,7)",
+    "asserts": "Over the first half-period of length π/n, the integral of sin(nt) is 2/n (checked for n = 7; result 0)."
+   },
+   {
+    "sympy": "integrate(sin(n*t), (t, pi/n, 2*pi/n)).subs(n, 5) + Rational(2,5)",
+    "asserts": "Over the second half-period the integral is −2/n (result 0)."
+   },
+   {
+    "sympy": "simplify(Sum(Rational(2,1)/n*(Ms - ms), (s, 0, n-1)).doit() - 1/pi*(2*pi/n)*n*(Ms - ms))",
+    "asserts": "Σ (2/n)(M_s − m_s) = (1/π) Σ δ (M_s − m_s) with δ = 2π/n, here with constant oscillation (result 0)."
+   },
+   {
+    "sympy": "limit(integrate(x*sin(n*x), (x, -pi, pi)), n, oo)",
+    "asserts": "Example: the coefficients of f(x) = x tend to 0 (the limit is 0)."
+   },
+   {
+    "sympy": "simplify(integrate(x*sin(n*(x-a)), (x, a, a+2*pi/n)) + 2*pi/n**2)",
+    "asserts": "For f = x on one period interval, the piece integral is −2π/n², whose absolute value is below the bound (2/n)(M−m) = 4π/n² (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'durch m_s den größten' should read 'durch m_s den kleinsten' (smallest value).",
+   "'diese Summe aber muß' – the transcribed 'Summe' is likely correct; the clause continues 'wenn fx einer Integration fähig ist'.",
+   "Marginal insertion near the integral form reads 'Der Sinus wird in der ersten Hälfte positiv, in der zweiten negativ'.",
+   "The final marginal line reads approximately 'In diesem Falle werden daher die Coefficienten der Reihe zuletzt unendlich klein'."
+  ]
+ }
+}

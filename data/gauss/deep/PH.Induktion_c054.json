@@ -1,0 +1,79 @@
+{
+ "bundle": "PH.Induktion",
+ "page": "c054",
+ "label": "28r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382427:00000055/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This page is a worksheet for Gauss's absolute determination of the earth's magnetic force, by the oscillation method of the Intensitas vis magneticae terrestris (1832/33). The labels 31, 88 and 88* are needles or bars. The heading 'Phys. 4' and the folio number are archival marks.\n\nA. 'Torsion 17912'. Each row gives four things:\n- the bar label;\n- a torsion ratio n;\n- a scale reading r;\n- the quantity t = 18912 - r.\n\nChecks (the third column is t, the fourth is t/n):\n- Bar 31: 935.6 + 17976.4 = 18912.0, and 17976.4/1169.71 = 15.368, so 15.37.\n- Bar 88: 968.5 + 17943.5 = 18912.0, and 17943.5/933.63 = 19.219, so 19.22.\n- Bar 88*: 970.2 + 17941.8 = 18912.0, and 17941.8/637.87 = 28.128, so 28.13.\n\nMy interpretation: n = m/theta, the ratio of the magnetic directive moment to the torsion moment of the suspension wire. Then theta/m = 1/n, about 0.00085 for bar 31; that is the order of magnitude Gauss reports for his wire. The fourth column is therefore t*theta/m, the torsion correction expressed in the units of t.\n\nThe number 17912 equals 18912 - 1000. It is the value of t when the reading is 1000. So t is a linear function of a scale reading, most likely a variation instrument, and t0 = 17912 is a normal state. This physical interpretation is mine and not certain; the arithmetic is.\n\nB. 'Schwingungen von 31' (oscillations of bar 31), giving MT.\n- Rows are dated Sept 9 at 8h37m33s, 0h40m48s and 1h33m20s, and Sept 11 at 7h24m57s.\n- The columns are: the period Theta in seconds (20.78319, 20.80290, 20.79855, 20.82442); the reading r; t = 18912 - r; and log10(MT).\n\nThe formula at the bottom is MT = (K*pi^2/Theta^2) * t0/(t + theta/m). Here the 'theta/m' term actually stands for t*theta/m, the number 15.37 from section A, as the recomputation shows. Written out:\n\nMT = K*pi^2/Theta^2 * t0/(t*(1 + 1/n)).\n\nThis is the oscillation equation of the Intensitas, mT = pi^2 K/(Theta^2 (1 + theta/m)). It is multiplied by t0/t, which reduces the result to the normal state t0. The torsion correction is put in additively as t + 15.37.\n\nInputs (logs are base 10):\n- log(K*pi^2) = 11.8282472, where K is the moment of inertia, probably in mm and mg units.\n- log t0 = 4.2531441 = log10(17912). I verified this.\n\nSo log10(MT) = 11.8282472 - 2 log10(Theta) + 4.2531441 - log10(t + 15.37).\n\nMy recomputation reproduces all four of Gauss's values to about 1e-6:\n- Row 1: 9.192822 + 4.253144 - log10(17995.07) gives 9.190813 (Gauss: 9.1908133).\n- Row 2: gives 9.189625 (Gauss: 9.1896257).\n- Row 3: gives 9.189402 (Gauss: 9.1894022).\n- Row 4: gives 9.189355 (Gauss: 9.1893550).\n\nThus MT is about 1.55e9 in Gaussian mm-mg-s units. The decrease of about 0.0015 in the log between the first row and the others reflects the change in Theta and in t.",
+  "errors": [
+   "Rows 3 and 4 of the oscillation table: 900.6 + 18011.6 = 18912.2 and 943.4 + 17968.8 = 18912.2. Every other row sums exactly to 18912.0. Either a reading was copied 0.2 too high or there is a subtraction slip; I cannot tell which. The effect on log MT is about 5e-6, at the limit of the seventh decimal.",
+   "The notation 't + theta/m' in the closing formula is loose. What is actually added to t is t*theta/m (= 15.37), not theta/m. Equivalently the denominator is t(1 + theta/m). This is a notational shorthand, not a computational error: the logarithms are consistent with t + 15.37."
+  ],
+  "results": [
+   {
+    "what": "Torsion ratio of the suspension wire for several bars: m/theta = n, giving the correction term t*theta/m = t/n.",
+    "modern_name": "Torsion correction in the oscillation (vibration) method for the magnetic moment times the horizontal field",
+    "usually_credited_to": "C. F. Gauss, Intensitas vis magneticae terrestris ad mensuram absolutam revocata (1832/33)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Computation of log(MT) = log(K pi^2) - 2 log Theta + log t0 - log(t(1 + theta/m)) from observed oscillation periods, reduced to a normal state t0.",
+    "modern_name": "Gauss oscillation method for the absolute horizontal intensity (mT part), with reduction to a reference epoch or instrument state",
+    "usually_credited_to": "C. F. Gauss (1832); Göttingen Magnetic Union practice (1834 onward)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine numerical worksheet applying Gauss's own published absolute-intensity method (oscillations plus torsion correction). It contains no new theory.",
+  "checkable": [
+   {
+    "sympy": "Eq(Rational(9356,10)+Rational(179764,10), 18912)",
+    "asserts": "Torsion row 31: the reading plus t equals 18912."
+   },
+   {
+    "sympy": "Abs(17976.4/1169.71 - 15.37) < 0.005",
+    "asserts": "The fourth column is t/n (bar 31)."
+   },
+   {
+    "sympy": "Abs(17943.5/933.63 - 19.22) < 0.005",
+    "asserts": "The fourth column is t/n (bar 88)."
+   },
+   {
+    "sympy": "Abs(17941.8/637.87 - 28.13) < 0.005",
+    "asserts": "The fourth column is t/n (bar 88*)."
+   },
+   {
+    "sympy": "Abs(log(17912,10) - 4.2531441) < 1e-6",
+    "asserts": "t0 = 17912, as the logarithm shows."
+   },
+   {
+    "sympy": "Abs(11.8282472 - 2*log(20.78319,10) + 4.2531441 - log(17979.7+15.37,10) - 9.1908133) < 3e-6",
+    "asserts": "Row 1: log MT."
+   },
+   {
+    "sympy": "Abs(11.8282472 - 2*log(20.80290,10) + 4.2531441 - log(17994.8+15.37,10) - 9.1896257) < 3e-6",
+    "asserts": "Row 2: log MT."
+   },
+   {
+    "sympy": "Abs(11.8282472 - 2*log(20.79855,10) + 4.2531441 - log(18011.6+15.37,10) - 9.1894022) < 3e-6",
+    "asserts": "Row 3: log MT."
+   },
+   {
+    "sympy": "Abs(11.8282472 - 2*log(20.82442,10) + 4.2531441 - log(17968.8+15.37,10) - 9.1893550) < 3e-6",
+    "asserts": "Row 4: log MT."
+   },
+   {
+    "sympy": "Eq(Rational(9006,10)+Rational(180116,10), Rational(189122,10))",
+    "asserts": "Row 3 sums to 18912.2, not 18912: a 0.2 inconsistency."
+   }
+  ],
+  "transcription_corrections": [
+   "The heading '17912' is the normal value t0 (log 4.2531441). The columns actually satisfy reading + t = 18912, i.e. t0 + 1000.",
+   "'0.40.48' and '1.33.20' are times (0h40m48s and 1h33m20s) continuing the Sept. 9 series. '11. 7.24.57' means Sept. 11 at 7h24m57s.",
+   "Bottom formula: the denominator is written 't + theta/m', but numerically it is t + t*theta/m."
+  ]
+ }
+}

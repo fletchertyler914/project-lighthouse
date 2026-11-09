@@ -1,0 +1,76 @@
+{
+ "bundle": "Math.28",
+ "page": "c005",
+ "label": "3v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context from the previous page (3r): for two points p, P on the unit sphere at angular distance Δ, Gauss defines f^n(p,P) = (1/π)∫_0^π (cos Δ + i sin Δ cos ψ)^n dψ. This is Laplace's first integral for the Legendre polynomial, so f^n(p,P) = P_n(cos Δ). He reaches it from 1/sqrt(a²+b²) = (1/π)∫_0^π dψ/(a + i b cos ψ). Applied to 1/sqrt(1+u²−2u cos Δ), this gives the generating-function expansion of the reciprocal distance: 1/|kK| = (1/a) Σ f^n(p,P)(A/a)^n, or the same with a and A interchanged. He then divides the unit sphere into infinitely small elements dμ (on 3r called dp), each containing a point p.\n\nThis page states two results.\n\n(1) Orthogonality: ∫_{S²} f^m(p,P) f^n(p,P') dμ(p) = 0 when m ≠ n. In modern terms ∫ P_m(p·P) P_n(p·P') dσ(p) = 0 for m ≠ n. The reason, which Gauss does not write: p ↦ P_m(p·P) is a spherical harmonic of degree m, and harmonics of different degree are orthogonal on the sphere.\n\n(2) Reproducing (Funk–Hecke / addition-theorem) formula for equal degrees. Gauss writes ∫ f^m(p,P) f^m(p,P') dμ = (1/((2m+1)π)) f(P,P'), where f(P,P') must mean f^m(P,P'). The correct modern statement, with dσ the area element (total area 4π), is ∫ P_m(p·P) P_m(p·P') dσ(p) = (4π/(2m+1)) P_m(P·P').\n\nPurpose: these are the tools for expanding a function on the sphere, or the potential of a mass distribution, in Laplace series, i.e. spherical harmonics. That fits the 1/r expansion on 3r and Gauss's work on geomagnetism and attraction. No derivation is given on the page; only the statements.",
+  "errors": [
+   "The constant is wrong as written. With dμ the ordinary area element of the unit sphere, the factor should be 4π/(2m+1), not 1/((2m+1)π). The case m=0 shows this: the left side is the total area 4π, while Gauss's formula gives 1/π. Unless dμ carries an unstated normalization (none is indicated on 3r), this is a slip, perhaps a garbled 4π/(2m+1).",
+   "The superscript m is missing on f(P,P') on the right-hand side; it should be f^m(P,P').",
+   "Neither result is proved on the page. Both are stated without justification."
+  ],
+  "results": [
+   {
+    "what": "f^n(p,P) = (1/π)∫_0^π (cosΔ + i sinΔ cosψ)^n dψ equals the Legendre polynomial P_n(cosΔ), used as coefficients of the 1/r expansion (defined on the previous page)",
+    "modern_name": "Laplace's (first) integral representation of Legendre polynomials; generating function of Legendre polynomials",
+    "usually_credited_to": "Laplace (c. 1782–1785); Legendre (1782/1785)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "∫_{S²} P_m(p·P) P_n(p·P') dσ(p) = 0 for m ≠ n",
+    "modern_name": "Orthogonality of zonal spherical harmonics of different degree",
+    "usually_credited_to": "Laplace (1782, Théorie des attractions des sphéroïdes); Legendre",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "∫_{S²} P_m(p·P) P_m(p·P') dσ(p) = 4π/(2m+1) P_m(P·P') (Gauss writes the constant as 1/((2m+1)π))",
+    "modern_name": "Reproducing property of zonal harmonics / Funk–Hecke formula; consequence of the addition theorem",
+    "usually_credited_to": "Laplace (late 18th c.); addition theorem formalized by Legendre and Laplace; Funk–Hecke formula 1916/1918",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are standard Laplace–Legendre facts about spherical harmonics, known from the 1780s. Gauss used Laplace series extensively in 'Allgemeine Theorie des Erdmagnetismus' (1839). A private note restating them, with a slip in the normalization constant, is routine.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate((cos(D)+I*sin(D)*cos(psi))**3,(psi,0,pi))/pi - legendre(3,cos(D)))",
+    "asserts": "Laplace integral: f^3(p,P) = P_3(cosΔ) (should be 0)"
+   },
+   {
+    "sympy": "simplify(integrate((cos(D)+I*sin(D)*cos(psi))**2,(psi,0,pi))/pi - legendre(2,cos(D)))",
+    "asserts": "Laplace integral for n=2 (should be 0)"
+   },
+   {
+    "sympy": "simplify(integrate(integrate(legendre(1,cos(t))*legendre(1,sin(t)*cos(ph)*sin(b)+cos(t)*cos(b))*sin(t),(ph,0,2*pi)),(t,0,pi)) - 4*pi/3*cos(b))",
+    "asserts": "Reproducing formula for m=1 with correct constant 4π/(2m+1), P=(0,0,1), P'=(sin b,0,cos b) (should be 0)"
+   },
+   {
+    "sympy": "simplify(integrate(integrate(legendre(2,cos(t))*legendre(2,sin(t)*cos(ph)*sin(b)+cos(t)*cos(b))*sin(t),(ph,0,2*pi)),(t,0,pi)) - 4*pi/5*legendre(2,cos(b)))",
+    "asserts": "Reproducing formula for m=2 with constant 4π/5 (should be 0)"
+   },
+   {
+    "sympy": "simplify(integrate(integrate(legendre(1,cos(t))*legendre(2,sin(t)*cos(ph)*sin(b)+cos(t)*cos(b))*sin(t),(ph,0,2*pi)),(t,0,pi)))",
+    "asserts": "Orthogonality for m=1, n=2 (should be 0)"
+   },
+   {
+    "sympy": "integrate(integrate(sin(t),(ph,0,2*pi)),(t,0,pi)) - 1/pi",
+    "asserts": "m=0 case of Gauss's constant as written: nonzero (4π − 1/π), showing the written constant 1/((2m+1)π) is wrong for the area measure"
+   },
+   {
+    "sympy": "simplify(series(1/sqrt(1+u**2-2*u*x),u,0,5).removeO() - sum(legendre(n,x)*u**n for n in range(5)))",
+    "asserts": "Generating function 1/sqrt(1+u²-2ux) = Σ P_n(x) u^n through order 4 (should be 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "In the first line the second factor's superscript is n, written over another letter; the transcription f^n is correct.",
+   "The measure is written 'dμ' (possibly 'dp' with a stroke); on the previous page Gauss calls the surface element dp.",
+   "The right-hand side reads (1/((2m+1)π)) f(P,P') with no superscript on f. The transcription is faithful, but the intended reading is f^m(P,P').",
+   "Separators in the arguments vary in the manuscript: '(p.P)' in the first line, '(p,P)' in the second. This has no mathematical significance."
+  ]
+ }
+}

@@ -1,0 +1,79 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c219",
+ "label": "[210]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000220/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page continues the 'Inductionsversuche' of the previous page (galvanometer measurements of induced currents, evidently from the Gauss–Weber electromagnetic work). The previous page set the multiplier (galvanometer) resistance to 1. Here Gauss writes the same relations with a general multiplier resistance μ. Three resistances are in play: μ (multiplier), r (first inductor, the induction coil, with emf e) and R (second inductor, the induction wheel, with emf E). The bold numerals 1,…,10 name observed deflections or currents. A notation such as '1.9' means the product (1)·(9).\n\nObserved currents with the second inductor (emf E) as driver:\n- (1) = E/(μ+R): the first inductor is cut out.\n- (2) = E/(μ+r+R): everything in series.\n- (3) = E r/(μr+μR+rR): divided circuit, with r in parallel with μ.\n  [my derivation: the total current is E/(R + μr/(μ+r)); the share through μ is the factor r/(μ+r).]\n\nObserved currents with the first inductor (emf e) as driver:\n- (6) = e/(μ+r).\n- (7) = e/(μ+r+R).\n- (8) = e R/(μr+μR+rR).\n\nDifferences:\n- (4) = (1)−(2) = E r/((μ+R)(μ+r+R)).\n- (5) = (1)−(3) = E μ R/((μ+R)(μr+μR+rR)).\n- (9) = (6)−(7) = e R/((μ+r)(μ+r+R)).\n- (10) = (6)−(8) = e μ r/((μ+r)(μr+μR+rR)).\n\nCounting: six independent observations (1,2,3,6,7,8). All currents are homogeneous of degree 0 in (E, e, μ, r, R), so only four ratios can be determined. Hence two consistency conditions must hold. Gauss writes three 'Bedingungsgleichungen':\n- (a) 1·1·9·10 = 4·5·6·6.\n- (b) 1·2·8·10 = 3·5·6·7.\n- (c) 1·3·7·9 = 2·4·6·8.\n[my remark: (c) = (a)/(b), so only two are independent.]\n\nThe unknown ratios are then expressed by products of observations:\n- R/r = 1·9/(6·4) = 5·6/(10·1) = 2·8/(7·3).\n- r/μ = 4·8/(5·7) = 3·4·6/(1·2·10) = 1·3·9/(2·5·6).\n- R/μ = 3·9/(2·10) = 1·8·9/(5·6·7) = 4·6·8/(1·7·10).\n\nA heading 'rR/μμ =' is struck out. Finally, the electromotive forces:\n- E/r = 1·2/4.\n- E/R = 2·6/9.\n- Er/(μR) = 1·3/5.\n- e/R = 6·7/9.\n- e/r = 1·7/4.\n- eR/(μr) = 6·8/10.\n\nPurpose: to determine resistance ratios and emfs from galvanometer readings taken in series, excluded and branched configurations. The redundant expressions give consistency checks on the measurements. This generalises the previous page (μ=1); e.g. (8) with μ=1 is c = eR/(r+R+rR).",
+  "errors": [
+   "No mathematical errors: every formula on the page checks symbolically.",
+   "The three condition equations are not independent: the third equals the first divided by the second. Gauss does not remark on this, but it is not an error."
+  ],
+  "results": [
+   {
+    "what": "Currents through a galvanometer in series, excluded and divided (shunted) circuits with two emf sources; differences of readings expressed in closed form.",
+    "modern_name": "Ohm's law with the current-divider rule (elementary Kirchhoff analysis of a two-branch network)",
+    "usually_credited_to": "Ohm (1827); branched circuits in general to Kirchhoff (1845)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Elimination of unknown emfs and resistances from redundant galvanometer readings: two condition (consistency) equations, plus resistance ratios and emf/resistance ratios given as rational monomials in the observations.",
+    "modern_name": "Determination of internal resistances and emfs by comparison methods (precursor of Kohlrausch/Wheatstone-style relative measurements)",
+    "usually_credited_to": "Gauss and Weber's magnetic/galvanic measurement program (1830s); similar methods by Wheatstone (1843)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine circuit algebra in service of the well-documented Gauss–Weber induction experiments. Gauss's work with branched currents is known. The neat monomial elimination is a nice but minor unpublished laboratory computation.",
+  "checkable": [
+   {
+    "sympy": "E,e,m,r,R=symbols('E e mu r R',positive=True); D=m*r+m*R+r*R; S=m+r+R; c1=E/(m+R); c2=E/S; c3=E*r/D; c6=e/(m+r); c7=e/S; c8=e*R/D; c4=c1-c2; c5=c1-c3; c9=c6-c7; c10=c6-c8; simplify(c4-E*r/((m+R)*S))==0",
+    "asserts": "(4)=(1)-(2)=Er/((μ+R)(μ+r+R))"
+   },
+   {
+    "sympy": "simplify(c5 - E*m*R/((m+R)*D))==0 and simplify(c9 - e*R/((m+r)*S))==0 and simplify(c10 - e*m*r/((m+r)*D))==0",
+    "asserts": "formulas for (5), (9) and (10)"
+   },
+   {
+    "sympy": "simplify(c1*c1*c9*c10 - c4*c5*c6*c6)==0",
+    "asserts": "first condition equation 1·1·9·10 = 4·5·6·6"
+   },
+   {
+    "sympy": "simplify(c1*c2*c8*c10 - c3*c5*c6*c7)==0",
+    "asserts": "second condition equation"
+   },
+   {
+    "sympy": "simplify(c1*c3*c7*c9 - c2*c4*c6*c8)==0",
+    "asserts": "third condition equation (equals first/second)"
+   },
+   {
+    "sympy": "[simplify(x-R/r) for x in (c1*c9/(c6*c4), c5*c6/(c10*c1), c2*c8/(c7*c3))]",
+    "asserts": "three expressions for R/r, all zero differences"
+   },
+   {
+    "sympy": "[simplify(x-r/m) for x in (c4*c8/(c5*c7), c3*c4*c6/(c1*c2*c10), c1*c3*c9/(c2*c5*c6))]",
+    "asserts": "three expressions for r/μ"
+   },
+   {
+    "sympy": "[simplify(x-R/m) for x in (c3*c9/(c2*c10), c1*c8*c9/(c5*c6*c7), c4*c6*c8/(c1*c7*c10))]",
+    "asserts": "three expressions for R/μ"
+   },
+   {
+    "sympy": "[simplify(c1*c2/c4-E/r), simplify(c2*c6/c9-E/R), simplify(c1*c3/c5-E*r/(m*R)), simplify(c6*c7/c9-e/R), simplify(c1*c7/c4-e/r), simplify(c6*c8/c10-e*R/(m*r))]",
+    "asserts": "emf ratio formulas, all zero"
+   },
+   {
+    "sympy": "simplify(c8.subs(m,1) - e*R/(r+R+r*R))==0",
+    "asserts": "consistency with the previous page (μ=1): c = eR/(r+R+Rr)"
+   }
+  ],
+  "transcription_corrections": [
+   "'(1)' is just the label 1 (the parenthesis marks the numeral), consistent with the other labels 2…10.",
+   "Products like '1.9' denote (1)·(9), products of observed quantities, not decimals.",
+   "'Die Umstehenden Relationen' refers to the relations on the preceding (verso) page, where the multiplier resistance was set to 1."
+  ]
+ }
+}

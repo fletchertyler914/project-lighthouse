@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c034",
+ "label": "25",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000035/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a pure numerical table, folio 25 of a running table that continues from p.24 (A = 1.200–1.280) to p.26 (A = 1.360–1.440). It is the 5-decimal Gaussian addition/subtraction logarithm table.\n\nThere are two halves:\n- Left half: A = 1.280 to 1.320.\n- Right half: A = 1.320 to 1.360.\n\nThe argument step is 0.001 throughout. Each half has five columns:\n1. A, the argument.\n2. B, written to 5 decimals.\n3. The first difference of B, in units of 1e-5. In the manuscript it is written between rows.\n4. C = A + B.\n5. The first difference of C, also in units of 1e-5.\n\nReconstruction (the defining formula is my inference, verified numerically):\n- Let x = 10^A. Then B(A) = log10(1 + 1/x) = log10(1 + 10^(-A)).\n- Hence C = A + B = log10(1 + 10^A) = log10(1 + x).\n\nPurpose:\n- Given log a and log b with a > b, set A = log a − log b. Then log(a + b) = log a + B(A) = log b + C(A).\n- Read in reverse, the same table gives the logarithm of a difference. So log(a ± b) can be found without leaving logarithms. This is the table Gauss published in Zach's Monatliche Correspondenz (1812): 'Tafel zur bequemern Berechnung des Logarithmen der Summe oder Differenz zweier Grössen, welche selbst nur durch ihre Logarithmen gegeben sind'.\n\nSpot checks:\n- A = 1.280: x = 19.055, B = log10(1.052480) = 0.022214 → 0.02221.\n- A = 1.300: B = log10(1 + 1/19.9526) = 0.021238 → 0.02124.\n- A = 1.283: B = 0.0220650(5) → 0.02207. This is a near tie, rounded correctly.\n- A = 1.360: x = 22.909, B = 0.018556 → 0.01856.\n\nSince C = A + B, the C column is obtained mechanically by adding A. The two difference columns are built-in consistency checks, because ΔB + ΔC = 100 units of 1e-5 for every step (5 + 95, 4 + 96). The B differences decrease from 5 to 4 across the page, consistent with dB/dA = −1/(1 + 10^A) ≈ −0.050 to −0.042 per unit. That corresponds to about 5.0 down to 4.2 units of 1e-5 per step.",
+  "errors": [
+   "None found: tested entries (1.280, 1.282, 1.283, 1.300, 1.320, 1.335, 1.360) agree with log10(1+10^-A) correctly rounded to 5 decimals.",
+   "All C entries equal A+B, and all difference pairs sum to 100 (units of 1e-5)."
+  ],
+  "results": [
+   {
+    "what": "Table of B = log10(1+10^-A) and C = A+B = log10(1+10^A), 5 decimals, for A = 1.280 to 1.360 in steps of 0.001",
+    "modern_name": "Gaussian logarithms (addition/subtraction logarithms)",
+    "usually_credited_to": "Idea due to Z. Leonelli (1802/03); first practical table published by Gauss (1812, Monatliche Correspondenz); hence the name 'Gaussian logarithms'",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a manuscript page of Gauss's well-known addition/subtraction logarithm table, which he published in 1812 and which bears his name. It is routine computational material.",
+  "checkable": [
+   {
+    "sympy": "round(float(log(1+10**(-Rational(1280,1000)),10)),5) == 0.02221",
+    "asserts": "B(1.280) = 0.02221"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-Rational(1282,1000)),10)),5) == 0.02211",
+    "asserts": "B(1.282) = 0.02211 (ink-corrected entry)"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(1283,1000)),10),10)",
+    "asserts": "about 0.0220650, so rounding to 0.02207 is (barely) correct"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-Rational(1300,1000)),10)),5) == 0.02124",
+    "asserts": "B(1.300) = 0.02124"
+   },
+   {
+    "sympy": "round(float(log(1+10**(-Rational(1338,1000)),10)),5) == 0.01950",
+    "asserts": "B(1.338) = 0.01950 (overwritten entry)"
+   },
+   {
+    "sympy": "round(float(log(1+10**(Rational(1360,1000)),10)),5) == 1.37856",
+    "asserts": "C(1.360) = log10(1+10^A) = 1.37856"
+   },
+   {
+    "sympy": "simplify(Rational(13,10) + log(1+10**(-Rational(13,10)),10) - log(1+10**Rational(13,10),10))",
+    "asserts": "identity A + log10(1+10^-A) = log10(1+10^A) (should be 0)"
+   },
+   {
+    "sympy": "all(round(float(log(1+10**(-Rational(k,1000)),10)),5) >= 0 for k in range(1280,1361))",
+    "asserts": "template for checking all 81 B entries against log10(1+10^-k/1000)"
+   }
+  ],
+  "transcription_corrections": [
+   "Differences are written between rows in the manuscript. The transcription assigns each difference to the upper row of its interval, which is consistent.",
+   "Several entries show ink overwriting/corrections in the image: B(1.282)=0,02211 (heavily blotted), B(1.284)=0,02202, B(1.338)=0,01950, and C(1.334)=1,35367, C(1.335)=1,35463. All transcribed readings are numerically correct.",
+   "The column headers are blank in the manuscript; the labels 'A | B | diff | A+B | diff' are editorial, though correct (C = A+B)."
+  ]
+ }
+}

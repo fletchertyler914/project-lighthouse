@@ -1,0 +1,63 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c014",
+ "label": "9v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000015/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 9v is the reverse of a letter draft (to his father, cf. 9r/10r dated Göttingen 18 Dec 1850). The top four lines are German letter text: 'Heute endlich komme ich dazu diesen Brief fortzusetzen und zu vollenden. Gestern und heute geht es mir gottlob besser, und ich glaube jetzt schon wieder in Ordnung zu sein; vorher aber habe ich mich in der That schlecht befunden.' In English: today I finally get to continue and finish this letter; yesterday and today I am, thank God, better and think I am back in order, but before that I was really unwell. This text contains no mathematics.\n\nThe rest of the page is written upside down. It is faint scratch work that continues the spherical-trigonometry and tetrahedron computations of the previous page. My reading after mentally rotating the image is partly conjectural.\n\n(1) Setting. A trihedral corner at O has edges OA, OB, OC. Their directions cut the unit sphere in a spherical triangle with sides a, b, c (the face angles at O) and angles A, B, C (the dihedral angles). P is the volume of the tetrahedron OABC. The previous page already had 6P/(OA·OB·OC) = sin b · sin β, where β is the spherical altitude, with sin β = sin a sin C = sin c sin A.\n\n(2) On this page the legible formula skeletons are:\n- a three-term chain of the form sin·sin·sin = sin·sin·sin = sin·sin·sin;\n- a line equating such a product with a fraction whose denominator is 6P (or OA·OB·OC);\n- further chains of the same shape;\n- a line multiplying a sine product by OA·OB·OC and obtaining 6P.\n\nThe content is plausibly 6P/(OA·OB·OC) = sin a sin b sin C = sin b sin c sin A = sin c sin a sin B. In modern terms this is the 'polar sine' of the trihedral angle. The symmetry of the three expressions is equivalent to the spherical law of sines.\n\n(3) Near the bottom is a block of four or five lines ending in an upside-down '2s = a+b+c' (the transcription's '3c = 34+c' is that line read inverted). The lines above it contain terms like (s-a), (s-b) and products of sines and cosines. These are the half-angle/semiperimeter forms, e.g. sin²(A/2) = sin(s-b) sin(s-c)/(sin b sin c), as already used for the inradius on the previous page.\n\nAn implicit step, which is mine and not visible on the page: from cos A = (cos a - cos b cos c)/(sin b sin c) one gets\n(sin b sin c sin A)² = 1 - cos²a - cos²b - cos²c + 2 cos a cos b cos c = 4 sin s sin(s-a) sin(s-b) sin(s-c).\nHence 6P = OA·OB·OC · 2√(sin s sin(s-a) sin(s-b) sin(s-c)).\n\n(4) Sketches. There are three triangle/tetrahedron figures with labelled vertices (heavily blotted) and a circle with an inscribed triangle and its connecting lines. The circle is plausibly the circumcircle or incircle of a spherical triangle, used to study the circumradius and inradius. There is also a small triangle with a label at the bottom.",
+  "errors": [
+   "No demonstrable mathematical errors; the formulas are too faint and blotted to verify individually. What is legible is consistent with the standard identities.",
+   "The machine transcription renders the upside-down formulas only as placeholders. The line read as '3c = 34+c' is almost certainly '2s = a+b+c' written upside down."
+  ],
+  "results": [
+   {
+    "what": "Volume of a tetrahedron from three edges at a vertex and the spherical triangle of the corner: 6P = OA·OB·OC·sin b sin c sin A (symmetric in the three choices)",
+    "modern_name": "Tetrahedron volume via the polar sine of a trihedral angle",
+    "usually_credited_to": "Euler / Lagrange (18th c.); polar sine formalized by von Staudt (1842)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "sin a sin b sin C = sin b sin c sin A = sin c sin a sin B",
+    "modern_name": "Spherical law of sines (product form)",
+    "usually_credited_to": "Classical (al-Biruni / Regiomontanus)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Semiperimeter (2s = a+b+c) half-angle formulas of spherical trigonometry",
+    "modern_name": "Spherical half-angle formulas / l'Huilier-type formulas",
+    "usually_credited_to": "Classical (Euler, Lexell, l'Huilier, 18th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Student-level spherical trigonometry and tetrahedron-volume exercises on the back of a letter draft from 1850. All of the material is standard textbook content.",
+  "checkable": [
+   {
+    "sympy": "simplify((sin(b)*sin(c))**2 - (cos(a)-cos(b)*cos(c))**2 - (1-cos(a)**2-cos(b)**2-cos(c)**2+2*cos(a)*cos(b)*cos(c)))",
+    "asserts": "(sin b sin c sin A)^2 = 1 - cos^2 a - cos^2 b - cos^2 c + 2 cos a cos b cos c when cos A = (cos a - cos b cos c)/(sin b sin c); the result is symmetric, giving the product-form sine law. Expected output: 0."
+   },
+   {
+    "sympy": "s=(a+b+c)/2; simplify(expand_trig(1-cos(a)**2-cos(b)**2-cos(c)**2+2*cos(a)*cos(b)*cos(c) - 4*sin(s)*sin(s-a)*sin(s-b)*sin(s-c)))",
+    "asserts": "The Gram determinant equals 4 sin s sin(s-a) sin(s-b) sin(s-c). Expected output: 0."
+   },
+   {
+    "sympy": "s=(a+b+c)/2; cosA=(cos(a)-cos(b)*cos(c))/(sin(b)*sin(c)); simplify(expand_trig((1-cosA)/2 - sin(s-b)*sin(s-c)/(sin(b)*sin(c))))",
+    "asserts": "Half-angle formula sin^2(A/2) = sin(s-b) sin(s-c)/(sin b sin c). Expected output: 0."
+   },
+   {
+    "sympy": "u=Matrix([1,0,0]); v=Matrix([cos(c),sin(c),0]); w=Matrix([cos(b),x,y]); simplify(Matrix.hstack(u,v,w).det()**2 - (1-cos(a)**2-cos(b)**2-cos(c)**2+2*cos(a)*cos(b)*cos(c)).subs(x,(cos(a)-cos(b)*cos(c))/sin(c)).subs(y**2,1-cos(b)**2-((cos(a)-cos(b)*cos(c))/sin(c))**2))",
+    "asserts": "The squared volume of the unit-edge parallelepiped equals the Gram determinant, so 6P = OA·OB·OC·sqrt(Gram). Expected output: 0 after substituting the component formulas."
+   }
+  ],
+  "transcription_corrections": [
+   "The upside-down line given as '3c = 34+c' should read '2s = a+b+c' (text inverted).",
+   "The upside-down fractions appear to involve 6P and OA·OB·OC, i.e. 6P/(OA·OB·OC) equated to products of sines. The terms read as 'C9' and '40.00.80' are the inverted '6P' and 'OA·OB·OC'.",
+   "The upside-down three-term chains are products of three sines (e.g. sin a sin b sin C = ...), not illegible placeholders.",
+   "In the letter text, '[-...-] [-...-]' at the start of line 2 is a struck-out fragment, and 'in der That' replaces the struck 'wirklich'."
+  ]
+ }
+}

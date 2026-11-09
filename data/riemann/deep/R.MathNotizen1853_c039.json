@@ -1,0 +1,73 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c039",
+ "label": "19av",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000040/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: pencil jottings on the blank (address) side of a folded letter. They concern transcendental equations of Lambert type and the fixed points and 2-cycles of the exponential map. The line-by-line reading is partly uncertain.\n\n(1) Trinomial equation and its logarithmic limit.\n- Riemann starts from the trinomial x^{m+n} + a x^n + b = 0, written in the normalised form ((x^m - 1)/m)·x^n = c. This is Lambert's/Euler's device of writing a trinomial as a difference quotient in the exponent.\n- [My step] As m → 0, (x^m - 1)/m → log x. The trinomial therefore degenerates into the transcendental equation x^n·log x = c, which is the line 'log x · x^n = …'.\n- Under w = n·log x this becomes w·e^w = n·c, so x = exp(W(n c)/n) in modern Lambert-W terms.\n\n(2) Special case a^x = x.\n- Taking logs: log x = x·log a, equivalently (log x)/x = log a.\n- [My step] The function (log x)/x increases on (0, e], decreases afterwards, and has maximum 1/e at x = e.\n- Hence a^x = x has real solutions only if log a ≤ 1/e, i.e. a ≤ e^{1/e}. For 1 < a < e^{1/e} there are two positive solutions (e.g. a = √2 gives x = 2 and x = 4).\n- The lines a^x = x^{1/x} (?) and a^{1/x} = x are equivalent rewritings: raise to the power 1/x, or invert the role of x via x → 1/x.\n- The substitution x = 1/z turns (log x)/x = log a into -z·log z = log a, i.e. z^z = 1/a. Riemann's line 'x = 1/z, … = -log z / z …' is a garbled form of this; the exact reading is uncertain.\n- The line 'log y = x log x' corresponds to y = x^x, the inverse problem of z^z = const.\n- [My step] Closed form: x = -W(-log a)/log a.\n\n(3) Iteration of the exponential.\n- The pair a^x = y, a^y = x, written twice, is the system for 2-cycles of t ↦ a^t. Its solutions with x ≠ y exist for 0 < a < e^{-e}. Example: a = 1/16 gives the cycle 1/2 ↔ 1/4.\n- This system is exactly what governs convergence of the infinite power tower a^{a^{a^{…}}}. The tower converges for e^{-e} ≤ a ≤ e^{1/e} and oscillates between a 2-cycle below e^{-e}.\n- The page breaks off without conclusions.",
+  "errors": [
+   "No outright mathematical errors are visible.",
+   "The line read as 'x = 1/z = -log z / z = log y' cannot be a literal chain of equalities. With x = 1/z one has (log x)/x = -z·log z, not -(log z)/z. Either the transcription is faulty or this is a scratch slip.",
+   "The m → 0 limit step that turns the trinomial into x^n·log x = c is not written out; I have inferred it."
+  ],
+  "results": [
+   {
+    "what": "Degenerating the trinomial x^{m+n} + a x^n + b = 0, written as ((x^m - 1)/m)·x^n = c, into x^n·log x = c as m → 0",
+    "modern_name": "Lambert's trinomial equation and its limit, the Lambert W equation",
+    "usually_credited_to": "J. H. Lambert (1758); L. Euler, 'De serie Lambertina' (1779/1783)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Solving a^x = x via (log x)/x = log a; real solutions iff a ≤ e^{1/e}",
+    "modern_name": "Fixed points of the exponential map / solution via Lambert W",
+    "usually_credited_to": "Euler (1778, 'De formulis exponentialibus replicatis'); Eisenstein (1844) for the series",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The system a^x = y, a^y = x, i.e. 2-cycles of the exponential map",
+    "modern_name": "Convergence of the infinite power tower (iterated exponential)",
+    "usually_credited_to": "Euler (1778); Seidel (1870s); fully settled by Barrow/Shell later",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are classical Euler/Lambert themes (the trinomial, a^x = x, the iterated exponential) in fragmentary scratch form, with no new result. Riemann's interest in them is mildly notable but unremarkable.",
+  "checkable": [
+   {
+    "sympy": "limit((x**m-1)/m, m, 0) - log(x)",
+    "asserts": "0: the m→0 limit of (x^m-1)/m is log x, giving x^n log x = c"
+   },
+   {
+    "sympy": "simplify(sqrt(2)**4 - 4), simplify(sqrt(2)**2 - 2)",
+    "asserts": "both 0: a=√2 has the two fixed points x=2 and x=4 of a^x=x"
+   },
+   {
+    "sympy": "solve(diff(log(x)/x, x), x)",
+    "asserts": "[E]: (log x)/x is maximal at x=e, value 1/e, so a^x=x needs a ≤ exp(exp(-1))"
+   },
+   {
+    "sympy": "(Rational(1,16)**Rational(1,2) - Rational(1,4), Rational(1,16)**Rational(1,4) - Rational(1,2))",
+    "asserts": "(0, 0): a=1/16 gives the 2-cycle x=1/2, y=1/4 of a^x=y, a^y=x"
+   },
+   {
+    "sympy": "simplify((log(1/z)/(1/z)) + z*log(z))",
+    "asserts": "0: with x=1/z, (log x)/x = -z log z"
+   },
+   {
+    "sympy": "a=sqrt(2); simplify(a**(-LambertW(-log(a))/log(a)) - (-LambertW(-log(a))/log(a)))",
+    "asserts": "0: x=-W(-log a)/log a solves a^x = x"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 is ((x^m - 1)/m)·x^n = c. The 'm' is the denominator under the bracket, and the right side is c.",
+   "Line 3 'log x · x^n = …' should be completed as x^n log x = c, the m→0 limit of line 2.",
+   "The marginal scribbles 'a^{(a^x)}' and 'a^{a^{…}}' near the top centre indicate iterated exponentials, i.e. a power tower.",
+   "The line 'x = 1/z = -log z / z = log y' is probably 'x = 1/z, -z log z = log a' or similar; the literal reading is inconsistent.",
+   "The several crossed-out lines in the upper right (a^x = y, y = x^x, etc.) are deleted drafts of the system a^x = y, a^y = x."
+  ]
+ }
+}

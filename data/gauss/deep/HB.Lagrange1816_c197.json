@@ -1,0 +1,78 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c197",
+ "label": "194",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000198/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page continues a tabulation of a monotone angular function f(x). It runs from x = 6.550 to 6.850 in steps of h = 0.002 and continues pp. 193 and 195. The layout is two blocks of 50 lines, each repeated in three column-groups: 6.550–6.650, 6.650–6.750 and 6.750–6.850. The last line of each block is copied as the first line of the next.\n\nColumn 1 is the argument x.\n\nColumn 2 is f(x) in degrees, minutes and seconds, given to 1e-5 arcsecond. When the minute or degree changes, the leading part is written in full, e.g. 138°11'32.63765\" at 6.550 and 147°41'13.07864\" at 6.850.\n\nColumn 3 is the first difference in arcseconds: Δ1(x) = f(x+h) − f(x). For example, at 6.552: 20'21.15089\" − 15'57.17391\" = 263.97698\".\n\nColumn 4 is the second difference in units of 1e-5\", written beside the lower argument: Δ2(x) = Δ1(x−h) − Δ1(x) > 0. For example, at 6.552: 264.53626 − 263.97698 = 0.55928 → 55928. The first entry, 56081 at 6.550, implies Δ1(6.548) = 265.09707\" on the preceding (unseen) part of the table.\n\nThe columns serve as a running check. Within each block the values were evidently built by accumulating differences (f(x+h) = f(x) + Δ1(x), Δ1(x+h) = Δ1(x) − Δ2(x+h)). The smoothness of Δ2, whose third differences run about −150 to −95 units, guards the twelve-figure values.\n\nBehaviour of the function:\n- The slope df/dx falls from about 0.641 rad/unit at 6.55 to about 0.473 at 6.85.\n- f(x) rises towards 180°. π − f falls from 0.730 to 0.564 rad, roughly like e^{−0.86x}.\n- Equivalently, f'' / f' ≈ −1.06 → −0.97.\n\nI could not identify the function. Simple candidates fail the slope and curvature data: Gudermannian-type f' ∝ sin f, f' ∝ 1+cos f, the Kepler mean-to-eccentric or mean-to-true anomaly maps, and the Jacobi amplitude. Its purpose within the 'Lagrange 1816' material is therefore not determinable from this page alone (my statement).",
+  "errors": [
+   "Rows 6.766–6.770 are internally inconsistent as transcribed. With f(6.768) = 145°22'9.72523\", the first differences are 212.02324 and 211.60349, giving second differences 42112, 41975, 41897 instead of the smooth 42102, 41995, 41887 written in column 4. The smooth Δ2 column and Δ1(6.770) = 211.18452 force Δ1(6.766) = 212.02334 and f(6.768) = 145°22'9.72533\". So the values should end ...72533, 212.02334 and 211.60339. The image shows visible overwriting at exactly these places ('23', '24', '39', '95'), so Gauss very likely caught and corrected this himself; the transcription may preserve the pre-correction digits.",
+   "Row 6.792: Δ1 is written 206.64696, but 146°7'28.20189\" − 146°4'1.55491\" = 206.64698\". The values 206.64698 would give second differences 40727 and 40623, smoother than the written 40729 and 40621 (third differences −103, −104, −104). This is a 2-unit slip in the last place of the difference column, propagated into two Δ2 entries; the function values themselves appear right.",
+   "All other spot checks reproduce exactly, including all the heavily overwritten entries: 6.578 (53986), 6.628 (50466), 6.636 (13'0.88020\"), 6.648 (49135), 6.656 (48615), 6.774–6.778 and 6.838–6.848."
+  ],
+  "results": [
+   {
+    "what": "High-precision (1e-5\") table of an angular function f(x) at step 0.002, with first and second differences used as a running check / construction by summation of differences",
+    "modern_name": "Tabulation by finite differences (difference-table checking/subtabulation)",
+    "usually_credited_to": "Standard practice since Briggs and Newton; routine in 18th–19th c. table making",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The specific function tabulated: a smooth increasing angle approaching 180°, with f' ≈ 0.64 → 0.47 rad per unit on [6.55, 6.85]",
+    "modern_name": "unidentified (possibly an auxiliary angle connected with the 'Lagrange 1816' material)",
+    "usually_credited_to": "unsure",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a purely numerical auxiliary table with a standard difference check, of the kind Gauss produced in quantity. It shows his computational stamina and a self-corrected slip, but no new method or result. The underlying function is unidentified from this page.",
+  "checkable": [
+   {
+    "sympy": "Rational('1215.15089') - Rational('957.17391') - Rational('263.97698')",
+    "asserts": "Δ1(6.552) = f(6.554) − f(6.552) = 263.97698\" (should be 0)"
+   },
+   {
+    "sympy": "Rational('264.53626') - Rational('263.97698') - Rational('0.55928')",
+    "asserts": "second difference at 6.552 is 55928e-5 (should be 0)"
+   },
+   {
+    "sympy": "(139*3600+59*60+Rational('1.70188')) - (139*3600+54*60+Rational('50.17765')) - Rational('251.52423')",
+    "asserts": "Δ1(6.598) = 251.52423\" (should be 0)"
+   },
+   {
+    "sympy": "(147*3600+60+Rational('39.99997')) - (146*3600+58*60+Rational('19.73074')) - Rational('200.26923')",
+    "asserts": "Δ1(6.824) across the degree change (should be 0)"
+   },
+   {
+    "sympy": "(145*3600+25*60+Rational('41.32872')) - (145*3600+18*60+Rational('37.70199')) - Rational('212.02334') - Rational('211.60339')",
+    "asserts": "the corrected Δ1(6.766) = 212.02334 and Δ1(6.768) = 211.60339 sum to f(6.770) − f(6.766) (should be 0)"
+   },
+   {
+    "sympy": "Rational('212.44436') - Rational('212.02334') - Rational('0.42102')",
+    "asserts": "with the corrected Δ1(6.766), the written second difference 42102 is consistent (should be 0)"
+   },
+   {
+    "sympy": "(146*3600+7*60+Rational('28.20189')) - (146*3600+4*60+Rational('1.55491')) - Rational('206.64698')",
+    "asserts": "the true Δ1(6.792) is 206.64698, not the written 206.64696 (should be 0)"
+   },
+   {
+    "sympy": "(147*3600+37*60+Rational('57.42700')) + Rational('195.65164') - (147*3600+41*60+Rational('13.07864'))",
+    "asserts": "f(6.848) + Δ1(6.848) = f(6.850) (should be 0)"
+   },
+   {
+    "sympy": "Rational('196.03117') - Rational('195.65164') - Rational('0.37953')",
+    "asserts": "second difference at 6.848 is 37953e-5 (should be 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "6.768: the image shows overwriting of the last digits of f(6.768) and of Δ1(6.766), Δ1(6.768). Internal consistency requires f = 145°22'9.72533\", Δ1(6.766) = 212.02334, Δ1(6.768) = 211.60339 and Δ2 = 41995 (the transcription's '[?]' entries 211.60339 and 41995 are correct). The '…72523' and '212,02324' readings are probably the uncorrected digits.",
+   "6.612: should read '23. 59,89192' (period after the minutes missing in the transcription).",
+   "6.552: should read '15. 57,17391'.",
+   "Folio number at top left is '194' (partly cut off); the transcription omits it.",
+   "Column 4 entries are second differences in units of 1e-5\" (0.56081 etc.), not independent quantities."
+  ]
+ }
+}

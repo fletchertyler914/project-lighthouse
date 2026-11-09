@@ -1,0 +1,63 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c151",
+ "label": "88av",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000152/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the page belongs to Riemann's work on plane air waves of finite amplitude (published 1860, 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite'). The neighbouring pages suggest the isothermal law p = a^2*rho with constant sound speed a. The previous page ends with an isothermal jump inequality, Delta u^2 > (rho1-rho2)^2/(a rho1 rho2). The next page treats characteristic variables p, q in a radially symmetric setting.\n\n(1) Sketch at the top. A horizontal line (the x-axis) is cut by a vertical stroke, the initial discontinuity at x = 0. To the left is the constant state (u1, rho1), to the right (u2, rho2). This is the set-up of what is now called the Riemann problem: two constant states separated at t = 0.\n\n(2) 'log rho'. For isothermal gas the characteristic speeds are u ± a. The Riemann invariants are u ± a*log(rho), which is why log rho appears.\n\n(3) Normalization (my reconstruction). The page writes u = 2a(p1 - q), with p, q the two invariants. This is consistent with p = (log rho + u/a)/4 and q = (log rho - u/a)/4, i.e. p - q = u/(2a) and p + q = (1/2) log rho. Riemann's exact normalization cannot be fixed from this page; only p - q = u/(2a) is forced.\n\n(4) Simple wave. Assume p has the constant value p1 of the undisturbed state 1. Then u = 2a(p1 - q), so u is a function of q alone. The second characteristic equation, q_t + (u - a) q_x = 0, makes q constant along lines dx/dt = u - a. Because u - a depends only on q, these lines are straight. Hence the general simple wave is x - (u - a)t = f(q), with f arbitrary.\n\n(5) Centred case. Riemann sets f(q) = 0, so x = (u - a)t. All characteristics then issue from the point of the initial jump. This is the centred rarefaction fan:\n- u = a + x/t;\n- from constancy of u + a*log(rho) across the fan (my step), rho = rho1*exp((u1 - u)/a).\nThis is exactly the wave that resolves an initial discontinuity of the kind sketched at the top. Together with the shock condition on the previous page, it gives the ingredients of the Riemann problem solution in his 1860 paper.",
+  "errors": [
+   "No errors visible; the page is a bare sketch.",
+   "The normalization of p, q is not stated. u = 2a(p1-q) presumes p - q = u/(2a), i.e. a different scaling from Riemann's published r, s = (1/2)(F(rho) ± u). This is not an error, just an unstated convention.",
+   "The constant term p1 should be the value of the invariant p in the state into which the wave runs. Which state (1 or 2) this is depends on the wave direction, which the page does not specify."
+  ],
+  "results": [
+   {
+    "what": "Constant left/right states separated by a discontinuity (initial-value set-up)",
+    "modern_name": "Riemann problem",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Isothermal Riemann invariants via log rho, u = 2a(p - q)",
+    "modern_name": "Riemann invariants for the isothermal Euler equations",
+    "usually_credited_to": "Riemann 1860 (cf. Earnshaw 1858-60)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Simple wave x - (u-a)t = f(q) with p = const; centred fan for f = 0",
+    "modern_name": "Simple wave / centred rarefaction wave",
+    "usually_credited_to": "Poisson 1808 (simple waves), Earnshaw 1860, Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is a working sketch of the centred rarefaction for the isothermal Riemann problem. This material is contained in Riemann's published 1860 paper.",
+  "checkable": [
+   {
+    "sympy": "x,t,a,C=symbols('x t a C',positive=True); u=a+x/t; rho=C*exp(-x/(a*t)); simplify(diff(rho,t)+diff(rho*u,x))",
+    "asserts": "The centred fan u=a+x/t, rho=C*exp(-x/(a t)) satisfies isothermal mass conservation (result 0)."
+   },
+   {
+    "sympy": "x,t,a,C=symbols('x t a C',positive=True); u=a+x/t; rho=C*exp(-x/(a*t)); simplify(diff(u,t)+u*diff(u,x)+a**2*diff(rho,x)/rho)",
+    "asserts": "The same fan satisfies the isothermal momentum equation u_t+u u_x+a^2 rho_x/rho=0 (result 0)."
+   },
+   {
+    "sympy": "x,t,a,C=symbols('x t a C',positive=True); u=a+x/t; rho=C*exp(-x/(a*t)); simplify(diff(u+a*log(rho),x))",
+    "asserts": "u + a*log(rho) is constant across the fan (the invariant p is constant)."
+   },
+   {
+    "sympy": "r1,r2,a=symbols('r1 r2 a',positive=True); m=sqrt(a**2*r1*r2/(r2-r1)*(r2-r1)/(r1*r2)*r1*r2); simplify(((r1-r2)*a/sqrt(r1*r2))**2 - a**2*(r1-r2)**2/(r1*r2))",
+    "asserts": "Isothermal shock jump (u1-u2)^2 = a^2 (rho1-rho2)^2/(rho1 rho2), the companion relation to the inequality on the previous page (result 0). In Riemann's notation, with a^2 the square of the sound speed, it reads (rho1-rho2)^2/(a rho1 rho2)."
+   }
+  ],
+  "transcription_corrections": [
+   "The sketch is a horizontal axis with a short vertical stroke marking the initial discontinuity: states u1, rho1 on the left and u2, rho2 on the right.",
+   "'x - (u-a)t = f(q) = 0' is correct as read. The final '= 0' marks the specialization to the centred wave f = 0.",
+   "'q_1' stands alone as a label, probably the value of q in state 1 (or a slip for p_1)."
+  ]
+ }
+}

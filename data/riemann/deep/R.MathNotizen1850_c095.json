@@ -1,0 +1,83 @@
+{
+ "bundle": "R.MathNotizen1850",
+ "page": "c095",
+ "label": "53r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206767:00000096/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio is a set of lecture-style headings on experimental and elementary mechanics. The previous page covers collisions; this page and the next cover waves and hydraulics. The headings read like notes from or for a physics course. They contain no original research.\n\n(1) 'Wellenbewegung – Welle u. scheinbare Bewegung' (wave motion: the wave and its apparent motion). This is the transverse wave on a stretched string.\n- The tension T is expressed by the weight of a column of the same string, of length (or height) l. So T = mu*g*l, where mu is the mass per unit length.\n- The string wave equation y_tt = (T/mu) y_xx gives the speed of the 'apparent motion' (the propagating wave) as c = sqrt(T/mu) = sqrt(g*l). The page writes exactly 'Geschwindigkeit der scheinbaren Bewegung = sqrt(gl)'.\n- 'Zahl der Schwingungen in der Minute' (number of vibrations per minute). For a string of length a, the fundamental frequency is n = c/(2a) = (1/(2a))*sqrt(T/mu).\n- The page writes a product beginning sqrt(g/a) times a fraction whose numerator is struck out or illegible and whose denominator reads 'a m g' (or similar). My reading: Riemann substitutes T = P (a stretching weight) and mu = m. That gives an expression of the form sqrt((g/a)*(P/(a*m*g))) = (1/a)*sqrt(P/(m*a)) or a variant, with the factor 1/2 and the conversion to per-minute (factor 60) left implicit or lost in the scrawl. This reconstruction of the formula is uncertain.\n\n(2) 'Bewegungsgesetze der Flüssigkeiten' (laws of motion of liquids).\n- First the experimental side: the efflux velocity for different liquids, found from the outflowing volume and the size of the opening, as v = Q/(A*t).\n- Then the 'Druckhöhe' (pressure head).\n- From the general laws of motion (energy conservation for a falling liquid particle) comes Torricelli's law: 'Quadrat der Ausflussgeschwindigkeit = 2g × Druckhöhe', i.e. v^2 = 2*g*h.\n\n(3) Motion of a liquid in a U-shaped bent narrow tube.\n- Let L be the total length of the liquid column and x the displacement of one surface from equilibrium. The restoring weight is 2*rho*A*g*x acting on mass rho*A*L. So x'' = -(2g/L)*x, with period 2*pi*sqrt(L/(2g)).\n- In other words, the column swings like a pendulum of half the column length. I read the line as roughly '…schwingt …, wie ein Pendel von der halben Länge'. This interpretation is mine, based on the visible words 'Pendel von der halben/selben Länge'.\n\n(4) Further headings.\n- 'Ausströmen b. vertikalen Wänden': efflux through vertical walls, i.e. side orifices, with jet trajectories.\n- 'Segner'sches Rad': Segner's wheel, a reaction turbine.\n- These continue on the next page: efflux through horizontal walls, Hero's ball, fire-engine, Hero's fountain, Reichenbach's current meter, then waves again.",
+  "errors": [
+   "No real errors in the formulas stated: c = sqrt(g l) with tension equal to the weight of a length l of the string, and v^2 = 2 g h, are both correct.",
+   "The vibration-number formula is incomplete or illegible as written. The standard result n = (1/(2a))*sqrt(T/mu) has a factor 1/2, and per minute requires a factor 60. Neither is visible, so either they were omitted in note form or the expression is garbled."
+  ],
+  "results": [
+   {
+    "what": "Speed of transverse waves on a string with tension equal to the weight of a length l of string: c = sqrt(g l)",
+    "modern_name": "Wave speed on a string, c = sqrt(T/mu)",
+    "usually_credited_to": "Taylor (1713), d'Alembert (1747), Euler; following Mersenne's laws",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Number of vibrations of a string of length a under a stretching weight",
+    "modern_name": "Mersenne's laws / string fundamental frequency n = (1/2a) sqrt(T/mu)",
+    "usually_credited_to": "Mersenne (1636), Taylor (1713)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Square of the efflux velocity = 2 g × pressure head",
+    "modern_name": "Torricelli's law (special case of Bernoulli's equation)",
+    "usually_credited_to": "Torricelli (1643); D. Bernoulli (1738)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Oscillation of liquid in a U-tube, equivalent to a pendulum of half the column length",
+    "modern_name": "U-tube manometer oscillation, period 2*pi*sqrt(L/(2g))",
+    "usually_credited_to": "Newton, Principia II (1687)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Segner's wheel, efflux through vertical walls",
+    "modern_name": "Reaction turbine (Segner wheel); jet efflux",
+    "usually_credited_to": "Segner (1750)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are elementary textbook or lecture headings in physics: string wave speed, Torricelli's law, U-tube oscillation and Segner's wheel. All are standard 17th–18th-century results, presumably notes from or for an experimental physics course. Nothing here is original or non-standard.",
+  "checkable": [
+   {
+    "sympy": "simplify(sqrt((mu*g*l)/mu) - sqrt(g*l))",
+    "asserts": "With tension T = mu*g*l, the wave speed sqrt(T/mu) equals sqrt(g*l) (result 0)"
+   },
+   {
+    "sympy": "simplify(sqrt(2*g*h)**2 - 2*g*h)",
+    "asserts": "Torricelli: v = sqrt(2 g h) satisfies v^2 = 2 g h"
+   },
+   {
+    "sympy": "dsolve(Eq(Derivative(x(t),t,2), -2*g/L*x(t)), x(t))",
+    "asserts": "The U-tube liquid column oscillates with angular frequency sqrt(2g/L)"
+   },
+   {
+    "sympy": "simplify(2*pi*sqrt(L/(2*g)) - 2*pi*sqrt((L/2)/g))",
+    "asserts": "The U-tube period equals that of a simple pendulum of length L/2 (result 0)"
+   },
+   {
+    "sympy": "simplify(sqrt(g*l)/(2*a) - sqrt((mu*g*l)/mu)/(2*a))",
+    "asserts": "The fundamental frequency of a string of length a is c/(2a) with c = sqrt(g l)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: likely 'Welle u. scheinbare Bewegung' (OK).",
+   "Line 3: 'Spannung ausgedrückt d. die spannende Gewicht-Säule' is plausible; 'Säule' (column) fits the following 'Länge od. Höhe = l'.",
+   "The vibration formula's numerator is struck through. The denominator looks like 'amg', not 'aπg'.",
+   "'Luftströmungen d. vertikalen Wänden' should almost certainly read 'Ausströmen b. vertikalen Wänden'. This parallels 'Ausströmen b. horizontalen Wänden' on the next page.",
+   "'U-förmig gebogenen engen Röhre' seems correct. The following line likely contains '…ein Pendel von der halben Länge', not 'verschieden von der selben'.",
+   "'Experimentelle:' likely 'Experimentell:'. The 'gewöhnlich' insertion may be 'gemessen'."
+  ]
+ }
+}

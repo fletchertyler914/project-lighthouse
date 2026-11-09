@@ -1,0 +1,60 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c371",
+ "label": "183v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000372/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of §17 of Riemann's 'Theorie der Abel'schen Functionen' (Crelle 54, 1857), where the p-fold theta series is introduced for later use in the Jacobi inversion problem. The next page drafts the zero-counting argument of §22, which leads to e_mu = sum_nu alpha_mu^(nu) + k_mu.\n\n(1) Purpose (opening lines). For the further study of integrals of algebraic differentials, Riemann introduces a p-fold infinite series. The logarithm of its general term is an integral polynomial of degree 2 in the summation indices ('Stellenzeiger'):\ntheta(v_1,...,v_p) = sum_{m in Z^p} exp( sum_{mu,mu'} a_{mu,mu'} m_mu m_mu' + 2 sum_mu v_mu m_mu ).\nThe coefficients satisfy a_{nu,nu'} = a_{nu',nu} (symmetric p x p matrix A). Written out, the log of the general term is a_{11} m_1^2 + 2 a_{12} m_1 m_2 + a_{22} m_2^2 + ... + a_{pp} m_p^2 + 2 v_1 m_1 + ... + 2 v_p m_p. The constant term is 0. The inner (exponent) sum runs over mu, mu'; the outer sums run over m_1,...,m_p. This is the modern theta function with Riemann's normalisation: the exponent is 'a' rather than pi i tau, and there is a factor 2 in front of v. Modern form: theta(z|tau) with A = pi i tau and v = pi i z.\n\n(2) Convergence. The series converges when the real part of the quadratic form Q(m) = sum a_{mu mu'} m_mu m_mu' is 'wesentlich negativ', i.e. Re A is negative definite. The corrected passage spells this out as becoming infinitely negative for infinitely growing m, i.e. transformable into a sum of p negative squares of independent real linear forms.\n[My filling: then |general term| <= exp(-c|m|^2 + C|m|) locally uniformly in v, so theta is an entire function of v.]\n\n(3) Quasi-periodicity. theta is regarded as a function of the p variables v.\n(a) For mu = 1..p: theta(..., v_mu + pi i, ...) = theta, because exp(2 pi i m_mu) = 1.\n(b) theta(v_1 + a_{1,mu}, ..., v_p + a_{p,mu}) = exp(-2 v_mu - a_{mu,mu}) theta(v).\n[My verification of (b): after the shift, the exponent is Q(m) + 2 sum_nu v_nu m_nu + 2 sum_nu a_{nu mu} m_nu. Put m = n - e_mu. By symmetry of A, Q(n - e_mu) = Q(n) - 2 sum_nu a_{mu nu} n_nu + a_{mu mu}. The exponent then becomes Q(n) + 2 sum v_nu n_nu - 2 v_mu - a_{mu mu}. Summing over n in Z^p gives the factor.]\nCorrespondingly, the scattered marginal phrases say log theta changes only by an integer multiple of 2 pi i under (a). Under (b) it changes by -(2 v_mu + a_{mu,mu}), mod 2 pi i.\n\nThe page contains a first formulation (crossed out), a restart ('Es seien in diesen Reihen ...'), an empty placeholder 'theta(v_1,...,v_p) = ( )', and then the final two functional equations. These agree exactly with the printed §17.",
+  "errors": [
+   "No mathematical errors: both functional equations, theta(v_mu + pi i) = theta and theta(v + a_{.,mu}) = exp(-2v_mu - a_{mu,mu}) theta, are correct for the stated series.",
+   "The marginal statement about the increment of log theta ('Zuwachs um a_{mu,mu} ... m_mu 2 pi i') is garbled and partially struck. As literally transcribed it is not a correct formula; the intended statement is the increment -(2 v_mu + a_{mu,mu}) mod 2 pi i.",
+   "The convergence condition is stated without proof (routine; negative definiteness of Re A is sufficient)."
+  ],
+  "results": [
+   {
+    "what": "Definition of the p-variable theta series with symmetric coefficient matrix a_{mu,mu'} and linear term 2 sum v_mu m_mu",
+    "modern_name": "Riemann theta function theta(z, tau) of genus p (Siegel-type period matrix)",
+    "usually_credited_to": "Riemann 1857 (Theorie der Abel'schen Functionen §17); building on Jacobi's one-variable theta and Rosenhain/Göpel for p=2",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Convergence iff Re of the quadratic form is negative definite",
+    "modern_name": "Convergence condition Im tau > 0 (Siegel upper half-space)",
+    "usually_credited_to": "Riemann 1857",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Quasi-periodicity: theta(v + pi i e_mu) = theta(v), theta(v + A e_mu) = exp(-2v_mu - a_mumu) theta(v)",
+    "modern_name": "Functional equations / quasi-periodicity of the Riemann theta function",
+    "usually_credited_to": "Riemann 1857",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a working draft of the theta-function definition and quasi-periodicity relations exactly as printed in Riemann's 1857 paper on Abelian functions (§17). The adjacent pages draft the published zero-counting/inversion argument (§22). Nothing goes beyond the published text.",
+  "checkable": [
+   {
+    "sympy": "n1,n2,a11,a12,a22,v1,v2=symbols('n1 n2 a11 a12 a22 v1 v2'); Q=lambda x,y: a11*x**2+2*a12*x*y+a22*y**2; expand((Q(n1-1,n2)+2*v1*(n1-1)+2*v2*n2+2*a11*(n1-1)+2*a12*n2) - (Q(n1,n2)+2*v1*n1+2*v2*n2-2*v1-a11))",
+    "asserts": "Equals 0: the exponent identity behind theta(v1+a11, v2+a12) = exp(-2v1-a11) theta(v1,v2) for p=2 (shift m1 = n1-1)."
+   },
+   {
+    "sympy": "a=-1+Rational(1,3)*I; v=Rational(1,5)+Rational(1,7)*I; th=lambda w: sum(exp(a*m**2+2*w*m) for m in range(-30,31)); N(th(v+a) - exp(-2*v-a)*th(v))",
+    "asserts": "Numerically ~0: the p=1 quasi-periodicity theta(v+a) = exp(-2v-a) theta(v), with Re a < 0."
+   },
+   {
+    "sympy": "a=-1+Rational(1,3)*I; v=Rational(1,5)+Rational(1,7)*I; th=lambda w: sum(exp(a*m**2+2*w*m) for m in range(-30,31)); N(th(v+pi*I)-th(v))",
+    "asserts": "Numerically ~0: period pi i in each variable."
+   }
+  ],
+  "transcription_corrections": [
+   "'Für die ferneren Untersuchungen einer Integrales algebraischer Differentialien' should read 'Für die ferneren Untersuchungen über Integrale algebraischer Differentialien' (the printed text has 'Integrale').",
+   "'p ungeraden Quadrate' is almost certainly 'p negativen Quadraten' (the printed §17 asks that the real part be representable as a sum of p negative squares of independent real linear functions of the m). The struck 'Linearen' belongs to this phrase.",
+   "The struck sentence about log theta should be read as: under simultaneous change of v_1..v_p by a_{1,mu}..a_{p,mu}, log theta changes by -(2v_mu + a_{mu,mu}) (up to multiples of 2 pi i); under v_mu -> v_mu + pi i it changes only by multiples of 2 pi i.",
+   "The final formula is correctly theta(v_1+a_{1,mu}, ..., v_p+a_{p,mu}) = e^{-2v_mu - a_{mu,mu}} theta, and the line above it is theta(v_1, ..., v_mu + pi i, ..., v_p) = theta."
+  ]
+ }
+}

@@ -1,0 +1,75 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c309",
+ "label": "156v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000310/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page sets up the mechanical theory of heat, with Q the heat supplied to a body and dQ = M dv + N dt in terms of volume v and temperature t. This page derives, in the style of Clausius (1850–1854), the two main theorems and the existence of entropy, and then sketches a Carnot cycle.\n\n(1) First law: A Q = A U + W. Here A is the mechanical equivalent (work per unit heat), U is the internal heat or energy (the script letter) and W is the external work, with dW = p dv. With dQ = M dv + N dt this gives A M = A ∂U/∂v + p and A N = A ∂U/∂t.\n[My step] Eliminating U by equality of mixed partials gives\n(2) A(∂M/∂t − ∂N/∂v) = ∂p/∂t.\nThis is Clausius's first fundamental equation.\n\nSide remark M = p/A: this is the ideal-gas case (Mariotte–Gay-Lussac law plus U independent of v, i.e. ∂U/∂v = 0, so A M = p).\n\nSecond theorem (Carnot, as recast by Clausius): μ M = ∂p/∂t, where μ is Carnot's function, independent of the substance. It is stated here, not derived. Evaluating μ on an ideal gas, p = R(a+t)/v with a ≈ 273 the absolute zero offset, and M = p/A:\nμ = A (∂p/∂t)/p = A/(a+t).\n\nCombining the two theorems: ∂M/∂t − ∂N/∂v − (μ/A) M = 0.\n\nIntegrating factor: look for λ = λ(t) such that λ dQ is exact. One has\nλ ∂M/∂t − λ ∂N/∂v + (∂λ/∂t) M = 0\nprovided −λ μ/A = ∂λ/∂t, i.e. λ'/λ = −1/(a+t).\n[My step] So λ = C/(a+t), proportional to 1/T with absolute temperature T = a+t.\nThen ∂(λM)/∂t − ∂(λN)/∂v = 0. This is exactly the integrability condition for λM dv + λN dt, so\n∫ λ (M dv + N dt) = f(v,t)\nis a state function: dQ/T is exact, i.e. entropy.\n\nLower part, a sketch of a Carnot cycle:\n- start in state (t, v);\n- at t1, in contact with body K1, the substance takes up (aufnehmen) heat Q1;\n- an adiabatic change brings it to t2;\n- at t2, in contact with K2, it is compressed (zusammendrücken) and gives off heat (written −Q1);\n- it reaches (t2, v4);\n- it returns adiabatically to (t1, v).\nThe note K1 ⌣ K2 indicates the net transfer of heat from K1 to K2. This is the standard setting for proving that μ is universal.",
+  "errors": [
+   "μ M = ∂p/∂t is used without derivation on this page (it is Carnot's theorem in Clausius's form); the page records it rather than proving it.",
+   "M = p/A holds only for an ideal gas with internal energy independent of volume. It is legitimately used only to evaluate the universal function μ, but is not marked as such.",
+   "In the cycle sketch the heat at K2 is written −Q1. In general the heat rejected differs from Q1 (Q1 − Q2 = A W); this is likely a shorthand or slip.",
+   "The step from ∂λ/∂t = −λμ/A to λ = C/(a+t) and ∂λ/∂v = 0 is implicit. It is correct because μ depends on t only."
+  ],
+  "results": [
+   {
+    "what": "A(∂M/∂t − ∂N/∂v) = ∂p/∂t derived from the first law with dQ = M dv + N dt",
+    "modern_name": "First law of thermodynamics, differential (Clausius) form",
+    "usually_credited_to": "Clausius 1850",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Carnot function μ = A/(a+t) from the ideal gas",
+    "modern_name": "Carnot function equals mechanical equivalent divided by absolute temperature",
+    "usually_credited_to": "Clausius 1850 (also Kelvin/Joule)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Integrating factor λ ∝ 1/(a+t) making dQ exact; ∫dQ/T = f(v,t)",
+    "modern_name": "Existence of entropy (Clausius integral)",
+    "usually_credited_to": "Clausius 1854/1865",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Carnot cycle between bodies K1 and K2",
+    "modern_name": "Carnot cycle",
+    "usually_credited_to": "Carnot 1824, Clapeyron 1834",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a standard lecture-style exposition of Clausius's thermodynamics (first law, Carnot function, 1/T as integrating factor, Carnot cycle). It shows Riemann studied or taught the mechanical theory of heat, but contains nothing beyond Clausius.",
+  "checkable": [
+   {
+    "sympy": "a,t,v,R,A=symbols('a t v R A',positive=True); p=R*(a+t)/v; simplify(A*diff(p,t)/p - A/(a+t))",
+    "asserts": "μ = A p_t/p = A/(a+t) for an ideal gas (result 0)"
+   },
+   {
+    "sympy": "lam=Function('lam'); dsolve(Eq(lam(t).diff(t), -lam(t)*(A/(a+t))/A))",
+    "asserts": "λ = C/(a+t) solves ∂λ/∂t = −λμ/A"
+   },
+   {
+    "sympy": "c=Function('c'); M=p/A; N=c(t); simplify(diff(M/(a+t),t)-diff(N/(a+t),v))",
+    "asserts": "λ dQ is exact for an ideal gas with λ = 1/(a+t) (result 0)"
+   },
+   {
+    "sympy": "Uf=Function('U')(v,t); P=Function('P')(v,t); M=diff(Uf,v)+P/A; N=diff(Uf,t); simplify(A*(diff(M,t)-diff(N,v))-diff(P,t))",
+    "asserts": "First law with A dQ = A dU + p dv implies A(M_t − N_v) = p_t (result 0)"
+   },
+   {
+    "sympy": "M=Function('M')(v,t); N=Function('N')(v,t); L=Function('L')(t); mu=Function('mu')(t); expand(diff(L*M,t)-diff(L*N,v) - (L*(diff(M,t)-diff(N,v)-mu*M/A) + M*(diff(L,t)+L*mu/A)))",
+    "asserts": "Identity behind the integrating-factor step (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 is probably dQ = M dv + N dt (script M, N as on the previous page). Likewise 'U = p/A' should probably read M = p/A, and 'U' in equation 2 and below is M; the U in line 1 (AU) is the internal energy.",
+   "'aufnehmen Q1' and 'zusammendrücken' readings are plausible; the cycle annotation after K2 reads '−Q1'.",
+   "A deleted A is struck through before the line beginning ∂M/∂t − ∂N/∂v − (μ/A)M = 0, and a struck-through ∂/∂ appears before μ = ...; both are correctly marked as deletions."
+  ]
+ }
+}

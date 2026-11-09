@@ -1,0 +1,56 @@
+{
+ "bundle": "600_3",
+ "page": "c042",
+ "label": "39",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000043/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the page continues the previous page's remark contrasting problems where one must overcome a specific difficulty (e.g. carrying out an infinite process in one thought, to which every purely mathematical difficulty reduces) with problems where one only looks for relations.\n\n(A) Methodological note on 'Axiomschichten' (axiom layers). Every science has several layers of axioms. Hilbert's own example is his earlier Grundlagen der Geometrie (1899) set against his current 'return to the point as the sole element'. The latter almost certainly refers to his 1902 Math. Ann. paper 'Über die Grundlagen der Geometrie'. There the plane is built from points alone, with motions as continuous transformations, in a Lie-type foundation. The physicist simply accepts all facts as an axiom system; that is the chronologically first and coarsest layer. 'Everyone is a worker in axioms, only in different layers.' There is no mathematics to reconstruct here.\n\n(B) Orientation of a closed Jordan curve.\n- Problem: let C be given by (x(t), y(t)), t in [0, 2π], closed and simple, with the origin O in its interior. How does one decide whether the sense of traversal for increasing t is positive?\n- Answer as stated: subdivide [0, 2π] by 0 = t_0 < t_1 < ... < t_N = 2π so finely that the angle function arctg(y/x) changes by less than π on each piece. Geometrically, the angle between consecutive radius vectors is small enough.\n- Next, take the angle increments Δθ_k = θ(t_k) − θ(t_{k−1}) of a continuous branch θ(t) of arg(x(t) + i y(t)), which Hilbert calls 'the continuous arctg y(t)/x(t)'. Add them.\n- One obtains 2π exactly when the orientation is positive.\n- In modern terms: Σ_k Δθ_k = θ(2π) − θ(0) = 2π · ind_C(O). Equivalently ind_C(O) = (1/2π) ∮ (x dy − y dx)/(x² + y²).\n- For a Jordan curve with O inside, ind_C(O) = ±1. The value is +1 for counterclockwise (positive) orientation and −1 otherwise. So the sum is +2π or −2π.\n- Implicit (mine): the subdivision exists by uniform continuity of the angle on the compact interval, since O is not on C so r(t) > 0. With |Δθ_k| < π, each increment is uniquely determined by the two radius vectors alone (principal value in (−π, π)). The telescoping sum then equals the total change of the continuous branch.",
+  "errors": [
+   "Taken literally, arctg(y/x) is defined only modulo π: it jumps where x = 0 and cannot tell (x, y) from (−x, −y). If increments are read off from arctg(y/x) values, the bound must be < π/2 to be unambiguous. The bound '< π' is correct for the full polar angle (atan2, defined mod 2π). Hilbert's parenthetical 'genügend kleine Winkel zwischen den Radienvektoren' and the inserted word 'stetigen' show he means the continuous polar angle, so this is a notational looseness rather than a real error.",
+   "Unstated nontrivial input: for a Jordan curve with O in its interior, the total angle change is ±2π (winding number ±1). This is part of the Jordan curve theorem circle of results and is taken for granted. It is also implicitly the definition of 'positive sense' here, so the criterion is somewhat circular unless positive sense is defined independently.",
+   "The sum is −2π (not merely 'not 2π') for negative orientation. This is left implicit but harmless."
+  ],
+  "results": [
+   {
+    "what": "Methodological thesis that every science (including physics) has layered axiom systems; the physicist's accepted facts are the first, coarsest layer; reference to Hilbert's shift from the 1899 Grundlagen to a foundation with the point as sole element (1902).",
+    "modern_name": "Hilbert's axiomatic method / axiomatization of physics (6th problem) programme",
+    "usually_credited_to": "Hilbert (Paris 1900 problem 6; 'Axiomatisches Denken' 1917/18; lectures c. 1900-1905 studied by Corry, Hallett, Majer)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Determining the orientation of a closed Jordan curve around an interior point by summing small angle increments of the continuous argument; total = 2π iff positively oriented.",
+    "modern_name": "Winding number (index) of a closed curve; argument principle / discrete computation of the index via atan2 increments",
+    "usually_credited_to": "Gauss and Cauchy (argument/index), Kronecker index (1869), Poincaré; standard textbook material",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Both items are routine. The axiom-layers remark matches Hilbert's well-documented views from around 1900-1905. The orientation criterion is the standard winding-number computation via continuous argument increments, long known before Hilbert, here jotted informally without proof of the ±2π property.",
+  "checkable": [
+   {
+    "sympy": "integrate(simplify((cos(t)*diff(sin(t),t) - sin(t)*diff(cos(t),t))/(cos(t)**2+sin(t)**2)), (t, 0, 2*pi))",
+    "asserts": "Total change of the continuous angle along the positively oriented unit circle is 2*pi."
+   },
+   {
+    "sympy": "integrate(simplify((cos(t)*diff(-sin(t),t) - (-sin(t))*diff(cos(t),t))/(cos(t)**2+sin(t)**2)), (t, 0, 2*pi))",
+    "asserts": "For the reversed (negatively oriented) circle the total angle change is -2*pi."
+   },
+   {
+    "sympy": "N(sum([ ( (atan2(2*sin(2*pi*(k+1)/40)+Rational(1,2), 3*cos(2*pi*(k+1)/40)-1) - atan2(2*sin(2*pi*k/40)+Rational(1,2), 3*cos(2*pi*k/40)-1) + pi) % (2*pi) ) - pi for k in range(40)]))",
+    "asserts": "Discrete version of Hilbert's recipe for an off-centre ellipse containing the origin, with 40 steps, increments reduced to (-pi, pi): the sum is 2*pi (approx 6.2832)."
+   },
+   {
+    "sympy": "simplify(diff(atan2(y(t), x(t)), t) - (x(t)*diff(y(t),t) - y(t)*diff(x(t),t))/(x(t)**2 + y(t)**2))",
+    "asserts": "The derivative of the continuous polar angle equals (x y' - y x')/(x^2+y^2), justifying summing increments of the 'stetige arctg y/x'; should simplify to 0 where defined."
+   }
+  ],
+  "transcription_corrections": [
+   "Transcription is essentially accurate. The insertion 'stetigen' is written above 'arctg' in the phrase 'Differenzen der stetigen arctg y(t)/x(t) Funktion', consistent with the given placement.",
+   "'Rückkehr auf den Punkt als alleiniges Element' is correct. The '{+ist+}' superscript insertion before 'die zeitlich erste' is correctly placed.",
+   "In the image, the struck-out word before 'arctg' is illegible; it is likely an aborted 'arctg' or 'arcus'. Marking it as deleted is correct."
+  ]
+ }
+}

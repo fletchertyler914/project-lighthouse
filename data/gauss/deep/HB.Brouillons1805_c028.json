@@ -1,0 +1,76 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c028",
+ "label": "23",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000029/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PAGE CONTEXT. Header 'Litt: D'. Folio number 23; the old numbers 33 and 35 are struck out. The page has three parts.\n\n(0) LINK TO THE PREVIOUS PAGE. 'Hienach wird der erste Theil von S' ('Accordingly the first part of S becomes'), followed only by '(2i)^{m-1}', and then abandoned. The previous page set out to sum\nS = sum_k sin(n a_k + k) / prod_{j != k} sin((a_k - a_j)/2).\nIt put A = e^{ia}, B = e^{ib}, ... and proved\n(A-B)(A-C)... = (2i)^{m-1} prod sin((a-b)/2) ... * e^{(i/2)(a+b+c+...+(m-2)a)}.\nSo the 'first part of S' would be sum_k A_k^n e^{ik} * e^{(i/2)(...)} (2i)^{m-1} / prod_{j != k}(A_k - A_j). That is the trigonometric analogue of sum x_k^p / prod(x_k - x_j), which vanishes for p < m-1 (Euler/Jacobi identity). The sketch breaks off here.\n\n(1) TRIGONOMETRIC LAGRANGE INTERPOLATION. Notation: s(u) = sin(u/2), c(u) = cos(u/2). Nodes a, b, c, d, ... with given values A, B, C, D, ...\n- Odd number of nodes: X(x) = sum_k A_k prod_{j != k} s(x - a_j)/s(a_k - a_j). Each basis function is a trigonometric polynomial of degree (m-1)/2. It equals 1 at its own node and 0 at the others.\n- Even number of nodes (right-hand column): X(x) = sum_k A_k c(x - a_k) prod_{j != k} s(x - a_j)/s(a_k - a_j). With z = e^{ix}, each basis function is z^{-m/2} times a polynomial of degree m in z. The space is therefore {degree m/2 trig polynomials} with the top harmonic constrained. The extra cosine factor is Gauss's device for this case.\n\n(2) NEWTON-TYPE (DIVIDED-DIFFERENCE) FORM. The basis is\nN0 = 1, N1 = s(x-a)c(x-b), N2 = s(x-a)s(x-b), N3 = s(x-a)s(x-b)s(x-c)c(x-d), N4 = s(x-a)s(x-b)s(x-c)s(x-d), ...\nThe rule is: cos factor on the last node of an odd-index term, sin otherwise. Then X = A + A' N1 + A'' N2 + A''' N3 + ... (the explicit statement is on the next page). On this page Gauss writes the first coefficients in Lagrange-sum form:\n- A' = A/s(a-b) + B/s(b-a).\n- A'' = A c(a-c)/(s(a-b)s(a-c)) + B c(b-c)/(s(b-a)s(b-c)) + C/(s(c-a)s(c-b)).\n- A''' = A/(s(a-b)s(a-c)s(a-d)) + ..., i.e. A''' = sum_k A_k / prod_{j != k} s(a_k - a_j) over 4 nodes. This is the leading-coefficient sum; it is broken off.\n\nTHE RECURSIVE ALGORITHM ('Die Coefficienten werden hier durch folgenden Algorithmus bestimmt'). Write a_0 = a, a_1 = b, ... The scheme is:\n- First step: A' = (A-B)/s(a-b), B' = (B-C)/s(b-c), ...\n- Even step: A^(2k) = [A^(2k-1) c(a - a_{2k}) - B^(2k-1)] / s(a - a_{2k}).\n  - A'' = (A' c(a-c) - B')/s(a-c)\n  - B'' = (B' c(b-d) - C')/s(b-d)\n  - A^IV = (A''' c(a-e) - B''')/s(a-e)\n  - B^IV = (B''' c(b-f) - C''')/s(b-f)\n- Odd step: A^(2k+1) = [A^(2k) c(a - a_{2k}) + A^(2k-1) s(a - a_{2k}) - B^(2k)] / s(a - a_{2k+1}).\n  - A''' = (A'' c(a-c) + A' s(a-c) - B'')/s(a-d)\n  - B''' = (B'' c(b-d) + B' s(b-d) - C'')/s(b-e)\n  - A^V = (A^IV c(a-e) + A''' s(a-e) - B^IV)/s(a-f)\n  - B^V = (B^IV c(b-f) + B''' s(b-f) - C^IV)/s(b-g)\n- Unlike the polynomial Newton scheme, the odd step uses the coefficient two levels back.\n\nMY CHECKS.\n- Expanding A'' from the algorithm reproduces exactly the three Lagrange-type coefficients written in braces. The B-term needs the identity c(a-c)s(b-c) + s(a-b) = c(b-c)s(a-c).\n- With the cos/sin arguments (a-c) in A''', the A-, B-, C- and D-coefficients of A''' come out as 1/prod s(a_k - a_j). This agrees with the leading-coefficient argument in z = e^{ix}.\n- Via the z^2 coefficient for 5 nodes, the A-coefficient of A^IV must be c(a-e)/(s(a-b)s(a-c)s(a-d)s(a-e)). This agrees with the even-step rule.\n- Numeric check, 3 nodes (a=0, b=pi, c=pi/2): A'' = A + B - 2C, and X(c) = C.\n\nPURPOSE. A non-equidistant trigonometric interpolation scheme for periodic functions of an angle (astronomical tables). The next page applies it to 12 tabulated values of an angle-dependent quantity, computed with logarithms.",
+  "errors": [
+   "The first part ('Hienach wird der erste Theil von S ... (2i)^{m-1}') is an abandoned fragment. Nothing is derived on this page.",
+   "In the expansion line '+ sin(x-a)/2 ... {A/sin(a-b)/2 + B/sin(b-a)/2}' the basis factor must be sin((x-a)/2)*cos((x-b)/2), as on the next page. The struck-out/overwritten word around 'cos' should be read accordingly.",
+   "The A''' formula, if read with cos((a-d)/2) and sin((a-d)/2) in the numerator as in the machine transcription, would be wrong: it gives A-coefficient cos((c-d)/2)/(s(a-b)s(a-c)s(a-d)) instead of 1/(s(a-b)s(a-c)s(a-d)). The correct form, consistent with Gauss's own B''' (b-d over b-e) and A^V (a-e over a-f), is (A'' cos((a-c)/2) + A' sin((a-c)/2) - B'')/sin((a-d)/2). The manuscript letter is ambiguous or overwritten; either a misreading or a momentary slip.",
+   "B^V: the subtracted term is written as plain 'C'; it must be C^IV.",
+   "The Lagrange-sum expansion of the third Newton coefficient is left unfinished ('+' and nothing more).",
+   "The B''' and A^V formulas, which look at first sight like slips (b-d versus b-e, a-e versus a-f), are in fact correct: the cos/sin argument uses node a_{2k} and the denominator node a_{2k+1}."
+  ],
+  "results": [
+   {
+    "what": "Lagrange-type trigonometric interpolation through arbitrary (non-equidistant) nodes, with separate formulas for odd and even numbers of nodes (extra factor cos((x-a_k)/2) in the even case)",
+    "modern_name": "Trigonometric Lagrange interpolation (Gauss's formula for trigonometric interpolation)",
+    "usually_credited_to": "Gauss, 'Theoria interpolationis methodo nova tractata' (c. 1805, published posthumously in Werke III, 1866)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Newton-like form X = A + A' s(x-a)c(x-b) + A'' s(x-a)s(x-b) + A''' s s s c + ... with a recursive two-level divided-difference algorithm for the coefficients",
+    "modern_name": "Trigonometric divided differences / Newton form of trigonometric interpolation",
+    "usually_credited_to": "Gauss (Theoria interpolationis, Nachlass); modern treatments of trigonometric divided differences, e.g. Schoenberg's trigonometric splines (1964)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Start of the evaluation of S = sum sin(n a_k + k)/prod sin((a_k - a_j)/2), via e^{ia} and (A-B)(A-C)... = (2i)^{m-1} prod sin(...) e^{i(...)/2}",
+    "modern_name": "Trigonometric analogue of the Euler/Jacobi identity sum x_k^p/prod(x_k - x_j) = 0 for p < m-1 (leading coefficient of the trigonometric interpolant)",
+    "usually_credited_to": "Euler (polynomial case); the trigonometric version appears in Gauss's interpolation work",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are working drafts of material Gauss wrote up c. 1805 in 'Theoria interpolationis methodo nova tractata' (Werke III). The trigonometric Lagrange formulas and a Newton-type coefficient scheme are already attributed to him there and are discussed in the FFT-history literature (Heideman-Johnson-Burrus 1984). The explicit two-level recursion is a nice detail but almost certainly matches the Nachlass treatise.",
+  "checkable": [
+   {
+    "sympy": "simplify(A + sin((b-a)/2)*cos((b-b)/2)*(A-B)/sin((a-b)/2) - B)",
+    "asserts": "The 2-node Newton form A + A' s(x-a)c(x-b) with A' = (A-B)/s(a-b) takes value B at x=b (should be 0)."
+   },
+   {
+    "sympy": "simplify(cos((a-c)/2)*sin((b-c)/2) + sin((a-b)/2) - cos((b-c)/2)*sin((a-c)/2))",
+    "asserts": "Identity needed to show that the algorithmic A'' equals the bracketed Lagrange-type sum on the page (should be 0)."
+   },
+   {
+    "sympy": "simplify((A + sin((c-a)/2)*cos((c-b)/2)*((A-B)/sin((a-b)/2)) + sin((c-a)/2)*sin((c-b)/2)*(((A-B)/sin((a-b)/2))*cos((a-c)/2) - (B-C)/sin((b-c)/2))/sin((a-c)/2) - C).subs({a:0.3,b:1.7,c:4.1,A:2,B:-1,C:5}))",
+    "asserts": "The 3-node Newton form with A'' = (A' cos((a-c)/2) - B')/sin((a-c)/2) interpolates C at x=c (should be 0 numerically)."
+   },
+   {
+    "sympy": "(lambda a,b,c,d,A,B,C,D: (lambda A1,B1,C1: (lambda A2,B2: (lambda A3: A + sin((d-a)/2)*cos((d-b)/2)*A1 + sin((d-a)/2)*sin((d-b)/2)*A2 + sin((d-a)/2)*sin((d-b)/2)*sin((d-c)/2)*cos(0)*A3 - D)((A2*cos((a-c)/2)+A1*sin((a-c)/2)-B2)/sin((a-d)/2)))((A1*cos((a-c)/2)-B1)/sin((a-c)/2),(B1*cos((b-d)/2)-C1)/sin((b-d)/2)))((A-B)/sin((a-b)/2),(B-C)/sin((b-c)/2),(C-D)/sin((c-d)/2)))(0.3,1.1,2.9,4.4,1.0,-2.0,3.0,0.5).evalf()",
+    "asserts": "With A''' = (A'' cos((a-c)/2) + A' sin((a-c)/2) - B'')/sin((a-d)/2), the 4-node Newton form interpolates D at x=d (should be ~0). Replacing (a-c) by (a-d) in the numerator should give a nonzero result."
+   },
+   {
+    "sympy": "simplify(((cos((a-c)/2)*cos((a-c)/2)/(sin((a-b)/2)*sin((a-c)/2)) + sin((a-c)/2)/sin((a-b)/2))/sin((a-d)/2)) - 1/(sin((a-b)/2)*sin((a-c)/2)*sin((a-d)/2)))",
+    "asserts": "The A-coefficient of A''' from the corrected recursion equals 1/(s(a-b)s(a-c)s(a-d)), as in the page's bracket (should be 0)."
+   },
+   {
+    "sympy": "simplify(prod([sin((x-t)/2) for t in (b,c,d,e)]).subs(x,a)/prod([sin((a-t)/2) for t in (b,c,d,e)]) - 1)",
+    "asserts": "The odd-case Lagrange basis function for node a equals 1 at x=a (it vanishes at the other nodes by construction)."
+   }
+  ],
+  "transcription_corrections": [
+   "'(21)^{m-1}' should read '(2i)^{m-1}' (continuation of the previous page's (2i)^{m-1}).",
+   "In the expansion line, the term after A is sin((x-a)/2) cos((x-b)/2) {A/sin((a-b)/2) + B/sin((b-a)/2)}. The 'cos((x-b)/2)' factor belongs there (the transcription shows '[-cos-]').",
+   "In the fourth expansion line the factor 'sin((x-c)/2)' is meant (not deleted). The term is sin((x-a)/2) sin((x-b)/2) sin((x-c)/2) cos((x-d)/2).",
+   "A''' numerator should read A'' cos((a-c)/2) + A' sin((a-c)/2) - B'' (denominator sin((a-d)/2)), by analogy with B''' and A^V. The transcription's 'a-d' in the numerator is likely a misreading of an overwritten letter.",
+   "B^V numerator ends with '- C^IV' (superscript missing or omitted), not '- C'."
+  ]
+ }
+}

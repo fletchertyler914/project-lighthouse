@@ -1,0 +1,52 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c015",
+ "label": "[10]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000016/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): Gauss is proving the Lehrsatz (art. 11) that for m indeterminates a,b,c,d,... and every integer n with 0 <= n < m-1, S^n := sum_i a_i^n / prod_{j!=i}(a_i - a_j) = 0. On the previous page he set P = prod_{i<j}(a_i - a_j), the difference product (Vandermonde product). It has m(m-1)/2 factors.\n\nThis page:\n(1) Define frak{A} = P/((a-b)(a-c)(a-d)...), frak{B} = P/((b-a)(b-c)(b-d)...), frak{C} = P/((c-a)(c-b)(c-d)...), and so on. Each denominator removes m-1 factors of P, up to sign. So each frak{X} is a polynomial (ganze Function) of degree m(m-1)/2 - (m-1) = (m-1)(m-2)/2.\n(2) Multiply S^n by P: Q := P*S^n = frak{A} a^n + frak{B} b^n + frak{C} c^n + ... . Q is a polynomial of degree (m-1)(m-2)/2 + n. Since n < m-1, this is less than m(m-1)/2 = deg P.\n(3) Divisibility of Q by (a-b), in four steps:\n 1°: frak{C}, frak{D}, ... contain the factor (a-b), because their denominators do not involve the pair (a,b).\n 2°: Write frak{A} = k (b-c)(b-d)..., where k is the product of the factors of P involving neither a nor b. Then frak{B} = P/((b-a)(b-c)...) = (a-b)(a-c)...(b-c)... k / ((b-a)(b-c)...) = -k (a-c)(a-d)... .\n 3°: (b-c)(b-d)... - (a-c)(a-d)... is divisible by a-b. Hence frak{A}+frak{B} = k[(b-c)(b-d)... - (a-c)(a-d)...] is divisible by a-b. Then frak{A} a^n + frak{B} b^n = (frak{A}+frak{B}) a^n - frak{B}(a^n - b^n) is divisible by a-b, because a-b | a^n - b^n.\n 4°: Therefore Q is divisible by a-b.\n(4) Footnote: the divisibility in 3° is proved like the congruence rule in number theory: if alpha ≡ alpha', beta ≡ beta', ... (mod M), then alpha beta ... ≡ alpha' beta' ... . This is done by telescoping: alpha beta - alpha' beta' = (alpha - alpha') beta + alpha'(beta - beta'), and so on. Here the modulus is the indeterminate a-b, with alpha = b-c, alpha' = a-c, etc.\n\nContinuation (next page): Q is likewise divisible by every factor a_i - a_j. Hence (via substitution/zero arguments) Q is divisible by P. Since deg Q < deg P, Q = 0 and therefore S^n = 0.\n\n[My remark:] Up to sign, Q is the determinant of the matrix with rows (1,...,1), (a,b,...), ..., (a^{m-2},...), (a^n, b^n, ...). For n <= m-2 it has two equal rows, so this is an alternant argument done by hand.",
+  "errors": [
+   "No mathematical errors. The degree count is correct: (m-1)(m-2)/2 + n < m(m-1)/2 iff n < m-1. The sign in frak{B} = -k(a-c)(a-d)... is correct.",
+   "Minor point: in 3° the case n=0 is included trivially, since frak{A}+frak{B} itself is divisible."
+  ],
+  "results": [
+   {
+    "what": "sum_i a_i^n / prod_{j!=i}(a_i-a_j) = 0 for 0 <= n <= m-2 (and = 1 for n = m-1, h_{n-m+1} in general), proved by showing P*S^n is divisible by the difference product P and has lower degree",
+    "modern_name": "Euler's partial-fraction identity / divided-difference (Lagrange interpolation) identity; vanishing of alternants with repeated rows",
+    "usually_credited_to": "Euler (18th c.); also Lagrange interpolation (1795); alternant/determinant viewpoint Cauchy (1815)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Polynomial divisibility of a product difference by a-b, proved via the congruence-multiplication argument (telescoping)",
+    "modern_name": "Congruences modulo a polynomial ideal (a-b); ring homomorphism property",
+    "usually_credited_to": "Gauss, Disquisitiones Arithmeticae (1801), for congruences; polynomial congruences also Gauss/Cauchy",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The identity is classical (Euler/Lagrange). Gauss's proof via divisibility by the Vandermonde product and a degree count is a standard, careful elementary argument. The only mildly notable feature is that he explicitly transfers the congruence language of higher arithmetic to divisibility by the indeterminate a-b.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); V=[a,b,c,d]; S=lambda n: simplify(sum(x**n/prod([x-y for y in V if y!=x]) for x in V)); [S(0),S(1),S(2),S(3),S(4)]",
+    "asserts": "For m=4: S^0=S^1=S^2=0, S^3=1, S^4=a+b+c+d"
+   },
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); P=(a-b)*(a-c)*(a-d)*(b-c)*(b-d)*(c-d); A=cancel(P/((a-b)*(a-c)*(a-d))); B=cancel(P/((b-a)*(b-c)*(b-d))); k=(c-d); [expand(A-k*(b-c)*(b-d)), expand(B+k*(a-c)*(a-d)), rem(expand(A+B),a-b,a)]",
+    "asserts": "frak{A}=k(b-c)(b-d), frak{B}=-k(a-c)(a-d), and a-b divides frak{A}+frak{B}"
+   },
+   {
+    "sympy": "m=symbols('m'); simplify(m*(m-1)/2-(m-1)-(m-1)*(m-2)/2)",
+    "asserts": "Degree of each frak{A} is (m-1)(m-2)/2 (expression equals 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Header top-left is hard to read; the transcription '18. Nov. Monath' is uncertain. It may be '18..' (year) over 'Nov.' with 'Mo-nath' beside it. Compare 'Mar[?] nath' on the previous page.",
+   "'Der Theil reichter Hand' in the image (sic, = rechter); the transcription normalizes it to 'rechter'.",
+   "In the top-right text the exponent expression '½(m−1)(m−2)' shows a correction over an earlier figure; the reading (m−1)(m−2) is correct.",
+   "In the footnote the first listed difference reads 'αβ − α'β', as transcribed."
+  ]
+ }
+}

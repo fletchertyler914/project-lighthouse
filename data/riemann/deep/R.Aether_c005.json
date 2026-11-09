@@ -1,0 +1,67 @@
+{
+ "bundle": "R.Aether",
+ "page": "c005",
+ "label": "3v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234777:00000006/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Riemann is building a kinematic model of light as motion of an aether ('physischer Raum'). Here x,y,z are geometric space points, xi,eta,zeta are the place of the aether particle belonging to (x,y,z) at time t, and x_1',y_1',z_1' are its velocities. On the previous page he treated one plane wave travelling along the x-axis. The motion at (x,T) equals the motion at (x+ct, T-t) and at (x-ct, T+t), so int x_1' dt = f(x+ct)+f_1(x-ct). The result there was x_1'=0 (transversality), c^2 d^2y_1'/dx^2 = d^2y_1'/dt^2, and c^2 d^2z_1'/dx^2 = d^2z_1'/dt^2. Particles in a plane normal to the ray keep their relative positions, so nothing depends on y or z.\n\n(1) Symmetric form [step made explicit by me]. For such a wave all y- and z-derivatives vanish, so the y- and z-second derivatives can be added freely. Each velocity component u in {x_1', y_1', z_1'} then satisfies u_tt = c^2 (u_xx + u_yy + u_zz). The x-component holds trivially because x_1'=0. These are the three equations at the top of the page (written with Fraktur-style letters). Margin note: 'these equations hold for every single wave'.\n\n(2) Arbitrary directions. If several waves pass through the same point, each satisfies the analogous conditions in its own rectangular frame (x_1,y_1,z_1), with x_1 along its ray. Under an orthogonal change of rectangular coordinates the Laplacian f_xx+f_yy+f_zz goes over into f_{x1x1}+f_{y1y1}+f_{z1z1}. Experience (previous page) says c is the same for all rays and colours. Hence the equation for every wave has the same form in the common coordinates x,y,z. [Implicit step: the velocity vector transforms linearly by a constant rotation, so each Cartesian component again satisfies the scalar wave equation.]\n\n(3) Superposition. The total motion is the sum of the partial ones. Because the equations are linear with a common c, the actual place xi,eta,zeta of a particle (resulting from all single waves) satisfies the same equations. These are presented as the equations governing the motions needed to explain optical phenomena.\n\n(4) Differentiating these three equations with respect to t and using d xi/dt = x_1', d eta/dt = y_1', d zeta/dt = z_1' (time derivative commutes with the Laplacian) gives the velocity equations: d^2x_1'/dt^2 = c^2 Lap x_1', and likewise for y_1' and z_1'.\n\nThe struck-out left column is an earlier draft of step (3). It writes xi,eta,zeta and their t-derivatives x',y',z' as functions of (x,y,z,t).\n\nPurpose: this derives the vector wave equation for the aether velocity field of free space from plane transverse waves, superposition and isotropy. On the next page it is combined with incompressibility (div v = 0) and a split v = v_1 + v_2, irrotational plus wave part, leading towards a variational formulation.",
+  "errors": [
+   "The top three equations are labelled as velocity equations, yet the text later says they are satisfied by xi,eta,zeta and then 'differentiated' to get the velocity equations. Either the top block should refer to the displacements, or the differentiation step is redundant. This is a notational slip in the draft.",
+   "Step (1) silently promotes a 1-D equation to the 3-D Laplacian form. That is valid only because the single plane wave is independent of y and z; this is stated only verbally.",
+   "The rotation argument applies to the velocity vector. Transforming the components needs the (constant, linear) rotation of the vector, which is not mentioned. It is harmless but unstated.",
+   "The text conflates fixed-particle (Lagrangian) and fixed-point (Eulerian) time derivatives: the previous page has x=(xi,eta,zeta,t) while here xi=(x,y,z,t). Using d xi/dt = x_1' at fixed x is fine only for small vibrations.",
+   "Superposing plane waves gives only fields of that form. The page implicitly assumes every relevant light motion is such a superposition; this is acceptable via Fourier analysis but not argued."
+  ],
+  "results": [
+   {
+    "what": "A single transverse plane wave along x gives components satisfying u_tt = c^2 Lap u (since there is no y,z dependence)",
+    "modern_name": "plane-wave solutions of the 3-D wave equation",
+    "usually_credited_to": "d'Alembert/Euler (1-D, 1747-1759); Poisson, Cauchy (3-D, 1810s-1820s)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The Laplacian is invariant under orthogonal changes of rectangular coordinates",
+    "modern_name": "rotational invariance of the Laplace operator",
+    "usually_credited_to": "Laplace/Lagrange era; standard by Jacobi and Lamé",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Superposition of plane waves in all directions with common speed c satisfies the vector wave equation; so do the velocities, after time differentiation",
+    "modern_name": "linearity/superposition; vector wave equation for an elastic-aether light model (Fresnel–Cauchy tradition)",
+    "usually_credited_to": "Fresnel, Cauchy, MacCullagh, Green (1820s-1840s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine textbook-level derivation of the 3-D wave equation for the aether velocity from plane transverse waves, isotropy (rotation invariance of the Laplacian) and superposition. It fits Riemann's known interest in aether and light (the 1858 electrodynamics note and the Naturphilosophie fragments) but contains nothing new.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,t,c=symbols('x y z t c',positive=True); a,b=symbols('a b',real=True); n=Matrix([sin(a)*cos(b),sin(a)*sin(b),cos(a)]); F=Function('F'); u=F(n[0]*x+n[1]*y+n[2]*z-c*t); simplify(diff(u,t,2)-c**2*(diff(u,x,2)+diff(u,y,2)+diff(u,z,2)))==0",
+    "asserts": "A plane wave in any unit direction n satisfies u_tt = c^2 Lap u"
+   },
+   {
+    "sympy": "x1,y1,z1,th=symbols('x1 y1 z1 th',real=True); f=Function('f'); X=cos(th)*x1-sin(th)*y1; Y=sin(th)*x1+cos(th)*y1; g=x1**3*y1+exp(y1)*z1**2+sin(x1*z1); simplify(diff(g,x1,2)+diff(g,y1,2)+diff(g,z1,2) - (lambda h: diff(h,x1,2)+diff(h,y1,2)+diff(h,z1,2))(g.subs({x1:cos(th)*x1+sin(th)*y1, y1:-sin(th)*x1+cos(th)*y1},simultaneous=True)).subs({x1:X,y1:Y},simultaneous=True))==0",
+    "asserts": "The Laplacian is invariant under a rotation of rectangular coordinates (checked about the z-axis on a test function)"
+   },
+   {
+    "sympy": "x,t,c=symbols('x t c',positive=True); f,g=Function('f'),Function('g'); w=f(x+c*t)+g(x-c*t); simplify(c**2*diff(w,x,2)-diff(w,t,2))==0",
+    "asserts": "d'Alembert solution int x' dt = f(x+ct)+f1(x-ct) from the previous page satisfies the 1-D wave equation"
+   },
+   {
+    "sympy": "x,y,z,t,c=symbols('x y z t c'); xi=Function('xi')(x,y,z,t); W=diff(xi,t,2)-c**2*(diff(xi,x,2)+diff(xi,y,2)+diff(xi,z,2)); v=diff(xi,t); simplify(diff(W,t)-(diff(v,t,2)-c**2*(diff(v,x,2)+diff(v,y,2)+diff(v,z,2))))==0",
+    "asserts": "Time-differentiating the wave equation for xi gives the wave equation for the velocity x_1' = d xi/dt (operators commute)"
+   }
+  ],
+  "transcription_corrections": [
+   "The word before the Laplacian expression, rendered '[?] da ein Ausdruck', reads more like 'indem ein Ausdruck' (cancelled text, then 'indem').",
+   "The top three equations use Fraktur-like capitals (X_1', Y_1', Z_1'). Whether they denote the same velocities as the lower block or the displacement components is ambiguous in the image.",
+   "The stray 'a'/'∂' before the first Laplacian expression is a mark, not part of the formula.",
+   "In the lower block, the second term of the x_1' equation shows the denominator corrected to dy^2 (there is an overwritten letter). The z_1' equation's last term is d^2z_1'/dz^2.",
+   "The interlinear insertion over the struck sentence ('{+[?] erfüllen also+}') appears to contain 'ξ, η, ζ ... also'. It belongs with the following 'wenn man ξ, η, ζ den wirkl. Ort ... bezeichnet', so the sense is: 'the total motion is the sum of the partial ones; so xi,eta,zeta satisfy the above equations'."
+  ]
+ }
+}

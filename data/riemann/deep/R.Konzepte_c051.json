@@ -1,0 +1,76 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c051",
+ "label": "24av",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000052/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This is a draft of §§9–10 of Riemann's 1851 Göttingen dissertation (Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse). The previous page holds the material of §8 and the maximum principle; the next page continues the §10 argument.\n\nMain statement (draft of the removable-singularity theorem, dissertation §9). Let u be a function on a surface T that in general satisfies Δu = u_xx + u_yy = 0, subject to three conditions:\n(1) the points where the equation is not satisfied do not form a piece of surface (two-dimensional set);\n(2) the points where u_x, u_y are discontinuous or infinite do not continuously fill any line;\n(3) at each such exceptional point O, ρ·u_x → 0 and ρ·u_y → 0 as ρ → 0, where ρ is the distance from O.\nThen u, together with all its derivatives, is continuous and finite at every interior point of T. So u is genuinely harmonic and the singularities are removable.\n\nProof start (dissertation §10). Let O = (x0, y0) be an arbitrary fixed interior point and u0 = u(O). Put r = sqrt((x−x0)^2 + (y−y0)^2) and consider\n log r = ½ log[(x−x0)^2 + (y−y0)^2].\nAs a function of (x, y) it satisfies Δ log r = 0. It is singular only at (x0, y0).\n\nThe text then breaks off: 'also wenn man die Fläche ... zerschneidet'. The next page supplies the continuation. Because log r is harmonic with a single singular point, the Green-type boundary integral ∫(u ∂u'/∂p − u' ∂u/∂p) ds (from §7–8, with u' = log r, p the normal) can be moved from the boundary of T to a small circle around O. The isolated singularities of u contribute nothing, by condition (3). Shrinking the circle around O then gives (my completion, certain from the dissertation) the representation\n u0 = (1/2π) ∫_∂T (log r · ∂u/∂p − u · ∂log r/∂p) ds,\nup to the dissertation's orientation and sign conventions. The right-hand side is visibly C^∞, indeed real-analytic, in (x0, y0). Hence u is smooth inside T.\n\nRight margin (written vertically). Riemann writes the Dirichlet-type functional of §16 of the dissertation:\n Ω = ∫∫ [(∂α/∂x − ∂β/∂y)^2 + (∂α/∂y + ∂β/∂x)^2] dx dy,\nwith ½ factors and second-derivative terms (−∂²β/∂x∂y …) visible. These look like the expansion of the squares and an integration by parts of the cross term. My reading: the cross term −2(α_x β_y − α_y β_x) is a Jacobian, hence a divergence, and reduces to a boundary integral. This is a sketch toward the Dirichlet-principle argument, unrelated to the main text.",
+  "errors": [
+   "No mathematical errors. Condition (1) as transcribed reads 'erfüllt'; the sense (and the dissertation) requires 'nicht erfüllt'. This is a reading or writing slip.",
+   "Condition (3) is stated somewhat loosely in the draft (the distance ρ is 'of the point O from it'). This is tidied up in the published version.",
+   "The argument stops mid-sentence; the essential Green-representation step appears only on the next page and is not carried out here."
+  ],
+  "results": [
+   {
+    "what": "Removable singularity theorem: an a.e.-harmonic function whose exceptional set has no area and contains no curves, and whose gradient is o(1/ρ) at isolated exceptional points, is harmonic and smooth.",
+    "modern_name": "Removable singularities for harmonic functions (gradient o(1/ρ) condition); harmonic regularity",
+    "usually_credited_to": "Riemann, Dissertation 1851 §9 (for this form); general removable-set theory later (Bôcher 1903 and others)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "log r is the fundamental solution of the 2D Laplacian, harmonic except at r = 0",
+    "modern_name": "Fundamental solution of the Laplace equation in the plane",
+    "usually_credited_to": "Classical (Gauss / Green era)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Representation of a harmonic function via Green's identity with log r, used to prove regularity",
+    "modern_name": "Green's representation formula",
+    "usually_credited_to": "Green 1828; used by Riemann 1851 §10",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Margin: Dirichlet functional ∫[(α_x−β_y)^2 + (α_y+β_x)^2], its expansion, and integration by parts of the cross term",
+    "modern_name": "Dirichlet principle / Dirichlet energy; null-Lagrangian (Jacobian) term",
+    "usually_credited_to": "Riemann 1851 §16 (named by him after Dirichlet)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a working draft of §§9–10 (and, in the margin, §16) of Riemann's own published 1851 dissertation. All content is already known as his.",
+  "checkable": [
+   {
+    "sympy": "x,y,x0,y0=symbols('x y x0 y0',real=True); f=log(sqrt((x-x0)**2+(y-y0)**2)); simplify(diff(f,x,2)+diff(f,y,2))==0",
+    "asserts": "log r is harmonic away from (x0, y0)"
+   },
+   {
+    "sympy": "simplify(Rational(1,2)*log((x-x0)**2+(y-y0)**2) - log(sqrt((x-x0)**2+(y-y0)**2)))==0",
+    "asserts": "½ log[(x−x0)^2+(y−y0)^2] = log r"
+   },
+   {
+    "sympy": "a=Function('a')(x,y); b=Function('b')(x,y); expand((diff(a,x)-diff(b,y))**2+(diff(a,y)+diff(b,x))**2 - (diff(a,x)**2+diff(a,y)**2+diff(b,x)**2+diff(b,y)**2 - 2*(diff(a,x)*diff(b,y)-diff(a,y)*diff(b,x))))==0",
+    "asserts": "Expansion of the Dirichlet-type integrand from the margin"
+   },
+   {
+    "sympy": "simplify(diff(a*diff(b,y),x)-diff(a*diff(b,x),y) - (diff(a,x)*diff(b,y)-diff(a,y)*diff(b,x)))==0",
+    "asserts": "The cross (Jacobian) term is a divergence, so it integrates to a boundary term"
+   },
+   {
+    "sympy": "rho,phi=symbols('rho phi',positive=True); integrate(diff(log(rho),rho)*rho,(phi,0,2*pi))==2*pi",
+    "asserts": "Flux of log r through any circle around O equals 2π, which gives the 1/(2π) factor in the representation"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: likely 'Wenn eine Function u im Allgemeinen der Differentialgleichung ... genügt' rather than 'allgemein ein zu werden der'.",
+   "Condition 1: should read 'in welchen die Diff.gl. ... nicht erfüllt ist, keinen Flächentheil bilden'; the sense requires 'nicht'.",
+   "Line 'und außer[?] nur für x=x0, y=y0' is probably 'und unstetig nur für x=x0, y=y0', matching dissertation §10.",
+   "'Um den der Unstetigkeit der F u [-statt-]' is a cancelled or abandoned false start; the new sentence begins 'Bezeichnet O einen beliebigen festen Punkt im Innern der Fläche'.",
+   "Margin formula: the integrand is [(∂α/∂x − ∂β/∂y)^2 + (∂α/∂y + ∂β/∂x)^2], accompanied by expanded second-derivative terms (e.g. −∂²β/∂x∂y) from an integration by parts."
+  ]
+ }
+}

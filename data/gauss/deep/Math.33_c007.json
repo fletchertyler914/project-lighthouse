@@ -1,0 +1,52 @@
+{
+ "bundle": "Math.33",
+ "page": "c007",
+ "label": "4v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382186:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (my reading). This is a one-unknown least-squares problem in Gauss's bracket notation, here written with round brackets and a trailing 2: (aa,2) = Σ a_i^2 and (al,2) = Σ a_i l_i. The image reads (αα,2) and (αl,2); the machine transcription has (cl,2). The page shows how an existing least-squares estimate changes when one new direct observation of the unknown is added.\n\nStep 1. The normal equation for z is (aa,2) z = (al,2). In the margin Gauss writes p next to it, defining the weight p = (aa,2) of the resulting estimate. C is the solution, so C = (al,2)/(aa,2) and (al,2) = (aa,2)·C. The symbol D is also introduced in the margin.\n\nStep 2. Add a direct observation z = D with weight n. Its contribution to the normal equation is n·z on the left and n·D on the right, giving [(aa,2) + n] z = (al,2) + nD.\n\nStep 3. Substitute (al,2) = (aa,2)·C (implicit step, supplied by me). Then z = [(aa,2)C + nD]/[(aa,2) + n]. With p = (aa,2) this is z = (pC + nD)/(p + n). Gauss writes p under (aa,2) in the denominator, so the result is the weighted mean of the old estimate (weight p) and the new observation (weight n).\n\nStep 4. Put D = C + γ, where γ is the discrepancy of the new observation from the old estimate. Then z = [(aa,2)C + nC + nγ]/[(aa,2) + n] = (pC + nC + nγ)/(p + n).\n\nStep 5. This simplifies to z = C + nγ/[(aa,2) + n] = C + nγ/(p + n). The correction to the old estimate is the discrepancy times n/(p + n). The weight of the new estimate is p + n (implicit).\n\nPurpose: a recursive update of a least-squares result when a new observation of the unknown arrives. The combined estimate is the weight-proportional mean, written as old value plus a gain times the residual.\n\nContext. The previous page (4r) is a combinatorial enumeration of permutations and partitions of abcd and has no direct connection to this page.",
+  "errors": [
+   "In the denominator of the Step 4 expression Gauss first wrote a D (or C) after (aa,2) and then struck it out. The corrected expression is right.",
+   "No mathematical errors. The implicit identity (al,2) = (aa,2)·C, i.e. that C solves the normal equation, is needed to pass from Step 2 to Step 3 and is correct."
+  ],
+  "results": [
+   {
+    "what": "Combining a prior least-squares estimate C (weight p = [aa]) with a new direct observation D (weight n): z = (pC + nD)/(p + n) = C + n(D − C)/(p + n).",
+    "modern_name": "Weighted mean / sequential (recursive) least-squares update for one parameter; scalar Kalman-type gain n/(p+n)",
+    "usually_credited_to": "Weighted means: Gauss and Laplace era. Updating a least-squares solution with new observations: Gauss, Theoriae combinationis observationum, Supplementum (1826). Recursive form: Plackett (1950), Kalman (1960).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Weight of a single unknown determined by the normal equation [aa]z = [al] equals [aa].",
+    "modern_name": "Precision of a least-squares estimate (inverse variance ∝ Σa_i^2)",
+    "usually_credited_to": "Gauss (Theoria motus 1809; Theoria combinationis 1821–23)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is an elementary one-unknown case of updating a least-squares estimate by a new weighted observation. Gauss treated adding observations explicitly in his 1826 Supplementum, and weighted means are standard in his work. It is routine scratch work, consistent with known Gauss material.",
+  "checkable": [
+   {
+    "sympy": "solve(Eq((p+n)*z, p*C + n*D), z)[0] - (p*C+n*D)/(p+n)",
+    "asserts": "The augmented normal equation [(aa)+n] z = (aa)C + nD, with (al) = (aa)C, gives z = (pC+nD)/(p+n); the expression simplifies to 0."
+   },
+   {
+    "sympy": "simplify((p*C + n*(C+g))/(p+n) - (C + n*g/(p+n)))",
+    "asserts": "With D = C+γ, (pC+nC+nγ)/(p+n) = C + nγ/(p+n); should be 0."
+   },
+   {
+    "sympy": "simplify(diff(p*(z-C)**2 + n*(z-D)**2, z).subs(z,(p*C+n*D)/(p+n)))",
+    "asserts": "The update minimizes the combined weighted sum of squares p(z−C)^2 + n(z−D)^2; should be 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'(cl,2)' should be read as '(αl,2)' (or '(al,2)'), the bracket sum of a·l, matching '(αα,2)' / '(aa,2)'.",
+   "The 'p' to the left of the first line is a marginal definition p = (aa,2) (the weight), not a factor in the equation.",
+   "In line 4 the numerator begins 'pC + nD'. The small mark before C is a correction of '(aa,2)' to 'p'. The 'p' written under '(aa,2)' in the denominator indicates substitution of p for (aa,2).",
+   "In the denominator '(aa,2)[-D-]+n' the struck symbol could be D or C. It is cancelled either way."
+  ]
+ }
+}

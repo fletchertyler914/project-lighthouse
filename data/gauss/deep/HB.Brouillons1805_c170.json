@@ -1,0 +1,68 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c170",
+ "label": "165",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000171/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Content of the page. This page continues a table headed on the previous page 'Litt. U. Coordinaten der Sonne in Beziehung auf den Aequator. Epoche 1810'. It runs from argument 80 to 158 and continues on the next page up to 243 and beyond. Each row gives the Sun's geocentric rectangular equatorial coordinates X, Y, Z in units of 10^-4 AU, referred to the mean equator and equinox of 1810.\n\nWhat the argument is (my identification). The argument is the Sun's mean anomaly in centesimal degrees (grads, 400 to the circle). Each step is therefore 0.9 degrees of mean anomaly, about 0.913 days.\n- At argument 0 (previous page) the distance is R = 0.98321 = 1 - e. The ecliptic longitude there is about 279.66 degrees, which is the solar perigee of 1810.\n- At argument 200 (next page) the distance is R = 1.01680 = 1 + e.\n- On this page, at argument 100 (M = 90 degrees) the distance is R = 1.00028. This matches 1 - e cos E with E - e sin E = pi/2 and e approximately 0.01679.\n- At argument 80 (M = 72 degrees) the table gives R = 0.99507, which the Kepler equation reproduces.\n\nHow the coordinates are built (my reconstruction). Let lambda be the true longitude and r the radius vector, taking the solar latitude as 0. Then:\n- X = r cos(lambda)\n- Y = r sin(lambda) cos(eps)\n- Z = r sin(lambda) sin(eps)\nSo Z = Y tan(eps) on every row. The table gives tan(eps) = 448.692/1033.677 = 0.434073, so eps is about 23 deg 27' 52\", the mean obliquity for 1810.\n\nWhat happens on this page.\n- Y and Z change sign from - to + between arguments 87 and 88. This is the Sun's passage through the vernal equinox, at a mean anomaly of about 87.17 grads.\n- X reaches its maximum of 0.99704 near argument 88.\n- The rows are smooth. The second differences of X are about -2.48 near the equinox, and those of Y are about -1.3 near argument 128.\n\nPurpose. The table gives a ready table of solar coordinates, to be added to heliocentric planet or comet coordinates. This is the standard step in orbit determination as in Theoria Motus (1809), for example for Ceres, Pallas, Juno and Vesta reductions around 1810. Tabulating by mean anomaly makes the table reusable for any year by entering with the date's mean anomaly.",
+  "errors": [
+   "No errors found in spot checks. Z = Y*tan(eps) holds to about 0.001-0.003 units on rows 80, 120, 130 and 158.",
+   "Kepler-model radii agree at arguments 0, 80, 100 and 200.",
+   "Differences are smooth across the sign change at 87/88."
+  ],
+  "results": [
+   {
+    "what": "Table of geocentric equatorial rectangular solar coordinates (10^-4 AU) for epoch 1810, tabulated by solar mean anomaly in grads (0-399), from Kepler's equation with e≈0.01679, perigee longitude ≈279.66°, obliquity ≈23°27'52\"",
+    "modern_name": "Solar ephemeris / rectangular equatorial coordinates of the Sun (Kepler-orbit table)",
+    "usually_credited_to": "Standard practice (Lalande, von Zach solar tables; Gauss, Theoria Motus 1809 for its use in orbit computation)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Use of centesimal (400-part) division for the argument",
+    "modern_name": "Grad / gon angular unit",
+    "usually_credited_to": "French metric reform (1790s); Borda, Delambre tables",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine computational table of solar coordinates for orbit work, fully consistent with Gauss's known practice around 1810. The only mildly unusual feature is the argument in grads of mean anomaly, which makes the table perpetual.",
+  "checkable": [
+   {
+    "sympy": "abs(448.692/1033.677 - 4284.068/1859.600**-1*0 - 1859.600/4284.068) < 2e-5",
+    "asserts": "Z/Y = tan(eps) is constant (rows 80 and 118)"
+   },
+   {
+    "sympy": "abs(atan(448.692/1033.677)*180/pi - 23.4644) < 0.002",
+    "asserts": "obliquity ≈ 23°27'52\" (1810 mean obliquity)"
+   },
+   {
+    "sympy": "e=0.016793; M=72*pi/180; E=nsolve(Symbol('E')-e*sin(Symbol('E'))-M, Symbol('E'), 1.27); abs((1-e*cos(E)) - sqrt(9886.673**2+1033.677**2+448.692**2)/1e4) < 5e-5",
+    "asserts": "row 80 (M=80 grads) radius matches Kepler orbit"
+   },
+   {
+    "sympy": "e=0.016793; E=nsolve(Symbol('E')-e*sin(Symbol('E'))-pi/2, Symbol('E'), 1.59); abs((1-e*cos(E)) - sqrt(9799.221**2+1841.856**2+799.500**2)/1e4) < 5e-5",
+    "asserts": "row 100 (M=100 grads=90°) radius 1.00028 matches Kepler orbit"
+   },
+   {
+    "sympy": "abs(sqrt(9970.411**2+120.238**2+52.192**2)/1e4 - 0.99704) < 1e-4",
+    "asserts": "distance near vernal equinox (row 88)"
+   },
+   {
+    "sympy": "abs((9922.499-2*9905.825+9886.673) - (9936.692-2*9922.499+9905.825)) < 0.05",
+    "asserts": "second differences of X smooth (rows 80-83)"
+   },
+   {
+    "sympy": "abs(5736.716*448.692/1033.677 - 2490.156) < 0.01",
+    "asserts": "row 130 Z consistent with Y*tan(eps)"
+   }
+  ],
+  "transcription_corrections": [
+   "The minus signs in row 80 (before 1033.677 and 448.692) appear in the image as heavy ink blots. They are correctly read as '−'; Y and Z are negative for rows 80-87.",
+   "In the header, '165' is the current foliation and '215' is crossed out. The faint words appear to be 'Nic. Mon. rect.' (uncertain) and 'Litt. U.'",
+   "Numerals otherwise agree with the image. Spot-checked rows are numerically consistent: 87 (9968.634, 24.275, 10.537), 100 (1841.856), 130 (2490.156) and 147 (6036.304)."
+  ]
+ }
+}

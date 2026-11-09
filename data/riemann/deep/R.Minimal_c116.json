@@ -1,0 +1,56 @@
+{
+ "bundle": "R.Minimal",
+ "page": "c116",
+ "label": "59r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3210521:00000117/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a page of the minimal-surface material (R.Minimal), the posthumous treatise 'Ueber die Flaeche vom kleinsten Inhalt bei gegebener Begrenzung', edited by Hattendorff in 1867. The heading 'Seite 28' and the numbering '(1)' suggest a fair copy or insertion keyed to page 28 of a draft.\n\nThe setting, recalled from the published treatise rather than from this page: eta is the complex variable of the stereographic image of the surface normal (the Gauss map). t is an auxiliary complex parameter onto which the parameter domain is mapped. Equations (8), (9), (10), not on this page, express the surface coordinates through integrals involving du/dlog(eta), where u is an analytic function attached to the surface.\n\nThe page's argument, step by step:\n1. Introduce an auxiliary function v(t). It is to be chosen later and is treated as known.\n2. By the chain rule, du/dlog(eta) = (du/dv) * (dv/dlog(eta)).\n3. Factor the last factor as dv/dlog(eta) = eta*dv/deta = k1*k2, with (12) k1 = (dv/deta)^(1/2) and k2 = eta*(dv/deta)^(1/2). Equivalently k1 = (deta/dv)^(-1/2), k2 = eta*k1 and eta = k2/k1.\n4. (13) The Wronskian with respect to v is k1*dk2/dv - k2*dk1/dv = k1^2 * d(k2/k1)/dv = (dv/deta)*(deta/dv) = 1.\n5. (14) Differentiating (13) in v gives k1*k2'' - k2*k1'' = 0 (this step is mine). Hence k1''/k1 = k2''/k2. Call the common value -P.\n6. If P can be expressed as a function of t (via v(t)), then k1 and k2 are particular solutions of the homogeneous linear second-order equation d^2k/dv^2 + P*k = 0. Let k be its general (complete) solution.\n7. The page breaks off as Riemann begins to replace d^2k/dv^2 by an equivalent expression in derivatives with respect to t. This presumably transforms the equation into the t-variable, as for the hypergeometric/Riemann-P equation. That continuation is mine, not on the page.\n\nIn modern terms, which is my gloss: the common value is k''/k = -(1/2){eta, v}, where { , } is the Schwarzian derivative. The Gauss map eta is thus represented as the ratio of two solutions of a linear second-order ODE whose Wronskian is normalized to 1. This is the standard device for conformal maps onto circular-arc polygons, and Riemann uses it to solve the Plateau problem for polygonal boundaries via hypergeometric functions.",
+  "errors": [
+   "No mathematical errors. All three relations are correct: k1*k2 = dv/dlog(eta), Wronskian = 1, and k1''/k1 = k2''/k2.",
+   "Minor implicit step: (14) follows from (13) by differentiating with respect to v; the page does not state this.",
+   "The square-root branch of k1 is left unspecified. This is harmless, since only k1^2 and the ratio k2/k1 matter."
+  ],
+  "results": [
+   {
+    "what": "Factorization dv/dlog(eta) = k1*k2 with k1 = (dv/deta)^(1/2) and k2 = eta*k1, so that eta = k2/k1 with Wronskian k1*k2' - k2*k1' = 1.",
+    "modern_name": "Representing a locally univalent function as a ratio of two solutions of y'' + P*y = 0 with normalized Wronskian.",
+    "usually_credited_to": "Classical: Kummer (1836) and Schwarz (1869/1873) for the Schwarzian connection; Riemann for the minimal-surface application (published 1867).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Equality k1''/k1 = k2''/k2, with the common value expressed as a function of t, yields a linear second-order ODE whose two particular solutions are k1 and k2.",
+    "modern_name": "Schwarzian derivative relation: y''/y = -(1/2){eta, v}; linear ODE associated with a conformal map.",
+    "usually_credited_to": "H. A. Schwarz (1873) for the Schwarzian and Schwarz-Christoffel style maps; Kummer earlier; Riemann in the posthumous minimal-surface paper and his hypergeometric work.",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This passage matches the method of Riemann's posthumously published minimal-surface treatise (Hattendorff 1867, in the Werke): the Gauss map is written as a quotient of solutions of a linear second-order ODE. It is known as Riemann's and is an early instance of the Schwarzian device, but it is not new information.",
+  "checkable": [
+   {
+    "sympy": "v=symbols('v'); f=Function('f')(v); k1=diff(f,v)**Rational(-1,2); k2=f*k1; simplify(k1*diff(k2,v)-k2*diff(k1,v)) == 1",
+    "asserts": "Equation (13): the Wronskian of k1 = (deta/dv)^(-1/2) and k2 = eta*k1 with respect to v equals 1."
+   },
+   {
+    "sympy": "v=symbols('v'); f=Function('f')(v); k1=diff(f,v)**Rational(-1,2); k2=f*k1; simplify(diff(k1,v,2)/k1 - diff(k2,v,2)/k2) == 0",
+    "asserts": "Equation (14): k1''/k1 = k2''/k2."
+   },
+   {
+    "sympy": "v=symbols('v'); f=Function('f')(v); k1=diff(f,v)**Rational(-1,2); S=diff(f,v,3)/diff(f,v)-Rational(3,2)*(diff(f,v,2)/diff(f,v))**2; simplify(diff(k1,v,2)/k1 + S/2) == 0",
+    "asserts": "The common value in (14) equals -1/2 times the Schwarzian derivative {eta, v}."
+   },
+   {
+    "sympy": "v=symbols('v'); f=Function('f')(v); k1=diff(f,v)**Rational(-1,2); k2=f*k1; simplify(k1*k2 - f/diff(f,v)) == 0",
+    "asserts": "k1*k2 = eta*dv/deta = dv/dlog(eta), the factorization claimed before (12)."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription agrees with the image. The first word 'gende' is the tail of a word (probably 'folgende' or 'nachstehende') carried over from the previous page.",
+   "In (14) the superscript 2 sits above the d's (d^2 k1/dv^2 and d^2 k2/dv^2); the transcription renders this correctly.",
+   "The heading 'Seite 28.' is written underlined or bracketed at top left, '(1)' is at top right, and a small archival folio number '59' is pencilled in the right margin."
+  ]
+ }
+}

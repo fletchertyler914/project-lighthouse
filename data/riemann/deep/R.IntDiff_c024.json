@@ -1,0 +1,66 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c024",
+ "label": "12r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000025/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is Riemann's student work 'Versuch einer allgemeinen Auffassung der Integration und Differentiation' (dated 1847, published posthumously in the Gesammelte Werke, 1876). Riemann defines a value p_nu of the general derivative d^nu z/dx^nu, for arbitrary real or complex nu, as follows. The function z(x+h) is expanded as a sum over a lattice nu0 + Z of terms p_nu h^nu/Pi(nu), where Pi(s) = Gamma(s+1). The coefficients must satisfy the law d p_nu/dx = p_{nu+1}.\n\nStep 1, the non-uniqueness lemma. The sentence begins on the previous page. Claim: if p_nu is one value of d^nu z, then so is q_nu = p_nu + K x^{-nu-n}/Pi(-nu-n), where n is a positive integer and K a finite constant. The added term is understood for every lattice index nu (my explicit statement of what is implicit).\n\nProof (a): the expansion still reproduces z(x+h). Summing over all nu in the lattice and using the generalized binomial theorem (formula (3) of the earlier pages):\n Sum_nu K x^{-nu-n}/Pi(-nu-n) * h^nu/Pi(nu) = K (x+h)^{-n}/Pi(-n).\nThis is zero, because 1/Pi(-n) = 1/Gamma(1-n) = 0 for every positive integer n. Hence\n Sum_nu q_nu h^nu/Pi(nu) = Sum_nu p_nu h^nu/Pi(nu) = z(x+h).\n\nProof (b): the derivative law is preserved:\n d/dx [p_nu + K x^{-nu-n}/Pi(-nu-n)] = p_{nu+1} + K x^{-nu-n-1}/Pi(-nu-1-n).\nThis follows from Pi(s) = s Pi(s-1) with s = -nu-n (an implicit step).\n\nStep 2, definition of a 'System of values'. A system is the set of all values of d^nu z obtained from one of them by adding terms of the above form. Every member of the same system is contained in\n (6) p_nu + Sum_{n=1}^{infinity} K_n x^{-nu-n}/Pi(-nu-n), with K_n finite constants.\nThis is Riemann's well-known 'complementary function', the source of the later Cayley criticism (1880).\n\nIn the margin, Riemann (or a later editor, in red) replaces the notation d^nu z by the symbol ∂_x^nu z.\n\nStep 3, start of the construction of a particular value. Riemann quotes Taylor's theorem:\n z(x) = z(k) + z'(k)(x-k) + z''(k)(x-k)^2/(1·2) + ...,\n'as soon as z is continuous between the limits x and k'.\n\nOn the next page this is completed. One substitutes x+h, expands (x+h-k)^m by (3), and reads off\n p_mu = Sum_m z^(m)(k) (x-k)^{m-mu}/Pi(m-mu).\nThe sum telescopes under d/dk to\n d p_mu/dk = -z(k)(x-k)^{-mu-1}/Pi(-mu-1).\nThis yields p_mu = 1/Gamma(-mu) ∫_k^x (x-t)^{-mu-1} z(t) dt, which is the Riemann–Liouville integral.",
+  "errors": [
+   "Taylor's series is said to hold 'as soon as z(x) is continuous between x and k'. Continuity (even of all derivatives) is insufficient; analyticity on the relevant disc is required. This is a typical pre-Weierstrassian looseness.",
+   "The convergence of the binomial-type series Sum_nu x^{-nu-n} h^nu / (Pi(-nu-n) Pi(nu)) (requires |h|<|x|) is not discussed.",
+   "The infinite sum Sum K_n x^{-nu-n}/Pi(-nu-n) in (6) is introduced without any convergence condition on the K_n.",
+   "The displayed equation is notationally loose. It writes the sum over nu of the modified coefficient as if K and n were fixed while nu runs, which is correct only under the implicit convention that the shift term propagates to all lattice indices via the derivative law. The algebra itself is correct, given Pi(s) = sPi(s-1) and 1/Pi(-n) = 0."
+  ],
+  "results": [
+   {
+    "what": "Adding K x^{-nu-n}/Gamma(1-nu-n) (n a positive integer) to a fractional derivative of order nu gives another admissible value; the contribution to the generalized Taylor series sums to K(x+h)^{-n}/Gamma(1-n) = 0",
+    "modern_name": "Riemann's complementary function / non-uniqueness of fractional derivative (dependence on base point)",
+    "usually_credited_to": "Riemann (1847, publ. 1876); criticized by Cayley 1880",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Derivative of x^a/Gamma(a+1) equals x^{a-1}/Gamma(a)",
+    "modern_name": "Power rule for fractional powers with Gamma normalization",
+    "usually_credited_to": "Euler/Lacroix/Liouville",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Beginning of derivation via Taylor expansion at base point k leading (next page) to the integral formula p_mu = (1/Gamma(-mu)) ∫_k^x (x-t)^{-mu-1} z(t) dt",
+    "modern_name": "Riemann–Liouville fractional integral",
+    "usually_credited_to": "Liouville (1832) and Riemann (1847/1876)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of Riemann's published 1847 'Versuch' (Werke 1876). The complementary function and the route to the Riemann–Liouville integral are well known as his; it is only draft-level detail of a known text.",
+  "checkable": [
+   {
+    "sympy": "simplify(diff(x**(-nu-n)/gamma(1-nu-n), x) - x**(-nu-n-1)/gamma(-nu-n))",
+    "asserts": "The derivative law for the added term holds (result 0)."
+   },
+   {
+    "sympy": "[1/gamma(1-n) for n in range(1,6)]",
+    "asserts": "1/Pi(-n) = 1/Gamma(1-n) vanishes for positive integers n, so K(x+h)^{-n}/Pi(-n) = 0."
+   },
+   {
+    "sympy": "N(Sum(Rational(5,2)**(-Rational(1,3)-j-2)*Rational(1,2)**(Rational(1,3)+j)/(gamma(-Rational(1,3)-j-1)*gamma(Rational(1,3)+j+1)), (j,-60,60)))",
+    "asserts": "Numerical check that Sum over nu in 1/3+Z of x^{-nu-n} h^nu/(Pi(-nu-n)Pi(nu)) is approximately 0 for n=2, x=5/2, h=1/2. Terms with nu+n a positive integer vanish automatically via the poles of gamma."
+   },
+   {
+    "sympy": "simplify(diff(Sum(f(m)*(x-k)**(m-mu)/gamma(m-mu+1),(m,0,M)).doit().subs(M,3), k))",
+    "asserts": "With f(m)=z^(m)(k), the k-derivative of the next-page coefficient series telescopes to -z(k)(x-k)^{-mu-1}/Gamma(-mu), up to the truncation term. This needs a concrete z for full verification."
+   }
+  ],
+  "transcription_corrections": [
+   "In the first display the exponent is (x+h)^{-n}: the struck symbol before -n is a cancelled '-ν' (or similar). The denominator is Π(-n), so the term vanishes, as the transcription says.",
+   "The margin notes in red read 'Δ_x^ν z' struck and replaced by '∂_x^ν z' (three occurrences). They indicate the editorial replacement of the crossed-out d^ν z symbol in the text.",
+   "The margin note '(besondere Zeile)' appears twice, at the derivative law and at formula 6), as an instruction to typeset those formulas as separate display lines.",
+   "'(wo K_n endliche Constanten bedeuten)': the word Constanten is written over a struck-out fragment.",
+   "The last line ends with 'continuir-' (continuirlich), with 'stetig'(?) struck before it, as already noted."
+  ]
+ }
+}

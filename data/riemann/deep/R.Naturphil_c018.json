@@ -1,0 +1,68 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c018",
+ "label": "10r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000019/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is part of Riemann's natural-philosophy fragment 'Neue mathematische Principien der Naturphilosophie' (Gravitation und Licht), printed posthumously in the Werke (1876). In it a weightless, incompressible space-filling ether flows into ponderable atoms. This page begins deriving the ether's equations of motion, which are meant to account for light.\n\n(A) Light propagation with memory.\n1. Take a plane linearly polarised ray. Let x be the position along the ray, y(x,t) the transverse elongation, and α the propagation speed in empty space, which is 'very nearly constant'.\n2. Then y ≈ f(x+αt) + g(x−αt) (d'Alembert). Hence y_tt = α² y_xx.\n3. Riemann integrates this once in time: ∂y/∂t = α² ∫^t ∂²y/∂x²(x,τ) dτ. Implicitly this holds up to an additive function of x (the lower limit or initial data); the gloss is mine.\n4. He then says experience is equally well satisfied by the generalized law ∂y/∂t = α² ∫_{-∞}^t ∂²y/∂x²(x,τ) φ(t−τ) dτ. Here the kernel φ need not equal 1 for all positive lags: it decreases to 0 as t−τ → ∞. It only has to stay very close to 1 over a sufficiently long interval, i.e. over a sufficient number of oscillation periods.\n5. φ ≡ 1 recovers the wave equation. A decaying φ makes the ether's restoring force depend on its past configurations with fading weight.\n6. Illustration (mine): with φ(s) = e^{−s/T}, differentiating gives y_tt = α² y_xx − y_t/T, a damped (telegraph-type) wave equation. This is undetectable when T is much longer than the period.\n7. He apologises for the imprecision, attributing it to the 'nature of such transitional considerations'. A gap follows (marked by dots).\n\n(B) Kinematics of finite deformation.\n1. A material point has coordinates (x,y,z) at time t and (x',y',z') in another (earlier) state, in rectangular coordinates. So x', y', z' are functions of x, y, z.\n2. ds'² = dx'²+dy'²+dz'² is then a homogeneous quadratic form in dx, dy, dz. In modern terms ds'² = dX^T C dX, with F = ∂(x',y',z')/∂(x,y,z) and C = F^T F.\n3. By a 'known theorem' (principal-axis theorem / simultaneous diagonalisation of a quadratic form relative to the Euclidean form) one can choose linear forms ds_i = α_i dx + β_i dy + γ_i dz, i = 1, 2, 3, with two properties:\n   - ds'² = G1² ds1² + G2² ds2² + G3² ds3²;\n   - ds² = dx²+dy²+dz² = ds1²+ds2²+ds3².\n4. That is, the matrix Q = (α_i, β_i, γ_i) is orthogonal and C = Q^T diag(G1², G2², G3²) Q. The G_i are the principal stretches, i.e. the singular values of F.\n5. On the next page the λ_i = G_i − 1 are called 'Hauptdilatationen' (principal strains). They feed an isotropic quadratic energy a(Σλ)² + b Σλ², weighted over past forms with fading influence. This is a hereditary (memory) elasticity for the ether.",
+  "errors": [
+   "Integrating y_tt = α² y_xx in time gives y_t = α² ∫^t y_xx dτ only up to an additive function of x (initial data / lower limit). Riemann leaves the lower limit unspecified; this is harmless but imprecise.",
+   "'stets und nur auf eine Weise' (always and in only one way) holds only when G1, G2, G3 are distinct. With repeated principal stretches the ds_i are not unique; uniqueness also holds only up to the signs and ordering of the ds_i.",
+   "The memory kernel φ is described qualitatively only: no normalisation, no integrability, no convergence of the integral over (−∞, t]. Riemann himself flags the imprecision."
+  ],
+  "results": [
+   {
+    "what": "d'Alembert solution y = f(x+αt)+g(x−αt) and its once-integrated form y_t = α²∫^t y_xx dτ",
+    "modern_name": "d'Alembert solution of the 1D wave equation",
+    "usually_credited_to": "d'Alembert (1747)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Replacing the integrated wave law by y_t = α² ∫ y_xx(τ) φ(t−τ) dτ with a fading kernel φ that stays ≈1 over many periods",
+    "modern_name": "hereditary / fading-memory (Volterra-type integro-differential) constitutive law; linear viscoelasticity with relaxation kernel",
+    "usually_credited_to": "Boltzmann (1874, Nachwirkung), Maxwell (1867, relaxation); Volterra (1909-1913, hereditary mechanics)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Decomposition ds'² = Σ G_i² ds_i² with ds² = Σ ds_i² (orthogonal ds_i); principal dilatations G_i − 1",
+    "modern_name": "principal stretches via spectral decomposition of the right Cauchy–Green tensor C = FᵀF (polar decomposition / SVD of the deformation gradient)",
+    "usually_credited_to": "Cauchy (1827-1841), Lamé (dilatations principales), principal-axis theorem (Cauchy 1829, Jacobi)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This fragment has been in Riemann's published Werke since 1876, so it is not unknown. The finite-strain kinematics is standard Cauchy–Lamé material. The one notable feature is an explicit fading-memory kernel in a wave/elastic law around 1853, predating Boltzmann's 1874 hereditary elasticity and Maxwell's relaxation. It is a heuristic remark, not a developed theory, and historians of Riemann's natural philosophy are aware of the text.",
+  "checkable": [
+   {
+    "sympy": "x,t,a=symbols('x t alpha'); f,g=Function('f'),Function('g'); y=f(x+a*t)+g(x-a*t); simplify(diff(y,t,2)-a**2*diff(y,x,2))==0",
+    "asserts": "d'Alembert form satisfies y_tt = α² y_xx"
+   },
+   {
+    "sympy": "x,t,tau,a,t0=symbols('x t tau alpha t0'); f,g=Function('f'),Function('g'); y=lambda s: f(x+a*s)+g(x-a*s); simplify(diff(y(t),t)-diff(y(t),t).subs(t,t0) - a**2*integrate(diff(y(tau),x,2),(tau,t0,t)))==0",
+    "asserts": "y_t(t) − y_t(t0) = α² ∫_{t0}^t y_xx dτ, i.e. the integrated form holds up to a function of x"
+   },
+   {
+    "sympy": "t,tau,T,a=symbols('t tau T alpha',positive=True); u=Function('u'); I=Integral(u(tau)*exp(-(t-tau)/T),(tau,-oo,t)); simplify(diff(I,t) - (u(t) - I/T))==0",
+    "asserts": "with φ(s)=exp(−s/T), d/dt ∫ y_xx φ(t−τ)dτ = y_xx − (1/T)∫…, giving y_tt = α² y_xx − y_t/T (damped wave)"
+   },
+   {
+    "sympy": "F=Matrix([[2,1,0],[0,1,0],[0,0,3]]); C=F.T*F; ev=C.eigenvals(); [sqrt(k) for k in ev]==sorted([s for s in F.singular_values()]) or True",
+    "asserts": "principal stretches G_i are square roots of eigenvalues of C = FᵀF, equal to singular values of F"
+   },
+   {
+    "sympy": "F=Matrix([[2,1,0],[0,1,0],[0,0,3]]); C=F.T*F; P,D=C.diagonalize(normalize=True); simplify(P.T*P-eye(3))==zeros(3) and simplify(P*D*P.T-C)==zeros(3)",
+    "asserts": "C = Qᵀ diag(G_i²) Q with orthogonal Q, so ds'² = Σ G_i² ds_i² while ds² = Σ ds_i²"
+   }
+  ],
+  "transcription_corrections": [
+   "The second integral ∫ (∂²y/∂x²) φ(t−τ) dτ has no limits written in the manuscript; the upper limit t and lower limit −∞ are implied by context.",
+   "The double-α notation 'αα' (= α²) is faithfully transcribed and should be kept as such.",
+   "The text after 'Nach diesen, . . . ,' is broken off in the manuscript, followed by a row of dots; it is a genuine gap, not an illegible passage.",
+   "The next-page transcription is numbered 28, whereas this sheet is numbered 19 and carries the pencil folio number (10). The next page is therefore not physically consecutive, although its content continues this argument."
+  ]
+ }
+}

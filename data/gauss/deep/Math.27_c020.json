@@ -1,0 +1,73 @@
+{
+ "bundle": "Math.27",
+ "page": "c020",
+ "label": "11r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381841:00000021/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is folio 11r of a two-page table. The title reads 'Media Arithmetico-Geometrica inter unitatem et sinus singulorum semigraduum', i.e. the arithmetic-geometric mean of 1 and the sine of every half-degree. Row n (n = 1..90 here; the next page continues to 180) has the angle phi_n = n/2 degrees (0.5 deg to 45 deg on this page). The table runs only to 90 deg because sin is monotone on [0, 90 deg].\n\nColumn 1 is M_n = M(1, sin phi_n), to 7 decimals. M(a,b) is the common limit of the iteration a_{k+1} = (a_k + b_k)/2, b_{k+1} = sqrt(a_k b_k), started from a_0 = 1, b_0 = sin phi_n.\n\nColumn 2 is the common (Briggsian) logarithm of M_n, written in the astronomers' convention log + 10. So 9,4088168 means log10(M_1) = -0.5911832.\n\nIn modern terms (my gloss, not on the page): M(1, b) = pi / (2 K(k)), with k^2 = 1 - b^2 and K the complete elliptic integral of the first kind. Here b = sin phi, so k = cos phi and M_n = pi / (2 K(cos(n/2 deg))). This is Gauss's 1799 theorem relating the AGM to the complete elliptic integral. The table is therefore equivalent to a half-degree table of complete elliptic integrals of the first kind.\n\nHow the values were presumably computed (my reconstruction): run the AGM iteration about 3-4 steps (it converges quadratically), then look up the logarithm. My spot recomputations:\n- n=1: sin 0.5 deg = 0.0087265. The small-b asymptotic pi / (2 ln(4/b)) gives 0.25634, matching 0,2563402.\n- n=30: AGM(1, 0.258819) = 0.567471, matching 0,5674713.\n- n=34: AGM(1, sin 17 deg) = 0.592276, matching the marginal correction 5922755.\n- n=60: AGM(1, 1/2) = 0.7283955, with log 9.8623672/73.\n- n=90: AGM(1, 1/sqrt 2) = 0.8472131 (the reciprocal of Gauss's lemniscate constant times sqrt 2), with log 9.9279927.\n\nThe logarithms I checked agree with log10 of the means to within about 1 unit in the 7th place: n = 10, 11, 25, 27, 32, 33, 46, 60, 90. Marginal digits ('631', '783', '.156', '36', '#') are trial corrections, or partial checks made by differencing.\n\nContext: the previous page carries the 1811 comet computations. The sheet may therefore date from around 1811, or the paper may simply have been reused. The AGM theory itself dates from 1791-1800.",
+  "errors": [
+   "Row 48, log column: the page shows 9,8261811 with an alternative '783' written beside it. My recomputation gives M(1, sin 24 deg) = 0.6701622 (the mean itself is correct), whose log10 + 10 is 9.8261799. Differencing confirms this. With 9.8261799 the first differences of the log column for rows 46-50 are 34287, 33670, 33071, 32491, with smooth second differences -617, -599, -580. With 811 (or 783) the second differences become irregular. So both written alternatives appear to be off by about 12-16 units in the 7th place, unless the image digits are misread.",
+   "Rows 33 and 34 of column 1 were struck out and rewritten in the margin as 5862001 and 5922755; both corrected values check. Several other overwritten final digits (rows 10, 20, 22, 23, 25, 45, 46) appear to be corrections made during checking by differences. No further discrepancies were found in the spot checks."
+  ],
+  "results": [
+   {
+    "what": "Table of the AGM M(1, sin phi) and its log10 for phi = 0.5 deg, 1 deg, ..., 45 deg on this page (continued to 90 deg on the next page), to 7 decimals.",
+    "modern_name": "Arithmetic-geometric mean; equivalently a table of the complete elliptic integral K(k) = pi / (2 M(1, k')) with k = cos phi.",
+    "usually_credited_to": "AGM: Lagrange (1784-5) and Gauss (1791/1799, published in part 1818). The AGM-K relation: Gauss (1799). Large tables of complete elliptic integrals: Legendre, Traité des fonctions elliptiques (1825-28).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Special values M(1, 1/sqrt 2) = 0.8472131 and M(1, 1/2) = 0.7283955.",
+    "modern_name": "Gauss's constant G = 1/M(1, sqrt 2) = 0.8346..., with M(1, 1/sqrt 2) = sqrt(2) * G = 0.8472...; lemniscate constant.",
+    "usually_credited_to": "Gauss (1799 diary entry)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's AGM theory and his numerical AGM computations are well known, and the relevant Nachlass material is printed in Werke III. A systematic half-degree table of M(1, sin phi) is a fine computational document. Its place among Gauss's published Nachlass tables is unsure, but it contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "N(pi/(2*elliptic_k(cos(pi/360)**2)), 10)",
+    "asserts": "M(1, sin 0.5 deg) = 0.2563402 (row 1). sympy's elliptic_k takes the parameter m = k^2."
+   },
+   {
+    "sympy": "N(pi/(2*elliptic_k(cos(pi/12)**2)), 10)",
+    "asserts": "M(1, sin 15 deg) = 0.5674713 (row 30)."
+   },
+   {
+    "sympy": "N(pi/(2*elliptic_k(cos(17*pi/180)**2)), 10)",
+    "asserts": "M(1, sin 17 deg) = 0.5922755 (row 34, marginal correction)."
+   },
+   {
+    "sympy": "N(pi/(2*elliptic_k(Rational(3,4))), 10)",
+    "asserts": "M(1, 1/2) = 0.7283955 (row 60), since k = cos 30 deg gives m = 3/4."
+   },
+   {
+    "sympy": "N(pi/(2*elliptic_k(Rational(1,2))), 10)",
+    "asserts": "M(1, 1/sqrt 2) = 0.8472131 (row 90)."
+   },
+   {
+    "sympy": "N(10 + log(pi/(2*elliptic_k(cos(2*pi/15)**2)), 10), 10)",
+    "asserts": "Log entry for row 48 (phi = 24 deg) is about 9.8261799, not the written 9.8261811 or 9.8261783."
+   },
+   {
+    "sympy": "N(10 + log(pi/(2*elliptic_k(Rational(1,2))), 10), 10)",
+    "asserts": "Log entry for row 90 = 9.9279927."
+   },
+   {
+    "sympy": "N(pi/(2*elliptic_k(cos(23*pi/180)**2)), 10)",
+    "asserts": "Row 46 mean = 0.659757..., consistent with its log 9.8193842."
+   }
+  ],
+  "transcription_corrections": [
+   "Row 46, column 1: the mean is 0,659757x (the log 9.8193842 implies 0.659757); the final digit '2' is plausible but overwritten.",
+   "Row 48, column 1: reads 0,6701622 (the struck-out digits were replaced by 622); this value is correct.",
+   "Rows 33 and 34, column 1: the original entries are struck out; the valid values are the marginal 0,5862001 and 0,5922755.",
+   "Row 55, log column: 9.8481663; the trailing struck-out material is a deleted alternative, not part of the value.",
+   "The header '47 of 11' at top right is uncertain; it is likely a shelf or folio mark rather than mathematical content."
+  ]
+ }
+}

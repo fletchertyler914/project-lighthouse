@@ -1,0 +1,61 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c123",
+ "label": "[114]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000124/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous pages deal with geodetic computations (azimuths, latitudes on the spheroid). This page is a self-contained note titled 'Reduction der Function', on reducing a ternary quadratic form to principal axes.\n\n(1) Problem. Let f = A x^2 + B y^2 + C z^2 + 2a yz + 2b xz + 2c xy, where (x,y,z) is a point of the unit sphere (x^2+y^2+z^2=1). The aim is to bring f to the form G X^2 + G' X'^2 + G'' X''^2 by the substitution x = alpha X + alpha' X' + alpha'' X'', y = beta X + beta' X' + beta'' X'', z = gamma X + gamma' X' + gamma'' X''. The coefficients satisfy 'the known relations' of an orthogonal transformation. Hence the inverse is the transpose: X = alpha x + beta y + gamma z, and similarly for X' and X''. In matrix form: with M = [[A,c,b],[c,B,a],[b,a,C]] and O the orthogonal matrix whose columns are (alpha_k, beta_k, gamma_k), we have M = O diag(G,G',G'') O^T.\n\n(2) Coefficient comparison. Substituting X, X', X'' into G X^2 + G' X'^2 + G'' X''^2 and comparing with f gives the six equations:\n- A = sum_k G_k alpha_k^2, B = sum_k G_k beta_k^2, C = sum_k G_k gamma_k^2;\n- a = sum_k G_k beta_k gamma_k, b = sum_k G_k alpha_k gamma_k, c = sum_k G_k alpha_k beta_k.\n\n(3) Eigenvector equations. Multiply the expressions for A, c, b by alpha, beta, gamma and add. Orthonormality of the column vectors (alpha_k, beta_k, gamma_k) [step made explicit by me] gives:\n- A alpha + c beta + b gamma = G alpha;\n- c alpha + B beta + a gamma = G beta;\n- b alpha + a beta + C gamma = G gamma.\nThat is, M v = G v for v = (alpha, beta, gamma).\n\n(4) Ratios of the components. Write P = bc + a(G-A), Q = ac + b(G-B), R = ab + c(G-C). Eliminating between the equations gives alpha P = beta Q = gamma R (Gauss first wrote a common value '= d', then struck it). Thus v is proportional to (1/P, 1/Q, 1/R). This can be checked by taking the cross product of rows 1 and 3 of M - G I, which gives v proportional to (R, *, P); the middle component agrees modulo the characteristic equation.\n\n(5) Equation *. Put alpha = d/P, beta = d/Q, gamma = d/R into the first eigen-equation and multiply by a. Using a(A-G)/P = -1 + bc/P [my filled step], this yields 1 = bc/P + ac/Q + ab/R.\n\n(6) Clearing denominators. The relation PQR - bc QR - ac PR - ab PQ = 0 expands to -2a^2b^2c^2 - abc[(a^2+b^2+c^2)G - a^2A - b^2B - c^2C] + abc(G-A)(G-B)(G-C) = 0.\n- The terms b^2c^2(G-B)(G-C) etc. arise in PQR and in the subtracted products, and cancel; Gauss correctly strikes them.\n- Gauss also strikes the common factor abc.\n\n(7) Result. Dividing by abc gives the cubic (G-A)(G-B)(G-C) - a^2(G-A) - b^2(G-B) - c^2(G-C) - 2abc = 0. Its roots are G, G', G''. This is det(G I - M) = 0, the characteristic (secular) equation.\n\n(8) Continuation. The next page normalises alpha via alpha^2+beta^2+gamma^2=1 and manipulates equation * further. It expresses things through (G-G')(G-G''), i.e. it relates the eigenvector components to the other roots.",
+  "errors": [
+   "No mathematical errors on this page; the expansion and the final cubic are correct.",
+   "The relation alpha P = beta Q = gamma R is stated without derivation. It is exact for the ratio alpha:gamma. For beta it holds only by virtue of the characteristic equation (G a root), which is derived afterwards, so the order of the argument is slightly circular but harmless.",
+   "Equation * presupposes a, b, c and P, Q, R nonzero; the degenerate cases are not discussed."
+  ],
+  "results": [
+   {
+    "what": "Orthogonal reduction of a ternary quadratic form to a sum of squares; eigen-equations M v = G v obtained by coefficient comparison",
+    "modern_name": "Principal axis theorem / spectral decomposition of a real symmetric 3x3 matrix",
+    "usually_credited_to": "Euler (quadric surfaces, 1748; principal axes of rotation, 1750s-1765), Lagrange (1773), Cauchy (1829, general n and reality of roots)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Characteristic cubic (G-A)(G-B)(G-C) - a^2(G-A) - b^2(G-B) - c^2(G-C) - 2abc = 0, obtained via the eigenvector ratios alpha:beta:gamma = 1/P : 1/Q : 1/R and the identity 1 = bc/P + ac/Q + ab/R",
+    "modern_name": "Secular / characteristic equation det(G I - M) = 0, with the classical cofactor formula for eigenvectors of a symmetric 3x3 matrix",
+    "usually_credited_to": "Lagrange (1773, rotation of rigid bodies), Laplace (secular equations); classical by 1800",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Principal-axis reduction of a ternary quadratic form and its characteristic cubic were classical by 1800 (Euler, Lagrange). Gauss's derivation route through the elegant identity 1 = bc/P + ac/Q + ab/R is a pleasant personal variant but not a new result.",
+  "checkable": [
+   {
+    "sympy": "A,B,C,a,b,c,G=symbols('A B C a b c G'); M=Matrix([[A,c,b],[c,B,a],[b,a,C]]); expand((G*eye(3)-M).det() - ((G-A)*(G-B)*(G-C)-a**2*(G-A)-b**2*(G-B)-c**2*(G-C)-2*a*b*c))",
+    "asserts": "Gauss's cubic equals det(G I - M) (result should be 0)"
+   },
+   {
+    "sympy": "P=b*c+a*(G-A); Q=a*c+b*(G-B); R=a*b+c*(G-C); F=(G-A)*(G-B)*(G-C)-a**2*(G-A)-b**2*(G-B)-c**2*(G-C)-2*a*b*c; expand(P*Q*R-b*c*Q*R-a*c*P*R-a*b*P*Q - a*b*c*F)",
+    "asserts": "Clearing denominators in 1 = bc/P + ac/Q + ab/R gives abc times the characteristic cubic (result 0)"
+   },
+   {
+    "sympy": "expand(P*Q*R-b*c*Q*R-a*c*P*R-a*b*P*Q - (-2*a**2*b**2*c**2 - a*b*c*((a**2+b**2+c**2)*G-a**2*A-b**2*B-c**2*C) + a*b*c*(G-A)*(G-B)*(G-C)))",
+    "asserts": "Gauss's intermediate expanded form (before division by abc) is correct (result 0)"
+   },
+   {
+    "sympy": "expand(P*R - Q*((G-A)*(G-C)-b**2) + b*F)",
+    "asserts": "With v = (R, (G-A)(G-C)-b^2, P) from the cross product, beta/gamma = R/Q holds modulo the cubic F; hence alpha P = beta Q = gamma R (result 0)"
+   },
+   {
+    "sympy": "v=Matrix([1/P,1/Q,1/R]); simplify(((M-G*eye(3))*v)[0]*a/(1) - (-1 + b*c/P + a*c/Q + a*b/R))",
+    "asserts": "a times the first component of (M - G I)(1/P,1/Q,1/R) equals -1 + bc/P + ac/Q + ab/R, i.e. equation * is the first eigen-equation (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "'Kugelfl.' abbreviates 'Kugelfläche' (unit sphere x^2+y^2+z^2=1).",
+   "In the line alpha(bc+a(G-A)) ... the connecting signs are overwritten '=' signs (the machine read them as '=' and '∓'). The trailing struck symbol is '= d' (a common value), not part of the equation.",
+   "The line after equation * reads approximately '-2aabbcc' (with letters partly struck, leaving '-2abc' after division by abc), not '-2abbc'.",
+   "In the expanded equation, the factors 'abc' before ((aa+bb+cc)G - ...) and before (G-A)(G-B)(G-C) are struck through, indicating division by abc. The whole middle line +bbcc(G-B)(G-C)+aacc(G-A)(G-C)+aabb(G-A)(G-B) is struck because it cancels."
+  ]
+ }
+}

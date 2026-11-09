@@ -1,0 +1,61 @@
+{
+ "bundle": "R.AbelTheta",
+ "page": "c369",
+ "label": "182v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000370/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The previous page builds the p-variable theta series with exponent sum a_{mu,mu'} m_mu m_mu'. That needs a_{mu,mu'} = a_{mu',mu} and a negative-definite real part. This page proves the symmetry. It is a draft of §20 of Riemann's 1857 'Theorie der Abel'schen Functionen'.\n\n(1) Canonical dissection (top lines, partly cancelled). The (2p+1)-fold connected surface T is cut by cross-cuts a_1,...,a_p and b_1,...,b_p into a simply connected surface T'. Each b_nu is drawn from the negative side of a_nu, and a_{nu+1} is joined to the previous cuts by a connecting line. After this dissection each cross-cut appears twice in the boundary of T', once in each direction.\n\n(2) Setup. Let w_1,...,w_p be linearly independent everywhere-finite integrals of rational functions of s and z (abelian integrals of the first kind, i.e. integrals of holomorphic differentials). Write A^nu_mu for the periodicity modulus of w_mu at the cross-cut a_nu, i.e. the jump w_mu^+ - w_mu^-, which is constant along a_nu. Write B^nu_mu for the modulus at b_nu.\n\n(3) Vanishing boundary integral. Take the integral of w_mu dw_mu' positively around the boundary of T'. It is 0, because w_mu is single-valued on T' and the integrand is everywhere finite (Cauchy's theorem).\n\n(4) Pairing of the two edges. Each cut is traversed twice with opposite orientation. Along it dw_mu' takes the same value on both edges, since the jump of w_mu' is constant. The two traversals therefore combine to the integral of (w_mu^+ - w_mu^-) dw_mu' along the cut.\n\n(5) Evaluation on each cut. The b-lines lead from the positive to the negative side of the a-lines, and the a-lines from the negative to the positive side of the b-lines. Hence integrating dw_mu' along a_nu gives B^nu_mu', and along b_nu gives -A^nu_mu'. So:\n- the contribution of a_nu is A^nu_mu * B^nu_mu';\n- the contribution of b_nu is B^nu_mu * (-A^nu_mu').\n\n(6) Result. Summing the contributions and using step (3):\n\nsum_{nu=1}^p (A^nu_mu B^nu_mu' - B^nu_mu A^nu_mu') = 0 for all mu, mu'.\n\nIn matrix form, with A_{nu,mu} = A^nu_mu, this reads A^T B - B^T A = 0. The left side is antisymmetric in (mu, mu'), so this gives p(p-1)/2 independent relations among the periods, as the page says.\n\n(7) Normalization. Choose the basis so that A^nu_mu = 0 for nu != mu and A^nu_nu = pi i. The relations become pi i (B^{mu'}_mu - B^mu_{mu'}) = 0. With a_{mu,mu'} := B^{mu'}_mu this is a_{mu,mu'} = a_{mu',mu}, the symmetry needed for the theta series on the previous page.\n\n(8) Not on this page. The positivity part of the argument (Re a negative definite, via the area integral of |dw|^2) is not here. It is presumably treated elsewhere.",
+  "errors": [
+   "No mathematical error.",
+   "Sign conventions: the final line is written as B^{mu'}_mu pi i - B^mu_{mu'} pi i = 0, which is the negative of what step (6) gives after normalization (pi i (B^mu_{mu'} - B^{mu'}_mu)). This is immaterial since the right side is 0.",
+   "Overall orientation signs depend on the side conventions in the partly cancelled opening lines. These cannot be fully read but do not affect the symmetry conclusion.",
+   "Implicit and unstated: dw_mu' is single-valued along each cut, so the two edges pair off. This is correct for differentials of the first kind."
+  ],
+  "results": [
+   {
+    "what": "For any two everywhere-finite abelian integrals w_mu, w_mu' with a/b-periods A, B: sum_nu (A^nu_mu B^nu_mu' - B^nu_mu A^nu_mu') = 0. This yields p(p-1)/2 relations, proved by integrating w_mu dw_mu' around the boundary of the dissected surface T'.",
+    "modern_name": "Riemann bilinear relations (equality part) / symplectic period relations",
+    "usually_credited_to": "Riemann, 1857 (Theorie der Abel'schen Functionen, §20)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "With periods normalized to A^nu_mu = pi i delta_{nu,mu}, the b-period matrix a_{mu,mu'} is symmetric.",
+    "modern_name": "Symmetry of the normalized period matrix (Riemann matrix, Siegel upper half-space condition)",
+    "usually_credited_to": "Riemann, 1857",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Canonical dissection of a (2p+1)-fold connected surface by cross-cuts a_nu, b_nu into a simply connected T', each cut bordering T' twice in opposite directions.",
+    "modern_name": "Canonical homology basis / canonical dissection (polygon model of a genus-p surface)",
+    "usually_credited_to": "Riemann, 1857",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of exactly the argument published in Riemann's 1857 Abelian functions paper (§20), the famous bilinear relations proof. It is well known and attributed to him.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; b11,b12,b22=symbols('b11 b12 b22'); A=pi*I*eye(2); B=Matrix([[b11,b12],[b12,b22]]); simplify(A.T*B - B.T*A) == zeros(2)",
+    "asserts": "With A = pi*i*I and B symmetric, the bilinear relation A^T B - B^T A = 0 holds."
+   },
+   {
+    "sympy": "from sympy import *; B=Matrix(2,2,symbols('c0:4')); A=pi*I*eye(2); solve(list(A.T*B - B.T*A), list(B.free_symbols))",
+    "asserts": "Conversely, under the normalization A = pi*i*I the relations force B[0,1] == B[1,0], i.e. a_{mu,mu'} = a_{mu',mu}."
+   },
+   {
+    "sympy": "from sympy import *; p=symbols('p'); A=Matrix(3,3,symbols('a0:9')); B=Matrix(3,3,symbols('b0:9')); M=A.T*B-B.T*A; simplify(M+M.T)==zeros(3)",
+    "asserts": "The matrix of relations is antisymmetric, so only p(p-1)/2 of the entries are independent (here p=3 gives 3)."
+   }
+  ],
+  "transcription_corrections": [
+   "The phrase read as 'positiv um die Fläche T' herum ausgedehnt' appears as 'auf die Fläche T' positiv herum' / 'um die Fläche T' positiv herum genommen'. The meaning (positively oriented boundary of T') is unchanged.",
+   "'Die Linien b führen von der positiven Seite der negativen Seite der Linien a' should read roughly 'Die Linien b führen von der positiven zur negativen Seite der Linien a, und folglich die Linien a von der negativen zur positiven Seite der Linien b'.",
+   "Final line: the image shows 'B^{mu'}_mu pi i - B^mu_{mu'} pi i = 0, oder a_{mu,mu'} = a_{mu',mu}', consistent with the transcription.",
+   "Top lines: the connecting-line description (a_{nu+1} joined via a line from the negative side of a_nu / b_nu) is largely cancelled and only partially legible. The transcription's reading is plausible but uncertain."
+  ]
+ }
+}

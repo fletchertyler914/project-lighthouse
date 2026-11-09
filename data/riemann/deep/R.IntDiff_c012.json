@@ -1,0 +1,65 @@
+{
+ "bundle": "R.IntDiff",
+ "page": "c012",
+ "label": "6r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204961:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page belongs to Riemann's 1847 student essay 'Versuch einer allgemeinen Auffassung der Integration und Differentiation', published posthumously in the Werke. The previous pages, not shown, set up a first-order differential equation whose solutions are series in powers (x-b)^beta with non-integer exponents beta ranging over alpha+Z.\n\n(0) Implicit setup (mine, consistent with every formula on the page):\n- Basic derivative: d/dx[(x-b)^beta x^(-mu)] = x^(-mu-1)[(beta-mu)(x-b)^beta + beta*b*(x-b)^(beta-1)]. This uses x = (x-b)+b.\n- Take two series:\n  - descending: p = c_alpha (x-b)^alpha + c_(alpha-1) (x-b)^(alpha-1) + ...\n  - ascending: p' = c_(alpha+1) (x-b)^(alpha+1) + c_(alpha+2) (x-b)^(alpha+2) + ...\n- Impose the recursion (mu-beta) c_beta = (beta+1) b c_(beta+1) for all beta in alpha+Z, i.e. c_(beta+1)/c_beta = (mu-beta)/((beta+1)b).\n- Then the derivatives telescope to a single term:\n  - d(p x^-mu)/dx = -(mu-alpha) c_alpha (x-b)^alpha x^(-mu-1)\n  - d(p' x^-mu)/dx = +(mu-alpha) c_alpha (x-b)^alpha x^(-mu-1)\n- So with X = (mu-alpha) c_alpha (x-b)^alpha, the page's first statement holds:\n  - -∫X x^(-mu-1) dx + K1 = p x^-mu = c_alpha (x-b)^alpha x^-mu + c_(alpha-1)(x-b)^(alpha-1) x^-mu + ...\n  - ∫X x^(-mu-1) dx + K2 = p' x^-mu = c_(alpha+1)(x-b)^(alpha+1) x^-mu + ...\n- A solution of the recursion is c_beta = C·binom(mu,beta) b^(mu-beta) = C·Γ(mu+1) b^(mu-beta)/(Γ(beta+1)Γ(mu-beta+1)).\n\n(1) Substitution x = b/y. Then:\n- x-b = b(1-y)/y, dx = -b y^-2 dy, x^(-mu-1) = b^(-mu-1) y^(mu+1).\n- Hence X x^(-mu-1) dx = -(mu-alpha) c_alpha b^(alpha-mu) y^(mu-alpha-1) (1-y)^alpha dy.\n- Each series term becomes c_beta (x-b)^beta x^-mu = c_beta b^(beta-mu) (1-y)^beta y^(mu-beta).\n- This gives exactly the page's two lines:\n  - p x^-mu = c_alpha(mu-alpha) b^(alpha-mu) ∫ y^(mu-alpha-1)(1-y)^alpha dy + K1 = c_alpha b^(alpha-mu)(1-y)^alpha y^(mu-alpha) + c_(alpha-1) b^(alpha-1-mu)(1-y)^(alpha-1) y^(mu-alpha+1) + ...\n  - p' x^-mu = -c_alpha(mu-alpha) b^(alpha-mu) ∫ y^(mu-alpha-1)(1-y)^alpha dy + K2 = c_(alpha+1) b^(alpha+1-mu)(1-y)^(alpha+1) y^(mu-alpha-1) + c_(alpha+2) b^(alpha+2-mu)(1-y)^(alpha+2) y^(mu-alpha-2) + ...\n\n(2) Fixing the constants. Assume mu > alpha > -1.\n- Every term of the descending series has a positive power y^(mu-alpha+k), so it vanishes at y=0.\n- Every term of the ascending series has a positive power (1-y)^(alpha+1+k), so it vanishes at y=1.\n- 'bezüglich' means 'respectively' (first at 0, second at 1).\n- Hence, provided the expressions are continuous between the limits:\n  - p x^-mu = (mu-alpha) c_alpha b^(alpha-mu) ∫_0^y t^(mu-alpha-1)(1-t)^alpha dt\n  - p' x^-mu = (mu-alpha) c_alpha b^(alpha-mu) ∫_y^1 t^(mu-alpha-1)(1-t)^alpha dt\n- Both are incomplete Beta integrals.\n\n(3) Riemann then raises an objection: continuity might seem violated when terms grow without bound. The next page answers it: values of divergent series are to be judged via the equal integrals.\n\n(4) Implied consequence (mine; not written on this page):\n- p x^-mu + p' x^-mu = (mu-alpha) c_alpha b^(alpha-mu) B(mu-alpha, alpha+1).\n- With c_beta = binom(mu,beta) b^(mu-beta), this reads Σ_{k∈Z} binom(mu,alpha+k) b^(mu-alpha-k) (x-b)^(alpha+k) = x^mu.\n- This is the 'two-sided' binomial theorem with non-integral index shift, the prototype of Riemann's generalized Taylor series.\n- The descending part converges for x > 2b (y < 1/2) and the ascending part for b < x < 2b (y > 1/2). The two-sided sum is therefore never convergent simultaneously, which motivates the discussion on page 10.",
+  "errors": [
+   "No computational errors: X x^(-mu-1)dx under x=b/y, the prefactors b^(beta-mu), the exponents (1-y)^beta y^(mu-beta), and the opposite signs of the two integrals all check out.",
+   "Gap (acknowledged by Riemann and treated on the next page): the integrals equal the series only where the series converge. The descending series converges for y<1/2 and the ascending for y>1/2. Identifying them on all of (0,1) needs the continuity/continuation argument he gives afterwards, which is heuristic by modern standards.",
+   "Termwise vanishing at the endpoint is used to fix K1, K2. This is legitimate because each series converges, and is dominated, near its own endpoint (y→0, resp. y→1). That uniformity is not stated."
+  ],
+  "results": [
+   {
+    "what": "Descending and ascending series in (x-b)^(alpha+k) x^(-mu), with coefficient recursion (mu-beta)c_beta=(beta+1)b c_(beta+1), represented as incomplete Beta integrals ∫_0^y and ∫_y^1 of t^(mu-alpha-1)(1-t)^alpha after x=b/y",
+    "modern_name": "Incomplete Beta function representation of (hypergeometric) binomial-type series; Euler integral substitution",
+    "usually_credited_to": "Euler (Beta integrals); this specific use in Riemann's 1847 'Versuch' (published in Werke 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Implicit two-sided expansion x^mu = Σ_{k∈Z} binom(mu,alpha+k) b^(mu-alpha-k)(x-b)^(alpha+k) via B(mu-alpha,alpha+1), with the claim that divergent parts are evaluated through the integrals",
+    "modern_name": "Riemann's generalized Taylor series / two-sided binomial expansion (cf. Hardy 1945, 'Riemann's form of Taylor's series')",
+    "usually_credited_to": "Riemann (Versuch, 1847, publ. 1876); Hardy's later analysis",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft page of Riemann's student essay on fractional integration ('Versuch einer allgemeinen Auffassung der Integration und Differentiation'), which is published in his Werke. The Beta-integral treatment of the generalized Taylor/binomial series is known and attributed to him.",
+  "checkable": [
+   {
+    "sympy": "x,b,beta,mu=symbols('x b beta mu',positive=True); simplify(diff((x-b)**beta*x**(-mu),x) - x**(-mu-1)*((beta-mu)*(x-b)**beta + beta*b*(x-b)**(beta-1)))",
+    "asserts": "derivative identity underlying the telescoping (should be 0)"
+   },
+   {
+    "sympy": "x,y,b,a,mu=symbols('x y b alpha mu',positive=True); simplify(((mu-a)*(x-b)**a*x**(-mu-1)*diff(b/y,y)).subs(x,b/y) + (mu-a)*b**(a-mu)*y**(mu-a-1)*(1-y)**a)",
+    "asserts": "X x^(-mu-1) dx = -(mu-alpha) b^(alpha-mu) y^(mu-alpha-1)(1-y)^alpha dy under x=b/y, with c_alpha=1 (should be 0)"
+   },
+   {
+    "sympy": "y,b,beta,mu=symbols('y b beta mu',positive=True); simplify(((b/y-b)**beta*(b/y)**(-mu)) - b**(beta-mu)*(1-y)**beta*y**(mu-beta))",
+    "asserts": "termwise transform (x-b)^beta x^-mu = b^(beta-mu)(1-y)^beta y^(mu-beta) for 0<y<1 (should be 0)"
+   },
+   {
+    "sympy": "beta,mu,b=symbols('beta mu b',positive=True); c=lambda s: gamma(mu+1)*b**(mu-s)/(gamma(s+1)*gamma(mu-s+1)); simplify(gammasimp((mu-beta)*c(beta) - (beta+1)*b*c(beta+1)))",
+    "asserts": "binomial coefficients satisfy the recursion (mu-beta)c_beta=(beta+1)b c_(beta+1) (should be 0)"
+   },
+   {
+    "sympy": "mu,a=Rational(5,2),Rational(1,3); gammasimp((mu-a)*gamma(mu+1)/(gamma(a+1)*gamma(mu-a+1))*beta(mu-a,a+1))",
+    "asserts": "with c_beta=binom(mu,beta)b^(mu-beta), the sum of both integrals gives exactly x^mu (should be 1); note sympy's beta function (from sympy import beta)"
+   },
+   {
+    "sympy": "y=Rational(1,4); mu,a,b=Rational(5,2),Rational(1,3),1; N((mu-a)*gamma(mu+1)/(gamma(a+1)*gamma(mu-a+1))*Integral(t**(mu-a-1)*(1-t)**a,(t,0,y)) - Sum(gamma(mu+1)/(gamma(a-k+1)*gamma(mu-a+k+1))*(1-y)**(a-k)*y**(mu-a+k),(k,0,60)))",
+    "asserts": "for y<1/2 the descending series equals the integral from 0 to y (should be ≈0; t,k symbols)"
+   }
+  ],
+  "transcription_corrections": [
+   "'bezüglich zu für für y=0 und y=1': read 'verschwinden ... die Ausdrücke rechts bezüglich für y=0 und y=1'. The extra 'zu[?] für[?]' is a crossed-out/duplicated fragment; 'bezüglich' = respectively (first series at y=0, second at y=1).",
+   "Second integral limits: 'das zweite von 1 bis y' (0 corrected to 1), as the transcription already indicates; the first is 'von 0 bis y'.",
+   "In the first substituted line, the continuation term reads c_(alpha-1) b^(alpha-1-mu)(1-y)^(alpha-1) y^(mu-alpha+1); the 'alpha+...' superscript fragments in the image are part of this term.",
+   "The added (encircled) term in the second line is c_(alpha+2) b^(alpha+2-mu)(1-y)^(alpha+2) y^(mu-alpha-2) + ..., inserted after the c_(alpha+1) term."
+  ]
+ }
+}

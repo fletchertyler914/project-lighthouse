@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c121",
+ "label": "48",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000122/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a printed textbook page, a German school text on logarithms from about the 1790s. It cites the 2nd edition of Karsten's Lehrbegriff. Gauss's hand appears only in the right margin, which is cut off.\n\nPRINTED TEXT, part 1 (end of §120). Inverse table lookup recovers the number to at most 7 significant figures, because the 7th decimal of the logarithm then shows no further difference. With more decimals, the formula of §112 would give logarithms of much larger numbers accurately. From the citation below, §112 is evidently log(n+d) - log n = 2M[ d/(2n+d) + (1/3)(d/(2n+d))^3 + (1/5)(d/(2n+d))^5 + ... ].\n\nPRINTED TEXT, part 2: recovering the number from a many-decimal logarithm by an infinite series.\n(a) Let lambda = log_b y, so b^lambda = y.\n(b) Write b = a^{n*omega} = (1+K*omega)^n with omega infinitesimal and n infinite. Put n*omega = m, so omega = m/n and b = a^m = (1+Km/n)^n.\n(c) Then b^lambda = (1+Km/n)^{lambda*n}. Expand by the binomial theorem (§104): 1 + lambda*n*K*m/n + lambda*n(lambda*n-1)K^2 m^2/(2 n^2) + lambda*n(lambda*n-1)(lambda*n-2)K^3 m^3/(6 n^3) + ...\n(d) Since n is infinite, lambda*n - k is replaced by lambda*n for k = 1, 2, 3, 4, ...\n(e) For natural logarithms K = 1. This gives y = 1 + lambda*m + (lambda*m)^2/2! + (lambda*m)^3/3! + ...\n(f) Here m = ln b. The text's remark that m, m^2, m^3 'mean natural logarithms' means m is the natural logarithm of the base. In modern terms: y = b^lambda = exp(lambda ln b) = sum_k (lambda ln b)^k / k!.\n\nPRINTED TEXT, part 3. Karsten §157 uses q/(2p+q) in place of the d/(2n+d) of §112. Karsten §159 writes the natural log (lb) in place of m.\n\nMARGIN (Gauss, cut off).\n- A heading 'Excl. g...' (Exclusion), followed by moduli with ± signs: 8 ±2, 9 ±, 25 ±, 7 ±, 11 ±, 13 ±.\n- Then 'Lim. 3..' (limits) and 'Man. 40' (manent = 40 candidates remain).\n- Then a column of candidates: 378, 380, 385, 400, 415, 420, 425, 428, 440, 447, 455, 460, 465, 472, 480, 495, 497, 500, 503, 505, 520, 528. Many carry a mark '7' or '9', apparently the modulus (7 or 9) that excludes that candidate.\n- At the bottom: '21. 10 4..', '380. 463..', '4223..'.\n\nThis matches the structure of Gauss's method of exclusion (Disquisitiones Arithmeticae, arts. 319-322). That method solves x^2 = N + D*y^2-type problems, or factors N, by sieving candidate values with small moduli. The specific N cannot be recovered from the visible fragment. The connection to the printed text is incidental; it is scratch work on a blank margin.",
+  "errors": [
+   "No mathematical error in the printed derivation, given 18th-century infinitesimal conventions. Replacing lambda*n - k by lambda*n for an 'infinite' n is the standard Euler-style heuristic, not a rigorous limit argument.",
+   "The phrase 'm, m^2, m^3 ... bedeuten natuerliche Logarithmen' is loose wording: only m = ln b is a natural logarithm; its powers are not."
+  ],
+  "results": [
+   {
+    "what": "Exponential series y = b^lambda = sum (lambda ln b)^k/k!, derived from b = (1+m/n)^n with n infinite",
+    "modern_name": "Exponential series / compound-interest limit definition of e^x",
+    "usually_credited_to": "Euler (Introductio in analysin infinitorum, 1748); earlier Newton, Mercator, Jakob Bernoulli",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Series log(n+d) - log n = 2M sum (1/(2k+1)) (d/(2n+d))^(2k+1), cited as §112",
+    "modern_name": "Series for ln((1+x)/(1-x)) (Gregory/Halley-type log series)",
+    "usually_credited_to": "James Gregory (1668), Halley; standard in 18th-century table-making",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Marginal scratch work: exclusion moduli 8, 9, 25, 7, 11, 13, limits, 40 remaining candidates in the range 378-528, struck off by moduli 7 and 9",
+    "modern_name": "Gauss's method of exclusion (sieve for solving quadratic Diophantine conditions / factoring)",
+    "usually_credited_to": "Gauss, Disquisitiones Arithmeticae (1801), arts. 319-322",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The printed text is standard textbook material, Euler-style, and not by Gauss. The marginal note is a worked instance of Gauss's own published method of exclusion. It has documentary interest for dating his computational habits but contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "limit((1 + x/n)**n, n, oo) - exp(x)",
+    "asserts": "(1+m/n)^n tends to e^m, so with K=1, b = e^m and m = ln b; expected result 0"
+   },
+   {
+    "sympy": "simplify(series(exp(lam*log(b)), lam, 0, 5).removeO() - sum((lam*log(b))**k/factorial(k) for k in range(5)))",
+    "asserts": "y = b^lambda = 1 + lambda m + (lambda m)^2/2! + ... with m = ln b; expected result 0"
+   },
+   {
+    "sympy": "simplify(series(log(n+d) - log(n) - 2*sum((d/(2*n+d))**(2*k+1)/(2*k+1) for k in range(4)), d, 0, 9).removeO())",
+    "asserts": "Natural-log form of the §112 formula, ln(n+d) - ln n = 2*sum (d/(2n+d))^(2k+1)/(2k+1), correct through order d^8; expected result 0"
+   },
+   {
+    "sympy": "N(log(27675.7, 10), 10)",
+    "asserts": "Check of the previous page's interpolation: log10(27675.7) is approximately 4.4420986"
+   }
+  ],
+  "transcription_corrections": [
+   "Printed 'Der Gebrauch der Logarithmen selbst nach den vorhin...': the image shows 'nach'; any reading 'uach' is a print or OCR artifact.",
+   "The line 'm, m^2, m^3, m^4' contains stray marks after 'm' in the image ('m,\\ m^2'); these are not part of the text.",
+   "Margin heading 'Excl. g..' is probably the start of an exclusion heading (cut off). The entries '8 ±2, 9 ±, 25 ±, 7 ±, 11 ±, 13 ±' are moduli with residues lost at the trimmed edge.",
+   "In the margin list, the marks '7' and '9' beside numbers (385, 400, 415, 420, ...) are probably exclusion annotations by modulus, not digits of the numbers. The entry read '378' is preceded by a struck or overwritten digit.",
+   "Bottom margin entries ('21. 10 4..', '380. 463..', '4223..') are truncated by the page edge."
+  ]
+ }
+}

@@ -1,0 +1,52 @@
+{
+ "bundle": "Math.5",
+ "page": "c007",
+ "label": "[4v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376170:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page continues the table titled on the previous page 'QVADRATORVM MYRIAS PRIMA' (the first myriad of squares). It is a table of squares of the four-digit numbers N = 1000a + r, for a = 1,...,9 and r = 0,...,49. The next page continues with r = 50,...,99.\n\nLayout:\n- Column headings 10, 20, ..., 90 mean 10, 20, ..., 90 hundreds, i.e. the thousands digit a = 1,...,9.\n- The left margin gives r (000, 1, 2, ..., 009, 010, ...).\n- Each body cell gives the leading part of N^2, i.e. floor(N^2/1000).\n- The rightmost column gives the last three digits of N^2, which are common to every column.\n\nThe principle (my explicit statement, certain from the entries):\n(1000a + r)^2 = a^2*10^6 + 2ar*10^3 + r^2.\n- Leading part: floor(N^2/1000) = 1000a^2 + 2ar + floor(r^2/1000).\n- Trailing part: N^2 mod 1000 = r^2 mod 1000.\nThe trailing part does not depend on a, so one shared right-hand column serves all nine columns. That is the economy of the layout.\n\nStepping r by 1 raises the leading part by 2a, plus any carry from r^2 crossing a multiple of 1000. Carries occur at r = 32 (1024) and r = 45 (2025). For example, column 10 goes from 1060 (r=30) and 1062 to 1065 at r=32, and from 1089 to 1092 at r=45. This shows the table was built by successive addition of differences.\n\nTypographic convention: leading digits are written in full only where the higher digits change or at block boundaries. Otherwise only the last two digits are given (e.g. '02', '04').\n\nSample verifications (mine):\n- 1001^2 = 1002|001\n- 5009^2 = 25090|081\n- 1024^2 = 1048|576\n- 2024^2 = 4096|576\n- 3033^2 = 9199|089\n- 4032^2 = 16257|024\n- 6041^2 = 36493|681\n- 7049^2 = 49688|401\n- 8043^2 = 64689|849\n- 9049^2 = 81884|401\n\nThe purpose is a computational aid: squares up to 10^8, for use e.g. in quarter-squares multiplication (ab = ((a+b)^2 - (a-b)^2)/4), extracting square roots, or testing quadratic forms and residues.",
+  "errors": [
+   "No numerical errors found in the spot checks (several dozen entries across all columns, including the carry rows r=32 and r=45).",
+   "Visible corrections in the manuscript are all to correct values. Examples: overwritten 001/004/009 in the trailing column; 064 at r=8; '81396' at r=22; '49392' at r=28; '22' (=81522) at r=29; '21'/'31' in column 50 at r=42,43; '60' at r=47 col 70; and the struck/rewritten 49688 at r=49 col 70."
+  ],
+  "results": [
+   {
+    "what": "Table of squares of 1000a + r (a=1..9, r=0..49), split as floor(N^2/1000) per column plus a shared trailing column r^2 mod 1000.",
+    "modern_name": "Table of squares (quarter-squares/square tables), constructed by finite differences",
+    "usually_credited_to": "Standard 17th–19th c. computational practice (e.g. Ludolf's Tetragonometria, Kulik's and others' square tables)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "A routine auxiliary table of squares, correctly computed with a sensible shared-last-three-digits layout. Gauss's heavy use of numerical tables is well known, and nothing here is mathematically novel.",
+  "checkable": [
+   {
+    "sympy": "all((1000*a+r)**2 == 1000*(1000*a**2 + 2*a*r + r**2//1000) + (r**2 % 1000) for a in range(1,10) for r in range(0,50))",
+    "asserts": "Decomposition underlying the table layout"
+   },
+   {
+    "sympy": "[(1000*a+49)**2 // 1000 for a in range(1,10)] == [1100, 4198, 9296, 16394, 25492, 36590, 49688, 64786, 81884]",
+    "asserts": "Bottom row (r=049) of the page"
+   },
+   {
+    "sympy": "[(1000*a+32)**2 // 1000 for a in range(1,10)] == [1065, 4129, 9193, 16257, 25321, 36385, 49449, 64513, 81577]",
+    "asserts": "Row r=032 including the carry from 32^2=1024"
+   },
+   {
+    "sympy": "[r**2 % 1000 for r in (32,33,34,45,49)] == [24, 89, 156, 25, 401]",
+    "asserts": "Shared trailing column values"
+   },
+   {
+    "sympy": "(9022**2 // 1000, 7049**2 // 1000, 6041**2 // 1000) == (81396, 49688, 36493)",
+    "asserts": "Corrected/legible entries are right"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 049, column 70: the manuscript value is 49688 (the '496' was rewritten). '[-496-]88' should be read as 49688.",
+   "Column headings 10..90 denote the thousands digit a = 1..9 of N = 1000a + r, not literal multipliers.",
+   "Row 022, column 90 is 81396 (final digit corrected in the manuscript). Row 029, column 90 is '22' = 81522."
+  ]
+ }
+}

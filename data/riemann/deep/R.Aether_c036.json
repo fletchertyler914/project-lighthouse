@@ -1,0 +1,79 @@
+{
+ "bundle": "R.Aether",
+ "page": "c036",
+ "label": "19r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234777:00000037/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio is not physics. It is an early draft headed 'Hypothesen der Geometrie' (Cod. Ms. Riemann 36), a preparatory sketch for Riemann's 1854 Habilitationsvortrag. It is filed between pages on aether and potential theory. It contains no formulas beyond notation. The argument, in modern terms:\n\n(1) Definition of a manifold. If a set of determinations (Bestimmungsweisen) of an object admits continuous transition from one to another, the totality is a continuous manifold M, and each determination is a point. Every continuous manifold is a 'magnitude' (Grösse), but not every one is measurable. A variable point of M is a variable magnitude whose value cannot in general be expressed in a unit. Change happens when an object passes from one determination to another.\n\n(2) Dimension. A one-dimensional manifold extends 'to two sides' (Dimension). From a fixed point one can go in either of two directions (greater or smaller). Conversely, any real variable can be thought of as a point of a 1-dimensional manifold.\n\n(3) Iterative construction. Attach to each point of a 1-dimensional manifold (coordinate xi) a further 1-dimensional variability (coordinate eta). All the determinations together form a 2-dimensional manifold. Passing from one point to another means changing (xi, eta). This is the same inductive construction as in Part I.2 of the published lecture.\n\n(4) Converse, by level sets.\n- Let theta = f(xi, eta). The set {theta = const} is a 1-dimensional manifold. It separates the points with theta < c from those with theta > c.\n- In three dimensions, theta = f(xi, eta, zeta) = const gives a 2-dimensional manifold, a separating surface.\n- The 'separation' can degenerate to a line or to a point. This happens at a maximum or minimum.\n- If f has a strict maximum at P, collect the points where f takes a slightly smaller value, f = f(P) - eps. This is a closed surface enclosing P on all sides. The region {f > f(P) - eps} is a neighbourhood of P, and the surface is its boundary.\n- This corresponds to Part I.3 of the published lecture (reduction of an n-fold manifold by a function's level sets).\n\n(5) Measurement and the infinitesimal. In one measurable dimension, infinitely small changes can be compared.\n- If f' is continuous and nonzero, then df = f'(x) dx. Infinitesimal changes of f are proportional to those of the independent variable.\n- At a maximum, with f'' finite and continuous: f(x0 + h) - f(x0) = (1/2) f''(x0) h^2 + o(h^2). The changes of f are proportional to the squares of the coordinate changes. [Taylor expansion supplied by me.]\n- The page breaks off: 'Is there a function which has equal values for equal distances [from the maximum] ... so'. This is clearly heading toward the argument of Part II.1 of the published lecture.\n\n(6) Where the argument leads [my reading]. Take a function of distance from a fixed point. It is extremal there, its first differential vanishes, and its second-order increment is a positive quadratic form in dx. Hence the line element is ds = sqrt(sum g_ij dx_i dx_j).",
+  "errors": [
+   "The claim that at a maximum the increments are proportional to the squares of the coordinate changes needs f''(x0) != 0, not merely f'' finite and continuous. If f''(x0) = 0 the increment is o(h^2).",
+   "In several dimensions the second-order increment is a quadratic form, not a multiple of one squared displacement. The level set near the maximum is a closed surface around the point only if the Hessian is (negative) definite, which the draft tacitly assumes.",
+   "The statement that the level set theta = const of a function of two variables is always a 1-dimensional manifold ignores critical points. The draft partly addresses this by mentioning degeneration to a line or a point at maxima and minima.",
+   "The passages are fragmentary drafts. The philosophical claims ('every continuous manifold is a magnitude') are definitions rather than derivations, so there is nothing to check."
+  ],
+  "results": [
+   {
+    "what": "Notion of a continuous (stetig ausgedehnte) manifold as the totality of determinations admitting continuous transition; its points; measurable vs non-measurable magnitudes",
+    "modern_name": "topological/differentiable manifold (informal concept)",
+    "usually_credited_to": "Riemann, Habilitationsvortrag 1854 (publ. 1868)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Inductive construction of an n-dimensional manifold by attaching a 1-dimensional variability to each point of an (n-1)-dimensional one; coordinates xi, eta, zeta",
+    "modern_name": "local coordinates / product construction of dimension",
+    "usually_credited_to": "Riemann 1854",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Level sets theta = const of a function as (n-1)-dimensional separating submanifolds; degeneration at maxima and minima; small level sets around a strict maximum enclose the point",
+    "modern_name": "level-set / regular value submanifold; Morse-type local picture near a nondegenerate extremum",
+    "usually_credited_to": "Riemann 1854 (Part I.3); the systematic form is Morse theory (1920s)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Infinitesimal increments are linear for nonzero derivative and quadratic at an extremum. This is the motivation for the line element being the square root of a quadratic differential form.",
+    "modern_name": "second-order Taylor expansion; Riemannian metric ds^2 = g_ij dx^i dx^j",
+    "usually_credited_to": "Riemann 1854 (Part II.1)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a known preliminary draft of the 1854 Habilitation lecture (Cod. Ms. Riemann 36). Historians such as E. Scholz and J. Ferreirós have discussed these drafts. All ideas reappear in the published text. Its value is in showing the genesis of the arguments, e.g. motivating the quadratic line element via behaviour near an extremum, not in any new result.",
+  "checkable": [
+   {
+    "sympy": "x0,h=symbols('x0 h'); f=Function('f'); series(f(x0+h),h,0,3)",
+    "asserts": "f(x0+h) = f(x0) + f'(x0) h + f''(x0) h**2/2 + O(h**3), so the change is linear in h when f' != 0."
+   },
+   {
+    "sympy": "h=symbols('h'); f=lambda x: 1-x**2; simplify((f(h)-f(0))/h**2)",
+    "asserts": "At the maximum x=0 of 1-x^2 the increment is exactly proportional to h^2 (ratio -1)."
+   },
+   {
+    "sympy": "h=symbols('h'); f=lambda x: 1-x**4; limit((f(h)-f(0))/h**2,h,0)",
+    "asserts": "If f''=0 at the maximum the increment is o(h^2) (limit 0). Proportionality to the squares needs f'' != 0."
+   },
+   {
+    "sympy": "xi,eta,zeta,c=symbols('xi eta zeta c',real=True); theta=1-(xi**2+eta**2+zeta**2); solve(Eq(theta,1-c**2),zeta)",
+    "asserts": "The level set theta = max - c^2 of a function with a strict maximum at the origin is a closed sphere enclosing the maximum point."
+   },
+   {
+    "sympy": "xi,eta=symbols('xi eta'); f=-(2*xi**2+xi*eta+eta**2); hessian(f,(xi,eta)).is_negative_definite",
+    "asserts": "The second-order increment at a maximum in 2D is a quadratic form. It is negative definite here, so small level sets are closed curves around the point."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is not a continuation of the aether/potential text. It is the separate draft 'Hypothesen der Geometrie' (shelfmark 2 Cod. Ms. Riemann 36, accession 1897.4658). The marginal '19' is the bundle foliation.",
+   "'Ein veränderlicher Werth einer Mannigfaltigkeit bildet diese eine veränderliche Grösse' should probably read 'Ein veränderlicher Punct einer Mannigfaltigkeit bildet eine veränderliche Grösse'.",
+   "'Die entschiedenen Puncte' is likely 'Die verschiedenen Puncte'.",
+   "'und weiss man jedem zugehörig, nimmt die Werthe' is probably 'und fasst man die Werthe von xi und eta zusammen, wo theta constant'.",
+   "'Andererseits ein Max. in einem Puncte Statt' should read 'Findet ein Max. in einem Puncte Statt'.",
+   "'Ein zweites[?] Maximum[?] ... die für gleiche Abstände' is better read as 'Ist eine Function vorhanden, die für gleiche Abstände [vom Maximum] gleiche Werthe hat, so ...'. This leads into the distance-function argument for the quadratic line element.",
+   "'Max. oder Minim. der Grössen' is perhaps 'Max. oder Minim. der Function'."
+  ]
+ }
+}

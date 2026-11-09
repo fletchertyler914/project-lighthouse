@@ -1,0 +1,57 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c178",
+ "label": "90r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000179/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the page opens a planned treatment titled 'Molecularmechanik (Mechanica molecularum)'. A crossed-out general title above it reads roughly 'Theoretische Physik, enthaltend Wärmetheorie, Theorie der Elasticität und mechanische Wärmetheorie'. The page sets up a variational form of Newton's equations, namely Gauss's principle of least constraint for free particles, presumably as the starting point for molecular mechanics.\n\nStep 1 (setup). There are N mass points with masses m_i and Cartesian coordinates (x_i, y_i, z_i). Forces (X_i, Y_i, Z_i) act parallel to the three axes. The equations of motion are\n(1) m_i x_i'' = X_i, m_i y_i'' = Y_i, m_i z_i'' = Z_i.\n\nStep 2 (variational restatement). Riemann says (1) can be stated as follows: the accelerations a_i = (x_i'', y_i'', z_i'') are determined so that\nZ(a) = Σ_i m_i [ (x_i'' − X_i/m_i)^2 + (y_i'' − Y_i/m_i)^2 + (z_i'' − Z_i/m_i)^2 ]\nis a minimum. The minimum is taken over the accelerations, with positions, velocities and hence forces held fixed at the instant.\n\nStep 3 (justification). Z is a sum of nonnegative terms, so Z ≥ 0. Z = 0 exactly when every bracket vanishes, i.e. when (1) holds. So (1) gives the minimum value 0.\n\nStep 4 (only minimum). Conversely, suppose some deviation, e.g. x_1'' − X_1/m_1, is nonzero. Then one can vary x_1'' continuously so that its absolute value, and hence its square, decreases, while all other accelerations stay unchanged. Z would then become smaller, so the point was not a minimum. Hence the minimum is attained only at the Newtonian accelerations.\n\nStep 5 (expansion). Riemann notes that Z differs from\nΣ m_i (x_i''^2 + y_i''^2 + z_i''^2) − 2 Σ (X_i x_i'' + Y_i y_i'' + Z_i z_i'')\nonly by a 'Constante', i.e. a quantity independent of the accelerations.\n- My explicit step: expanding the squares gives Z = Σ m_i |a_i|^2 − 2 Σ F_i·a_i + Σ |F_i|^2/m_i.\n- The constant is therefore Σ |F_i|^2/m_i. It depends on positions and velocities but not on accelerations.\n- Equivalently, the Newtonian accelerations minimize ½ Σ m |a|^2 − Σ F·a. This is the form later used as the Gibbs–Appell function.\n\nThe page ends there. Presumably the intent is to impose constraints (molecular bonds) next, where this formulation is useful, but that is not on the page.",
+  "errors": [
+   "No mathematical errors. The expansion is correct, and the dropped constant is Σ(X_i^2+Y_i^2+Z_i^2)/m_i.",
+   "Minor imprecision in Step 4: the argument shows that any minimum must have all deviations zero, which is sufficient because Z is a strictly convex quadratic in the accelerations. Riemann does not say explicitly that the 'constant' may depend on positions and velocities (it is constant only with respect to the accelerations).",
+   "For an unconstrained system the principle is trivially equivalent to (1). Its real content (Gauss) appears only with constraints, which are not yet introduced on this page."
+  ],
+  "results": [
+   {
+    "what": "Newton's equations for a system of free mass points are equivalent to minimizing Σ m_i |a_i − F_i/m_i|^2 over the accelerations.",
+    "modern_name": "Gauss's principle of least constraint (Prinzip des kleinsten Zwanges)",
+    "usually_credited_to": "C. F. Gauss, 1829 (Crelle's Journal, 'Über ein neues allgemeines Grundgesetz der Mechanik')",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The constraint function equals Σ m|a|^2 − 2Σ F·a plus a term independent of the accelerations, so one may minimize Σ m|a|^2 − 2ΣF·a instead.",
+    "modern_name": "Gibbs–Appell function S = ½Σ m a^2 (minimize S − Σ F·a); 'acceleration energy' form of Gauss's principle",
+    "usually_credited_to": "J. W. Gibbs (1879) and P. Appell (1899) for the systematic use; the expansion itself is an elementary consequence of Gauss 1829",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page restates Gauss's principle of least constraint (1829) for free particles and performs the elementary expansion of the squares. Riemann was Gauss's student, so his use of Gauss's principle is expected. The Gibbs–Appell-like form is a one-line algebraic consequence, not an independent discovery. It is mildly interesting as evidence that Riemann intended to base a 'Molecularmechanik' on Gauss's principle, but it is not mathematically novel.",
+  "checkable": [
+   {
+    "sympy": "m,a,X=symbols('m a X'); simplify(m*(a-X/m)**2 - (m*a**2 - 2*X*a) - X**2/m) == 0",
+    "asserts": "Each term of Gauss's constraint equals m a^2 − 2 X a plus the acceleration-independent constant X^2/m."
+   },
+   {
+    "sympy": "m,a,X=symbols('m a X',positive=True); solve(diff(m*(a-X/m)**2, a), a) == [X/m]",
+    "asserts": "The unique stationary point in a of the constraint term is the Newtonian acceleration a = X/m."
+   },
+   {
+    "sympy": "m=symbols('m',positive=True); a,X=symbols('a X'); diff(m*(a-X/m)**2, a, 2) == 2*m",
+    "asserts": "The second derivative is 2m > 0, so the stationary point is a strict minimum (convexity justifying 'only then a minimum')."
+   },
+   {
+    "sympy": "m,a,X=symbols('m a X'); solve(diff(m*a**2-2*X*a, a), a) == [X/m]",
+    "asserts": "Minimizing the reduced function m a^2 − 2 X a gives the same accelerations as the full constraint."
+   }
+  ],
+  "transcription_corrections": [
+   "The line '−2Σ(X_i d²x_i/dt² + Y_i d²y_i/dt² + Z_i d²z_i/dt²)' is the second line of the same displayed expression as Σ m_i(...)^2, not a separate formula. The sentence reads: the function differs from [Σ m(a^2) − 2Σ F·a] 'nur um eine Constante, d.h. eine von den Beschleunigungen unabhängige Größe'.",
+   "'[-Grössen-]' before 'Beschleunigungen' appears to read '[-großen-]' or similar, struck through, followed by an inserted 'ihr' ('d.h. eine von den Beschleunigungen unabhängige Größe'); the meaning is unaffected.",
+   "In the line beginning 'nimmt ihren kleinsten Werth 0 an', the parenthetical reads '(gemäß (1) bestimmt werden)', i.e. 'den Gleichungen (1) gemäß bestimmt werden'; this is consistent with the transcription.",
+   "The marginal note 'Der Gegenstand' at the upper left is a separate heading fragment, not part of the main text; the bottom scribbles ('m', 'm'', 'mi'ftl') are illegible and likely unrelated notes."
+  ]
+ }
+}

@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Modulfunctionen",
+ "page": "c028",
+ "label": "14r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3223711:00000029/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is a working sketch of the function Riemann had already published as the example in §6 of his Habilitationsschrift (1854, publ. 1867), 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe'. The surrounding Modulfunctionen fragments also use the bracket notation (x).\n\n(1) Definition. (x) is x minus the nearest integer. It is set to 0 when x is exactly half-way between two integers. So it is the odd, 1-periodic sawtooth with jumps of size 1 at the half-integers, where it takes the mean value 0. Riemann defines\nf(x) = sum_{n>=1} (nx)/n^2 = (x)/1 + (2x)/4 + (3x)/9 + ...\n\n(2) Discontinuities. Take x = m/(2n) in lowest terms, with m odd. The term (kx) can only be discontinuous at x if kx is a half-integer. That happens exactly when k = n(2s+1). Then kx = (2s+1)m/2 is a half-integer. At such a point (y) has one-sided limits -1/2 (from the right) and +1/2 (from the left). Each such term therefore contributes a one-sided deviation of magnitude (1/2)/k^2 = 1/(2 n^2 (2s+1)^2). Summing (my explicit step):\nsum_s 1/(2 n^2 (2s+1)^2) = (1/n^2)(1/2) sum_s 1/(2s+1)^2 = (1/(2n^2))(pi^2/8) = pi^2/(16 n^2).\nThis gives the published statement f(x±0) = f(x) ∓ pi^2/(16n^2). The full jump is pi^2/(8n^2). All other x are points of continuity, by uniform convergence of the remaining terms.\n\n(3) Figure and Riemann sum. The figure shows a partition 0, x_1, x_2, ..., x_n, 1 of [0,1]. The line 'Σ(f x) x_1' is the Riemann sum Σ f(ξ_i)·δ_i over the subintervals. This sets up the integrability test. In Riemann's criterion, f is integrable iff, for every σ>0, the total length of the subintervals with oscillation > σ tends to 0.\n\n(4) Last line. Riemann begins to add up the jumps, weighted by the number of discontinuity points in (0,1) with a given denominator 2n. For denominator 2n there are φ(2n) such points:\n- n=1: 1 point, x = 1/2\n- n=2: 2 points, x = 1/4, 3/4\n- n=3: 2 points, x = 1/6, 5/6\n- n=4: 4 points\n- n=5: 4 points\nEach point carries the half-jump pi^2/(16n^2). The visible terms '2·pi^2/(16·9)' (n=3) and '4·pi^2/(16·16)' (n=4) fit this exactly; the other terms are corrected or overwritten and uncertain. The total sum_n φ(2n)·pi^2/(16n^2) diverges. Presumably that is the point: the infinitely many jumps have an infinite sum. Yet only finitely many exceed any given σ, since those require n^2 < pi^2/(8σ). Hence f is still Riemann integrable. The line breaks off.",
+  "errors": [
+   "The page writes only the magnitude pi^2/(16n^2). The sign is suppressed: f(x+0) = f(x) - pi^2/(16n^2) and f(x-0) = f(x) + pi^2/(16n^2), as in the published version. This is not an error, just an omission.",
+   "The first term of the last line (read as pi^2/48) is struck out. It does not fit the pattern φ(2n)·pi^2/(16n^2): n=1 would give pi^2/16, n=2 would give 2pi^2/64. The deletion is justified.",
+   "The last line is unfinished and partly overwritten. The denominator '16·16' may have been altered toward 16·25. The term '4 pi^2/16' at the end is unclear; it may be a false start."
+  ],
+  "results": [
+   {
+    "what": "f(x) = sum (nx)/n^2 has a jump at every x = m/(2n) in lowest terms, of half-size pi^2/(16n^2), and is continuous elsewhere. This uses sum 1/(2s+1)^2 = pi^2/8.",
+    "modern_name": "Riemann's example of a Riemann-integrable function with a dense set of discontinuities",
+    "usually_credited_to": "Riemann, Habilitationsschrift 1854 (publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Setup of the Riemann sum over a partition, and summing jumps by denominator (φ(2n) points of size pi^2/(16n^2)) to test integrability",
+    "modern_name": "Riemann integrability criterion (oscillation/jump counting)",
+    "usually_credited_to": "Riemann 1854",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the well-known published example from Riemann's 1854 Habilitationsschrift, with the same formula pi^2/(16n^2). The only mild interest is its location among the Modulfunctionen papers, where the same bracket function (x) appears in the Dedekind-sum-type computations.",
+  "checkable": [
+   {
+    "sympy": "summation(1/(2*s+1)**2, (s, 0, oo)) - pi**2/8",
+    "asserts": "The sum of 1/(2s+1)^2 over s>=0 equals pi^2/8; result should be 0."
+   },
+   {
+    "sympy": "simplify(Rational(1,2)/n**2 * pi**2/8 - pi**2/(16*n**2))",
+    "asserts": "(1/n^2)(1/2)(pi^2/8) = pi^2/(16 n^2); result should be 0."
+   },
+   {
+    "sympy": "(lambda b, N, e: sum(b(k*(Rational(1,2)-e))/k**2 - b(k*(Rational(1,2)+e))/k**2 for k in range(1, N)))(lambda y: y - floor(y + Rational(1,2)), 2000, Rational(1,10**7)).evalf() - (pi**2/8).evalf()",
+    "asserts": "Numerically, the jump f(1/2-0) - f(1/2+0) is about pi^2/8 = 2·pi^2/16 (n=1). The difference should be about 0, up to truncation error."
+   },
+   {
+    "sympy": "[totient(2*n) for n in range(1, 6)]",
+    "asserts": "The numbers of jump points in (0,1) with denominator 2n are 1, 2, 2, 4, 4. This matches the coefficients 2 (n=3) and 4 (n=4) in the last line."
+   },
+   {
+    "sympy": "summation(totient(2*n)/n**2, (n, 1, oo))",
+    "asserts": "This sum diverges, so the total of all jumps is infinite, while only finitely many jumps exceed any σ>0 (n^2 < pi^2/(8σ))."
+   }
+  ],
+  "transcription_corrections": [
+   "The marginal 'x = m/(2n)' is right; it is the location of the discontinuities, with m odd and coprime to n.",
+   "In the numerator the struck-out symbol before (2s+1)x is a deletion. The intended expression is ((2s+1)x) with n absorbed, i.e. the terms k = n(2s+1). The '1/2' factor refers to the half-jump of (y) at half-integers.",
+   "Last line: the first term 'pi^2/48' is struck through, and the '16' in '16·16' appears overwritten. Possibly 25 was intended for n=5, or 16 for n=4; uncertain."
+  ]
+ }
+}

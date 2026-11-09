@@ -1,0 +1,69 @@
+{
+ "bundle": "Math.30",
+ "page": "c000",
+ "label": "1r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382178:00000001/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PROBLEM (the elastica as an isoperimetric problem). Find a plane curve between two given points such that (1) its length is a given S, (2) its tangent directions at the start and end points are prescribed, and (3) the integral J = ∫_0^S ds/ρ² is a minimum, where ρ is the radius of curvature. This is the bending-energy functional of an inextensible elastic rod (Bernoulli–Euler elastica).\n\nSETUP. Gauss uses arc length s (0 ≤ s ≤ S) as the independent variable, and the tangent angle φ(s) between the element ds and the x-axis as the unknown function. Then:\n- curvature 1/ρ = dφ/ds, written ρ = ds/dφ;\n- x(s) = ∫ cos φ ds and y(s) = ∫ sin φ ds.\n\nUsing s as the independent variable on a fixed interval [0,S] builds the length constraint (1) into the parametrisation. This step is implicit; the comment is mine. Constraint (2) becomes φ(0) = φ0 and φ(S) = φ1, so δφ(0) = δφ(S) = 0. The prescribed endpoints become the two integral constraints ∫_0^S cos φ ds = X and ∫_0^S sin φ ds = Y.\n\nFIRST VARIATION. With J = ∫ (φ')² ds:\n\nδJ = 2∫ φ' δφ' ds = 2∫ (dφ/ds) d(δφ).\n\nIntegrating by parts:\n\nδJ = [2 δφ · dφ/ds] − 2∫ δφ · (d²φ/ds²) ds.\n\nGauss writes the boundary term without limits. Evaluated from 0 to S it vanishes because δφ = 0 at both ends (my completion).\n\nVARIATIONS OF THE CONSTRAINTS. Since s is not varied, δ commutes with ∫ ds:\n- δx = −∫ δφ sin φ ds\n- δy = ∫ δφ cos φ ds\n\nAt s = S both must vanish, because the endpoint is fixed.\n\nLAGRANGE MULTIPLIER STEP (stated by Gauss only as 'folgt leicht'). Requiring δJ = 0 for all δφ that satisfy ∫ δφ sin φ ds = 0 and ∫ δφ cos φ ds = 0 means φ'' must be a linear combination of sin φ and cos φ. This gives the Euler–Lagrange equation\n\nd²φ/ds² + A cos φ + B sin φ = 0,\n\nwith constants A and B (Lagrange multipliers). Gauss first wrote '=' and corrected it to '+'.\n\nThis is the pendulum equation for the tangent angle. The page ends with 'Durch Integration folgt hieraus'. The next page integrates once to get the curvature as a linear function of position, dφ/ds = −Ax ∓ By + C (the classical property that curvature is proportional to the distance from a fixed line). It then normalises to 1/ρ = By and introduces an elliptic-integral parametrisation.",
+  "errors": [
+   "No substantive error on this page. The boundary term 2δφ·dφ/ds is written without limits [0,S]; it vanishes only because δφ(0) = δφ(S) = 0 by condition (2). This is left implicit.",
+   "The step from the vanishing first variation plus the two integral constraints to φ'' + A cos φ + B sin φ = 0 is the Lagrange-multiplier (isoperimetric) rule. It is asserted ('folgt also leicht') without justification. This is standard and correct.",
+   "In the line δ∫(dφ/ds)² ds = 2∫(dφ/ds)·dδφ the 'ds' is absorbed into dδφ = (dδφ/ds) ds. This is correct, though notationally compressed.",
+   "The sign of A and B is a convention. With Gauss's '+' signs the first integral is (φ')² = −2A sin φ + 2B cos φ + C, and the integrated form is φ' = −Ax − By + C. The struck-out first integral on the next page (2A sin φ − 2B cos φ + C) has the opposite signs, consistent with it being cancelled."
+  ],
+  "results": [
+   {
+    "what": "Formulation of the minimum of ∫ds/ρ² for a curve of given length, fixed endpoints and fixed end tangents",
+    "modern_name": "Euler elastica / bending-energy (Willmore-type) functional for plane curves",
+    "usually_credited_to": "Daniel Bernoulli (suggestion, letter 1742) and Leonhard Euler (Methodus inveniendi, Additamentum I 'De curvis elasticis', 1744); also Jacob Bernoulli 1691–1694 for the elastic curve",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of the tangent angle φ(s) with arc length as independent variable, with x = ∫cos φ ds and y = ∫sin φ ds, so that the length constraint is automatic and the endpoint conditions become integral constraints",
+    "modern_name": "Intrinsic (Cesàro/Whewell) formulation of the elastica variational problem",
+    "usually_credited_to": "Euler-era methods; standard in 19th-century treatments",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Euler–Lagrange equation φ'' + A cos φ + B sin φ = 0",
+    "modern_name": "Elastica equation (Kirchhoff kinetic analogy: pendulum equation for the tangent angle)",
+    "usually_credited_to": "Euler 1744 (equation of the elastica); the pendulum analogy is Kirchhoff 1859",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The elastica variational problem and its Euler–Lagrange equation are classical (Bernoulli/Euler 1740s). Gauss's derivation via the tangent angle with Lagrange multipliers is clean and routine for the period. The page holds nothing beyond known results; the elliptic parametrisation on the following page is also classical (Euler, Legendre). It is a pleasant unpublished worked solution but not a new result.",
+  "checkable": [
+   {
+    "sympy": "s,A,B,C=symbols('s A B C'); phi=Function('phi'); from sympy.calculus.euler import euler_equations; L=Derivative(phi(s),s)**2 - 2*A*(-sin(phi(s))) ... # simpler: euler_equations(Derivative(phi(s),s)**2 + lam*cos(phi(s)) + mu*sin(phi(s)), phi(s), s)",
+    "asserts": "The Euler–Lagrange equation of ∫(φ'² + λcos φ + μ sin φ)ds is −2φ'' − λ sin φ + μ cos φ = 0, i.e. of the form φ'' + A cos φ + B sin φ = 0 with A = −μ/2, B = λ/2."
+   },
+   {
+    "sympy": "phi=Function('phi')(s); x=Function('x')(s); y=Function('y')(s); expr=diff(-A*x-B*y+C,s).subs({diff(x,s):cos(phi),diff(y,s):sin(phi)}); simplify(expr - (-A*cos(phi)-B*sin(phi)))",
+    "asserts": "If dx/ds = cos φ and dy/ds = sin φ, then d/ds(−Ax − By + C) = −A cos φ − B sin φ. So the integrated form φ' = −Ax − By + C satisfies φ'' + A cos φ + B sin φ = 0 (the result after 'Durch Integration')."
+   },
+   {
+    "sympy": "phi=Function('phi')(s); E=diff(phi,s)**2 + 2*A*sin(phi) - 2*B*cos(phi); simplify(diff(E,s).subs(diff(phi,s,2), -A*cos(phi)-B*sin(phi)))",
+    "asserts": "First integral: (φ')² + 2A sin φ − 2B cos φ is constant along solutions of φ'' + A cos φ + B sin φ = 0 (returns 0)."
+   },
+   {
+    "sympy": "eps=symbols('eps'); eta=Function('eta')(s); phi=Function('phi')(s); diff(integrate(cos(phi+eps*eta),(s,0,S)),eps).subs(eps,0)",
+    "asserts": "δx = −∫ δφ sin φ ds and similarly δy = ∫ δφ cos φ ds (the first-order variation of ∫cos φ ds is −∫η sin φ ds)."
+   },
+   {
+    "sympy": "simplify(diff(phi_expr**2,s) - 2*diff(phi_expr,s)*... ) # integration by parts: integrate(2*f(s).diff(s)*g(s).diff(s),(s,0,S)) == 2*(f.diff(s)*g)|_0^S - integrate(2*f.diff(s,2)*g,(s,0,S))",
+    "asserts": "Integration-by-parts identity: 2∫φ'δφ' ds = [2φ'δφ]_0^S − 2∫φ''δφ ds."
+   }
+  ],
+  "transcription_corrections": [
+   "Header: 'Aufgabe' carries a superscript later-hand annotation 'gauss' (archival). '48K/' is struck through; the folio number '1' stands, with '(1)' circled at the right.",
+   "Line 'Ferner ist': 'Ferner' appears struck, and a word that is plausibly 'Nach' (archival or later hand) is written above. The mathematical content is unaffected.",
+   "In 'δx = −∫δφ·sin φ·ds' the δ is overwritten or blotted in the image but reads as δφ, as transcribed.",
+   "In the final equation Gauss's original '=' after d²φ/ds² is cancelled and replaced by '+': d²φ/ds² + A cos φ + B sin φ = 0."
+  ]
+ }
+}

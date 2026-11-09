@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c075",
+ "label": "35v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000076/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this folio belongs to the draft (Konzept) of Riemann's 1851 dissertation, §5 to §6. It covers the surface T spread over the plane A, its branch points, and the cutting (Querschnitt) theory of connectivity. The page has two parts.\n\n(A) Branch points (continuing from 35r). On 35r a point moving round a point K over the plane passes through the sheets a_1, a_{α_1}, ... and returns to a_1 after m ≤ n circuits. K is then common to these m sheets.\n- Here: K 'heißt ein Knotenpunkt (m−1)-ter Ordnung' of those m sheets. In modern terms, the local monodromy permutation at K has a cycle of length m, so K is a branch point of ramification index m (order m−1).\n- Applying the same procedure to the remaining n−m sheets splits them into further cycles of lengths m_1, m_2, ... (fixed sheets 'verlaufen gesondert'). K is then simultaneously a branch point of orders m_1−1, m_2−1, ... This is the cycle decomposition of the monodromy permutation over K.\n- Claim: T is completely determined by the position of its boundary together with where its branch points lie and between which coinciding sheets they form branch points. Modern reading: a branched covering is determined by branch locus plus monodromy data.\n- A marginal note lists terminology: '...punkt, Windungspunkt, m-facher Punkt' (Windungspunkt is the term used in the printed dissertation).\n\n(B) Theorem on boundary curvature versus connectivity, proved by cutting. Let K denote the total curvature of the boundary of T measured in units of 2π, i.e. K = (1/2π)∮κ ds. Let μ be Riemann's 'Ordnung des Zusammenhangs', with simply connected = 1, so modern χ = 2 − μ.\n1. A cross-cut (Querschnitt) runs from boundary to boundary. Along its interior the two banks are traversed in opposite directions, so the curvature contributions cancel: the increment is 0 at each interior point. At each endpoint, the boundary acquires two corners whose exterior angles sum to π.\n2. Hence each cut increases the total boundary curvature by 2π, i.e. K → K+1. It lowers the order of connection by 1, μ → μ−1. So K+μ is invariant under cutting.\n3. Cut T into simply connected pieces. For each simply connected piece, K+μ equals a fixed value, read on the page as 2 (planar disc: K = 1, μ = 1). The sum over pieces then gives the same relation for the uncut surface.\n4. This is announced as 'a proof of the following geometric theorem', and a first formulation is attempted below in heavily struck text.\n\nMy completion: with Windungspunkte of total order w = Σ(m−1), a simply connected piece has K = 1 + w. This follows from flat Gauss–Bonnet, since a cone point of angle 2πm contributes 2π(m−1). The general statement is therefore\n- (1/2π)∮κ ds = 2 − μ + w, i.e. K + μ = 2 + w,\n- in modern form ∮κ_g ds = 2π(χ(T) + w).\nRiemann's first notes on the page reference the branch-point context, but the fully legible equation is only the unbranched case K + μ = 2.",
+  "errors": [
+   "No mathematical error in the legible argument. The struck-out and rewritten final statement is incoherent as written: Riemann is mid-formulation.",
+   "The claim 'for a simply connected piece K+μ = 2' is true only if there are no branch points. With branch points the constant must be 2+w, so the dependence on Windungspunkte (presumably intended, given part A) has to be included. Whether the page does so is not legible.",
+   "Implicit assumptions: boundary curvature at corners counted as exterior angles; cuts meeting the boundary transversally or ending on earlier cuts. Neither is justified on the page."
+  ],
+  "results": [
+   {
+    "what": "Branch point of order m−1 defined via cyclic permutation of sheets around a point; several cycles over one point give simultaneous branch points of orders m_i−1",
+    "modern_name": "Ramification points / cycle type of local monodromy of a branched covering",
+    "usually_credited_to": "Riemann (Dissertation 1851, Abelian functions 1857)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Riemann surface T over the plane is determined by its boundary plus branch-point locations and the sheets they connect",
+    "modern_name": "Branched covering determined by branch locus and monodromy (Riemann existence / covering classification)",
+    "usually_credited_to": "Riemann 1851/1857; made rigorous later (Hurwitz 1891, Weyl 1913)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Each cross-cut adds 2π to the total boundary curvature and lowers the connectivity by 1, so (total curvature/2π) + connectivity is invariant; for simply connected pieces it equals 2 (plus branch orders)",
+    "modern_name": "Gauss–Bonnet for flat surfaces with boundary and cone points (Umlaufsatz / Riemann–Hurwitz type count, χ = 2 − μ)",
+    "usually_credited_to": "Gauss–Bonnet (Gauss 1827, Bonnet 1848); Euler characteristic via cuts: Riemann 1851/1857; Umlaufsatz: Hopf 1935",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Part A is the known branch-point material of the 1851 dissertation. The curvature-via-cross-cuts proof is a nice Gauss–Bonnet/Euler-characteristic argument in Riemann's hand. I am unsure whether it survives in the printed dissertation. It is notable as an unpublished detail but not a major priority shift.",
+  "checkable": [
+   {
+    "sympy": "t=symbols('t'); x=cos(t); y=sin(t); kappa=(diff(x,t)*diff(y,t,2)-diff(y,t)*diff(x,t,2))/(diff(x,t)**2+diff(y,t)**2)**Rational(3,2); simplify(integrate(kappa*sqrt(diff(x,t)**2+diff(y,t)**2),(t,0,2*pi))/(2*pi))",
+    "asserts": "Unit disc boundary has K=1; with μ=1 this gives K+μ=2"
+   },
+   {
+    "sympy": "t=symbols('t'); simplify(integrate(1,(t,0,2*pi))/(2*pi) + integrate(-1,(t,0,2*pi))/(2*pi))",
+    "asserts": "Annulus: outer circle contributes +1 and inner circle (traversed clockwise) −1, so K=0; with μ=2, K+μ=2"
+   },
+   {
+    "sympy": "t=symbols('t'); integrate(1,(t,0,4*pi))/(2*pi)",
+    "asserts": "Two-sheeted disc branched at the centre (boundary circle traversed twice) has K=2; with μ=1, w=1 this gives K+μ=3=2+w"
+   },
+   {
+    "sympy": "pi/2+pi/2 - pi",
+    "asserts": "A perpendicular cut endpoint creates two corners of exterior angle π/2 each, adding π; two endpoints add 2π, i.e. K increases by 1"
+   }
+  ],
+  "transcription_corrections": [
+   "Point label: the image shows a capital 'K' ('der Punkt K zugleich ein Knotenpunkt'), matching 35r, not lower-case 'k'.",
+   "Right-column first word, transcribed 'Schnittpunkt[?]': the image reads more like 'Schlingpunkt'/'Schleifpunkt'. Uncertain, but it is followed by 'Windungspunkt, m facher Punkt' with 'facher' struck through.",
+   "'Um dieses Resultat auf eine beliebige Fläche auszudehnen, zerlegen wir sie durch Querschnitte in einfach zusammenhängende Stücke': confirmed; 'Resultat' is written above the struck 'Ergebniß'.",
+   "Line 'durch jeden Querschnitt wird also K um 1 vermehrt': the symbol is K (total curvature in units of 2π). 'während die Ordnung des Zusammenhangs um 1 vermindert [wird]' is plausible.",
+   "'k+μ = 2[?]' near the bottom middle: the image reads 'K+μ = 2', consistent with the reconstruction."
+  ]
+ }
+}

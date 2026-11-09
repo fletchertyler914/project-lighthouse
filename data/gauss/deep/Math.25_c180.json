@@ -1,0 +1,60 @@
+{
+ "bundle": "Math.25",
+ "page": "c180",
+ "label": "89v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000181/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (previous page): Gauss's theta-type series are P(x)=1+2x+2x^4+2x^9+..., Q(x)=1-2x+2x^4-..., and R(x)=2x^{1/4}+2x^{9/4}+.... The AGM pair is parametrised by m = mu*P(x)^2, n = mu*Q(x)^2, with mu = M(m,n) the arithmetic-geometric mean. Then m^(k) = mu*P(x^{2^k})^2, n^(k) = mu*Q(x^{2^k})^2 and m^(k)^2 - n^(k)^2 = mu^2*R(x^{2^k})^4. The problem is to recover x (the modern nome q) from given m and n. Gauss sets h^(k) = (R(x^{2^k})/2)^{4/2^k}. Since R(y)^4 = 16y(1+y^2+...)^4, these h^(k) tend to x. He telescopes x = h * prod_k h^(k+1)/h^(k). By his art. 14 (the Landen/duplication relation), h/h' = P(x^2)^2 and, in general, h^(k)/h^(k+1) = P(x^{2^{k+1}})^{2^{1-k}} = (m^(k+1)/mu)^{1/2^k}.\n\nThis page:\n\n(1) Start of the page. Use h = (R(x)/2)^4 = (m^2-n^2)/(16 mu^2) [my filling]. This gives x = (m^2-n^2) / (16 m' mu (m''/mu)^{1/2} (m'''/mu)^{1/4} (m^IV/mu)^{1/8} ...). The mu-powers cancel because 1 - 1/2 - 1/4 - ... = 0. Hence (first cancelled line, which is correct) x = (m^2-n^2) / (16 m' m''^{1/2} m'''^{1/4} m^IV^{1/8} ...). The second cancelled line, 16 m' sqrt(m'' sqrt(m''')), is an abandoned truncated nested-radical form.\n\n(2) Rewriting for numerical use:\nx = (m^2-n^2)/(16 m' m') * (m'/m'') * (m''/m''')^{1/2} * (m'''/m^IV)^{1/4} * (m^IV/m^V)^{1/8} ...\nor equivalently\nx = (m^2-n^2)/(16 m' m'') * (m''/m''')^{1/2} * (m'''/m^IV)^{1/4} * (m^IV/m^V)^{1/8} ....\nCheck: the exponent of m^(k) in the denominator is 2^{1-k} for k>=1, as required. Each factor m^(k)/m^(k+1) tends to 1 quadratically, since the AGM converges quadratically.\n\n(3) Practical rule. One truncates at the point where successive m's agree to working precision:\n- x ≈ (m^2-n^2)/(16 m' m'')\n- x ≈ (m^2-n^2)/(16 m' sqrt(m'' m'''))\n- x ≈ (m^2-n^2)/(16 m' sqrt(m'' sqrt(m''' m^IV)))\n- x ≈ (m^2-n^2)/(16 m' sqrt(m'' sqrt(m''' sqrt(m^IV m^V)))), etc.\nEach is obtained by dropping all factors (m^(j)/m^(j+1))^{1/2^{j-1}} beyond a given j. The cancelled sentences began the same case analysis (if m''=m' to the decimals used, x = (mm-nn)/(16m'm'), etc.).\n\nThe next page applies this rule. For m = sqrt2, n = 1 it gives x = 0.0432139 = e^{-pi}. For m = 1, n = sqrt2-1 it gives x = 0.1084549 = e^{-pi/sqrt2}. In modern terms x is the nome q for modulus k with k' = n/m (k = sqrt(1-n^2/m^2)), i.e. q = e^{-pi K'/K}.",
+  "errors": [
+   "No mathematical errors. The truncated formulas are approximations, not equalities, as the context makes clear; the neglected factors differ from 1 by quadratically small amounts.",
+   "The cancelled line 16m'sqrt(m''sqrt(m''')) is incomplete as an exact expression; Gauss rightly struck it.",
+   "Numerical check of example I on the next page: 1/(16*1.20710678*sqrt(1.19815695*1.19814023)) = 0.0432139, which equals e^{-pi}. Consistent."
+  ],
+  "results": [
+   {
+    "what": "Nome q of an elliptic modulus expressed through the AGM sequence: q = (m^2-n^2)/(16 m1 m2^{1/2} m3^{1/4} m4^{1/8} ...), with truncations q ≈ (m^2-n^2)/(16 m1 sqrt(m2 m3)) etc.",
+    "modern_name": "computation of the nome q = exp(-pi K'/K) via the AGM / Landen sequence (q = lim (k_n/4)^{2^{...}} type product formula)",
+    "usually_credited_to": "Gauss (Nachlass on the AGM and theta functions, c. 1800, printed in Werke III); Jacobi's and later treatments of Landen's transformation and nome computation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Parametrisation m = M P(x)^2, n = M Q(x)^2, m^2-n^2 = M^2 R(x)^4 with AGM steps given by x -> x^2",
+    "modern_name": "theta-function parametrisation of the AGM (theta3^2, theta4^2 under q -> q^2; Jacobi's identity theta3^4 = theta4^4 + theta2^4)",
+    "usually_credited_to": "Gauss (unpublished, c. 1800); Jacobi (1829) in published form",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is part of Gauss's known Nachlass treatment of the AGM and theta functions (published in Werke III). The nome-from-AGM product formula is known as his; the page only works out convenient truncated forms for numerical computation.",
+  "checkable": [
+   {
+    "sympy": "a,b=sqrt(2),1; seq=[(a,b)]; [seq.append(((seq[-1][0]+seq[-1][1])/2, sqrt(seq[-1][0]*seq[-1][1]))) for _ in range(6)]; m=[s[0] for s in seq]; N((m[0]**2-1)/(16*m[1]*sqrt(m[2]*m[3])) - exp(-pi), 15)",
+    "asserts": "Truncated formula x=(mm-nn)/(16 m' sqrt(m''m''')) for m=sqrt2, n=1 reproduces e^{-pi} to about 8 digits (Example I on next page)"
+   },
+   {
+    "sympy": "a,b=1,sqrt(2)-1; seq=[(a,b)]; [seq.append(((seq[-1][0]+seq[-1][1])/2, sqrt(seq[-1][0]*seq[-1][1]))) for _ in range(6)]; m=[s[0] for s in seq]; N((1-b**2)/(16*m[1]*sqrt(m[2]*sqrt(m[3]*m[4]))) - exp(-pi/sqrt(2)), 15)",
+    "asserts": "For m=1, n=sqrt2-1 the formula gives the nome e^{-pi/sqrt2}=0.1084549 (Example 2)"
+   },
+   {
+    "sympy": "q=Rational(1,20); P=lambda y: 1+2*sum(y**(j**2) for j in range(1,12)); Q=lambda y: 1+2*sum((-1)**j*y**(j**2) for j in range(1,12)); R=lambda y: 2*sum(y**(Rational((2*j+1)**2,4)) for j in range(0,12)); N(P(q)**4-Q(q)**4-R(q)**4, 20)",
+    "asserts": "Jacobi identity P^4 - Q^4 = R^4 underlying mm-nn = mu^2 (Rx)^4 (should be ~0)"
+   },
+   {
+    "sympy": "q=Rational(1,20); P=lambda y: 1+2*sum(y**(j**2) for j in range(1,12)); Q=lambda y: 1+2*sum((-1)**j*y**(j**2) for j in range(1,12)); N((P(q)**2+Q(q)**2)/2 - P(q**2)**2, 20), N(P(q)*Q(q) - Q(q**2)**2, 20)",
+    "asserts": "AGM step corresponds to x -> x^2: arithmetic and geometric means of P^2, Q^2 are P(x^2)^2, Q(x^2)^2"
+   },
+   {
+    "sympy": "simplify(1/(m1*m1)*(m1/m2)*(m2/m3)**Rational(1,2)*(m3/m4)**Rational(1,4) - 1/(m1*m2**Rational(1,2)*m3**Rational(1,4)*m4**Rational(1,4)))",
+    "asserts": "Algebraic equivalence of the rewritten product and the truncated nested-radical form 16m' sqrt(m'' sqrt(m''' m^IV)) (positive symbols)"
+   }
+  ],
+  "transcription_corrections": [
+   "The interlinear insertion above the cancelled 'Gleichheit Unmerklichkeit' reads as 'Ungleichheit' in the transcription. Logically Gauss means the point where the difference of successive terms first becomes imperceptible ('Gleichheit'). The second insertion above the cancelled 'zuerst' may be 'Unterschied' rather than 'zuerst'; both readings are uncertain.",
+   "In the third truncated formula the radical nesting is 16m' sqrt(m'' sqrt(m''' m^IV)), i.e. m''^{1/2}(m''' m^IV)^{1/4}, as the transcription has it; the manuscript writes the radicals in a run-on way.",
+   "First line: the denominator is 16 m' mu (m''/mu)^{1/2} (m'''/mu)^{1/4} (m^IV/mu)^{1/8} ..., where 16 m' mu stands for 16 mu^2 (m'/mu). This is consistent with the image."
+  ]
+ }
+}

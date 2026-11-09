@@ -1,0 +1,80 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c184",
+ "label": "79",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000185/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 79 is a printed page of a textbook: Christian Leiste, 'Die Arithmetik und Algebra' (Wolfenbüttel, 1790), which Gauss used as a school text. It is not a Gauss manuscript text. The only handwritten matter is a strip on the left edge, the cut-off continuation of the notes on the facing interleaved leaf (the previous page).\n\n§169 (printed). Problem: each year a quantity a is increased by (b/c)·a and decreased by (m/c)·a. Find its value after n years.\n- Year 1: a + ba/c − ma/c = (1 + (b−m)/c)·a = ((c+b−m)/c)·a =: A.\n- Year 2: by the same argument, ((c+b−m)/c)·A = ((c+b−m)/c)^2·a.\n- Year n: a_n = ((c+b−m)/c)^n · a. This is geometric (compound) growth with net annual rate (b−m)/c.\n\nExample. Population 100000. The ratio of living to births, averaged over 50 years, is c:b = 175:8. The ratio of living to deaths is c:m = 175:5. So the yearly factor is (175+8−5)/175 = 178/175.\n- P_50 = (178/175)^50 · 100000.\n- By common logarithms: 50·log10(178/175) + log10(100000) = 50·0.0073820 + 5 = 5.369100.\n- The antilog of 5.369100 is about 233937.\n\n§170 (printed) begins the 'Vierter Abschnitt: Von den algebraischen Gleichungen'. It gives general definitions: analysis/algebra, equations, the convention that late letters are unknowns and early letters are knowns, and setting up the fundamental equation.\n\nMarginal handwriting (Gauss, continued from the facing leaf; my reconstruction of its purpose).\n- He splits 2/31831 into partial fractions, using 31831 = 139·229. Note that 31831 ≈ 10^5/π.\n- First numerator: a ≡ 2/229 ≡ 2/90 (mod 139). The fragments 2/90 = 28/9 = 34/1 show modular reduction, giving a = 34.\n- Second numerator: b ≡ 2/139 ≡ 2/(−90) (mod 229). The fragments 2/(−90) = 46/(−9) = 61/3 = −56/1 give b = −56.\n- Hence 2/31831 = 34/139 − 56/229 exactly, since 229·34 − 139·56 = 2.\n- The margin digit strings ...07194, ...65895, ...63089 are the tails of the long decimal expansions of 34/139 = 0.24460431654676..., 173/229 = 0.75545851528384..., and their sum minus 1 = 0.0000628318306053... = 2/31831.\n- The tails ...0436981489..., ...76407...97..., ...20771042... belong to the 42-place logarithms of 1390, 1145 and 10^7 on the facing leaf.",
+  "errors": [
+   "Printed example: the question asks how much the population increased, but the answer gives the total population (≈233937). The increase would be ≈133937. This is a presentational slip in Leiste's text.",
+   "Rounding: the exact log value is 50·log10(178/175) + 5 = 5.3690977, giving ≈233936.0. The printed 5.369100 (from a 7-place log 0.0073820) gives 233937. The difference is acceptable table rounding.",
+   "Modelling caveat (not an arithmetic error): treating the 'average over 50 years' ratios as constant annual rates is an assumption of the textbook."
+  ],
+  "results": [
+   {
+    "what": "Value after n years of a quantity growing by b/c and shrinking by m/c of itself annually: a·((c+b−m)/c)^n",
+    "modern_name": "Compound (geometric/exponential) growth; discrete Malthusian population model",
+    "usually_credited_to": "Classical; population application in Süssmilch (1741) and Euler (1748/1760)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Numerical example: (178/175)^50·100000 ≈ 233937 via common logarithms",
+    "modern_name": "Logarithmic computation of a power",
+    "usually_credited_to": "Standard textbook exercise (Leiste 1790)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Marginal (Gauss): partial-fraction decomposition 2/31831 = 34/139 − 56/229, with numerators found by modular inversion, then decimals summed to high precision",
+    "modern_name": "Partial fractions via Chinese-remainder/modular inverses, used to compute long periodic decimal expansions",
+    "usually_credited_to": "Gauss's own technique for periodic decimals of 1/p (cf. Disquisitiones Arithmeticae, art. 312ff.; his decimal-period tables)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is printed text from Leiste's elementary textbook (compound growth and the start of a chapter on equations). The only Gauss content is cut-off marginal residue from the facing leaf. That residue shows a partial-fraction and decimal-expansion calculation, a method well known to be Gauss's.",
+  "checkable": [
+   {
+    "sympy": "simplify(a + b*a/c - m*a/c - ((c+b-m)/c)*a) == 0",
+    "asserts": "First-year step of §169."
+   },
+   {
+    "sympy": "Rational(175+8-5,175) == Rational(178,175)",
+    "asserts": "Yearly factor in the example."
+   },
+   {
+    "sympy": "N(50*log(Rational(178,175),10) + 5, 10)",
+    "asserts": "≈5.369097686, close to the printed 5.369100."
+   },
+   {
+    "sympy": "N(Rational(178,175)**50 * 100000, 10)",
+    "asserts": "≈233936.0, matching the printed 233937 up to log-table rounding."
+   },
+   {
+    "sympy": "139*229 == 31831",
+    "asserts": "Factorization used in the margin."
+   },
+   {
+    "sympy": "Rational(34,139) - Rational(56,229) == Rational(2,31831)",
+    "asserts": "Partial-fraction decomposition from the margin."
+   },
+   {
+    "sympy": "(34*90 - 2) % 139 == 0 and ((-56)*(-90) - 2) % 229 == 0",
+    "asserts": "Modular inverse computations 2/90 ≡ 34 (mod 139) and 2/(−90) ≡ −56 (mod 229)."
+   },
+   {
+    "sympy": "N(Rational(34,139), 50); N(Rational(173,229), 50); N(Rational(2,31831), 20)",
+    "asserts": "Decimal expansions whose tails (…07194, …65895, …63089) appear in the margin; 2/31831 = 0.000062831830605…"
+   }
+  ],
+  "transcription_corrections": [
+   "The page body is printed text (Leiste, Arithmetik und Algebra, 1790), not Gauss's handwriting. Only the left-edge strip is manuscript, continued from the facing interleaved leaf.",
+   "Margin '2/90 = 46/−9 − 61/3' should read '2/(−90) = 46/(−9) = 61/3 = −56/1' (equalities, not minus signs). Similarly '28/9 − 34/1' should read '28/9 = 34/1'.",
+   "Margin digit strings '0 07194', '8 65895', '63089' are tails of the decimal expansions of 34/139, 173/229 and 2/31831 on the facing leaf.",
+   "Margin '90 0436981489', '56 76407097', '53 20771042' are tails of l 1390 (…043698148984), l 1145 (…764071297264) and l 10^7 (…207710420401) from the facing leaf. The middle one should read '…764071297…'."
+  ]
+ }
+}

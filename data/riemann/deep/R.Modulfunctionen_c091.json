@@ -1,0 +1,60 @@
+{
+ "bundle": "R.Modulfunctionen",
+ "page": "c091",
+ "label": "45v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3223711:00000092/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Authorship: this page is not by Riemann. It is the last page of a letter signed 'R. Dedekind', dated Braunschweig, 16 March 1876. From the content (proofs from Teubner, Riemann's Werke, the 'vierte Abtheilung') it is almost certainly addressed to Heinrich Weber, who co-edited Riemann's Werke. It was filed with Riemann's 'Modulfunctionen' papers because it concerns Dedekind's editorial Erläuterungen to Riemann's Fragment XXVIII on the modular transformation of log eta.\n\nWhat (m,n) is. The previous page introduces the symbol (m,n) from the transformation of log eta(omega). It is extended to non-coprime arguments by (m,n) = e (m/e, n/e). It satisfies the Hecke-type relation 2(2m,n) + (m,2n) + (m+n,2n) = 6(m,n) and its prime-order analogue. My identification (mine, verified below): (m,n) = 6 n s(m,n), where s(m,n) = sum_{r=1}^{n-1} ((r/n))((m r/n)) is the Dedekind sum. Dedekind calls these the 'halbirten' numbers, i.e. half of the more natural 12 n s(m,n). This normalisation is consistent with:\n- the gcd rule, since s(em', en') = s(m', n');\n- the order-2 relation, which becomes s(2m,n) + s(m,2n) + s(m+n,2n) = 3 s(m,n).\n\nThe recursion on this page. Write n = h m + n'. The claimed formula is\n(m,n) = (m,n') - h (n',m) + (1/2) h (n + n' - 3m).\n\nDerivation (filled in by me). The reciprocity law s(m,n) + s(n,m) = -1/4 + (m/n + n/m + 1/(mn))/12, multiplied by 12mn, reads in this notation\n2m (m,n) + 2n (n,m) = m^2 + n^2 + 1 - 3mn.\n1. Write this law for the pair (m,n) and for the pair (m,n').\n2. Use (n,m) = (n',m), because (a,b) depends only on a mod b.\n3. Subtracting gives 2m[(m,n) - (m,n')] = (n - n')(n + n' - 3m) - 2(n - n')(n',m).\n4. Divide by 2m and use n - n' = h m. This gives exactly Dedekind's formula.\n\nIntegrality. Dedekind remarks that the formula also proves (m,n) is always an integer, by induction on n. The correction term is h(n + n' - 3m)/2 = h n' + m h(h-3)/2, which is an integer because h(h-3) is even. The other two terms have second argument smaller than n.\n\nComputation. The formula gives a Euclidean-algorithm-like computation of Dedekind sums. He notes that direct evaluation from the Sigma expressions is laborious.\n\nWorked examples (mine):\n- (3,7): with 7 = 2*3 + 1, (3,7) = (3,1) - 2(1,3) + (7+1-9)/2*2 = 0 - 2 - 1 = -3. This agrees with 42 s(3,7) = 42*(-1/14) = -3.\n- (2,5) = 0, agreeing with s(2,5) = 0.\n- In general (1,n) = (n-1)(n-2)/2.\n\nRest of the page. The remainder is personal: he waited one more post for news, sends the letter, and asks for at least a postcard as a sign of life. The next page shows the reply eventually came.",
+  "errors": [
+   "No mathematical error found; the recursion follows exactly from Dedekind-sum reciprocity.",
+   "Unstated edge case: the induction needs base values and a suitable choice of remainder. With m = 1 one should take n' = 1 rather than n' = 0, since (1,0) would need a convention; then (1,1) = 0 and the recursion is consistent.",
+   "Unstated convention: the recursion silently uses that (n',m) = (n,m), i.e. periodicity of (a,b) in a mod b. This holds for the Dedekind-sum definition."
+  ],
+  "results": [
+   {
+    "what": "Recursion (m,n) = (m,n') - h(n',m) + h(n+n'-3m)/2 for n = hm + n', with (m,n) = 6 n s(m,n), giving a Euclidean-algorithm evaluation of Dedekind sums",
+    "modern_name": "Reciprocity law for Dedekind sums used as a Euclidean-type reduction algorithm",
+    "usually_credited_to": "R. Dedekind (Erläuterungen to Riemann's Fragment XXVIII, Riemann's Werke 1876; reciprocity law; Euclidean-algorithm evaluation later systematised by Rademacher and others)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Integrality of the halved numbers (m,n) = 6 n s(m,n) proved by induction via the recursion",
+    "modern_name": "Integrality of 6k s(h,k) (denominator of Dedekind sums divides 6k)",
+    "usually_credited_to": "Dedekind (1876); standard in Rademacher–Grosswald, 'Dedekind Sums' (1972)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page is a letter by Dedekind (to Weber, 16 March 1876), not a Riemann manuscript. Its content, the reciprocity-based recursion and integrality of Dedekind sums, is exactly what Dedekind is known for from his 1876 Erläuterungen to Riemann's fragment. Nothing here is attributable to Riemann or unexpected.",
+  "checkable": [
+   {
+    "sympy": "from sympy import Rational, floor, gcd\ndef saw(x):\n    return 0 if x == floor(x) else x - floor(x) - Rational(1,2)\ndef s(h,k):\n    return sum(saw(Rational(r,k))*saw(Rational(h*r,k)) for r in range(1,k))\ndef P(m,n):\n    return 6*n*s(m,n)\nok = all(P(m,n) == P(m,n % m) - (n//m)*P(n % m, m) + Rational(n//m,2)*(n + n % m - 3*m) for m in range(2,25) for n in range(m+1,60) if gcd(m,n) == 1 and n % m != 0)",
+    "asserts": "Dedekind's recursion holds with (m,n) = 6 n s(m,n), for coprime m, n with n = h m + n'."
+   },
+   {
+    "sympy": "all(P(m,n) == int(P(m,n)) for m in range(1,30) for n in range(1,40) if gcd(m,n) == 1)",
+    "asserts": "(m,n) = 6 n s(m,n) is always an integer."
+   },
+   {
+    "sympy": "all(2*m*P(m,n) + 2*n*P(n,m) == m**2 + n**2 + 1 - 3*m*n for m in range(1,25) for n in range(1,25) if gcd(m,n) == 1)",
+    "asserts": "Reciprocity in Dedekind's normalisation: 2m(m,n) + 2n(n,m) = m^2 + n^2 + 1 - 3mn."
+   },
+   {
+    "sympy": "P(3,7) == -3 and P(2,5) == 0 and all(P(1,n) == Rational((n-1)*(n-2),2) for n in range(1,30))",
+    "asserts": "Worked values: (3,7) = -3, (2,5) = 0, (1,n) = (n-1)(n-2)/2."
+   },
+   {
+    "sympy": "all(s(2*m,n) + s(m,2*n) + s(m+n,2*n) == 3*s(m,n) for m in range(1,20) for n in range(1,20) if gcd(m,n) == 1)",
+    "asserts": "The order-2 relation from the previous page, 2(2m,n) + (m,2n) + (m+n,2n) = 6(m,n), restated in terms of s. Here s(a,b) depends only on a/b, which matches the extension (m,n) = e(m/e, n/e)."
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription is essentially correct. The page is the closing page of a letter signed 'R. Dedekind', Braunschweig, 16 März 1876, not Riemann's own text.",
+   "'Ich habe nun vorhin eine Postzeit abgewartet': the word read as 'vorhin' may instead be 'vorher' in the image; the meaning is unaffected.",
+   "The formula is correctly read as (m,n) = (m,n') - h(n',m) + ½h(n+n'-3m), with n = hm + n'. The word 'ganze' is underlined in the original."
+  ]
+ }
+}

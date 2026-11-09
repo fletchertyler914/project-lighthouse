@@ -1,0 +1,76 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c106",
+ "label": "39",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000107/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is not a Gauss manuscript in the strict sense. The page is printed Fraktur text with a signature mark 'C 4': p. 39 of an elementary algebra textbook. The bundle name suggests Christian Leiste's arithmetic/algebra textbook (Wolfenbüttel, 1790), which Gauss studied as a schoolboy. The only handwriting is a small correction ('die' struck through, 'einige' written above) and some marginal strokes.\n\n(1) End of the section on the integral binomial theorem.\n- The argument is about permutations: 2 letters give 2·1 arrangements, 3 give 3·2·1 = 6, and 4 give 4·3·2·1 = 24. The reason given is that the new letter d can be put in 4 positions in each of the 6 arrangements of abc.\n- If some factors are equal ('powers of the same root'), the count is divided by the factorial of each exponent.\n- Hence in (a+b)^6:\n  - coefficient of a^5 b = 6!/(1!·5!) = 6;\n  - coefficient of a^4 b^2 = 6!/(2!·4!) = 6·5/(1·2) = 15 (divide by 2 for b and by 24 for a);\n  - coefficient of a^3 b^3 = 6!/(3!·3!) = 6·5·4/(1·2·3) = 20.\n- Generalising by analogy, the coefficient of a^{m-k} b^k is m(m-1)...(m-k+1)/k!. So (a+b)^m = a^m + m a^{m-1} b + m(m-1)/2 a^{m-2} b^2 + m(m-1)(m-2)/6 a^{m-3} b^3 + ...\n\n(2) §105: the same series asserted for fractional m.\n- Put m = 1/n. The successive ratio factors are:\n  - (m-1)/2 = (1-n)/(2n);\n  - (m-2)/3 = (1-2n)/(3n);\n  - (m-3)/4 = (1-3n)/(4n);\n  - (m-4)/5 = (1-4n)/(5n).\n- So (a+b)^{1/n} = a^{1/n} + (1/n) a^{(1-n)/n} b + 1·(1-n)/(n·2n) a^{(1-2n)/n} b^2 + ...\n- Since n > 1, the factors (1-kn) are negative. The text therefore rewrites them as -(n-1)/(2n), -(2n-1)/(3n), -(3n-1)/(4n), ... to make the alternating signs explicit.\n- It also writes a^{1/n - k} as a^{1/n}/a^k, giving:\n  (a+b)^{1/n} = a^{1/n} [1 + b/(na) - (n-1)b^2/(n·2n·a^2) + (n-1)(2n-1)b^3/(n·2n·3n·a^3) - (n-1)(2n-1)(3n-1)b^4/(n·2n·3n·4n·a^4) + (n-1)(2n-1)(3n-1)(4n-1)b^5/(n·2n·3n·4n·5n·a^5) - ...]\n- The bracketed form is completed on p. 40. There it is applied to sqrt(5) = 2(1 + 1/8 - 1/128 + 1/1024 - 5/32768 ...) with a = 4, b = 1.\n- The purpose is to compute roots by series, as a lead-in to computing logarithms in §106.",
+  "errors": [
+   "No mathematical errors in the printed formulas; all coefficients and exponents check out.",
+   "The general coefficient m(m-1)...(m-k+1)/k! is obtained by analogy from the case m = 6, not proved.",
+   "The extension to fractional m ('Dies gilt auch, wenn m ein Bruch ist') is asserted without proof. No convergence condition (|b| < |a|) is stated.",
+   "The printed text says 'die Produkte' would be negative; in fact only alternate terms are negative. The handwritten correction to 'einige Produkte' fixes this imprecision."
+  ],
+  "results": [
+   {
+    "what": "Count of permutations n! and of arrangements with repeated letters n!/(k!(n-k)!), used to derive the binomial coefficients",
+    "modern_name": "Binomial/multinomial coefficient as count of permutations of a multiset",
+    "usually_credited_to": "Classical (Pascal, Wallis, Jacob Bernoulli's Ars Conjectandi 1713)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Binomial theorem for positive integer exponent",
+    "modern_name": "Binomial theorem",
+    "usually_credited_to": "Classical; Pascal (1654) and earlier",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Binomial series for exponent 1/n, with signs made explicit, for extracting roots",
+    "modern_name": "Newton's generalized binomial series",
+    "usually_credited_to": "Newton (1665/1676); rigorous treatment by Abel (1826)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed page from an 18th-century elementary textbook (apparently Leiste). It gives the standard binomial theorem and Newton's binomial series. The only possible Gauss contribution is a one-word handwritten correction ('einige' for 'die'), which is trivial.",
+  "checkable": [
+   {
+    "sympy": "binomial(6,1)==6 and binomial(6,2)==15 and binomial(6,3)==20",
+    "asserts": "Coefficients of a^5 b, a^4 b^2 and a^3 b^3 in (a+b)^6"
+   },
+   {
+    "sympy": "factorial(6)/(factorial(2)*factorial(4))==Rational(6*5,2)",
+    "asserts": "6.5/(1.2) = 6!/(1.2.4.3.2.1)"
+   },
+   {
+    "sympy": "simplify(((1/n)-2)/3 - (1-2*n)/(3*n))==0",
+    "asserts": "(m-2)/3 = (1-2n)/(3n) for m=1/n"
+   },
+   {
+    "sympy": "simplify(binomial(1/n,3) - (n-1)*(2*n-1)/(n*2*n*3*n))==0",
+    "asserts": "Coefficient of b^3/a^3 in the series for (a+b)^{1/n}"
+   },
+   {
+    "sympy": "simplify(binomial(1/n,4) + (n-1)*(2*n-1)*(3*n-1)/(n*2*n*3*n*4*n))==0",
+    "asserts": "Coefficient of b^4/a^4 is -(n-1)(2n-1)(3n-1)/(n.2n.3n.4n)"
+   },
+   {
+    "sympy": "simplify(binomial(1/n,5) - (n-1)*(2*n-1)*(3*n-1)*(4*n-1)/(n*2*n*3*n*4*n*5*n))==0",
+    "asserts": "Coefficient of b^5/a^5 in the series"
+   },
+   {
+    "sympy": "series((1+x)**(1/n),x,0,4).removeO() - (1 + x/n - (n-1)*x**2/(2*n**2) + (n-1)*(2*n-1)*x**3/(6*n**3))",
+    "asserts": "The bracketed series (with x=b/a) agrees with the Taylor series of (1+x)^{1/n}; expression simplifies to 0"
+   }
+  ],
+  "transcription_corrections": [
+   "The page is printed text (signature 'C 4'), not Gauss's handwriting; only the struck 'die' and the inserted 'einige' are handwritten.",
+   "In the line 'Also (a+b)^m = ...' the image shows a^{m-2} b^2 (the '2' resembles 's' in the scan); the transcription's a^{m-2} is correct.",
+   "In 'für a^{m-3} b^3' the coefficient is printed as m.m-1.m-2./(1.2.3), i.e. m(m-1)(m-2)/(1·2·3)."
+  ]
+ }
+}

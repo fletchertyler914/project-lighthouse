@@ -1,0 +1,55 @@
+{
+ "bundle": "R.ElektrCyl",
+ "page": "c040",
+ "label": "19r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173043:00000041/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This folio is a title or cover sheet. It contains no computation. Text: 'Potential dreier Kugeln. December 1857. Mittelst der Transformation durch reciproke Radiivectoren zurückgeführt auf den Fall, wo die Mittelpunkte in einer geraden Linie liegen.' In English: 'Potential of three spheres. December 1857. Reduced, by means of the transformation by reciprocal radius vectors, to the case where the centres lie on a straight line.'\n\nThe problem announced is the electrostatic potential problem for three spheres (presumably conductors): find a harmonic function in the exterior of three balls with prescribed constant values on their surfaces. The stated method is inversion, x -> O + k^2 (x-O)/|x-O|^2, together with the Kelvin transform u*(x) = (k/|x-O|) u(x*). This maps harmonic functions to harmonic functions and spheres to spheres.\n\nThe geometric fact behind the reduction is not written on the page; the following justification is mine. The plane P through the three centres cuts each sphere in a great circle C_i. Take the radical centre R of C_1, C_2, C_3. For mutually exterior spheres, every radical axis lies outside both of its circles, so the power p of R is positive. Hence the circle Gamma with centre R and radius sqrt(p) is orthogonal to all three C_i, and by rotational symmetry the spheres are orthogonal to Gamma. Invert about a point O on Gamma. Gamma becomes a straight line L. Each image sphere is still orthogonal to the image of Gamma. A sphere orthogonal to a line has its centre on that line, so all three image centres lie on L.\n\nThe transformed problem is therefore rotationally symmetric about L, with three coaxial spheres. Two complications are implied but not stated. The constant boundary values become non-constant (proportional to 1/|x-O|). The point at infinity maps to O, so the condition at infinity becomes a condition at O, typically a point charge there. This is the three-body analogue of the two-sphere problem (Poisson, Kirchhoff, Thomson). It belongs with Riemann's Nachlass work on equilibrium of electricity on parallel circular cylinders (same bundle R.ElektrCyl), where conformal mapping plays the role that inversion plays here.",
+  "errors": [
+   "None. The page contains only a title and a statement of method. The claimed reducibility is correct for three mutually exterior spheres, by the orthogonal-circle argument in the reconstruction."
+  ],
+  "results": [
+   {
+    "what": "Use of inversion (reciprocal radius vectors) and the Kelvin transform for potential problems of spheres",
+    "modern_name": "Kelvin transform / method of inversion (electrical images)",
+    "usually_credited_to": "W. Thomson (Lord Kelvin) 1845-1848; J. Liouville 1847",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Any three mutually exterior spheres can be inverted into three spheres with collinear centres (inversion centre on the circle orthogonal to the three great circles in the plane of the centres)",
+    "modern_name": "Inversion to coaxial configuration via the common orthogonal circle (radical circle)",
+    "usually_credited_to": "Classical inversive geometry (19th century; implicit in Thomson, Steiner, Möbius)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Formulation of the three-sphere electrostatic problem reduced to an axisymmetric problem",
+    "modern_name": "Three-sphere capacitance problem; axisymmetric reduction",
+    "usually_credited_to": "Not clearly attributed; the two-sphere case is due to Poisson (1812), Kirchhoff and Thomson",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a dated title page only (December 1857). The method (Kelvin inversion) and the geometric reduction are classical and known by then. It is of mild archival interest that Riemann attacked the three-sphere problem this way, alongside his known Nachlass work on the cylinder problem, but no new result appears on this page.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; inv=lambda c,r,O,k: (O+k**2*(c-O)/((c-O).dot(c-O)-r**2), k**2*r/Abs((c-O).dot(c-O)-r**2)); O=Matrix([Rational(24,5),Rational(11,5)]); a=inv(Matrix([0,0]),1,O,1)[0]; b=inv(Matrix([4,0]),1,O,1)[0]; c=inv(Matrix([0,5]),2,O,1)[0]; simplify(Matrix([[a[0],a[1],1],[b[0],b[1],1],[c[0],c[1],1]]).det())",
+    "asserts": "Example: circles centred at (0,0),(4,0),(0,5) with radii 1,1,2 have orthogonal circle with centre (2,11/5) and radius 14/5. Inverting about (24/5,11/5), a point on that circle, the three image centres are collinear (determinant = 0)."
+   },
+   {
+    "sympy": "from sympy import *; x,y=symbols('x y'); sol=solve([x**2+y**2-1-((x-4)**2+y**2-1), x**2+y**2-1-(x**2+(y-5)**2-4)],[x,y]); (sol, sol[x]**2+sol[y]**2-1)",
+    "asserts": "The radical centre of the three example circles is (2, 11/5), with positive power 196/25, so the orthogonal circle exists."
+   },
+   {
+    "sympy": "from sympy import *; x,y,z=symbols('x y z'); u=Function('u'); r2=x**2+y**2+z**2; f=1/sqrt((x-1)**2+(y-2)**2+(z+1)**2); g=f.subs({x:x/r2,y:y/r2,z:z/r2},simultaneous=True)/sqrt(r2); simplify(diff(g,x,2)+diff(g,y,2)+diff(g,z,2))",
+    "asserts": "The Kelvin transform of a harmonic function (here a point-source potential) under inversion in the unit sphere is again harmonic (Laplacian = 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription matches the image. The words read 'Potential dreier Kugeln', 'reciproke Radiivectoren' and 'Mittelpunkte'; the line breaks fall after 'wo die Mittel-' / 'punkte'. The '19' at right margin is the folio number. The faint round mark at upper centre is a library stamp, and the next page carries the Göttingen library stamp ('EX BIBLIOTHECA REGIA ACADEM. GEORGIAE AUG.')."
+  ]
+ }
+}

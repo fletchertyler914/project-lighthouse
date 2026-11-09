@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c165",
+ "label": "80v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000166/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of Art. 11 of Riemann's 1851 Göttingen dissertation, 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse'. The function u is assumed to satisfy the conditions stated at the end of Art. 10. As I read them (my inference), these are: u is continuous except perhaps at isolated points, never discontinuous along a line, and Δu = u_xx + u_yy = 0 in T. The previous page proved the mean-value formula u(O_0) = (1/2π)∮u dφ in Art. 10 and Theorem I: if u = 0 and ∂u/∂p = 0 along a line, then u ≡ 0. The proof of Theorem I applies Green's formula with log r on a region cut off by the line λ and a circular arc.\n\n(Continuation of Theorem II.) Theorem II states that the values of u and ∂u/∂p along a line determine u throughout T. Let u_1 and u_2 be two functions satisfying the conditions. The conditions are linear, so substituting shows that w = u_1 − u_2 also satisfies them. The marginal note adds that 'functions' here means continuous ones, or ones discontinuous only at isolated points, not along a line. Suppose u_1 and u_2 agree along a line together with their first normal derivatives, but differ somewhere else. Then w = 0 and ∂w/∂p = 0 on that line, while w is not identically 0. This contradicts Theorem I. In modern terms this is uniqueness for the Cauchy problem for Laplace's equation, i.e. unique continuation from Cauchy data on a curve.\n\nTheorem III. If u is not constant, then the interior points where u equals a constant a form lines. These lines separate subregions where u > a from subregions where u < a. Riemann splits this into three statements:\n(a) u has no interior maximum or minimum (strong maximum principle).\n(b) u cannot be constant on a mere part of the surface without being constant everywhere (identity theorem).\n(c) a level line {u = a} cannot bound regions with the same sign of u − a on both sides.\nHe asserts that the negation of each statement would violate the mean-value identity of Art. 10, u_0 = (1/2π)∫_0^{2π} u dφ, equivalently ∫_0^{2π}(u − u_0) dφ = 0.\n\nFilling in (my steps):\n- For (c), take a small circle about a point of the level line. Then u − a ≥ 0 on the circle and is > 0 on an arc, so the integral is > 0, a contradiction.\n- For (a), at an interior maximum u_0 every small circle has u − u_0 ≤ 0 with zero mean. Hence u ≡ u_0 on every small circle, so u is constant on a disc, and (b) applies.\n\nThe right column is a scratch addition unrelated to the mathematics: 16½+22+32+36+1+14+11+4+71 = 207½. It may be page counts or sums of money.",
+  "errors": [
+   "No computational errors. The arithmetic column sums correctly to 207½.",
+   "Gap in (b): the mean-value identity alone does not immediately exclude u being constant on a subregion only. At a boundary point of such a subregion, u − a may take both signs outside it, so the circle mean need not be nonzero. The natural proof uses Theorem I instead: on the boundary of the subregion, u − a = 0 and ∂u/∂p = 0, hence u ≡ a. Riemann's 'wie leicht zu sehen' glosses over this.",
+   "In (a), the mean-value argument gives constancy on a neighbourhood, not an immediate contradiction. One must then invoke (b)/Theorem I. This step is implicit.",
+   "Theorem I itself, on which II rests, implicitly requires analyticity/regularity near the line and a suitable choice of the cut-off region. That is standard for harmonic functions but not fully justified in the text."
+  ],
+  "results": [
+   {
+    "what": "Cauchy data (u and ∂u/∂n) on a curve determine a harmonic function uniquely, proved via linearity plus Theorem I",
+    "modern_name": "Uniqueness for the Cauchy problem for Laplace's equation / unique continuation (Holmgren-type uniqueness in the analytic setting)",
+    "usually_credited_to": "Classical; appears in Riemann's 1851 dissertation (Art. 11)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "A non-constant harmonic function has no interior extremum, is not locally constant, and its level sets are lines separating regions where u > a from regions where u < a",
+    "modern_name": "Strong maximum principle and identity theorem for harmonic functions (structure of level sets)",
+    "usually_credited_to": "Gauss (mean value, 1840), Riemann 1851 dissertation Art. 11; maximum principle later formalized by others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Derivation of these properties from the Gauss mean-value property",
+    "modern_name": "Mean value property ⇒ maximum principle",
+    "usually_credited_to": "Gauss / Riemann",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of Theorems II and III of Art. 11 of Riemann's published 1851 dissertation, and it is nearly verbatim the published text. Only the wording corrections and the marginal clarification about admissible discontinuities are draft-specific.",
+  "checkable": [
+   {
+    "sympy": "Rational(33,2)+22+32+36+1+14+11+4+71 == Rational(415,2)",
+    "asserts": "The marginal column sums to 207½."
+   },
+   {
+    "sympy": "x,y=symbols('x y'); u1=x**3-3*x*y**2; u2=exp(x)*cos(y); simplify(diff(u1-u2,x,2)+diff(u1-u2,y,2))==0",
+    "asserts": "The difference of two harmonic functions is harmonic, which is the linearity used in Theorem II."
+   },
+   {
+    "sympy": "r,t,a,b=symbols('r t a b',real=True); u=lambda X,Y:(X**3-3*X*Y**2)+X*Y; simplify(integrate(u(a+r*cos(t),b+r*sin(t)),(t,0,2*pi))/(2*pi)-u(a,b))==0",
+    "asserts": "Mean-value property u_0 = (1/2π)∫u dφ for a harmonic polynomial, as used in Theorem III."
+   },
+   {
+    "sympy": "r,t=symbols('r t',positive=True); integrate((r*cos(t))**2-(r*sin(t))**2,(t,0,2*pi))==0",
+    "asserts": "∫(u−u_0)dφ = 0 for u = x²−y² about the origin, consistent with the absence of a strict extremum there (saddle point)."
+   }
+  ],
+  "transcription_corrections": [
+   "Marginal note 'd.h. stetige oder doch nur in einzelnen Punkten unstetige, nicht längs einer Linie unstetigen' is an insertion qualifying 'Functionen' in Theorem II, i.e. 'irgend zwei bestimmte Functionen'. It is not a free-standing line.",
+   "The insertion 'nur in einem Theile der Fläche' belongs in statement (b), probably meaning 'u kann nicht nur in einem Theile der Fläche constant sein', replacing or qualifying 'in einem Flächentheil'.",
+   "'{+ersten+}' is an interlinear insertion above 'Differentialquotienten'. The struck '[-nach-]' appears to be a cancelled duplicate before 'nach p'.",
+   "In statement (c), the struck symbol after 'Zeichen' looks like a cancelled '+' sign; the transcription reading is plausible."
+  ]
+ }
+}

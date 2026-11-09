@@ -1,0 +1,73 @@
+{
+ "bundle": "PH.Memorandum",
+ "page": "c107",
+ "label": "106",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3389292:00000108/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This is a household memorandum page, not a mathematical one. It holds measurements and dates, plus two small arithmetic conversions.\n\n(1) Top of the page, dated '9 Januar'. A sketch of a rectangle with corners a, b (top) and c, d (bottom) carries the labels ac = 627 mm and ab = 595 mm. Beside it: '824 mm f.S.' (abbreviation unclear), '885 können werden' (885 mm is possible/achievable) and '1170 ganze Br[eite]' (total width 1170 mm). These are dimensions of a piece of furniture, a frame or a window opening. There is no derivation.\n\n(2) 'Länge eines Stücks Tapete aus dem obern Mittelzimmer' (length of one roll of wallpaper from the upper middle room): 9.200 m = 377.2 Zoll = 31 Fuß 5.2 Zoll.\n- Implicit conversion (my reconstruction): 9.2 m × 41 Zoll/m = 377.2 Zoll. Gauss therefore used the round factor 1 m ≈ 41 Zoll.\n- Then 377.2 = 12·31 + 5.2, giving 31 Fuß 5.2 Zoll (12 Zoll to the Fuß).\n\n(3) 'Höhe des Saals in der alten Wohnung' (height of the hall in the old apartment): 2.980 m.\n\n(4) 'Brackmann 1 ♀ 16 August … 16 ♂ 3 Sept'. The planet symbols are weekday signs: ♀ = Friday, ♂ = Tuesday. Day 1 is Friday 16 August and day 16 is Tuesday 3 September.\n- 16 Aug to 3 Sep inclusive is 19 calendar days. Removing the three Sundays (18 Aug, 25 Aug, 1 Sep) leaves exactly 16.\n- So Brackmann, presumably a hired craftsman or worker, is counted for 16 working days (Monday–Saturday).\n- The weekday pattern fits 1833, 1839 or 1844. The '(22016' beneath is unclear.\n\n(5) Body heights, mostly in metres.\n- 21 Aug 1816: Joseph 1.283, Minna (daughter Wilhelmine, b. 1808) 1.184, Eugen 0.996, Wilhelm 0.864.\n- 5 Mar 1817: Joseph 1.310, Minna 1.1995, Eugen 1.056, Wilhelm 0.875. Also Minna 1.541, apparently Gauss's wife Minna Waldeck, an adult. Also Therese 0.624 (she was born June 1816, so about 9 months old).\n- Two further adult entries, 1.690 and 1.703, have their names heavily crossed out.\n- Second column, headed '1818 Jan 24' (a '1819 März 12' heading also appears): Joseph 1.361, Minna 1.257, Eugen 1.105, Wilhelm 0.923, Therese 0.769.\n- 26 Dec 1826: 'Ich' (Gauss himself) 1705 mm, 'Jos' (Joseph) 1727 mm.\n- 10 Aug 1837, in pencil: 'Ego' 1718.75 mm and 'W' 1714.25 mm. W is possibly son Wilhelm shortly before his emigration, or possibly Wilhelm Weber; this is unsure.\n\nImplied growth (my computation), for example Joseph: +27 mm from Aug 1816 to Mar 1817, then +51 mm to Jan 1818. Everything here is routine record-keeping.",
+  "errors": [
+   "The metre–Zoll conversion uses 1 m = 41 Zoll. With the Calenberg/Hanoverian foot (about 0.29210 m, Zoll about 24.34 mm), 9.2 m is about 377.96 Zoll, not 377.2. The page value is a deliberate rounding (about 0.2% low) rather than a slip.",
+   "Gauss's own height is recorded as 1705 mm (1826) and 1718.75 mm (1837). The difference reflects measurement conditions (e.g. footwear), not an error of arithmetic."
+  ],
+  "results": [
+   {
+    "what": "Conversion 9.2 m -> 377.2 Zoll -> 31 Fuß 5.2 Zoll using 41 Zoll per metre",
+    "modern_name": "unit conversion (metric to Hanoverian/Calenberg measure)",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Counting 16 working days from Friday 16 Aug to Tuesday 3 Sep, excluding Sundays",
+    "modern_name": "calendar / working-day count",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Serial height measurements of Gauss's children (1816–1818) and of Gauss himself (1826, 1837)",
+    "modern_name": "anthropometric household record (growth data)",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Purely domestic memoranda: furniture and room dimensions, a wallpaper length conversion, a worker's day count and family height records. They are of biographical interest only and contain no mathematics beyond trivial arithmetic.",
+  "checkable": [
+   {
+    "sympy": "Eq(Rational(92,10)*41, Rational(3772,10))",
+    "asserts": "9.2 m at 41 Zoll per metre gives 377.2 Zoll"
+   },
+   {
+    "sympy": "Eq(31*12 + Rational(52,10), Rational(3772,10))",
+    "asserts": "377.2 Zoll = 31 Fuß 5.2 Zoll (12 Zoll per Fuß)"
+   },
+   {
+    "sympy": "N(9200/(292.0947/12))",
+    "asserts": "Using the Hanoverian foot of about 292.09 mm, 9.2 m is about 377.96 Zoll, so the page uses a rounded factor"
+   },
+   {
+    "sympy": "(datetime.date(1839,8,16).weekday(), datetime.date(1839,9,3).weekday())",
+    "asserts": "Returns (4, 1): 16 Aug 1839 is a Friday (♀) and 3 Sep 1839 is a Tuesday (♂); the same holds for 1833 and 1844"
+   },
+   {
+    "sympy": "sum(1 for k in range(19) if (datetime.date(1839,8,16)+datetime.timedelta(k)).weekday()!=6)",
+    "asserts": "Returns 16: excluding Sundays, 16 Aug to 3 Sep inclusive is 16 working days, matching the numbering 1..16"
+   },
+   {
+    "sympy": "Eq(1310-1283, 27)",
+    "asserts": "Joseph grew 27 mm between 21 Aug 1816 and 5 Mar 1817"
+   }
+  ],
+  "transcription_corrections": [
+   "The wallpaper line reads '31^F 5,2^Z' (31 Fuß 5.2 Zoll); the next-page reading '31 F 2/52' is wrong.",
+   "'können werden' is written as 'konnen werden' without umlaut in the image; this does not affect the meaning.",
+   "The second 'Minna 1,541' in the 1817 list is most likely Gauss's wife Minna Waldeck, distinct from his daughter Minna listed above.",
+   "'Jch' stands for 'Ich' (Gauss himself) and 'Jos' for Joseph. The next-page readings 'Gch' and 'Jor' are wrong.",
+   "The values 1,361 / 1,257 / 1,105 / 0,923 / 0,769 stand in the column headed '1818 Jan 24'; '1819 März 12' is a separate heading with no clearly associated values.",
+   "'Brackmann 1 ♀ 16 August' uses the Venus sign for Friday, and '16 ♂ 3 Sept' uses the Mars sign for Tuesday."
+  ]
+ }
+}

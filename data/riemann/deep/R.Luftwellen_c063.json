@@ -1,0 +1,64 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c063",
+ "label": "45v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000064/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is a draft of Riemann's self-announcement (Selbstanzeige, Göttinger Nachrichten 1859) of his paper 'Ueber die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite' (Abh. Ges. Wiss. Göttingen 8, 1860). The previous page has the start of the paper's introduction. The next page has the paper's treatment of wave steepening and the shock (jump) conditions. This page has no derivations, only a verbal summary of results. Reconstructed in modern notation:\n\n(1) Setting. One-dimensional (planar) motion of a gas: velocity u(x,t) and density rho(x,t), each constant on planes perpendicular to x. The flow is barotropic: p = phi(rho), the pressure an air mass has without heat exchange (the previous page discusses Poisson's law p proportional to rho^k). The equations, implicit here and mine:\n  rho_t + (rho u)_x = 0\n  u_t + u u_x + phi'(rho) rho_x / rho = 0\n\n(2) Linear (acoustic) case. The initial disturbance is confined to a finite region and the pressure differences are infinitely small. Two waves leave the disturbed region. In each wave the velocity is a definite function of the density. Each travels with constant speed c = sqrt(phi'(rho)).\n\n(3) Finite amplitude. The same holds in general: after the two waves separate, each is what is now called a simple wave. In it the velocity is a fixed function of density:\n  u = C ± ∫ sqrt(phi'(rho)) d log rho = C ± ∫ c(rho)/rho d rho,\nwhere the integration constant C may differ between the two waves. This is the 'log' fragment in the middle paragraph. Hence each density value is tied to one velocity value, the larger velocity going with the larger density in the propagation direction.\n  Filling the step (mine): put u = F(rho) with F' = c/rho. Continuity then gives\n  rho_t + (F + rho F') rho_x = rho_t + (u + c) rho_x = 0.\n  Momentum is then satisfied identically because F'^2 = c^2/rho^2.\n  So each value of rho moves with constant speed u + c(rho), whose magnitude grows as the propagation speed. Riemann assumes phi'(rho) does not decrease as rho grows (true in reality). Then d(u+c)/d rho = c/rho + c' > 0, so larger densities move faster.\n\n(4) Consequences. Characteristics are straight lines x = x0 + (u+c)(rho) t, so the width between two given density values changes linearly in t.\n  - Compression waves (where density decreases in the propagation direction) shrink in breadth in proportion to time. They must eventually turn into compression shocks ('Verdichtungsstösse').\n  - Rarefaction waves widen in proportion to time.\n  The laws for the case before the two waves separate, for a disturbance extending over all space, and for shock propagation are not given here because they need formulas. (In the paper these are the Riemann-invariant / hodograph analysis and the jump conditions; see the next page.)\n\n(5) Physical remarks. Finite amplitude means the waveform, hence the timbre (Klang), of sound changes during propagation. This is hard to test experimentally despite Helmholtz's recent advances in sound analysis: the change is unnoticeable at short distances, and at large distances other causes of timbre change are hard to separate. Application to meteorology is excluded, because these motions travel at sound speed while atmospheric currents move far more slowly. The page ends with an unfinished sentence on comparison with experiment.",
+  "errors": [
+   "No mathematical errors. The assumption that phi' does not decrease is sufficient but stronger than needed. Monotonic growth of u+c only requires d log sqrt(phi'(rho))/d log rho + 1 > 0, which is exactly the factor that appears on the next page. It also covers the isothermal (Boyle) case phi' = const.",
+   "The statement that widths change 'proportional to time' is exact for simple waves (straight characteristics) before shock formation. It is correctly restricted to after the two waves separate."
+  ],
+  "results": [
+   {
+    "what": "Two waves leave a finite initial disturbance; in each, velocity is a function of density, u = C ± ∫ sqrt(phi'(rho)) d log rho, and each density value propagates with speed u ± sqrt(phi'(rho))",
+    "modern_name": "Simple waves (Riemann simple waves) of 1D isentropic gas dynamics; Riemann invariants",
+    "usually_credited_to": "Earnshaw (1858/1860) and Riemann (1860); Poisson (1808) for the implicit simple-wave solution",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Compression parts steepen with width decreasing linearly in time and become shocks; rarefaction parts widen linearly in time",
+    "modern_name": "Wave steepening / gradient catastrophe and shock formation; centered rarefaction spreading",
+    "usually_credited_to": "Stokes (1848), Challis, Earnshaw; Riemann 1860 for the systematic treatment",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Remarks on timbre change of finite-amplitude sound and the inapplicability to meteorology",
+    "modern_name": "Nonlinear acoustic distortion",
+    "usually_credited_to": "Riemann's 1859 Selbstanzeige (published)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of Riemann's published self-announcement of his 1860 shock-wave paper. Its content (simple waves, velocity as a function of density, steepening into compression shocks, remarks on timbre and meteorology) appears nearly verbatim in the printed Anzeige and is well known as his.",
+  "checkable": [
+   {
+    "sympy": "rho,A,k=symbols('rho A k',positive=True); c=sqrt(k*A*rho**(k-1)); F=integrate(c/rho,rho); simplify(F-2*c/(k-1))",
+    "asserts": "For p=A*rho**k, the simple-wave velocity u=∫c/rho drho equals 2c/(k-1) (k≠1); should be 0"
+   },
+   {
+    "sympy": "rho=symbols('rho',positive=True); c=Function('c')(rho); F=Function('F')(rho); expr=-F.diff(rho)*(F+rho*F.diff(rho))+F*F.diff(rho)+c**2/rho; simplify(expr.subs(F.diff(rho),c/rho))",
+    "asserts": "With u=F(rho), F'=c/rho, the momentum equation reduces to 0 when rho_t=-(F+rho F')rho_x, so u=F(rho) is a simple wave moving with speed u+c; should be 0"
+   },
+   {
+    "sympy": "rho,A,k=symbols('rho A k',positive=True); c=sqrt(k*A*rho**(k-1)); simplify(diff(2*c/(k-1)+c,rho)-(k+1)/2*c/rho)",
+    "asserts": "For a polytropic gas, d(u+c)/drho = (k+1)/2 * c/rho > 0, so larger densities move faster (steepening); should be 0"
+   },
+   {
+    "sympy": "rho,a=symbols('rho a',positive=True); diff(a*log(rho)+a,rho)",
+    "asserts": "Isothermal case phi'=a**2 const: u+c = a*log(rho)+a still increases with rho (derivative a/rho>0), so the condition 'phi' not decreasing' includes Boyle's law"
+   }
+  ],
+  "transcription_corrections": [
+   "Middle paragraph: the image shows roughly 'C + ∫ sqrt(phi'(rho)) d log rho der Dichtigkeit, wobei die Integrationsconstante in beiden verschieden sein kann'. The machine reading '√φ'(ρ) eine bestimmte Function {+log+} ... welche die Integration[?] erstrecken' garbles the integral expression and the word Integrationsconstante.",
+   "'der Zeit proportional an [-Breite abnehmen-] {+Breite[?]+}' should read 'der Zeit proportional an Breite abnehmen', and 'die Verdünnungswellen aber ... zunehmen', matching the next page and the published Anzeige.",
+   "'Die Gesetze, welche nur der Theilung beider Wellen oder bei einem [?] ganzen Raum ...' likely reads 'Die Gesetze, welche vor der Theilung beider Wellen oder bei einer über den ganzen Raum sich erstreckenden Gleichgewichtsstörung gelten'.",
+   "'in [?] Zeit kaum [?] {+möglich sein wird+}' likely reads 'in nächster Zeit kaum möglich sein wird'.",
+   "'ergiebt sich bei den gewöhnlichen Annahmen' likely reads 'bei der gewöhnlichen Annahme, dass die Druckverschiedenheiten unendlich klein sind'."
+  ]
+ }
+}

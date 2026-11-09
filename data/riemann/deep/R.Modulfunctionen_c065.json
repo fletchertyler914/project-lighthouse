@@ -1,0 +1,68 @@
+{
+ "bundle": "R.Modulfunctionen",
+ "page": "c065",
+ "label": "32v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3223711:00000066/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: (y) is Riemann's sawtooth from the Habilitationsschrift. It is y minus the nearest integer, set to 0 at half-integers. The previous page expanded (y) as a Fourier series and grouped terms by N = nk. This gives S(x) = sum_{n>=1} (nx)/n = (1/pi) sum_N psi(N) sin(2 pi N x)/N, with psi(N) = sum_{d|N} (-1)^{d+1}. It checked the case x = 1/4 (value pi/16). This page establishes, for rational x, the periodic structure of the terms (nx) and the convergence of S(x).\n\n(1) Periodicity. Let x = h/m with m > 0 an integer. Write n = n'm + n'' with 0 <= n'' <= m-1. Then nh/m = hn' + hn''/m, and hn' is an integer, so ((n+m)x) = (nx). The values depend only on n mod m.\n\n(2) Values. Write nh = k_n m + h_n with -m/2 < h_n <= m/2. Then (nx) = h_n/m, except when h_n = m/2, where (nx) = 0. Riemann tacitly assumes gcd(h,m) = 1.\n- m odd: -(m-1)/2 <= h_n <= (m-1)/2. The value 0 occurs only for n ≡ 0 (mod m).\n- m even: the nonzero values satisfy -(m/2-1) <= h_n <= m/2-1. The classes n ≡ 0 and n ≡ m/2 (mod m) give (nx) = 0 and drop out.\n\n(3) Pairing. Since ((m-n)x) = (-nx) = -(nx), the residue classes pair up as n1 and n2 = m - n1 with opposite values. So S(x) is a finite linear combination of series of the form\n1/n1 - 1/n2 + 1/(n1+m) - 1/(n2+m) + 1/(n1+2m) - ...\nThe grouped terms are 1/(n1+tm) - 1/(n2+tm) = (n2-n1)/(n1 n2 + (n1+n2) m t + m^2 t^2) = O(1/t^2). Hence each such series is convergent.\n\n(4) Second proof by Abel summation.\n- By the antisymmetry, sum_{n=1}^m (nx) = 0.\n- Put alpha_N = sum_{n=1}^N (nx), with alpha_0 = 0. Then (nx) = alpha_n - alpha_{n-1}, and alpha_N is periodic with period m, hence bounded.\n- Then sum_{n=1}^N (nx)/n = sum_1^N alpha_n/n - sum_0^{N-1} alpha_n/(n+1) = sum_1^N alpha_n (1/n - 1/(n+1)) + alpha_N/(N+1).\n- Since alpha_N is bounded, the last term tends to 0. This gives S(x) = sum_{n>=1} alpha_n/(n(n+1)), an absolutely convergent series.\n\nRiemann writes n both as summation index and as upper limit. Purpose: to justify convergence of sum (nx)/n at rational points, before evaluating it via the divisor-sum trigonometric series (next page: psi(2^mu n') = (mu-1) alpha(n') etc.).\n\nMy addition (not on the page): splitting into residue classes yields the closed value S(h/m) = (pi/(2m)) sum_{r=1}^{m-1} ((rh/m)) cot(pi r/m), a Vasyunin/Dedekind-type cotangent sum. For x = 1/4 it gives pi/16, agreeing with the previous page.",
+  "errors": [
+   "No mathematical errors.",
+   "Notational slip: n is used simultaneously as summation index and as upper limit in the Abel summation lines; harmless.",
+   "gcd(h,m) = 1 is tacitly assumed when saying h_n = 0 only for n ≡ 0 and h_n = m/2 only for n ≡ m/2.",
+   "The first term of the model series was first written 1/m and corrected to 1/n_1."
+  ],
+  "results": [
+   {
+    "what": "For rational x = h/m, (nx) is m-periodic in n, antisymmetric under n -> m-n, and sums to 0 over a period.",
+    "modern_name": "Periodicity and odd symmetry of the sawtooth ((nh/m)), the basic input to Dedekind sums",
+    "usually_credited_to": "Dedekind (1892, commentary on Riemann's fragment XXVIII)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Convergence of sum_{n>=1} ((nx))/n at rational x, via pairing of residue classes and via Abel summation: S = sum alpha_n/(n(n+1)) with bounded periodic partial sums alpha_n.",
+    "modern_name": "Abel summation / Dirichlet test for series with periodic mean-zero coefficients",
+    "usually_credited_to": "Abel/Dirichlet (method); the series sum ((nx))/n appears in Riemann's fragment on limiting values of modular functions (Werke XXVIII), later studied by Hardy–Littlewood and Davenport (1937)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine convergence argument (Abel summation, pairing of terms). The series sum ((nx))/n and its divisor-sum Fourier expansion are already known from Riemann's published fragment on the limiting cases of elliptic modular functions, edited by Dedekind. This page is a working draft for it.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; t,n1,n2,m=symbols('t n1 n2 m'); simplify(1/(n1+t*m)-1/(n2+t*m) - (n2-n1)/(n1*n2+(n1+n2)*m*t+m**2*t**2))",
+    "asserts": "Difference formula for paired terms (should be 0)."
+   },
+   {
+    "sympy": "from sympy import *; saw=lambda y: 0 if (y-floor(y))==Rational(1,2) else y-floor(y+Rational(1,2)); h,m=3,7; sum(saw(Rational(n*h,m)) for n in range(1,m+1))",
+    "asserts": "sum_{n=1}^m (n h/m) = 0 (should be 0)."
+   },
+   {
+    "sympy": "from sympy import *; saw=lambda y: 0 if (y-floor(y))==Rational(1,2) else y-floor(y+Rational(1,2)); h,m=1,6; all(saw(Rational((n+m)*h,m))==saw(Rational(n*h,m)) for n in range(1,50))",
+    "asserts": "Periodicity ((n+m)x) = (nx)."
+   },
+   {
+    "sympy": "from sympy import *; saw=lambda y: 0 if (y-floor(y))==Rational(1,2) else y-floor(y+Rational(1,2)); x=Rational(2,5); N=40; a=[0]; [a.append(a[-1]+saw(n*x)) for n in range(1,N+1)]; simplify(sum(saw(n*x)/n for n in range(1,N+1)) - (sum(a[n]*(Rational(1,n)-Rational(1,n+1)) for n in range(1,N+1)) + a[N]/(N+1)))",
+    "asserts": "Abel summation identity for partial sums (should be 0)."
+   },
+   {
+    "sympy": "from sympy import *; saw=lambda y: 0 if (y-floor(y))==Rational(1,2) else y-floor(y+Rational(1,2)); h,m=1,4; nsimplify(pi/(2*m)*sum(saw(Rational(r*h,m))*cot(pi*r/m) for r in range(1,m))) - pi/16",
+    "asserts": "Closed form (my addition) reproduces the previous page's value S(1/4) = pi/16 (should be 0)."
+   },
+   {
+    "sympy": "from sympy import *; saw=lambda y: 0 if (y-floor(y))==Rational(1,2) else y-floor(y+Rational(1,2)); h,m=2,7; N=200000; x=Rational(h,m); float(sum(saw(n*x)/n for n in range(1,N))) - float(pi/(2*m)*sum(saw(Rational(r*h,m))*cot(pi*r/m) for r in range(1,m)))",
+    "asserts": "Numerical check of the cotangent-sum value of sum ((nh/m))/n (should be close to 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'ugo' / 'wo' in line 4: reads 'wo -m/2 < h_n <= m/2' (transcription correct).",
+   "In the line for m odd, the phrase after '0' reads roughly '0 kann wegbleiben/wegfallen' with marginal note '| n ≡ 0' (mod m). The sense is that h_n = 0 only for n ≡ 0.",
+   "In the m-even line, 'fallen aus' is written below and refers to both classes n ≡ 0 and n ≡ m/2.",
+   "Line 'Es kommen daher Reihen zu betrachten' is plausible, but the final word is uncertain (possibly 'vor').",
+   "In the denominator, '(n1+n2)mt' is correct; a stray mark before m in the image is not a factor.",
+   "Congruences n ≡ 0, n ≡ m/2 are modulo m."
+  ]
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c144",
+ "label": "70r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000145/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is a draft of part of Riemann's 'Theorie der Abel'schen Functionen' (Crelle 54, 1857). It sits in the section that sets up the Dirichlet-principle existence argument on a cut (Querschnitt) surface T'. The fragment opens mid-sentence. The setup is a point O' with a circle of radius 1 around it, and inside it a second circle of variable smaller radius r. (The transcription's 'einen geraden' should read 'einen zweiten'.)\n\n(A) Why a point value cannot be prescribed. The claim is that requiring a function alpha to take a value a at a single point adds no constraint to the Dirichlet integral L = ∫∫ |grad alpha|^2 dx dy, because L can be made arbitrarily small. Use polar coordinates (rho, phi) centred at the point and define:\n- alpha = a for rho <= r;\n- alpha = a * log(rho)/log(r) for r <= rho <= 1;\n- alpha = 0 for rho >= 1.\n\nThis alpha is continuous, since it equals a at rho = r and 0 at rho = 1. It is radial, so |grad alpha| = |d alpha/d rho| = a/(rho |log r|) on the annulus and 0 elsewhere. Hence\n\nL = a^2/(log r)^2 * ∫_r^1 d rho ∫_0^{2pi} (1/rho)^2 rho d phi.\n\nStep (mine): the inner integral is 2pi/rho, and ∫_r^1 d rho/rho = log(1/r). So L = 2pi a^2 log(1/r)/(log r)^2 = 2pi a^2/log(1/r).\n\nThis tends to 0 as r -> 0+. So by choosing r suitably, L can be made smaller than any given quantity. In modern terms, a point has zero capacity in the plane (W^{1,2} functions have no point traces). This is why Riemann prescribes singularities and periodicity moduli rather than point values.\n\n(B) Point 5: the jumps across the cuts. The changes ('Änderungen'; an interlinear insertion says 'Differenzen zwischen den Werthen') of the function on crossing the cross-cuts depend on as many independent constants as there are cuts. Justification as I read it: traverse the system of cuts backwards, the later parts first. Then the jump is determined everywhere once its value at the beginning of each cut is given. These initial values are mutually independent.\n\nModern reading: for d alpha closed, the jump across each cut is locally constant along the cut. It changes only where a later cut ends on an earlier one, by the jumps of that later cut. So the jumps are fixed by one free constant per cut, i.e. by the periods. On a genus-p surface with 2p cuts (plus extra cuts for further boundary or logarithmic data), these are the 2p free periodicity moduli.",
+  "errors": [
+   "No mathematical error. The computation L = 2pi a^2/log(1/r) is correct and tends to 0 as r -> 0.",
+   "Notation: the transcription's 'log r^2' must mean (log r)^2. The image shows log r^2 with the square applied to the log.",
+   "The text says 'von O fuer O'' (as transcribed). The printed 1857 version has the roles of O and O' as a centre point in an analogous phrase. This is a minor wording or reading issue, not mathematical.",
+   "The argument in point 5 is a sketch. It implicitly assumes the jump is constant along each cut piece, which follows from alpha being a solution with continuous derivatives across the cuts."
+  ],
+  "results": [
+   {
+    "what": "The Dirichlet integral of a function equal to a at a point (on a small disc) and 0 outside the unit circle can be made arbitrarily small (2pi a^2/log(1/r)). Hence point values cannot be prescribed in the Dirichlet-principle minimization.",
+    "modern_name": "Zero capacity of a point in R^2 / logarithmic cutoff function; nonexistence of point traces for H^1 functions in 2D",
+    "usually_credited_to": "Riemann 1857 (Theorie der Abel'schen Functionen, Art. 3-4); the capacity notion was formalized later (Wiener, Frostman, etc.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The jumps across the cross-cut system are determined by one independent constant per cross-cut (the initial value on each cut), obtained by traversing the cuts in reverse order.",
+    "modern_name": "Periods / moduli of periodicity of a closed differential; the cut system as a basis of H_1, with the periods freely assignable",
+    "usually_credited_to": "Riemann 1857",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of passages that appear essentially verbatim in Riemann's published 1857 paper on Abelian functions. It covers the logarithmic cutoff showing points carry no Dirichlet constraint, and the independence of the cut-jump constants. Both are well known as his. Only minor wording variants of the draft are of interest.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(integrate((a/(rho*log(r)))**2*rho,(phi,0,2*pi)),(rho,r,1)) - 2*pi*a**2/log(1/r))  # with r in (0,1), a real",
+    "asserts": "The Dirichlet integral over the annulus equals 2*pi*a**2/log(1/r)."
+   },
+   {
+    "sympy": "limit(2*pi*a**2/log(1/r), r, 0, '+')",
+    "asserts": "The limit is 0, so L can be made smaller than any given quantity."
+   },
+   {
+    "sympy": "diff(a*log(rho)/log(r), rho) - a/(rho*log(r))",
+    "asserts": "The radial derivative of the cutoff function is a/(rho log r); the result simplifies to 0."
+   },
+   {
+    "sympy": "[ (a*log(rho)/log(r)).subs(rho, r), (a*log(rho)/log(r)).subs(rho, 1) ]",
+    "asserts": "Continuity at both circles: the values are a at rho = r and 0 at rho = 1."
+   }
+  ],
+  "transcription_corrections": [
+   "'einen geraden beschreiben' should read 'einen zweiten beschreiben'.",
+   "'log r^2' should be understood as (log r)^2, i.e. 'log r²' in the manuscript notation.",
+   "'rückwärts die Seitenarme [?] gedreht durchläuft' should likely read 'rückwärts – die späteren Theile zuerst – durchläuft'. This matches the printed 1857 text.",
+   "The interlinear insertion 'Differenzen zwischen den Werthen' belongs above 'die Änderungen beim Überschreiten der Querschnitte'. The struck 'od' and 'Wenn' precede '5.'"
+  ]
+ }
+}

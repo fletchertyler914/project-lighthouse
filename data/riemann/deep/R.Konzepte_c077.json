@@ -1,0 +1,67 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c077",
+ "label": "36v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000078/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a draft of the part of Riemann's Dirichlet-principle argument in his 1851 dissertation (Grundlagen fuer eine allgemeine Theorie der Functionen einer veraenderlichen complexen Groesse, Art. 16-17). It shows that the Dirichlet integral L = ∫∫ (λ_x^2 + λ_y^2) dT is infinite if λ has certain discontinuities. The previous page proves harmonic-function lemmas (unique continuation from Cauchy data, mean value property, no interior extrema). The next page finishes the curvature-corrected line case.\n\nOpening remark. For what follows one must note how λ may behave without making L infinite. λ may be unbounded, or discontinuous, at isolated points. The question is whether ρ∂λ/∂x and ρ∂λ/∂y must tend to 0 with ρ, where ρ is the distance from a point O. Riemann announces the goal: if λ is discontinuous in a forbidden way inside a region T', then for any given C, L > C however λ is chosen elsewhere.\n\n(1) Point singularity. Use polar coordinates (ρ, φ) about O. Assume ρ∇λ does not tend to 0. Then choose R so that for ρ < R the angular quantity ρ^2 ∫_0^{2π} (λ_x^2 + λ_y^2) dφ does not vanish, and let a > 0 be its smallest value on that interval. The annulus r < ρ < R contributes\n∫_r^R dρ ∫ |∇λ|^2 ρ dφ = ∫_r^R (1/ρ)[ρ^2 ∫ |∇λ|^2 dφ] dρ ≥ ∫_r^R a/ρ dρ = a(log R − log r).\nTaking r < R e^{−C/a} gives a log(R/r) > C. So the part of L coming from T' outside the small disc already exceeds C, whatever λ is inside the disc. Hence L > C.\n\n(2) Line singularity. Let s be arc length along the discontinuity line and p the normal distance from it; K is the curvature. Draw normals at the ends of a piece of the line, and let p1, p2 be the p-values where these normals leave T'. Let λ1, λ2 be the values of λ there. The gradient is |∇λ|^2 = λ_p^2 + λ_s^2/(1−Kp)^2.\n- Riemann writes the strip's contribution as ∫ds ∫_{p1}^{p2} [λ_p^2 + λ_s^2/(1−Kp)^2] dp.\n- He drops the λ_s term. With endpoint values fixed, ∫ λ_p^2 dp is smallest when λ_p is constant.\n- This gives L_1 > ∫ds ∫ ((λ1−λ2)/(p1−p2))^2 dp = ∫ (λ1−λ2)^2/(p1−p2) ds.\n- Suppose λ1 − λ2 tends to a finite nonzero limit as p1, p2 → 0 (a jump across the line), with exceptions allowed at isolated points. Then this bound grows without limit as the strip is narrowed, so L > C.\n- The struck-out lines try to fix bounds P1, P2 and the least value c of λ1−λ2, and to shrink p1, p2 accordingly.\n\nOn the next page Riemann restores the area element (1−Kp) ds dp. There, minimizing ∫ λ_p^2 (1−Kp) dp (my reconstruction of the step) gives λ_p = A/(1−Kp). The minimum is then K(λ1−λ2)^2 / [log(1−Kp1) − log(1−Kp2)]. This is the form printed in the dissertation, Art. 17.",
+  "errors": [
+   "The line-case integrand omits the Jacobian (1−Kp) of the area element in (s,p) coordinates; it should be ∫ds∫[λ_p^2 + λ_s^2/(1−Kp)^2](1−Kp)dp. The next page corrects this, giving the log(1−Kp) formula. For small p the crude bound is still asymptotically right.",
+   "Point case: assuming only that ρ^2∫|∇λ|^2 dφ 'does not become zero' does not yet give a positive minimum a. A positive lower bound on (0,R) is implicitly assumed.",
+   "Sign/orientation: (λ1−λ2)^2/(p1−p2) is positive only if p1 > p2. The orientation of p is left implicit.",
+   "The case-split premise is heuristic: failure of ρ∇λ → 0 does not by itself give a uniform lower bound for ρ^2∫|∇λ|^2dφ near 0."
+  ],
+  "results": [
+   {
+    "what": "A point singularity where ρ|∇λ| does not tend to 0 makes the Dirichlet integral diverge logarithmically: annulus contribution ≥ a log(R/r)",
+    "modern_name": "Logarithmic divergence of the Dirichlet energy near a point (capacity of a point is zero / energy of log singularity)",
+    "usually_credited_to": "Riemann 1851 dissertation (Art. 17); standard in Dirichlet principle literature",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "A jump discontinuity along a curve forces infinite Dirichlet energy; lower bound via the 1D minimization ∫λ_p^2 dp ≥ (Δλ)^2/Δp, with curvature version K(Δλ)^2/log((1−Kp1)/(1−Kp2))",
+    "modern_name": "Functions with finite Dirichlet energy (H^1) have no jumps across curves (trace / ACL property)",
+    "usually_credited_to": "Riemann 1851 dissertation Art. 17; modern form via Sobolev space theory (Beppo Levi, Sobolev, 20th c.)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of Art. 17 of Riemann's published 1851 dissertation (Dirichlet principle: discontinuous λ give infinite L). The formulas, including the log(1−Kp) curvature bound on the next page, appear in the printed text. The draft is only of interest for the development of the argument.",
+  "checkable": [
+   {
+    "sympy": "integrate(a/rho, (rho, r, R)) - a*(log(R)-log(r))",
+    "asserts": "Annulus lower bound equals a(log R − log r) (result 0)"
+   },
+   {
+    "sympy": "simplify(a*(log(R) - log(R*exp(-C/a))) - C)",
+    "asserts": "Choosing r = R e^{-C/a} gives exactly the bound C (result 0)"
+   },
+   {
+    "sympy": "simplify(integrate(((l1-l2)/(p1-p2))**2, (p, p2, p1)) - (l1-l2)**2/(p1-p2))",
+    "asserts": "The linear interpolant gives ∫λ_p^2dp = (λ1−λ2)^2/(p1−p2) (result 0)"
+   },
+   {
+    "sympy": "A=symbols('A'); simplify(integrate((A/(1-K*p))**2*(1-K*p),(p,p1,p2)) - A*integrate(A/(1-K*p),(p,p1,p2)))",
+    "asserts": "At the Euler-Lagrange extremal λ_p = A/(1−Kp), the weighted energy equals A(λ2−λ1)"
+   },
+   {
+    "sympy": "simplify(integrate(1/(1-K*p),(p,p1,p2)) - (log(1-K*p1)-log(1-K*p2))/K)",
+    "asserts": "Gives λ2−λ1 = A(log(1−Kp1) − log(1−Kp2))/K, hence minimum = K(λ1−λ2)^2/(log(1−Kp1) − log(1−Kp2))"
+   },
+   {
+    "sympy": "limit(K/(log(1-K*p1)-log(1-K*(p1-h))), K, 0)",
+    "asserts": "The curvature formula reduces to 1/(p1−p2) = 1/h as K → 0"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 likely reads: 'Für das Folgende ist aber die Bemerkung erforderlich, daß sich λ unbeschadet der Endlichkeit von L nicht nur in einzelnen Punkten unendlich annähern könne...', i.e. about admissible singularities of λ, not 'an Einzelnen'.",
+   "'ein [?] schließendem Flächentheil T'' is probably '(einen) einschließenden Flächentheil T''.",
+   "The bound is ρ < R e^{-C/a} (image: 'R e^{C/a}' with the exponent written as a fraction above e); the crossed-out text has 'ρ = R e^{-C/a}'.",
+   "In the line case 'L_1 >' denotes the strip contribution; the right-hand side is ∫ (λ1−λ2)^2/(p1−p2) ds.",
+   "'Setzt man nun p1 < P1 ... p2 < P2' introduces the fixed outer bounds P1, P2; 'k' appears to denote a strip ('Streifen') enclosing a piece of s, not a curvature part."
+  ]
+ }
+}

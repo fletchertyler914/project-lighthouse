@@ -1,0 +1,75 @@
+{
+ "bundle": "Math.12",
+ "page": "c076",
+ "label": "36r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376631:00000077/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page, §8): the modulus is m = a+bi = -11+4i, a Gaussian prime of norm 137. The number to be tested is M = -1+2i, and the aim is its 'Decident' ε, its biquadratic character: ε ≡ k (mod 4) when M^((137-1)/4) ≡ i^k (mod m).\n\nThe f run over the 34 = (137-1)/4 'least residues' of m: the Gaussian integers f with f/m = x+yi and 0 < x, y < 1/2. Equivalently f·conj(m) = f(-11-4i) has real and imaginary parts strictly between 0 and 68.5.\n\nColumns of the table, per row:\n(1) 137f/m = f(-11-4i).\n(2) f.\n(3) 274fM/m = 2·(col1)·M.\n(4) The integer part of 2fM/m, taken componentwise as floors of col3/137.\n(5) Θ(2fM/m).\n(6) 137fM/m = (col1)·M.\n(7) The integer part of fM/m.\n(8) ±Θ(fM/m). The sign is + when f is 'even' (divisible by 1+i, i.e. real+imag even) and − when f is odd. Gauss splits these into a + column and a − column.\n\nHow Θ works (my inference, consistent with every row): Θ is read off the parity of the floor part g = c+di in column 4 or 7.\n- (even, even) gives 0\n- (odd, even) gives 1\n- (odd, odd) gives 2\n- (even, odd) gives 3\nApplied to the floor of 2w, this tells which quarter [0,1/2) or [1/2,1) in each coordinate the fractional part of w = fM/m lies in. That quarter is the power k of i such that fM ≡ i^k f' (mod m) with f' again a least residue: Gauss's lemma for Z[i].\n\nFirst method: ε ≡ Σ Θ(2fM/m) (mod 4). Column 5 sums to 60 ≡ 0.\nSecond method: ε ≡ Σ ±Θ(fM/m) (mod 4). The + column sums to 22, the − column to 18, giving 22 − 18 = +4 ≡ 0.\nHence ε = 0.\n\nConclusion on the page: -1+2i is a biquadratic residue of -11+4i. Gauss writes 'In der That ist ( )^4 ≡ -1+2i' and leaves the root blank.\n\nFilling the blank (mine): (2+2i)^4 = -64, and -64 - (-1+2i) = -63-2i = (-11+4i)(5+2i). So (2+2i)^4 ≡ -1+2i (mod -11+4i), as do ±(2+2i) and ±i(2+2i).\n\nIndependent check (mine): Z[i]/m ≅ F_137 with i ↦ 37 (37^2 = 1369 ≡ -1). Then -1+2i ↦ 73, and 73^34 ≡ 1 (mod 137); also 61^4 ≡ 73 with 61 ≡ -2-2i.\n\nThe '×' marks in the margin appear to flag individual rows, probably those Gauss rechecked; their meaning is unsure.",
+  "errors": [
+   "Row f=-2-3i, column 6: the correct value is 137fM/m = (10+41i)(-1+2i) = -92-21i, consistent with column 3 = -184-42i. The page or transcription reads '-142-21i'. Either a pen slip or a misreading; the floor -1-i and Θ=2 are correct regardless.",
+   "Row f=-5-2i, column 6: the correct value is -131+52i (half of -262+104i). The transcription gives '+54i'; probably a misreading or slip, and the floor -1 is unaffected.",
+   "No error affects the result. All 34 f are the correct least residues; columns 4, 5, 7, 8 check; the sums 60 and 22−18=4 are correct; ε=0 agrees with (-1+2i)^34 ≡ 1 mod m.",
+   "The fourth root is left blank in the manuscript; 2+2i (or an associate) fills it."
+  ],
+  "results": [
+   {
+    "what": "Determination of the biquadratic character of -1+2i modulo the Gaussian prime -11+4i via counting the quarter-plane positions of fM/m over a half-system (quarter-system) of least residues f: an analogue of Gauss's lemma in Z[i], in two variants. The first uses the parity of floor(2fM/m); the second uses alternating signs for f even/odd with floor(fM/m).",
+    "modern_name": "Gauss's lemma for biquadratic (quartic) residues in Z[i] / quartic residue symbol computation",
+    "usually_credited_to": "Gauss (Nachlass on biquadratic residues, Werke II/X); later systematic treatments by Eisenstein, Schering (1882) and Busche",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Numerical verification: (2+2i)^4 ≡ -1+2i (mod -11+4i), so -1+2i is a quartic residue (root left blank on the page).",
+    "modern_name": "quartic residue check",
+    "usually_credited_to": "routine computation",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a worked example of Gauss's own lemma-type criterion for biquadratic residues, which is known from his Nachlass on biquadratic residues. The two-method comparison (the 2fM/m version versus the signed fM/m version) is a nice unpublished detail but not unexpected.",
+  "checkable": [
+   {
+    "sympy": "expand((-2-5*I)*(-11-4*I)) == 2+63*I",
+    "asserts": "column 1 = f*conj(m) for f=-2-5i"
+   },
+   {
+    "sympy": "expand((2+63*I)*(-1+2*I)) == -128-59*I",
+    "asserts": "column 6 for first row"
+   },
+   {
+    "sympy": "expand((10+41*I)*(-1+2*I)) == -92-21*I",
+    "asserts": "corrected column 6 for f=-2-3i"
+   },
+   {
+    "sympy": "expand((47+42*I)*(-1+2*I)) == -131+52*I",
+    "asserts": "corrected column 6 for f=-5-2i"
+   },
+   {
+    "sympy": "len([(a,b) for a in range(-20,21) for b in range(-20,21) if 0 < re(expand((a+b*I)*(-11-4*I))) < Rational(137,2) and 0 < im(expand((a+b*I)*(-11-4*I))) < Rational(137,2)]) == 34",
+    "asserts": "there are exactly 34 least residues f (quarter system)"
+   },
+   {
+    "sympy": "expand(((2+2*I)**4 - (-1+2*I))/(-11+4*I)) == 5+2*I",
+    "asserts": "(2+2i)^4 ≡ -1+2i mod -11+4i (fills the blank)"
+   },
+   {
+    "sympy": "pow(73, 34, 137) == 1 and (37**2) % 137 == 136",
+    "asserts": "under i->37, -1+2i -> 73 is a quartic residue mod 137"
+   },
+   {
+    "sympy": "pow(61, 4, 137) == 73",
+    "asserts": "61 (≡ -2-2i) is a fourth root of 73 mod 137"
+   }
+  ],
+  "transcription_corrections": [
+   "Row f=-2-3i, column 6 should be -92-21i (not -142-21i).",
+   "Row f=-5-2i, column 6 should be -131+52i (not +54i).",
+   "Row f=-2 ('22+8i' row): column 2 is -2 with a crossed-out scribble after it.",
+   "Row 37+i: column 2 is -3+i (overwritten).",
+   "The blank root in the final sentence can be filled with 2+2i: (2+2i)^4 = -64 ≡ -1+2i."
+  ]
+ }
+}

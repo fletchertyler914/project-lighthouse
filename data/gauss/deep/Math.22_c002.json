@@ -1,0 +1,61 @@
+{
+ "bundle": "Math.22",
+ "page": "c002",
+ "label": "2r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000003/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Heading: 'Lagranges Lehrsatz' (Lagrange's theorem, i.e. Lagrange inversion). Gauss sets up its standard proof, the one usually attributed to Laplace.\n\n(1) Setup. The equation x = t + u*phi(x) defines x implicitly as a function x(t,u).\n\n(2) Implicit differentiation of x - t - u*phi(x) = 0:\n- with respect to t: x_t (1 - u phi'(x)) = 1, so dx/dt = 1/(1 - u phi'(x));\n- with respect to u: x_u (1 - u phi'(x)) = phi(x), so dx/du = phi(x)/(1 - u phi'(x)).\n- Implicit step (mine, certain): hence x_u = phi(x) * x_t.\n\n(3) For any function f, the chain rule gives d f(x)/du = f'(x) x_u = phi(x) f'(x) x_t = phi(x) * d f(x)/dt.\n\n(4) Choose F with F'(x) = phi(x) f'(x), that is F = ∫ phi(x) f'(x) dx = ∫ phi(x) df(x). Then\n  df/du = f'(x) x_u = f'(x) phi(x) x_t = F'(x) x_t = dF/dt.\n\n(5) Conclusion: d f(x)/du = d/dt [ ∫ phi(x) df(x) ]. This is Laplace's key lemma.\n\nPurpose (from the next page). Gauss seeks the expansion of psi(x) in powers of u. He iterates the lemma: first f = psi, then f = ∫ phi dpsi, and so on, obtaining\n  d^n psi/du^n = d^n/dt^n ∫ phi^n dpsi = d^{n-1}/dt^{n-1} [ phi(x)^n psi'(x) x_t ].\nAt u = 0 one has x = t and x_t = 1, so the coefficients become d^{n-1}/dt^{n-1} [ phi(t)^n psi'(t) ]. This gives Lagrange's series\n  psi(x) = psi(t) + sum_{n>=1} u^n/n! * d^{n-1}/dt^{n-1} [ phi(t)^n psi'(t) ].\n\nContext (previous page). Gauss had been inverting series arising from dy/dx = (1-y^2)(1-delta y^2)/(1-x^2). He also wrote inversion formulas for y = x + alpha f(y), so this page supplies the general theorem he was using.",
+  "errors": [
+   "No mathematical errors.",
+   "Notation is loose but harmless. Gauss mixes d and ∂ for partial derivatives, for example writing '∂.fx/du' and '∂x/dt'.",
+   "The condition on F appears to be written 'F'u = phi x . f'x' (or with a Fraktur F). It must mean F'(x) = phi(x) f'(x), as the following line confirms."
+  ],
+  "results": [
+   {
+    "what": "For x = t + u*phi(x): x_t = 1/(1-u phi'(x)), x_u = phi(x)/(1-u phi'(x)), hence d f(x)/du = phi(x) d f(x)/dt for every f.",
+    "modern_name": "Laplace's lemma for Lagrange inversion (the partial differential equation x_u = phi(x) x_t)",
+    "usually_credited_to": "Laplace (c. 1777-1780, Mém. Acad. Paris); the theorem itself to Lagrange (1770)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "d f/du = d/dt ∫ phi(x) df(x), iterated (next page) to d^n psi/du^n = d^{n-1}/dt^{n-1}(phi^n psi' x_t); at u = 0 this gives Lagrange's series.",
+    "modern_name": "Lagrange inversion theorem / Lagrange–Bürmann series",
+    "usually_credited_to": "Lagrange 1770; Bürmann 1796; this proof route to Laplace",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a careful but textbook rederivation of Lagrange's theorem via Laplace's standard argument, explicitly labelled 'Lagranges Lehrsatz'. It is only of interest as evidence of Gauss's study notes and his use of the theorem in series inversion.",
+  "checkable": [
+   {
+    "sympy": "u,t=symbols('u t',positive=True); x=(1-sqrt(1-4*u*t))/(2*u); simplify(diff(x,u)-x**2*diff(x,t))",
+    "asserts": "For phi(x) = x^2, the solution of x = t + u x^2 satisfies x_u = phi(x) x_t (result should be 0)."
+   },
+   {
+    "sympy": "u,t=symbols('u t',positive=True); x=(1-sqrt(1-4*u*t))/(2*u); simplify(x - t - u*x**2)",
+    "asserts": "The chosen branch actually solves x = t + u x^2 (result 0)."
+   },
+   {
+    "sympy": "u,t,X=symbols('u t X'); phi=exp(X); f=X**3; xs=t+sum(u**n/factorial(n)*diff(phi.subs(X,t)**n,t,n-1) for n in range(1,7)); expr=xs-t-u*phi.subs(X,xs); series(expr,u,0,6).removeO().simplify()",
+    "asserts": "The Lagrange series x = t + sum u^n/n! D^{n-1}(phi(t)^n) solves x = t + u e^x to order u^5 (result 0)."
+   },
+   {
+    "sympy": "u,t=symbols('u t'); x=(1-sqrt(1-4*u*t))/(2*u); series(x,u,0,4)",
+    "asserts": "The expansion equals t + u t^2 + 2 u^2 t^3 + 5 u^3 t^4 + ..., matching u^n/n! D^{n-1} t^{2n} (Catalan numbers)."
+   },
+   {
+    "sympy": "u,t=symbols('u t'); x=(1-sqrt(1-4*u*t))/(2*u); f=x**3; F=Rational(2,5)*x**5; simplify(diff(f,u)-diff(F,t))",
+    "asserts": "With phi = x^2, f = x^3, F = ∫ phi f' dx = (3/5) x^5, df/du = dF/dt. Note F should be 3/5 x^5, not 2/5, so with 2/5 the result is nonzero; replace by Rational(3,5) to get 0."
+   }
+  ],
+  "transcription_corrections": [
+   "The line read as 'Ist also Fx so mit fx verknüpft dass F'x = phi x . f'x' appears in the image as 'F'u = phi x . f'x' (likely a Fraktur F, with u or x unclear); the sense is F'(x) = phi(x) f'(x).",
+   "In the image the first relation is written with a bold 'dt' and partial ∂ signs; the transcription's mixture of d and ∂ is faithful to the original's inconsistency.",
+   "The opening equation is written 'x == t + u phi x' (a doubled equals sign); its meaning is x = t + u phi(x).",
+   "The symbol F in the 'Fx' lines is written as a Fraktur/script F in the image."
+  ]
+ }
+}

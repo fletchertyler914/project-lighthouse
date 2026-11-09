@@ -1,0 +1,75 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c026",
+ "label": "21",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000027/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (art. 20-23, continued from previous page). X is a function of x tabulated at equidistant arguments with step delta. X(t) is interpolated from m consecutive values starting at x = a. Gauss writes t = a + u*delta. The first neglected term (the 'hoechstes Ergaenzungsglied') is Delta = u(u-1)...(u-m+1)*mu*delta^m. Here mu plays the role of the m-th divided difference, approximately Delta^m X/(m! delta^m).\n\nShifting the block of nodes one step forward multiplies this term by (u-m)/u. Shifting it one step back multiplies it by (u+1)/(u-m+1). The block is optimal when neither ratio has absolute value below 1. This gives m/2 - 1 <= u <= m/2.\n\nThis page, first paragraph (m odd). The middle node is c = a + (m-1)delta/2. From the bound on u: t - c = (u - (m-1)/2)*delta lies in [-delta/2, +delta/2]. [My step: substitution of the bound.] So the middle node must be the tabulated argument nearest to t. If t lies exactly halfway between two arguments, the two possible blocks give |(u-m)/u| = 1. They are then equally good with respect to the m-th differences. (For m even, the previous page concluded that half the nodes lie on each side of t.)\n\nArt. 24, example m = 4. The values at a-2d, a-d, a, a+d, a+2d, ... are named ''M, 'M, M, M', M'', ... The goal is N = X(a + d/2).\n\n(i) Centred block, nodes a-d, a, a+d, a+2d (u = 3/2 from the first node). The Lagrange weights at u = 3/2 for nodes 0,1,2,3 are:\n- L0 = (1/2)(-1/2)(-3/2)/(-6) = -1/16\n- L1 = 9/16\n- L2 = 9/16\n- L3 = -1/16\nHence N = -1/16 'M + 9/16 M + 9/16 M' - 1/16 M''. The error term is u(u-1)(u-2)(u-3) mu d^4 = (3/2)(1/2)(-1/2)(-3/2) mu d^4 = 9/16 mu d^4.\n\n(ii) Non-centred block, nodes a, a+d, a+2d, a+3d (u = 1/2). This gives N = 5/16 M + 15/16 M' - 5/16 M'' + 1/16 M'''. The error term is (1/2)(-1/2)(-3/2)(-5/2) mu d^4 = -15/16 mu d^4. Its ratio to case (i) is -5/3 = (u-m)/u with u = 3/2, m = 4. This is consistent with the general rule.\n\nNumerical example: the Moon's longitude at Paris noon, Sept 1806, from the Connaissance des Tems. Values: 23: 311 deg 32'18\"; 24: 323 deg 23'19\"; 25: 335 deg 19'13\"; 26: 347 deg 22'19\"; 27: 359 deg 34'7\". The target is midnight of Sept 24, i.e. x = 24.5.\n\nUsing art. 22, Gauss subtracts the linear function 311 deg + (x-23)*12 deg. This is legitimate because interpolation of degree >= 1 reproduces linear functions exactly. The residuals in arcseconds are 1938, 1399, 1153, 1339, 2047.\n\nThe computation is carried out on the next page. [My check, reported here:]\n- Formula (i): 329 deg + 9/16(23'19\" + 19'13\") - 1/16(32'18\" + 22'19\") = 329 deg 20'30.69\".\n- Formula (ii), nodes 24-27: 329 deg + 5/16(23'19\" - 22'19\") + 15/16(19'13\") + 1/16(34'7\") = 329 deg 20'27.625\".\n- The fourth difference of the residuals is -49\". With mu = -49/24, both formulas corrected by their error terms give 329 deg 20'29.54\". This confirms the theory; the C.d.T. value implied is 20'30.0\".",
+  "errors": [
+   "No mathematical errors on this page; weights, error coefficients and the nearest-node rule are all correct.",
+   "Next page (context only): the printed '9/16(23'49''+19'13'')' must be 23'19'', and the second term must be subtracted (-1/16). With these readings the stated result 329 deg 20'30.7'' comes out exactly.",
+   "Next page (context only): '19' 0''9375' should be 18' 0''.9375 (15/16 of 19'13'' = 1080.9375''). Only then does the stated sum 20'27''.625 follow."
+  ],
+  "results": [
+   {
+    "what": "Choice of the m consecutive nodes that minimizes the first neglected term of Newton forward interpolation. Ratio test (u-m)/u and (u+1)/(u-m+1) gives m/2-1 <= u <= m/2: centre the nodes on t, and for odd m make t's nearest node the middle one.",
+    "modern_name": "Centering of interpolation nodes (central-difference interpolation, Stirling/Bessel choice); minimizing the nodal polynomial factor of the Lagrange/Newton remainder",
+    "usually_credited_to": "Newton, Stirling (1730), Bessel; standard 18th-19th c. practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Four-point half-interval interpolation formula N = (-1/16, 9/16, 9/16, -1/16) with remainder 9/16 mu d^4, versus one-sided (5/16, 15/16, -5/16, 1/16) with remainder -15/16 mu d^4",
+    "modern_name": "Lagrange 4-point midpoint interpolation / Bessel's halving formula",
+    "usually_credited_to": "Lagrange / Bessel (classical)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Subtracting a linear function before interpolating tabulated lunar longitudes (art. 22), applied to Connaissance des Tems data",
+    "modern_name": "Invariance of polynomial interpolation under addition of low-degree polynomials; reduction of tabular values",
+    "usually_credited_to": "standard astronomical computing practice",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine textbook-level interpolation theory (node centring, 4-point midpoint weights) worked out carefully with an astronomical example; Gauss's mastery of interpolation is well known.",
+  "checkable": [
+   {
+    "sympy": "[sympy.interpolate([(-1,1),(0,0),(1,0),(2,0)], sympy.Rational(1,2)), sympy.interpolate([(-1,0),(0,1),(1,0),(2,0)], sympy.Rational(1,2)), sympy.interpolate([(-1,0),(0,0),(1,1),(2,0)], sympy.Rational(1,2)), sympy.interpolate([(-1,0),(0,0),(1,0),(2,1)], sympy.Rational(1,2))] == [sympy.Rational(-1,16), sympy.Rational(9,16), sympy.Rational(9,16), sympy.Rational(-1,16)]",
+    "asserts": "Lagrange weights at the midpoint for centred nodes a-d..a+2d"
+   },
+   {
+    "sympy": "[sympy.interpolate([(0,1),(1,0),(2,0),(3,0)], sympy.Rational(1,2)), sympy.interpolate([(0,0),(1,1),(2,0),(3,0)], sympy.Rational(1,2)), sympy.interpolate([(0,0),(1,0),(2,1),(3,0)], sympy.Rational(1,2)), sympy.interpolate([(0,0),(1,0),(2,0),(3,1)], sympy.Rational(1,2))] == [sympy.Rational(5,16), sympy.Rational(15,16), sympy.Rational(-5,16), sympy.Rational(1,16)]",
+    "asserts": "Lagrange weights at u=1/2 for one-sided nodes a..a+3d"
+   },
+   {
+    "sympy": "(lambda u: u*(u-1)*(u-2)*(u-3))(sympy.Rational(3,2)) == sympy.Rational(9,16) and (lambda u: u*(u-1)*(u-2)*(u-3))(sympy.Rational(1,2)) == sympy.Rational(-15,16)",
+    "asserts": "Error-term coefficients 9/16 and -15/16"
+   },
+   {
+    "sympy": "sympy.Rational(-15,16)/sympy.Rational(9,16) == (sympy.Rational(3,2)-4)/sympy.Rational(3,2)",
+    "asserts": "Ratio of remainders equals (u-m)/u as in art. 23"
+   },
+   {
+    "sympy": "sympy.Rational(9,16)*(1399+1153) - sympy.Rational(1,16)*(1938+1339) - (20*60+30.6875) == 0",
+    "asserts": "Moon example formula (i) gives 20'30.69'' above 329 deg"
+   },
+   {
+    "sympy": "sympy.Rational(5,16)*1399 + sympy.Rational(15,16)*1153 - sympy.Rational(5,16)*1339 + sympy.Rational(1,16)*2047 == sympy.Rational(12276,10)",
+    "asserts": "Moon example formula (ii) gives 1227.6'' = 20'27.6'' above 329 deg"
+   },
+   {
+    "sympy": "sympy.interpolate([(23,1938),(24,1399),(25,1153),(26,1339),(27,2047)], sympy.Rational(49,2)) == sympy.Rational(9,16)*(1399+1153) - sympy.Rational(1,16)*(1938+1339) + sympy.Rational(9,16)*sympy.Rational(-49,24)",
+    "asserts": "5-point value equals formula (i) plus 9/16*mu with mu = Delta^4/24 = -49/24 (μ is the 4th divided difference)"
+   }
+  ],
+  "transcription_corrections": [
+   "First line begins 'Ist aber m ungerade' (continued from previous page); the leading '[?]' is 'm'.",
+   "Header reads 'Ho. / Mo-nath.' and 'Litt: C.'; page number 21, old number 31 struck.",
+   "Residual table values are correct as transcribed (323.23.19, 335.19.13, 347.22.19, 359.34.7)."
+  ]
+ }
+}

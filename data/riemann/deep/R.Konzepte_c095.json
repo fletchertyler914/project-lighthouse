@@ -1,0 +1,72 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c095",
+ "label": "45v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000096/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is a draft of §6 of Riemann's 1851 Göttingen dissertation, 'Grundlagen für eine allgemeine Theorie der Functionen einer veränderlichen complexen Grösse'. It deals with the connectivity of surfaces. The previous page defines the order of connectivity and records how it changes under a cross-cut (Querschnitt), a back-cut (Rückschnitt), an inner cut, and a closed interior curve. The next page (§16) is the draft of the Dirichlet-principle section.\n\n(0) Definition / convention. Riemann restricts attention to connected surfaces T ('aus Einem Stücke'). T is called n-fach zusammenhängend (n-fold connected) if n-1 cross-cuts turn it into a simply connected surface. A cross-cut is a non-self-intersecting arc running through the interior from one boundary point to another. T is simply connected if every cross-cut disconnects it.\n\n(1) Claim: the boundary of a simply connected surface consists of a single closed curve. Proof by contradiction:\n- Suppose the boundary has at least two components a and b.\n- Take a cross-cut q from a point of a to a point of b.\n- Running alongside a just inside the surface, one can pass from one side of q to the other.\n- So q separates only parts that remain connected, i.e. q does not disconnect T.\n- This contradicts simple connectivity.\n\n(2) Claim: every cross-cut changes the number of boundary components by exactly ±1. Two cases:\n- (a) q joins two points of the same component. That component is split by the endpoints of q into two arcs, each of which together with (one side of) q forms a closed curve. The count goes up by 1.\n- (b) q joins a point of component a to a point of component b. Then a, q, b, q (traversed in this order, using both sides of q) form a single closed boundary curve. The count goes down by 1.\n\n(3) Corollary: an n-fold connected surface has either n boundary components or a number smaller by an even integer. Implicit step (mine):\n- Apply n-1 cross-cuts to reach a simply connected surface, which has 1 boundary component by (1).\n- Each cut changes the count m by ±1, so 1 = m + (sum of n-1 terms ±1).\n- Hence m ≤ 1 + (n-1) = n and m ≡ n (mod 2).\n\n(4) Claim (stated, proof not on page): if an n-fold connected surface has exactly n boundary components, then every closed curve running in its interior disconnects it. Implicit proof (mine, using the previous page's rule that a closed interior curve does not change the connectivity order):\n- If a closed interior curve c did not disconnect T, cutting along c would leave a connected surface.\n- That surface would still be n-fold connected but would have n+2 boundary components (the two sides of c).\n- This contradicts (3).\n\nModern reading: for a compact orientable surface of genus g with b ≥ 1 boundary circles, the connectivity is n = 2g + b, i.e. n = 2 - χ. So b = n - 2g. The case b = n means g = 0 (a planar domain), where the Jordan separation property holds.",
+  "errors": [
+   "No mathematical errors. The arguments are at the intuitive topological level typical of 1851; the existence of the needed cross-cuts and the invariance of n (independence of the choice of cuts) are taken for granted, as in the published text.",
+   "Claim (4) is stated without its proof on this page; the proof via the parity/upper bound in (3) is easy but omitted here.",
+   "In case 2(a) Riemann implicitly assumes the cut does not disconnect the surface. This holds in the context of reducing an n-fold connected surface by n-1 cuts to a single simply connected piece."
+  ],
+  "results": [
+   {
+    "what": "Boundary of a simply connected (connected) surface is a single closed curve",
+    "modern_name": "A simply connected compact bordered surface is a disc (one boundary component)",
+    "usually_credited_to": "Riemann 1851 dissertation §6 (later rigorized in classification of surfaces)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Each cross-cut changes the number of boundary components by ±1",
+    "modern_name": "Effect of cutting along a proper arc on boundary components",
+    "usually_credited_to": "Riemann 1851",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "An n-fold connected surface has n boundary components or n minus an even number",
+    "modern_name": "b = n - 2g, i.e. n = 2g + b = 2 - χ",
+    "usually_credited_to": "Riemann 1851 (connectivity order); Euler characteristic/genus formulation later (Möbius, Jordan, Klein)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "If b = n, every closed interior curve separates the surface",
+    "modern_name": "Planar (genus 0) bordered surfaces have the Jordan separation property",
+    "usually_credited_to": "Riemann 1851",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is an autograph draft of §6 of Riemann's published dissertation (1851) on connectivity of surfaces. The content matches the printed text almost verbatim, so it is well known as his. Interest lies only in the drafting variants.",
+  "checkable": [
+   {
+    "sympy": "[ (g, b, 2*g + b) for g in range(3) for b in range(1, 4) ]",
+    "asserts": "connectivity n = 2g + b for genus g and b boundary components; disc (0,1) -> 1, annulus (0,2) -> 2, one-holed torus (1,1) -> 3"
+   },
+   {
+    "sympy": "all((n - b) % 2 == 0 and b <= n for g in range(5) for b in range(1, 6) for n in [2*g + b])",
+    "asserts": "the number of boundary components b equals n or n minus an even number"
+   },
+   {
+    "sympy": "all(1 + (n-1) >= m for n in range(1, 8) for m in range(1, n+1) if (n - m) % 2 == 0)",
+    "asserts": "parity argument: starting from m components, n-1 steps of ±1 reaching 1 force m <= n and m ≡ n mod 2"
+   },
+   {
+    "sympy": "Eq(2 - (2 - 2*g - b), 2*g + b)",
+    "asserts": "n = 2 - chi with chi = 2 - 2g - b"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: read 'und um für die Bezeichnung des Zusammenhangs einen einfachen Ausdruck zu verschaffen' (the deleted word is likely 'Bequemlichkeit'/'die' rather than part of the final text).",
+   "Line 4: final text is 'unter einer n fach zusammenhängenden Fläche eine solche verstehen, die durch n-1 Querschnitte in eine einfach zusammenhängende verwandelt wird'.",
+   "Near the bottom: 'Die Anzahl der Stücke der Begrenzung einer n fach zusammenhängenden Fläche ist daher entweder = n oder um eine gerade Zahl kleiner'. The image shows 'Die Anzahl der Stücke' inserted in the margin, replacing struck text.",
+   "'Hieraus ergibt sich zugleich ein noch des Vorstellens[?]' is garbled. The sense (cf. the printed dissertation) is that a further proposition follows: if the number of boundary pieces equals n, the surface is necessarily cut into separate pieces by every closed curve in its interior.",
+   "In 2(b) the order is 'a, q, b, q' (both sides of the cut), as transcribed; the image supports this."
+  ]
+ }
+}

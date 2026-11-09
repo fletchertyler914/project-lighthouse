@@ -1,0 +1,76 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c116",
+ "label": "45",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000117/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a printed German textbook page on common logarithms, from about 1800, bound into the Gauss bundle. The printed text contains no handwriting by Gauss except a short insertion under line 'davon zu subtrahiren'. The numbers in the far-left strip of the image are not marginalia on this page. They are the right-hand edge of the facing page (folio 44), which the previous-page transcription contains. The pairs 65951 291, 88049 942 and 64578 312 are the tail digits of the long logarithms of 3, 11 and 101 there. The column 806339627, 268779876, ..., 57981 is the right-hand column of the table at the foot of that page.\n\nPrinted content:\n\n(a) Closing remark of the previous section. From the tabulated logarithms of the primes up to 40 one obtains the logarithm of every number that is a product of such factors, since log(mn) = log m + log n.\n\n(b) §116, characteristic. With base a = 10: log 10 = 1, log 100 = 2, log 1000 = 3, log 10000 = 4, log(1/10) = -1, log(1/100) = -2, log(1/1000) = -3. The printed text says 4 and 5 for 1000 and 10000; see errors. So the integer part of log10 x, with its sign, gives the decade ('class') of x: floor(log10 x) = k exactly when 10^k <= x < 10^(k+1).\n- Example: 3.0305997 = log 1073 = log 37 + log 29, because 1073 = 37*29. The leading 3 shows that the number lies among the thousands.\n- Similarly 1.0305997 = log 10.73 = log 1073 - log 100.\n- -0.0305997 = log(1/1.073) = log(1000/1073).\n- -1.0305997 = log(1/10.73) = log(100/1073).\n- The integer part is called the Kennziffer (characteristic). Because it is trivial to supply, the best tables (Schulze's, Vega's) omit it and print only the mantissa.\n\n(c) §117, decimal number of a negative logarithm. A negative logarithm -L corresponds to the fraction 1/10^L. That gives only a vulgar fraction, not a decimal. To get the decimal directly:\n- Add a positive integer n large enough that n - L > 0.\n- Look up y = 10^(n-L) from the mantissa table.\n- The answer is 10^(-L) = y/10^n, i.e. 'subtract the added characteristic again'.\n- The page continues onto folio 46 with the example -1.0280287 + 2 = 0.9719713, giving 9.375/100 = 0.09375 = 3/32.\n\nIn modern terms: write log x = (L' - n) with 0 <= L' < 1 as mantissa, so x = 10^(L') * 10^(-n).",
+  "errors": [
+   "Printed misprint in §116: 'l. 1000 = 4, l. 10000 = 5' should read log10(1000) = 3 and log10(10000) = 4.",
+   "The arithmetic of the examples is correct: 37*29 = 1073 and log10(1073) = 3.03059972... rounds to 3.0305997.",
+   "Not on this page, but relevant to the visible margin strip: on the facing page the long-digit value of log10(3) departs from the true value 0.477121254719662437295027903255115309... after about 24 digits ('903230 113426...'). Likewise log10(11) departs after '971' (true value 1.041392685158225040750199971243024...). This may be a transcription or reading problem rather than an error in the original."
+  ],
+  "results": [
+   {
+    "what": "Logarithms of composite numbers from logarithms of prime factors (log 1073 = log 37 + log 29)",
+    "modern_name": "Product rule for logarithms; building tables from logarithms of primes",
+    "usually_credited_to": "Napier/Briggs (1614-1624)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Characteristic and mantissa of common logarithms; the characteristic determines the order of magnitude",
+    "modern_name": "Characteristic/mantissa decomposition, floor(log10 x)",
+    "usually_credited_to": "Briggs (1624); term 'characteristic' standard in 17th-18th century texts",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Converting a negative logarithm to a decimal by adding and later removing an integer characteristic",
+    "modern_name": "Writing negative logarithms as mantissa minus an integer (bar notation)",
+    "usually_credited_to": "Standard textbook practice (18th century)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a printed elementary textbook page on characteristic and mantissa of common logarithms. The apparent marginal numbers belong to the facing page, and there is no original mathematical content by Gauss here.",
+  "checkable": [
+   {
+    "sympy": "Eq(37*29, 1073)",
+    "asserts": "1073 = 37*29, so log 1073 = log 37 + log 29"
+   },
+   {
+    "sympy": "Abs(N(log(1073,10),12) - 3.0305997) < 5e-8",
+    "asserts": "log10(1073) = 3.0305997 to 7 decimals"
+   },
+   {
+    "sympy": "Abs(N(log(Rational(1073,100),10),12) - 1.0305997) < 5e-8",
+    "asserts": "log10(10.73) = 1.0305997"
+   },
+   {
+    "sympy": "Abs(N(log(Rational(1000,1073),10),12) + 0.0305997) < 5e-8",
+    "asserts": "log10(1000/1073) = -0.0305997"
+   },
+   {
+    "sympy": "Abs(N(log(Rational(100,1073),10),12) + 1.0305997) < 5e-8",
+    "asserts": "log10(100/1073) = -1.0305997"
+   },
+   {
+    "sympy": "Eq(log(1000,10), 3) & Eq(log(10000,10), 4)",
+    "asserts": "Correct values replacing the printed misprint 4 and 5"
+   },
+   {
+    "sympy": "Abs(N(log(Rational(3,32),10),12) + 1.0280287) < 5e-8",
+    "asserts": "The continuation example on f.46: log10(3/32) = -1.0280287, i.e. 10**(0.9719713)/100 = 0.09375"
+   }
+  ],
+  "transcription_corrections": [
+   "Printed text indeed reads 'l. 1000 = 4, l. 10000 = 5' (a misprint in the book, not a transcription error).",
+   "The handwritten numbers in the left strip are not marginalia on folio 45. They are the right edge of the facing page (folio 44) visible in the scan, and correspond to the tail digits and table already transcribed for that page.",
+   "The handwritten interlinear insertion below 'davon zu subtrahiren' appears to read 'Logarithmus ab' (or similar), clarifying 'den gegebenen Logarithmen davon [vom Logarithmus der Kennziffer] abzuziehen'. The reading is uncertain.",
+   "'Kennziefer' in §117 is the printed spelling (sic)."
+  ]
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "bundle": "Math.28",
+ "page": "c021",
+ "label": "10v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000022/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is written sideways. It holds an algebraic elimination, a few trigonometric fragments, loose numerical work, drawings (a circle with branching lines, a leaf or shell, a pen-test blot) and pen trials (German and Latin words, the name 'Bartels'). Gauss's teacher J. M. Bartels and the previous page's topic, series reversion and Lagrange-type inversion, suggest an early Braunschweig/Göttingen-era sheet. This dating is a conjecture.\n\n(1) Algebra. Gauss sets gamma = h and delta = (s/k)*epsilon. Then:\n- epsilon = (1-h)/(s/k - 1)\n- delta = (1-h)/(1 - k/s)\n\nWrite sigma = s/k (my notation). These say epsilon = (1-h)/(sigma-1) and delta = sigma*(1-h)/(sigma-1). It follows (my remark) that delta - epsilon = 1 - h = 1 - gamma, i.e. gamma + delta - epsilon = 1. This is presumably the constraint behind the parametrisation.\n\nNext comes a relation for gg, partly crossed out. Its readable form, after multiplying through by k, is\n gg = cc(s - kh) / (2hs - s + 3(1-h)k),\nequivalently gg = cc(sigma - h) / ((2h-1)*sigma + 3(1-h)). The intermediate scraps '2hs/k - 3h', '-s/k' are pieces of this denominator divided by k.\n\nGauss then solves for k:\n- gg(2h-1)s + 3gg(1-h)k = ccs - cchk\n- k = s(cc - gg(2h-1)) / (cch + 3gg(1-h)).\nThe marginal pieces 'ccs - ggs(2h-1)' and 'cch, 3gg, 1-h' are the numerator and denominator of this result.\n\nHe also records the special case k = 0: ccs/((2h-1)s), i.e. gg = cc/(2h-1). A scrap 'v(hh-gg) = k' (reading uncertain) suggests k is elsewhere tied to sqrt(hh-gg). Expressed in epsilon (my step): gg/cc = (1-h)(1+epsilon) / ((2-h)epsilon + (2h-1)(1-h)).\n\nThe geometric or physical problem behind c, g, h, k, s is not stated on the page and cannot be determined with certainty.\n\n(2) Trigonometry. There are fragments: sin gamma : sin delta (= ... sin alpha), and sin((alpha+epsilon)/2) set against sin((alpha-epsilon)/2), with an earlier crossed-out version. These are law-of-sines and half-angle sum/difference expressions, as in solving a triangle (e.g. tangent rule or Napier-type analogies). The fragment is too incomplete to reconstruct.\n\n(3) Numerics. One relation is clear: 0.04 - 0.02179 = 0.01821 (the '1821' written below). Other numbers (0.0125504, 0.02174, 0.3724, 17956, 0.7769, 0.058, 0.02726, 10418, 109, 1606, 0.794, 296) look like logarithm or table work, perhaps tied to the angles. 1606 next to 0.794 fits 2.4 - 1.606 = 0.794, but this is speculative. No clear derivation can be attached.\n\n(4) Non-mathematical material: drawings and pen trials (e.g. 'Drangsal', 'Schwere Bedrängniß', 'Bartels', 'B. B. A.').",
+  "errors": [
+   "No algebraic error in the readable parts: k = s(cc-gg(2h-1))/(cch+3gg(1-h)) follows correctly from gg = cc(s-kh)/(2hs-s+3(1-h)k).",
+   "The origin of the gg relation is not shown on the page (the first attempt is crossed out), so its correctness relative to the underlying problem cannot be checked.",
+   "The trigonometric and numerical fragments are too incomplete to verify, beyond 0.04 - 0.02179 = 0.01821."
+  ],
+  "results": [
+   {
+    "what": "Solving the rational relation gg = cc(s-kh)/(2hs-s+3(1-h)k) for k, plus the special case k=0 giving gg = cc/(2h-1)",
+    "modern_name": "elementary elimination / solving a linear equation in k",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Parametrisation epsilon=(1-h)/(s/k-1), delta=(s/k)epsilon, implying delta - epsilon = 1 - h",
+    "modern_name": "elementary algebraic identity",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Law-of-sines and half-angle sine fragments sin((alpha±epsilon)/2)",
+    "modern_name": "plane/spherical triangle solution formulas (law of sines, sum-to-product)",
+    "usually_credited_to": "classical (Regiomontanus, Napier, Euler etc.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Routine scratch algebra (solving a rational equation for one parameter), trigonometric fragments and arithmetic on a doodle-covered sheet. Nothing non-standard can be identified.",
+  "checkable": [
+   {
+    "sympy": "s,k,h,c,g=symbols('s k h c g'); eps=(1-h)/(s/k-1); delta=(1-h)/(1-k/s); simplify(delta-(s/k)*eps)",
+    "asserts": "delta = (s/k)*epsilon is consistent with the two definitions (result 0)"
+   },
+   {
+    "sympy": "simplify((1-h)/(1-k/s) - (1-h)/(s/k-1) - (1-h))",
+    "asserts": "delta - epsilon = 1 - h (result 0)"
+   },
+   {
+    "sympy": "solve(Eq(g**2, c**2*(s-k*h)/(2*h*s-s+3*(1-h)*k)), k)",
+    "asserts": "returns k = s*(c**2-g**2*(2*h-1))/(c**2*h+3*g**2*(1-h))"
+   },
+   {
+    "sympy": "simplify((c**2*(s-k*h)/(2*h*s-s+3*(1-h)*k)).subs(k,0) - c**2/(2*h-1))",
+    "asserts": "special case k=0 gives gg = cc/(2h-1) (result 0)"
+   },
+   {
+    "sympy": "Rational(4,100)-Rational(2179,100000) - Rational(1821,100000)",
+    "asserts": "0.04 - 0.02179 = 0.01821 (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Denominator of k is 'cch + 3gg(1-h)', not 'cch+[?]gg(2-h)'. This is confirmed by the derivation and by the marginal 'cch 3gg 1-h' and '+3(1-h)k'.",
+   "'γ - χ' is probably 'δ - ε' (or a similar Greek-letter difference); reading uncertain.",
+   "'Schöne Bedrängniß' should read 'Schwere Bedrängniß'.",
+   "'ccs/(2h-1)' is the k=0 specialisation ccs/((2h-1)s), leading to cc/(2h-1) = gg.",
+   "Latin pen trials: 'Sort rezat remgium' is perhaps 'Fors regat remigium'; 'Janis 102 post diebus' is perhaps 'Janus ... post diebus'. Both readings are uncertain.",
+   "'1821' under 0.04 and 0.02179 is their difference 0.01821, not a year."
+  ]
+ }
+}

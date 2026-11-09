@@ -1,0 +1,56 @@
+{
+ "bundle": "HB.Aufsaetze1813",
+ "page": "c039",
+ "label": "[32]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354043:00000040/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem (Gauss's 'method of least squares', annotated 'Bö'; the page is evidently a fair copy of the argument). We are given the linear equations V=0, V'=0, V''=0, ... in the unknowns x,y,z,..., where V^(i) = a^(i)x + b^(i)y + c^(i)z + ... + m^(i). In matrix form: V = M·X + m, where row i of M is (a^(i), b^(i), c^(i), ...).\n\nTo determine x we form a linear combination p·V = pV + p'V' + p''V'' + ... = 0 that reduces identically to x − k = 0. This requires p^T M = e1^T (coefficient 1 on x, 0 on y, z, ...) and k = −p^T m. Among all systems of multipliers p with this property, we seek the one minimising pp + p'p' + p''p'' + ... = |p|^2. With unit-weight observations this is the variance of the resulting estimate k, so the question is: which linear unbiased combination has minimum variance?\n\nSolution.\n(1) Normal-equation quantities: ξ = Σ aV, η = Σ bV, ζ = Σ cV, ..., i.e. (ξ,η,ζ,...)^T = M^T V = N X + M^T m, with N = M^T M.\n(2) Elimination (inverting N) gives identically Aξ + Bη + Cζ + ... = x − α. Here (A,B,C,...) =: g^T is the first row of N^{-1}, and α is the least-squares value of x (the value obtained when ξ = η = ζ = ... = 0).\n(3) Define ϖ^(i) = a^(i)A + b^(i)B + c^(i)C + ..., i.e. ϖ = M g. Substituting ξ = Σ aV, etc. into (2) gives identically x − α = Σ ϖ^(i) V^(i).\n(4) Subtracting this from p·V ≡ x − k gives identically Σ (p^(i) − ϖ^(i)) V^(i) = α − k. Since the right side is a constant, the coefficients of x, y, z, ... must vanish: Σ (p−ϖ) a = 0, Σ (p−ϖ) b = 0, Σ (p−ϖ) c = 0, ...; that is, (p−ϖ)^T M = 0.\n(5) Multiply these equations by A, B, C, ... and add [the word 'addirt' is corrected to 'multiplicirt']: Σ (p−ϖ)(aA + bB + cC + ...) = Σ (p−ϖ) ϖ = 0, i.e. orthogonality.\n(6) Hence Σ pp = Σ ϖϖ + Σ (p−ϖ)^2 (Pythagoras).\n(7) Σ ϖϖ = A. [Implicit step, mine:] ϖ^T ϖ = g^T M^T M g = g^T N g, and N g = e1 because g is the first column of the symmetric N^{-1}. So ϖ^T ϖ = g^T e1 = A = (N^{-1})_{11}.\n(8) Therefore Σ pp = A + Σ (p−ϖ)^2, which is smallest exactly when p = ϖ, i.e. when the combination is the least-squares one.\n\nConsequences. The least-squares estimate is the minimum-variance linear unbiased combination, and its variance (for unit weights) is A. This mean error √A is the one used on the next page, which updates the solution when a new equation is added.",
+  "errors": [
+   "No mathematical errors. The step Σϖϖ = A is asserted without proof; it is correct, since ϖ^Tϖ = g^T N g = g^T e1 = (N^{-1})_{11}.",
+   "Minor slip already corrected by the writer: 'addirt' replaced by 'multiplicirt' (multiply by A, B, C, then add)."
+  ],
+  "results": [
+   {
+    "what": "Among all linear combinations of observation equations that yield x − k = 0 identically, the sum of squared multipliers is minimised by the least-squares multipliers ϖ = M (N^{-1})_{·1}. The minimum equals A = (N^{-1})_{11}, the weight reciprocal (variance) of the least-squares x.",
+    "modern_name": "Gauss–Markov theorem (least squares estimator is BLUE), proved via orthogonal decomposition",
+    "usually_credited_to": "C. F. Gauss, Theoria combinationis observationum erroribus minimis obnoxiae, Pars prior (1821, publ. 1823); later rediscovered and named after A. A. Markov (1900/1912)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Representation x − α = Σ ϖ_i V_i with ϖ = M g, where g is the first column of the inverse normal matrix, and Σ ϖ_i^2 = (N^{-1})_{11}",
+    "modern_name": "Least-squares estimator as a linear functional; variance = diagonal element of (M^T M)^{-1}",
+    "usually_credited_to": "Gauss (Theoria motus 1809; Theoria combinationis 1821–23)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is essentially the published proof of the Gauss–Markov property from Gauss's Theoria combinationis (1821/23), here in a compact (possibly copied, 'Bö') form. It is well known as Gauss's. Only the precise dating relative to 1821 could be of minor interest.",
+  "checkable": [
+   {
+    "sympy": "M=Matrix([[1,2],[3,1],[2,5],[1,-1]]); N=M.T*M; g=N.inv()[:,0]; w=M*g; simplify(M.T*w - Matrix([1,0]))==zeros(2,1)",
+    "asserts": "ϖ = M g satisfies ϖ^T M = e1^T, so Σϖ V reproduces x − α (coefficient 1 on x, 0 on y)"
+   },
+   {
+    "sympy": "M=Matrix([[1,2],[3,1],[2,5],[1,-1]]); N=M.T*M; g=N.inv()[:,0]; w=M*g; simplify(w.dot(w) - N.inv()[0,0])==0",
+    "asserts": "Σ ϖϖ = A = (N^{-1})_{11}"
+   },
+   {
+    "sympy": "M=Matrix([[1,2],[3,1],[2,5],[1,-1]]); N=M.T*M; w=M*N.inv()[:,0]; n1,n2=symbols('n1 n2'); B=(M.T).nullspace(); d=n1*B[0]+n2*B[1]; p=w+d; simplify(p.dot(p) - (N.inv()[0,0] + d.dot(d)))==0",
+    "asserts": "For every admissible p (p^T M = e1^T), Σpp = A + Σ(p−ϖ)^2, so the minimum is at p = ϖ"
+   },
+   {
+    "sympy": "M=Matrix([[1,2],[3,1],[2,5],[1,-1]]); m=Matrix([1,-2,3,0]); N=M.T*M; w=M*N.inv()[:,0]; alpha=-(N.inv()*M.T*m)[0]; simplify(-w.dot(m) - alpha)==0",
+    "asserts": "The combination with p = ϖ gives k = α, the least-squares value of x"
+   }
+  ],
+  "transcription_corrections": [
+   "Heading at top left is a later/pencil note, roughly 'Gauss'sche Meth. d. kl. Qu.' (exact first word uncertain), with 'Bö' written above; it is not part of the text body.",
+   "'man sucht' is written in the left margin as the replacement for the struck 'die unter allen Systemen'; reading: 'man sucht von Coefficienten, die ein Resultat dieser Form geben, [diejenigen, die] haben p, p', p'' etc. die Eigenschaft dass ...'.",
+   "In 'Es sei ... zur Bestimmung von x' the struck token before 'zur' is a struck 'ax'/'a', and 'eine' is written above the struck 'die vortheilhafteste'; the transcription is consistent with this.",
+   "In the line (p−ϖ)a + (p'−ϖ')a' + ..., the second coefficient looks like 'A'' in the image but is clearly a' in context."
+  ]
+ }
+}

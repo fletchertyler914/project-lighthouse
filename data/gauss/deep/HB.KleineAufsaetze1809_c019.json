@@ -1,0 +1,45 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c019",
+ "label": "10",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000020/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page continues the table on folio 9, which is headed 'Abgedruckt M.C. 1812. November'. That is Gauss's table of addition and subtraction logarithms (later called 'Gaussian logarithms'), printed in von Zach's Monatliche Correspondenz, Nov. 1812. Folio 10 covers arguments A = 0.080 to 0.160 in steps of 0.001, in two blocks (0.080–0.120 and 0.120–0.160).\n\nColumn meaning, reconstructed from the folio-9 header and the value at A = 0, where both columns equal 0.30103 = log 2:\n- First column: A = log10(a/b).\n- Second column: B(A) = log10((a+b)/a) = log10(1 + 10^(-A)).\n- Third column: C(A) = log10((a+b)/b) = A + B(A).\n- Small numbers between the columns are tabular differences in units of the fifth decimal: d_B = B(A) - B(A+0.001) and d_C = C(A+0.001) - C(A).\n\nSince C = A + B and the step is 0.001 = 100 units, d_B + d_C = 100 identically. Every pair on the page (45/55, 44/56, 43/57, 42/58, 41/59) satisfies this.\n\nDerivative check (mine): dB/dA = -1/(1 + 10^A). This gives a difference of about 45.4 units at A = 0.08 and about 40.9 at A = 0.16, matching the observed decline of d_B from 45–46 to 41.\n\nPurpose: to find log(a+b) from log a and log b with a single table lookup, without passing back to the numbers: log(a+b) = log a + B(log a - log b). Equivalently log(a+b) = log b + C. The folio-9 header shows Gauss also used the same table for differences (the columns b/(a-b), a/(a-b), and so on), giving log(a-b).\n\nMy spot checks, computed directly:\n- B(0.080) = 0.262869 → 0.26287\n- B(0.100) = 0.253900 → 0.25390\n- B(0.109) = 0.249940 → 0.24994\n- B(0.120) = 0.245161 → 0.24516\n- B(0.140) = 0.236647 → 0.23665\n- B(0.156) = 0.229996 → 0.23000\n- B(0.160) = 0.228357 → 0.22836\n\nAll C entries checked equal A + B exactly. All first differences checked agree with the tabulated B values.",
+  "errors": [
+   "No errors found in the entries spot-checked. All checked B values agree with log10(1+10^(-A)) to five decimals. C = A + B holds on every line checked. The differences are consistent with the adjacent values and always sum to 100."
+  ],
+  "results": [
+   {
+    "what": "Five-place table of B(A) = log10(1+10^-A) and C(A) = A + B(A) for A = 0.080 ... 0.160, with first differences.",
+    "modern_name": "Gaussian logarithms (addition/subtraction logarithms), sometimes called Zech-type logarithms",
+    "usually_credited_to": "Idea proposed by Z. Leonelli (1802/1803); popularized by Gauss's table in Monatliche Correspondenz, 1812.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a fair-copy manuscript of Gauss's published (1812) table of addition and subtraction logarithms. These are universally known as 'Gaussian logarithms', so nothing here is new.",
+  "checkable": [
+   {
+    "sympy": "[round(float(log(1+10**(-Rational(n,1000)),10)),5) for n in [80,100,109,120,140,156,160]] == [0.26287,0.2539,0.24994,0.24516,0.23665,0.23,0.22836]",
+    "asserts": "Tabulated B values equal log10(1+10^-A) rounded to 5 places."
+   },
+   {
+    "sympy": "[round(float(Rational(n,1000)+log(1+10**(-Rational(n,1000)),10)),5) for n in [80,120,150,160]] == [0.34287,0.36516,0.38247,0.38836]",
+    "asserts": "Third column equals A + B(A) = log10(1+10^A)."
+   },
+   {
+    "sympy": "simplify(diff(log(1+10**(-x),10),x) + 1/(1+10**x))",
+    "asserts": "dB/dA = -1/(1+10^A) (expression simplifies to 0), explaining tabular differences of about 45 to 41 units per 0.001."
+   },
+   {
+    "sympy": "round(float(1000*(log(1+10**(-Rational(80,1000)),10)-log(1+10**(-Rational(81,1000)),10))*100),0)",
+    "asserts": "First difference at A = 0.080 is about 45 units of the 5th decimal (the table gives 45)."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription agrees with the image. The argument at row 0.101 is partly obscured by an ink blot in the image but is clearly 0,101 from context."
+  ]
+ }
+}

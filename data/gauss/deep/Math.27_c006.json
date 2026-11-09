@@ -1,0 +1,78 @@
+{
+ "bundle": "Math.27",
+ "page": "c006",
+ "label": "4r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381841:00000007/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: This page belongs to a German draft, numbered by articles, on the arithmetic-geometric mean (AGM). The previous page ends art. 3/4 with the identification M x = sqrt(x^2-1)/phi(sqrt(x^2/(x^2-1))). The forward AGM step is a' = (a+b)/2, b' = sqrt(ab), producing series I: a, a', a'', ... and series II: b, b', b'', .... This page extends both series to the LEFT, i.e. it inverts the AGM step.\n\n(Art. 4, continued) Given a > b > 0, we want the pair ('a, 'b) whose arithmetic mean is a and whose geometric mean is b. So 'a + 'b = 2a and 'a·'b = b^2. Hence 'a and 'b are the roots of x^2 - 2a x + b^2 = 0, that is\n  'a = a + sqrt(a^2 - b^2), 'b = a - sqrt(a^2 - b^2) [explicit formulas mine; the text only names the quadratic].\nThe larger root is taken as the term of I before a, and the smaller as the term of II before b. Iterating gives ''a, ''b as roots of x^2 - 2'a x + 'b'b = 0, then '''a, '''b as roots of x^2 - 2''a x + ''b''b = 0, and so on. Thus both series become two-sided infinite:\n  ... IVa, '''a, ''a, 'a, a, a', a'', a''', aIV ... [I]\n  ... IVb, '''b, ''b, 'b, b, b', b'', b''', bIV ... [II]\nThe backward step is always possible with real values. Since a > b, the discriminant is positive. Both roots are positive, because their sum 2a and product b^2 are positive.\n\nArt. 5.\n(a) The right-hand limit of I and of II is the same for every starting pair along the chain. It is M(any corresponding pair), because the AGM is invariant under the step.\n(b) Every term of I is greater than this limit, and every term of II is smaller. I increases strictly from right to left, and II increases strictly from left to right. Footnote: the trivial case where all terms are equal is excluded.\n(c) Growth to the left: 'a - 'b = 2 sqrt(a^2 - b^2) = 2(a-b) sqrt((a+b)/(a-b)). Because sqrt((a+b)/(a-b)) > 1 for b > 0, we get 'a - 'b > 2(a-b).\n(d) By induction [mine], (n)a - (n)b > 2^n (a-b). Since (n)b > 0, this gives (n)a > 2^n (a-b) → ∞. So series I grows without bound to the left; this is the 'leicht schliesst' step.\n\nThe next page continues: the products 'a'b, ''a''b, ... equal b^2, 'b^2, ... and decrease, so II tends to 0 on the left. It then gives the worked example a = 1, b = 0.2. The left values check: 'a = 1 + sqrt(0.96) = 1.9797958971 and 'b = 0.0202041029. The right values converge to M(1, 0.2) ≈ 0.5208016382.\n\nIn modern terms, the inverse step is the ascending Landen (Gauss) transformation. It is the AGM read backwards. Writing b = a·cos(phi) gives 'a - 'b = 2a·sin(phi), so the backward iteration roughly doubles the 'gap' each step.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "The phrase 'die Grössern ... als das Glied der Reihe I' slips grammatically (should be 'die grössere'); this is not mathematical.",
+   "The step from 'a-'b > 2(a-b) to unbounded growth of I tacitly uses (n)b > 0, so that (n)a > (n)a-(n)b > 2^n (a-b). This is correct but left implicit.",
+   "The claim that the inverse step is always real needs a > b at every stage. It holds because 'a > a > b > 'b; this is not stated but is true."
+  ],
+  "results": [
+   {
+    "what": "Inversion of the AGM step: the predecessors ('a, 'b) of (a, b) are the roots of x^2 - 2a x + b^2 = 0. This extends the AGM sequences to bi-infinite sequences.",
+    "modern_name": "Backward/ascending Landen–Gauss transformation (inverse AGM iteration)",
+    "usually_credited_to": "Lagrange (1784) and Landen (1775) for the transformations; Gauss for the AGM formulation (1791–1800)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Invariance of the AGM along the chain, and monotonicity: I decreases and II increases to the right, with I > M > II.",
+    "modern_name": "Basic properties of the arithmetic-geometric mean",
+    "usually_credited_to": "Gauss (Lagrange earlier, implicitly)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "'a - 'b = 2 sqrt(a^2-b^2) > 2(a-b), hence I → ∞ to the left. Products 'a'b = b^2 decrease, hence II → 0 to the left (completed on the next page).",
+    "modern_name": "Divergence of the ascending Landen sequence (modulus → 1 direction)",
+    "usually_credited_to": "Gauss, in his Nachlass treatise on AGM (Werke III)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a German draft of material Gauss treats in his posthumously published AGM papers (Werke III, 'De origine proprietatibusque generalibus numerorum mediorum arithm.-geometricorum'), where the two-sided extension of the series appears. It is elementary and already attributed to him.",
+  "checkable": [
+   {
+    "sympy": "a,b=symbols('a b',positive=True); A=a+sqrt(a**2-b**2); B=a-sqrt(a**2-b**2); simplify((A+B)/2-a)",
+    "asserts": "The arithmetic mean of the predecessors equals a (result 0)."
+   },
+   {
+    "sympy": "simplify(expand((a+sqrt(a**2-b**2))*(a-sqrt(a**2-b**2)))-b**2)",
+    "asserts": "The product of the predecessors equals b^2, so their geometric mean is b (result 0)."
+   },
+   {
+    "sympy": "simplify(2*sqrt(a**2-b**2) - 2*(a-b)*sqrt((a+b)/(a-b))).subs({a:1,b:Rational(1,5)})",
+    "asserts": "Gauss's rewriting of 'a-'b, checked at a sample point (result 0)."
+   },
+   {
+    "sympy": "N(1+sqrt(1-Rational(1,25)),11), N(1-sqrt(1-Rational(1,25)),11)",
+    "asserts": "'a = 1.9797958971 and 'b = 0.0202041029 for a=1, b=0.2 (example on the next page)."
+   },
+   {
+    "sympy": "A1=1+sqrt(Rational(24,25)); B1=1-sqrt(Rational(24,25)); N(A1+sqrt(A1**2-B1**2),12), N(A1-sqrt(A1**2-B1**2),12)",
+    "asserts": "''a ≈ 3.9594886986 and ''b ≈ 0.000103096 (next-page table)."
+   },
+   {
+    "sympy": "x,y=1.0,0.2\nfor i in range(6): x,y=(x+y)/2,(x*y)**0.5\nprint(x)",
+    "asserts": "The right-hand limit M(1,0.2) ≈ 0.5208016382."
+   },
+   {
+    "sympy": "solve(Symbol('x')**2-2*a*Symbol('x')+b**2, Symbol('x'))",
+    "asserts": "The roots are a ± sqrt(a^2-b^2)."
+   }
+  ],
+  "transcription_corrections": [
+   "The prefix written 'IV' (Roman numeral, e.g. ᴵⱽa, ᴵⱽb) is rendered as ''''a / ''''b in the transcription. The manuscript uses superscript IV, as in a^IV on the right.",
+   "'Die Grössern (im fall sie ungleich sind)': the manuscript reads 'die Grössere ... das Kleinere' (singular), roughly.",
+   "In '... zwischen zweien beliebigen [-?-] correspondirenden Gliedern' the struck item is a single cancelled character or word before 'correspondirenden'.",
+   "In 'da 'a - 'b = 2√(aa - bb)' the manuscript shows corrections: a '±' overwritten on '-' and the 'aa' partly rewritten. The intended reading is 'a - 'b = 2√(aa-bb).",
+   "In the line '... und zwar [-allemal-] durch ''a, '''a etc.' the struck word 'allemal' is correctly identified as cancelled."
+  ]
+ }
+}

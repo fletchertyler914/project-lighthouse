@@ -1,0 +1,44 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c313",
+ "label": "310",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000314/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem (plane-table resection, the three-point or Pothenot/Snellius problem solved graphically): Three ground stations A, B, C are plotted on the plane table (Meßtisch) as a, b, c. The table is set up at an unknown station and only roughly oriented, by an unknown angle θ. Through each plotted point a ray is drawn along the alidade toward the corresponding ground point: lines Aa, Bb, Cc. Because θ ≠ 0 they do not meet in one point but form an error triangle. Standard labelling: α = Bb∩Cc, β = Aa∩Cc, γ = Aa∩Bb.\n\nConstruction, read with the corrected labels (see transcription corrections):\n(i) Erect the perpendicular to ab at b and the perpendicular to aγ at γ. They meet in e.\n(ii) Erect the perpendicular to ac at c and the perpendicular to aβ at β. They meet in f.\n(iii) Join ef and drop the perpendicular aM from a onto ef. Then M is the station's position on the table. The final orientation, laying the alidade along Ma and turning the table until A is sighted, is not written on the page; that step is mine.\n\nWhy it works (implicit justification, filled in by me):\n- Let M be the true map position. Each drawn ray ℓ_p passes through p with direction R_θ(p−M). That is, ℓ_p is the line pM turned about p by the common angle θ.\n- Hence the directed angle (ℓ_a, ℓ_b) equals (Ma, Mb) mod π.\n- So γ = ℓ_a∩ℓ_b lies on the circle through a, b, M. Likewise β = ℓ_a∩ℓ_c lies on the circle through a, c, M. These are the Miquel-type circles.\n- By Thales, angle abe = angle aγe = 90°, so e is the antipode of a on circle (a b γ). Similarly f is the antipode of a on circle (a c β).\n- The two circles meet in a and in M. Since ae and af are diameters, angle aMe = angle aMf = 90°. So M lies on ef and aM ⊥ ef: M is the foot of the perpendicular from a to ef.\n\nThe construction fails in two cases:\n- θ = 0: the triangle degenerates to a point, which is then M itself.\n- M on the circumcircle of abc (the classical 'danger circle'): the two circles coincide.\n\nContext: the facing pages are optical (Ramsden telescope) and astronomical (Polaris, 1817) notes. This is a short practical-geodesy memorandum, c. 1816/17.",
+  "errors": [
+   "As the machine transcription reads it ('in c auf ac und in b auf ab' for f, together with 'β auf aβ' for e), the construction would be wrong: circle (a b c) and circle (a β γ) do not in general meet at the station. Read from the image, the glyph Gauss uses for β resembles 'b'/'6'. The geometrically correct and evidently intended reading is: e from the perpendiculars at b (on ab) and at γ (on aγ); f from the perpendiculars at c (on ac) and at β (on aβ). Under that reading the manuscript is correct.",
+   "No justification is given and the degenerate cases are not mentioned (θ = 0; station on the circle abc). These are omissions rather than errors."
+  ],
+  "results": [
+   {
+    "what": "Graphical solution of the plane-table resection from the error triangle: M is the second intersection of circles (a,b,γ) and (a,c,β). It is constructed via the antipodes e, f of a and the foot of the perpendicular from a to ef.",
+    "modern_name": "Plane-table three-point resection (Pothenot/Snellius problem), circle or 'triangle of error' method; equivalent to locating the Miquel point / centre of the rotation family. Closely related to Cassini's perpendicular construction and Bessel's plane-table method.",
+    "usually_credited_to": "Snellius (1617) and Pothenot (1692) for the problem; Cassini for the perpendicular/circle construction; plane-table versions by Lehmann and Bessel (early 19th c.), and in surveying textbooks (Bohnenberger, Mayer).",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a standard, textbook-level graphical solution of the three-point problem adapted to the plane table, well known in early-19th-century surveying literature. Gauss's broad geodetic engagement, including the Pothenot problem, is documented. The page is a correct and neat private note, but not new mathematics.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; a=Matrix([0,0]); b=Matrix([4,0]); c=Matrix([1,3]); M=Matrix([2,-1]); R=Matrix([[Rational(3,5),-Rational(4,5)],[Rational(4,5),Rational(3,5)]]); s,u=symbols('s u'); L=lambda p,q: (lambda sol: p+sol[s]*R*(p-M))(solve(list(p+s*R*(p-M)-q-u*R*(q-M)),[s,u])); gam=L(a,b); bet=L(a,c); x,y=symbols('x y'); X=Matrix([x,y]); e=Matrix(list(solve([(X-b).dot(b-a),(X-gam).dot(gam-a)],[x,y]).values())); f=Matrix(list(solve([(X-c).dot(c-a),(X-bet).dot(bet-a)],[x,y]).values())); d=f-e; foot=e+((a-e).dot(d)/d.dot(d))*d; simplify(foot-M)",
+    "asserts": "With the table rotated by θ (cos=3/5, sin=4/5), the foot of the perpendicular from a to ef coincides with the true station M; the result should be the zero vector."
+   },
+   {
+    "sympy": "Matrix([[a[0],a[1],a.dot(a),1],[b[0],b[1],b.dot(b),1],[gam[0],gam[1],gam.dot(gam),1],[M[0],M[1],M.dot(M),1]]).det()",
+    "asserts": "a, b, γ, M are concyclic (determinant = 0); this is the key lemma that the intersection of two rotated rays lies on the circle through the two map points and the station."
+   },
+   {
+    "sympy": "Matrix([[a[0],a[1],a.dot(a),1],[b[0],b[1],b.dot(b),1],[c[0],c[1],c.dot(c),1],[gam[0],gam[1],gam.dot(gam),1]]).det()",
+    "asserts": "In general nonzero: the circumcircle of a, b, c does NOT pass through the error-triangle vertex. This shows the literal machine-transcription reading (f from c and b) is not the intended construction."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3: the glyph read as β in 'in β auf aβ' appears to be Latin b: 'in b auf ab und in γ auf aγ errichtete Senkrechte schneiden einander in e'. The crossed-out word at the start of the line is illegible, possibly 'Die'.",
+   "Line 4: 'die in c auf ac und in b auf ab Senkrechten' should be read 'die in c auf ac und in β auf aβ Senkrechten schneiden einander in f'. Gauss's β is written like 'b'/'6', as also in 'Punkte α, β, γ'.",
+   "'Mt. Tisch' is Gauss's abbreviation for 'Meßtisch'; 'vorgestellt' means 'dargestellt' (represented)."
+  ]
+ }
+}

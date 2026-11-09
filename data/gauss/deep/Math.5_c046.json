@@ -1,0 +1,99 @@
+{
+ "bundle": "Math.5",
+ "page": "c046",
+ "label": "23r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376170:00000047/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has three parts.\n\n(A) TERNARY FORM UNDER A TRIANGULAR SUBSTITUTION (Disquisitiones Arithmeticae notation).\nLet f = a x^2 + a' y^2 + a'' z^2 + 2b yz + 2b' xz + 2b'' xy, written (a,a',a''; b,b',b''). Apply the unimodular substitution with matrix [[1,beta,gamma],[0,1,gamma'],[0,0,1]], i.e. x = X + beta Y + gamma Z, y = Y + gamma' Z, z = Z. The transformed form (m,m',m''; n,n',n'') has:\n- m = a\n- m' = a' + 2b''beta + a beta^2\n- m'' = a'' + 2b gamma' + 2b' gamma + 2b'' gamma gamma' + a gamma^2 + a' gamma'^2\n- n = b + b' beta + a' gamma' + a beta gamma + b''(beta gamma' + gamma)\n- n' = b' + b'' gamma' + a gamma\n- n'' = b'' + a beta\nAll six agree with direct expansion.\n\nGauss then gives the coefficients of the adjoint form. He uses the D.A. art. 267 convention A'' = b''^2 - aa', B = ab - b'b'', B' = a'b' - bb''. The new adjoint coefficients are:\n- (new A'') = A''\n- N = B - A'' gamma'\n- N' = B' - A'' gamma\n\nThe marginal 'V. 272' (= vide art. 272) refers to the reduction theory of ternary forms in D.A. arts. 272-274. There one first makes a and A'' small, and then uses exactly this triangular substitution to bring n'' = b'' + a beta, N and N' into the ranges |n''| <= a/2, |N|, |N'| <= A''/2. The three parameters are chosen in order: beta from n'', gamma' from N, gamma from N'. This is the problem the computation serves.\n\n(B) SPECIAL CASE a = 0, b'' = 0.\nFor the form [0, a', a''; b, b', 0] (the torn margin note '..0, b''=0' presumably says a = 0, b'' = 0), the general formulas specialize to:\n- m = 0, m' = a'\n- m'' = a'' + 2b gamma' + 2b' gamma + a' gamma'^2\n- n = b + b' beta + a' gamma'\n- n' = b', n'' = 0\nThis is the case of a form representing zero, where the definite reduction of art. 272 does not apply as such. The specialization is correct.\n\n(C) AGM-TYPE ALGORITHM AND NUMERICS FOR M(1, sqrt2).\nGauss writes the iteration on squares:\n- p'^2 = (p^2 + q^2)/2\n- q'^2 = pq\nThis is the ordinary AGM applied to P = p^2, Q = q^2, since Q' = sqrt(PQ).\n\nTwo steps give (filling in the step, mine):\n- p''^2 = ((p^2+q^2)/2 + pq)/2 = ((p+q)/2)^2, hence p'' = (p+q)/2 (written after corrections).\n- q''^2 = p'q', hence q'' = ((p^2+q^2)pq/2)^(1/4) = (1/2 (p^3 q + p q^3))^(1/4).\n- Gauss's alternative form is ((p+q)^4 - (p-q)^4)^(1/4)/2. It is correct, because (p+q)^4 - (p-q)^4 = 8(p^3 q + p q^3).\n\nThe numbers belong to the computation of M(1, sqrt2), continued on the next page.\n- That page has 1.41421356..., 1.2071067811865..., 1.1892071150027... = 2^(1/4), then 1.19815694809... and 1.19812352149..., converging to 1.19814023...\n- With p = 1, q = 2^(1/4) one gets p'^2 = (1+sqrt2)/2 = 1.20710678..., q'^2 = 2^(1/4), p''^2 = 1.198156948..., q''^2 = 1.198123521...\n\nThe arithmetic I could decode:\n- 0.60355339059327376220042218105 = p'^2/2, then p'^2 = 1.2071067811865475244008443621, then 1.5 p'^2 = 1.810660171779821286601266543.\n- With x = 1.5094091615772483742361...:\n  - the top block is 0.4x = 0.60376366463089934969, plus 0.01x = 0.015094091615772483742, giving 0.41x = 0.61885775624667183343;\n  - the right block is 3 x 0.41x = 1.8565732687400155003;\n  - the bottom lines contain 1 + 10^-7 x and 1.5(1 + 10^-7 x) = 1.50000022641137423658...;\n  - 0.9409161577248 x 1.5 = 1.4113742365872 (written as half and sum).\nThese are auxiliary multiplications, apparently for a small-correction (series) evaluation of a root near 1 in the AGM. Their exact role is not fully recoverable from this page.",
+  "errors": [
+   "N' = B' - A''gamma is complete only if beta = 0 (or N = 0). The exact transformed adjoint coefficient is N' = B' - A''gamma - beta(B - A''gamma') = B' - A''gamma - beta N. Counterexample: a = 1, b = 1, others 0, beta = 1 gives N' = m'n' - nn'' = -1, but B' - A''gamma = 0. For the reduction argument the omitted term is harmless: gamma is chosen last, and any gamma-independent additive term can be absorbed when choosing gamma.",
+   "q'' = (1/2 p^3 q + q^3 p)^(1/4), as written, misplaces the factor 1/2. The correct form is (1/2(p^3 q + p q^3))^(1/4), which is what the alternative expression ((p+q)^4 - (p-q)^4)^(1/4)/2 gives. Possibly only a notational ambiguity.",
+   "The other adjoint coefficients (new A, A', B'') are not given; only those needed for the reduction step appear."
+  ],
+  "results": [
+   {
+    "what": "Coefficients of a ternary quadratic form and of its adjoint under the unimodular triangular substitution [[1,beta,gamma],[0,1,gamma'],[0,0,1]], used to reduce b'', B, B' modulo a and A''",
+    "modern_name": "Size reduction step in the reduction of positive ternary quadratic forms (precursor of Seeber/Minkowski/LLL-type size reduction)",
+    "usually_credited_to": "Gauss, Disquisitiones Arithmeticae (1801), arts. 272-274; later Seeber (1831), Gauss's review (1831)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Specialization of the transformation to forms with a = 0, b'' = 0 (forms representing zero)",
+    "modern_name": "Isotropic ternary forms / reduction of forms representing zero",
+    "usually_credited_to": "Gauss, D.A. (treatment of forms of determinant with zero representation); routine",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "AGM written on squares, p'^2 = (p^2+q^2)/2, q'^2 = pq, with the closed-form double step p'' = (p+q)/2, q'' = (pq(p^2+q^2)/2)^(1/4) = ((p+q)^4 - (p-q)^4)^(1/4)/2",
+    "modern_name": "Arithmetic-geometric mean (two-step form)",
+    "usually_credited_to": "Gauss (AGM, 1791-1799; Lagrange earlier)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "High-precision numerical computation of M(1, sqrt2) = 1.19814023... (lemniscatic AGM)",
+    "modern_name": "Gauss's constant / M(1, sqrt2) = pi/varpi",
+    "usually_credited_to": "Gauss (diary entry of 30 May 1799)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Both topics are well known as Gauss's. The ternary-form substitution is exactly the material of D.A. arts. 272-274 (cited in the margin as 'V. 272'). The AGM computation of M(1, sqrt2) is famous from his 1799 work. The page is working notes with a small slip, nothing new.",
+  "checkable": [
+   {
+    "sympy": "a,a1,a2,b,b1,b2,be,g,g1,X,Y,Z=symbols('a a1 a2 b b1 b2 be g g1 X Y Z'); x=X+be*Y+g*Z; y=Y+g1*Z; z=Z; F=expand(a*x**2+a1*y**2+a2*z**2+2*b*y*z+2*b1*x*z+2*b2*x*y); [simplify(F.coeff(Y,2).subs({X:0,Z:0})-(a1+2*b2*be+a*be**2)), simplify(F.coeff(Z,2).subs({X:0,Y:0})-(a2+2*b*g1+2*b1*g+2*b2*g*g1+a*g**2+a1*g1**2)), simplify(F.coeff(Y,1).coeff(Z,1).subs(X,0)/2-(b+b1*be+a1*g1+a*be*g+b2*(be*g1+g))), simplify(F.coeff(X,1).coeff(Z,1).subs(Y,0)/2-(b1+b2*g1+a*g)), simplify(F.coeff(X,1).coeff(Y,1).subs(Z,0)/2-(b2+a*be))]",
+    "asserts": "The transformed coefficients m', m'', n, n', n'' on the page are correct (all five differences are 0)."
+   },
+   {
+    "sympy": "m=a; m1=a1+2*b2*be+a*be**2; n=b+b1*be+a1*g1+a*be*g+b2*(be*g1+g); n1=b1+b2*g1+a*g; n2=b2+a*be; A2=b2**2-a*a1; B=a*b-b1*b2; B1=a1*b1-b*b2; [expand(n2**2-m*m1-A2), expand(m*n-n1*n2-(B-A2*g1))]",
+    "asserts": "New A'' = A'' and N = B - A''*gamma' hold in Gauss's convention B = ab - b'b'' (both differences are 0)."
+   },
+   {
+    "sympy": "expand((m1*n1-n*n2)-(B1-A2*g-be*(B-A2*g1)))",
+    "asserts": "The full transformed N' is B' - A''*gamma - beta*(B - A''*gamma'); this difference is 0. The page omits the -beta*N term."
+   },
+   {
+    "sympy": "p,q=symbols('p q',positive=True); expand((p+q)**4-(p-q)**4-8*(p**3*q+p*q**3))",
+    "asserts": "(p+q)^4 - (p-q)^4 = 8(p^3 q + p q^3), so ((p+q)^4 - (p-q)^4)^(1/4)/2 = (1/2(p^3 q + p q^3))^(1/4); the result is 0."
+   },
+   {
+    "sympy": "simplify(((p**2+q**2)/2+p*q)/2-((p+q)/2)**2)",
+    "asserts": "Two square-AGM steps give p''^2 = ((p+q)/2)^2, i.e. p'' = (p+q)/2; the result is 0."
+   },
+   {
+    "sympy": "simplify(sqrt(sqrt((p**2+q**2)/2)*sqrt(p*q))**4-(p**3*q+p*q**3)/2)",
+    "asserts": "q''^4 = p'^2 q'^2 = (p^3 q + p q^3)/2; the result is 0."
+   },
+   {
+    "sympy": "N(((1+sqrt(2))/2+2**Rational(1,4))/2,20), N(sqrt((1+sqrt(2))/2*2**Rational(1,4)),20)",
+    "asserts": "Gives 1.1981569480946... and 1.1981235214931..., the next-step AGM values for M(1, sqrt2) (with p = 1, q = 2^(1/4) in the square iteration)."
+   },
+   {
+    "sympy": "N(pi/(gamma(Rational(1,4))**2/(2*sqrt(2*pi))),20)",
+    "asserts": "M(1, sqrt2) = pi/varpi = 1.1981402347355922074..., the limit being computed."
+   },
+   {
+    "sympy": "x=Rational('1.50940916157724837423617'); [N(Rational(4,10)*x,25), N(Rational(41,100)*x,25), N(3*Rational(41,100)*x,25), N(Rational(3,2)*(1+x/10**7),25)]",
+    "asserts": "Reproduces the auxiliary numbers 0.6037636646308993496944680, 0.6188577562466718334368297, 1.856573268740015500310..., 1.5000002264113742365..."
+   },
+   {
+    "sympy": "[N((1+sqrt(2))/2,30), N((1+sqrt(2))/4,30), N(3*(1+sqrt(2))/4,30)]",
+    "asserts": "Reproduces 1.2071067811865475244008443621, 0.60355339059327376220042218105 and 1.810660171779821286601266543 on the page."
+   }
+  ],
+  "transcription_corrections": [
+   "The left-margin note '0, a''=0, ?' is cut off by the torn edge. Matching the bracket [0,a',a''; b,b',0], it should read '...=0, b''=0', i.e. a = 0, b'' = 0.",
+   "The line 'p''[-gamma-] = 1/2([-pp-]p+q)' should be read, after Gauss's corrections, as p'' = 1/2(p+q).",
+   "The fourth-root expression is ((p+q)^4 - (p-q)^4)^(1/4)/2; the symbol read as 'B' (Fraktur) above it is an unclear marginal mark, not part of the formula.",
+   "The first line of the top-right number block '6037634[?]' is 6037636 (a truncation of 0.6037636646...); the lines are 6037636, 15094086, 618857562 (= 0.4x, 0.01x, 0.41x truncated).",
+   "'1 5000002251 4113742365873' is most likely 1,5000002264 1137423658 73 (= 1.5 x 1.00000015094091615772...), consistent with 1.4113742365872 = 1.5 x 0.9409161577248.",
+   "'410000061 8857756246 67183343683' is probably 0,0000000618857756246 67183343683 (= 0.41 x 10^-7 x), preceded by a factor 0.41 written as a prefix.",
+   "'1189001794 6874931153 483169668' is uncertain in the image (possibly 1,1890001794...); not reliably decodable.",
+   "'1,0000001 5094091615 7724837423617' = 1.0000001509409161577248374236 17, i.e. 1 + 10^-7 x with x = 1.50940916157724837..."
+  ]
+ }
+}

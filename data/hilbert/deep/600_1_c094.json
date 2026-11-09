@@ -1,0 +1,71 @@
+{
+ "bundle": "600_1",
+ "page": "c094",
+ "label": "85",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000095/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "There are no computations on this page. It holds two notebook entries from c. 1888-90, the period of Hilbert's work on invariants and the basis theorem.\n\n(1) A polemical remark on Christoffel's essay on irrational numbers. This is presumably E. B. Christoffel, 'Lehrsätze über arithmetische Eigenschaften der Irrationalzahlen', Annali di Mat. (2) 15 (1888). Hilbert calls it 'höchst einfältig' (extremely simple-minded). His point: the only 'positive property' of an irrational number is that it exists. Christoffel had tried to characterise irrationals by positive arithmetic properties, essentially sequences of digits and continued-fraction behaviour. Hilbert's attitude is the existential, Dedekind/Cantor-style one.\n\n(2) A research programme on the 'general Noether theorem'. Hilbert remarks that one is led back to it again and again. The underlying result is Max Noether's fundamental theorem (1873): F = A f + B g under local conditions at the intersection points of the curves f = 0 and g = 0.\n\nThe setting, in modern terms:\n- Several surfaces f_1 = 0, ..., f_k = 0 in projective 3-space pass through certain points and curves.\n- A form F is given whose surface contains the same points and curves.\n- Hilbert conjectures what else is needed. Suppose that, in addition, all differential quotients 'along the surface' agree, i.e. the tangent planes 'etc.' (higher osculation). Then these conditions should be necessary and sufficient for F ≡ 0 modulo the given module system M = (f_1, ..., f_k), i.e. for F to lie in the ideal.\n\nHe then reformulates the task: put the membership criteria for F ≡ 0 (M) into a form that does not depend on the degree (order) of F. In modern terms: give finitely many local, degree-independent conditions characterising ideal membership.\n\nFurther questions he poses:\n- (a) How do these conditions change when the module system M is multiplied by another one, or raised to a power (products and powers of ideals, symbolic powers)?\n- (b) What is the connection with ideal theory? He cites Selling (E. Selling's work on ideal numbers in algebraic number fields, 1865).\n- (c) Can the theory be extended to the case where integrality of the coefficients is also taken into account? That is, module systems over Z in Kronecker's sense, not only over a field.\n\nThere is no proof attempt. The page states a conjecture and a programme.",
+  "errors": [
+   "No computational errors, since nothing is computed. The tentative claim needs a caveat: 'same points and curves plus agreeing tangent planes etc.' is the right idea only if 'etc.' means suitable higher-order conditions at every primary (including embedded) component.",
+   "Mere agreement of all derivatives up to some order is in general not the correct criterion. Example: M = (x^2, y^2) at the origin. Here xy is not in M, although xy and all its first partial derivatives vanish at 0, just as for the members x^2 and y^2. The correct criteria are specific differential operators (here d^2/dxdy evaluated at 0). These are Macaulay's inverse systems, or Noetherian operators in the sense of Gröbner/Palamodov/Ehrenpreis, and for non-zero-dimensional components their coefficients may need to be polynomial.",
+   "The remark on Christoffel is a polemical value judgement, not a mathematical claim."
+  ],
+  "results": [
+   {
+    "what": "Programme: characterise membership F ∈ (f_1,...,f_k) by local conditions (containment of the common points and curves, plus agreement of tangent planes and higher differential data), independent of deg F. This generalises Max Noether's AF+BG theorem to several surfaces in space.",
+    "modern_name": "Local criteria for ideal membership; Lasker–Noether primary decomposition; Macaulay inverse systems; Noetherian differential operators (Gröbner, Palamodov–Ehrenpreis)",
+    "usually_credited_to": "M. Noether (1873, plane curves); Lasker (1905); Macaulay (1916); Gröbner (1938-39); Palamodov and Ehrenpreis (1960s)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Question of how the membership conditions behave under multiplication and powers of the module system",
+    "modern_name": "Products and powers of ideals, symbolic powers (Zariski–Nagata type differential characterisation)",
+    "usually_credited_to": "Lasker, Macaulay; Zariski (1949) and Nagata for symbolic powers via vanishing derivatives",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Link to Selling/Kronecker ideal theory and extension to integer coefficients",
+    "modern_name": "Ideal theory over Z[x_1,...,x_n] (Kronecker's module systems)",
+    "usually_credited_to": "Kronecker (1882), Dedekind; Hilbert treats integer coefficients in his 1890 Math. Ann. paper",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Dismissive remark on Christoffel's characterisation of irrational numbers",
+    "modern_name": "Foundations of real numbers (existential vs. constructive characterisation)",
+    "usually_credited_to": "Christoffel (1888); Hilbert's existential stance is well known",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Hilbert's preoccupation with Noether's theorem and module systems around 1888-90 is well documented (Math. Ann. 36, 1890; the Nullstellensatz, 1893). The note shows him formulating the problem of finitely many degree-independent local or differential criteria for ideal membership, the problem later solved by Lasker, Macaulay and Gröbner. This is a nice unpublished anticipation of the question, but only as a question: there is no result.",
+  "checkable": [
+   {
+    "sympy": "from sympy import groebner, symbols, reduced; x,y=symbols('x y'); G=groebner([y-x**2, y], x, y, order='lex'); reduced(x**2, list(G), x, y, order='lex')[1] == 0",
+    "asserts": "A Noether-type instance: x^2 lies in (y - x^2, y), since x^2 = y - (y - x^2)."
+   },
+   {
+    "sympy": "from sympy import groebner, symbols, reduced; x,y=symbols('x y'); G=groebner([x**2, y**2], x, y, order='grevlex'); reduced(x*y, list(G), x, y, order='grevlex')[1] != 0",
+    "asserts": "xy is not in (x^2, y^2), even though xy vanishes at the origin together with all its first derivatives. So 'value and tangent plane agree' is insufficient; a specific second-order condition is needed."
+   },
+   {
+    "sympy": "from sympy import symbols, diff; x,y=symbols('x y'); [diff(x*y,x).subs({x:0,y:0}), diff(x*y,y).subs({x:0,y:0}), diff(x*y,x,y).subs({x:0,y:0})] == [0,0,1]",
+    "asserts": "The Noetherian operator d^2/dxdy at 0 separates xy from the ideal (x^2, y^2), on which it vanishes identically."
+   },
+   {
+    "sympy": "from sympy import groebner, symbols, reduced; x,y=symbols('x y'); G=groebner([x**3, y], x, y, order='lex'); reduced(x**2, list(G), x, y, order='lex')[1] != 0",
+    "asserts": "x^2 is not in (x^3, y), although x^2 vanishes at the only zero (0,0) with vanishing first derivatives. Higher-order ('etc.') conditions are genuinely needed."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 5: grammatically one expects 'des allgemeinen Nötherschen Satzes'. The image reads 'der allgemeinen Nötherschen Satzes' (or possibly 'Sätze'), so the article/ending is ambiguous.",
+   "'das[?] Modulsystem': the image shows 'das' with a small struck letter or mark after it; reading 'das Modulsystem' is fine.",
+   "'in eine [-Form-] Gestalt bringen' is correct: the word 'Form' is struck through before 'Gestalt'.",
+   "'Zusammenhang mit der Idealtheorie (Selling)' is confirmed; the parenthetical name is Selling."
+  ]
+ }
+}

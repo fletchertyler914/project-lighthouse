@@ -1,0 +1,69 @@
+{
+ "bundle": "600_3",
+ "page": "c013",
+ "label": "[10]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000014/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has three parts.\n\n(A) Autobiographical remarks, in prose with no mathematics. 'No one can say of me that my learning comes from the study lamp, for most of my mathematical ideas I found in the open air, on walks before the gates of Königsberg and in the sunshine of my Göttingen garden.' Then: 'Everything depends on grasping an inclination toward a vocation early and staying true to it; it has always astonished me in the highest degree to learn that many, even very important, men recognised their vocation so late.'\n\n(B) Proof that the zero exists, i.e. that the axiom of a two-sided additive identity is redundant. The setting is Hilbert's arithmetic axioms ('Über den Zahlbegriff', 1900, and Grundlagen der Geometrie §13).\n- Axioms of connection I: a+b is uniquely defined, and for given a, b the equations a+x=b and y+a=b each have exactly one solution.\n- Associative law of addition.\n\nModern restatement:\n- For a fixed a, let x be the unique solution of x+a=a.\n- For a fixed b, let y be the unique solution of y+b=b. The page has 'y+6=b'; the 6 is a slip for b.\n- Notation: '|+b' means adding b on the right, and 'a|' means adding a on the left.\n- Adding b on the right of the first equation gives x+a+b = a+b.\n- Adding a on the left of the second gives a+y+b = a+b.\n- Hence (x+a)+b = (a+y)+b, using associativity to group.\n- By uniqueness of the solution z of z+b=(a+b), we get x+a = a+y.\n- Since x+a=a, it follows that a+y=a.\n- So y_b (defined as the left neutral of b) is a right neutral for every a. By uniqueness of the solution of a+y=a, y_b does not depend on b: 'y ist von b unabhängig, q.e.d.'\n- [My completion:] Call this common element 0. Then 0+b=b for all b by its definition, and a+0=a for all a by the above. So 0 is a two-sided identity and the 'Invariante der Addition' exists.\n- The existence of 1 (invariant of multiplication) is said to follow 'ebenso' from the multiplicative connection axioms and associativity of multiplication. [Mine: for nonzero elements, where division is uniquely solvable.]\n\n(C) Proof that 0·b = 0 'essentially on the basis of the distributive law'. A first attempt, '0+a|a', is struck out.\n- Start from 0+a=a and multiply on the right by b: (0+a)b = ab.\n- The distributive law gives 0b + ab = ab.\n- So 0b is the solution z of z+ab=ab. By uniqueness that solution is 0, hence 0·b = 0.\n\nThe page ends with a question continued overleaf: 'Is it possible that division by 0 holds if one drops the distributive law?' This motivates the role of distributivity in excluding division by zero.",
+  "errors": [
+   "The '6' in 'y + 6 = b' is a handwriting slip for b; the derivation requires y+b=b.",
+   "The conclusion 'y ist von b unabhängig' silently uses the uniqueness of the solution of a+y=a (axiom I2). The fact that the resulting element is a two-sided identity (0+b=b and a+0=a) is left implicit. Both steps are valid, so this is not an error, only compression.",
+   "'Ebenso' for the multiplicative unit glosses over the need to restrict to nonzero elements, since unique solvability of multiplication only holds for a≠0.",
+   "No mathematical errors otherwise; the 0·b=0 argument is correct given right distributivity (a+b)c = ac+bc and additive cancellation (uniqueness in I2)."
+  ],
+  "results": [
+   {
+    "what": "In a structure where a+x=b and y+a=b are uniquely solvable (a quasigroup) and + is associative, a two-sided identity exists. So Hilbert's axiom of the existence of 0 is dependent on the other axioms.",
+    "modern_name": "An associative (nonempty) quasigroup is a group; redundancy of the identity axiom in the 'division' definition of a group",
+    "usually_credited_to": "Folklore of late-19th/early-20th-century group axiomatics (e.g. Weber's Lehrbuch der Algebra 1896, Huntington's independent postulate sets c. 1902–1905)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "0·b = 0 derived from the distributive law and additive cancellation",
+    "modern_name": "Annihilation property of zero in rings",
+    "usually_credited_to": "standard/folklore",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Question whether division by 0 could be consistent if distributivity is dropped",
+    "modern_name": "Role of distributivity in excluding division by zero; near-fields and wheels are later related ideas",
+    "usually_credited_to": "standard observation",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Autobiographical remarks: mathematical ideas found on walks around Königsberg and in his Göttingen garden; the importance of recognising one's vocation early",
+    "modern_name": "biographical",
+    "usually_credited_to": "Consistent with known anecdotes in Reid's 'Hilbert' and Blumenthal's Lebensgeschichte (Königsberg walks with Hurwitz and Minkowski; the garden blackboard)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The mathematics is a routine dependency check on Hilbert's own 1899/1900 field axioms: associativity plus unique solvability gives the identity, and distributivity gives 0·b=0. Such redundancy observations were standard in the axiomatics of the period. The autobiographical lines are a nice personal statement but match known anecdotes.",
+  "checkable": [
+   {
+    "sympy": "from sympy import symbols, expand, Eq; a,b=symbols('a b'); Eq(expand((0+a)*b), 0*b + a*b)",
+    "asserts": "Distributive expansion (0+a)b = 0b + ab, the step used for 0·b=0"
+   },
+   {
+    "sympy": "import itertools; n=3; ok=all(any(all(T[e][x]==x and T[x][e]==x for x in range(n)) for e in range(n)) for T in ([[t[i*n+j] for j in range(n)] for i in range(n)] for t in itertools.product(range(n),repeat=n*n)) if all(sorted(r)==list(range(n)) for r in T) and all(sorted(T[i][j] for i in range(n))==list(range(n)) for j in range(n)) and all(T[T[x][y]][z]==T[x][T[y][z]] for x in range(n) for y in range(n) for z in range(n))); ok",
+    "asserts": "Every associative quasigroup (Latin-square operation) of order 3 has a two-sided identity (should be True)"
+   },
+   {
+    "sympy": "n=5; op=lambda x,y:(x-y)%n; (all(op(x,0)==x for x in range(n)), any(all(op(e,x)==x for x in range(n)) for e in range(n)), all(op(op(x,y),z)==op(x,op(y,z)) for x in range(n) for y in range(n) for z in range(n)))",
+    "asserts": "Subtraction mod 5 is a quasigroup with a right identity but no left identity, and it is not associative: associativity is genuinely needed (expected (True, False, False))"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'a | y + 6 = b': the image shows '6', but it must be read as 'y + b = b'. The machine transcription's 'y + b = b' is the intended reading.",
+   "'auf den Spaziergänge' is probably 'auf den Spaziergängen'; the final letters run off into the line.",
+   "'frühzeitig[?]': the image shows 'früh' followed by an overwritten/corrected syllable and then 'zeitig'. The reading 'frühzeitig' is plausible.",
+   "'und des associativen Gesetzes': the image reads closer to 'und der associativen Gesetzes' (sic), probably intended as 'des associativen Gesetzes'.",
+   "The struck-out fragment is '0+a|a', a false start before '0 + a = a | b'. The final line reads 'ob + ab = ab d.h. 0·b = 0', with 'ob' meaning 0b."
+  ]
+ }
+}

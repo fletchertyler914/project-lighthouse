@@ -1,0 +1,63 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c027",
+ "label": "[18]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000028/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a 5-place table of Gaussian (addition) logarithms. In Gauss's own published layout, the argument is A = log10 x. The 'value' column is B(A) = log10(1 + 1/x) = log10(1 + 10^(-A)). The 'sum' column is C = A + B = log10(1 + x) = log10(1 + 10^A). The two smaller columns are first differences between successive tabulated B and C values, written between the lines, in units of 1e-5. The page covers A = 0.720 to 0.800 in steps of 0.001, in two blocks (0.720–0.760 and 0.760–0.800), grouped in fives.\n\nThe page continues fol. 17 (A = 0.640–0.720) and leads into fol. 19 (A = 0.800–0.880).\n\nThe purpose is to find log(a+b) from log a and log b without leaving logarithms. Set A = log a − log b. Then log(a+b) = log b + C(A) = log a + B(A). Equivalently, for differences, one can enter the table with C and read A or B.\n\nWorked checks (mine):\n- A = 0.720: x = 10^0.72 = 5.24807; log10(1 + 0.190546) = 0.075749, so B = 0.07575 and C = 0.79575.\n- A = 0.760: x = 5.75440; B = log10(1.173780) = 0.069587, so 0.06959; C = 0.82959.\n- A = 0.800: x = 6.30957; B = log10(1.158489) = 0.063893, so 0.06389; C = 0.86389.\n\nThe structure has internal consistency checks: C − A = B exactly in every row, and ΔB + ΔC = 0.001 (100 units), e.g. 16 + 84 and 15 + 85. Every row on the page satisfies these. As expected, the B-differences shrink from 16 to 14/13 because dB/dA = −1/(1 + x).",
+  "errors": [
+   "No computational errors found. Spot checks against exact values agree to the last place, including the near-tie cases. At A = 0.759, exact B = 0.0697349, tabulated 0.06973. At A = 0.776, exact B = 0.0672548, tabulated 0.06725; this is a visibly corrected entry. At A = 0.740, exact B = 0.072606, tabulated 0.07261.",
+   "All B and C differences are consistent with the tabulated values, and C = A + B holds in every row."
+  ],
+  "results": [
+   {
+    "what": "Table of B(A) = log10(1 + 10^-A) and C(A) = A + B = log10(1 + 10^A) for A = 0.720..0.800, 5 decimals, with first differences",
+    "modern_name": "Gaussian logarithms (addition/subtraction logarithms)",
+    "usually_credited_to": "Z. Leonelli (idea, 1802/1803); C. F. Gauss, who published a 5-place table in Zach's Monatliche Correspondenz, 1812",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript sheet of the Gaussian-logarithm table that Gauss published in 1812 and that bears his name. It is routine computational work, of interest only as a working draft showing his corrections and difference checks.",
+  "checkable": [
+   {
+    "sympy": "N(log(1+10**(-Rational(72,100)),10),8)",
+    "asserts": "B(0.720) ≈ 0.075749, tabulated as 0.07575"
+   },
+   {
+    "sympy": "N(log(1+10**(Rational(72,100))),8)/N(log(10),8)",
+    "asserts": "C(0.720) ≈ 0.79575 = 0.720 + 0.07575"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(759,1000)),10),10)",
+    "asserts": "B(0.759) ≈ 0.0697349, which rounds to the tabulated 0.06973"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(776,1000)),10),10)",
+    "asserts": "B(0.776) ≈ 0.0672548, which rounds to the corrected entry 0.06725"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(758,1000)),10),10)",
+    "asserts": "B(0.758) ≈ 0.069883, which rounds to the corrected entry 0.06988"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(8,10)),10),10)",
+    "asserts": "B(0.800) ≈ 0.063893, tabulated as 0.06389"
+   },
+   {
+    "sympy": "[round(float(log(1+10**(-Rational(k,1000)),10)),5) for k in range(720,801)]",
+    "asserts": "Reproduces the whole B column of the page"
+   },
+   {
+    "sympy": "simplify(log(1+10**A,10) - A - log(1+10**(-A),10))",
+    "asserts": "Identity C = A + B, which should simplify to 0"
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription matches the image. Several entries are visibly overwritten or corrected in the manuscript: 0.730 → 0.07416 (final 6); 0.758 → 0.06988; 0.759 → 0.06973 and sum 0.82873; 0.760 → 0.06959 and 0.82959; 0.776 → 0.06725; 0.778 → 0.06697; 0.786 sum → 0.85183; and the C-difference 84 between 0.737 and 0.738. The corrected readings given in the transcription are the right ones.",
+   "The page has no printed folio number visible (it is fol. 18 between 17 and 19). The difference columns stand between the rows, as noted on the next page."
+  ]
+ }
+}

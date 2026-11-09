@@ -1,0 +1,52 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c073",
+ "label": "[64]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000074/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. Pp. 63-64 are the end of a numerical harmonic analysis, i.e. trigonometric interpolation from 48 equidistant values. On p. 63 Gauss reduces the sine part by repeated halving and folding: 'Sinus 2 (4 fach)', 'Sinus 4 (8 fach)', 'Sinus 8 (16 fach)', then the odd sines. He divides by sqrt(768) and by 24 or 48, and ends with 'Das ganze Resultat ist also -9\"012 ...', the complete series for a first quantity (presumably U). This page gives the analogous final series for two further quantities, V and W, 'for the same value of M' (M = 270°). These are almost certainly components of a perturbing force or perturbation function. The setting is a double Fourier development in two mean anomalies, as in Gauss's perturbation computations of this period (Pallas by Jupiter, c. 1810-1812). Here one argument is fixed at M = 270° and the other, x, is sampled at 48 points x_k = k·7.5°. The units are arc-seconds.\n\nContent, in modern notation (the reconstruction of the purpose is mine).\n\nV(x) = 5.702 + Σ_{j=1}^{24} a_j cos(jx) + Σ_{j=1}^{23} b_j sin(jx), with:\n- a = (7.392, 6.343, -39.373, -12.568, 17.706, 9.516, -6.341, -5.479, 1.755, 2.695, -0.248, -1.178, -0.104, 0.474, 0.126, -0.179, -0.091, 0.053, 0.050, -0.004, -0.012, 0.003, -0.003, -0.005)\n- b = (7.761, 47.864, 11.523, -27.335, -11.493, 10.868, 7.393, -3.485, -3.892, 0.860, 1.815, 0.003, -0.763, -0.219, 0.280, 0.116, -0.102, -0.063, 0.031, 0.021, 0.004, -0.013, 0.007)\n\nW(x) = 8.632 + Σ a'_j cos(jx) + Σ b'_j sin(jx), with:\n- a' = (-2.309, -22.304, 20.678, 16.609, -7.610, -9.309, 1.821, 4.495, 0.007, -1.934, -0.352, 0.746, 0.290, -0.259, -0.174, 0.083, 0.086, -0.024, -0.032, 0.004, 0.005, 0.007, 0.002, -0.005)\n- b' = (13.458, 26.766, -20.401, 13.166, 12.708, -3.995, -6.564, 0.601, 2.989, 0.280, -1.224, -0.339, 0.454, 0.223, -0.148, -0.118, 0.039, 0.056, -0.006, -0.023, -0.003, 0.007, 0.001)\n\nStructure. There is 1 constant, 24 cosines (up to cos 24) and 23 sines (no sin 24). That is exactly the 48 free coefficients of the trigonometric interpolant through 48 equidistant points. The sine of the Nyquist term vanishes at the nodes, hence no sin 24. The cos 24 coefficient is presumably taken with the factor 1/48 rather than 2/48.\n\nNo derivation is written on this page; it records only results, obtained by the same folding scheme as p. 63 ('auf ähnliche Weise'). The isolated word 'Verwandlung' (transformation), faintly written below, is a heading for a section never written here. The next page starts an unrelated note on partial fractions and parabolic motion.",
+  "errors": [
+   "No arithmetic is displayed, so no step can be checked internally.",
+   "Several digits are overwritten in darker ink (V sin 2 coefficient 47.864, V cos 14 coefficient 0.474, W constant 8.632, W cos 16 coefficient 0.083). This indicates Gauss corrected these values himself.",
+   "The magnitudes decrease smoothly with harmonic order, as expected for a converging development. Nothing looks anomalous."
+  ],
+  "results": [
+   {
+    "what": "48-point trigonometric interpolation (harmonic analysis) of perturbation-type quantities V and W at fixed M = 270°, giving coefficients up to order 24",
+    "modern_name": "Discrete Fourier transform / trigonometric interpolation. On the previous page it is computed with a radix-2 folding scheme, i.e. a fast-Fourier-transform-type algorithm.",
+    "usually_credited_to": "The FFT is credited to Cooley and Tukey (1965); Gauss's priority was recognised by Goldstine (1977) and Heideman, Johnson and Burrus (1984). Harmonic analysis in perturbation theory goes back to Clairaut, Lagrange and Gauss.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page only tabulates final Fourier coefficients of a numerical perturbation computation. Gauss's 48-point harmonic analysis (including FFT-like reduction) in his Pallas work is documented in the literature. This is a numerical record, not a new method.",
+  "checkable": [
+   {
+    "sympy": "1 + 24 + 23 == 48",
+    "asserts": "One constant, 24 cosine and 23 sine coefficients exactly match 48 equidistant samples; sin(24*x) vanishes at x_k = k*pi/24."
+   },
+   {
+    "sympy": "all(sin(24*k*pi/24) == 0 for k in range(48))",
+    "asserts": "The sin 24 term is invisible on the 48-point grid, which explains its absence from both series."
+   },
+   {
+    "sympy": "5.702 + sum([7.392,6.343,-39.373,-12.568,17.706,9.516,-6.341,-5.479,1.755,2.695,-0.248,-1.178,-0.104,0.474,0.126,-0.179,-0.091,0.053,0.050,-0.004,-0.012,0.003,-0.003,-0.005])",
+    "asserts": "Reconstructed sample value V(x=0), about -13.770 arc-seconds. This could be compared with the original 48 input values if they are found on earlier folios."
+   },
+   {
+    "sympy": "8.632 + sum([-2.309,-22.304,20.678,16.609,-7.610,-9.309,1.821,4.495,0.007,-1.934,-0.352,0.746,0.290,-0.259,-0.174,0.083,0.086,-0.024,-0.032,0.004,0.005,0.007,0.002,-0.005])",
+    "asserts": "Reconstructed sample value W(x=0), about 9.705 arc-seconds, for comparison with the input data."
+   }
+  ],
+  "transcription_corrections": [
+   "V sin 2: the image shows a heavily overwritten '+47,864' (the '[?]' can probably be removed, but the reading is uncertain).",
+   "V cos 14: overwritten, best read as '+0,474'.",
+   "W constant: overwritten '+8\"632' (the last digits are corrected in darker ink).",
+   "W cos 6: the leading digit is faint but '-9,309' is consistent.",
+   "W cos 16: overwritten, best read '+0,083'.",
+   "The stray word 'Verwandlung' lower on the page is in fainter ink, a separate heading unrelated to the tables."
+  ]
+ }
+}

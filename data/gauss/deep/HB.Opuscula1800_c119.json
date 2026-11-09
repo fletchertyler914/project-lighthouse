@@ -1,0 +1,57 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c119",
+ "label": "[114]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000120/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the cancelled heading 'Beweis der Möglichkeit des Planum' (proof of the possibility of the plane) is struck out and has nothing to do with the rest. The actual heading is 'Zur Theorie der Drehung der Kugelfläche in sich selbst' (on the theory of the rotation of the sphere into itself). The page states two geometric rules for composing rotations of the unit sphere S^2, i.e. elements of SO(3). The neighbouring pages (magnetic inclination; adjustment of three azimuth intersections) suggest the 1820s-1830s, not 1800.\n\nI. Composition of a rotation alpha about the point (axis) A followed by a rotation beta about B (the symbol is a Greek or Gothic b; I read it as beta).\n- Join A and B by a great-circle arc.\n- At A lay off the oriented angle BAC = -alpha/2, i.e. CAB = +alpha/2.\n- At B lay off the oriented angle ABC = +beta/2.\n- The two arcs meet at C, giving the spherical triangle ABC.\n- Prolong BC beyond C to D. Gauss claims the composite rotation is a rotation about C through 2·ACD. ACD = pi - C is the exterior angle at C.\n\nProof (mine), by reflections:\n- A rotation through theta about a point P equals the product of reflections in two great circles through P that meet at angle theta/2.\n- Write R_A(alpha) = s_AB ∘ s_AC, where angle(CA, AB) = alpha/2.\n- Write R_B(beta) = s_BC ∘ s_AB, where angle(AB, BC) = beta/2.\n- Then R_B(beta) ∘ R_A(alpha) = s_BC ∘ s_AB ∘ s_AB ∘ s_AC = s_BC ∘ s_AC.\n- This is a rotation about C = AC ∩ BC through twice the angle between the circles: 2C in one sense, or equivalently 2(pi - C) = 2·ACD in the opposite sense. The oriented exterior angle fixes the sense and branch.\n\nQuaternion form (mine):\n- q_A = cos(alpha/2) + sin(alpha/2)·a and q_B = cos(beta/2) + sin(beta/2)·b, with a, b the unit vectors of A and B.\n- The scalar part of q_B q_A is cos(alpha/2)cos(beta/2) - sin(alpha/2)sin(beta/2)cos(AB).\n- By the polar spherical law of cosines (A = alpha/2, B = beta/2, side c = AB), this equals -cos C = cos(pi - C).\n- Hence the half-angle of the composite rotation is pi - C = ACD, and the full angle is 2·ACD, as Gauss states.\n\nII. Instead of rotations about points, consider 'Schiebungen' (slides) along great circles. The slide '2AB' moves the sphere along the great circle AB by the arc 2·AB, i.e. a rotation about the pole of AB through twice the arc AB. Claim: 2AB followed by 2BC equals 2AC.\n\nProof (mine):\n- Let H_P be the half-turn about the axis through P.\n- Then H_B ∘ H_A is the rotation about the pole of circle AB through 2·arc AB, which is the slide 2AB.\n- Hence (H_C H_B)(H_B H_A) = H_C H_A, i.e. 2BC ∘ 2AB = 2AC.\n- This is the 'vector-arc' (Hamilton/Rodrigues) addition of arcs: the triangle rule for great-circle displacements, with each arc representing half the displacement.",
+  "errors": [
+   "No mathematical error. The sign conventions (BAC = -alpha/2, ABC = +beta/2, exterior angle ACD) are consistent with the order 'first alpha about A, then beta about B' and with a fixed orientation; the composite is 2·ACD, equivalently -2·ACB mod 2pi.",
+   "The order of composition in II is not stated explicitly. 2AC = (2BC)∘(2AB), i.e. first 2AB, then 2BC; the operation is non-commutative.",
+   "No proof is given; the page states the constructions only."
+  ],
+  "results": [
+   {
+    "what": "Composition of two rotations of the sphere via a spherical triangle with angles alpha/2 and beta/2 at the rotation poles; the resultant pole is the third vertex C and the resultant angle is twice the exterior angle at C",
+    "modern_name": "Rodrigues-Hamilton construction for composing rotations (Euler-Rodrigues composition; triangle of half-angles)",
+    "usually_credited_to": "Olinde Rodrigues (1840); geometrically re-derived by W. R. Hamilton (1840s) in the quaternion context; related remarks by Euler",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Composition of 'slides' along great circles: displacement 2AB followed by 2BC equals 2AC (product of half-turns / vector arcs)",
+    "modern_name": "Hamilton's vector-arc (versor) addition; rotation as a product of two half-turns",
+    "usually_credited_to": "W. R. Hamilton (Lectures on Quaternions, 1853); implicitly Rodrigues 1840",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss's unpublished 'Mutationen des Raumes' (c. 1819, Werke VIII) is known to contain the quaternion-type composition formulas for rotations, so his priority on rotation composition is already recognized. This page adds the clean geometric half-angle triangle construction (usually attributed to Rodrigues 1840 and Hamilton) and the vector-arc rule. That is a notable confirmation that he had the geometric picture too, but not a new major result attributable to him.",
+  "checkable": [
+   {
+    "sympy": "A,B,c=symbols('A B c',positive=True); cosC=-cos(A)*cos(B)+sin(A)*sin(B)*cos(c); simplify((cos(A)*cos(B)-sin(A)*sin(B)*cos(c)) + cosC)==0",
+    "asserts": "The scalar part of q_B*q_A equals -cos C = cos(ACD), via the polar spherical law of cosines; hence the composite half-angle is pi - C."
+   },
+   {
+    "sympy": "from sympy.algebras.quaternion import Quaternion; al,be=Rational(7,10),Rational(11,10); a=Matrix([0,0,1]); b=Matrix([sin(Rational(1,2)),0,cos(Rational(1,2))]); qa=Quaternion(cos(al/2),*(sin(al/2)*a)); qb=Quaternion(cos(be/2),*(sin(be/2)*b)); q=qb*qa; N(q.a)",
+    "asserts": "Numerical composite quaternion; compare N(acos(q.a)) with pi - C computed from the triangle with angles al/2, be/2 and side 1/2 (should agree)."
+   },
+   {
+    "sympy": "H=lambda p: 2*p*p.T-eye(3); p1=Matrix([1,0,0]); p2=Matrix([cos(Rational(1,3)),sin(Rational(1,3)),0]); p3=Matrix([0,sin(Rational(2,5)),cos(Rational(2,5))]); simplify((H(p3)*H(p2))*(H(p2)*H(p1)) - H(p3)*H(p1))==zeros(3)",
+    "asserts": "Half-turn identity behind II: slide 2BC after slide 2AB equals slide 2AC (H_P = half-turn about unit vector P)."
+   },
+   {
+    "sympy": "t=Rational(1,3); p1=Matrix([1,0,0]); p2=Matrix([cos(t),sin(t),0]); R=(2*p2*p2.T-eye(3))*(2*p1*p1.T-eye(3)); simplify(R.trace()-(1+2*cos(2*t)))==0",
+    "asserts": "H_B∘H_A is a rotation through twice the arc AB (trace = 1 + 2cos(2·AB)), justifying the notation '2AB' for the slide."
+   }
+  ],
+  "transcription_corrections": [
+   "The second rotation angle, rendered as \\mathfrak{b}[?], is most likely the Greek letter beta (or a German b) used as an angle symbol; the half-angle is beta/2.",
+   "The interlinear additions 'die erste' (above, after 'Drehungen') and 'die zweite' (above 'und') are correctly placed: '...die beiden Drehungen, die erste alpha um den Punkt A und die zweite beta um den Punkt B...'.",
+   "'zusammengesetzte' ends the sentence in I (implicitly 'Drehung'); in II read 'Dann ist die Schiebung 2AC aus 2AB und 2BC zusammengesetzt'.",
+   "In the figure, D lies on the prolongation of BC beyond C (dotted line D....C), so ACD is the exterior angle at C."
+  ]
+ }
+}

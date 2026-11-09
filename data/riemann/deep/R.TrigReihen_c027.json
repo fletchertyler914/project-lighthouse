@@ -1,0 +1,73 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c027",
+ "label": "12v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000028/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page is part of the historical introduction (Section 1) of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854; published by Dedekind in 1867). The page is a fair copy with page number 16, and it summarizes Dirichlet's 1829 convergence proof.\n\n(a) Partial sums. The sentence continues from the previous page. Let S_n(x) be the n-th partial sum of the Fourier series of f, with coefficients (1/pi)∫_{-pi}^{pi} f(α)cos kα dα and (1/pi)∫_{-pi}^{pi} f(α)sin kα dα. It equals\nS_n(x) = (1/2π) ∫_{-π}^{π} f(α) sin((2n+1)(x-α)/2) / sin((x-α)/2) dα.\nImplicit step (mine): 1/2 + Σ_{k=1}^n cos k t = sin((2n+1)t/2) / (2 sin(t/2)), with t = x-α.\nWhat must be shown is that S_n(x) → f(x) as n → ∞.\n\n(b) Dirichlet's two lemmas. Assume φ is monotone on the interval of integration.\n1) If 0 < c ≤ π/2, then ∫_0^c φ(β) sin((2n+1)β)/sin β dβ → (π/2) φ(0). Strictly this should be φ(+0).\n2) If 0 < b < c ≤ π/2, then ∫_b^c φ(β) sin((2n+1)β)/sin β dβ → 0.\n\n(c) Application (implicit steps mine).\n- Use periodicity to integrate over [x-π, x+π].\n- Substitute α = x + 2β on the right and α = x - 2β on the left. Then S_n(x) = (1/π)∫_0^{π/2} [f(x+2β) + f(x-2β)] sin((2n+1)β)/sin β dβ.\n- If f has only finitely many maxima and minima, [0, π/2] splits into finitely many pieces on which f(x±2β) is monotone.\n- The pieces adjacent to β = 0 tend, by lemma 1, to (1/π)(π/2) f(x±0) = f(x±0)/2.\n- All other pieces tend to 0 by lemma 2.\n- Hence S_n(x) → (f(x+0) + f(x-0))/2.\n\n(d) Footnote. If f has finitely many extrema, it is monotone on a one-sided neighbourhood of x. So as the argument tends to x from either side, f either approaches finite limits f(x+0), f(x-0) or becomes infinite. Riemann attributes this notation to Dirichlet, Dove's Repertorium der Physik, Bd. 1 (1837), p. 170.\n\n(e) Conclusion. A 2π-periodic function is representable by its trigonometric series if it satisfies three conditions:\n1. It is integrable throughout.\n2. It has only finitely many maxima and minima.\n3. At jumps it takes the mean of its one-sided limits.\nThe page then begins the remark that a function with 1 and 2 but not 3 cannot be represented. The argument is completed on the next page: the series would differ from it at the discontinuities.",
+  "errors": [
+   "Lemma 1 as stated gives the limit (π/2)φ(0). For monotone φ the correct value is (π/2)φ(+0); this matters exactly in the jump case it is used for. It is a harmless imprecision of statement.",
+   "The lemmas implicitly require φ bounded and monotone (Dirichlet's hypothesis). The footnote allows f to become infinite at x, in which case lemma 1 does not apply directly. The summary glosses over this.",
+   "Condition 1 ('durchgehends eine Integration zulässt') is Riemann's paraphrase. Dirichlet himself assumed only finitely many discontinuities (piecewise continuity), so the summary slightly generalizes Dirichlet's hypotheses. This is not a mathematical error.",
+   "No computational errors on the page."
+  ],
+  "results": [
+   {
+    "what": "Integral representation of the n-th Fourier partial sum via the kernel sin((2n+1)t/2)/sin(t/2)",
+    "modern_name": "Dirichlet kernel / Dirichlet integral for partial sums",
+    "usually_credited_to": "Dirichlet 1829 (Crelle 4); kernel sum already in Lagrange/Fourier",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Lemmas: lim ∫_0^c φ(β) sin((2n+1)β)/sin β dβ = (π/2)φ(+0), and 0 on [b,c], for monotone φ",
+    "modern_name": "Dirichlet's lemma (precursor of Riemann–Lebesgue lemma / localization principle)",
+    "usually_credited_to": "Dirichlet 1829",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Fourier series of a periodic integrable function with finitely many extrema converges to (f(x+0)+f(x-0))/2",
+    "modern_name": "Dirichlet's theorem (Dirichlet conditions) on pointwise convergence of Fourier series",
+    "usually_credited_to": "Dirichlet 1829/1837",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "A function with finitely many extrema has one-sided limits (finite or infinite) at every point",
+    "modern_name": "Existence of one-sided limits for piecewise monotone functions",
+    "usually_credited_to": "Dirichlet 1837 (notation f(x±0))",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the published historical section of Riemann's 1854 Habilitationsschrift on trigonometric series, a faithful summary of Dirichlet's 1829 proof. It is well known and attributed to Dirichlet, as Riemann himself does here.",
+  "checkable": [
+   {
+    "sympy": "simplify((Rational(1,2) + Sum(cos(k*t),(k,1,3)).doit()) - sin(7*t/2)/(2*sin(t/2)))",
+    "asserts": "Dirichlet kernel identity for n=3; should simplify to 0"
+   },
+   {
+    "sympy": "integrate(sin(7*b)/sin(b),(b,0,pi/2))",
+    "asserts": "For φ≡1 and n=3 the lemma-1 integral equals exactly pi/2"
+   },
+   {
+    "sympy": "integrate(expand_trig(1+2*(cos(2*b)+cos(4*b)+cos(6*b))),(b,0,pi/2)) - pi/2",
+    "asserts": "sin(7β)/sinβ = 1+2Σcos2kβ integrates to π/2 on [0,π/2]; result 0"
+   },
+   {
+    "sympy": "N(Integral(b*sin(201*b)/sin(b),(b,pi/8,pi/2)))",
+    "asserts": "Lemma 2 for monotone φ(β)=β, n=100: the value is small (tends to 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "'0<c\\overline{\\gtrless}\\frac{\\pi}{2}' should read '0 < c ≦ π/2' (less-or-equal); likewise '0<b<c ≦ π/2'.",
+   "Page header shows archival number '14' and manuscript page number '16'.",
+   "The 'immer' inserted above the line belongs before 'abnimmt': 'entweder immer abnimmt oder immer zunimmt'.",
+   "The 'oft' insertion is correctly placed: 'nicht unendlich oft vom Zunehmen zum Abnehmen ... übergeht'.",
+   "In the formula for the partial-sum integral the image writes ∂α (Riemann's usual differential notation), consistent with the transcription."
+  ]
+ }
+}

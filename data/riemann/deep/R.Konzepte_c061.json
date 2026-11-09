@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c061",
+ "label": "28v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000062/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This page belongs to the drafts for Riemann's Inaugural Dissertation (1851), 'Grundlagen fuer eine allgemeine Theorie der Functionen einer veraenderlichen complexen Groesse', Arts. 9-11. The previous page (28r) proves the following. If u and u' satisfy Delta u = Delta u' = 0 in a surface T, then the boundary integral of (u' du/dp - u du'/dp) ds keeps its value under any deformation or enlargement of the domain, as long as the discontinuities are still enclosed. Taking u' = log r, this gives Gauss's mean-value formula: u(centre) = (1/2pi) * integral over phi from 0 to 2pi of u(centre + r e^{i phi}) d phi. That formula is the tool used on this page. The page states and proves two of the numbered Lehrsaetze for functions with Delta u = 0 on T. The upper half is heavily crossed out and only partly legible.\n\n(a) Upper block: end of Satz II and its proof. Reconstructed claim: u cannot equal a constant a on a part A of T without being constant on all of T.\n- Proof sketch as far as legible. Suppose u = a on a part A, and u is greater than a 'in einem entgegengesetzten Theile B'.\n- Then one can choose a circle whose centre ('Mittelpunkt') lies in A. Part of its circumference lies in A, where u = a. The rest lies in B, where u > a.\n- The mean of u over the circle would then exceed a. But the mean must equal u(centre) = a. Contradiction.\n- The word 'Mittelpunkt' and the fragments 'Theile in A ... B ... u_1 - u_2 ... den Theil derselben' fit this reading.\n- Then: 'Auf ganz aehnliche Weise ... u nicht in einem ... kleineren Werth a haben koennen ...'. That is, by the same argument u cannot have at an interior point a value a that is smaller (or larger) than all values in a surrounding region. This is the strong minimum/maximum principle, again from the mean-value property: if u(P) = a < u on a punctured disc around P, the circle mean would exceed a.\n\n(b) Lower block: Satz III, the identity theorem / unique continuation for harmonic functions. Statement: 'Wenn die Function u in einem Theile von T gegeben ist, so ist sie dadurch fuer den uebrigen Theil dieser Flaeche [nicht] willkuerlich', i.e. it is determined there.\n- Proof. Let u_1 and u_2 be two functions satisfying the conditions; consider the difference u_1 - u_2.\n- Suppose u_2 = u_1 everywhere on a part A of T, but u_2 differs from u_1 in the remaining part.\n- Then u_1 - u_2 would be harmonic (by linearity; this step is implicit, mine). It would be = 0 throughout A and not = 0 elsewhere.\n- This contradicts Satz II applied to u_1 - u_2 with a = 0. QED.\n\n(c) Pencil scratch (vertical and oblique). It runs through the middle and right margin, in a lighter hand. Fragments look like exponential expressions, e.g. e^{-x...}, x+iy and second-derivative terms. They are not legible enough to reconstruct, and they do not belong to the proof text.",
+  "errors": [
+   "No mathematical error is visible in the legible argument.",
+   "Implicit step: Satz III needs u_1 - u_2 to be harmonic again, which holds by linearity of Laplace's equation. Riemann does not state this.",
+   "Implicit step: Satz III needs the remaining part of T to be connected to A. In the dissertation, connectedness of T is assumed.",
+   "Implicit step: the circle argument needs a disc lying entirely in T and centred in A whose boundary meets the region where u differs from a. Choosing a centre near the boundary of A guarantees this; this is not spelled out.",
+   "The draft only treats the case u > a in B. The general case (u different from a, possibly of both signs) needs the max/min principle or a connectedness argument. The final dissertation handles this more carefully."
+  ],
+  "results": [
+   {
+    "what": "A harmonic function constant on an open subregion is constant everywhere (proof via the circle mean value).",
+    "modern_name": "Mean-value property and identity/rigidity of harmonic functions",
+    "usually_credited_to": "Mean value: Gauss (1840, Allgemeine Lehrsaetze); the statement as used here: Riemann, Dissertation 1851, Art. 11",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "u cannot attain at an interior point a value smaller (larger) than all nearby values.",
+    "modern_name": "Strong maximum/minimum principle for harmonic functions",
+    "usually_credited_to": "Gauss 1840 / Riemann 1851 (Dissertation Art. 11); later Hopf (1927) for general elliptic equations",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "A harmonic function given on a part of a connected surface T is determined on all of T (difference argument).",
+    "modern_name": "Unique continuation / identity theorem for harmonic functions",
+    "usually_credited_to": "Riemann, Dissertation 1851, Art. 11 (Lehrsatz III)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a working draft of the theorems published in Riemann's 1851 dissertation (Art. 11): mean-value-based rigidity, the maximum principle and unique continuation for harmonic functions. These are well known as his (building on Gauss). Only the drafting details are new.",
+  "checkable": [
+   {
+    "sympy": "x,y=symbols('x y'); u=exp(x)*cos(y)+x**2-y**2; simplify(diff(u,x,2)+diff(u,y,2))==0",
+    "asserts": "The test function is harmonic."
+   },
+   {
+    "sympy": "r,phi=symbols('r phi',positive=True); x0,y0=Rational(1,3),Rational(1,2); v=(x0+r*cos(phi))**2-(y0+r*sin(phi))**2+3*(x0+r*cos(phi))*(y0+r*sin(phi)); simplify(integrate(v,(phi,0,2*pi))/(2*pi) - (x0**2-y0**2+3*x0*y0))==0",
+    "asserts": "Gauss mean-value property: the circle average of a harmonic polynomial equals its value at the centre (the tool behind Satz II)."
+   },
+   {
+    "sympy": "r,phi,c=symbols('r phi c',positive=True); integrate(Piecewise((0,phi<pi),(c,True)),(phi,0,2*pi))/(2*pi) - c/2",
+    "asserts": "If u = a on half of the circle and a + c (c > 0) on the other half, the mean exceeds a by c/2 > 0, contradicting u(centre) = a. This is the contradiction in Satz II, with a = 0."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: 'seinen Werth a und in einem entgegengesetzten Theile B ... ueberall einen groesseren Werth' is correct; 'und' is an interlinear insertion.",
+   "The fragment 'Mittelpunkt' (lines 3-4) refers to the centre of the circle used in the mean-value argument.",
+   "Line 'Auf ganz [?]' likely reads 'Auf ganz aehnliche Weise ...' (in the same way it follows that u cannot have at a point a smaller value a ...).",
+   "Satz III opening: the interlinear words above 'die Function' read 'die Stetigkeit' or similar (uncertain). The sense is 'Wenn die Function u in einem Theile von T gegeben ist, so ist sie dadurch fuer den uebrigen Theil dieser Flaeche [nicht] willkuerlich / bestimmt'.",
+   "'Diejenigen genuegenden' likely reads 'den Bedingungen genuegenden' (functions satisfying the conditions). The line then compares the difference u_1 - u_2.",
+   "Final line: 'Satz II zuwider ist' (contrary to Theorem II).",
+   "The vertical pencil formulas in the centre and the right margin (exponentials, x+iy, derivative expressions) are omitted from the machine transcription. They are separate scratch work."
+  ]
+ }
+}

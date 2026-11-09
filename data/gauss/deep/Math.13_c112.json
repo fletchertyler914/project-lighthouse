@@ -1,0 +1,88 @@
+{
+ "bundle": "Math.13",
+ "page": "c112",
+ "label": "55v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376633:00000113/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds two complete tables of quartic (biquadratic) residue classes. They are the same kind as the tables for p=233 and p=229 on the previous page. In each table, for a prime p ≡ 1 (mod 4) with primitive root g, the residues 1..p-1 are split by their index (discrete log base g) modulo 4:\n- A = {x : ind_g x ≡ 0 (mod 4)} (the biquadratic residues)\n- B = {x : ind ≡ 1}\n- C = {x : ind ≡ 2}\n- D = {x : ind ≡ 3}\nEach class has (p-1)/4 elements. Gauss also records f = g^((p-1)/4) mod p, a square root of -1, and the decomposition p = a^2 + b^2. The same normalisation is used throughout this page and the previous one: a ≡ 1 (mod 4), b even, and a + b f ≡ 0 (mod p).\n\n(1) p = 257, g = 3.\n- Powers of 3 (my steps): 3^8 ≡ 136, 3^16 ≡ 249 ≡ -8, 3^32 ≡ 64, 3^64 ≡ 4096 ≡ 241. So f = 241 ≡ -16, and f^2 ≡ 256 ≡ -1.\n- 257 = 1^2 + 16^2, with a = +1.\n- The classes A, B, C, D have 64 elements each.\n- A contains 1, 2, 4, 8, 16 (2^8 ≡ -1, so 2 is a quartic residue) and 256 = -1. Since (p-1)/4 = 64 is even, -1 lies in A. Hence every class is closed under x -> p-x, and I verified this pairing for all four lists.\n- B = 3A contains 3. C contains 9. D contains 27.\n- Spot checks: 5^64 ≡ 16 = f^3, so 5 ∈ D. 13^64 ≡ -1, so 13 ∈ C. Both agree with the lists.\n\n(2) p = 241, g = 7.\n- f = 177, and 177^2 = 31329 = 130·241 - 1 ≡ -1.\n- 241 = 15^2 + 4^2, with a = -15 ≡ 1 (mod 4) and b = -4. Check: a + b f = -15 - 708 = -723 = -3·241 ≡ 0.\n- Classes of 60 elements each. -1 = 240 ∈ A (index 120), and all four lists are again symmetric under x -> 241-x.\n- 7 ∈ B, 49 ∈ C, 343 ≡ 102 ∈ D.\n- 2 ∈ C, consistent with Gauss's rule for the quartic character of 2: 2 is a quartic residue iff 8 | b, and here b = 4 (mod 8). For p = 257 we have 8 | 16, and indeed 2 ∈ A.\n\nPurpose: these tables are raw data for the theory of biquadratic residues. The previous page uses such tables to classify primes p according to the class of -23, -19, +17, +13 relative to a + bi. This is the empirical groundwork for quartic reciprocity and the quartic character of small primes, as in Theoria residuorum biquadraticorum.",
+  "errors": [
+   "Header for p=257: the normalisation used on this and the previous page (a ≡ 1 mod 4, a + b f ≡ 0 mod p) requires b = -16 for f = 241. Check: 1 + 16·241 ≡ 2, but 1 - 16·241 ≡ 0. The visible text reads 'b = 16' after a struck/blotted character, so either a minus sign was lost under the blot or the sign was miswritten. Under the alternative a ≡ b f, b = +16 works, but that is inconsistent with the other three examples.",
+   "Otherwise no errors were found. All eight lists have the correct size (64 or 60) and are closed under x -> p-x as required, and the spot-checked indices agree."
+  ],
+  "results": [
+   {
+    "what": "Tables of the four quartic residue classes (index mod 4) for p=257 (g=3) and p=241 (g=7), with f = g^((p-1)/4) and the primary decomposition p = a^2+b^2 normalised by a ≡ 1 (mod 4), a + b f ≡ 0 (mod p)",
+    "modern_name": "Quartic (biquadratic) residue classes / quartic residue symbol tables; primary Gaussian prime a+bi",
+    "usually_credited_to": "Gauss (Theoria residuorum biquadraticorum, 1828/1832)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Consistency with the quartic character of 2: 2 is a quartic residue iff b ≡ 0 (mod 8) (257: b=16, 2 ∈ A; 241: b=4, 2 ∈ C)",
+    "modern_name": "Gauss's criterion for 2 as a biquadratic residue",
+    "usually_credited_to": "Gauss (TRB I, 1828)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are routine computational tables of biquadratic residue classes, of exactly the type Gauss is known to have compiled as the empirical basis for his biquadratic-residue theory. Nothing here goes beyond his published work.",
+  "checkable": [
+   {
+    "sympy": "pow(3,64,257) == 241",
+    "asserts": "f = g^((p-1)/4) mod 257 with g=3"
+   },
+   {
+    "sympy": "pow(241,2,257) == 256",
+    "asserts": "f^2 ≡ -1 mod 257"
+   },
+   {
+    "sympy": "1**2 + 16**2 == 257",
+    "asserts": "257 = a^2 + b^2"
+   },
+   {
+    "sympy": "(1 + (-16)*241) % 257 == 0",
+    "asserts": "normalisation a + b f ≡ 0 holds for 257 only with b = -16"
+   },
+   {
+    "sympy": "sorted(pow(3,4*k,257) for k in range(64))[:12] == [1,2,4,8,11,15,16,17,22,23,30,32]",
+    "asserts": "start of class A for p=257"
+   },
+   {
+    "sympy": "set(pow(3,4*k+3,257) for k in range(64)) >= {5,10,20,27,37,39,40,41,43,54,55,63}",
+    "asserts": "start of class D for p=257"
+   },
+   {
+    "sympy": "pow(7,60,241) == 177",
+    "asserts": "f = 7^60 mod 241"
+   },
+   {
+    "sympy": "pow(177,2,241) == 240",
+    "asserts": "177^2 ≡ -1 mod 241"
+   },
+   {
+    "sympy": "(-15)**2 + (-4)**2 == 241 and (-15 + (-4)*177) % 241 == 0",
+    "asserts": "decomposition and normalisation for p=241"
+   },
+   {
+    "sympy": "sorted(pow(7,4*k+2,241) for k in range(60))[:10] == [2,3,5,8,12,18,20,27,29,30]",
+    "asserts": "start of class C for p=241"
+   },
+   {
+    "sympy": "140 in set(pow(7,4*k+3,241) for k in range(60)) and 160 in set(pow(7,4*k,241) for k in range(60))",
+    "asserts": "140 belongs to D and 160 to A for p=241"
+   },
+   {
+    "sympy": "sympy.is_primitive_root(3,257) and sympy.is_primitive_root(7,241)",
+    "asserts": "g values are primitive roots"
+   }
+  ],
+  "transcription_corrections": [
+   "Header p=257: 'a+1' should read 'a = +1'. The character struck/blotted before '16' is probably a sign, likely '-', since b = -16 matches the convention a + bf ≡ 0.",
+   "p=241, class D: the element after 139 must be 140 (160 belongs to A). The image is ambiguous ('160'), and 140 is the correct reading.",
+   "p=241, class C: '182.188' is correct (188 = 241-53). The handwriting may resemble 183, but 183 belongs to A.",
+   "Next page is not Gauss text but a library scanning/QP card."
+  ]
+ }
+}

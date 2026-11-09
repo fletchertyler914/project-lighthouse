@@ -1,0 +1,58 @@
+{
+ "bundle": "R.ElektrCyl",
+ "page": "c035",
+ "label": "16v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173043:00000036/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context, from the previous folio 16r. Let z = z(g) be an analytic function, presumably the conformal map relevant to the cylinder-electrostatics problem. Riemann sets y = 1/sqrt(dz/dg) and y1 = z/sqrt(dz/dg), so y1 = z*y. Then:\n(i) The Wronskian is y*y1' - y1*y' = y^2*z' = 1.\n(ii) A Möbius change z -> (a z + b)/(c z + d) induces a linear substitution of (y, y1). With the normalisation 1/sqrt(ad-bc) the Wronskian stays 1.\n(iii) y and y1 are two solutions of one equation y'' + p y' + q y = 0. Since the Wronskian is constant, p = 0 [my inference from Abel's identity; the page writes 'Dann drückt man p und q']. Hence y*y1'' - y1*y'' = 0, i.e. y''/y = y1''/y1 = -q.\n\nThis folio, line by line:\n- 'Wir haben also im Wesentlichen die [Form der Gl.] aufgefunden': so we have essentially found the form of the equation.\n- The key statement, with Z a generic solution (y or y1): (d^2 Z/dg^2)/Z = an algebraic function of g.\n- In modern terms [mine], Z''/Z = -(1/2)*{z,g}, where {z,g} = z'''/z' - (3/2)*(z''/z')^2 is the Schwarzian derivative. The quantity is Möbius-invariant in z. So z is the quotient y1/y of two solutions of the linear ODE Z'' = R(g)*Z.\n- Why R is algebraic, following the next page: the image domain is bounded by circles, so reflection in each boundary circle is a Möbius map. Hence {z,g} continues single-valuedly across the boundary. On the doubled surface (the Schottky double of the triply connected region outside three circles) it is therefore an algebraic function of the uniformising variable.\n- Next page, also mine to connect: zeta is real on the three circles, infinite at three points, and takes each real value three times.\n- The rest of the folio begins a methodological passage, a lecture-style draft: 'Die Methode. Man hat bisher nur solche Aufgaben gelöst, die sich direct durch Entwicklung [lösen lassen]'. That is, until now only problems solvable directly by series expansion have been treated. The sentence breaks off.\n\nWhat the page serves: the problem of electric equilibrium on parallel cylinders with circular cross-sections, i.e. the conformal mapping of the region outside several circles. It is reduced to a second-order linear ODE whose coefficient is algebraic, with the mapping function obtained as a ratio of solutions.",
+  "errors": [
+   "No error on this folio itself.",
+   "Previous folio, as transcribed: 'y d2y1/dg2 - y d2y/dg2 = 0' should read y*y1'' - y1*y'' = 0. This is probably a transcription slip.",
+   "Previous folio: the claim that the common linear ODE has p = 0 is not written out explicitly; it follows from the Wronskian being constant (Abel). The step is correct.",
+   "'Algebraic function of g' is asserted without justification on this page. It requires the reflection / Möbius-invariance argument, which is only implicit."
+  ],
+  "results": [
+   {
+    "what": "y = (z')^(-1/2) and y1 = z*(z')^(-1/2) have Wronskian 1 and satisfy y'' = R*y with R = -1/2 times the Schwarzian of z. The map z is the ratio y1/y of two solutions.",
+    "modern_name": "Schwarzian derivative / linearisation of the Schwarzian equation; z as quotient of solutions of a 2nd-order linear ODE",
+    "usually_credited_to": "Kummer (1836, implicitly), Riemann (hypergeometric lectures 1858/59), Schwarz (1869/1873), named by Cayley (1880)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "For the mapping onto the exterior of circles (multiply connected circular domain), the Schwarzian-type coefficient Z''/Z is an algebraic function of the parameter.",
+    "modern_name": "Schwarzian of a circular-domain (Schottky-type) map is algebraic/rational on the Schottky double; circular-arc polygon mapping via linear ODEs",
+    "usually_credited_to": "Schwarz (1869/1873) for simply connected circular-arc polygons; Schottky (1877) for multiply connected circle domains",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a draft fragment of Riemann's Nachlass work on electrical equilibrium on circular cylinders, published posthumously in his Werke (1876), where the Schwarzian/linear-ODE approach for circular domains already appears. Historians (e.g. Gray) acknowledge Riemann's priority there. The page adds only drafting detail.",
+  "checkable": [
+   {
+    "sympy": "g=symbols('g'); z=Function('z')(g); y=1/sqrt(diff(z,g)); y1=z*y; simplify(y*diff(y1,g)-y1*diff(y,g))",
+    "asserts": "Wronskian of y and y1 equals 1"
+   },
+   {
+    "sympy": "g=symbols('g'); z=Function('z')(g); y=1/sqrt(diff(z,g)); S=diff(z,g,3)/diff(z,g)-Rational(3,2)*(diff(z,g,2)/diff(z,g))**2; simplify(diff(y,g,2)/y + S/2)",
+    "asserts": "y''/y = -1/2 times the Schwarzian derivative of z (result 0)"
+   },
+   {
+    "sympy": "g=symbols('g'); z=Function('z')(g); y=1/sqrt(diff(z,g)); y1=z*y; simplify(diff(y1,g,2)/y1 - diff(y,g,2)/y)",
+    "asserts": "y1''/y1 = y''/y (result 0)"
+   },
+   {
+    "sympy": "g,a,b,c,d=symbols('g a b c d'); z=Function('z')(g); w=(a*z+b)/(c*z+d); S=lambda f: diff(f,g,3)/diff(f,g)-Rational(3,2)*(diff(f,g,2)/diff(f,g))**2; simplify(S(w)-S(z))",
+    "asserts": "The Schwarzian (hence Z''/Z) is invariant under Möbius transformations of z (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 'Auch hier zu Grunde[?]' is uncertain. The image looks more like 'Auch für [z?] die Größe' (introducing the quantity Z''/Z); the reading remains unsure.",
+   "In line 1 the struck words appear to be 'Form d. Gl.' followed by a word such as '[auf]gestellt/gefunden'. The sense 'form of the equation found' stands.",
+   "The variable is Z (capital) in the fraction and g in the denominator, consistent with the transcription.",
+   "The final sentence breaks off after 'direct durch Entwicklung' (presumably '... lösen lassen')."
+  ]
+ }
+}

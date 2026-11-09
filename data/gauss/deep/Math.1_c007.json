@@ -1,0 +1,54 @@
+{
+ "bundle": "Math.1",
+ "page": "c007",
+ "label": "[4v]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376166:00000008/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table of quadratic residues, laid out as a prime-by-prime grid. It has no derivations, numerals or text in the body.\n\nLayout:\n- Rows are the primes p from 191 to 433: 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433.\n- Columns are the primes q from 2 to 89, repeated at the foot.\n- Every printed q is smaller than every p, so all entries lie on one side of the diagonal.\n- The header cell (8) and the red crayon '8' are sheet or sequence numbers.\n\nMeaning of the marks: a small circle in cell (p,q) means q is a quadratic residue mod p, i.e. the Legendre symbol (q/p) = +1.\n- Gauss joins circles that are horizontal or vertical neighbours in the grid with short strokes.\n- These strokes are a visual aid for pattern-reading, as on the neighbouring sheets. They carry no extra arithmetic content.\n\nMy spot checks against quadratic reciprocity:\n- Row 191 (191 ≡ 7 mod 8): circles at q = 2, 3, 5, 13, 17, 23, all with (q/191) = +1. The cells for 7, 11 and 19 are empty, with (7/191) = -(2/7) = -1, (11/191) = -(4/11) = -1 and (19/191) = -1.\n- Row 191 also settles the convention. For q = 7 and 11, (191/q) = +1 but (q/191) = -1, and both cells are empty. So the mark records 'q is a residue of p', not the reverse.\n- Row 199: 2, 5, 7, 13 are marked; 3 and 11 are not.\n- Row 223: 2 is marked, 3 is not.\n- Row 389 (≡ 5 mod 8): 2 and 3 are empty; 5, 7, 11, 13, 17, 19 are marked; 23 is empty.\n- Row 433 (≡ 1 mod 8): 2, 3, 11, 13, 17 are marked; 5, 7, 19 are empty.\n\nAll checks agree with the image.\n\nContext: the sheet belongs to a set of such grids. The previous sheet covers columns 829–997 against rows 3–181; the next covers columns 97–223 against the same rows 191–433. Together they form a working table of residue characters of primes against primes. This is evidently the computational material behind (or parallel to) the residue table appended to Disquisitiones Arithmeticae (Tab. II, art. 99), which lists which small primes are residues of primes up to 997.",
+  "errors": [
+   "No errors found in the spot-checked entries (rows 191, 199, 223, 389, 433); a full cell-by-cell audit was not possible from the image."
+  ],
+  "results": [
+   {
+    "what": "Table marking, for primes p from 191 to 433 and primes q from 2 to 89, whether q is a quadratic residue mod p",
+    "modern_name": "Table of Legendre symbols (q/p) / quadratic residue table",
+    "usually_credited_to": "Gauss, Disquisitiones Arithmeticae (1801), Table II; earlier partial tables by Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "A computational residue table of exactly the kind Gauss published with the Disquisitiones. Its existence as working material is expected, and it contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "[legendre_symbol(q,191) for q in [2,3,5,13,17,23]] == [1,1,1,1,1,1]",
+    "asserts": "The marked entries in row 191 are quadratic residues"
+   },
+   {
+    "sympy": "[legendre_symbol(q,191) for q in [7,11,19]] == [-1,-1,-1]",
+    "asserts": "The unmarked cells 7, 11, 19 in row 191 are non-residues"
+   },
+   {
+    "sympy": "legendre_symbol(191,7)==1 and legendre_symbol(7,191)==-1",
+    "asserts": "The convention is (q/p), not (p/q): cell (191,7) is empty"
+   },
+   {
+    "sympy": "[legendre_symbol(q,389) for q in [2,3,5,7,11,13,17,19,23]] == [-1,-1,1,1,1,1,1,1,-1]",
+    "asserts": "The pattern of row 389 for the first nine primes"
+   },
+   {
+    "sympy": "[legendre_symbol(q,433) for q in [2,3,5,7,11,13,17,19]] == [1,1,-1,-1,1,1,1,-1]",
+    "asserts": "The pattern of row 433 for the first eight primes"
+   },
+   {
+    "sympy": "[legendre_symbol(q,199) for q in [2,3,5,7,11,13]] == [1,-1,1,1,-1,1]",
+    "asserts": "The pattern of row 199"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription should specify the semantics: a circle at (row p, column q) means q is a quadratic residue mod p, i.e. (q/p)=+1, and the connecting strokes join adjacent marked cells only.",
+   "The header '(8)' is a circled sheet number and the red '8' is a later foliation or sequence mark, not table data."
+  ]
+ }
+}

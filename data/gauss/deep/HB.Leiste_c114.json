@@ -1,0 +1,83 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c114",
+ "label": "22r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000115/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a page interleaved in Gauss's copy of a school textbook (HB.Leiste, probably Christian Leiste's Arithmetik und Algebra). The facing printed page (§§114–115) derives natural logarithms from the series ln((1+x)/(1-x)) = 2(x + x^3/3 + ...). It sets K = ln 10 and 1/K = M = 0.4342944819, the modulus for converting to Briggsian logarithms, and tabulates log10 of small primes to 7 places, ending with l37 = 1.5682017. On this page Gauss derives some of those tabulated common logarithms in another way.\n\nHeader. He writes log10(1-x) = -(1/K)(x + x^2/2 + x^3/3 + ...). This is the Mercator series for ln(1-x) multiplied by M = 1/ln 10. Below it stands 'Exempel' (examples).\n\nExample 1, x = 1/10. The terms M x^k/k are:\n- k=1: 0.043429448\n- k=2: 0.002171472\n- k=3: 0.000144765\n- k=4: 0.000010857\n- k=5, 6, 7: written faintly and overwritten (about ...869, ...72, ...6). The true values are 0.0000008686, 0.0000000724 and 0.0000000062.\n\nThe sum is 0.04575749, so log10(9/10) = -0.04575749 = 0.95424251 - 1. Hence log10 9 = 0.95424251. Halving gives log10 3 = 0.47712125 [halving step implicit, mine].\n\nExample 2, x = 1/100. The terms are 0.0043429448, 0.0000217147, 0.0000001448 and 0.0000000010 (last digit ~1). Their sum gives log10(99/100) = -0.0043648053 = 0.9956351946 - 1.\n- Then log10 99 = 2 + log10(0.99) = 1.9956351946/7. The characteristic is written (or reads) as 0.\n- Then log10 11 = log10 99 - log10 9 = 1.04139268.\n\nThe remark reads: 'Denn für (1+x)/(1-x) = 10 ist in der Reihe (§113) x = 9/11, wie für K'. The point is that the §113 series for ln 10 (needed for K) requires x = 9/11 and converges slowly. The detour via 99/100 instead gives log 11 with a rapidly convergent series [interpretation mine].\n\nExample 3, x = 1/1000. The terms are 0.00043429 and 0.00000022; the third term (≈1.4e-10) is neglected.\n- log10(999/1000) = -0.00043451.\n- log10 999 = 3 - 0.00043451 = 2.99956548 (written; 3 - 0.00043451 = 2.99956549).\n- log10 27 = 3 log10 3 = 1.4313638 [tripling implicit].\n- log10 37 = log10 999 - log10 27 = 1.56820168, versus the textbook's 1.5682017.\n\nThe method throughout is factoring 10^n - 1 (9, 99 = 9·11, 999 = 27·37) and using the fast series for log(1 - 10^-n).",
+  "errors": [
+   "Example 2: log10 99 should have characteristic 1 (1.9956351946). The line appears written as 0.995635194..., which is a slip in the characteristic. The subsequent log10 11 = 1.04139268 is nevertheless correct, so the slip did not propagate.",
+   "Example 2: the last digits are slightly inconsistent (…053 vs …054; 946 vs 947). The true value is log10 0.99 = -0.00436480540, so the rounding of the fourth term to 0.0000000010 (true 0.00000000109) costs one unit in the 10th place.",
+   "Example 3: 3 - 0.00043451 = 2.99956549, but 2.99956548 is written (true value 2.9995654882). Because log10 27 is rounded up to 1.4313638 (true 1.43136376), the result 1.56820168 is low by about 4e-8 (true 1.56820172). This is harmless at 7 places, where 1.5682017 is correct.",
+   "Example 1: the faint, overwritten digits for the k = 5..7 terms do not clearly match the true values (8686, 724, 62), but the final sum 0.04575749 is correct to 8 places."
+  ],
+  "results": [
+   {
+    "what": "log10(1-x) = -M(x + x^2/2 + x^3/3 + ...), with M = 1/ln10",
+    "modern_name": "Mercator series for ln(1-x) times the modulus of common logarithms",
+    "usually_credited_to": "N. Mercator (1668); Briggs/Napier for common logs",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Computing log 3, log 11, log 37 by factoring 9, 99, 999 and evaluating log10(1 - 10^-n) by the series",
+    "modern_name": "Classical table-making via factorization of numbers near powers of 10 (Briggs-style interpolation of logarithms)",
+    "usually_credited_to": "17th–18th-century table makers (Briggs, Sharp, Euler textbooks)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are routine textbook exercises in a school book, probably from Gauss's youth. They check the printed table values via the Mercator series and factorizations of 10^n - 1. The computations are standard 18th-century practice; the only interest is biographical, showing early numerical practice in log computations.",
+  "checkable": [
+   {
+    "sympy": "N(-sum(Rational(1,10)**k/k for k in range(1,12))/log(10), 12) - N(log(Rational(9,10),10),12)",
+    "asserts": "The series sum for x = 1/10 equals log10(0.9) = -0.0457574906"
+   },
+   {
+    "sympy": "N(log(9,10),10)",
+    "asserts": "log10 9 = 0.9542425094 (page: 0.95424251)"
+   },
+   {
+    "sympy": "N(log(3,10),10)",
+    "asserts": "log10 3 = 0.4771212547 (page: 0.47712125)"
+   },
+   {
+    "sympy": "N(log(Rational(99,100),10),12)",
+    "asserts": "log10 0.99 = -0.004364805402 (page: -0.0043648053)"
+   },
+   {
+    "sympy": "N(log(99,10),11)",
+    "asserts": "log10 99 = 1.9956351946 (characteristic 1)"
+   },
+   {
+    "sympy": "N(log(11,10),10)",
+    "asserts": "log10 11 = 1.0413926852 (page: 1.04139268)"
+   },
+   {
+    "sympy": "solve(Eq((1+x)/(1-x),10),x)",
+    "asserts": "x = 9/11, as stated in the remark"
+   },
+   {
+    "sympy": "N(log(Rational(999,1000),10),12)",
+    "asserts": "log10 0.999 = -0.000434511774 (page: -0.00043451)"
+   },
+   {
+    "sympy": "N(log(37,10),10)",
+    "asserts": "log10 37 = 1.5682017241 (page: 1.56820168; textbook 1.5682017)"
+   },
+   {
+    "sympy": "N(log(27,10),10)",
+    "asserts": "log10 27 = 1.4313637642 (page: 1.4313638)"
+   }
+  ],
+  "transcription_corrections": [
+   "Under the header: 'Exempel' (marked with a 'bl'-like sign), as also in the margin at example 1.",
+   "Example 1 final line: the transcription renders the struck-out first character ('1,' cancelled) and a trailing struck-out '-1'. The meaning is l(9/10) = -0.04575749 = 0.95424251 - 1.",
+   "Example 2: the right side reads '= 0,9956351946 - 1'. The next line, l 99, reads 0,995635194(6/7) with a correction mark, though logically it should be 1,9956351946.",
+   "Example 2: the result reads 'l 11 = 1,04139268(5?)', with a possible trailing faint digit.",
+   "Example 3: the page reads 'l 999 = 2,99956548' (not 2,9995655) and 'l 37 = 1,56820168' (not 1,5682017)."
+  ]
+ }
+}

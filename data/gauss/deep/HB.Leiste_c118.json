@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c118",
+ "label": "23r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000119/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem: numerically evaluate I = ∫_0^1 dx/(ln x − 1)^2 (the bracket [x=0, x=1] gives the limits) and compare the result with the true value.\n\n(1) Nodes. The interval is split into 6 equal parts, h = 1/6, with nodes x_k = k/6 for k = 0..6. At x = k/6 we have ln x − 1 = −(ln(6/k) + 1), so f(x_k) = 1/(ln(6/k)+1)^2. That is why the rows read l∞ (k=0), l6, l3, l2, l(3/2), l(6/5), l1 (k=1..6). [Explanation of the row labels mine.]\n\n(2) Ordinates, using natural logarithms:\n- f0 = 1/(ln∞+1) = 0.\n- f1 = 1/(1+ln6)^2 = 1/2.7917595^2 = 0.12830512\n- f2 = 1/(1+ln3)^2 = 1/2.0986123^2 = 0.22705471\n- f3 = 1/(1+ln2)^2 = 1/1.6931472^2 = 0.34882734\n- f4 = 1/(1+ln1.5)^2 = 1/1.4054651^2 = 0.50624412\n- f5 = 1/(1+ln1.2)^2 = 1/1.1823216^2 = 0.71536675\n- f6 = 1\n\n(3) Rule. The seven-point closed Newton–Cotes (Cotes) rule is used: ∫_a^b f ≈ (b−a)/840 · (41f0 + 216f1 + 27f2 + 272f3 + 27f4 + 216f5 + 41f6). The symmetric ordinates are paired first:\n- f0+f6 = 1\n- f1+f5 = 0.84367187\n- f2+f4 = 0.73329883\n- f3 = 0.34882734\n\nEach is multiplied by its weight over 140:\n- 41/140·1 = 0.29285714\n- 216/140·0.84367187 = 1.30166517\n- 27/140·0.73329883 = 0.14142192\n- 272/140·0.34882734 = 0.67772169\n\nThe sum is 2.41366592. Dividing by 6 (since 840 = 6·140 and b−a = 1) gives I ≈ 0.40227765.\n\n(4) Comparison. 'sollte sein: 0.40365' ('should be'). With x = e^{−t}, I = ∫_0^∞ e^{−t}/(1+t)^2 dt. Integrating by parts gives I = 1 − ∫_0^∞ e^{−t}/(1+t) dt = 1 − e·E1(1) = 1 − 0.5963473623 = 0.4036526377... So the stated true value is correct to 5 places. The Cotes result is low by about 0.00137. The reason [mine] is that f(x) ~ 1/ln^2 x has unbounded derivatives at x = 0, so the polynomial-exactness assumption behind Newton–Cotes fails there. The page thus works as a test of Cotes' rule on an integrand that is badly behaved at an endpoint.",
+  "errors": [
+   "The first row is written 1/(l∞+1) without the square. This is harmless because the value is 0 either way.",
+   "No arithmetic errors: every logarithm, reciprocal square, product, the sum and the quotient check to the 8 places given.",
+   "The quadrature result 0.40227765 differs from the true value 0.4036526 by about 1.4e-3. This is a method error caused by the endpoint singularity of the derivatives at x = 0, not a slip; the page itself notes the discrepancy."
+  ],
+  "results": [
+   {
+    "what": "Seven-point (6-interval) closed Newton–Cotes rule with weights 41,216,27,272,27,216,41 /840, applied to ∫_0^1 dx/(ln x −1)^2",
+    "modern_name": "Closed Newton–Cotes formula, n=6",
+    "usually_credited_to": "Newton (1676/1711), Cotes (Harmonia mensurarum, 1722)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "True value ∫_0^1 dx/(ln x −1)^2 = ∫_0^∞ e^{-t}/(1+t)^2 dt = 1 − e·E1(1) ≈ 0.40365",
+    "modern_name": "Integral expressed via the Euler–Gompertz constant δ = e·E1(1) ≈ 0.596347",
+    "usually_credited_to": "Euler (1760, summation of 1−1!+2!−3!+…, value 0.5963473…)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine numerical check of Cotes' quadrature on a test integral. Gauss is well known to have studied the Cotes coefficients and quadrature error; his 1814 Methodus nova tabulates Cotes' weights. The true value follows from Euler's known constant. The page is mildly interesting as a test case with an endpoint singularity, but it contains nothing new.",
+  "checkable": [
+   {
+    "sympy": "N(Integral(1/(log(x)-1)**2,(x,0,1)),12) - N(1 - E*expint(1,1),12)",
+    "asserts": "The integral equals 1 − e·E1(1) (difference ≈ 0)."
+   },
+   {
+    "sympy": "N(1 - E*expint(1,1),10)",
+    "asserts": "The true value is ≈ 0.4036526, matching 'sollte sein 0.40365'."
+   },
+   {
+    "sympy": "N((41*(0+1)+216*(1/(1+log(6))**2+1/(1+log(Rational(6,5)))**2)+27*(1/(1+log(3))**2+1/(1+log(Rational(3,2)))**2)+272/(1+log(2))**2)/840,10)",
+    "asserts": "The 7-point Newton–Cotes value is ≈ 0.40227765."
+   },
+   {
+    "sympy": "[N(1/(1+log(Rational(6,k)))**2,9) for k in range(1,7)]",
+    "asserts": "The ordinates are 0.12830512, 0.22705471, 0.34882734, 0.50624412, 0.71536675, 1."
+   },
+   {
+    "sympy": "Rational(41+216+27+272+27+216+41,840)",
+    "asserts": "The Cotes weights sum to 1."
+   },
+   {
+    "sympy": "Rational(216,140)*Rational('0.84367187') + Rational(41,140) + Rational(27,140)*Rational('0.73329883') + Rational(272,140)*Rational('0.34882734')",
+    "asserts": "The weighted sum is ≈ 2.41366592; divided by 6 it gives ≈ 0.40227765."
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription matches the image well. The last digits on the quotient line read '0.40227765'.",
+   "The previous-page margin lines are the same computation (a duplicate or show-through) and should be read with this page's values.",
+   "Under 'sollte sein:' the image shows the value 0.40365 written just below the quotient. It is the correct value of the integral."
+  ]
+ }
+}

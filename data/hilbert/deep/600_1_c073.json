@@ -1,0 +1,53 @@
+{
+ "bundle": "600_1",
+ "page": "c073",
+ "label": "[64]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763733:00000074/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds two notes on the foundations of geometry. Both sketch a programme rather than carry out a derivation.\n\n(1) RESEARCH PROBLEM (Desargues). Hilbert sets himself a task about the 'fundamental theorem of projective geometry', by which he means Desargues' theorem. Let ABC and A'B'C' be two triangles in a plane. Suppose the three pairs of corresponding sides meet in three collinear points: P = AB∩A'B', Q = BC∩B'C', R = CA∩C'A' lie on one line. Then the three lines AA', BB', CC' are concurrent.\n- This is the converse direction of the usual statement. Desargues' configuration is self-dual, so the two directions are equivalent by duality.\n- The task is either to prove this using plane (incidence) reasoning only, 'without stepping out of the plane', or to show that this is impossible.\n- Background, added by me: the standard synthetic proof lifts the configuration to a second plane in space, or uses metric/continuity arguments. Hilbert's later answer (Grundlagen der Geometrie, 1899, §23) is that it is impossible. He gives a non-Desarguesian plane satisfying the plane incidence and order axioms (and plane congruence axioms except the full SAS-type axiom III.5) in which Desargues fails.\n\n(2) ABSTRACT TWO-SORTED INCIDENCE STRUCTURE.\n- Hilbert takes two sorts of 'things': a, b, c, ... and α, β, γ, ....\n- Each pair (a,b) of the first sort is assigned a thing (a,b) of the second sort, its 'join'. Implicitly each pair of the second sort is assigned a thing of the first sort, its 'meet'.\n- The axiom: if e = ((a,b),(c,d)), the meet of the joins of a,b and of c,d, then necessarily (e,a) = (e,b) = (a,b) and (e,c) = (e,d) = (c,d).\n- In words: the point common to two lines, joined with any point of either line, gives back that line.\n- Model: first sort = points, second sort = lines of a (projective) plane.\n- Analytic model, filled in by me: use homogeneous point coordinates x in Q^3 and line coordinates u, with join(a,b) = a×b and meet(α,β) = α×β. Then e = (a×b)×(c×d) is orthogonal to a×b. So e lies on the line a×b, and e×a is proportional to a×b; likewise for b, c, d.\n- Hilbert then proposes generalizing to space with three sorts: points, lines, planes. One should set up the corresponding relations.\n- He closes with the programmatic claim that the whole of synthetic geometry operates only with these relations.\n- This is an early form of the implicit-definition/axiomatic view of geometric objects, ca. 1889–1891, later realized in Grundlagen.",
+  "errors": [
+   "The axiom tacitly needs a ≠ b, c ≠ d, and the lines (a,b) ≠ (c,d), so that joins and meets are defined. It also needs e ≠ a, b (resp. c, d); otherwise (e,a) is undefined.",
+   "In the Euclidean/affine plane two lines need not meet, so the model 'points and lines of a plane' works only in the projective plane, or with points at infinity adjoined. Hilbert does not say this.",
+   "Only one relation is stated. It does not determine projective geometry: further axioms (uniqueness of the join, existence of points, nondegeneracy) are needed. Desargues is precisely an example not derivable from plane incidence relations alone, as Hilbert later showed."
+  ],
+  "results": [
+   {
+    "what": "Problem: prove Desargues' theorem in the plane without leaving the plane, or prove that this is impossible",
+    "modern_name": "Independence of Desargues' theorem from plane incidence axioms; non-Desarguesian projective planes",
+    "usually_credited_to": "Hilbert, Grundlagen der Geometrie (1899, §23); Moulton gave a simpler non-Desarguesian plane (1902); the issue was implicit in von Staudt and Klein",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Two-sorted abstract structure (points/lines) with join and meet, governed by the relation ((a,b),(c,d)) = e implies (e,a) = (e,b) = (a,b); generalization to points/lines/planes; claim that synthetic geometry uses only such relations",
+    "modern_name": "Axiomatic (implicit) definition of incidence geometry; abstract projective planes / incidence structures",
+    "usually_credited_to": "Pasch (1882) for axiomatic projective geometry; Peano, Pieri, and Hilbert (1899) for abstract axiomatics; Hilbert's 'tables, chairs, beer mugs' remark is dated ca. 1891",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This notebook entry is known. Toepell (1986) and later historians (e.g. Corry, Hallett & Majer) cite it as an early seed of Grundlagen der Geometrie, showing that the Desargues question and the abstract axiomatic viewpoint were on Hilbert's mind around 1890. It is valuable as documentation, but it is not new to the historiography.",
+  "checkable": [
+   {
+    "sympy": "from sympy import *; a=Matrix(symbols('a1:4')); b=Matrix(symbols('b1:4')); c=Matrix(symbols('c1:4')); d=Matrix(symbols('d1:4')); e=(a.cross(b)).cross(c.cross(d)); simplify((e.cross(a)).cross(a.cross(b)))",
+    "asserts": "Equals the zero vector: the join of e = meet(ab, cd) with a is proportional to the line ab, i.e. (e,a) = (a,b)."
+   },
+   {
+    "sympy": "simplify((e.cross(c)).cross(c.cross(d)))",
+    "asserts": "Equals the zero vector: (e,c) = (c,d) (and likewise for d), matching Hilbert's relation (e,c) = (e,d) = (dc)."
+   },
+   {
+    "sympy": "O=Matrix(symbols('o1:4')); A=Matrix(symbols('A1:4')); B=Matrix(symbols('B1:4')); C=Matrix(symbols('C1:4')); s,t,u=symbols('s t u'); A2=A+s*O; B2=B+t*O; C2=C+u*O; P=(A.cross(B)).cross(A2.cross(B2)); Q=(B.cross(C)).cross(B2.cross(C2)); R=(C.cross(A)).cross(C2.cross(A2)); simplify(Matrix.hstack(P,Q,R).det())",
+    "asserts": "Equals 0: triangles perspective from the point O have their corresponding side intersections P, Q, R collinear (Desargues; the converse follows by duality)."
+   }
+  ],
+  "transcription_corrections": [
+   "'entweder[?]' is more plausibly 'nothwendig' (necessarily): '... = e ist, nothwendig (e,a) = (e,b) = (ab) und (e,c) = (e,d) = (dc) wird.'",
+   "'Möglichkeit einer solchen Zuordnung' is confirmed; the word read as 'Zuordnung' is written in abbreviated form.",
+   "The struck word after 'leicht' is illegible ('weiter?'); the struck words before 'Punkt-' read approximately 'die Punkte als Ebene[n?]'.",
+   "The text reads 'operirt [-mit-] allein mit diesen Relationen'; the deleted word looks like 'mit' or 'nur'."
+  ]
+ }
+}

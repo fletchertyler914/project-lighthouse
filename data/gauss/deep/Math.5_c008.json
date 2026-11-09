@@ -1,0 +1,53 @@
+{
+ "bundle": "Math.5",
+ "page": "c008",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376170:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is one sheet of a hand-computed table of squares of four-digit numbers N = 1000k + r, where k = 1..9 and r = 050..099 on this page. The previous page has r = 000..049; the next page continues with r = 100..149, there headed 11, 21, ..., 91.\n\nHow to read the table:\n- The column headers '10, 2, 3, ..., 9' mean the leading digit k. The first header reads '10' because on later sheets the header carries the hundreds digit too (11, 21, ...).\n- The row label is the last three digits r.\n- Body entry in column k, row r = floor(N^2/1000) = 1000k^2 + 2kr + floor(r^2/1000).\n- Rightmost column = N^2 mod 1000 = r^2 mod 1000. This is the same for every k because (1000k + r)^2 = 10^6 k^2 + 2000kr + r^2.\n- So the full square N^2 is the body entry followed by the three digits in the right-hand column. Example: 5059^2 = 25593|481.\n\nAbbreviation: only the last two digits are written, except where the higher digits change or at the head of a block.\n\nConstruction (my inference from the structure): each column is an arithmetic progression with difference 2k per row. An extra +1 is carried whenever floor(r^2/1000) increases. On this page that happens at r = 055, 064, 071, 078, 084, 090 and 095, where r^2 passes 3000, 4000, ..., 9000.\n\nSpot checks, all correct:\n- 1050^2 = 1102500\n- 9050^2 = 81902500\n- 4064^2 = 16516096\n- 7071^2 = 49999041\n- 8087^2 = 65399569\n- 9094^2 = 82700836\n- 7099^2 = 50395801\n\nPurpose: a working table of exact squares. Typical uses are multiplication by quarter-squares, ab = ((a+b)^2 - (a-b)^2)/4, and sums of squares in least-squares and geodetic reductions. The page contains no derivation, only tabulation.",
+  "errors": [
+   "Row 099, column 8: 8099^2 = 65593801, so the entry should be 65593. Both the image and the transcription appear to read 65693, an error of +100. The neighbouring entries confirm this: 8098 gives 65577 and the next page's 8105 gives 65691.",
+   "Several cells show visible overwritten corrections: row 064 col 2 (60); rows 065-069 col 2; 082/083 col 3 (9498, 9504); 061 col 4 (91); 057-059 col 6; 095-097 col 7 (39, 53, 67); 088/089 col 9; 068 and 087-089 in the last column; 093-094 col 9. In every case the final legible values are correct, apart from the row 099 col 8 slip above."
+  ],
+  "results": [
+   {
+    "what": "Table of exact squares of 4-digit numbers 1000k + r (here r = 50..99, k = 1..9). It is split into a thousands part and a common last-three-digit column r^2 mod 1000, and built by constant differences 2k with carries from r^2.",
+    "modern_name": "Table of squares (usable for quarter-squares multiplication)",
+    "usually_credited_to": "Tables of squares long predate Gauss, e.g. J. J. Ludolf, Tetragonometria tabularia (1690). Quarter-square tables are associated with Voisin (1817) and others.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Purely routine numerical tabulation of squares by finite differences, a standard computing aid of the period; nothing mathematically novel.",
+  "checkable": [
+   {
+    "sympy": "all((1000*k+r)**2//1000 == 1000*k**2 + 2*k*r + r**2//1000 for k in range(1,10) for r in range(50,100))",
+    "asserts": "Structure of the body entries: floor(N^2/1000) = 1000k^2 + 2kr + floor(r^2/1000)."
+   },
+   {
+    "sympy": "all((1000*k+r)**2 % 1000 == r**2 % 1000 for k in range(1,10) for r in range(50,100))",
+    "asserts": "The right-hand column r^2 mod 1000 is valid for every column k."
+   },
+   {
+    "sympy": "[5059**2, 7071**2, 8087**2, 9094**2, 4064**2]",
+    "asserts": "Gives 25593481, 49999041, 65399569, 82700836, 16516096, matching the table entries."
+   },
+   {
+    "sympy": "8099**2",
+    "asserts": "Equals 65593801, so the page's 65693 in row 099 col 8 is a +100 slip."
+   },
+   {
+    "sympy": "[r for r in range(50,100) if r**2//1000 != (r-1)**2//1000]",
+    "asserts": "Gives [55, 64, 71, 78, 84, 90, 95], the rows where the per-row difference 2k gets an extra +1 carry."
+   }
+  ],
+  "transcription_corrections": [
+   "Header '10, 2, 3, ...' denotes the leading digit k of N = 1000k + r, i.e. 10xx, 20xx, ..., 90xx. It is not a multiplier.",
+   "Top marginalia 'Math 5' and '40c/5' are shelf/folio marks, not table content.",
+   "Row 099, col 8 reads 65693 but the correct value is 65593; this is the manuscript's own slip, not a transcription error, as far as the image shows.",
+   "Row 060, col 4 is '83' and row 061, col 4 is '91' (overwritten); both are correct (16483, 16491)."
+  ]
+ }
+}

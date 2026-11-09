@@ -1,0 +1,56 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c285",
+ "label": "143v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000286/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (my reading). alpha is a primitive lambda-th root of unity. phi, chi and zeta are functions (presumably polynomials or rational functions) evaluated at the nontrivial powers alpha^nu, nu = 1..lambda-1. The page is a scratch computation with finite (discrete) Fourier transforms on Z/lambda. Its arithmetic purpose cannot be fixed from this page alone; the previous page is unrelated lecture or teaching notes on functions of x+iy.\n\n(0) Heading: 'Zu betrachten [sind] sämmtliche Punkte, für welche ...' (all points are to be considered for which ...). Below it, three labels for index triples: (mu,nu,rho), (mu,+,rho), (mu,nu,+). The '+' presumably marks a summed or free index; these look like a classification of lattice points or index triples. They are not developed.\n\n(1) Definition of y_mu as a discrete Fourier coefficient:\n  lambda*y_mu = sum_{nu=1}^{lambda-1} phi(alpha^nu) zeta(alpha^nu)/(1-alpha^nu) * alpha^{-mu nu}.\nTwo consequences are noted. They are written for the variant without the factor zeta(alpha^nu), i.e. F(alpha^nu) = phi(alpha^nu)/(1-alpha^nu); the same logic holds in general.\n  (a) sum_{mu=0}^{lambda-1} y_mu = 0. Reason (implicit, mine): sum_mu alpha^{-mu nu} = 0 for nu not divisible by lambda, and the term nu = 0 is excluded from the defining sum.\n  (b) Inversion: phi(alpha^nu)/(1-alpha^nu) = sum_{mu=0}^{lambda-1} y_mu alpha^{mu nu} for nu = 1..lambda-1. This is orthogonality of characters on Z/lambda.\n\n(2) A second transform:\n  lambda*z_mu = sum_{nu=1}^{lambda-1} chi(alpha^nu) zeta(alpha^nu) alpha^{-mu nu}.\n\n(3) A functional relation for zeta, transcribed as alpha*zeta(alpha) = zeta(alpha) + (1-alpha)*n. As written literally it would force zeta(alpha) = -n, which is surely not meant. One of the two zetas must be a second function zeta' (or xi), the one that produces y', z'.\n\n(4) Recursions: with y'_mu, z'_mu defined by the same formulas with zeta' in place of zeta, Riemann writes\n  lambda*y_mu = lambda*y'_{mu+1} + n * sum_{nu=1}^{lambda-1} phi(alpha^nu) alpha^{-mu nu},\n  lambda*z_mu = lambda*z'_{mu+1} + n * sum_{nu=1}^{lambda-1} chi(alpha^nu)(1-alpha^nu) alpha^{-mu nu}.\nDerivation (mine). y'_{mu+1} carries the factor alpha^{-mu nu} * alpha^{-nu}, so\n  lambda*(y_mu - y'_{mu+1}) = sum_nu phi/(1-alpha^nu) * alpha^{-mu nu} * [zeta(alpha^nu) - alpha^{-nu} zeta'(alpha^nu)].\nBoth stated recursions follow exactly (and consistently) if\n  zeta(x) - x^{-1} zeta'(x) = n(1-x), i.e. zeta'(x) = x*zeta(x) - n*x*(1-x).\nThe factor 1/(1-alpha^nu) cancels in the y-line. In the z-line it produces the factor (1-alpha^nu).\n\nIn modern terms: a shift of index mu -> mu+1 in Fourier space corresponds to multiplication by alpha^{-nu}, and zeta is modified by an additive term n(1-x). This is the kind of step used in an induction on n for sums such as Dedekind/Eisenstein-type cotangent sums. Example: with zeta = 1, (1/lambda) sum_nu alpha^{-mu nu}/(1-alpha^nu) is the sawtooth ((mu/lambda))-type function, namely mu/lambda - (lambda+1)/(2 lambda) for 1 <= mu <= lambda-1.",
+  "errors": [
+   "The relation as transcribed, alpha*zeta(alpha) = zeta(alpha) + (1-alpha)*n, is degenerate: it gives zeta = -n. One side must carry a prime (zeta' or xi).",
+   "Even with a prime, the literal forms do not exactly yield the recursions with index mu+1. alpha*zeta'(alpha) = zeta(alpha) + (1-alpha)n and alpha*zeta(alpha) = zeta'(alpha) + (1-alpha)n both give either a different index shift or an extra factor alpha^{-nu} on the n-term. The version consistent with both written recursions is zeta(x) - x^{-1} zeta'(x) = n(1-x). This is either a slip in the relation or a reading issue in the image.",
+   "The inversion formula phi(alpha^nu)/(1-alpha^nu) = sum y_mu alpha^{mu nu} drops the factor zeta(alpha^nu) of the first definition. It refers either to the case zeta = 1 or to a separately defined y_mu. With zeta included it would read phi*zeta/(1-alpha^nu) = sum y_mu alpha^{mu nu}."
+  ],
+  "results": [
+   {
+    "what": "Discrete Fourier coefficients over lambda-th roots of unity, omitting nu=0, with sum of coefficients zero and the inversion formula",
+    "modern_name": "Discrete Fourier transform / orthogonality of characters of Z/lambda",
+    "usually_credited_to": "Gauss (cyclotomy, Disquisitiones 1801); Lagrange, Vandermonde",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Index-shift recursion y_mu = y'_{mu+1} + (n/lambda) sum phi(alpha^nu) alpha^{-mu nu} induced by multiplying the transformed function by alpha and adding n(1-alpha)",
+    "modern_name": "Shift (modulation) property of the DFT; step in evaluating cotangent/Dedekind-type finite sums",
+    "usually_credited_to": "Eisenstein (finite Fourier expansion of the sawtooth, 1844); Dedekind sums (Dedekind 1892, in commentary on Riemann's fragment on modular functions)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine manipulations of finite Fourier sums over roots of unity, well within the toolkit of Gauss, Dirichlet and Eisenstein. The sums of the type sum alpha^{-mu nu}/(1-alpha^nu) are connected to the Dedekind-sum circle around Riemann's modular-function fragment. But the page is too fragmentary to show anything new.",
+  "checkable": [
+   {
+    "sympy": "lam=5; a=exp(2*pi*I/lam); [nsimplify(N(sum(a**(-mu*nu)/(1-a**nu) for nu in range(1,lam))/lam)) for mu in range(lam)]",
+    "asserts": "For phi=zeta=1, y_mu = (lam-1)/(2*lam) for mu=0 and mu/lam-(lam+1)/(2*lam) for 1<=mu<=lam-1 (sawtooth). The sum over mu of y_mu is 0."
+   },
+   {
+    "sympy": "lam=7; a=exp(2*pi*I/lam); y=[sum(a**(-mu*nu)/(1-a**nu) for nu in range(1,lam))/lam for mu in range(lam)]; [N(sum(y[mu]*a**(mu*nu) for mu in range(lam)) - 1/(1-a**nu)) for nu in range(1,lam)]",
+    "asserts": "Inversion: sum_mu y_mu alpha^{mu nu} = 1/(1-alpha^nu) for nu = 1..lam-1 (all values numerically 0)."
+   },
+   {
+    "sympy": "x,n=symbols('x n'); zeta=Function('zeta')(x); zp=x*zeta-n*x*(1-x); simplify(zeta - zp/x - n*(1-x))",
+    "asserts": "The relation zeta' = x*zeta - n*x*(1-x) satisfies zeta - x^{-1} zeta' = n(1-x), the condition needed for both recursions (result 0)."
+   },
+   {
+    "sympy": "lam=5; n0=3; a=exp(2*pi*I/lam); phi=lambda t: 1+2*t; zeta=lambda t: t**2+1; zp=lambda t: t*zeta(t)-n0*t*(1-t); y=lambda mu,z: sum(phi(a**nu)*z(a**nu)/(1-a**nu)*a**(-mu*nu) for nu in range(1,lam)); [N(y(mu,zeta)-y(mu+1,zp)-n0*sum(phi(a**nu)*a**(-mu*nu) for nu in range(1,lam))) for mu in range(lam)]",
+    "asserts": "Numerical check of lambda*y_mu = lambda*y'_{mu+1} + n*sum phi(alpha^nu) alpha^{-mu nu} under the corrected relation (all values 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: the image shows 'Zu betrachten {und} sämmtliche Punkte, für welche'. The superscript insertion looks like 'und' rather than 'sind'.",
+   "The relation 'alpha zeta(alpha) = zeta(alpha) + (1-alpha) n' almost certainly contains a primed or different letter on one side (zeta' or xi). The right-hand symbol in the image resembles xi more than zeta.",
+   "The struck-out first line appears to be an abbreviation like 'alpha_{rho_1 rho_2}' with a superscript mark, not a meaningful formula."
+  ]
+ }
+}

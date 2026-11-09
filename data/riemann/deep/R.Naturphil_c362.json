@@ -1,0 +1,73 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c362",
+ "label": "183r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000363/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is Gauss's theory of binary quadratic forms in Gauss's notation, (a,b,c) = a x^2 + 2 b x y + c y^2 with determinant D(f) = b^2 - a c. The page sets up the reduction of a form of negative determinant to a reduced form by means of a chain of 'neighbouring' forms. It reads like lecture notes in the style of Gauss (Disquisitiones) and Dirichlet.\n\n(1) The substitution S = [[0,1],[-1,delta]], i.e. x = y', y = -x' + delta*y', has determinant 0*delta - 1*(-1) = 1, so it is a proper equivalence. [Computation mine.] Applying it to f = a x^2 + 2 b x y + c y^2 gives\n f = c x'^2 + 2(-b - c*delta) x' y' + (a + 2 b delta + c delta^2) y'^2.\nSo the image form is (c, b', a') with:\n- b' = -b - c*delta, hence b + b' = -c*delta ≡ 0 (mod c), exactly the condition written on the page;\n- a' = a + 2 b delta + c delta^2.\nThe determinant is preserved: b'^2 - c a' = b^2 - a c. Riemann calls (c, b', ...) the neighbour of (a,b,c) 'to the right' and (a,b,c) the neighbour of (c,b',...) 'to the left'. This is Gauss's 'forma contigua ex parte posteriori / priori'.\n\n(2) The cases of positive and negative determinant must be treated separately. He treats case I, negative determinant: b^2 - a c = -D < 0, so a c > 0 and the outer coefficients have the same sign. That splits forms into positive and negative ones, and he assumes a, c > 0.\n\nReduced forms are defined by:\n- (i) a <= c;\n- (ii) |2b| <= a. The absolute value is implicit on the page.\nThis is Gauss's/Lagrange's definition of reduced positive definite forms. A deleted variant ('der doppelte mittlere' ≤ 'der dritte') was struck out.\n\n(3) For the chain he changes notation: write the form as (a, b, a'), since a' plays in the next form the role a plays in the first. The chain is then (a,b,a'), (a',b',a''), (a'',b'',a'''), ... The integer delta is arbitrary, and the freedom in b' = -b - a'*delta (c renamed a') is used to make |b'| small. Since b' is determined only modulo a', delta can be chosen so that |b'| <= a'/2 [my sharpening]. The page literally says |b'| <= c, which is weaker. The next page uses 2|b'| <= a'. The margin note says the problem (reduction) is solved by forming such a chain of neighbouring forms.\n\n(4) Continuation on the next page, filled in by me. If a' <= a'', then (a', b', a'') satisfies |2b'| <= a' <= a'' and is reduced. Otherwise a'' < a', and one proceeds to the next neighbour. The positive outer coefficients a', a'', ... strictly decrease, so the process terminates in a reduced form properly equivalent to the original. This is the classical Lagrange–Gauss reduction algorithm.",
+  "errors": [
+   "The page states that b' can be chosen with |b'| not greater than c (= a'). The correct and needed normalization, and the one achievable since b' is free modulo c, is |b'| <= c/2, i.e. |2b'| <= a'. The next page indeed uses 2b' <= a', so this is a slip or loose phrasing rather than a mathematical error.",
+   "Reduced-form condition 2 omits the absolute value: it should be |2b| <= a, since b may be negative. This is implicit in the standard definition.",
+   "Otherwise no errors: the neighbour relation b+b' ≡ 0 (mod c), the proper (det 1) substitution and the same-sign remark for negative determinant are all correct."
+  ],
+  "results": [
+   {
+    "what": "Neighbouring (contiguous) forms (a,b,c) ~ (c,b',a') with b+b' ≡ 0 mod c, produced by the proper substitution [[0,1],[-1,delta]]",
+    "modern_name": "Adjacent/contiguous binary quadratic forms (Gauss's formae contiguae); a right/left neighbour step",
+    "usually_credited_to": "Gauss, Disquisitiones Arithmeticae (1801), art. 160; used systematically by Dirichlet",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Definition of reduced positive definite forms: a <= c, |2b| <= a",
+    "modern_name": "Lagrange–Gauss reduced form (positive definite binary quadratic forms)",
+    "usually_credited_to": "Lagrange (1773), Gauss (1801, art. 171)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Reduction of a form of negative determinant by a chain of neighbouring forms with |b'| <= a'/2, stopping when a' <= a''",
+    "modern_name": "Gauss/Lagrange reduction algorithm for positive definite binary quadratic forms",
+    "usually_credited_to": "Lagrange, Gauss; textbook presentation in Dirichlet–Dedekind, Vorlesungen über Zahlentheorie (1863)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Standard textbook material on binary quadratic forms (Gauss's neighbouring forms and Lagrange–Gauss reduction), essentially as in Gauss and Dirichlet's lectures. These look like lecture or study notes with nothing non-standard; at most mildly curious as evidence of Riemann's engagement with number theory, and misfiled under 'Naturphilosophie'.",
+  "checkable": [
+   {
+    "sympy": "x,y,X,Y,a,b,c,d=symbols('x y X Y a b c d'); f=a*x**2+2*b*x*y+c*y**2; g=expand(f.subs({x:Y, y:-X+d*Y},simultaneous=True)); [g.coeff(X,2), g.coeff(X,1).coeff(Y,1)/2, g.coeff(Y,2)]",
+    "asserts": "The substitution x=Y, y=-X+d*Y maps (a,b,c) to (c, -b-c*d, a+2*b*d+c*d**2)"
+   },
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); simplify((-b-c*d)**2 - c*(a+2*b*d+c*d**2) - (b**2-a*c))",
+    "asserts": "Determinant b^2-ac is preserved by passing to the neighbouring form (result 0)"
+   },
+   {
+    "sympy": "a,b,c,d=symbols('a b c d'); simplify((b + (-b-c*d))/c)",
+    "asserts": "b+b' = -c*d, so b+b' ≡ 0 mod c"
+   },
+   {
+    "sympy": "Matrix([[0,1],[-1,symbols('d')]]).det()",
+    "asserts": "The substitution is proper (determinant 1)"
+   },
+   {
+    "sympy": "all(min(abs(-b-c*d) for d in range(-50,50)) <= Rational(c,2) for b in range(-20,21) for c in range(1,15))",
+    "asserts": "delta can always be chosen so that |b'| <= c/2"
+   },
+   {
+    "sympy": "def red(a,b,c):\n  while not (a<=c and abs(2*b)<=a):\n    d=round(-b/c - Rational(0)); bp=-b-c*d\n    if abs(2*bp)>c: bp = bp - c*sign(bp)\n    a,b,c = c,bp,(bp**2+ (a*c-b**2))/c\n  return (a,b,c)\nred(10,3,1)",
+    "asserts": "Iterating the neighbour step on positive definite forms terminates in a reduced form of the same determinant"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 'Lass Rolle der Substitution' is doubtful; the first word is hard to read, perhaps 'Erste' or similar. The sense is 'role of the substitution (0 1; -1 δ)'.",
+   "'Bei diesen Formen [-sind-] die äussern Coefficienten gleiches Zeichen' reads better as '... haben die äussern Coefficienten gleiches Zeichen', with 'sind' struck and replaced.",
+   "'Zurückführung auf eine reducirte; Transformation in eine einfache[re]': the bracketed words are as best read.",
+   "The final line 'nicht grösser ist als c' is as written. Mathematically c/2 (i.e. |2b'| <= a') is intended, cf. the next page.",
+   "The condition 'b'+b ≡ 0 (mod c)' is correct as transcribed."
+  ]
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "bundle": "PH.Dioptrik",
+ "page": "c075",
+ "label": "37r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382418:00000076/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a fragment, probably a reply or annotation. The previous leaf is a letter mentioning Steinheil's list of telescopes and Astronomische Nachrichten Nos. 96–107. The page corrects someone's formula for how a lens's focal length is shortened by its thickness ('Verkürzung').\n\n(1) Text, translated: '... v must denote not half the thickness of the lens but the whole thickness. So the formula would give the shortening = 7.17 Zoll. But the formula itself is only an approximation, in which the square of v is neglected. In the cited example the correct number for the shortening is 5.13 Zoll.'\n\n(2) Formula: f' = f - (f f'/(k(k-v)))·n v.\n- f is the focal length without the thickness correction; f' is the corrected focal length.\n- v is the whole thickness, taken positive.\n- k is a radius, 'with proper sign'.\n- n is an index-dependent factor; its exact meaning is not stated on the page.\n- Writing c = n v/(k(k-v)), the relation is f' = f - c f f', i.e. 1/f' = 1/f + c, linear in the thickness term.\n\n(3) Reading of the numbers (my reconstruction, not on the page). The 'approximation neglecting v^2' replaces f' by f on the right-hand side. That gives a shortening of f^2 c, presumably 7.17 Zoll. Solving the relation exactly gives f' = f/(1+fc), so the true shortening is f - f' = f^2 c/(1+fc). Requiring f^2 c = 7.17 and the exact shortening = 5.13 gives 1+fc = 7.17/5.13 = 1.398, hence fc ≈ 0.398 and f ≈ 18.0 Zoll. With f = 18 Zoll: fc = 7.17/18 = 0.3983, and the exact shortening is 7.17/1.3983 = 5.128 ≈ 5.13. This fits the page's numbers very well, which strongly suggests the example has an uncorrected focal length of 18 Zoll.\n\n(4) Gauss then writes the solved form as f' = f/(1 - f n v/(k(k-v))). Algebraically the first equation yields f' = f/(1 + f n v/(k(k-v))). Only the '+' form reproduces a shortening of 5.13 < 7.17, so the minus sign is a slip, unless it reflects an unstated change of sign convention for k.\n\nPurpose: to correct the use of half-thickness for whole thickness in a published or communicated focal-length correction for thick objective lenses. Gauss also shows that the first-order (v^2-neglected) estimate overstates the shortening considerably, 7.17 against 5.13 Zoll.",
+  "errors": [
+   "The solved form f' = f/(1 - f n v/(k(k-v))) does not follow from f' = f - f f' n v/(k(k-v)); the correct solution is f' = f/(1 + f n v/(k(k-v))). The '+' form is the one consistent with the stated numbers (7.17 approximate, 5.13 exact). So the minus sign appears to be a sign slip, or an unannounced sign-convention change.",
+   "The page does not define n, k or the example's data. The value f ≈ 18 Zoll is inferred, not stated.",
+   "The phrase 'the square of v is neglected' is loose: the dropped term is of order (f c)^2, i.e. quadratic in the thickness correction, which is consistent."
+  ],
+  "results": [
+   {
+    "what": "Thickness correction of a lens focal length in reciprocal form 1/f' = 1/f + n v/(k(k-v)), with v the full lens thickness",
+    "modern_name": "Thick-lens focal length (lensmaker's formula with thickness term)",
+    "usually_credited_to": "Standard 18th–19th c. dioptrics (Cotes, Euler, Lagrange); exact general treatment by Gauss, Dioptrische Untersuchungen (1841)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Observation that the first-order approximation f' ≈ f - f^2 c overstates the shortening (7.17 vs exact 5.13 Zoll), and solving the linear relation exactly as f' = f/(1+fc)",
+    "modern_name": "Exact versus linearized solution of the thick-lens power relation",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Routine correction of a thick-lens focal-length formula, consistent with Gauss's known dioptric work (Dioptrische Untersuchungen, 1841). It contains only a numerical example and a minor sign slip.",
+  "checkable": [
+   {
+    "sympy": "f,fp,c=symbols('f fp c'); solve(Eq(fp, f - f*fp*c), fp)",
+    "asserts": "The relation f' = f - c f f' solves to f' = f/(1 + c f), not f/(1 - c f)."
+   },
+   {
+    "sympy": "f=18; c=Rational(717,100)/f**2; N(f - f/(1+f*c))",
+    "asserts": "With f = 18 Zoll and first-order shortening f^2 c = 7.17, the exact shortening is ≈ 5.128 ≈ 5.13 Zoll, matching the page."
+   },
+   {
+    "sympy": "N(Rational(717,100)/(Rational(717,513)-1))",
+    "asserts": "Inverting the data (7.17 approximate, 5.13 exact) gives an uncorrected focal length f ≈ 18.03 Zoll."
+   },
+   {
+    "sympy": "f,c=symbols('f c'); series(f - f/(1+f*c), c, 0, 3)",
+    "asserts": "The exact shortening equals f^2 c - f^3 c^2 + ...; the first-order term is the approximation neglecting second-order terms."
+   }
+  ],
+  "transcription_corrections": [
+   "'Jm angeführten Beispiel' should read 'Im angeführten Beispiel'.",
+   "The pencil '+155n/40' at top right is probably an archival/catalog mark, not part of the text.",
+   "'Phys. 1' at lower left is an archival pencil note.",
+   "The 'next page' transcription is mirror show-through of this same page (same 7.17, 5.13 and formulas), not independent content."
+  ]
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c132",
+ "label": "80r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000133/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is a draft passage, very close to the published text, of Riemann's 1860 memoir 'Ueber die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite' (Abh. Ges. Wiss. Göttingen 8). Its title, with the subtitle 'Ein Beitrag zur Theorie der Integration partieller Differentialgleichungen', is written at the bottom of the page.\n\nSetting (published paper, notation implicit here): one-dimensional isentropic gas dynamics with pressure p = φ(ρ). The sound speed is c = sqrt(φ'(ρ)). Write f(ρ) = ∫ sqrt(φ'(ρ)) dlogρ. The Riemann invariants are r = (f(ρ)+u)/2 and s = (f(ρ)−u)/2. They satisfy\n(A) ∂r/∂t = −(u+c) ∂r/∂x,\n(B) ∂s/∂t = −(u−c) ∂s/∂x.\n\nStep 1 (stated on the page): Riemann wants to swap the roles of dependent and independent variables (hodograph transformation), taking r, s as independent and x, t as unknowns. This requires the functional determinant of (r, s) with respect to (x, t) to be nonzero.\n- Its value [computation mine, using A and B]: ∂r/∂x·∂s/∂t − ∂r/∂t·∂s/∂x = ∂r/∂x·∂s/∂x·[−(u−c) + (u+c)] = 2c·∂r/∂x·∂s/∂x = 2 sqrt(φ'(ρ)) ∂r/∂x ∂s/∂x.\n- This matches the formula on the page.\n- Since c > 0, the determinant vanishes iff ∂r/∂x = 0 or ∂s/∂x = 0. So the hodograph substitution is admissible only if both are nonzero.\n\nStep 2 (exceptional cases):\n- 'Wenn ∂r/∂x = 0 ist, so ergiebt sich' is followed by blank space, left to be filled in.\n- In the published paper the case reads as follows [filled from the paper, not on this page]: by (A), r is then constant everywhere. So u and c are functions of s alone. By (B), s is constant along lines dx/dt = u−c, which are then straight lines: x − (u−c)t = F(s). This is a simple wave travelling in one direction.\n- If ∂r/∂x = ∂s/∂x = 0, then by (A) and (B) also ∂r/∂t = ∂s/∂t = 0. Hence r and s, and therefore u and ρ, are constant: the uniform state.\n\nStep 3 (crossed out): 'Die Aufgabe ist hierdurch zurückgeführt auf die Integration der Differentialgleichung ∂²w/∂r∂s − m(∂w/∂r + ∂w/∂s) = 0. Wenn w dieser Differentialgleichung und den Anfangsbedingungen gemäß bestimmt ist…'\n- Here w is the potential with x − (u+c)t = ∂w/∂r and x − (u−c)t = −∂w/∂s.\n- In the published paper, for φ = a²ρ^k, the linear equation carries the coefficient m/(r+s), where m is a constant depending on k. I have not re-derived the exact value; I believe it is (k−3)/(2(k−1)) up to sign.\n- The constant-coefficient form written here corresponds to the isothermal case k = 1. That case appears on the previous page as ∂²w/∂p∂q − ∂w/∂p + ∂w/∂q = 0, with the substitution p+q, p−q tried there.\n- The deletion probably reflects that the general statement needs the 1/(r+s) factor, or that the passage was relocated.",
+  "errors": [
+   "The deleted reduced equation lacks the factor 1/(r+s) present in the published general polytropic equation. It is correct only for the isothermal (logarithmic) case with constant coefficients, as on the previous page. The deletion may reflect this.",
+   "The case ∂r/∂x = 0 is left unfinished (blank after 'so ergiebt sich').",
+   "The sign of the functional determinant depends on the order of the variables. Riemann gives it without sign, which is immaterial for the vanishing criterion."
+  ],
+  "results": [
+   {
+    "what": "Jacobian of the Riemann invariants (r, s) w.r.t. (x, t) equals 2 sqrt(φ'(ρ)) r_x s_x. The hodograph transformation is valid iff r_x·s_x ≠ 0.",
+    "modern_name": "Hodograph transformation / nondegeneracy condition for Riemann invariants",
+    "usually_credited_to": "Riemann 1860 (hodograph method in gas dynamics; also Earnshaw 1858 for simple waves)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Exceptional cases: one invariant constant gives a simple wave; both constant gives the uniform state.",
+    "modern_name": "Simple waves (Riemann/Earnshaw simple waves) and constant states",
+    "usually_credited_to": "Earnshaw 1858 / Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reduction to a linear second-order hyperbolic equation for a potential w(r, s).",
+    "modern_name": "Euler–Poisson–Darboux type equation via hodograph; solved by the Riemann function method",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a draft of passages and the title of Riemann's published 1860 Luftwellen paper. All content (Jacobian condition, simple waves, reduction to a linear PDE for w) is well known as his.",
+  "checkable": [
+   {
+    "sympy": "rx,sx,u,c=symbols('rx sx u c'); rt=-(u+c)*rx; st=-(u-c)*sx; simplify(rx*st-rt*sx - 2*c*rx*sx)",
+    "asserts": "The functional determinant of (r, s) w.r.t. (x, t) equals 2c r_x s_x, given the characteristic equations. The expression simplifies to 0."
+   },
+   {
+    "sympy": "rho,a,k=symbols('rho a k',positive=True); c=sqrt(diff(a**2*rho**k,rho)); simplify(integrate(c/rho,rho) - 2*c/(k-1))",
+    "asserts": "For φ = a²ρ^k, f(ρ) = ∫ sqrt(φ') dρ/ρ = 2c/(k−1) (k ≠ 1), so r + s = 2c/(k−1)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: 'ist nicht nur möglich' should read 'ist indess nur möglich'. Logically and in the image the sense is 'is only possible', matching the published text.",
+   "Line 2: 'die Determinante' is likely 'die Functionaldeterminante' (the image shows a long compound).",
+   "In 'r, s und t constant' the reading 't' is doubtful. Logically it must be r and s, hence u and ρ, that are constant; t cannot be constant.",
+   "The deleted equation's first term should be ∂²w/∂r∂s, not '∂x/∂r∂s'.",
+   "The interlinear insertion 'von x und t' belongs after 'dieser Functionen'."
+  ]
+ }
+}

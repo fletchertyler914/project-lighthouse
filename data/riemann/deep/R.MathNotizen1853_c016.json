@@ -1,0 +1,57 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c016",
+ "label": "9r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000017/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a data-reduction note for a Göttingen magnetic instrument, almost certainly the bifilar magnetometer. Riemann was assistant in Weber's seminar around 1853–54. He cites Gauss, 'Resultate aus den Beobachtungen des magnetischen Vereins im Jahre 1840', p. 14. That is presumably Gauss's paper on determining the constants of the bifilar magnetometer.\n\n(1) Basic equation (taken from Gauss). Each observation set gives one linear equation 1 = a x + b y. The coefficients a, b are computed from the readings of that set in the way Gauss prescribes. x is independent of the magnetic directive force. Up to a factor independent of magnetic forces, y equals M T e^{iQ} = M (X + iY). Here M is the bar's magnetic moment, T the horizontal terrestrial force, and Q its angle. X is the component along the line joining the upper ends of the two suspension wires; Y is the perpendicular component. The plane force vector is thus written as a complex number.\n\n(2) Physical argument. Soft iron near the bar changes X and Y. That change reverses sign when the bar's polarity is reversed, and reversing polarity is approximately equivalent to turning the bar through 180°. Let y', y'', y''', y^{IV} be the actual values of y in the four positions of the bar. Assume the four observation series disagree only because of the iron. Then pairing the positions gives the iron-free value:\n y0 = (y' + y'')/2 = (y''' + y^{IV})/2.\n[Mine: equivalently y' = y0 + d1, y'' = y0 - d1, y''' = y0 + d2, y^{IV} = y0 - d2. That gives 4 equations in the 4 unknowns x, y0, d1, d2.]\n\n(3) Elimination [steps mine, result his]. From 1 = a_k x + b_k y_k we get y_k = (1 - a_k x)/b_k. Substituting into y' + y'' - y''' - y^{IV} = 0 gives\n (a'/b' + a''/b'' - a'''/b''' - a^{IV}/b^{IV}) x = 1/b' + 1/b'' - 1/b''' - 1/b^{IV}.\nThis is a single linear equation for x.\n\n(4) Numerical result. From the observations he obtains P = 151°14'52.3\" and log S = 3.1578703, so S ≈ 1438. Most likely P and S are an angle and a magnitude, i.e. a polar form of a derived instrument constant. Which quantity they parametrize cannot be fixed from this page (my interpretation).\n\nNext page (my reading): he multiplies through by b'/a'. With α = 1 + b'/b'' - b'/b''' - b'/b^{IV} and ω = 1 + (a''/b'')(b'/a') - (a'''/b''')(b'/a') - (a^{IV}/b^{IV})(b'/a'), he gets a'x = α/ω. He then forms the logarithms of the individual terms.",
+  "errors": [
+   "No algebraic error. Substituting y_k=(1-a_k x)/b_k into y'+y''-y'''-y^IV=0 gives exactly the stated equation.",
+   "Physical approximations, flagged by Riemann himself with 'nahe': polarity reversal is treated as equivalent to a 180° rotation. The iron's disturbance is assumed linear in the bar's moment and exactly sign-reversing. Any part of the iron's effect induced by the earth's field alone does not reverse and is not removed by the pairing.",
+   "If y is complex (M T e^{Qi}), then a and b must in general be complex too, and the final equation is a complex equation for x. The next page treats α and ω as real numbers, so the page does not fully settle this; possible ambiguity, not an error.",
+   "P and log S are given without derivation, so they cannot be checked from this page."
+  ],
+  "results": [
+   {
+    "what": "Eliminating the influence of nearby soft iron by pairing observations taken with the bar's polarity reversed (rotated 180°). This reduces four observation sets to one linear equation for the apparatus constant x.",
+    "modern_name": "Reversal / symmetric-averaging method for eliminating systematic error; reduction of bifilar magnetometer constants",
+    "usually_credited_to": "Gauss and Weber (Göttingen magnetic association, 1830s–1840s)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Writing the horizontal geomagnetic force vector as a complex number T e^{Qi} = X + iY",
+    "modern_name": "Complex (phasor) representation of plane vectors",
+    "usually_credited_to": "Wessel/Argand/Gauss (c. 1797–1831)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is routine applied data reduction for Gauss's bifilar magnetometer. It fits Riemann's known work as Weber's assistant in 1853–54. The complex notation for the force vector is a pleasant touch but standard in Göttingen.",
+  "checkable": [
+   {
+    "sympy": "x,a1,a2,a3,a4,b1,b2,b3,b4=symbols('x a1 a2 a3 a4 b1 b2 b3 b4'); y=lambda a,b:(1-a*x)/b; simplify(y(a1,b1)+y(a2,b2)-y(a3,b3)-y(a4,b4) - ((1/b1+1/b2-1/b3-1/b4)-(a1/b1+a2/b2-a3/b3-a4/b4)*x))",
+    "asserts": "The pairing condition y'+y''-y'''-y^IV=0 is equivalent to Riemann's linear equation for x (the expression simplifies to 0)."
+   },
+   {
+    "sympy": "a1,a2,a3,a4,b1,b2,b3,b4=symbols('a1 a2 a3 a4 b1 b2 b3 b4'); x=(1/b1+1/b2-1/b3-1/b4)/(a1/b1+a2/b2-a3/b3-a4/b4); alpha=1+b1/b2-b1/b3-b1/b4; omega=1+(a2/b2)*(b1/a1)-(a3/b3)*(b1/a1)-(a4/b4)*(b1/a1); simplify(a1*x-alpha/omega)",
+    "asserts": "The next page's normalisation a'x = α/ω agrees with this page's equation (result 0)."
+   },
+   {
+    "sympy": "M,T,Q=symbols('M T Q',positive=True); X=T*cos(Q); Y=T*sin(Q); simplify(expand_complex(M*T*exp(I*Q))-M*(X+I*Y))",
+    "asserts": "M T e^{iQ} = M(X+iY) when X = T cos Q and Y = T sin Q (result 0)."
+   },
+   {
+    "sympy": "N(10**3.1578703)",
+    "asserts": "S ≈ 1438.1, given log S = 3.1578703."
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription matches the image closely; no substantive corrections are needed.",
+   "Citation reads 'Res 1840 pag 14', i.e. Gauss–Weber 'Resultate aus den Beobachtungen des magnetischen Vereins im Jahre 1840', p. 14.",
+   "Last line: 'P = 151° 14' 52\"3' means 151°14'52.3\"; 'log S = 3,1578703' (German decimal comma)."
+  ]
+ }
+}

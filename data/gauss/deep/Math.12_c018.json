@@ -1,0 +1,76 @@
+{
+ "bundle": "Math.12",
+ "page": "c018",
+ "label": "10r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376631:00000019/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the opening of a fair-copy section headed 'Die biquadratischen Reste' (Math. 12, fol. 10r). It sets up a counting function that the neighbouring pages use for lattice-point counts. The previous page has a bracket [p,p'] for complex p, p' with rules I–IV, and the multiplication formula [mx] = [x] + [x+1/m] + ... - (m-1)/2. The next page has lattice diagrams over Gaussian integers. All of this points to a lattice-point (Gauss-lemma / Eisenstein-type) approach to biquadratic reciprocity in Z[i].\n\n§1 Definition for real x > 0.\n- Count 1 for every integer n with 0 < n < x.\n- Count 1/2 for the lower endpoint 0.\n- Count a further 1/2 if x itself is an integer.\n- The total is denoted [x].\nIn modern terms: [x] = #{n in Z : 0 < n < x} + 1/2 + (1/2)·1_{x in Z}.\n\nConsequences stated by Gauss:\n- If 0 < x < 1 ('ächter Bruch'), there are no interior integers, so [x] = 1/2.\n- If x = n is a positive integer, there are n-1 interior integers, so [x] = (n-1) + 1/2 + 1/2 = n = x.\n- If m < x < m+1, the interior integers are 1,...,m, so [x] = m + 1/2.\n\nCompact form (mine): [x] = (floor(x) + ceiling(x))/2. Equivalently [x] = x - ((x)), where ((x)) is the Dedekind sawtooth: ((x)) = x - floor(x) - 1/2 for non-integer x, and 0 for integer x. In other words, [x] is the floor function 'symmetrised' by giving boundary points weight 1/2.\n\n§2 Extension to x ≤ 0, 'by analogy'.\n- [x] = x when x = 0 or x is a negative integer.\n- [x] = -(m + 1/2) when -(m+1) < x < -m.\nThis agrees with (floor+ceiling)/2 everywhere. It makes [·] odd: [-x] = -[x] for all real x. Check (mine): for m < x < m+1 we have [-x] = -(m+1/2) = -[x]; for integers it is trivial.\n\n§3 Periodicity: for every integer k (positive or negative), [x + k] = [x] + k. This is immediate from the floor/ceiling form, since floor and ceiling both shift by k. It can also be read off directly from §1–2 by cases.\n\n§4 is begun but left empty.\n\nRole: the function weights lattice points on the boundary of a counting region by 1/2. This is exactly what makes the complex bracket [p,p'] of the preceding page additive (rule III) and translation-covariant (rules I, II). It is presumably preparation for counting Gaussian lattice points in triangles and squares, as drawn on the next page.",
+  "errors": [
+   "No mathematical errors. Definition, special cases, the extension to negative x, and the identities [-x] = -[x] and [x+k] = [x] + k are all correct.",
+   "Minor gap: §1 covers only x > 0, so [0] is first fixed in §2. 'Ächter Bruch' must be read as 0 < x < 1 for the statement [x] = 1/2 to hold.",
+   "§3 is asserted without proof. It is valid, including when x and x+k have opposite signs, because the definition coincides with (floor(x)+ceiling(x))/2 on all of R."
+  ],
+  "results": [
+   {
+    "what": "Definition of a lattice-count function [x] with half weight for boundary points, [x] = (floor x + ceil x)/2 = x - ((x)), extended as an odd function",
+    "modern_name": "Symmetrised floor / complement of the Dedekind sawtooth function ((x)); mean of floor and ceiling",
+    "usually_credited_to": "Sawtooth ((x)): Dedekind (1892, Dedekind sums), building on Riemann's fragments. The half-weight boundary convention in lattice-point counting is common from Eisenstein/Gauss onward.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "[-x] = -[x] and [x+k] = [x] + k for integer k",
+    "modern_name": "Oddness and integer-translation property of x - ((x))",
+    "usually_credited_to": "Folklore / elementary",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of this function as a foundation for a lattice-point treatment of biquadratic residues (context with neighbouring pages)",
+    "modern_name": "Lattice-point (Gauss lemma / Eisenstein-style) approach to biquadratic reciprocity in Z[i]",
+    "usually_credited_to": "Eisenstein (1844) for published proofs of biquadratic reciprocity. Gauss's Nachlass on biquadratic residues is partly printed in Werke II (Schering) and later volumes.",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The page itself contains only an elementary definition and two trivial identities. What is mildly interesting is Gauss's systematic use of a half-weighted, odd 'sawtooth-complement' counting function inside his biquadratic-residue program, which anticipates Dedekind's ((x)) convention. However, Gauss's lattice-point methods for reciprocity are well known, and fragments of this kind are at least partly published in his Werke, so the novelty is small.",
+  "checkable": [
+   {
+    "sympy": "f = lambda x: (floor(x)+ceiling(x))/2; all(f(Rational(p,q)) == Rational(1,2) for q in range(2,12) for p in range(1,q))",
+    "asserts": "[x] = 1/2 for every proper fraction 0 < x < 1"
+   },
+   {
+    "sympy": "f = lambda x: (floor(x)+ceiling(x))/2; all(f(n) == n for n in range(-20,21))",
+    "asserts": "[x] = x for every integer x (including 0 and negatives)"
+   },
+   {
+    "sympy": "f = lambda x: (floor(x)+ceiling(x))/2; all(f(m+Rational(p,q)) == m+Rational(1,2) for m in range(0,10) for q in range(2,9) for p in range(1,q))",
+    "asserts": "[x] = m + 1/2 for m < x < m+1"
+   },
+   {
+    "sympy": "f = lambda x: (floor(x)+ceiling(x))/2; all(f(-Rational(p,q)) == -f(Rational(p,q)) for q in range(1,10) for p in range(-30,31))",
+    "asserts": "[-x] = -[x]"
+   },
+   {
+    "sympy": "f = lambda x: (floor(x)+ceiling(x))/2; all(f(Rational(p,q)+k) == f(Rational(p,q))+k for q in range(1,8) for p in range(-20,21) for k in range(-6,7))",
+    "asserts": "[x+k] = [x] + k for integer k"
+   },
+   {
+    "sympy": "f = lambda x: (floor(x)+ceiling(x))/2; saw = lambda x: 0 if x.is_integer else x - floor(x) - Rational(1,2); all(f(Rational(p,q)) == Rational(p,q) - saw(Rational(p,q)) for q in range(1,10) for p in range(-30,31))",
+    "asserts": "[x] = x - ((x)), with ((x)) the Dedekind sawtooth"
+   },
+   {
+    "sympy": "f = lambda x: (floor(x)+ceiling(x))/2; all(sum(f(Rational(p,q)+Rational(j,m)) for j in range(m)) == f(m*Rational(p,q)) + Rational(m-1,2) for m in range(1,8) for q in range(1,8) for p in range(-15,16))",
+    "asserts": "Multiplication formula from the previous page: [mx] = sum_{j=0}^{m-1} [x + j/m] - (m-1)/2 (e.g. x=1/3, m=6 gives 9/2 - 5/2 = 2 = [2])"
+   }
+  ],
+  "transcription_corrections": [
+   "Heading: the struck-out folio number reads '430' followed by '/18', i.e. old foliation 430/18 cancelled, new number 10 circled. The transcription is essentially right.",
+   "Line 3: the struck word at the start ('liegende') is heavily cancelled and could also be read differently. In any case 'ganze Zahl' alone is the intended text.",
+   "The interlinear insertion is 'x' written above 'Grenze', giving 'die letztere Grenze x selbst'. The transcription is correct.",
+   "§2: 'auch die Größe x selbst ausdrücken' is correct as read. The page uses '[−x] = −[x]' with an ordinary minus sign."
+  ]
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c245",
+ "label": "236",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000246/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Title: 'Simplest derivation of the fundamental theorem concerning the shortest lines on surfaces of revolution.'\n\nSetup. Take a surface of revolution and two points P, P' on it.\n- r is the length of the shortest (geodesic) line PP'.\n- A, A' are its azimuths at P and P'. The signs in the formula show both are azimuths of the forward direction (P toward P'), counted from south through west. This is Gauss's usual astronomical convention.\n- (phi, lambda) and (phi', lambda') are latitude and longitude, with longitude counted from east to west.\n- rho, rho' are the radii of the parallel circles through P and P'.\n- R, R' are the meridian radii of curvature at P and P'.\n\nLine elements (my addition). At P a displacement has a north component R dphi and a west component rho dlambda; likewise at P'.\n\nStep 1: first variation of geodesic distance. Move both endpoints infinitesimally. The change in r is the projection of the displacement of P' onto the forward unit tangent at P', minus the projection of the displacement of P onto the forward tangent at P. Interior terms vanish because the curve is a geodesic.\n- With A measured from south via west, the forward tangent has north component -cos A and west component sin A.\n- This gives Gauss's formula: dr = R cosA dphi - R' cosA' dphi' - rho sinA dlambda + rho' sinA' dlambda'.\n- Gauss states it without proof. It is the known lemma, cf. Disquisitiones generales circa superficies curvas (1827), arts. 15-16.\n\nStep 2: symmetry. Take dphi = dphi' = 0 and dlambda = dlambda'. This rigidly rotates both points about the axis by the same angle. That rotation is an isometry of the surface, so the shortest distance is unchanged: dr = 0.\n\nStep 3: conclusion. Substituting gives (rho' sinA' - rho sinA) dlambda = 0, hence rho sinA = rho' sinA'. Since P, P' are arbitrary points of the geodesic, rho sinA is constant along it. This is Clairaut's relation.\n\nIn modern terms, the conserved quantity is obtained as the momentum conjugate to the rotational symmetry (a Noether-type argument).\n\nContext: the previous page is on the locus of apices of spherical triangles of given base and area (Lexell circle). The next page relates the stereographic and central (gnomonic) projections. These are unrelated short notes.",
+  "errors": [
+   "No substantive errors. The sign conventions are internally consistent with azimuths of the forward direction counted from south via west and longitudes counted westward.",
+   "Implicit assumptions not stated: r must be differentiable, i.e. the shortest line is unique and P' is not conjugate to/on the cut locus of P. Also, the result extends from 'shortest lines' to all geodesics only locally.",
+   "The first-variation formula is asserted without derivation ('Man hat dann'). It is correct but is the real content behind the 'simplest' derivation."
+  ],
+  "results": [
+   {
+    "what": "First variation of geodesic distance between two moving endpoints, expressed in latitude/longitude on a surface of revolution",
+    "modern_name": "First variation formula for arc length / Gauss lemma (gradient of distance function is the unit tangent)",
+    "usually_credited_to": "Gauss (Disquisitiones generales circa superficies curvas, 1827); earlier variational ideas Euler/Lagrange",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "rho sin A = const along a geodesic on a surface of revolution, derived from first variation plus rotational invariance of the distance",
+    "modern_name": "Clairaut's relation (conserved angular momentum; Noether-type derivation)",
+    "usually_credited_to": "Clairaut (1733/1743) for the relation; Bessel (1826) and others used it in geodesy; the symmetry-based proof style is textbook (Noether 1918 in general form)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Clairaut's theorem is classical and the first-variation formula is Gauss's own published tool. The elegance of deriving the conserved quantity purely from rotational invariance (a proto-Noether argument) is a nice unpublished touch. It is not a new result, and similar notes appear in Gauss's geodetic papers (the note may be printed in Werke VIII/IX).",
+  "checkable": [
+   {
+    "sympy": "phi,phi2,lam,lam2=symbols('phi phi2 lam lam2'); r=acos(sin(phi)*sin(phi2)+cos(phi)*cos(phi2)*cos(lam2-lam)); simplify(diff(r,lam)+diff(r,lam2))",
+    "asserts": "On the unit sphere, geodesic distance is invariant under a common rotation in longitude (dphi=dphi'=0, dlambda=dlambda' gives dr=0); result should be 0"
+   },
+   {
+    "sympy": "phi,phi2,lam,lam2=symbols('phi phi2 lam lam2'); r=acos(sin(phi)*sin(phi2)+cos(phi)*cos(phi2)*cos(lam2-lam)); sinA=cos(phi2)*sin(lam2-lam)/sin(r); simplify(diff(r,lam)+cos(phi)*sinA)",
+    "asserts": "On the sphere (rho=cos phi), dr/dlambda = -rho sinA, with sinA from the spherical sine rule; should be 0"
+   },
+   {
+    "sympy": "phi,phi2,lam,lam2=symbols('phi phi2 lam lam2'); r=acos(sin(phi)*sin(phi2)+cos(phi)*cos(phi2)*cos(lam2-lam)); sinA2=cos(phi)*sin(lam2-lam)/sin(r); simplify(diff(r,lam2)-cos(phi2)*sinA2)",
+    "asserts": "On the sphere, dr/dlambda' = +rho' sinA'; should be 0"
+   },
+   {
+    "sympy": "phi,phi2,d=symbols('phi phi2 d'); s=symbols('s',positive=True); simplify(cos(phi)*(cos(phi2)*sin(d)/s) - cos(phi2)*(cos(phi)*sin(d)/s))",
+    "asserts": "Clairaut relation rho sinA = rho' sinA' on the sphere; difference is 0"
+   }
+  ],
+  "transcription_corrections": [
+   "In 'R cos A . dphi' and 'R' cos A' dphi'' the letter A is written over a struck/overwritten character in the manuscript; the reading A is correct.",
+   "'wenn dphi = 0' — the '=' is written over an earlier character (possibly a corrected sign); the reading dphi = 0 is correct.",
+   "'Werthe' before phi'+dphi' is struck through in the manuscript, as the transcription indicates.",
+   "Marginal pencil marks ('+' symbols at top and after W.Z.B.W) are archival/later annotations, not content."
+  ]
+ }
+}

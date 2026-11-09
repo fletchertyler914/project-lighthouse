@@ -1,0 +1,62 @@
+{
+ "bundle": "HB.Brouillons1805",
+ "page": "c025",
+ "label": "[20]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351872:00000026/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (art. 20-23 of 'Litt. C', Gauss's 1805 notes on interpolation). X is a function of x whose values are known at equally spaced points a, a+δ, a+2δ, .... One wants the value T of X at x = t, with t − a = uδ. T is obtained by Lagrange interpolation (formula W) through m consecutive nodes. The first neglected ('höchstes Ergänzungsglied') term, coming from the m-th differences, was established on the previous page (from art. 20) as\n  Δ = u(u−1)(u−2)…(u−m+1)·μ·δ^m,\nwhere μ is the coefficient of the m-th order term in the series for X (≈ f^{(m)}/m!, treated as the same for neighbouring node sets).\n\nStep 1. Use the node set shifted one step forward, x = a+δ, …, a+mδ. Relative to the new origin a+δ, t corresponds to u−1. The leading error is then\n  (u−1)(u−2)…(u−m)·μδ^m = ((u−m)/u)·Δ.\nThe struck-out phrase said the same thing: the ratio of this to the previous error is (u−m):u.\n\nStep 2 (the passage marked #, at the foot of the page). Use the node set shifted one step back, x = a−δ, …, a+(m−2)δ. Then u becomes u+1, and the leading error is\n  (u+1)u(u−1)…(u−m+2)·μδ^m = ((u+1)/(u−m+1))·Δ.\n\nStep 3 (the problem being served). Suppose enough tabulated values are available to choose from, and the interpolation uses m consecutive values, neglecting m-th and higher differences. Which m values make the leading neglected term smallest?\n- If the set beginning at a is optimal, neither neighbouring set can do better. Hence |(u−m)/u| ≥ 1 and |(u+1)/(u−m+1)| ≥ 1.\n- The first condition, |u−m| ≥ |u|, is equivalent to u ≤ m/2. Gauss writes this as u between −∞ and m/2.\n- The second condition, |v| ≥ |v−m| with v = u+1, is equivalent to u+1 ≥ m/2.\n- Together: m/2 − 1 ≤ u ≤ m/2.\n\nStep 4 (conclusion).\n- If m is even, t lies between the two middle nodes a+(m/2−1)δ and a+(m/2)δ. So half of the values used lie on each side of t.\n- If m is odd (continued on the next page), (m−1)/2 − 1/2 ≤ u ≤ (m−1)/2 + 1/2. So the middle node a+½(m−1)δ must be the tabulated point nearest to t. If t falls exactly midway, either choice is equally good.\n\nThe next page checks this with m = 4, t = a+δ/2. With nodes a−δ, …, a+2δ, u = 3/2 and the error factor is 9/16. With nodes a, …, a+3δ, u = 1/2 and the factor is −15/16.\n\n(My remark: the condition is checked only against the two adjacent windows. It is nonetheless globally sufficient, because |Π(u−k)| increases monotonically as the window moves away from the centred position.)",
+  "errors": [
+   "No mathematical errors found. Both shift ratios (u−m)/u and (u+1)/(u−m+1) are correct, and so is the derived interval m/2−1 ≤ u ≤ m/2.",
+   "Implicit assumption (not a slip): μ is treated as identical for the different node windows. This holds only to leading order.",
+   "Only adjacent windows are compared explicitly. Global optimality follows from monotonicity of |∏(u−k)| as the window shifts, but this is not stated.",
+   "Gauss's phrasing 'between −∞ and ½m' for the first condition is correct (u ≤ m/2). It was reached after a struck-out attempt claiming u must be positive and ≤ m, which would have been wrong; he corrected it."
+  ],
+  "results": [
+   {
+    "what": "Leading truncation term of equally spaced Lagrange interpolation, u(u−1)…(u−m+1)μδ^m, and how it changes when the node window is shifted by ±δ",
+    "modern_name": "Error term of Newton/Lagrange equidistant interpolation (f^{(m)}(ξ)/m! · ∏(t−x_k))",
+    "usually_credited_to": "Newton/Lagrange; remainder form by Cauchy (1840) and Ampère",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Optimal choice of m consecutive tabulated nodes: t must lie between the two middle nodes (m even) or nearest the middle node (m odd)",
+    "modern_name": "Centred (central-difference) interpolation principle; motivation for Stirling/Bessel/Gauss central formulas",
+    "usually_credited_to": "Folklore of table interpolation (Newton, Stirling 1730, Bessel); Gauss's own central formulas (Theoria interpolationis, Werke III)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Gauss's interpolation work (including central-difference formulas) is well known from Werke III. The node-centring argument is standard practical-table lore, though presented here neatly via the ratio of error terms.",
+  "checkable": [
+   {
+    "sympy": "u,m=symbols('u m'); simplify(rf(u-m,m)/rf(u-m+1,m) - (u-m)/u)",
+    "asserts": "(u−1)…(u−m) / [u(u−1)…(u−m+1)] = (u−m)/u (should simplify to 0)"
+   },
+   {
+    "sympy": "simplify(rf(u-m+2,m)/rf(u-m+1,m) - (u+1)/(u-m+1))",
+    "asserts": "(u+1)u…(u−m+2) / [u…(u−m+1)] = (u+1)/(u−m+1) (should simplify to 0)"
+   },
+   {
+    "sympy": "u=Rational(3,2); prod([u-k for k in range(4)])",
+    "asserts": "Error factor 9/16 for m=4, t=a+δ/2, nodes a−δ..a+2δ"
+   },
+   {
+    "sympy": "u=Rational(1,2); prod([u-k for k in range(4)])",
+    "asserts": "Error factor −15/16 for m=4, nodes a..a+3δ"
+   },
+   {
+    "sympy": "solve_univariate_inequality(Abs(u-m)>=Abs(u),u) with m=4",
+    "asserts": "|(u−m)/u| ≥ 1 iff u ≤ m/2"
+   }
+  ],
+  "transcription_corrections": [
+   "Margin note 'die zunächst' is in the left margin and inserted before 'folgenden'. The crossed word is 'die'.",
+   "Margin insertion 'Werthe von' replaces a struck word (looks like 'X' with a scribble, possibly 'Glieder'), giving 'Hälfte der anzuwendenden Werthe von X'.",
+   "In 'a+(m−1)δ gehörenden' the overwritten expression is a corrected 'm−1' (blotted), not a deletion of the whole term.",
+   "Before (u−m)/u Δ there is an ink blot, not a symbol."
+  ]
+ }
+}

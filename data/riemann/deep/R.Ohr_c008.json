@@ -1,0 +1,59 @@
+{
+ "bundle": "R.Ohr",
+ "page": "c008",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204994:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is p. 9 of the printed sheets of Riemann's posthumous 'Mechanik des Ohres' (ed. Henle, 1867). Folio 5r of R.Ohr is a printed page with pencil marks, not a working manuscript. It continues the list of physical requirements on the middle-ear ('Paukenapparat') that follow from the extreme smallness of the stapes motions estimated on p. 8 (motions at threshold are visible only under about 2000x magnification).\n\n(II, end) Contact condition. Two solid parts can transmit a displacement only if their gap is smaller than the amplitude of the motion. Writing g for the gap and A for the amplitude: if g > A, no motion is transmitted. So the ossicles must fit together exactly at their contact surfaces.\n\nEnergy condition. Only a small fraction of the mechanical energy of the sound may be spent on other work, such as straining joint capsules and membranes. It must reach the labyrinth.\n\nOval-window rim. This loss is avoided by the very narrow free rim of the annular membrane of the oval window ('Membran des Vorhofsfensters'). Riemann's argument, qualitatively:\n- If the rim were wide, the stapes footplate's volume displacement would be compensated by deformation of the rim itself, a kind of volume short-circuit.\n- Little would then be passed on to the cochlear partition and the round-window membrane.\n\nThe narrow rim has a consequence. Its restoring action on the footplate depends strongly on the footplate's position: for a narrow annulus, small displacements give relatively large strains, so the force-displacement relation would be strongly position-dependent. This would distort the tone (Klang). Hence one must assume:\n- the elasticity of the membrane is very small;\n- the equilibrium position of the stapes is fixed by other forces, not by the membrane.\nThis is a qualitative linearity/fidelity argument; no formula is written.\n\n(III) Thermal correction. Since the parts must mesh with better than microscopic precision, thermal expansion and contraction require compensating devices.\n\nTo show that temperature changes really occur in the tympanic cavity, Riemann states a law for the steady-state temperature distribution of the body. Let u(x) be the steady temperature, T_b the brain temperature (taken as fixed) and T_e the external temperature. The law is\n u(x) - T_b = phi(x) * (T_e - T_b),\nwith phi depending on position but not on T_e.\n\nHis justification is Newton's law of cooling at the surface plus constant conductivity and specific heat. My reconstruction:\n- Put v = u - T_b.\n- In steady state, div(k grad v) = 0 in the tissue outside the brain region.\n- Boundary conditions: v = 0 on the brain region, and -k dv/dn = h (v - (T_e - T_b)) on the skin (Newton).\n- With k and h constant, this problem is linear and its only inhomogeneous datum is D = T_e - T_b.\n- So v = D * phi(x), where phi solves the same problem with D = 1.\n\nSimplest instance (mine): a 1-D slab 0 < x < L with v'' = 0, v(0) = 0 and -k v'(L) = h (v(L) - D). This gives v = D h x / (k + h L).\n\nApplication: from the ratio (T_cavity - T_b)/(T_e - T_b) one can infer the size of cavity temperature changes when T_e changes. P. 10 continues: if T_e - T_b doubles, every local difference doubles. The air-filled cavity, which communicates with the outside via the meatus and the tube, therefore cools noticeably, while the petrous bone (which contains the carotid canal) stays near brain temperature. The ossicles thus contract relative to the cavity walls.",
+  "errors": [
+   "Specific heat plays no role in the steady state that Riemann invokes; only constant conductivity (and a constant surface coefficient) is needed for linearity. Mentioning it is harmless but superfluous.",
+   "The proportionality law assumes no distributed heat sources (metabolism, blood perfusion) in the tissue between brain and skin. Alternatively, perfusion must act as a linear relaxation toward a fixed arterial/brain temperature, as in the later Pennes bioheat model. Riemann asserts the law holds only 'nahe' (approximately), so this is an acknowledged idealization, not an error.",
+   "Newton's cooling law linearizes radiative and convective loss; this is acceptable for small temperature ranges.",
+   "The argument about the narrow oval-window rim is qualitative and physiologically speculative; no quantitative support is given."
+  ],
+  "results": [
+   {
+    "what": "Steady-state body temperature law: local excess over brain temperature is proportional to (external - brain) temperature, derived from linearity of steady heat conduction with Newton cooling boundary condition and fixed brain temperature.",
+    "modern_name": "Linearity/superposition of steady heat conduction with Robin (Newton) boundary condition; scaling of a linear boundary-value problem by its single inhomogeneous datum",
+    "usually_credited_to": "Fourier (Théorie analytique de la chaleur, 1822) for the mathematics; bioheat modeling later (e.g. Pennes 1948)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Mechanical requirements on middle-ear transmission: contact gaps smaller than the vibration amplitude; minimal energy loss; narrow annular ligament of the oval window with low elasticity, so that the stapes response stays linear.",
+    "modern_name": "Qualitative middle-ear mechanics (annular ligament compliance, transmission fidelity)",
+    "usually_credited_to": "Helmholtz, 'Die Mechanik der Gehörknöchelchen und des Trommelfells' (1868); Riemann's posthumous paper (1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Argument that thermal expansion necessitates compensating (correction) mechanisms in the ossicular chain.",
+    "modern_name": "Thermal compensation requirement in precision mechanisms",
+    "usually_credited_to": "Riemann, Mechanik des Ohres (1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a printed page of Riemann's published posthumous paper 'Mechanik des Ohres' (Henle 1867, in his Gesammelte Werke). Its content is known. Mathematically it only uses the linearity of a steady heat-conduction problem, which is routine.",
+  "checkable": [
+   {
+    "sympy": "x,L,k,h,D=symbols('x L k h D',positive=True); v=D*h*x/(k+h*L); [simplify(diff(v,x,2)), v.subs(x,0), simplify(-k*diff(v,x).subs(x,L) - h*(v.subs(x,L)-D))]",
+    "asserts": "The 1-D slab solution satisfies v''=0, v(0)=0 and the Newton boundary condition -k v'(L) = h (v(L) - D); all three expressions are 0."
+   },
+   {
+    "sympy": "simplify((D*h*x/(k+h*L)).subs(D,2*D) / (D*h*x/(k+h*L)))",
+    "asserts": "Doubling the external-minus-brain temperature difference doubles the local deviation everywhere (ratio = 2), as used on p. 10."
+   },
+   {
+    "sympy": "simplify(diff(D*h*x/(k+h*L)/D, D))",
+    "asserts": "The shape factor phi(x) = v/D is independent of D, i.e. the proportionality law holds (result 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription matches the printed text well. Not transcribed: marginal pencil annotations 'W.' and a mark like '4//' in the left margin beside 'wegung von ihm absteht. / Es wird ferner', and a pencil folio number '5' in the right margin near the top.",
+   "'Newton'schen' is printed with letter-spacing (Sperrsatz) for the name: 'N e w t o n'schen'."
+  ]
+ }
+}

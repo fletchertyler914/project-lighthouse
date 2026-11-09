@@ -1,0 +1,63 @@
+{
+ "bundle": "HB.Lagrange1816",
+ "page": "c191",
+ "label": "188",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3354040:00000192/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a continuation of a hand-computed numerical table. It has three blocks:\n- x = 4.750 to 4.850\n- x = 4.850 to 4.950\n- x = 4.950 to 5.050\n\nThe step is Δx = 0.002. Each row has four columns:\n1. The argument x. On the previous page this column is headed 'Log:', so x is a common logarithm.\n2. An angle v(x) in degrees, minutes and seconds, to 1e-5 arcseconds.\n3. The first difference Δv = v(x+0.002) − v(x), in arcseconds. It is written between the rows.\n4. The second difference Δ²v.\n\nIdentification (my reconstruction, checked numerically at x = 4.75, 4.85, 5.00, 5.27): v is the true anomaly in a parabolic orbit, and x is the common logarithm of the Barker-type quantity expressed in arcseconds:\n\n  10^x = 2·ρ''·( tan(v/2) + (1/3)·tan^3(v/2) ),  with ρ'' = 180·3600/π = 206264.8.\n\nEquivalently, x = 5.61545 + log10( tan(v/2) + tan^3(v/2)/3 ).\n\nNumerical checks:\n- x = 4.75: v = 15°25'53.859'' gives τ = tan(v/2) = 0.135487 and τ + τ³/3 = 0.136316. Then 2ρ''·0.136316 = 56234.4, against 10^4.75 = 56234.1.\n- x = 5.000: v = 26°45'56.687'' gives τ = 0.237918, τ + τ³/3 = 0.242407, and 2ρ''(…) = 100000.0.\n- x = 4.85: gives 70794.6, against 10^4.85 = 70794.6.\n- x = 5.27 (next page): gives 186207, against 186209.\n\nSo the table inverts Barker's equation τ + τ³/3 = k t /(√2 q^{3/2}). It gives v directly from the logarithm of the time-dependent quantity, as needed for computing parabolic (comet) places.\n\nBehaviour of the series:\n- For small v, v ≈ N·(1 − v²/6) in arcseconds, where N = 10^x. This matches the series 2M − (4/3)M³ of v = 2·atan(τ(M)).\n- The first differences grow from 250.25'' to 450.02''.\n- The second differences grow from 1.068 to 1.552. On the next page they reach a maximum of about 1.5663 near x ≈ 5.093 and then decrease, which is the inflection of v''(x).\n\nThe difference columns serve to check the computed values, and probably for interpolation or subtabulation. The same table continues on the previous page (from x = 4.582) and on the next page (to x = 5.278).",
+  "errors": [
+   "Row 4.984/4.986: the first difference is written 401,26169. Recomputation from the angles gives 26°... 25°58'25.99654'' − 25°51'44.73486'' = 6'41.26168'' = 401.26168. The adjacent second differences (1.48732 and 1.48990) are consistent with 401.26168, so either the last digit is a 1-unit slip in the hand or a misreading.",
+   "Several entries visibly carry overwritten corrections in the image: 4.920 value 30'34.14921; 4.954 value 14'21.76220; 5.032 value 39'11.02573; 5.036 value 53'47.86967; 5.044 value 23'20.07980; 5.048 value 38'15.46972; difference 445.37161; second differences near 5.012–5.018 and 5.036. All rechecked corrected values are consistent with their neighbouring differences, so Gauss evidently caught these through the difference check."
+  ],
+  "results": [
+   {
+    "what": "Table of the true anomaly v in parabolic motion as a function of log10 of 2ρ''(tan(v/2) + tan³(v/2)/3), with first and second differences",
+    "modern_name": "Inverse of Barker's equation (parabolic Kepler problem); Barker's table",
+    "usually_credited_to": "Thomas Barker (1757), with equivalent tables by Euler, Lambert, Olbers and others",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Use of first and second differences to control a hand-computed table to 1e-5 arcsec",
+    "modern_name": "Difference-table checking / finite differences",
+    "usually_credited_to": "standard 17th–18th c. tabulation practice (Briggs, Newton)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a careful but routine high-precision tabulation of the parabolic-orbit (Barker) relation, of a kind Gauss is known to have used in comet and orbit work. Its only interest is as evidence of his computing practice: 10-decimal-style precision and difference checks.",
+  "checkable": [
+   {
+    "sympy": "v=(15+25/60+Rational('53.85918')/3600)*pi/180; tau=tan(v/2); N(2*(tau+tau**3/3)*180*3600/pi - 10**Rational('4.75'), 15)",
+    "asserts": "The x=4.750 entry satisfies 10^x = 2·ρ''(τ+τ³/3) (result ≈ 0, within ~1e-4)"
+   },
+   {
+    "sympy": "v=(26+45/60+Rational('56.68655')/3600)*pi/180; tau=tan(v/2); N(2*(tau+tau**3/3)*180*3600/pi - 10**5, 15)",
+    "asserts": "The x=5.000 entry v=26°45'56.68655'' satisfies the relation (≈ 0)"
+   },
+   {
+    "sympy": "v=(29+45/60+Rational('45.49070')/3600)*pi/180; tau=tan(v/2); N(2*(tau+tau**3/3)*180*3600/pi - 10**Rational('5.05'), 15)",
+    "asserts": "The x=5.050 entry v=29°45'45.49070'' satisfies the relation (≈ 0)"
+   },
+   {
+    "sympy": "(25*3600+58*60+Rational('25.99654')) - (25*3600+51*60+Rational('44.73486'))",
+    "asserts": "The first difference at 4.984→4.986 equals 401.26168, not 401.26169 as written"
+   },
+   {
+    "sympy": "(29*3600+1*60+Rational('8.60461')) - (28*3600+53*60+Rational('47.86967')) - Rational('440.73494')",
+    "asserts": "The first difference 5.036→5.038 written as 440.73494 is exact (=0)"
+   },
+   {
+    "sympy": "Rational('251.32235')-Rational('250.25043') - Rational('1.07192')",
+    "asserts": "The first second-difference entry 1.07192 is correct (=0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The row labelled '4.808' after 4.802 should be 4.804; the argument sequence is 4.802, 4.804, 4.806, 4.808.",
+   "The first difference at 4.984 reads 401,26169 in the hand, but the arithmetically correct value is 401,26168.",
+   "The x-column switches from the '4.xxx' to the '5,xxx' notation at 5,000; the values are the same."
+  ]
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "bundle": "Math.5",
+ "page": "c012",
+ "label": "7r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376170:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Heading: 'Reste von Quadraten' (residues of squares), with a column headed 'Divisor'. For each modulus n from 2 to 46, Gauss lists the set Q(n) = { k^2 mod n : 0 <= k < n } in increasing order, always starting with 0. Composite moduli are included alongside primes. A hand-drawn staircase line separates the first column (n = 2..32) from the second (n = 33..46). The table continues on the next page with n = 47..64.\n\nMethod (implicit; my reconstruction): it is enough to square k = 0..floor(n/2), because (n-k)^2 ≡ k^2 (mod n), and reduce mod n. Equivalently, by the Chinese remainder theorem, Q(n) is the product of the residue sets for the prime-power factors of n. As a consistency check, |Q(n)| is multiplicative, and |Q(p)| = (p+1)/2 for odd primes p. For example:\n- |Q(39)| = 2·7 = 14;\n- |Q(44)| = 2·6 = 12;\n- |Q(46)| = 2·12 = 24, where the listed entries are R23 ∪ (R23 + 23).\n\nThe table is a working aid for problems of the Disquisitiones Arithmeticae type (sections IV and VI). Examples are deciding the solvability of x^2 ≡ a (mod n) and excluding candidate values in factoring, or in representation by quadratic forms. It has no connection to the least-squares elimination on the previous page.\n\nI recomputed every row independently. Rows n = 2..38, 40..43, 45 and 46 are exactly correct. In row 15 the cancelled '5' and in row 35 the cancelled '34' are correctly deleted non-residues.",
+  "errors": [
+   "n = 39: the list has 24 in place of 22. The correct set is {0,1,3,4,9,10,12,13,16,22,25,27,30,36}. 22^... check: 8^2 = 64 ≡ 25 and 10^2 = 100 ≡ 22 (mod 39), so 22 is a residue. 24 is not: 24 ≡ 11 (mod 13), and 11 is a non-residue mod 13. The entry count (14) is right, so this is a single substitution slip, unless the handwritten '24' is really a malformed '22'.",
+   "n = 44: the list includes 31, which is not a square mod 44 (31 ≡ 3 mod 4). The correct set has 12 elements: {0,1,4,5,9,12,16,20,25,33,36,37}. The page lists 13. Faint dots near this line may mark the 31 for deletion; this is uncertain."
+  ],
+  "results": [
+   {
+    "what": "Table of quadratic residues (sets of squares mod n) for all moduli n = 2..46, including composite moduli; continued to 64 on the next page",
+    "modern_name": "Table of quadratic residues modulo n",
+    "usually_credited_to": "Such tables are classical (Euler, Legendre). Gauss published residue tables for primes in the Disquisitiones Arithmeticae (1801, Table II).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "A routine computational table of squares mod n, of exactly the kind Gauss used and published in connection with the Disquisitiones. It contains nothing beyond elementary computation, plus two small slips (n = 39 and n = 44).",
+  "checkable": [
+   {
+    "sympy": "sorted(set(pow(k,2,39) for k in range(39))) == [0,1,3,4,9,10,12,13,16,22,25,27,30,36]",
+    "asserts": "Correct residue set mod 39: contains 22, not 24 as on the page"
+   },
+   {
+    "sympy": "24 not in set(pow(k,2,39) for k in range(39))",
+    "asserts": "24 is not a quadratic residue mod 39 (page error)"
+   },
+   {
+    "sympy": "sorted(set(pow(k,2,44) for k in range(44))) == [0,1,4,5,9,12,16,20,25,33,36,37]",
+    "asserts": "Correct residue set mod 44: 31 does not belong"
+   },
+   {
+    "sympy": "sorted(set(pow(k,2,46) for k in range(46))) == [0,1,2,3,4,6,8,9,12,13,16,18,23,24,25,26,27,29,31,32,35,36,39,41]",
+    "asserts": "Row 46 on the page is correct"
+   },
+   {
+    "sympy": "sorted(set(pow(k,2,43) for k in range(43))) == [0,1,4,6,9,10,11,13,14,15,16,17,21,23,24,25,31,35,36,38,40,41]",
+    "asserts": "Row 43 on the page is correct"
+   },
+   {
+    "sympy": "sorted(set(pow(k,2,35) for k in range(35))) == [0,1,4,9,11,14,15,16,21,25,29,30]",
+    "asserts": "Row 35 is correct with the cancelled 34 removed"
+   },
+   {
+    "sympy": "sorted(set(pow(k,2,15) for k in range(15))) == [0,1,4,6,9,10]",
+    "asserts": "Row 15 is correct with the cancelled 5 removed"
+   },
+   {
+    "sympy": "sorted(set(pow(k,2,27) for k in range(27))) == [0,1,4,7,9,10,13,16,19,22,25]",
+    "asserts": "Row 27 ends in 25 (the uncertain final entry)"
+   },
+   {
+    "sympy": "all(len(set(pow(k,2,a*b) for k in range(a*b))) == len(set(pow(k,2,a) for k in range(a)))*len(set(pow(k,2,b) for k in range(b))) for (a,b) in [(3,13),(4,11),(2,23),(9,5)])",
+    "asserts": "The number of residues is multiplicative (CRT), the consistency check used above"
+   }
+  ],
+  "transcription_corrections": [
+   "Row 15: the blotted entry between 4 and 6 is a deleted '5' (correctly deleted).",
+   "Row 27: the final entry should be read as 25 (the correct residue), not 28.",
+   "Row 39: the image shows '24' where the mathematically correct value is 22. The transcription '24' follows the page, but this is Gauss's slip or a malformed 2. The '27' in this row appears overwritten.",
+   "Row 44: '31' is present in the image but may be marked by dots. It is not a residue.",
+   "Header: 'Divisor' is written in an abbreviated, contracted hand at the top of the left column. 'Math.5' is an archival shelf mark written above the title."
+  ]
+ }
+}

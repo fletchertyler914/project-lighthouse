@@ -1,0 +1,75 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c015",
+ "label": "10",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000016/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (art. 6): the goal is a power series in x for the arithmetic-geometric mean M(1+x,1-x). Earlier Gauss obtained 1 - x^2/4 - 5x^4/64 - 11x^6/256 ... by substituting into the series for M(1+x,1). Here he gives an independent derivation.\n\nStep 1 (end of previous page). Put x = 2t/(1+t^2).\n- Then 1+x = (1+t)^2/(1+t^2) and 1-x = (1-t)^2/(1+t^2).\n- One AGM step gives arithmetic mean 1 and geometric mean sqrt(1-x^2) = (1-t^2)/(1+t^2).\n- Hence M(1+x,1-x) = M(1,(1-t^2)/(1+t^2)) = (1/(1+t^2)) M(1+t^2,1-t^2), by homogeneity of M.\n\nStep 2. Write f(x) = M(1+x,1-x) = 1 + alpha x^2 + beta x^4 + gamma x^6 + delta x^8 + ...\n- f is even because M is symmetric, f(-x) = M(1-x,1+x) = f(x).\n- The functional equation is (1+t^2) f(2t/(1+t^2)) = f(t^2), i.e. sum_k c_k 4^k t^{2k} (1+t^2)^{1-2k} = 1 + alpha t^4 + beta t^8 + ...\n- The coefficient of t^{2m} on the left is sum_k c_k 4^k binom(1-2k, m-k). Comparing coefficients:\n  - t^2: 1 + 4 alpha = 0;\n  - t^4: -4 alpha + 16 beta = alpha;\n  - t^6: 4 alpha - 48 beta + 64 gamma = 0;\n  - t^8: -4 alpha + 96 beta - 320 gamma + 256 delta = beta.\n- Solving: alpha = -1/4, beta = -5/64, gamma = -11/256, delta = -29/1024 - 5/16384 = -469/16384.\n\nStep 3. These coefficients follow no simple law. But the reciprocal series is\n- 1/M(1+x,1-x) = 1 + (1/4)x^2 + (9/64)x^4 + (25/256)x^6 + (1225/16384)x^8 + ...\n- Its coefficients are the squares of 1/2, (1/2)(3/4), (1/2)(3/4)(5/6), (1/2)(3/4)(5/6)(7/8).\n- So the coefficient of x^{2n} is (binom(2n,n)/4^n)^2.\n- Gauss explicitly notes this is only induction and promises a rigorous proof.\n\nStep 4 (art. 7). Set g = 1/f = 1 + A x^2 + B x^4 + C x^6 + D x^8 + ...\n- From Step 1, g(x) = (1+t^2) g(t^2), with x = 2t/(1+t^2).\n- Written out: 1 + A(2t/(1+t^2))^2 + B(...)^4 + ... = 1 + t^2 + A t^4 + A t^6 + B t^8 + B t^10 + ...\n- On the next page this yields 4A = 1, -8A + 16B = A, and so on, i.e. the coefficient of t^{2m} is sum_k c_k 4^k binom(-2k, m-k).",
+  "errors": [
+   "No arithmetic errors found. All four linear equations follow from coefficient comparison, and all values alpha..delta are correct, including -29/1024 - 5/16384 = -469/16384.",
+   "The derivation is formal: convergence (|x|<1, |t|<1) and uniqueness of the power-series expansion are tacitly assumed. Gauss himself flags that the product law for 1/M rests only on induction at this point."
+  ],
+  "results": [
+   {
+    "what": "Functional equation (1+t^2) M(1+x,1-x) evaluated at x=2t/(1+t^2) equals M(1+t^2,1-t^2), used to determine the coefficients recursively",
+    "modern_name": "Landen/Gauss quadratic transformation for the AGM (equivalently for the complete elliptic integral K)",
+    "usually_credited_to": "Landen (1775), Lagrange (1784–85); Gauss for the AGM form (1799)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "M(1+x,1-x) = 1 - x^2/4 - 5x^4/64 - 11x^6/256 - 469x^8/16384 - ...",
+    "modern_name": "Power series of the AGM M(1+k,1-k) = pi/(2K(k))",
+    "usually_credited_to": "Gauss (Werke III, 'De origine proprietatibusque generalibus numerorum mediorum arithmetico-geometricorum')",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "1/M(1+x,1-x) = sum_n ((1·3···(2n-1))/(2·4···2n))^2 x^{2n}, found inductively",
+    "modern_name": "1/AGM(1+k,1-k) = (2/pi) K(k) = 2F1(1/2,1/2;1;k^2), the hypergeometric series for the complete elliptic integral of the first kind",
+    "usually_credited_to": "Gauss 1799 (diary entry of 30 May 1799 linking AGM and lemniscatic integrals; published posthumously in Werke III); the K-series itself goes back to Euler",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is Gauss's well-known AGM manuscript, printed in Werke III. The 1/M series and its link to elliptic integrals are famous and firmly credited to him (1799). The page is a faithful working of known material.",
+  "checkable": [
+   {
+    "sympy": "series(2/pi*elliptic_k(x**2), x, 0, 10)",
+    "asserts": "equals 1 + x**2/4 + 9*x**4/64 + 25*x**6/256 + 1225*x**8/16384 + O(x**10), i.e. Gauss's series for 1/M(1+x,1-x)"
+   },
+   {
+    "sympy": "series(pi/(2*elliptic_k(x**2)), x, 0, 10)",
+    "asserts": "equals 1 - x**2/4 - 5*x**4/64 - 11*x**6/256 - 469*x**8/16384 + O(x**10)"
+   },
+   {
+    "sympy": "solve([1+4*a, -4*a+16*b-a, 4*a-48*b+64*c, -4*a+96*b-320*c+256*d-b], [a,b,c,d])",
+    "asserts": "a=-1/4, b=-5/64, c=-11/256, d=-469/16384"
+   },
+   {
+    "sympy": "f=1+a*x**2+b*x**4+c*x**6+d*x**8; expand(series((1+t**2)*f.subs(x,2*t/(1+t**2)) - f.subs(x,t**2), t, 0, 10).removeO()).subs({a:-Rational(1,4),b:-Rational(5,64),c:-Rational(11,256),d:-Rational(469,16384)})",
+    "asserts": "vanishes through t**8, confirming the functional equation and the coefficients"
+   },
+   {
+    "sympy": "series(1/(1 - x**2/4 - 5*x**4/64 - 11*x**6/256 - 469*x**8/16384), x, 0, 10)",
+    "asserts": "reciprocal gives 1 + x**2/4 + 9*x**4/64 + 25*x**6/256 + 1225*x**8/16384"
+   },
+   {
+    "sympy": "[ (binomial(2*n,n)/4**n)**2 for n in range(5) ]",
+    "asserts": "[1, 1/4, 9/64, 25/256, 1225/16384], the squares of 1/2, (1/2)(3/4), (1/2)(3/4)(5/6), (1/2)(3/4)(5/6)(7/8)"
+   },
+   {
+    "sympy": "simplify(sqrt((1+2*t/(1+t**2))*(1-2*t/(1+t**2))) - (1-t**2)/(1+t**2))",
+    "asserts": "the geometric mean of 1+x and 1-x with x=2t/(1+t^2) is (1-t^2)/(1+t^2) for 0<t<1"
+   }
+  ],
+  "transcription_corrections": [
+   "The coefficient letter written like a German 'b/ℰ' is beta; the transcription's rendering as beta is correct.",
+   "The value line for delta in the image reads 'delta = -29/1024 - 5/16384 = -469/16384'. The sign before 469 is written over a struck/overwritten mark but is negative.",
+   "The struck word before 'coëfficientes' is 'omnes' (deleted), as transcribed.",
+   "'vnde' / 'vt' / 'vbi' use Gauss's v-for-u spelling; the content is unchanged."
+  ]
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c044",
+ "label": "22r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000045/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Title: 'Course of the potential on the axis of a Franklin plate (plate condenser) with circular coatings.' The page sets up a problem; it proves nothing. It says that a treatment going beyond the first crude approximation must use the formulas Clausius gave for the charge distribution on such a plate. This is a report of Clausius, Pogg. Ann. 86 (1852), on the distribution of electricity on a thin plate and on the two coatings of a Franklin plate.\n\nThe author describes Clausius's method as a superposition. Step 1, the only part on this page: charge the two coatings A and B with equal and opposite quantities and find the resulting distribution.\n\nNotation:\n- R = radius of the coatings.\n- r = distance of a point from the axis, z = r/R.\n- epsilon = separation of the coatings (glass thickness). This is implicit; it is the small parameter.\n- rho' = local surface density.\n- rho = the 'mean density', i.e. the first-approximation uniform density of an ideal parallel-plate condenser.\n\nClausius's formulas as copied:\n- Coating A: rho'_A(z) = rho*(1 + (2*epsilon/(pi*R))*M(z)).\n- Coating B: rho'_B(z) = -rho*(1 + (2*epsilon/(pi*R))*M(z)).\n- Here M(z) = E(z) / (1 - z^2 + 0.85*sqrt(2*epsilon/R)*sqrt(1 - z^2)).\n- E(z) = int_0^{pi/2} sqrt(1 - z^2 sin^2 phi) dphi, the complete elliptic integral of the second kind with modulus z.\n\nInterpretation (mine):\n- The correction term has relative size epsilon/R in the interior. At the centre, M(0) is about (pi/2)/(1 + 0.85*sqrt(2*epsilon/R)), so rho' is about rho*(1 + epsilon/R).\n- Near the rim it grows. With 1 - z^2 = u, the denominator u + c*sqrt(u), where c = 0.85*sqrt(2*epsilon/R), replaces the bare 1/(1 - z^2) blow-up. That bare term would be the non-integrable edge singularity.\n- So the edge concentration of charge stays finite, of order rho*sqrt(epsilon/R) at z = 1. The extra total charge is of order (epsilon/R)*log(R/epsilon) times the ideal charge.\n\nThe next page continues the superposition. Step 2 adds equal like charges with the thin-disc density proportional to 1/sqrt(1 - z^2), so that coating A can be earthed. It then states the central values rho'_A = rho and rho''_B = -rho - 2*rho*epsilon/R. These agree with M(0) giving the term epsilon/R when the sqrt(epsilon/R) term in the denominator is neglected. The stated purpose is to compute the potential on the axis, treating each system separately. For the first system it argues that the correction terms in M can be neglected because the series of M in z converges rapidly.",
+  "errors": [
+   "No mathematical errors on this page as copied. The formulas are quoted from Clausius, not derived; the constant 0.85 is an empirical/approximate fitting constant of Clausius's approximate treatment and cannot be checked from the page alone.",
+   "Notational looseness: 'sin phi^2' means sin^2(phi); the meaning of epsilon (coating separation) is never stated on this page.",
+   "Calling rho the 'mittlere Dichtigkeit' is slightly loose. It is the first-approximation (ideal condenser) density, not the actual mean of rho' over the coating. The actual mean exceeds it by a term of order (epsilon/R)*log(R/epsilon). The parenthesis 'd. h. die ersten Näherungswerthe' clarifies this.",
+   "(Context, next page) The B formula there has sqrt(1 - r/R) where sqrt(1 - r^2/R^2) is meant: a copying slip."
+  ],
+  "results": [
+   {
+    "what": "Charge distribution on the coatings of a circular parallel-plate condenser (Franklin plate) with edge correction expressed via the complete elliptic integral E(z) and a regularized rim factor",
+    "modern_name": "Edge-effect (fringing) correction for the circular-plate capacitor; precursor of the Kirchhoff capacitance formula",
+    "usually_credited_to": "R. Clausius (Pogg. Ann. 86, 1852); refined asymptotically by G. Kirchhoff (1877), later by Love, Nicholson and others",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Superposition method: first equal and opposite charges on both coatings, then equal like charges with thin-disc density proportional to 1/sqrt(1 - r^2/R^2) to adjust the potentials (e.g. one coating earthed)",
+    "modern_name": "Superposition of the antisymmetric (condenser) and symmetric (single conducting disc) modes",
+    "usually_credited_to": "Clausius 1852; the disc density is due to Green/Poisson (1828 and earlier)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is an expository summary of Clausius's 1852 published results on the Franklin plate, apparently notes for a physics seminar-type exercise on the axial potential. Nothing is original or beyond the published literature of the time. The handwriting may not even be Riemann's own.",
+  "checkable": [
+   {
+    "sympy": "elliptic_e(0) - pi/2",
+    "asserts": "E(0) = pi/2, so M(0) = (pi/2)/(1 + 0.85*sqrt(2*eps/R)) is about pi/2 for small eps/R"
+   },
+   {
+    "sympy": "simplify((2*eps/(R*pi))*(pi/2) - eps/R)",
+    "asserts": "At the centre the correction factor is 1 + eps/R to leading order. This is consistent with the next page's central values rho' = rho (A earthed) and rho'' = -rho - 2*rho*eps/R."
+   },
+   {
+    "sympy": "simplify((1 + eps/R - eps/R) - 1)",
+    "asserts": "Coating A at z=0 after superposing the second system -eps*rho/R/sqrt(1-z^2): density equals rho (next page check)"
+   },
+   {
+    "sympy": "simplify((-(1 + eps/R) - eps/R) - (-1 - 2*eps/R))",
+    "asserts": "Coating B at z=0 after superposition: -rho - 2*rho*eps/R (next page check)"
+   },
+   {
+    "sympy": "limit(elliptic_e(z**2)/(0.85*sqrt(2*e)*sqrt(1-z**2)) * (1-z**2 + 0.85*sqrt(2*e)*sqrt(1-z**2)) / elliptic_e(z**2), z, 1)",
+    "asserts": "Note: sympy's elliptic_e(m) uses parameter m = z^2. The regularized denominator removes the 1/(1-z^2) blow-up. This check is trivially 1; the substantive content is that M(z) is finite at z=1, with M(1) = 1/(0.85*sqrt(2*eps/R)), since E(m=1) = 1."
+   },
+   {
+    "sympy": "integrate(1/(u + c*sqrt(u)), (u, 0, 1))",
+    "asserts": "Equals 2*log(1 + 1/c), which is about log(R/eps) for small c = 0.85*sqrt(2*eps/R). So the excess total charge is of order (eps/R)*log(R/eps) relative to the ideal condenser."
+   }
+  ],
+  "transcription_corrections": [
+   "'sin\\varphi^2' should be read as sin^2(phi); the integral is the complete elliptic integral of the second kind with modulus z.",
+   "In '(im d. h.' the 'im' appears to be a struck or abandoned word; read '(d. h. die ersten Näherungswerthe)'.",
+   "The subscript in the first formula looks like 'rho'_1' or 'rho'_A' (written as \\varrho_\\varepsilon' in the image). It denotes the density on coating A."
+  ]
+ }
+}

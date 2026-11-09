@@ -1,0 +1,64 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c048",
+ "label": "23r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000049/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a fair copy (page numbered 37, folio 23) of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (written 1854, published by Dedekind in 1867). The page contains the end of Art. 10 and the beginning of Art. 11.\n\n(A) End of Art. 10: Fourier coefficients of a bounded, Riemann-integrable f tend to 0.\n- Riemann splits I_n = \\int_a^{a+2\\pi} f(x) \\sin n(x-a)\\,dx into the n pieces J_s = \\int_{a+2\\pi s/n}^{a+2\\pi(s+1)/n} f(x)\\sin n(x-a)\\,dx.\n- On each piece, \\sin n(x-a) is >= 0 on the first half and <= 0 on the second half.\n- Let M_s and m_s be the sup and inf of f on the s-th piece. Replacing f by M_s on the first half and by m_s on the second half gives an upper bound. Replacing f by m_s on the first half and by M_s on the second half gives a lower bound.\n- Implicit step (mine): the sine integral over each half has absolute value 2/n, since \\int_0^{\\pi/n}\\sin(nu)\\,du = 2/n.\n- So the upper bound is (2/n)(M_s-m_s) and the lower bound is (2/n)(m_s-M_s). Hence |J_s| <= (2/n)(M_s-m_s).\n- Summing: |I_n| <= (2/n)\\sum_s (M_s-m_s) = (1/\\pi)\\sum_s (2\\pi/n) D_s, where D_s = M_s-m_s is the oscillation on an interval of length \\delta = 2\\pi/n.\n- By Riemann's integrability criterion from the previous page (\\sum \\delta_s D_s \\to 0 as max \\delta_s \\to 0), this tends to 0 as n \\to \\infty.\n- Since the coefficients are (1/\\pi) I_n (with a = 0 or a = \\pi/2n etc. giving the b_n and a_n), the Fourier coefficients of a bounded integrable function tend to 0.\n\n(B) Art. 11: the case where the terms A_n(x) = a_n \\cos nx + b_n \\sin nx of \\Omega tend to 0 only at the given point x, not everywhere.\n- Riemann reduces this to the previous case. Since A_n(x+t)+A_n(x-t) = 2A_n(x)\\cos nt, adding the series at x+t and x-t term by term gives\n  2A_0 + 2A_1\\cos t + 2A_2\\cos 2t + \\dots\n  This is a trigonometric series in t whose terms tend to 0 for every t, because A_n(x) \\to 0 and |\\cos nt| <= 1.\n- Recall F(x) = C + C'x + A_0 x^2/2 - \\sum A_n(x)/n^2. Riemann defines\n  G(t) = C + C'x + A_0 x^2/2 + A_0 t^2/2 - \\sum_{n\\ge1} A_n(x)\\cos(nt)/n^2.\n- Verification (mine): ((x+t)^2+(x-t)^2)/4 = (x^2+t^2)/2, and (A_n(x+t)+A_n(x-t))/2 = A_n(x)\\cos nt. Hence (F(x+t)+F(x-t))/2 = G(t) wherever both series converge.\n- G is the twice-integrated series of the cosine series in t. Riemann then begins Theorem I: if A_n(x) \\to 0 at the point x, then \\mu^2\\int_b^c G(t)\\cos\\mu(t-a)\\,\\lambda(t)\\,dt \\to 0 as \\mu \\to \\infty, with \\lambda an auxiliary function as in Art. 9. The sentence continues on the next page ('zuletzt unendlich klein werden').",
+  "errors": [
+   "No mathematical errors on this page.",
+   "Riemann writes 'kleiner als' where 'nicht größer als' would be strictly correct; this is a harmless imprecision.",
+   "Implicit in Art. 10: n is an integer, so the n pieces of length 2\\pi/n exactly tile [a, a+2\\pi].",
+   "The bound |J_s| <= (2/n)(M_s-m_s) uses sup/inf of a bounded function; this is fine under the stated hypothesis that f stays bounded ('durchgehends endlich')."
+  ],
+  "results": [
+   {
+    "what": "Fourier coefficients of a bounded Riemann-integrable function tend to zero, proved by splitting into half-periods of the sine and bounding each piece by (2/n)·oscillation",
+    "modern_name": "Riemann–Lebesgue lemma (Riemann-integrable version)",
+    "usually_credited_to": "Riemann (Habilitationsschrift 1854, publ. 1867); Lebesgue (1903) for the L^1 version",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Symmetrization (F(x+t)+F(x-t))/2 = G(t), reducing pointwise vanishing of terms at x to everywhere vanishing of the cosine series 2\\sum A_n(x)\\cos nt",
+    "modern_name": "Riemann's localization via symmetric second differences / Riemann function of a trigonometric series",
+    "usually_credited_to": "Riemann (1854/1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Theorem I of Art. 11: \\mu^2\\int_b^c G(t)\\cos\\mu(t-a)\\lambda(t)\\,dt \\to 0 (beginning of statement)",
+    "modern_name": "Riemann's localization lemma (Riemann's 'second lemma' in localized form)",
+    "usually_credited_to": "Riemann (1854/1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This page is a fair copy of Arts. 10–11 of Riemann's published Habilitationsschrift on trigonometric series. The results are well known and credited to him.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(sin(n*(x-a)), (x, a, a+pi/n)) - 2/n)",
+    "asserts": "The sine integral over the first half of each period is 2/n (should simplify to 0, n positive)."
+   },
+   {
+    "sympy": "simplify(integrate(sin(n*(x-a)), (x, a+pi/n, a+2*pi/n)) + 2/n)",
+    "asserts": "The sine integral over the second half of each period is -2/n (should simplify to 0)."
+   },
+   {
+    "sympy": "simplify(expand_trig((a_n*cos(n*(x+t))+b_n*sin(n*(x+t)) + a_n*cos(n*(x-t))+b_n*sin(n*(x-t))) - 2*cos(n*t)*(a_n*cos(n*x)+b_n*sin(n*x))))",
+    "asserts": "A_n(x+t)+A_n(x-t) = 2 A_n(x) cos(nt) (should give 0)."
+   },
+   {
+    "sympy": "simplify(((x+t)**2 + (x-t)**2)/4 - (x**2+t**2)/2)",
+    "asserts": "The quadratic part of (F(x+t)+F(x-t))/2 equals A_0(x^2+t^2)/2 (should give 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'[-f-][?] F(x+t)': in the image a letter (looks like 'f' or 'f.C') is struck out before F(x+t); the intended text is simply 'die Reihen für F(x+t) und F(x-t)'.",
+   "'37.' (top right) is the manuscript page number; '23' next to '11.' is the folio number, not part of the text.",
+   "In the last line 'zu-' continues as 'zuletzt unendlich klein werden' on the next page."
+  ]
+ }
+}

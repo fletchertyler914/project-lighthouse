@@ -1,0 +1,67 @@
+{
+ "bundle": "Math.28",
+ "page": "c068",
+ "label": "35r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381843:00000069/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context, inferred and marked as mine where it goes beyond the page. The previous page (largely illegible) evidently treats an algebraic curve F(x,y)=0 of degree n. A line is drawn through a point pi=(alpha,beta) in a direction with unit vector u, and the cut-off segments s',s'',...,s^(n) to the curve are compared with r^n. Here r is the radius, in direction u, of an auxiliary curve k built from the leading homogeneous part of F, centred at pi. This is Newton's theorem on the products of segments for curves of degree n. The page opens with the case n=2.\n\nStep 1 (n=2). Write F(x,y)=Q(x,y)+linear+const, where Q is the quadratic part. Along the line pi+t*u:\n  F(pi+t u) = Q(u) t^2 + (grad F(pi).u) t + F(pi).\nThe roots t=s', t'' are the signed distances pi P', pi P''. By Vieta, s' s'' = F(pi)/Q(u).\nThe auxiliary conic k is Q(X-pi)=1. Its semi-diameter r in direction u satisfies Q(u) r^2 = 1. Hence\n  F(alpha,beta) = s' s''/r^2,\nexactly as on the page.\n\nStep 2. Let K be the conic F=0 itself, with centre c. Its semi-diameter R parallel to u satisfies F(c+R u)=0. Since grad F(c)=0, this gives F(c)+Q(u)R^2=0, so R^2 = -F(c)/Q(u) = -F(c) r^2.\nK and k have the same quadratic part, so they are similar and similarly placed (homothetic). Therefore the ratio R/r = n is the same in every direction; this is Gauss's 'linear similarity ratio', with n^2 = -F(c). (The letter n is now reused; it no longer means the degree.)\n\nStep 3 (result for conics):\n  F(x,y) R^2/(s' s'') = n^2, a constant.\nEquivalently, s' s'' : R^2 = F(pi) : n^2 for every line through pi. So for a fixed point, the product of the chord segments is proportional to the square of the parallel semi-diameter. This is the generalised power of a point.\n\nStep 4 (special positions).\n- If pi lies outside K, take the line to be a tangent through pi. Then s'=s''=t (the tangent length), so t^2 = F(pi) R^2/n^2. Hence the two tangent lengths from pi are in the ratio of the parallel semi-diameters.\n- If pi lies inside K, take the chord bisected at pi; it is parallel to the diameter conjugate to the diameter through pi. Then s'=-s'', and half the chord squared equals -F(pi) R^2/n^2.\n'From this the various theorems follow by themselves': the classical Apollonian/Newtonian segment theorems.",
+  "errors": [
+   "Notational clash: n first denotes the degree of the curve ('Für n = 2') and is then reused for the similarity ratio R/r. This is harmless but confusing.",
+   "Signs are glossed over. With directed segments ('in einerlei Sinn') s's'' has the sign of F(pi). R^2 = -F(c) r^2 is positive only for diameters that actually meet K. For a hyperbola, directions whose diameter misses the curve give R^2<0, i.e. an imaginary R, which the text ignores.",
+   "Hyperbola, tangent case: through a point outside a hyperbola, tangents do not always exist on the 'two tangents' pattern (e.g. points on the asymptotes). So 'allemahl' needs qualification for hyperbolas.",
+   "Parabola: there is no centre and no finite R, so the formula does not apply as stated without a limiting interpretation."
+  ],
+  "results": [
+   {
+    "what": "For a line through pi meeting conic F=0 at P',P'': F(pi)=s's''/r^2, with r the radius of the auxiliary conic Q(X-pi)=1 in that direction (the case n=2 of a degree-n product formula).",
+    "modern_name": "Newton's theorem on products of chord segments (power of a point w.r.t. an algebraic curve)",
+    "usually_credited_to": "Newton, Enumeratio linearum tertii ordinis (1704); the conic case goes back to Apollonius, Conics III",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "F(pi) R^2/(s's'') = n^2 constant, i.e. s's'' is proportional to the square of the parallel semi-diameter of K.",
+    "modern_name": "Generalised power of a point for central conics; ratio of chord-segment products equals ratio of squared parallel semi-diameters",
+    "usually_credited_to": "Apollonius (Conics III.16-23); Newton",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Corollaries: squared tangent lengths are proportional to squared parallel semi-diameters; the squared half-chord bisected at pi is proportional to the parallel semi-diameter squared.",
+    "modern_name": "Apollonius' tangent-segment theorems / power-of-a-point corollaries",
+    "usually_credited_to": "Apollonius",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a clean algebraic (Vieta-based) derivation of the classical Apollonius-Newton chord-segment theorem for conics. It is elegant but standard, and contains nothing beyond what Newton already published in 1704.",
+  "checkable": [
+   {
+    "sympy": "t,a,b,c,d,e,f,al,be,u1,u2=symbols('t a b c d e f al be u1 u2'); F=lambda x,y: a*x**2+2*b*x*y+c*y**2+2*d*x+2*e*y+f; Q=a*u1**2+2*b*u1*u2+c*u2**2; p=Poly(expand(F(al+t*u1,be+t*u2)),t); simplify(p.coeffs()[2]/p.coeffs()[0]-F(al,be)/Q)==0",
+    "asserts": "Product of the roots s's'' of F along the line pi+t u equals F(pi)/Q(u)."
+   },
+   {
+    "sympy": "a,b,c,f,u1,u2,R=symbols('a b c f u1 u2 R'); Q=a*u1**2+2*b*u1*u2+c*u2**2; solve(Q*R**2+f,R**2)==[-f/Q]",
+    "asserts": "For a centred conic Q(X)+f=0, the parallel semi-diameter satisfies R^2=-f/Q(u). Combined with r^2=1/Q(u), R^2/r^2=-f is constant (n^2=-F(c))."
+   },
+   {
+    "sympy": "x,y,t,m=symbols('x y t m'); A,B=3,2; px,py=5,1; F=x**2/A**2+y**2/B**2-1; roots=solve(F.subs({x:px+t,y:py+m*t}),t); simplify(roots[0]*roots[1]*(1+m**2) - F.subs({x:px,y:py})*(1/(1/A**2+m**2/B**2)))==0",
+    "asserts": "Numerical instance for an ellipse: s's'' (true distances) equals F(pi)*R^2/n^2 with n^2=1 and R^2=(1+m^2)/(1/A^2+m^2/B^2)."
+   }
+  ],
+  "transcription_corrections": [
+   "'uns setzt' is a typo in the typescript for 'und setzt'.",
+   "'Diamter' is a typo in the typescript for 'Diameter'.",
+   "'Durchmesser' is struck out and replaced by a handwritten 'Diameter'.",
+   "The clause 'oder dass n das linearische Aehnlichkeitsverhältniss zwischen k und K ausdrückt' is circled by hand, and a handwritten caret mark appears after 'R = nr,'. This suggests a proposed relocation or deletion of the clause.",
+   "The 'l' in 'Aehnlichkeitsverhältniss' is inserted by hand.",
+   "'K,n' should read 'K, n'.",
+   "'hingegeñ' should read 'hingegen'.",
+   "The typed text shows both 'konstante' and 'constante'.",
+   "'in Rede' is read correctly; the typescript letter looks like 'Bede'.",
+   "The page heading '2.' and the folio number (35) are correct; the next page is numbered 4, so page 3 is apparently missing or on the verso."
+  ]
+ }
+}

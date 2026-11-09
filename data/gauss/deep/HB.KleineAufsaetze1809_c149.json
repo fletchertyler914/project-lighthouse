@@ -1,0 +1,64 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c149",
+ "label": "[140]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000150/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "PROBLEM (Aufgabe). Index a,b,c,d,e as c_0..c_4 and P,Q,R,S,T as X_0..X_4 (indices mod 5). The system is sum_j c_{i+j} X_j = A_i for i=0..4, with A_0..A_4 = A,B,C,D,E. The coefficient matrix K has entries K[i,j] = c_{(i+j) mod 5}. Each row is the previous one shifted to the left, so K is a symmetric 'left-circulant' (anti-circulant). The task is to express X in terms of A.\n\nSTEP 1 (Aufloesung). Gauss first solves the special system K y = e_0, writing y = (p,q,r,s,t) = (y_0..y_4). That is, sum_j c_{i+j} y_j = delta_{i0}. He then asserts X_j = sum_k y_{j+k} A_k, i.e. P = Ap+Bq+Cr+Ds+Et, Q = Aq+Br+Cs+Dt+Ep, and so on.\n[Justification, mine] A product of two anti-circulants is a circulant, so the inverse of an anti-circulant is again an anti-circulant. K^{-1}[j,k] = y_{j+k} is therefore determined by its first column, and that column is y. Equivalently, one checks directly that sum_j c_{i+j} y_{j+k} = delta_{ik} by shifting the index.\n\nSTEP 2 (computing y by roots of unity). Let eps be a 5th root of unity. It must implicitly be primitive; eps = 1 gives the first line. Define the generating polynomials Y(x) = sum_j y_j x^j and F(x) = a + b x + c x^2 + d x^3 + e x^4.\n[Derivation, mine] Multiply equation i by w^i and sum over i. This gives sum_j y_j w^{-j} sum_k c_k w^k = 1, i.e. Y(w^{-1}) F(w) = 1. Hence Y(eps^m) = 1/F(eps^{-m}) for m = 0..4. These are exactly Gauss's five lines:\n- m=0: p+q+r+s+t = 1/(a+b+c+d+e).\n- m=1: p+q eps+r eps^2+s eps^3+t eps^4 = 1/(a+b eps^4+c eps^3+d eps^2+e eps).\n- m=2: p+q eps^2+r eps^4+s eps+t eps^3 = 1/(a+b eps^3+c eps+d eps^4+e eps^2).\n- m=3: p+q eps^3+r eps+s eps^4+t eps^2 = 1/(a+b eps^2+c eps^4+d eps+e eps^3).\n- m=4: p+q eps^4+r eps^3+s eps^2+t eps = 1/(a+b eps+c eps^2+d eps^3+e eps^4).\n\nFrom these, y follows by the inverse discrete Fourier transform, y_k = (1/5) sum_m Y(eps^m) eps^{-mk}. This is 'woraus p,q,r,s,t leicht abgeleitet werden'.\n\nCONTINUATION (next page; rationalization, my verification). Set G(x) = F(x)F(x^2)F(x^3) mod x^5-1, with coefficients 𝔄..𝔈. Then:\n- The norm is N = F(eps)F(eps^2)F(eps^3)F(eps^4) = G(eps)F(eps^4).\n- The constant coefficient of N is M = sum 𝔄_k c_k. The other four coefficients are equal (lambda), since N is rational. Summing all coefficients gives m𝔐 = M + 4 lambda.\n- Hence N = (5M - m𝔐)/4, and Y(eps^m) = G(eps^m)/N for m = 1..4.\n- Fourier inversion then gives y_k = 4𝔄_k/(5M - m𝔐) + n, with n = (M - m𝔐)/(m(5M - m𝔐)). This matches Gauss's next page exactly.",
+  "errors": [
+   "No mathematical error on this page. Every one of the five root-of-unity relations checks, including the exponent bookkeeping eps^{-m}.",
+   "Implicit assumption: eps must be a primitive 5th root of unity. 'eine Wurzel der Gleichung x^5=1' would include eps=1, which makes the five equations degenerate.",
+   "The method needs F(eps^m) != 0 for all m, i.e. det K != 0. This is unstated but obviously necessary.",
+   "(Next page) The last line reads 'd = ...' where 't = ...' is meant, a slip of the pen."
+  ],
+  "results": [
+   {
+    "what": "Inversion of a 5x5 anti-circulant (left-circulant) system. Solve for the first column y of the inverse; the full inverse is the anti-circulant K^{-1}[j,k] = y_{j+k}.",
+    "modern_name": "Inverse of a (anti-)circulant matrix is (anti-)circulant",
+    "usually_credited_to": "Theory of circulants: Catalan (1846), Spottiswoode (1853), Muir's history",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Diagonalization by 5th roots of unity: Y(eps^m) * F(eps^{-m}) = 1, then inverse DFT to recover p..t.",
+    "modern_name": "Diagonalization of circulant matrices by the discrete Fourier transform (convolution theorem)",
+    "usually_credited_to": "Eigenvalues of circulants: Catalan 1846 / Spottiswoode 1853; DFT and inverse DFT: Clairaut, Lagrange, Gauss (1805 interpolation)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "(Next page) Rational closed form via the cyclotomic norm: N(F(eps)) = (5M - m𝔐)/4 and y_k = 4𝔄_k/(5M - m𝔐) + n.",
+    "modern_name": "Norm from Q(zeta_5) to Q / rationalizing the inverse via the adjugate in the group ring Q[C_5]",
+    "usually_credited_to": "Standard cyclotomic technique (Gauss, Disquisitiones sec. VII; later Kummer)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Using roots of unity to solve a cyclically structured linear system is natural for Gauss: he had the DFT and FFT around 1805 and cyclotomic periods in 1801. Still, an explicit Fourier-diagonalization and rational inversion of a circulant-type system around 1809 predates the usual circulant literature (Catalan 1846, Spottiswoode 1853). It is a notable unpublished detail rather than a major new result.",
+  "checkable": [
+   {
+    "sympy": "a,b,c,d,e=symbols('a b c d e'); K=Matrix(5,5,lambda i,j:[a,b,c,d,e][(i+j)%5]); y=K.inv()*Matrix([1,0,0,0,0]); simplify(K.inv()-Matrix(5,5,lambda i,j:y[(i+j)%5]))==zeros(5,5)",
+    "asserts": "The inverse of the anti-circulant is the anti-circulant built from its first column, so P = Ap+Bq+..., Q = Aq+Br+..., etc."
+   },
+   {
+    "sympy": "w=exp(2*pi*I/5); F=lambda x:a+b*x+c*x**2+d*x**3+e*x**4; [simplify(sum(y[j]*w**(m*j) for j in range(5))*F(w**(-m))-1) for m in range(5)]",
+    "asserts": "Each of Gauss's five relations p+q eps^m+... = 1/F(eps^{-m}) holds (all entries 0)."
+   },
+   {
+    "sympy": "x=symbols('x'); G=rem(expand(F(x)*F(x**2)*F(x**3)),x**5-1,x); co=[Poly(G,x).coeff_monomial(x**k) for k in range(5)]; m_=a+b+c+d+e; Mf=sum(co); M=sum(co[k]*[a,b,c,d,e][k] for k in range(5)); simplify(K.det()-m_*(5*M-m_*Mf)/4)",
+    "asserts": "det K (up to the sign convention of the anti-circulant, check ±) equals m*N with norm N = (5M - m*Mfrak)/4."
+   },
+   {
+    "sympy": "n=(M-m_*Mf)/(m_*(5*M-m_*Mf)); [simplify(y[k]-(4*co[k]/(5*M-m_*Mf)+n)) for k in range(5)]",
+    "asserts": "Next-page closed form p..t = 4*Afrak_k/(5M - m*Mfrak) + n (all entries 0)."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'Man beshimme' should read 'Man bestimme'. The line ending 'zu friden' should read 'zu finden'; the machine transcription already has 'finden'.",
+   "Third root-of-unity line, denominator: 'c eps' is written with an overwritten/corrected eps in the manuscript. The reading a+b eps^3+c eps+d eps^4+e eps eps is correct.",
+   "Next page, last line 'd = ...' is Gauss's slip for 't = ...'."
+  ]
+ }
+}

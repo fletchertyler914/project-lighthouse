@@ -1,0 +1,63 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c056",
+ "label": "28r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000057/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. The surrounding pages treat the potential of charge spread over a plane figure. The previous page reduces the problem to finding the locus of points from which a circle subtends a constant solid angle. The next page takes an oblate spheroid as the candidate level surface. This page is a side 'Notiz': a lemma about the conducting circular disk.\n\nSetting. A disk of radius R lies in the plane x=0, centred at the origin. It carries the equilibrium (conductor) density sigma(r) = R/sqrt(R^2-r^2), up to a constant. A field point is at axial coordinate x and distance y from the axis. Its potential is\n V(x,y) = int_0^R int_0^{2pi} R/sqrt(R^2-r^2) * r dr dtheta / sqrt(r^2 + y^2 - 2 r y cos(theta) + x^2).\nThe level surface is V = C.\n\nClaim. Take the sphere about the disk centre through the axis point (x,y) = (c,0). It lies entirely inside the level surface through that same axis point.\n\nProof as written.\n(1) Put y^2 = c^2 - x^2, so the point lies on the sphere of radius c.\n(2) Split the theta-integral into [-pi/2, pi/2] and [pi/2, 3pi/2].\n(3) Substitute theta -> theta + pi in the second part (implicit step, mine). The cosine changes sign, so both parts run over [-pi/2, pi/2]:\n V = int int R/sqrt(R^2-r^2) * [ 1/sqrt(r^2 + c^2 + 2 r cos(theta) sqrt(c^2-x^2)) + 1/sqrt(r^2 + c^2 - 2 r cos(theta) sqrt(c^2-x^2)) ] r dr dtheta.\n(4) Write a = r^2 + c^2, b = 2 r cos(theta) and w = sqrt(c^2-x^2) = y. On the sphere a does not depend on the position. The bracket is F(w) = 1/sqrt(a+bw) + 1/sqrt(a-bw). Here b >= 0 because cos(theta) >= 0 on [-pi/2, pi/2], and bw < a.\n(5) Then dF/dw = (1/2)( -b/(a+bw)^{3/2} + b/(a-bw)^{3/2} ) >= 0.\n(6) Hence every integrand element, and so V itself, increases as one moves along the sphere away from the axis point (w from 0 to c).\n\nConclusion. On the sphere V >= V(c,0) = C. Riemann then infers, tacitly, that the sphere lies inside the level surface V = C, because potential falls off outward.\n\nModern check. The level surfaces are the confocal oblate spheroids x^2/c^2 + y^2/(R^2+c^2) = 1, as used on the next page. The one through (c,0) has semi-axes c and sqrt(R^2+c^2), so it does contain the sphere of radius c.",
+  "errors": [
+   "The final inference from 'V >= C on the sphere' to 'the sphere lies inside the level surface' is not justified on this page. It needs V to decrease monotonically along rays from the centre, i.e. nested, star-shaped level surfaces. Riemann attempts exactly this monotonicity on the next page.",
+   "The condition bw < a is stated but not justified. It follows from r^2 + c^2 - 2rc*cos(theta) >= (r-c)^2 >= 0. Equality (a singular but integrable point) occurs only at r = c, theta = 0, x = 0, i.e. where the sphere meets the disk rim region when c <= R.",
+   "Notational slips. The denominators are written 'a+bw^{3/2}' without brackets for (a+bw)^{3/2}. The upper limits in the split integrals appear overwritten (3pi/2 corrected to pi/2), but after the shift theta -> theta+pi both run over [-pi/2, pi/2]. The shift itself is left implicit.",
+   "The strict claim '= +', i.e. strictly increasing, holds for w > 0 and b > 0. At w = 0 the derivative vanishes. This is harmless."
+  ],
+  "results": [
+   {
+    "what": "Equilibrium charge density on a conducting circular disk, proportional to 1/sqrt(R^2-r^2), used as the charge distribution",
+    "modern_name": "Charge density of a conducting disk (limit of the ellipsoidal conductor)",
+    "usually_credited_to": "Green (1828) / Poisson; standard by mid-19th century",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "The sphere through an axial point lies inside the level surface of the charged disk through that point. Proof: on the sphere a = r^2+c^2 is fixed, and the symmetrised integrand 1/sqrt(a+bw) + 1/sqrt(a-bw) increases in w",
+    "modern_name": "Comparison lemma for the equipotentials (confocal oblate spheroids) of a charged disk",
+    "usually_credited_to": "Equivalent to the known fact that disk equipotentials are oblate spheroids with semi-minor axis c and semi-major axis sqrt(R^2+c^2) (Green, Chasles, Gauss); this elementary proof is not attributed",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine potential-theory exercise, likely tied to Weber/Dirichlet-style electrostatics study notes. The disk density and its spheroidal equipotentials were well known by the 1850s. The neat symmetrisation argument is elegant but elementary.",
+  "checkable": [
+   {
+    "sympy": "r,c,x,t=symbols('r c x t',positive=True); y=sqrt(c**2-x**2); simplify((r**2+y**2-2*r*y*cos(t+pi)+x**2) - (r**2+c**2+2*r*cos(t)*sqrt(c**2-x**2)))==0",
+    "asserts": "On the sphere y^2 = c^2 - x^2, shifting theta by pi turns the distance term into r^2 + c^2 + 2 r cos(theta) sqrt(c^2-x^2)"
+   },
+   {
+    "sympy": "a,b,w=symbols('a b w',positive=True); F=1/sqrt(a+b*w)+1/sqrt(a-b*w); simplify(diff(F,w) - (b/2)*((a-b*w)**Rational(-3,2)-(a+b*w)**Rational(-3,2)))==0",
+    "asserts": "Riemann's derivative dF/dw is correct"
+   },
+   {
+    "sympy": "r,c=symbols('r c',positive=True); expand(r**2+c**2-2*r*c - (r-c)**2)==0",
+    "asserts": "a - b*w >= (r-c)^2 >= 0, justifying bw <= a"
+   },
+   {
+    "sympy": "r,R,x=symbols('r R x',positive=True); simplify(integrate(2*pi*R*r/(sqrt(R**2-r**2)*sqrt(r**2+x**2)),(r,0,R)) - 2*pi*R*atan(R/x))",
+    "asserts": "Axial potential of the disk with density R/sqrt(R^2-r^2) is 2 pi R arctan(R/x), the value C on the level surface through (c,0)"
+   },
+   {
+    "sympy": "R,c=symbols('R c',positive=True); sqrt(R**2+c**2) - c > 0",
+    "asserts": "The equipotential spheroid through (c,0) has equatorial semi-axis sqrt(R^2+c^2) > c, so the sphere of radius c lies inside it"
+   }
+  ],
+  "transcription_corrections": [
+   "'also das Ganze' is a marginal note to the left of the third display, not part of the formula line.",
+   "In the line with 'bei', the double integral's limits are scribbled over (an altered upper limit). The integrand is then abbreviated as 1/sqrt(a+bw) + 1/sqrt(a-bw).",
+   "The line beginning '[-...-] wird' has a struck-out word before 'wird' (probably 'Nun'). The denominators read (a+bw)^{3/2} and (a-bw)^{3/2}; the first is written without brackets in the manuscript.",
+   "The upper limits of the two split integrals appear overwritten (a '3' over pi/2). The final form uses -pi/2 to pi/2 for both, consistent with the shift theta -> theta + pi.",
+   "The last line reads '= + also das Potential wächst', meaning the derivative is positive."
+  ]
+ }
+}

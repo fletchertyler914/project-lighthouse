@@ -1,0 +1,63 @@
+{
+ "bundle": "Math.22",
+ "page": "c004",
+ "label": "3r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381610:00000005/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page sets up Laplace's proof of Lagrange's series. For x = t + u·φ(x), every function ψ(x) satisfies ∂ψ/∂u = ∂/∂t(φ(x)·∂ψ/∂t). Hence ∂^nψ/∂u^n = ∂^{n-1}/∂t^{n-1}[φ(x)^n ψ'(x) ∂x/∂t], and at u=0 (so x=t) this equals d^{n-1}/dt^{n-1}[φ(t)^n ψ'(t)]. This page states the result and a corollary.\n\nMarginalia (top). Beside a small set of axes are written i(cos φ + sin φ) (presumably r(cos φ + i sin φ), a point in polar form), x^4 + ... &c, x^{2n-1} + &c + A, and the angles 22½ and 67½. Next to it is a circle with axes, all ends labelled +∞, and wavy curves running out across the circle.\n- Reading (mine): this is the picture behind Gauss's 1799 dissertation proof of the fundamental theorem of algebra.\n- For x = r e^{iφ} and large r, Re(x^4) = r^4 cos 4φ vanishes at φ = 22½°, 67½°, ... and Im(x^4) = r^4 sin 4φ vanishes at 0°, 45°, 90°, ....\n- So the curves Re P = 0 and Im P = 0 meet a large circle in alternating points (2n each for degree n).\n- The odd-degree case x^{2n-1} + ... + A is the elementary real-root case.\n- These are notes or scratch, not a derivation.\n\n1. Theorema Lagrangianum. If x = t + u ξ(x), then\nφ(x) = φ(t) + u ξ φ' + (u²/2)·d(ξ² φ')/dx + (u³/6)·d²(ξ³ φ')/dx² + ...,\nwhere x is replaced by t after differentiating. In general the coefficient of u^n/n! is d^{n-1}/dt^{n-1}[ξ(t)^n φ'(t)]. This is exactly what the previous page derived, with ψ renamed φ and the old φ renamed ξ.\n\n2. Corollary (power-series inversion). Let x = z/X with X = 1 + a x^m + b x^{2m} + c x^{3m} + .... Equivalently x = z·ξ(x) with ξ = 1/X, i.e. Lagrange with t = 0 and u = z.\n- Then x^n has the form z^n + 𝔄 z^{n+m} + 𝔅 z^{n+2m} + ℭ z^{n+3m} + ....\n- Its coefficients are [z^{n+km}] x^n = n/(n+km) · [x^{km}] X^{-n-km}.\n- Derivation (mine). Put φ(x) = x^n, φ' = n x^{n-1}, N = n+km. Then [z^N] x^n = (1/N!)·d^{N-1}/dx^{N-1}[X^{-N} n x^{n-1}] at x = 0, which equals (n/N)·[x^{N-n}] X^{-N}.\n- Only powers z^{n+km} occur because X is a series in x^m.\n\nThe next page continues with item 3 (expanding X^n by the multinomial theorem), item 4 (the analogous formula for log x: [z^{km}] log x = [x^{km}] X^{-km}/(km)), and a numerical example.",
+  "errors": [
+   "No mathematical errors in items 1 and 2. The notation dξ²φ'x/dx means d(ξ(x)²φ'(x))/dx, evaluated at x=t afterwards, as Gauss states.",
+   "Marginal 'i(cos φ + sin φ' lacks the i before sin φ (or the leading letter is a radius r); this is a casual jotting, not a stated formula."
+  ],
+  "results": [
+   {
+    "what": "Series for φ(x) where x = t + uξ(x), with general term (u^n/n!) d^{n-1}(ξ^n φ')/dt^{n-1}",
+    "modern_name": "Lagrange inversion theorem / Lagrange–Bürmann series",
+    "usually_credited_to": "Lagrange (1770); Bürmann (1799); proof via the PDE ∂ψ/∂u = ∂(φ∂ψ/∂t)/∂t due to Laplace",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "For x = z/X, X = 1 + a x^m + ..., [z^{n+km}] x^n = n/(n+km) [x^{km}] X^{-n-km}",
+    "modern_name": "Coefficient form of Lagrange inversion ([z^N] x^n = (n/N)[w^{N-n}] ψ(w)^N)",
+    "usually_credited_to": "Lagrange 1770 (standard corollary)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Sketch of the curves Re P = 0, Im P = 0 crossing a large circle at angles 22.5°, 67.5° for x^4 (alternating with 0°, 45°), plus the odd-degree case",
+    "modern_name": "Gauss's first (1799) proof of the fundamental theorem of algebra (geometric/topological argument)",
+    "usually_credited_to": "Gauss 1799",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Standard Lagrange inversion and its coefficient corollary, copied in study notes, plus a doodle matching Gauss's well-known 1799 FTA proof. Nothing non-standard.",
+  "checkable": [
+   {
+    "sympy": "t,u=symbols('t u'); x=(1-sqrt(1-4*u*t))/(2*u); series(x,u,0,4).removeO() - (t + u*t**2 + u**2/2*diff(t**4,t) + u**3/6*diff(t**6,t,2))",
+    "asserts": "Item 1 with ξ(x)=x², φ(x)=x: the root of x=t+ux² matches Lagrange's series through u³; the difference should simplify to 0."
+   },
+   {
+    "sympy": "z,a=symbols('z a'); x=(-1+sqrt(1+4*a*z))/(2*a); [simplify(series(x,z,0,5).removeO().coeff(z,1+k) - Rational(1,1+k)*series((1+a*w)**(-1-k),w,0,k+1).removeO().coeff(w,k)) for k in range(1,4)]  # w=symbols('w')",
+    "asserts": "Item 2 with m=1, n=1, X=1+ax: [z^{1+k}]x = 1/(1+k)·[w^k](1+aw)^{-1-k}; each entry should be 0."
+   },
+   {
+    "sympy": "z,a,b,w=symbols('z a b w'); n,m,k=2,2,2; X=1+a*w**m+b*w**(2*m); s=z+sum(symbols('c1:6')[i]*z**(1+m*(i+1)) for i in range(3)); # solve s*X(s)=z order by order, then compare [z^(n+k*m)] s**n with Rational(n,n+k*m)*series(X**(-n-k*m),w,0,k*m+1).removeO().coeff(w,k*m)",
+    "asserts": "General check of item 2 for m=2, n=2, k=2: n/(n+km)·[x^{km}]X^{-n-km} equals the coefficient of z^{n+km} in x^n."
+   },
+   {
+    "sympy": "phi=symbols('phi'); solve(cos(4*phi),phi)",
+    "asserts": "Re(x^4) vanishes on a large circle at φ = π/8 and 3π/8 (22½°, 67½°), matching the marginal numbers."
+   }
+  ],
+  "transcription_corrections": [
+   "The small 'c' above 'La Grangianum' is an insertion mark/letter correction, not part of the mathematics.",
+   "In item 1 the first-order term is u ξ φ'x, with x→t understood, as stated in 'posito post diff: loco ipsius x, t'.",
+   "In item 2, 'X^{-n-km} coeff x^{km}' means 'the coefficient of x^{km} in X^{-n-km}'.",
+   "The crossed-out shelf number top right appears to be '46' followed by '3'; the circled 3 is the folio number."
+  ]
+ }
+}

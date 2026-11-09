@@ -1,0 +1,57 @@
+{
+ "bundle": "Math.16",
+ "page": "c027",
+ "label": "13v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376639:00000028/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "CONTEXT. The previous and next pages hold triangulation data for 21 numbered stations. The next page lists, for each station pair i.j, a direction (degrees, minutes, seconds and decimals) with a small correction in units of the last place. So this page belongs to the adjustment of a network of 21 points.\n\nTRIANGLE LABELS. The 21 letters a,b,...,v (j omitted) name 21 triangles. A superscript gives the station at which an angle sits; for example, a^1 is the angle of triangle a at station 1. Comparing with the station connections on the next page gives these vertex sets (my identification):\n- a=(1,2,21), b=(2,3,21), c=(21,3,4), d=(3,4,5), e=(4,5,6)\n- f=(5,6,7), g=(6,7,8), h=(6,8,9), i=(6,9,10), k=(9,10,11)\n- l=(10,11,12), m=(11,12,13), n=(12,13,14), o=(12,14,15), p=(12,15,16)\n- q=(15,16,17), r=(16,17,18), s=(16,18,19), t=(18,19,20), u=(19,20,21), v=(20,21,1)\n\nConsecutive triangles share one side: a|b 2-21, b|c 3-21, c|d 3-4, ..., u|v 20-21, v|a 21-1. So the chain is a closed ring of 21 triangles that returns to its start.\n\nWHAT IS COMPUTED. The quantity δ1 is the variation, written as a complex number (coordinates as x+iy), of the computed position of station 1. One fixes the start, carries the coordinates triangle by triangle around the whole ring, and arrives back at station 1. Because the ring closes, the requirement δ1 = 0 (or δ1 = observed misclosure) is a complex, i.e. two real, closure condition equation for the adjustment. This is the coordinate part of a polygon (ring) condition.\n\nSTRUCTURE OF THE FORMULA (my reading).\n- Pivots. Each triangle X has a pivot vertex P_X about which the propagation turns:\n  - P=21 for a, b, v; 3 for c; 4 for d; 5 for e;\n  - 6 for f, g, h; 9 for i; 10 for k; 11 for l;\n  - 12 for m, n, o; 15 for p; 16 for q, r; 18 for s; 19 for t; 20 for u.\n- Triangle terms. Each δX carries the coefficient ±(1−P_X)(cot X^Q + cot X^R), where Q,R are the two non-pivot vertices. Note cot Q + cot R = |QR|/height from P_X, which is the logarithmic sensitivity of a side ratio. A scale change σ about P moves station 1 by σ(1−P); a rotation ε about P moves it by iε(1−P).\n- Edge terms. Each δXY belongs to the side shared by X and Y.\n  - If P_X = P_Y (e.g. ab, fg, gh, mn, no, qr, va), there is one term: ±(1−P)(cot X^S + cot Y^S), with S the common far vertex.\n  - If the pivot shifts, there are two terms: ±(1−N)(cot X^· − cot Y^·) ± (N−P_old)(cot · + cot ·), with N the new vertex.\n- The two-term patterns recur exactly under relabelling:\n  - δbc ↔ δhi ↔ δop ↔ δrs;\n  - δcd ↔ δde ↔ δkl ↔ δtu (up to the alternating orientation sign);\n  - δef ↔ δik ↔ δlm ↔ δpq ↔ δst ↔ δuv.\n  This confirms the transcribed terms are internally consistent.\n- What the individual δ's are is not stated on the page. Plausibly δX is a correction attached to triangle X (e.g. its angle closure) and δXY a correction of the direction along the shared side. This is uncertain.\n\nLEMMA AT THE FOOT. 'If α, β, γ are the complex numbers denoting the three corners of a triangle in the order of the diurnal motion (tägl. Bewegung), and A, B, C the angles, then':\n- (α−β)cot C + (α−γ)cot B = (γ−β)i\n- (β−γ)cot A + (β−α)cot C = (α−γ)i (a cyclic permutation of the first)\n\nProof (mine). Put β=0, γ=1, α=x+ih with h>0. Then cot B = x/h and cot C = (1−x)/h. The left side is [(x+ih)(1−x) + (x−1+ih)x]/h = ih/h = i, which equals (γ−β)i.\n\nThe lemma lets Gauss turn the paired cot-combinations into pure i·(difference) terms, i.e. rotations.\n\nMARGIN NOTE. 'Die Coeffic. von δcd können …' ('The coefficients of δcd can …'). Presumably they can be contracted by the lemma. For example, −(1−5)(cot c^4 − cot d^3) − (5−3)(cot c^4 + cot d^4) can be regrouped into cot-pairs of a single triangle times edge differences, which the lemma reduces to i·(edge).",
+  "errors": [
+   "No mathematical error detected. The lemma is correct for positively oriented (counterclockwise) α,β,γ in the complex plane. 'Order of diurnal motion' is clockwise on a north-up map, which becomes counterclockwise if Gauss's complex coordinate takes x along the meridian and y east; with the other convention the right sides change sign.",
+   "All two-term edge coefficients follow consistent patterns under relabelling of the triangles, so no internal slip is visible. The meaning of δX and δXY is not defined on the page, so the coefficients cannot be fully re-derived from first principles here."
+  ],
+  "results": [
+   {
+    "what": "Complex-number (x+iy) differential expression for the coordinate misclosure δ1 of a station after propagating through a closed ring of 21 triangles, linear in angle/direction corrections with coefficients (difference of complex coordinates)·(sum or difference of cotangents)",
+    "modern_name": "Coordinate closure (polygon/ring) condition equation in condition-equation adjustment of a triangulation network",
+    "usually_credited_to": "Condition-equation adjustment: Gauss (Hanover triangulation, 1820s), later systematised by Bessel, Gerling, Helmert. Complex-variable form of closure conditions is rarely discussed in the literature.",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Lemma: for triangle with complex vertices α,β,γ (positively oriented) and angles A,B,C: (α−β)cot C + (α−γ)cot B = i(γ−β), and cyclic versions",
+    "modern_name": "Elementary complex-coordinate triangle identity (cotangent decomposition of a side / foot of altitude)",
+    "usually_credited_to": "Folklore / elementary; no specific attribution",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Gauss's adjustment of triangulation networks with condition equations is well known. His habit of using complex numbers for plane coordinates in geodesy is also documented in the Nachlass (Werke IX). The page is a worked instance of a coordinate closure condition for a ring of triangles in complex form, plus an elementary lemma: a nice unpublished detail but not a new result.",
+  "checkable": [
+   {
+    "sympy": "x,h=symbols('x h',real=True,positive=True); alpha=x+I*h; beta=0; gamma=1; cotB=x/h; cotC=(1-x)/h; simplify((alpha-beta)*cotC+(alpha-gamma)*cotB-(gamma-beta)*I)",
+    "asserts": "First lemma identity evaluates to 0 in normalized position (β=0, γ=1, α above the real axis)."
+   },
+   {
+    "sympy": "a1,a2,b1,b2,c1,c2=symbols('a1 a2 b1 b2 c1 c2',real=True); al=a1+I*a2; be=b1+I*b2; ga=c1+I*c2; cot=lambda P,Q,R: re(expand((Q-P)*conjugate(R-P)))/im(expand((Q-P)*conjugate(R-P))); simplify(expand((al-be)*cot(ga,be,al)+(al-ga)*cot(be,al,ga)-(ga-be)*I))",
+    "asserts": "General-position form of the first lemma identity; it vanishes when cot of the angle at vertex P is computed as Re/Im of (Q−P)·conj(R−P), with each angle's sign fixed by the counterclockwise orientation of α,β,γ."
+   },
+   {
+    "sympy": "x,h=symbols('x h',positive=True); alpha=x+I*h; beta=0; gamma=1; cotA=(x*(x-1)+h**2)/(h); cotA=simplify(re((beta-alpha)*conjugate(gamma-alpha))/im(conjugate(beta-alpha)*(gamma-alpha))); cotC=(1-x)/h; simplify((beta-gamma)*cotA+(beta-alpha)*cotC-(alpha-gamma)*I)",
+    "asserts": "Second (cyclic) lemma identity (β−γ)cot A + (β−α)cot C = (α−γ)i holds for the same oriented triangle."
+   },
+   {
+    "sympy": "x,h=symbols('x h',positive=True); simplify(x/h+(1-x)/h - 1/h)",
+    "asserts": "cot B + cot C = (side BC)/(height from A) for side length 1, explaining the (cot+cot) coefficients of the δX terms."
+   }
+  ],
+  "transcription_corrections": [
+   "'d kl' and 'd lm' in lines 10–11 should read δkl and δlm (Gauss writes δ throughout).",
+   "The blot before '(1-12)(cot o^14 + cot o^15) δo' is a minus sign: −(1−12)(cot o^14 + cot o^15)δo, matching the alternating pattern.",
+   "'(5-3)' in the δcd term is overwritten in the manuscript but reads (5−3), consistent with the pivot structure.",
+   "'in der Ordnung der tägl. B.' should be expanded as 'täglichen Bewegung' (order of diurnal motion).",
+   "The second lemma line is cut off at the page edge; by cyclic symmetry it reads (β−γ)cot A + (β−α)cot C = (α−γ)i."
+  ]
+ }
+}

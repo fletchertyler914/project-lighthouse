@@ -1,0 +1,66 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c036",
+ "label": "33r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000037/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this sheet follows Riemann's work for 'Ueber die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite' (1860). Here he writes down the classical small-amplitude, three-dimensional theory of sound and its explicit solution. Notation: s is the condensation, (u,v,w) the particle velocity, a the speed of sound.\n\n(A) Linearized equations of motion.\n- Momentum (lines 1-3): u_t = -a^2 s_x, v_t = -a^2 s_y, w_t = -a^2 s_z.\n- Continuity (written only as the expression ∂s/∂t + ∂u/∂x + ∂v/∂y + ∂w/∂z, understood as = 0): s_t + div(u,v,w) = 0.\n- Eliminating the velocity (my step): s_tt = -div(u_t) = a^2 Δs. This is the wave equation at the top of the page.\n- Initial data: at t = 0, s = f(x,y,z) and s_t = F(x,y,z). By continuity, F = -(u_x + v_y + w_z) evaluated at t = 0.\n\n(B) Poisson's solution. Let ξ = (cos θ, sin θ cos ψ, sin θ sin ψ) be a unit vector.\n- The label 'f = 0' marks the first term as the solution when f = 0: s = (1/4π) ∫_0^π ∫_0^{2π} t F(x + atξ) sin θ dθ dψ.\n- The second term handles the data f: + (1/4π) d/dt ∫∫ t f(x + atξ) sin θ dθ dψ.\n- In modern form: s = t·M_{at}[F] + ∂_t( t·M_{at}[f] ), where M_r is the mean value over the sphere of radius r about (x,y,z).\n- He names the point on the sphere x' = x + at cos θ, y' = y + at sin θ cos ψ, z' = z + at sin θ sin ψ. The sketch shows coordinate axes, a small sphere and a ray of length at to the point (x',y',z').\n\n(C) Splitting off the non-propagating part and introducing a velocity potential.\n- 's = 0, u_x + v_y + w_z = 0': if the initial condensation and the initial divergence both vanish, then s ≡ 0 for all time. Hence u_t = v_t = w_t = 0, so a divergence-free (incompressible) velocity field simply stays put and produces no sound.\n- For the sound-producing part he assumes a potential: u = φ_x, v = φ_y, w = φ_z.\n- The initial potential is the line integral φ(0) = ∫ (u0 dx + v0 dy + w0 dz) = Φ(x,y,z). This tacitly requires the initial velocity to be irrotational.\n- He then states: s = φ_t, φ_tt = a^2 Δφ, with φ = Φ and φ_t = f at t = 0.\n- So the velocity potential satisfies the same wave equation and is again given by Poisson's formula, with (Φ, f) in place of (f, F).\n\nPurpose: to set up the classical linear (infinitesimal-amplitude) theory of air waves, solved by Poisson's mean-value formula, as background or contrast to the finite-amplitude plane-wave theory on the neighbouring sheets.",
+  "errors": [
+   "Sign/factor slip (C): with u = ∂φ/∂x and u_t = -a^2 s_x one gets ∂_x(φ_t + a^2 s) = 0, so φ_t = -a^2 s (up to a function of t), not s = φ_t. The initial condition should read φ_t = -a^2 f, unless φ is silently rescaled by -a^2. The wave equation for φ is unaffected (φ_tt = -a^2 s_t = a^2 Δφ).",
+   "Unstated assumption: the line integral Φ = ∫ u0 dx + v0 dy + w0 dz is path-independent only if the initial velocity is curl-free. The remark 's = 0, div = 0' implicitly separates off the remaining divergence-free part, but no full Helmholtz decomposition is spelled out.",
+   "Slip in the definition of z': it is written 'x + at sin θ sin ψ = z'' instead of 'z + ...'.",
+   "The continuity equation is written only as an expression, without '= 0'.",
+   "Notational clash: φ is used both as an angle (possibly ψ in the hand) and as the velocity potential."
+  ],
+  "results": [
+   {
+    "what": "Linearized acoustic equations: u_t = -a^2 ∇s, s_t + div(u) = 0, hence s_tt = a^2 Δs",
+    "modern_name": "linear acoustics / 3D wave equation for the condensation",
+    "usually_credited_to": "Euler (1750s-1766), Lagrange, Poisson",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "s = t M_{at}[F] + d/dt( t M_{at}[f] ), with spherical means as double integrals over θ and ψ",
+    "modern_name": "Poisson's (Kirchhoff-Poisson) spherical-means formula for the 3D Cauchy problem",
+    "usually_credited_to": "Poisson (1819/1820)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Divergence-free part with zero condensation stays stationary; reduction of the irrotational part to a velocity potential obeying the same wave equation",
+    "modern_name": "velocity potential for acoustic waves (irrotational/solenoidal splitting)",
+    "usually_credited_to": "Euler, Lagrange, Poisson; decomposition Stokes/Helmholtz (1849/1858)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is textbook 19th-century linear acoustics: the wave equation, Poisson's formula and the velocity potential. Riemann taught exactly this material, and it appears in Hattendorff's edition of his lectures 'Partielle Differentialgleichungen' (1869). Nothing here is novel.",
+  "checkable": [
+   {
+    "sympy": "x,y,z,t,a,th,ps=symbols('x y z t a th ps',positive=True); simplify((1/(4*pi))*integrate(integrate(t*sin(th)*(x+a*t*cos(th))**2,(ps,0,2*pi)),(th,0,pi)) - (t*x**2 + a**2*t**3/3))",
+    "asserts": "Poisson's first term with F = x^2 equals t*x^2 + a^2 t^3/3 (result 0)."
+   },
+   {
+    "sympy": "s=t*x**2+a**2*t**3/3; simplify(diff(s,t,2)-a**2*(diff(s,x,2)+diff(s,y,2)+diff(s,z,2)))",
+    "asserts": "This term solves the wave equation (result 0); also s(0)=0 and s_t(0)=x^2."
+   },
+   {
+    "sympy": "s=diff(t*(x**2+a**2*t**2/3),t); [simplify(diff(s,t,2)-a**2*diff(s,x,2)), s.subs(t,0), diff(s,t).subs(t,0)]",
+    "asserts": "The d/dt term with f = x^2 solves the wave equation with s(0)=x^2 and s_t(0)=0 (expect [0, x**2, 0])."
+   },
+   {
+    "sympy": "phi=Function('phi')(x,y,z,t); s=-diff(phi,t)/a**2; simplify(diff(diff(phi,x),t)+a**2*diff(s,x))",
+    "asserts": "With u = phi_x, the momentum equation u_t = -a^2 s_x holds for s = -phi_t/a^2 (result 0), not for s = phi_t."
+   }
+  ],
+  "transcription_corrections": [
+   "The third substitution is written 'x+at sinθ sinψ = z'' (with 'x', a slip for z), not 'z[?]+...'.",
+   "The second spherical angle appears to be written as ψ in the arguments (cos ψ, sin ψ, dψ), distinct from the potential φ in the lower part; the transcription uses φ for both.",
+   "Line 3) is overwritten in the manuscript; the continuity expression ∂s/∂t + ∂u/∂x + ∂v/∂y + ∂w/∂z is written directly beneath it, with no '= 0'.",
+   "In φ = ∫ u0 dx + v0 dy + w0 dz the velocities carry subscript 0 (initial values), as transcribed."
+  ]
+ }
+}

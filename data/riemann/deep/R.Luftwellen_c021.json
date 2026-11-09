@@ -1,0 +1,73 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c021",
+ "label": "26v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000022/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a working draft for Riemann's published 1860 paper 'Ueber die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite', specialised to the isothermal (Boyle-law) gas p = a^2*rho with constant sound speed a. The page reduces the nonlinear 1-D gas equations to a linear second-order equation by the hodograph method.\n\n(1) Riemann invariants. Define 4p = log(rho) + u/a and 4q = log(rho) - u/a. Then u = 2a(p - q) and log(rho) = 2(p + q). The equations of motion are\n- continuity: (log rho)_t + u (log rho)_x + u_x = 0;\n- Euler: u_t + u u_x + a^2 (log rho)_x = 0.\nAdding and subtracting 1/a times the Euler equation gives the characteristic form p_t = -(u+a) p_x and q_t = -(u-a) q_x. The initial data are p = phi(x), q = psi(x) at t = 0.\n\n(2) Hodograph inversion. Take p, q as independent variables and x, t as unknowns. From dp = p_x dx + p_t dt and dq = q_x dx + q_t dt, with R = p_x q_t - p_t q_x:\n- R dx = q_t dp - p_t dq;\n- R dt = -q_x dp + p_x dq.\nHence x_p = q_t/R, x_q = -p_t/R, t_p = -q_x/R, t_q = p_x/R. Substituting into the characteristic equations gives the linear system x_q = (u+a) t_q and x_p = (u-a) t_p.\n\n(3) Potential w. Using u_q = -2a and u_p = 2a:\n- d(x - (u+a)t)/dq = x_q - (u+a) t_q - t u_q = 2at;\n- d(x - (u-a)t)/dp = -2at.\nSo the form (x - (u+a)t) dp - (x - (u-a)t) dq is exact; call it dw. Then w_p = x - (u+a)t and w_q = -(x - (u-a)t). It follows that w_pq = 2at, while w_p + w_q = -2at. This yields equation 1):\n\nw_pq + w_p + w_q = 0,\n\na linear hyperbolic equation with constant coefficients in the characteristic variables (p, q).\n\n(4) The lines dp = p_x (dx - (u+a) dt) and dq = q_x dx at the bottom restate the characteristic differentials. The second is incomplete as written; it should be q_x (dx - (u-a) dt), or the line refers to t = 0.\n\n(5) The sketch shows the p,q-plane with a descending curve. This is the image of the initial line t = 0, i.e. q = chi(p), on which the next page prescribes w_p = theta(p), w_q = -theta(p). It sets up the Cauchy problem for 1). The next page then solves it by the adjoint/Green identity (Riemann's method).",
+  "errors": [
+   "The line 'd(x-(u+a)t)/dq = 2at = -d(x-u-a)t/dq' has a slip as written. The correct exactness statement is d(x-(u+a)t)/dq = 2at = -d(x-(u-a)t)/dp: the denominator on the right should be p, not q. The next line on the page gives the correct p-derivative.",
+   "Bottom line 'dq = dq/dx dx' omits the term -(u-a)dt (unless it is meant at t = 0); it is an incomplete restatement.",
+   "On the previous page the sign in the q-equation (+a q_x) is a slip; this page has it correctly as q_t = -(u-a) q_x.",
+   "Otherwise all steps check: the Jacobian inversion, x_q = (u+a)t_q, x_p = (u-a)t_p, the exactness of dw, and w_pq + w_p + w_q = 0."
+  ],
+  "results": [
+   {
+    "what": "Characteristic (Riemann) invariants log(rho) ± u/a for isothermal 1-D gas flow, with p_t = -(u+a)p_x and q_t = -(u-a)q_x",
+    "modern_name": "Riemann invariants / characteristic form of the 1-D Euler equations",
+    "usually_credited_to": "Riemann 1860 (Earnshaw 1858/60 for simple waves)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Interchanging dependent and independent variables (x,t) <-> (p,q) to linearize the system: x_q = (u+a)t_q, x_p = (u-a)t_p",
+    "modern_name": "hodograph transformation",
+    "usually_credited_to": "Riemann 1860 for gas dynamics (Legendre/Ampère-type transformations earlier)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Potential w with w_p = x-(u+a)t, w_q = -(x-(u-a)t) satisfying w_pq + w_p + w_q = 0 (isothermal case)",
+    "modern_name": "linear hyperbolic equation in characteristic coordinates (reducible to the Klein-Gordon type W_pq = W via w = e^{-(p+q)}W); set-up for Riemann's method/Riemann function",
+    "usually_credited_to": "Riemann 1860",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the derivation in Riemann's published 1860 Luftwellen paper (Riemann invariants, hodograph linearization, linear equation in p,q). It is well known as his; the only point of mild interest is seeing the isothermal special case worked out explicitly with the 4p/4q normalization.",
+  "checkable": [
+   {
+    "sympy": "p,q,a=symbols('p q a'); u=2*a*(p-q); lr=2*(p+q); simplify((lr+u/a)-4*p)==0 and simplify((lr-u/a)-4*q)==0",
+    "asserts": "u=2a(p-q), log rho=2(p+q) invert 4p=log rho+u/a, 4q=log rho-u/a"
+   },
+   {
+    "sympy": "px,pt,qx,qt=symbols('px pt qx qt'); R=px*qt-pt*qx; simplify(Matrix([[px,pt],[qx,qt]]).inv()-Matrix([[qt,-pt],[-qx,px]])/R)==zeros(2)",
+    "asserts": "Jacobian inversion: x_p=q_t/R, x_q=-p_t/R, t_p=-q_x/R, t_q=p_x/R"
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); t=Function('t')(p,q); u=2*a*(p-q); xq=(u+a)*diff(t,q); simplify(xq-diff((u+a)*t,q)-2*a*t)==0",
+    "asserts": "Given x_q=(u+a)t_q, d(x-(u+a)t)/dq = 2at"
+   },
+   {
+    "sympy": "p,q,a=symbols('p q a'); t=Function('t')(p,q); u=2*a*(p-q); xp=(u-a)*diff(t,p); simplify(xp-diff((u-a)*t,p)+2*a*t)==0",
+    "asserts": "Given x_p=(u-a)t_p, d(x-(u-a)t)/dp = -2at"
+   },
+   {
+    "sympy": "x,t,u,a=symbols('x t u a'); simplify((x-(u+a)*t)+(-(x-(u-a)*t))+2*a*t)==0",
+    "asserts": "w_p + w_q = -2at, so with w_pq=2at one gets w_pq+w_p+w_q=0"
+   },
+   {
+    "sympy": "p,q=symbols('p q'); W=Function('W')(p,q); w=exp(-p-q)*W; simplify(diff(w,p,q)+diff(w,p)+diff(w,q)-exp(-p-q)*(diff(W,p,q)-W))==0",
+    "asserts": "Substitution w=e^{-(p+q)}W reduces 1) to W_pq = W (Riemann function ~ I0(2 sqrt((p-p0)(q-q0))))"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'd(x-(u+a)t)/dq = 2at = -d(x-u-a)t/dq': in the image a struck-out fragment precedes the right-hand term. The intended expression is -d(x-(u-a)t)/dp; the 'dq' is in the manuscript but is a slip.",
+   "In '[-dx=-] dx/dp = (dq/dt)/R' the numerator dq/dt is overwritten (a struck symbol in the denominator); the reading q_t is correct.",
+   "The final label reads 'F(p,q)' or 'f(p,q)'; it is ambiguous in the image, and the previous page uses F(p,q).",
+   "'dq = dq/dx dx' is faithfully transcribed but incomplete in the manuscript itself."
+  ]
+ }
+}

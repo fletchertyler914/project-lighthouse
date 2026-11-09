@@ -1,0 +1,55 @@
+{
+ "bundle": "Math.21",
+ "page": "c106",
+ "label": "51r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381609:00000107/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has no text or computation beyond the heading 'Tapetum' (Latin: carpet, tapestry or wallpaper) and the folio number 51. It is a pure construction on squared paper; the following is my reading of the dot positions from the image.\n\n(1) The dots form a doubly periodic pattern with period 8 squares horizontally and 8 squares vertically. For example, the dots in the top row (y≈63 px) recur exactly 8 rows lower (y≈241 px), at the same x positions, which are spaced 8 squares (≈180 px) apart.\n\n(2) Each period cell contains exactly 8 dots, one in every row and one in every column of the 8×8 block. So the pattern is the periodic ('wallpaper') extension of a permutation matrix of order 8.\n\n(3) Gauss outlined in ink a single 8×8 block near the centre. Numbering rows 0–7 from the top and columns 0–7 from the left inside that block, the dots are at:\n(0,2), (1,4), (2,1), (3,7), (4,5), (5,3), (6,6), (7,0).\nThis is the permutation p = [2,4,1,7,5,3,6,0], or 3,5,2,8,6,4,7,1 in 1-based notation.\n\n(4) My check of this block:\n- Columns are all distinct.\n- The differences c−r are 2, 3, −1, 4, 1, −2, 0, −7, all distinct.\n- The sums c+r are 2, 5, 3, 10, 9, 8, 12, 7, all distinct.\nSo the 8 dots are 8 mutually non-attacking queens. The framed block is one of the 92 solutions of the eight-queens problem.\n\n(5) Not every 8×8 window of the wallpaper is a solution. For example, the window whose top-left corner is the top-left dot of the sheet gives the permutation [0,3,5,7,1,6,4,2]. Its sums r+c are 0, 4, 7, 10, 5, 11, 10, 9: the value 10 repeats, so that window fails. The ink frame therefore marks a window chosen deliberately.\n\n(6) The light pencil lines are a lattice of lines at ±45°, i.e. along the diagonals of the board. My most probable reading is that they trace queen diagonals through the periodic pattern. They would test which translated windows (cyclic shifts of rows and columns) preserve the no-two-on-a-diagonal condition, and so generate further solutions from one solution by shifting.\n\n(7) The stated purpose is my inference, not written on the page. The idea is to treat a queens solution as a tile of a periodic wallpaper, so that solutions can be read off as windows of it. This links to Gauss's documented 1850 correspondence with Schumacher on the eight-queens problem.",
+  "errors": [
+   "No errors are detectable in the framed block: it is a valid 8-queens solution.",
+   "The periodic extension is not a solution of the toroidal (modular) problem. Mod 8, the differences c−r repeat, as must happen for n=8 by Pólya's theorem. Hence only some 8×8 windows are valid. This is a property of the construction, not a slip."
+  ],
+  "results": [
+   {
+    "what": "Explicit eight-queens solution 3,5,2,8,6,4,7,1 (rows 1–8), framed inside a periodic tiling",
+    "modern_name": "Eight queens problem (one of the 92 solutions)",
+    "usually_credited_to": "Max Bezzel (1848) posed it; Franz Nauck (1850) gave the 92 solutions; Gauss discussed it in letters to Schumacher (1850)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Periodic (wallpaper/torus) extension of a permutation matrix, with windows read off to obtain queens solutions by cyclic shifts",
+    "modern_name": "Cyclic-shift / toroidal treatment of n-queens; modular n-queens",
+    "usually_credited_to": "Günther (1874) and Glaisher (1874) for related transformation methods; Pólya (1918) for the toroidal n-queens criterion gcd(n,6)=1",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Gauss's interest in the eight-queens problem in 1850 is well known from his correspondence. This sheet adds a visual working method: tiling a solution as a wallpaper ('Tapetum') and selecting windows. That is a notable unpublished detail anticipating the cyclic/toroidal viewpoint, but it is a drawing with no stated theorem.",
+  "checkable": [
+   {
+    "sympy": "p=[2,4,1,7,5,3,6,0]; (len(set(p))==8, len(set(p[i]-i for i in range(8)))==8, len(set(p[i]+i for i in range(8)))==8)",
+    "asserts": "The framed 8×8 block is a valid eight-queens solution (distinct columns and both diagonal families distinct)."
+   },
+   {
+    "sympy": "q=[0,3,5,7,1,6,4,2]; len(set(q[i]+i for i in range(8)))<8",
+    "asserts": "The window anchored at the sheet's top-left dot is not a solution (a repeated anti-diagonal)."
+   },
+   {
+    "sympy": "p=[2,4,1,7,5,3,6,0]; ok=lambda s: len(set(s[i]-i for i in range(8)))==8 and len(set(s[i]+i for i in range(8)))==8; [(a,b) for a in range(8) for b in range(8) if ok([(p[(i+a)%8]-b)%8 for i in range(8)])]",
+    "asserts": "Lists all translated 8×8 windows of the wallpaper that are themselves queens solutions (contains (0,0))."
+   },
+   {
+    "sympy": "p=[2,4,1,7,5,3,6,0]; len(set((p[i]-i)%8 for i in range(8)))<8",
+    "asserts": "The periodic pattern is not a toroidal (modular) queens solution, consistent with Pólya's theorem for n=8."
+   }
+  ],
+  "transcription_corrections": [
+   "The drawing can be specified exactly: the dots form an 8×8-periodic pattern, one dot per row and per column in each period.",
+   "The ink rectangle is exactly 8×8 squares. It contains dots at (row,col) = (0,2), (1,4), (2,1), (3,7), (4,5), (5,3), (6,6), (7,0), an eight-queens solution.",
+   "The pencil lines are at ±45°, i.e. board diagonals, not a generic rhombic lattice."
+  ]
+ }
+}

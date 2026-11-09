@@ -1,0 +1,79 @@
+{
+ "bundle": "Math.12",
+ "page": "c077",
+ "label": "36v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376631:00000078/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Gauss is working toward an analogue of Gauss's lemma for biquadratic residues modulo a Gaussian prime m = a+bi. The running example is m = -11+4i, so a = -11, b = 4 and aa+bb = 137. The previous page tests -1+2i modulo -11+4i and concludes that it is a biquadratic residue.\n\n§9. Let f = xi + eta*i run over the 'smallest residues' of m. These are defined by f/m = x + y i with 0 < x < 1/2 and 0 < y < 1/2. Geometrically, f lies in the open square with vertices 0, m/2, im/2 and (1+i)m/2.\n\n[My step] Multiplying f by the conjugate of m gives\nf/m = (xi+eta i)(a-bi)/(a^2+b^2), so\nx = (a xi + b eta)/(a^2+b^2) and y = (a eta - b xi)/(a^2+b^2).\nGauss states these two formulas.\n\nFor fixed eta, each of the four conditions becomes a linear bound on xi. He uses the case a < 0, b > 0:\n- I. x > 0 ⇔ xi < -(b/a) eta = (4/11) eta.\n- II. y > 0 ⇔ xi < (a/b) eta = -(11/4) eta.\n- III. x < 1/2 ⇔ xi > (a^2+b^2-2b eta)/(2a) = -137/22 + (4/11) eta.\n- IV. y < 1/2 ⇔ xi > (2a eta - a^2 - b^2)/(2b) = -(11/4) eta - 137/8.\n\nRedundancies:\n- Upper bounds: for eta > 0, -(11/4)eta < (4/11)eta, so II implies I. For eta < 0 it is the reverse.\n- Lower bounds: III is implied by IV iff the IV bound is the larger. [My step] Multiplying by 2ab < 0, this holds iff 2(a^2+b^2) eta < (a+b)(a^2+b^2), i.e. eta < (a+b)/2 = -7/2. The reverse holds for eta > (a+b)/2.\n\nWhen a+b < 0 (as in the example), this gives three cases:\n- eta < -7/2: (-11/4)eta - 137/8 < xi < (4/11)eta.\n- -7/2 < eta < 0: -137/22 + (4/11)eta < xi < (4/11)eta.\n- eta > 0: -137/22 + (4/11)eta < xi < -(11/4)eta.\n\nHe then begins the same table in general letters:\n- eta < (a+b)/2: xi between (2a eta - a^2 - b^2)/(2b) and -b eta/a.\n- (a+b)/2 < eta < 0: lower bound (a^2+b^2-2b eta)/(2a); upper bound left blank, it should be -b eta/a.\n- eta > 0: lower bound (a^2+b^2-2b eta)/(2a); upper bound left blank, it should be a eta/b.\n\nThe purpose, as the next page shows, is that for each fixed eta the residues f = xi + eta i form a segment xi0 < xi < xi00. Gauss will track how the integer part of (xi+eta i)M/m jumps along that segment. This is a lattice-point count yielding the biquadratic character (the Theta-sum).\n\n[My remark] The square's vertices m/2 = -11/2+2i, im/2 = -2-11i/2 and (1+i)m/2 = -15/2-7i/2 confine eta to (-11/2, 2). The breakpoint eta = -7/2 is exactly the eta-coordinate of the vertex (1+i)m/2. Gauss does not state the outer range of eta.",
+  "errors": [
+   "No mathematical errors found; all four inequalities and their numerical specialisations for a=-11, b=4 are correct.",
+   "The comparison of bounds III/IV at eta=(a+b)/2 is correct. The symbol written between 1/2(a+b) and -7/2 must mean '=' (value of (a+b)/2 in the example), not '<'.",
+   "The general-letter table at the bottom is unfinished: the upper bounds -b*eta/a and a*eta/b are missing in the second and third rows.",
+   "The implicit outer bounds on eta (-11/2 < eta < 2, needed for the xi-interval to be nonempty) are not stated."
+  ],
+  "results": [
+   {
+    "what": "Description of the 'smallest residue' set of a Gaussian integer m (f/m in the open square (0,1/2)^2), with explicit linear bounds on Re f for fixed Im f and case analysis of which constraints are active",
+    "modern_name": "Half-system / fundamental-domain description for the Gaussian-integer analogue of Gauss's lemma (lattice-point counting for the quartic residue symbol)",
+    "usually_credited_to": "Gauss (biquadratic residues, Nachlass, Werke II/X); Gauss-lemma analogues for Z[i] published later by Eisenstein, Schering, Busche and others",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Algebraic expression of x, y from f/m and the threshold eta=(a+b)/2 at which the binding lower constraint switches",
+    "modern_name": "Elementary linear inequality analysis (vertex of the square region (1+i)m/2)",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is part of Gauss's known unpublished work on a lemma-type proof of biquadratic reciprocity via counting in a half-system of residues mod a Gaussian prime. The page itself is routine elementary inequality bookkeeping for the example m=-11+4i; it is consistent with what is already attributed to him.",
+  "checkable": [
+   {
+    "sympy": "a,b,xi,eta=symbols('a b xi eta',real=True); simplify(expand_complex((xi+I*eta)/(a+I*b)) - ((a*xi+b*eta)+I*(a*eta-b*xi))/(a**2+b**2))",
+    "asserts": "f/m = x+iy with x=(a xi+b eta)/(a^2+b^2), y=(a eta-b xi)/(a^2+b^2); should be 0"
+   },
+   {
+    "sympy": "simplify(-Rational(4,1)/(-11)*eta - Rational(4,11)*eta)",
+    "asserts": "Bound I: -b/a*eta = 4/11*eta for a=-11,b=4 (gives 0)"
+   },
+   {
+    "sympy": "simplify(Rational(-11,4)*eta - (-11)*eta/4)",
+    "asserts": "Bound II: a/b*eta = -11/4*eta (gives 0)"
+   },
+   {
+    "sympy": "simplify((121+16-8*eta)/(2*(-11)) - (Rational(-137,22)+Rational(4,11)*eta))",
+    "asserts": "Bound III: (a^2+b^2-2b eta)/(2a) = -137/22+4/11 eta (gives 0)"
+   },
+   {
+    "sympy": "simplify((2*(-11)*eta-137)/(2*4) - (Rational(-11,4)*eta-Rational(137,8)))",
+    "asserts": "Bound IV: (2a eta-a^2-b^2)/(2b) = -11/4 eta - 137/8 (gives 0)"
+   },
+   {
+    "sympy": "solve(Eq(Rational(-11,4)*eta-Rational(137,8), Rational(-137,22)+Rational(4,11)*eta), eta)",
+    "asserts": "Lower bounds III and IV coincide at eta = -7/2 = (a+b)/2"
+   },
+   {
+    "sympy": "factor((2*a*eta-a**2-b**2)/(2*b) - (a**2+b**2-2*b*eta)/(2*a))",
+    "asserts": "Difference IV-III = (a^2+b^2)(2 eta-(a+b))/(2ab); for ab<0 positive iff eta<(a+b)/2"
+   },
+   {
+    "sympy": "solve(Eq(Rational(-137,22)+Rational(4,11)*eta, Rational(-11,4)*eta), eta), solve(Eq(Rational(-11,4)*eta-Rational(137,8), Rational(4,11)*eta), eta)",
+    "asserts": "The xi-interval is nonempty only for -11/2 < eta < 2 (eta-coordinates of vertices im/2 and m/2)"
+   },
+   {
+    "sympy": "expand((1+I)*(-11+4*I)/2)",
+    "asserts": "Vertex (1+i)m/2 = -15/2 - 7/2 i, whose imaginary part -7/2 is the breakpoint"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2: the superscript insertion is 'seyn' placed after 'von m' ('ein kleinster Rest von m seyn, oder').",
+   "In the lines 'wenn eta < 1/2(a+b) < -7/2' and 'wenn eta > 1/2(a+b) < -7/2', the second sign is evidently meant as '=' (the example value of (a+b)/2 is -7/2), not an inequality.",
+   "Crossed-out phrase after 'und' (line 9) appears to be '-b grösser als b' (i.e. a condition on |a| vs b), not 'b grösser als b'.",
+   "In 'eta negativ und > -7/2' the struck word is 'negativ' replaced/rewritten; the case labels read 'eta negativ und > -7/2' and 'eta positiv'.",
+   "Bottom table: second and third rows have missing upper bounds (-b eta/a and a eta/b) in the manuscript itself; not a transcription omission."
+  ]
+ }
+}

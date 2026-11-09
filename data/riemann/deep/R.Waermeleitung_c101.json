@@ -1,0 +1,61 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c101",
+ "label": "52v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000102/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (my reading, from the folio's subject and the next page). This is a draft of Riemann's 1861 Paris prize essay on heat conduction (the 'Commentatio mathematica'). The heat equation for an anisotropic body is\n(I) sum_{i,i'} d/dx_i( a_{ii'} du/dx_{i'} ) = du/dt.\nThe quadratic form with matrix (a_{ii'}) is positive definite. The question is when the temperature u depends, besides t, only on one function alpha(x1,x2,x3), or on two functions alpha, beta (isothermal surfaces or curves preserved over time).\n\nIn the variables alpha, beta the spatial operator becomes\nDelta = a d_alpha^2 + b d_alpha d_beta + c d_beta^2 + e d_alpha + f d_beta,\nand Theta u (apparently du/dt, or a derived operator from the preceding page) is the time side.\n\nOpening paragraph. By repeatedly applying Delta and Theta, Riemann has produced a finite family of relations. Eliminating among them yields one of two equations:\n- form (1): sum q_nu d^nu u/d alpha^nu = 0, an ODE in alpha alone;\n- form (2): sum a_nu(alpha,beta) d^nu u/dt^nu = 0, an ODE in t with coefficients depending on alpha, beta.\n\nThe finiteness argument: the remaining quantities contain only derivatives in one variable, of order no higher than Theta u. Since their number is finite, elimination gives form (2).\n\nHe then remarks on when this works:\n- One of the two forms always holds, even when Delta is not of the shape d_alpha d_beta + e d_alpha + f d_beta.\n- In the special case Delta = d_alpha^2 + e d_alpha + f d_beta with f != 0, the differential equation lets one solve for f du/dbeta. Hence all beta-derivatives can be removed from Theta u and from Delta u, and both forms are easily obtained.\n- If f = 0, the operator involves alpha only, so (like Delta = d_alpha) this reduces to the earlier case.\n\nMain argument: the 'posterior' case, form (2).\n\nStep 1. As a constant-coefficient linear ODE in t, form (2) has general solution u = sum f_j(t) e^{lambda_j t}. Here:\n- the lambda_j are roots of the characteristic polynomial sum a_nu lambda^nu, so a priori functions of x;\n- each f_j is a polynomial in t with x-dependent coefficients.\n\nStep 2. Because exponential-polynomials in t with distinct exponents are linearly independent, each term must satisfy (I) separately.\n\nStep 3. Riemann wants to show that lambda cannot be a (non-constant) function of x1, x2, x3. Let k t^n be the top term of f.\n\nCase 1: lambda is real, or lambda = mu + i nu with mu, nu functions of a single real variable alpha(x).\n- Substitute u = f(t) e^{lambda t}. Then d_i u = (d_i f + t f d_i lambda) e^{lambda t}.\n- A second derivative produces the term t^2 f d_i lambda d_{i'} lambda.\n- So the coefficient of t^{n+2} e^{lambda t} on the left of (I) is k sum a_{ii'} d_i lambda d_{i'} lambda = k (d lambda/d alpha)^2 sum a_{ii'} d_i alpha d_{i'} alpha.\n- The right side du/dt = (f' + lambda f) e^{lambda t} has degree at most n in t, so this coefficient must vanish.\n- Continued on the next page: since the form is positive definite, this forces grad alpha = 0, i.e. alpha constant.\n\nCase 2 (next page): mu and nu are independent. Then alpha = mu + i nu and beta = mu - i nu are taken as variables. The conjugate term g(t) e^{beta t} appears too, and the leading coefficients give a = c = 0. Hence lambda is constant in the posterior case, and u is a finite sum of terms f(t) e^{lambda t} with lambda constant and f a polynomial in t.",
+  "errors": [
+   "Minor incompleteness: in Case 1 the leading coefficient k (d lambda/d alpha)^2 Q(grad alpha) also vanishes when d lambda/d alpha = 0. The next page only cites the alternative grad alpha = 0. Both alternatives give lambda constant, so the conclusion is unaffected.",
+   "Implicit in Case 1: one should note that (d lambda/d alpha)^2 != 0 whenever d lambda/d alpha != 0, which holds even for complex lambda. Positivity of Q is used only on the real vector grad alpha, so the argument is valid.",
+   "Implicit: k(x) is assumed not identically zero (true by definition of the top term). The reduction to single terms needs linear independence of t^m e^{lambda t} for distinct lambda; this is standard but unstated.",
+   "If a_{ii'} vary with x, the first-order terms contribute only up to t^{n+1}, so the t^{n+2} coefficient is as stated. This is fine but not commented on."
+  ],
+  "results": [
+   {
+    "what": "General solution of a linear ODE in t with t-independent coefficients is a finite sum of polynomial-times-exponential terms f(t) e^{lambda t}, and each term satisfies the PDE separately.",
+    "modern_name": "Structure of solutions of constant-coefficient linear ODEs / linear independence of exponential polynomials",
+    "usually_credited_to": "Euler (1743), d'Alembert",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Substituting f(t)e^{lambda(x) t} into the anisotropic heat equation, the top t-power coefficient is k Q(grad lambda). Positive definiteness of Q forces lambda constant when lambda depends on one real function.",
+    "modern_name": "Leading-order (WKB/eikonal-type) coefficient comparison; ellipticity of the conductivity form",
+    "usually_credited_to": "standard technique",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Classification of temperature distributions in an anisotropic body whose isotherms (depending on one or two functions alpha, beta) persist in time; reduction to ODEs in t or in alpha by elimination.",
+    "modern_name": "Part of Riemann's Paris prize essay (Commentatio mathematica, 1861) on heat conduction",
+    "usually_credited_to": "Riemann (1861, published 1876 in Gesammelte Werke)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the argument of Riemann's known 1861 prize essay on heat conduction. It uses standard ODE theory and a positivity argument; nothing here goes beyond what is known to be his.",
+  "checkable": [
+   {
+    "sympy": "x,t=symbols('x t'); a=symbols('a',positive=True); lam=Function('lam')(x); k=Function('k')(x); u=k*t**2*exp(lam*t); expr=simplify((diff(a*diff(u,x),x)-diff(u,t))*exp(-lam*t)); Poly(expand(expr),t).coeff_monomial(t**4) - a*k*diff(lam,x)**2 == 0",
+    "asserts": "In 1D with n=2, the coefficient of t^{n+2} after substituting u=k t^n e^{lambda t} into a u_xx = u_t is k a lambda'(x)^2."
+   },
+   {
+    "sympy": "x1,x2,x3,t=symbols('x1 x2 x3 t'); lam=Function('lam')(x1,x2,x3); u=t*exp(lam*t); L=sum(diff(u,v,2) for v in (x1,x2,x3)); e=expand(simplify(L*exp(-lam*t))); Poly(e,t).coeff_monomial(t**3) - sum(diff(lam,v)**2 for v in (x1,x2,x3)) == 0",
+    "asserts": "For the isotropic case (a = identity), the top coefficient t^{n+2} (n=1) equals k*|grad lambda|^2 with k=1."
+   },
+   {
+    "sympy": "x1,x2=symbols('x1 x2',real=True); lam=x1+I*x2; simplify(diff(lam,x1)**2+diff(lam,x2)**2) == 0",
+    "asserts": "For complex lambda = mu + i nu with independent mu, nu, Q(grad lambda) can vanish. This is why Riemann treats this as a separate Case 2."
+   }
+  ],
+  "transcription_corrections": [
+   "'Casus 7 specialis' is probably 'Casus specialis' (the '7' looks like a stray mark or abbreviation) or 'Casus ille specialis'.",
+   "'ope aequationis Δu = 0' is legible as written. Logically, the elimination of β-derivatives uses the heat equation (Δu = ∂u/∂t, cf. next page 'Δu = ∂u/∂t'), so the reading should be checked.",
+   "'accuratius' replaces the struck-through 'accura-' in 'Jam casum posteriorem accuratius persequemur' – correct as given.",
+   "'functio' at the end of the line ('ut sit λ functio ipsarum x1,x2,x3') is written with an abbreviation flourish ('functio̲')."
+  ]
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "bundle": "HB.Opuscula1800",
+ "page": "c231",
+ "label": "[226]",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351307:00000232/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page sets up notation for the mutual adjustment of two transit-type instruments at an observatory, probably Göttingen around 1823. The instruments are the 'Kreis' (meridian circle) and the 'P.I.' (Passageninstrument, passage or transit instrument). The checks use a southern and a northern meridian mark (M.Z. = Meridianzeichen). The two telescopes also sight each other's optical axes (mutual collimation), and the thread is reflected in a mercury horizon. The page only defines quantities; the equations and their solution are on the next page (fol. 227).\n\n(i) Data.\n- h: altitude of the southern meridian mark.\n- H: altitude of the northern mark.\n- θ: altitude of the P.I. optical axis as seen from the other instrument.\n- s, n: azimuths of the southern and northern marks.\n- Numerically h = 0, H = 0°4', θ = 2°29'. The image shows small superscript circles, so degrees and minutes are more plausible than the seconds in the machine transcription.\n\n(ii) The three classical instrumental constants of the circle (primed for the P.I.):\n- a: azimuth error, positive when the western end of the axis is too far north.\n- i: level (inclination) error, positive when the eastern end of the axis is high.\n- c: collimation error, positive when the thread is too far east.\n\n(iii) Observed offsets, in the sense of the field of view ('links' = left):\n- Circle pointed south: the meridian mark appears +α east of the thread. Equivalently it lies +α west of the optical axis, a note on how the inverted image relates to the sky.\n- P.I. pointed south: the mark appears +β east of the thread.\n- Circle pointed north: the optical axis (illuminated thread) of the P.I. appears +γ west of the thread.\n- P.I. pointed south: the optical axis of the circle appears +δ east of the thread. This is the reciprocal sighting.\n- P.I. pointed north (marginal correction 'Pass. I.' replacing a struck 'P.I.'): the northern mark appears +ε west.\n- Circle pointed north: the northern mark appears +ζ west.\n- Mercury horizon: the image of the thread reflected in mercury (sign ☿) lies +η west of the thread.\n\n(iv) The model these definitions feed, from the next page. To first order, the line of sight of an instrument pointed at altitude h deviates from the meridian by a great-circle arc a cos h + i sin h + c. That is Tobias Mayer's error formula in azimuthal form; on the northern side a and c change sign relative to the azimuth count. A mark at azimuth s and altitude h subtends s cos h. Hence:\n- a cos h + i sin h + c + α = s cos h\n- a' cos h + i' sin h + c' + β = s cos h\n- a cos H − i sin H − c + ζ = n cos H\n- a' cos H − i' sin H − c' + ε = n cos H\n- Mutual sighting: a cos θ − i sin θ − c = −γ, and −a' cos θ + i' sin θ − c' = +δ.\n\nWith h = 0 and H ≈ 0 these reduce to:\n- s = a + c + α = a' + c' + β\n- n = a − c + ζ = a' − c' + ε\n\nNadir by mercury (my supplement, matching his result 6): at h = −90° the line of sight deviates by c − i. The reflected thread is therefore displaced by 2(c − i) = η, which gives i = c − η/2.\n\nDifferencing the mark equations gives 2c = (s − n) − α + ζ − (a − a), i.e. combinations like Gauss's results 2) and 3): 2c = β + γ − α and 2c' = γ + ε − ζ. These hold once the mutual-sighting relation is used with cos θ ≈ 1 and the i sin θ terms neglected or absorbed; this is my reading of the next page.",
+  "errors": [
+   "No computational errors on this page itself (it is definitional). On the next page the '+η' attached to the mutual-sighting equation a cos θ − i sin θ − c looks out of place, since η belongs to the mercury/nadir equation (result 6). This is a possible slip or transcription artefact.",
+   "Sign conventions are given in a mixture of the inverted field ('links') and sky directions ('oestlich/westlich'). The statement for α ('erscheint östlich vom Faden' = 'liegt westlich von der opt. Axe') shows Gauss reconciling this explicitly; it is not an error."
+  ],
+  "results": [
+   {
+    "what": "Parametrisation of transit/meridian-circle errors by azimuth a, level i, collimation c, with sign conventions, and deviation of the line of sight ≈ a cos h + i sin h + c",
+    "modern_name": "Mayer's (instrumental error) formula for transit instruments",
+    "usually_credited_to": "Tobias Mayer (c. 1756), developed by Bessel",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Determination of collimation and azimuth from southern and northern meridian marks plus reciprocal sighting between two transit instruments (mutual collimation)",
+    "modern_name": "Meridian marks and collimator/mutual-collimation method",
+    "usually_credited_to": "standard observatory practice of the early 19th century (Bessel, Gauss, Reichenbach-instrument users)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Using the reflected image of the thread in a mercury horizon (η) to get the level/collimation combination, i = c − η/2",
+    "modern_name": "Nadir (mercury-horizon) observation / autocollimation",
+    "usually_credited_to": "Bohnenberger (c. 1825), Kater; widely used later",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is standard instrument-adjustment theory of the period. The only mildly notable point is the possible early (c. 1823?) use of the mercury-horizon nadir thread image, a method usually associated with Bohnenberger around 1825. The dating is uncertain and the method was in the air.",
+  "checkable": [
+   {
+    "sympy": "Eq((a*cos(0)+i*sin(0)+c+alpha) - s*cos(0), a+c+alpha-s)",
+    "asserts": "For h=0 the southern-mark equation reduces to s = a + c + alpha"
+   },
+   {
+    "sympy": "solve([a+c+alpha-s, a-c+zeta-n], [a, c])",
+    "asserts": "From south and north marks: c = (s-n-alpha+zeta)/2 ... i.e. 2c = (s - n) - alpha + zeta, a = (s+n-alpha-zeta)/2"
+   },
+   {
+    "sympy": "solve(Eq(2*(c - i), eta), i)",
+    "asserts": "Mercury nadir image displaced 2(c-i)=eta gives i = c - eta/2 (Gauss's result 6)"
+   },
+   {
+    "sympy": "simplify((a*cos(-pi/2)+i*sin(-pi/2)+c) - (c - i))",
+    "asserts": "Deviation of line of sight at nadir (h=-90 deg) equals c - i (result 0)"
+   },
+   {
+    "sympy": "series(a*cos(t)-i*sin(t)-c, t, 0, 2)",
+    "asserts": "For small theta the mutual-sighting expression is a - c - i*theta + O(theta^2), justifying cos(theta)≈1"
+   }
+  ],
+  "transcription_corrections": [
+   "First word uncertain: the image looks like 'Scheinbare' or 'Erreichte'; reading unsure.",
+   "Units are likely degrees/minutes, not seconds: h = 0°, H = 0°4', θ = 2°29' (the small superscript circles look like degree marks).",
+   "'Kreis Norden' is probably 'Kreis [nach] Norden'.",
+   "In the margin 'Pass. I.' replaces a struck-out 'P.I.' before 'nach Norden'.",
+   "'Fadenbild im ☿': the sign is the mercury symbol (Quecksilberhorizont), i.e. the reflected image of the thread."
+  ]
+ }
+}

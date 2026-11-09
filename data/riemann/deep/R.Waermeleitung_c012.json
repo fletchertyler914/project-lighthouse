@@ -1,0 +1,85 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c012",
+ "label": "6r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000013/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: heat conduction. The page looks for solutions of du/dt = Laplacian(u) built from functions alpha(x,y,z), beta(x,y,z) used as curvilinear coordinates. It then derives the Laplacian in such coordinates and the condition for a third coordinate gamma orthogonal to both.\n\n(1) Ansatz (top left). u = alpha e^{mu t} + beta e^{nu t} + phi(alpha,beta) e^{lambda t}, with Lap(alpha) = mu*alpha and Lap(beta) = nu*beta. The first line writes 'lambda alpha'; the later lines write mu*alpha, nu*beta.\n- The alpha and beta terms then solve the heat equation by themselves.\n- The phi term needs Lap(phi(alpha,beta)) = lambda*phi.\n- By the chain rule (my explicit statement): Lap(phi) = phi_aa |grad alpha|^2 + 2 phi_ab (grad alpha . grad beta) + phi_bb |grad beta|^2 + phi_a Lap(alpha) + phi_b Lap(beta).\n- The last two terms equal mu*alpha*phi_a + nu*beta*phi_b.\n\n(2) Reduced equation. Riemann tries the reduced 2-variable equation lambda u_ab + mu alpha u_a + nu beta u_b = u_t. This is what Lap(u) becomes if |grad alpha|^2 = |grad beta|^2 = 0 and 2 grad alpha . grad beta = lambda, which is complex-valued if taken literally.\n- For phi e^{lambda t} this gives lambda phi_ab + mu alpha phi_a + nu beta phi_b = lambda phi.\n- Solving for the coefficient gives (lambda phi - mu alpha phi_a - nu beta phi_b)/phi_ab, which he substitutes back.\n- The letter lambda is used both for the coefficient and for the decay rate. The auxiliary lines phi_ab u_aa - phi_aa u_ab = 0 (and the beta analogue) express proportionality of u's and phi's second derivatives, with phi_ab = a phi_aa and phi_ab = b phi_bb.\n\n(3) General form. Riemann sets |grad alpha|^2 = gamma phi_ab and |grad beta|^2 = gamma_1 phi_ab. Lap(phi) = lambda phi then forces\n2 grad alpha . grad beta = (lambda phi - mu alpha phi_a - nu beta phi_b)/phi_ab - gamma phi_aa - gamma_1 phi_bb.\nThis is correct. He next asks that gamma be constant along grad alpha (grad gamma . grad alpha = 0) and looks at the gradient lines dx:dy:dz = grad alpha, and likewise for beta.\n\n(4) Metric and Laplacian in curvilinear coordinates. The matrix of the products grad alpha_i . grad alpha_k is taken to have the block form [[a,c',0],[c',b,0],[0,0,c]]. That is, gamma is orthogonal to alpha and beta, while alpha and beta need not be orthogonal to each other.\n- Its adjugate is [[bc,-c'c,0],[-c'c,ca,0],[0,0,ab-c'^2]].\n- The Jacobian is sqrt(Delta) = sqrt(c(ab-c'^2)), so dx dy dz = d alpha d beta d gamma / sqrt(Delta).\n- The Dirichlet integral becomes Int |grad u|^2 dx = Int Sum D_ik u_i u_k / sqrt(Delta) d alpha. Here D_ik = grad alpha_i . grad alpha_k, the entries of the matrix.\n- Taking the variation (delta) gives Lap(u) = sqrt(Delta) Sum_i d/d alpha_i( Sum_k D_ik/sqrt(Delta) du/d alpha_k ), the Laplace–Beltrami operator.\n- Putting u = alpha_1 gives Lap(alpha_1) = sqrt(Delta) Sum_k d(D_1k/sqrt(Delta))/d alpha_k.\n- With D_13 = 0 this equals dD_11/d alpha_1 + dD_12/d alpha_2 - (1/(2 Delta))(D_11 dDelta/d alpha_1 + D_12 dDelta/d alpha_2), and similarly for alpha_2.\n\n(5) Bottom middle, with a,b,c' notation.\n- Lap(alpha) = a_alpha + c'_beta - (1/2)(a dlogDelta/d alpha + c' dlogDelta/d beta).\n- Lap(beta) = c'_alpha + b_beta - (1/2)(c' dlogDelta/d alpha + b dlogDelta/d beta).\n- Eliminating gives [b Lap(alpha) - c' Lap(beta) - b(a_alpha + c'_beta) + c'(c'_alpha + b_beta)]/(ab - c'^2) = -(1/2) dlogDelta/d alpha, and the analogue for beta.\n- So log Delta is determined by the Laplacians of the coordinates. This is correct; the denominator is written as a single symbol.\n\n(6) Right column: existence of gamma.\n- The curves alpha = const, beta = const have direction V = (A,B,C) = grad alpha x grad beta. A, B, C are written out correctly.\n- He needs V to be proportional to a gradient, V = lambda grad gamma. This means curl(V/lambda) = 0, i.e. B_z - C_y = B (log lambda)_z - C (log lambda)_y and cyclically.\n- Dotting with V gives the necessary condition A(B_z - C_y) + B(C_x - A_z) + C(A_y - B_x) = 0, that is V . curl V = 0.\n- Taking the divergence (the d/dx, d/dy, d/dz labels) gives grad log lambda . curl V = 0.\n- He then starts computing curl V for V = grad alpha x grad beta. The x-component is written as beta_x(alpha_yy + alpha_zz) - alpha_x(beta_yy + beta_zz) + mixed terms, and is rewritten using Lap(alpha) = mu alpha etc. The page breaks off here.",
+  "errors": [
+   "First line gives Lap(alpha) = lambda*alpha, but later lines use mu*alpha (and nu*beta); this is an inconsistency of notation.",
+   "lambda is used both as the coefficient of u_ab in the reduced equation and as the exponent of e^{lambda t}, so the substitution line conflates the two.",
+   "The adjugate's (3,3) entry appears as 'ab'; the correct entry is ab - c'^2, which is consistent with sqrt(c(ab-c'^2)) written on the same page. This is probably an abbreviation or slip.",
+   "The line 'lambda(B_z - C_y) = B dlog lambda/dz - C dlog lambda/dy' has a spurious factor lambda on the left. Once the log-derivative is used, the correct relation from curl(V/lambda)=0 is B_z - C_y = B (log lambda)_z - C (log lambda)_y.",
+   "The written expression beta_x(alpha_yy+alpha_zz) - alpha_x(beta_yy+beta_zz) + ... is B_z - C_y, i.e. minus the x-component of curl V. This sign convention is consistent with the rest but opposite to the standard curl.",
+   "The reduced equation lambda u_ab + ... implicitly requires |grad alpha|^2 = |grad beta|^2 = 0, which is impossible for real functions unless they are constant. This is unjustified as stated, which is likely why Riemann moves to the general gamma, gamma_1 form."
+  ],
+  "results": [
+   {
+    "what": "Chain-rule expression of Lap(phi(alpha,beta)) and the condition for phi(alpha,beta)e^{lambda t} to solve the heat equation, given that alpha and beta are Helmholtz eigenfunctions",
+    "modern_name": "Chain rule for the Laplacian / separation-type ansatz for the heat equation",
+    "usually_credited_to": "routine (Fourier, Lamé tradition)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Laplacian in non-orthogonal curvilinear coordinates obtained from the variation of the Dirichlet integral: Lap u = sqrt(Delta) sum_i d_i(D_ik/sqrt(Delta) d_k u)",
+    "modern_name": "Laplace–Beltrami operator via the Dirichlet integral",
+    "usually_credited_to": "Jacobi (1833/34, variational transformation of the Laplacian); Lamé for orthogonal coordinates; Beltrami (1864/68) in general form",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Expression of dlogDelta/d alpha in terms of the Laplacians of the coordinates and derivatives of the metric coefficients",
+    "modern_name": "Laplacian of coordinate functions in terms of the metric (contracted Christoffel symbols, g^{ij}Gamma^k_ij)",
+    "usually_credited_to": "routine consequence of the Laplace–Beltrami formula",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Condition for the direction field grad alpha x grad beta to be normal to a family of surfaces (integrating factor): V . curl V = 0, plus grad log lambda . curl V = 0",
+    "modern_name": "Integrability condition for a Pfaffian form in 3 variables (Frobenius in dimension 3)",
+    "usually_credited_to": "Euler/Clairaut (18th c.), Jacobi; general form Frobenius 1877",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Exploratory, routine computations: chain rule, the Laplacian in curvilinear coordinates via the Dirichlet integral (known from Jacobi and Lamé, and used by Riemann elsewhere, e.g. in the 1861 Paris essay), and the classical integrability condition. Nothing goes beyond standard mid-19th-century technique.",
+  "checkable": [
+   {
+    "sympy": "x,y,z=symbols('x y z'); A,B=symbols('A B'); al=exp(x)*cos(y)+z; be=x*y+sin(z); phi=Function('phi'); expr=phi(al,be); lhs=diff(expr,x,2)+diff(expr,y,2)+diff(expr,z,2); P=phi(A,B); g=lambda f,h: diff(f,x)*diff(h,x)+diff(f,y)*diff(h,y)+diff(f,z)*diff(h,z); lap=lambda f: diff(f,x,2)+diff(f,y,2)+diff(f,z,2); rhs=(diff(P,A,2)*g(al,al)+2*diff(P,A,B)*g(al,be)+diff(P,B,2)*g(be,be)+diff(P,A)*lap(al)+diff(P,B)*lap(be)).subs({A:al,B:be}); simplify(lhs-rhs)",
+    "asserts": "Chain rule for the Laplacian of phi(alpha,beta), the basis of step (3)"
+   },
+   {
+    "sympy": "a,b,c,cp=symbols('a b c cp'); M=Matrix([[a,cp,0],[cp,b,0],[0,0,c]]); simplify(M.adjugate()-Matrix([[b*c,-cp*c,0],[-cp*c,c*a,0],[0,0,a*b-cp**2]])), factor(M.det())",
+    "asserts": "Adjugate of the block metric matrix (entry (3,3) = ab-c'^2) and determinant c(ab-c'^2)"
+   },
+   {
+    "sympy": "s,t=symbols('s t'); D=Function('D')(s,t); De=Function('De')(s,t); simplify(sqrt(De)*diff(D/sqrt(De),s)-(diff(D,s)-D*diff(De,s)/(2*De)))",
+    "asserts": "sqrt(Delta) d(D/sqrt(Delta)) = dD - D dDelta/(2 Delta), used for Lap(alpha_1)"
+   },
+   {
+    "sympy": "s,t=symbols('s t'); a,b,cp,L=[Function(n)(s,t) for n in ['a','b','cp','L']]; La=diff(a,s)+diff(cp,t)-(a*diff(L,s)+cp*diff(L,t))/2; Lb=diff(cp,s)+diff(b,t)-(cp*diff(L,s)+b*diff(L,t))/2; simplify((b*La-cp*Lb-b*(diff(a,s)+diff(cp,t))+cp*(diff(cp,s)+diff(b,t)))/(a*b-cp**2)+diff(L,s)/2)",
+    "asserts": "The elimination in step (5), with L = log Delta: the combination equals -(1/2) dlogDelta/d alpha"
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); al=Function('al')(x,y,z); be=Function('be')(x,y,z); V=Matrix([diff(al,x),diff(al,y),diff(al,z)]).cross(Matrix([diff(be,x),diff(be,y),diff(be,z)])); simplify(diff(V[0],x)+diff(V[1],y)+diff(V[2],z))",
+    "asserts": "div(grad alpha x grad beta) = 0, which makes the d/dx, d/dy, d/dz summation in the right column consistent"
+   },
+   {
+    "sympy": "x,y,z=symbols('x y z'); A,B,C,l=[Function(n)(x,y,z) for n in 'ABCl']; W=[A/l,B/l,C/l]; cx=diff(W[2],y)-diff(W[1],z); simplify(cx*(-l) - ((diff(B,z)-diff(C,y)) - (B*diff(log(l),z)-C*diff(log(l),y))))",
+    "asserts": "curl(V/lambda)_x = 0 is equivalent to B_z - C_y = B (log lambda)_z - C (log lambda)_y, with no factor lambda on the left"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 reads '= lambda alpha' in both image and transcription; later lines (left column) use mu alpha. Probably Riemann's own inconsistency rather than a transcription error.",
+   "Adjugate block: the (3,3) entry reads 'ab' in the image; mathematically it should be ab - c'^2.",
+   "'gamma = f(gamma, gamma_1)' is uncertain; the image is more consistent with something like 'gamma = f(gamma_1)'. The following line likely involves df/d gamma_1 * grad gamma_1 . grad beta.",
+   "'d gamma/d gamma {}' is likely 'd gamma_1/d beta {(beta_x)^2 + ...}', parallel to the preceding 'd gamma/d alpha {(alpha_x)^2 + ...}'.",
+   "Right column: 'dx/dz = lambda(...)' and 'dy/dz =' may be the derivatives along the curve alpha = beta = const. The following lines with Fraktur A, B, C are hard to read; the intended content is that lambda*(A,B,C) (or (A,B,C)/lambda) has vanishing curl.",
+   "Bottom-middle denominator written as a single symbol (transcribed as sigma or c'') stands for ab - c'^2.",
+   "The line 'dalpha/dz dbeta/dx : dbeta/dy =' is a garbled fragment; it precedes the computation of the components of curl(grad alpha x grad beta)."
+  ]
+ }
+}

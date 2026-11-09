@@ -1,0 +1,63 @@
+{
+ "bundle": "Math.5",
+ "page": "c022",
+ "label": "12r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376170:00000023/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 12r is the title and introduction of a printed or calligraphic 'Hülfstafel' (auxiliary table) for solving the indeterminate equation A = f x^2 + g y^2 by the exclusion method (Ausschliessungsmethode). The table itself is on the next page. There are no computations on this page, only the rationale. Steps marked [mine] are my reconstruction.\n\n(1) Setting. The excludent is a prime p with p dividing none of A, f, g.\n\n(2) Necessary condition [mine]. If A = f x^2 + g y^2 has an integer solution, then g y^2 ≡ A - f x^2 (mod p). Since g is invertible, (A - f x^2)/g must be 0 or a quadratic residue mod p.\n\n(3) Rewriting [mine]. (A - f x^2)/g ≡ (f/g)(A/f - x^2) (mod p). Also (f/g | p) = (fg/g^2 | p) = (fg | p).\n- If fg is a quadratic residue (fg R p), the condition becomes: a - x^2 ≡ 0 or a QR (mod p), where a ≡ A/f (mod p).\n- If fg is a non-residue (fg N p), the condition is: a - x^2 ≡ 0 or a non-residue.\nThe page says the table covers only the case fg R p and omits the other entirely.\n\n(4) Reduction to two values of a [mine]. Suppose a ≡ c k^2 (mod p). Then a - x^2 ≡ k^2 (c - (x/k)^2). So x is admissible for a if and only if x/k is admissible for c. Hence it suffices to tabulate one representative quadratic residue, always 1, and one fixed non-residue. The next page uses 2 for p = 3, 5, 13, 29, 37, 53; p - 1 for p = 7, 11, 19, 23, 31, 43, 47, 59; and 3 for p = 17, 41.\n- Since x enters only via x^2, only residues up to sign are listed: 'positiv oder negativ genommen', i.e. 0 ≤ x ≤ (p-1)/2.\n\n(5) Using the table. For a general a = c k^2 one multiplies the tabulated classes by k mod p. For fg N p one passes to the complementary condition. The page refers the reader to Section VI of the Disquisitiones Arithmeticae (arts. 319-322, the exclusion method) for these derivations.\n\nThe worked examples on the next page do exactly this. For instance, for p = 7 and A/f ≡ 2 = 1·3^2, the tabulated classes 0, 1, 2 (and their negatives) are multiplied by 3.\n\nSpot check of the table against the rule 'a - x^2 ≡ 0 or QR':\n- p = 7, a = 1: QR = {1, 2, 4}. x = 0, 1, 2 are admissible; x = 3 gives 1 - 9 ≡ 6, which is N. So {0, 1, 2}, correct.\n- p = 7, a = 6: x = 2 gives 2 and x = 3 gives 4, both residues. So {2, 3}, correct.\n- p = 11, a = 1: {0, 1, 3, 5}, correct.\n- p = 5, a = 2: {1}, correct.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "The conditions are only necessary, which is the nature of the exclusion method; this is implicit rather than stated.",
+   "The claim that the fg-non-residue case is 'easily derived' is correct but not shown here: the admissible classes are those x with a - x^2 ≡ 0 or a non-residue."
+  ],
+  "results": [
+   {
+    "what": "Exclusion (sieve) method for representing A by the binary form f x^2 + g y^2: for primes p not dividing A, f, g, x mod p must make (A - f x^2)/g a residue or zero",
+    "modern_name": "Exclusion method / quadratic-residue sieve for representations by binary quadratic forms",
+    "usually_credited_to": "Gauss, Disquisitiones Arithmeticae (1801), arts. 319-322; antecedents in Euler and Legendre",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reduction of the table to the two cases A/f ≡ 1 and A/f ≡ a fixed non-residue (via scaling by k when A/f ≡ c k^2), and to the case fg R p (since (f/g|p) = (fg|p))",
+    "modern_name": "Scaling invariance of quadratic residue conditions; Legendre symbol multiplicativity",
+    "usually_credited_to": "Gauss (DA Section VI); standard",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a didactic introduction to an auxiliary table implementing the exclusion method that Gauss published in Disquisitiones Arithmeticae Section VI, which it explicitly cites. The normalisation tricks are elementary. It is a nice archival detail, possibly the printed table associated with Gauss's tables in Werke II, but not mathematically surprising.",
+  "checkable": [
+   {
+    "sympy": "from sympy import legendre_symbol; ok=lambda a,p:[x for x in range((p+1)//2) if (a-x**2)%p==0 or legendre_symbol((a-x**2)%p,p)==1]; assert ok(1,7)==[0,1,2] and ok(6,7)==[2,3]",
+    "asserts": "Table rows for p=7 (a=1 and the non-residue 6) follow from the criterion that a - x^2 is 0 or a QR mod p"
+   },
+   {
+    "sympy": "assert ok(1,11)==[0,1,3,5] and ok(10,11)==[1,3,4]",
+    "asserts": "Table rows for p=11"
+   },
+   {
+    "sympy": "assert ok(1,3)==[0,1] and ok(2,3)==[1] and ok(1,5)==[0,1] and ok(2,5)==[1]",
+    "asserts": "Table rows for p=3 and p=5"
+   },
+   {
+    "sympy": "assert ok(1,13)==[0,1,2,6] and ok(2,13)==[1,4,5] and ok(1,17)==[0,1,3,4,6] and ok(3,17)==[1,2,4,6]",
+    "asserts": "Table rows for p=13 and p=17"
+   },
+   {
+    "sympy": "assert all(legendre_symbol(f*pow(g,-1,p)%p,p)==legendre_symbol(f*g%p,p) for p in [7,11,13] for f in range(1,p) for g in range(1,p))",
+    "asserts": "(f/g | p) = (fg | p), justifying the reduction to the sign of (fg|p)"
+   },
+   {
+    "sympy": "p=13; assert all(sorted({(k*x)%p for x in range(p) if (1-x**2)%p==0 or legendre_symbol((1-x**2)%p,p)==1})==sorted({x for x in range(p) if (k*k-x**2)%p==0 or legendre_symbol((k*k-x**2)%p,p)==1}) for k in range(1,p))",
+    "asserts": "Scaling: admissible x for a = k^2 are k times admissible x for a = 1"
+   }
+  ],
+  "transcription_corrections": [
+   "The archival shelfmark is handwritten 'Gauß, Math. 5'; the crossed-out old number appears as '40i/12' struck through (or similar). The red-pencil marks 'II A' at the top right and the diagonal red scribble in the middle (possibly 'Jetzt ...') are not transcribed.",
+   "Otherwise the transcription of the text matches the image."
+  ]
+ }
+}

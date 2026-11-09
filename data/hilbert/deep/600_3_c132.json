@@ -1,0 +1,75 @@
+{
+ "bundle": "600_3",
+ "page": "c132",
+ "label": "129",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763758:00000133/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a programmatic or methodological note, not a calculation page. The first line continues a sentence that begins elsewhere. The facing transcription ends with 'Wenn gefordert wird, etwas zu berechnen, so', which reads naturally into this page's 'hört man häufig, das ist zu complicirt'. So the 'next' page may in fact precede this one. Hilbert is giving a precise criterion for when a computational problem counts as 'solved'.\n\n(1) Criterion. A problem asks for a quantity F(p) depending on data or parameters p. It is solved only if F can be computed by a number N of 'Rechnungsoperationen' with N <= C. Here C is a finite bound fixed before the computation and independent of the particular data or parameter values. In modern terms: there must be a straight-line program, or arithmetic circuit, of fixed size that works uniformly for all inputs. Objections that a formula is 'too complicated' are irrelevant in principle.\n\n(2) What counts as one operation. Operations are fixed, previously 'adjoined' operations. Adding n numbers counts as n operations (strictly n-1 additions). If the n summands are all equal, the sum is counted as one operation, namely a multiplication (n·a).\n\n(3) Example 1: arithmetic series. S(n) = 1 + 2 + ... + n computed term by term needs about n operations. Since n is part of the data, this count is unbounded, so termwise summation does not solve the problem. The formula S(n) = n(n+1)/2 reduces the task to n · (1/2) · (n+1): Hilbert's '2 multiplications', plus one addition n+1 that he does not mention. Here 2 is an 'absolute number' (a constant independent of the data). The cost is therefore bounded uniformly in n.\n\n(4) Example 2: geometric series. Evaluate 1 + x + x^2 + ... (|x| < 1) to a prescribed accuracy eps. The tail after N terms is sum_{k>=N} x^k = x^N/(1-x), which for 0<x<1 is less than eps iff N > log(eps(1-x))/log x (my addition). This N grows without bound as x -> 1. So the number of operations depends on the particular choice of x, and summing the series is not a uniform method. The closed form 1/(1-x) needs only a fixed small number of operations. Hilbert corrected '2' to '3'; the obvious count is one subtraction and one division, so 2.\n\n(5) Conclusion. 'Always the point is to achieve uniformity (Gleichmässigkeit) of the computation.' A historical remark follows: compare what was meant in different epochs by 'integrating a differential equation' or 'solving an equation'. Only through his requirement does every problem become precisely graspable ('erfassbar'). This ties to the facing page: the demand for a general method by which every problem can be definitely formulated and its solution status decided (e.g. the three-body problem). It also ties to the analogy that non-Archimedean proofs are 'uniform', since they need a bounded number of inferences independent of the figure.",
+  "errors": [
+   "Counting: adding n numbers takes n-1 binary additions, not n (harmless, order-of-magnitude statement).",
+   "n(n+1)/2 as written needs an addition (n+1) besides the two multiplications (or a multiplication and a halving); Hilbert counts only '2 Multiplikationen'. Still bounded, so the argument is unaffected.",
+   "For 1/(1-x) he corrects '2' to '3' operations; the natural count is 2 (subtraction, division) unless division is counted as reciprocal plus multiplication or the constant 1 is counted. Immaterial to the point.",
+   "Implicit model assumption (not an error in his framework): operations are unit-cost regardless of the size of the numbers (an algebraic/real-number model). In a bit-complexity model, evaluating n(n+1)/2 still costs time growing with log n."
+  ],
+  "results": [
+   {
+    "what": "Definition of a 'solved' computational problem: the number of arithmetic operations must be bounded by a constant fixed in advance, independent of the data or parameters (uniformity of computation).",
+    "modern_name": "Closed-form / bounded-size uniform arithmetic circuit (straight-line program) of constant size; constant-time computability in an algebraic unit-cost model (cf. algebraic complexity theory, BSS model)",
+    "usually_credited_to": "Algebraic complexity as a subject: A. Ostrowski (1954, Horner's rule optimality), later Strassen, Borodin–Munro, Blum–Shub–Smale (1989). Finitistic 'finite number of operations' criterion: Hilbert's Paris problems (1900, esp. 10th).",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Sum 1+...+n = n(n+1)/2 as the standard example of replacing an n-dependent computation by a bounded one.",
+    "modern_name": "Gauss summation formula for triangular numbers",
+    "usually_credited_to": "Ancient (Pythagoreans/Archimedes); anecdotally Gauss",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Geometric series to accuracy eps needs a number of terms depending on x (unbounded as x->1), versus the closed form 1/(1-x).",
+    "modern_name": "Geometric series and its tail estimate; non-uniform convergence on (-1,1)",
+    "usually_credited_to": "Classical (Archimedes, Euler, Cauchy for convergence)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Methodological claim that historical notions ('integrate a differential equation', 'solve an equation') were vague, and that the uniform-operation-count requirement makes every problem precisely formulable.",
+    "modern_name": "Precursor of formal notions of solvability/effective computability and of 'solution in closed form' (Liouville/Ritt-type questions made precise)",
+    "usually_credited_to": "Hilbert's general program of definite problem formulation (1900 Paris lecture); formal computability: Church/Turing 1936",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "Hilbert's insistence on solvability 'by a finite number of operations' is well known from 1900. This page goes further, explicitly demanding a bound on the operation count uniform in the input data. That is in effect a constant-size uniform arithmetic-circuit notion of closed form, with a unit-cost operation model and the n(n+1)/2 and geometric-series examples. It is a notable unpublished articulation anticipating algebraic-complexity thinking, and is linked to his 'uniformity' of non-Archimedean proofs. It is a conceptual remark rather than a theorem, and similar ideas are partly known from Hilbert's notebooks, so it is not a major priority claim.",
+  "checkable": [
+   {
+    "sympy": "simplify(summation(k, (k, 1, n)) - n*(n+1)/2) == 0",
+    "asserts": "1+2+...+n = n(n+1)/2"
+   },
+   {
+    "sympy": "simplify(summation(x**k, (k, 0, oo)).args[0][0] - 1/(1-x)) == 0",
+    "asserts": "Geometric series sums to 1/(1-x) for |x|<1"
+   },
+   {
+    "sympy": "simplify(summation(x**k, (k, N, oo)).args[0][0] - x**N/(1-x)) == 0",
+    "asserts": "Tail of the geometric series after N terms equals x^N/(1-x)"
+   },
+   {
+    "sympy": "limit(log(eps*(1-x))/log(x), x, 1, '-') == oo",
+    "asserts": "The number of terms N needed for accuracy eps (fixed, 0<eps<1) grows without bound as x->1-, i.e. the termwise operation count is not uniform in x"
+   }
+  ],
+  "transcription_corrections": [
+   "'so wird dass als eine Operation' should probably read 'so wird dann als eine Operation die Multiplikation gerechnet' ('eine' is underlined).",
+   "'n · 1/2 · n+1' should be read as n · (1/2) · (n+1).",
+   "'des Werten x' reads 'des Wertes x'.",
+   "'bestimmte bereits in bestimmter Weise adjungirte' likely means 'bestimmte, bereits in bestimmter Weise adjungirte [Operationen]'.",
+   "In 'verlangt nur [-2-] 3 Operation', the 2 is overwritten or struck and replaced by 3.",
+   "The underlined words 'Gleichmässigkeit' and 'jedes Problem' are emphasized in the original.",
+   "The first word 'hört' continues a sentence from a preceding page, plausibly the one ending 'Wenn gefordert wird, etwas zu berechnen, so'."
+  ]
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "bundle": "R.Aether",
+ "page": "c023",
+ "label": "12v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3234777:00000024/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 12v holds a small pencil sketch and four lines of spherical trigonometry. It has no visible connection to the potential theory (Green's identity) on 12r or to the wave equation and Helmholtz-type splitting on 13r. It is a stray side calculation, probably astronomical or geometric.\n\nSketch (top left): two perpendicular axes. A slightly decreasing straight line or curve starts on the vertical axis. Two vertical tick lines run down to the horizontal axis, with small marks or arrows near the right end. These look like a projection of a great circle inclined to a reference circle, or an inclination angle. Nothing quantitative can be read from it.\n\nSymbols, as I read them:\n- a: the longitude or right ascension of a node.\n- α: the right ascension or longitude of a point.\n- d: the declination (distance from the reference circle) of that point.\n- i: the inclination of the great circle through the node and the point.\n- δ: a second, comparison declination or angle.\n\nThe note '(90° − (α − a))' marks the side of the triangle used. My reading: it is a right spherical triangle with legs d and 90° − (α − a), and with angle i opposite the leg d.\n\nLine 1: Riemann first wrote 'cos d · tg d = ...', struck both, and wrote 'cot d' above. What stands is cot d = cos i · cot(α − a).\n\nLine 2: cos i = tg d · tg(α − a) > cos d.\n\nLine 3: cot i = cos(α − a) · cot d > cot δ. My derivation for the triangle above, using Napier's rules (sin of the middle part = product of the tangents of the adjacent parts): sin(90° − (α − a)) = tan d · cot i. Hence cos(α − a) = tan d cot i, i.e. cot i = cos(α − a) cot d, or equivalently tan d = tan i cos(α − a). So line 3 is correct for this configuration.\n\nThe inequality cot i > cot δ is a condition. For acute angles it means i < δ: the inclination is smaller than a given angle δ, e.g. a limiting declination or obliquity.\n\nLine 4: (cot δ · cos(α − a)) / cot d > 1. The last line apparently tries to turn the condition into a ratio greater than 1.\n\nThe lines therefore come from slightly different configurations. Lines 1–2 relate i, d and α − a in what looks like hypotenuse/adjacent-leg form; line 3 uses the 90° − (α − a) leg. They look like trial versions while Riemann settled which triangle to use. The purpose is plausibly to decide whether a point at right ascension α (node at a) on a circle of inclination i reaches declination beyond δ, or the reverse.",
+  "errors": [
+   "Lines 1 and 2 are mutually inconsistent. From cot d = cos i · cot(α − a) one gets cos i = cot d · tan(α − a), not tan d · tan(α − a). Either line 2 is a slip (tan for cot), or the two lines refer to different triangle configurations, e.g. d replaced by 90° − d.",
+   "Line 4 does not follow from line 3. From cos(α − a) · cot d > cot δ (with cot δ > 0) one gets cos(α − a) · cot d / cot δ > 1. The written cot δ · cos(α − a) / cot d > 1 has cot d and cot δ interchanged; it is either a slip or a different condition.",
+   "The inequality 'cos i > cos d' in line 2 and 'cot i > cot δ' in line 3 are asserted without stated hypotheses (signs, quadrants), so they are conditions being explored rather than derived facts."
+  ],
+  "results": [
+   {
+    "what": "Relation between inclination i, node a, right ascension α and declination d of a point on an inclined great circle: cot i = cos(α − a) · cot d, i.e. tan d = tan i · cos(α − a) (with leg 90° − (α − a)).",
+    "modern_name": "Napier's rules for right spherical triangles (standard positional-astronomy formula)",
+    "usually_credited_to": "John Napier (1614); standard textbook spherical astronomy",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Inequality condition comparing the inclination i (or declination d) with a limiting angle δ: cot i > cot δ, rewritten as a ratio > 1.",
+    "modern_name": "elementary inequality / visibility-type condition in spherical astronomy",
+    "usually_credited_to": "routine",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are routine spherical-trigonometry scratch formulas (Napier's rules) with a simple inequality condition, partly inconsistent between lines. They are unrelated to the aether or potential-theory material on the neighbouring pages and contain nothing non-standard.",
+  "checkable": [
+   {
+    "sympy": "i,u=symbols('i u',positive=True); d=atan(tan(i)*cos(u)); simplify(cot(i)-cos(u)*cot(d))",
+    "asserts": "If tan d = tan i·cos(α−a) (u = α−a), then cot i = cos(α−a)·cot d, i.e. line 3 holds (result 0)."
+   },
+   {
+    "sympy": "i,u=symbols('i u',positive=True); d=acot(cos(i)*cot(u)); simplify(cos(i)-cot(d)*tan(u))",
+    "asserts": "From line 1 (cot d = cos i cot u) it follows that cos i = cot d · tan u (result 0)."
+   },
+   {
+    "sympy": "i,u=symbols('i u',positive=True); d=acot(cos(i)*cot(u)); simplify(cos(i)-tan(d)*tan(u)).subs({i:pi/5,u:pi/7}).evalf()",
+    "asserts": "Nonzero result: line 2 (cos i = tan d tan u) is not consistent with line 1 as written."
+   },
+   {
+    "sympy": "u,d,D=symbols('u d D',positive=True); simplify((cos(u)*cot(d)/cot(D)) - (cot(D)*cos(u)/cot(d))).subs({u:pi/6,d:pi/5,D:pi/4}).evalf()",
+    "asserts": "Nonzero result: the ratio in line 4 is not the rearrangement of the inequality in line 3."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1: 'cos d' and 'tg d' are both struck through, and 'cot d' is written above 'tg d'. The surviving equation is cot d = cos i · cot(α − a), with '(90° − (α − a))' written to the left as a side label, not as a factor.",
+   "Line 3: in the image, 'cot d' appears struck or overwritten ('cotg d' with a stroke), and the right side ends 'cot δ', running into the margin.",
+   "Line 4: the numerator 'cot δ' appears struck or underlined in the image. The '>' before 1 is drawn heavily, possibly overwriting an earlier sign.",
+   "There is a pencil sketch (axes with a sloping line and vertical ticks) at top left, not recorded in the transcription."
+  ]
+ }
+}

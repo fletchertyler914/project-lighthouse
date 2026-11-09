@@ -1,0 +1,50 @@
+{
+ "bundle": "R.Konzepte",
+ "page": "c152",
+ "label": "74r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205002:00000153/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page holds no computation. It is a single definitional paragraph, the definition of a continuous function, ending with one consequence.\n\n(1) Informal (Cauchy-style) definition. \"z ändert sich stetig mit x zwischen den Grenzen a und b\" means that throughout the interval [a,b], every infinitely small change of x produces an infinitely small change of z.\n\n(2) 'Greiflicher' (more tangible) epsilon-delta reformulation. For every given ε > 0 there is an α > 0 such that, within any subinterval of x-values of length < α, the difference of two values of z is never > ε. In modern notation:\n∀ε>0 ∃α>0 ∀x,x' ∈ [a,b]: |x − x'| < α ⇒ |z(x) − z(x')| ≤ ε.\nThe single α serves the whole interval, so this is uniform continuity on [a,b], not pointwise continuity.\n\n(3) Consequence stated by Riemann: continuity, by this definition, carries with it the function's 'beständige Endlichkeit' (boundedness on the interval), even where this is not explicitly said.\n\nImplicit proof (my filling, certain). Take ε = 1 and the corresponding α. Split [a,b] into N = ceil((b−a)/α)+1 consecutive pieces, each shorter than α. On each piece z varies by at most 1. Chaining the pieces gives |z(x) − z(a)| ≤ N for every x in [a,b], so |z(x)| ≤ |z(a)| + N.\n\nPurpose: this is the foundational convention for later analytic arguments (integration, series, PDE). The same passage appears almost verbatim in Hattendorff's 1869 edition of Riemann's lectures 'Partielle Differentialgleichungen und deren Anwendung auf physikalische Fragen', there with w and z in place of z and x. This folio is evidently a draft or fair copy of that passage.",
+  "errors": [
+   "No outright error, but the two formulations are presented as equivalent ('oder greiflicher ausgedrückt') without justification. The infinitesimal version is naturally read pointwise; the ε-α version is uniform. They coincide on a closed bounded interval (Heine's theorem, 1872, via compactness), but not in general: 1/x is pointwise continuous on (0,1) yet neither uniformly continuous nor bounded. Riemann's boundedness claim is valid because he defines continuity by the uniform version and because a, b are finite. A pointwise reading would need the unstated compactness argument (or a closed interval).",
+   "Minor: 'ein Intervall für x, welches < α ist' means an interval of length < α; the bound is '≤ ε' ('nie > ε'), which is harmless."
+  ],
+  "results": [
+   {
+    "what": "ε-α definition of continuity of z(x) on [a,b], with α independent of position (uniform continuity)",
+    "modern_name": "uniform continuity (epsilon-delta definition)",
+    "usually_credited_to": "Cauchy (1821, infinitesimal form); Bolzano (1817); Weierstrass (lectures, 1860s); Heine (1872, explicit distinction and theorem)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Continuity (in the above uniform sense) on a finite interval implies boundedness",
+    "modern_name": "boundedness of (uniformly) continuous functions on a bounded interval; cf. the boundedness part of the extreme value theorem",
+    "usually_credited_to": "Bolzano (c. 1830, unpublished); Weierstrass (1860s lectures)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This passage is essentially the one printed in Hattendorff's 1869 edition of Riemann's PDE lectures. Historians (e.g. Laugwitz) have discussed it as Riemann's ε-α, implicitly uniform, definition of continuity. The manuscript confirms an already published and known text, so it is of minor documentary interest only.",
+  "checkable": [
+   {
+    "sympy": "simplify((x**2 - y**2) - (x + y)*(x - y)) == 0",
+    "asserts": "Identity behind a uniform-continuity example: on [0,b], |x^2 - y^2| <= 2*b*|x - y|, so alpha = eps/(2*b) works for z = x^2."
+   },
+   {
+    "sympy": "limit(1/d - 1/(2*d), d, 0, '+') == oo",
+    "asserts": "For z = 1/x on (0,1), the points x = d and x = 2d are within alpha of each other, but their z-values differ by 1/(2d), which is unbounded. So pointwise continuity alone does not give Riemann's uniform condition or boundedness off a closed interval."
+   },
+   {
+    "sympy": "simplify(Abs(z0) + (ceiling((b - a)/alpha) + 1)*eps - (Abs(z0) + ceiling((b - a)/alpha)*eps + eps)) == 0",
+    "asserts": "Bookkeeping of the boundedness argument: chaining N = ceil((b-a)/alpha)+1 subintervals, each of variation <= eps, gives |z(x)| <= |z(a)| + N*eps."
+   }
+  ],
+  "transcription_corrections": [
+   "The word 'stetig' is underlined in the manuscript.",
+   "Otherwise the transcription agrees with the image. The manuscript uses the symbols < and > ('welches < α ist', 'nie > ε ist'), as transcribed."
+  ]
+ }
+}

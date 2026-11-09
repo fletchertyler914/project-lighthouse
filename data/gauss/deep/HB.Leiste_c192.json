@@ -1,0 +1,63 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c192",
+ "label": "83",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000193/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a printed leaf from an 18th-century elementary algebra textbook bound into the Gauss bundle 'HB.Leiste'. It is p. 83, end of §176 and start of §177; the book is probably Leiste's Arithmetik und Algebra. The page itself carries no Gauss derivation. Only the strip at the left edge shows handwriting, and that is the facing manuscript leaf (the previous page), not annotation on this page.\n\nPRINTED TEXT\n(a) General form of 'complete determinate equations reduced to zero':\n- ax+b=0 (degree 1)\n- ax^2+bx+c=0 (degree 2)\n- ax^3+bx^2+cx+d=0 (degree 3)\n- ax^4+bx^3+cx^2+dx+e=0 (degree 4)\n- a x^m + b x^(m-1) + ... + kx + l = 0 (degree m)\nThe coefficients may be positive or negative, integer or fractional.\n\n(b) §177, solving linear equations by inverse operations:\n- A term is moved to the other side with its sign changed. Example: 4x+6=20 gives 4x=20-6, and ax-b=c gives ax=c+b.\n- A coefficient is removed by dividing every term: x=(20-6)/4, which equals 7/2 (the value is mine, not printed). Likewise x=(c+b)/a.\n- Divisors are cleared by multiplying every term, which removes fractions.\nThe continuation on p. 84 treats word problems.\n\nMARGIN (bleed from Gauss's facing leaf)\nThe fragments include 13132·7^3/3, :5040, 49·751/(5040·24)=5257/17280, 69120, 1728, 8028·7^3/3 + 5040/2·7^2, 25039 = 3577·7, and 5·7/(6·8).\nThey belong to Gauss's 'Bestimmung der Coefficienten für 8 Glieder', i.e. the closed Newton–Cotes weights for 8 equidistant nodes on [0,7] with unit spacing. Steps, with the derivation filled in by me:\n- For node 0: (t-1)(t-2)...(t-7) = t^7 - 28t^6 + 322t^5 - 1960t^4 + 6769t^3 - 13132t^2 + 13068t - 5040. Integrating term by term over [0,7] gives 7^8/8 - 28·7^7/7 + ... - 5040·7. Dividing by 7! = 5040 gives the weight of magnitude 7·751/17280 = 5257/17280.\n- For node 1: t(t-2)...(t-7) = t^7 - 27t^6 + 295t^5 - 1665t^4 + 5104t^3 - 8028t^2 + 5040t. This leads to the weight 7·3577/17280 = 25039/17280.\nThe complete rule is (7h/17280)(751, 3577, 1323, 2989, 2989, 1323, 3577, 751).",
+  "errors": [
+   "No errors in the printed text; the example 4x+6=20 leads correctly to x=14/4=7/2.",
+   "Margin: sign convention. Integrating (t-1)...(t-7) over [0,7] gives a negative number, -36799/24. Gauss's positive 5257/17280 corresponds to dividing by (-1)^7·7! (the Lagrange denominator), which is implicit."
+  ],
+  "results": [
+   {
+    "what": "General polynomial form of determinate equations of degree 1..m, and solving linear equations by transposition and division (printed textbook material).",
+    "modern_name": "Linear equation solving / polynomial normal form",
+    "usually_credited_to": "Standard elementary algebra (al-Khwarizmi onward; textbook by Leiste, 18th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Margin bleed from facing leaf: Gauss's computation of the closed 8-point Newton–Cotes weights (751, 3577, ... over 17280) by integrating Lagrange basis polynomials on [0,7].",
+    "modern_name": "Closed Newton–Cotes quadrature, 8 points",
+    "usually_credited_to": "Newton (1676), Cotes (1722, Harmonia mensurarum)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is a printed elementary algebra textbook page. The only Gauss material is marginal bleed of Newton–Cotes coefficient computations. Cotes tabulated these weights, and Gauss's 1814 quadrature paper discusses Cotes' coefficients, so the material is well known as his interest.",
+  "checkable": [
+   {
+    "sympy": "solve(4*x+6-20, x) == [Rational(7,2)]",
+    "asserts": "Solution of the printed example 4x+6=20."
+   },
+   {
+    "sympy": "expand(prod([t-j for j in range(1,8)])) == t**7-28*t**6+322*t**5-1960*t**4+6769*t**3-13132*t**2+13068*t-5040",
+    "asserts": "Coefficients used in the margin integral for node 0."
+   },
+   {
+    "sympy": "integrate(prod([t-j for j in range(1,8)]),(t,0,7))/(-5040) == Rational(5257,17280)",
+    "asserts": "Newton–Cotes weight of the end node equals 7*751/17280 = 5257/17280."
+   },
+   {
+    "sympy": "expand(t*prod([t-j for j in range(2,8)])) == t**7-27*t**6+295*t**5-1665*t**4+5104*t**3-8028*t**2+5040*t",
+    "asserts": "Coefficients of the second margin polynomial (node 1)."
+   },
+   {
+    "sympy": "integrate(t*prod([t-j for j in range(2,8)]),(t,0,7))/720 == Rational(25039,17280)",
+    "asserts": "Weight of node 1 equals 7*3577/17280 = 25039/17280."
+   },
+   {
+    "sympy": "Rational(49*751, 5040*24) == Rational(5257,17280)",
+    "asserts": "Gauss's reduction 49·751/(5040·24) = 5257/17280."
+   }
+  ],
+  "transcription_corrections": [
+   "Margin fragment '= 3257/17280' should read '= 5257/17280' (since 7·751 = 5257), as in the previous-page transcription.",
+   "Margin fragments '.751' and '040.24' are '49.751' over '5040.24' from the facing leaf.",
+   "The handwritten margin is bleed or the edge of the facing manuscript leaf, not annotation on this printed page."
+  ]
+ }
+}

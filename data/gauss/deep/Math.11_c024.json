@@ -1,0 +1,73 @@
+{
+ "bundle": "Math.11",
+ "page": "c024",
+ "label": "14r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376629:00000025/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Topic: the transformation between ecliptic coordinates (longitude λ, latitude β) and equatorial coordinates (right ascension α, declination δ), with obliquity ε. Gauss then finds how α and δ change when λ changes and β stays fixed. Read physically, this is a star's ecliptic longitude increasing through general precession, so the page derives the classical precession formulas in α and δ.\n\n(0) The sketch is a spherical triangle with sides marked 90−λ and 90+α. These are complements of the coordinates, the usual way to set up the triangle formed by the poles and the star.\n\n(1) cos α cos δ = cos λ cos β. Both sides equal the x-coordinate of the star's unit vector; the x-axis points to the equinox and is shared by both frames.\n\n(2) sin δ = cos ε sin β + sin ε cos β sin λ. This is the z-coordinate after rotating by ε about the x-axis.\n\n(3) Inverse relation: sin β = cos ε sin δ − sin ε cos δ sin α. The second term as written on the page or in the transcription appears garbled; see the corrections.\n\n(4) cos ε sin λ = tan β sin ε + tan α cos λ. This is the four-part (cotangent) formula. It follows from cos δ sin α = cos β sin λ cos ε − sin β sin ε, after dividing by cos β cos λ = cos δ cos α.\n\n(5) The inverse four-part formula: −cos ε sin α = tan δ sin ε − tan λ cos α. It follows from cos β sin λ = cos δ sin α cos ε + sin δ sin ε, divided by cos δ cos α.\n\n(6) Differentiate (2) with β held constant: cos δ dδ = sin ε cos β cos λ dλ. Hence dδ/dλ = sin ε cos β cos λ / cos δ. Using (1) this becomes dδ/dλ = sin ε cos α.\n\n(7) Differentiate (4) with β held constant: cos ε cos λ dλ = (cos λ / cos²α) dα − tan α sin λ dλ. Gauss writes the tan α sin λ term on the left side: cos ε cos λ + tan α sin λ = (cos λ/cos²α) dα/dλ.\n\n(8) Solving (7): dα/dλ = cos²α cos ε + cos α sin α tan λ.\n\n(9) Multiply (5) by −sin α (this step is mine, but implicit on the page). This gives cos α sin α tan λ = cos ε sin²α + tan δ sin ε sin α.\n\n(10) Substituting (9) into (8): dα/dλ = cos ε (cos²α + sin²α) + sin ε tan δ sin α = cos ε + sin ε tan δ sin α.\n\nResult: with dλ = p (general precession in longitude),\n- dα = p (cos ε + sin ε sin α tan δ)\n- dδ = p sin ε cos α\n\nIn the classical notation m = p cos ε, n = p sin ε, this is dα = m + n sin α tan δ and dδ = n cos α.",
+  "errors": [
+   "No genuine mathematical errors in the chain; every final result checks.",
+   "Line 3 as transcribed ('cos ε sin δ − cos ε sin δ sin α') is wrong. The correct inverse formula is sin β = cos ε sin δ − sin ε cos δ sin α. The slip is either Gauss's (ε and δ interchanged in the second term) or the transcription's; it is not used later.",
+   "In the dα step the term tan α sin λ is written on the left-hand side with a + sign. This is correct as a rearrangement, but it is easy to misread as part of the right side.",
+   "The differentials are written loosely: 'dδ = ...' means dδ/dλ at constant β. This is notational, not an error."
+  ],
+  "results": [
+   {
+    "what": "Ecliptic–equatorial transformation formulas: cos α cos δ = cos λ cos β; sin δ = cos ε sin β + sin ε cos β sin λ; and the inverse",
+    "modern_name": "Ecliptic to equatorial coordinate transformation (rotation about the equinox axis by the obliquity)",
+    "usually_credited_to": "Classical spherical astronomy (Ptolemy onward; modern form Euler/Lagrange era)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "cos ε sin λ = tan β sin ε + tan α cos λ and −cos ε sin α = tan δ sin ε − tan λ cos α",
+    "modern_name": "Four-part (cotangent) formula of spherical trigonometry applied to the polar triangle",
+    "usually_credited_to": "Standard spherical trigonometry (18th century)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "dα/dλ = cos ε + sin ε sin α tan δ, dδ/dλ = sin ε cos α (β fixed)",
+    "modern_name": "Annual precession in right ascension and declination: m + n sin α tan δ, n cos α",
+    "usually_credited_to": "18th-century astronomy (Bradley, Euler, Lalande, Lagrange); standard in textbooks",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "These are textbook spherical-astronomy formulas: the coordinate transformation and the standard precession formulas, derived in a routine way. They were well known before and during Gauss's time.",
+  "checkable": [
+   {
+    "sympy": "simplify((cos(e)*sin(l) - (tan(b)*sin(e) + (cos(b)*sin(l)*cos(e)-sin(b)*sin(e))/(cos(b)*cos(l))*cos(l))))",
+    "asserts": "cos ε sin λ = tan β sin ε + tan α cos λ, with tan α = (cos β sin λ cos ε − sin β sin ε)/(cos β cos λ); should simplify to 0"
+   },
+   {
+    "sympy": "simplify(cos(e)*(cos(b)*sin(l)*cos(e)-sin(b)*sin(e)) + sin(e)*(cos(e)*sin(b)+sin(e)*cos(b)*sin(l)) - cos(b)*sin(l))",
+    "asserts": "Inverse four-part formula. With cos δ sin α = cos β sin λ cos ε − sin β sin ε and sin δ = cos ε sin β + sin ε cos β sin λ, the identity cos β sin λ = cos ε cos δ sin α + sin ε sin δ holds, which is equivalent to −cos ε sin α = tan δ sin ε − tan λ cos α; should simplify to 0"
+   },
+   {
+    "sympy": "simplify(sin(b) - (cos(e)*(cos(e)*sin(b)+sin(e)*cos(b)*sin(l)) - sin(e)*(cos(b)*sin(l)*cos(e)-sin(b)*sin(e))))",
+    "asserts": "Corrected inverse formula sin β = cos ε sin δ − sin ε cos δ sin α; should simplify to 0"
+   },
+   {
+    "sympy": "a=atan2(cos(b)*sin(l)*cos(e)-sin(b)*sin(e), cos(b)*cos(l)); d=asin(cos(e)*sin(b)+sin(e)*cos(b)*sin(l)); simplify(diff(d,l) - sin(e)*cos(a))",
+    "asserts": "dδ/dλ at constant β equals sin ε cos α"
+   },
+   {
+    "sympy": "a=atan2(cos(b)*sin(l)*cos(e)-sin(b)*sin(e), cos(b)*cos(l)); d=asin(cos(e)*sin(b)+sin(e)*cos(b)*sin(l)); simplify(diff(a,l) - (cos(e)+sin(e)*tan(d)*sin(a)))",
+    "asserts": "dα/dλ at constant β equals cos ε + sin ε tan δ sin α; check numerically if simplify stalls"
+   },
+   {
+    "sympy": "simplify(cos(a)**2*cos(e) + cos(e)*sin(a)**2 + tan(d)*sin(e)*sin(a) - (cos(e) + sin(e)*tan(d)*sin(a)))",
+    "asserts": "Final algebraic step: cos²α cos ε + cos ε sin²α + tan δ sin ε sin α = cos ε + sin ε tan δ sin α"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3: the second term of the inverse formula should read sin ε cos δ sin α, not cos ε sin δ sin α. Correct formula: sin β = cos ε sin δ − sin ε cos δ sin α. A crossed-out start ('cos ...') precedes 'sin β'.",
+   "In the second line of the dα block, the uncertain symbol '[-=-]' is a struck-through '=', and the line reads cos ε sin²α = cos α sin α tg λ (with + tang δ sin ε sin α on the next line), i.e. cos α sin α tan λ = cos ε sin²α + tan δ sin ε sin α.",
+   "'+ tang α sin λ' belongs to the left-hand side: cos ε cos λ + tang α sin λ = (cos λ / cos²α) dα.",
+   "'cos α²' and 'sin α²' denote cos²α and sin²α (Gauss's usual notation)."
+  ]
+ }
+}

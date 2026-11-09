@@ -1,0 +1,57 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c052",
+ "label": "7r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000053/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This is a manuscript leaf bound into a printed arithmetic textbook (Leiste). The previous page's margin shows the same material starting there. The page assumes, implicitly, the Lagrange setting: x is defined as a function of two variables t and u by x = t + u·ξ(x). Writing ξ for ξ(x) and φ for φ(x), the basic lemma (stated by me, not on the page) is ∂F(x)/∂u = ξ·∂F(x)/∂t for any F. It follows from ∂x/∂u = ξ/(1−uξ'), ∂x/∂t = 1/(1−uξ').\n\nClaim (induction hypothesis), as written on the page: ∂^nφ/∂u^n = ∂^{n−1}/∂t^{n−1} [ ξ^n ∂φ/∂t ].\n\nStep 1. Differentiate both sides with respect to u. Mixed partial derivatives commute, so ∂^{n+1}φ/∂u^{n+1} = ∂^{n−1}/∂t^{n−1} [ ∂/∂u ( ξ^n ∂φ/∂t ) ]. Gauss's line ∂^n(ξ^n φ_t)/(dt^{n−1} du) says the same thing.\n\nStep 2. Differentiate inside first: ∂/∂u(ξ^n φ_t) = n ξ^{n−1} ξ_u φ_t + ξ^n φ_{tu}. The '+' is missing in the manuscript.\n\nStep 3. 'Gehörige Substitutionen' (my filling, certain), using the lemma:\n- ξ_u = ξ ξ_t;\n- φ_{tu} = ∂_t(φ_u) = ∂_t(ξ φ_t) = ξ_t φ_t + ξ φ_tt.\nHence the inner expression is n ξ^n ξ_t φ_t + ξ^n ξ_t φ_t + ξ^{n+1} φ_tt = (n+1) ξ^n ξ_t φ_t + ξ^{n+1} φ_tt.\n\nStep 4. This equals ∂/∂t (ξ^{n+1} φ_t). Therefore ∂^{n+1}φ/∂u^{n+1} = ∂^n/∂t^n [ ξ^{n+1} ∂φ/∂t ], which is the statement for n+1. 'Also das Gesetz allgemein bewiesen.' The base case n=1 is φ_u = ξ φ_t, i.e. the lemma itself.\n\nPurpose. Evaluated at u=0 (where x=t), this gives the Lagrange series φ(x) = φ(t) + Σ_{n≥1} u^n/n! · d^{n−1}/dt^{n−1}[ξ(t)^n φ'(t)].\n\nUnrelated scratch work at the bottom: the long division 6789548 ÷ 4 = 1697387, worked digit by digit (27−24, 38−36, 29−28, 15−12, 34−32, 28−28). It is correct and has no remainder.",
+  "errors": [
+   "Line 3 lacks the '+' between n ξ^{n−1} (dξ/du)(∂φx/∂t) and ξ^n d²φx/(dt du).",
+   "Line 4: the second term is written ξ^n d²φt/dt². It should be ξ^{n+1} d²φx/dt², since φ_tu = ξ_t φ_t + ξ φ_tt contributes an extra factor ξ. Writing φt for φx is a further slip. The final line is nevertheless correct, so these are copying slips, not logical errors.",
+   "The defining relation x = t + uξ(x) and the lemma ∂F/∂u = ξ∂F/∂t are never stated on this page. Presumably they are on the preceding margin or another leaf. The base case is likewise not shown here."
+  ],
+  "results": [
+   {
+    "what": "Inductive proof that, for x = t + uξ(x), ∂^nφ(x)/∂u^n = ∂^{n−1}/∂t^{n−1}[ξ(x)^n ∂φ(x)/∂t], using ∂F/∂u = ξ ∂F/∂t",
+    "modern_name": "Lagrange inversion theorem / Lagrange series (Laplace's proof via the commuting-derivative lemma)",
+    "usually_credited_to": "Lagrange (1770) for the series; Laplace (1777/1780s) for this style of proof",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Long division 6789548/4 = 1697387",
+    "modern_name": "elementary arithmetic",
+    "usually_credited_to": "n/a",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a textbook-standard (Laplace-style) inductive proof of the Lagrange series, written as study notes in the margins of an elementary arithmetic book, probably from Gauss's youth. It contains nothing beyond what was known in the 18th century.",
+  "checkable": [
+   {
+    "sympy": "series((1-sqrt(1-4*u*t))/(2*u), u, 0, 4)",
+    "asserts": "Solution of x = t + u*x**2 expands as t + t**2*u + 2*t**3*u**2 + 5*t**4*u**3 + ..., matching Lagrange coefficients (1/n!)*diff(t**(2*n), t, n-1)."
+   },
+   {
+    "sympy": "[diff(t**(2*n), t, n-1)/factorial(n) for n in [1,2,3]] == [t**2, 2*t**3, 5*t**4]",
+    "asserts": "The derivative formula at u=0 with ξ=x**2, φ=x gives the series coefficients."
+   },
+   {
+    "sympy": "simplify(diff(xi(x)**(n+1)*p, t) - ((n+1)*xi(x)**n*diff(xi(x),t)*p + xi(x)**(n+1)*diff(p,t)))  # with x=Function('x')(t), p=Function('p')(t)",
+    "asserts": "The final combination step: (n+1)ξ^n ξ_t φ_t + ξ^{n+1} φ_tt = ∂_t(ξ^{n+1} φ_t)."
+   },
+   {
+    "sympy": "6789548/4 == 1697387",
+    "asserts": "The long division on the page is correct."
+   }
+  ],
+  "transcription_corrections": [
+   "Line 3 should read ∂^{n−1}( nξ^{n−1}(dξ/du)(∂φx/∂t) [+] ξ^n d²φx/(dt du) ) / dt^{n−1}; the '+' is absent in the manuscript, and '∂t^1' is just ∂t.",
+   "Line 4: 'd²φt/dt²' is as written by the author, an author slip for φx. The factor ∂ξ/dt is written ∂ξ/∂t.",
+   "Line 2 left side is written with parentheses (d^{n+1}φx/du^{n+1}), and the right side is ∂^n ξ^n (dφx/dt)/(dt^{n−1}·du), consistent with the transcription.",
+   "'Allgemein wenn' and 'so ist nach u diff.' are read correctly."
+  ]
+ }
+}

@@ -1,0 +1,90 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c142",
+ "label": "133",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000143/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous page gives Gauss's elementary proof of Legendre's theorem for spherical triangles. This page states the generalisation to geodesic triangles on an arbitrary curved surface, in practice the earth spheroid. It then applies the result to the Hannover survey and begins the proof sketch.\n\n(1) Setup. A geodesic triangle has sides a, b, c and angles A, B, C. The Gaussian curvatures at the vertices A, B, C are alpha, beta, gamma, so the osculating sphere radii are 1/sqrt(alpha) etc. In the manuscript beta is written as a German b. Terms of fourth and higher order in the sides are neglected.\n\n(2) Sine-rule defect, stated by Gauss:\nlog(b sinC/(c sinB)) = (1/24)(b^2-c^2) alpha + (1/48)(-a^2+3b^2-3c^2) beta + (1/48)(a^2+3b^2-3c^2) gamma.\nThe gamma in the last term is missing on this page but present in the next page's derivation.\n\n(3) Angle excess:\nA+B+C = pi + (1/6)(alpha+beta+gamma) bc sinA, i.e. (area/3)(alpha+beta+gamma) with area ≈ (1/2) bc sinA. Conversion to arc seconds is implicit.\n\n(4) Generalised Legendre theorem. Define\n- dA = (bc sinA/24)(2alpha+beta+gamma)\n- dB = (bc sinA/24)(alpha+2beta+gamma)\n- dC = (bc sinA/24)(alpha+beta+2gamma)\nThen sin(A-dA)/a = sin(B-dB)/b = sin(C-dC)/c. The corrected angles sum to pi, since the corrections add up to the excess in (3).\n\nConsistency (my step): from (4), log(b sinC/(c sinB)) = cotC·dC - cotB·dB. Substitute the planar values cotB = (a^2+c^2-b^2)/(4S) and cotC = (a^2+b^2-c^2)/(4S), with S the area. This reproduces exactly the three coefficients in (2). So (2) and (4) are equivalent to this order.\n\n(5) Numerical application to the largest survey triangle, Hohehagen–Brocken–Inselsberg. Two columns of angle reductions are given:\n- First column: -4.95247'', -4.95264'', -4.95273''; sum -14.85784''.\n- Second column: 4.95119'', 4.95102'', 4.95093''; sum written 14.85313''.\nThe two columns presumably come from different curvature or ellipsoid data.\n\n(6) Proof sketch. Use geodesic polar coordinates (r, theta) about A, with r the geodesic distance and theta the angle against a fixed geodesic. The line element is ds^2 = dr^2 + g^2 dtheta^2, where f(r, theta) is the curvature at the endpoint. Gauss's equation is d^2 g/dr^2 = -f g, i.e. K = -g_rr/g. The proof continues on the next page with a second geodesic element dt making angle zeta with r: dr = dt cos zeta, g dtheta = dt sin zeta, dzeta = -g_r dtheta. Series expansion and integration along side a then yield (2).",
+  "errors": [
+   "In the stated sine-rule formula the factor gamma is omitted from the third term; it should read + (1/48)(a^2+3b^2-3c^2)*gamma. The next page's derivation has it correctly.",
+   "Second column sum: 4.95119+4.95102+4.95093 = 14.85314, written 14.85313 (last-digit rounding slip).",
+   "The excess formula A+B+C = 180° + (1/6)(alpha+beta+gamma) bc sinA mixes degrees with a radian quantity; a conversion factor to seconds is implicit. This is not a real error."
+  ],
+  "results": [
+   {
+    "what": "Angle excess of a small geodesic triangle equals area times the mean of the vertex curvatures, (area/3)(alpha+beta+gamma)",
+    "modern_name": "Local Gauss–Bonnet approximation / Gauss's theorem on geodesic triangles",
+    "usually_credited_to": "Gauss, Disquisitiones generales circa superficies curvas (1827/28)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Angle reductions dA = (S/12)(2alpha+beta+gamma) etc. that make the planar sine rule hold for a geodesic triangle",
+    "modern_name": "Gauss's generalisation of Legendre's theorem to arbitrary surfaces",
+    "usually_credited_to": "Gauss 1827 (Disquisitiones §28)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Fourth-order formula for log(b sinC/(c sinB)) in terms of vertex curvatures",
+    "modern_name": "Sine-rule defect for geodesic triangles",
+    "usually_credited_to": "Gauss 1827",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Geodesic polar coordinates with ds^2 = dr^2 + g^2 dtheta^2 and g_rr = -K g",
+    "modern_name": "Gauss curvature in geodesic polar coordinates (Jacobi equation)",
+    "usually_credited_to": "Gauss 1827",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Numerical reductions for the Hohehagen–Brocken–Inselsberg triangle",
+    "modern_name": "Geodetic application",
+    "usually_credited_to": "Gauss (Disquisitiones gives about 14.85348'' excess)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft or summary of results Gauss published in Disquisitiones generales circa superficies curvas (1827), including the same geodetic triangle. Only the intermediate numbers and the explicit log-ratio formula as a separate lemma are mildly of interest.",
+  "checkable": [
+   {
+    "sympy": "a,b,c=symbols('a b c',positive=True); S=sqrt((a+b+c)*(-a+b+c)*(a-b+c)*(a+b-c))/4; cotB=(a**2+c**2-b**2)/(4*S); cotC=(a**2+b**2-c**2)/(4*S); simplify(S/12*(cotC-cotB)-(b**2-c**2)/24)",
+    "asserts": "alpha-coefficient of the log formula follows from the angle corrections (result 0)"
+   },
+   {
+    "sympy": "simplify(S/12*(cotC-2*cotB)-(-a**2+3*b**2-3*c**2)/48)",
+    "asserts": "beta-coefficient check (result 0)"
+   },
+   {
+    "sympy": "simplify(S/12*(2*cotC-cotB)-(a**2+3*b**2-3*c**2)/48)",
+    "asserts": "gamma-coefficient check (result 0)"
+   },
+   {
+    "sympy": "k,b,c=symbols('k b c',positive=True); series(log(b*sin(sqrt(k)*c)/(c*sin(sqrt(k)*b))),k,0,2).removeO()-k*(b**2-c**2)/6",
+    "asserts": "Sphere case alpha=beta=gamma=k: the log formula gives k(b^2-c^2)/6 (result 0)"
+   },
+   {
+    "sympy": "Rational(495247,100000)+Rational(495264,100000)+Rational(495273,100000)-Rational(1485784,100000)",
+    "asserts": "first column sums correctly (0)"
+   },
+   {
+    "sympy": "Rational(495119,100000)+Rational(495102,100000)+Rational(495093,100000)-Rational(1485313,100000)",
+    "asserts": "second column sum is off by 1e-5 (gives 1/100000)"
+   },
+   {
+    "sympy": "r,K=symbols('r K',positive=True); g=sin(sqrt(K)*r)/sqrt(K); simplify(diff(g,r,2)+K*g)",
+    "asserts": "g_rr = -f g holds for constant curvature (0)"
+   }
+  ],
+  "transcription_corrections": [
+   "The second curvature is written as a German/Fraktur b (as on the next page), not a Greek beta.",
+   "Third term of the log formula: the manuscript indeed lacks gamma (an author slip), not a transcription loss.",
+   "'g ∂θ' in the proof section is probably rho (ϱ ∂θ), consistent with ϱ on the next page.",
+   "In 'Winkel den sie mit einer ähnlichen festen Linie macht', 'ähnlichen' means another geodesic from A."
+  ]
+ }
+}

@@ -1,0 +1,86 @@
+{
+ "bundle": "PH.Dioptrik",
+ "page": "c056",
+ "label": "27r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382418:00000057/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this page applies Gauss's continuant (Euler-bracket) formalism from the Dioptrische Untersuchungen (1841) to a lens whose second surface is silvered (a back-surface mirror, later called a Mangin mirror). Light refracts in at surface 1, crosses the glass, reflects at surface 2, crosses back and refracts out at surface 1. The next page evaluates this numerically for c=0.270, r=13.302, r'=33.461, n=1.531.\n\nData. Radii r (surface 1) and r' (surface 2), both positive for a biconvex lens; axial thickness c; relative index n.\n\nElements of the chain:\n- Powers: u0 = -(n-1)/r for refraction in; u' = -2n/r' for reflection inside glass of index n; u'' = -(n-1)/r for refraction out.\n- Reduced distances: t' = t'' = c/n.\n- Write p=(n-1)/r, q=c/n, s=2n/r'.\n\nGaussian constants as continuants K:\n(1) g = K(-p,q,-s,q) = 1 + ab + ad + cd + abcd = 1 - 2c/r' - 2(n-1)c/(nr) + 2(n-1)c^2/(n r r').\n(2) h = K(q,-s,q) = 2q - s q^2 = 2c/n - 2c^2/(n r').\n(3) k = K(-p,q,-s,q,-p).\n - Expansion: k = -2(n-1)/r - 2n/r' + 4(n-1)c/(rr') + 2(n-1)^2 c/(n r^2) - 2(n-1)^2 c^2/(n r^2 r').\n - Gauss factors this as k = -2A*B, with A = (n-1)/r + n/r' - (n-1)c/(rr') and B = 1 - (n-1)c/(nr).\n(4) l = K(q,-s,q,-p) = g, because a continuant is invariant under reversal and the system is symmetric. Implicitly gl - hk = 1 (continuant identity, (-1)^4).\n\nPrincipal points (my filling). 1 - g = 2qA, so (1-g)/k = -q/B = -c/(nλ). Hence both principal points coincide, as for any mirror: E = E* = N + 1/(n/c - (n-1)/r) = N + c/(nλ). Here N is the vertex of the first surface and λ = 1 - (n-1)c/(nr). Gauss's sign corresponds to measuring into the lens. Geometrically this is the apparent (paraxial) image of the mirror vertex seen through the first surface.\n\nEquivalent mirror. A mirror of radius R has power -2/R, so k = -2/R gives virtual radius R = 1/(A*B), which is twice the focal length. Since A = (n-1)/r + λn/r', this becomes 2(E - F) = 1/(λ((n-1)/r + λn/r')).\n\nNumerical check from the next page: λ = 1 - (0.531/1.531)(0.270/13.302) ≈ 0.99296, so log λ ≈ -0.00306, as Gauss writes.",
+  "errors": [
+   "No mathematical errors found. All expansions of g, h and k, the factorization of k, l=g, the principal-point formula and the λ-forms check out.",
+   "Sign conventions (E = N + c/(λn), with (1-g)/k actually equal to -c/(nλ)) depend on Gauss's orientation convention for reflected light. This is not an error, but it is left implicit."
+  ],
+  "results": [
+   {
+    "what": "Gaussian (paraxial) constants g,h,k,l of a back-silvered lens via continuants, with reflection treated as refraction with power -2n/r'",
+    "modern_name": "ABCD / ray-transfer matrix of a Mangin mirror (thick lens + mirror unfolded system)",
+    "usually_credited_to": "Gauss 1841 for the formalism; the Mangin mirror is named after A. Mangin (1870s); back-silvered meniscus used earlier, e.g. W.F. Hamilton 1814",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Coincident principal points of the silvered lens located at the apparent image of the mirror vertex: E = N + c/(nλ)",
+    "modern_name": "Equivalent mirror of a catadioptric element; principal planes of a reflecting system coincide",
+    "usually_credited_to": "Standard consequence of Gaussian optics (Gauss 1841, Möbius)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Equivalent mirror radius 1/(λ((n-1)/r + λn/r')) = twice the focal length",
+    "modern_name": "Focal length / equivalent radius of a Mangin mirror",
+    "usually_credited_to": "Standard paraxial optics textbooks",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is a clean, correct application of Gauss's own published continuant method to a back-silvered lens. The factorization and the equivalent-mirror interpretation are neat but routine within his theory. The idea of a silvered lens predates Gauss.",
+  "checkable": [
+   {
+    "sympy": "n,c,r,rp=symbols('n c r rp'); K=lambda *a: (1 if len(a)==0 else a[0] if len(a)==1 else a[-1]*K(*a[:-1])+K(*a[:-2])); p=(n-1)/r; q=c/n; s=2*n/rp; simplify(K(-p,q,-s,q) - (1-2*c/rp-2*(n-1)/n*c/r+2*(n-1)/n*c**2/(r*rp)))==0",
+    "asserts": "g expansion is correct"
+   },
+   {
+    "sympy": "simplify(K(q,-s,q) - (2*c/n - 2*c**2/(n*rp)))==0",
+    "asserts": "h expansion is correct"
+   },
+   {
+    "sympy": "simplify(K(-p,q,-s,q,-p) - (-2*(n-1)/r-2*n/rp+4*(n-1)*c/(r*rp)+2*(n-1)**2/n*c/r**2-2*(n-1)**2/n*c**2/(r**2*rp)))==0",
+    "asserts": "k expansion is correct"
+   },
+   {
+    "sympy": "simplify(K(-p,q,-s,q,-p) + 2*((n-1)/r+n/rp-(n-1)*c/(r*rp))*(1-(n-1)/n*c/r))==0",
+    "asserts": "factorization of k is correct"
+   },
+   {
+    "sympy": "simplify(K(q,-s,q,-p)-K(-p,q,-s,q))==0",
+    "asserts": "l = g"
+   },
+   {
+    "sympy": "simplify(K(-p,q,-s,q)*K(q,-s,q,-p)-K(q,-s,q)*K(-p,q,-s,q,-p))==1",
+    "asserts": "determinant gl - hk = 1"
+   },
+   {
+    "sympy": "lam=1-(n-1)/n*c/r; simplify((1-K(-p,q,-s,q))/K(-p,q,-s,q,-p) + c/(n*lam))==0",
+    "asserts": "principal point offset magnitude c/(n*lambda)"
+   },
+   {
+    "sympy": "simplify(1/(n/c-(n-1)/r) - c/(lam*n))==0",
+    "asserts": "the two forms of E - N agree"
+   },
+   {
+    "sympy": "simplify(((n-1)/r+n/rp-(n-1)*c/(r*rp)) - ((n-1)/r+lam*n/rp))==0",
+    "asserts": "lambda rewriting of the virtual radius denominator"
+   },
+   {
+    "sympy": "N(log(1-Rational(531,1531)*Rational(270,13302),10))",
+    "asserts": "approximately -0.00306, matching the next page"
+   }
+  ],
+  "transcription_corrections": [
+   "'k ≠ (' in the image is 'k = (' with a stray stroke.",
+   "Folio marks: top 'Phys. 1' and right margin '28' (overwritten) with circled '27'.",
+   "Second principal-point line reads 'E = E' = N + c/(λn)' (E' rather than E*). Both denote the coinciding second principal point."
+  ]
+ }
+}

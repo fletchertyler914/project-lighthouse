@@ -1,0 +1,49 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c052",
+ "label": "26r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000053/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (from the previous page): Riemann is treating the potential of a Franklin plate, a condenser made of two circular metal coatings A and B on either side of a thin dielectric, at a point off the axis. The on-axis case was already done in the preceding section. For off-axis points he announces only an approximate treatment. Here he begins the case of points in a special position, apparently on the mantle of the cylinder erected on a coating (case b of the previous page).\n\nStep 1 (methodological remark). He abandons the analytic route because it produces 'äußerst verwickelte Doppelintegrale'. On the previous page this was P∬ r dr dθ / sqrt(x^2+…+r^2) − P∬ r dr dθ / sqrt((x+ε)^2+r^2), which is elliptic-integral territory off the axis. He chooses purely geometric considerations instead. The only thing kept from the earlier method is treating the two superposed charge 'systems' separately.\n\nStep 2 (setup). Let F(x,y) be the potential produced at a point (x,y) by the charge of the 'first system' sitting on coating B. Here x is the coordinate normal to the plates and y the lateral coordinate. The corresponding equal and opposite charge on coating A lies at normal distance 2ε further away. It produces −F(x+2ε,y).\n\nStep 3. The total potential of the first system is\nV(x,y) = F(x,y) − F(x+2ε,y).\n\nStep 4 (Taylor expansion in the normal variable, F' = ∂F/∂x):\nV = −2ε F_x(x,y) − (correct coefficient 2ε^2) F_xx(x,y) − …\nRiemann writes the second term as −F''·ε^2.\n\nStep 5. Since ε is very small compared with the other lengths (plate radius, distance of the point), the first term is an adequate approximation:\nV ≈ −2ε ∂F/∂x.\nThis is the double-layer (dipole-sheet) approximation: potential ≈ dipole moment per unit area × normal derivative of the single-layer potential.\n\nWhat this serves (next page): ∂F/∂x is the x-component of the force exerted by a uniform plane layer. Riemann then proves geometrically, by dividing the plane into sectors with vertex at the foot of the perpendicular and using sectors in planes through the normal, that this component equals the density times the solid angle under which the coating is seen from the point. So the condenser potential reduces to (surface density × 2ε) × solid angle, a purely geometric quantity.",
+  "errors": [
+   "Taylor coefficient slip: F(x+2ε) = F + 2εF_x + (2ε)^2/2·F_xx + … = F + 2εF_x + 2ε^2 F_xx + …, so the second term of F(x,y) − F(x+2ε,y) should be −2ε^2 F''(x,y), not −ε^2 F''(x,y). This is harmless, since only the first-order term is used.",
+   "Neglecting higher terms is justified only for points whose distance from the coating edge is large compared with ε. Near the rim of the coating (where the cylinder mantle of case b meets the plate) F_x varies rapidly and the approximation degrades; this is not discussed.",
+   "Minor: the 'F' used here for potential is later identified with a force component; sign conventions (force = −∇V) are left implicit."
+  ],
+  "results": [
+   {
+    "what": "Potential of two opposite, closely spaced uniform layers approximated by −2ε times the normal derivative of the single-layer potential (first-order Taylor expansion)",
+    "modern_name": "double-layer (dipole sheet) potential approximation",
+    "usually_credited_to": "Gauss (Allgemeine Lehrsätze, 1839/40); Helmholtz 1853 for electrical double layers; standard potential theory",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Plan to express the normal force component of a uniform plane layer geometrically, leading (next page) to density × solid angle",
+    "modern_name": "solid-angle formula for the normal field of a uniform plane lamina / double-layer potential = moment × solid angle",
+    "usually_credited_to": "Gauss (1839–40); used widely in 19th-c. electrostatics and magnetism (Ampère's magnetic shell)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a standard first-order Taylor (dipole-layer) approximation applied to a condenser problem, of the kind expected in Weber/Kohlrausch-circle experimental electrostatics around 1853. The ensuing solid-angle method is classical (Gauss). The page is of biographical interest only, showing Riemann working on practical condenser electrostatics; there is no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "x,y,e=symbols('x y e',positive=True); F=1/sqrt(x**2+y**2); simplify(series(F-F.subs(x,x+2*e),e,0,3).removeO() - (-2*e*diff(F,x) - 2*e**2*diff(F,x,2)))",
+    "asserts": "F(x)-F(x+2e) = -2e F_x - 2e^2 F_xx + O(e^3), so the correct coefficient of F'' is 2e^2, not e^2 (result 0)"
+   },
+   {
+    "sympy": "x,a=symbols('x a',positive=True); F=2*pi*(sqrt(x**2+a**2)-x); simplify(-diff(F,x) - 2*pi*(1-x/sqrt(x**2+a**2)))",
+    "asserts": "For a uniform disc of radius a (unit density), the on-axis normal force -dF/dx equals the solid angle 2*pi*(1-cos(alpha)) subtended by the disc (result 0), anticipating the geometric theorem of the next page"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'die Elektricitätsmenge .. [-daß-] des ersten Systems': the struck word appears to be 'daß' or 'des' overwritten; reading 'die Elektricitätsmenge des ersten Systems auf B in irgend einem Punkte hervorruft' is consistent with the image.",
+   "In the Taylor line, the image shows '− F'(x,y) 2ε − F''(x,y) ε² …'; the transcription is faithful, and the mathematical slip is Riemann's.",
+   "'[-und-] da ε sehr klein ist' : the image shows 'und' overwritten/struck before 'da'; acceptable.",
+   "'eine sehr entsprechende Näherung' is confirmed by the image."
+  ]
+ }
+}

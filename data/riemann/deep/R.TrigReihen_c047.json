@@ -1,0 +1,60 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c047",
+ "label": "22v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000048/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is §10 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854). The preceding article showed that if the coefficients of the series Ω tend to 0, convergence at a point x depends only on the behaviour of F near x. This page asks when the coefficients do tend to 0. It singles out the case where f is bounded and Riemann-integrable.\n\n(1) Riemann's integrability criterion, as stated in his §5. Partition [-π,π] into pieces of lengths δ_1, δ_2, …. Let D_k be the oscillation (sup − inf) of f on the k-th piece. Then Σ δ_k D_k → 0 as max δ_k → 0.\n\n(2) The coefficient expressions are, apart from the factor 1/π, integrals I_n(a) = ∫_{-π}^{π} f(x) sin n(x−a) dx. By 2π-periodicity this equals ∫_a^{a+2π} f(x) sin n(x−a) dx. Suitable choices of a give the coefficients of both sin nx and cos nx; for example, a = −π/(2n) gives cos nx. [This remark is mine.]\n\n(3) Split [a, a+2π] into n subintervals J_s = [a + 2πs/n, a + 2π(s+1)/n], for s = 0, …, n−1. On J_s the factor sin n(x−a) is ≥ 0 on the first half and ≤ 0 on the second half. Let M and m be the sup and inf of f on J_s.\n- Replacing f by M on the first half and by m on the second half can only increase the integral.\n- Replacing f by m on the first half and by M on the second half can only decrease it.\n- Since ∫ over a half-interval of |sin n(x−a)| dx = 2/n, the integral lies between (2/n)(m−M) and (2/n)(M−m). The continuation onto the next page completes this.\n- Hence |∫_{J_s} f sin n(x−a) dx| ≤ (2/n)(M_s − m_s).\n\n(4) Summing over s: |I_n(a)| ≤ (2/n) Σ_s (M_s − m_s) = (1/π) · Σ_s (2π/n) D_s. This is 1/π times an oscillation sum for a partition of mesh 2π/n. By (1) ('n. V.' = nach Voraussetzung) it tends to 0 as n → ∞. So the Fourier coefficients of a bounded integrable function tend to 0. This is the conclusion stated on the next page.",
+  "errors": [
+   "No mathematical errors. The bounds are non-strict ('vergrößert'/'verkleinert' should be read as ≤/≥). Riemann's wording 'kleiner als' should likewise be read as ≤.",
+   "Implicit step: the oscillation-sum criterion is applied to the periodically extended f on [a, a+2π]. This is legitimate because Riemann's criterion holds for every partition whose mesh tends to 0. The shifted partition straddles the point π, where the periodic extension may jump; a jump only adds a bounded oscillation on a single piece, which is harmless."
+  ],
+  "results": [
+   {
+    "what": "Fourier coefficients ∫ f(x) sin n(x−a) dx of a bounded Riemann-integrable function tend to 0, proved by splitting into half-periods and bounding each piece by (2/n)·oscillation",
+    "modern_name": "Riemann–Lebesgue lemma (Riemann-integrable case)",
+    "usually_credited_to": "Riemann (Habilitationsschrift 1854, publ. 1867); extended by Lebesgue (1903)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Integrability criterion: Σ δ_k D_k → 0 as mesh → 0",
+    "modern_name": "Riemann integrability criterion (oscillation / Darboux-sum form)",
+    "usually_credited_to": "Riemann 1854",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a manuscript draft of §10 of Riemann's published Habilitationsschrift. The proof that Fourier coefficients of a Riemann-integrable function vanish (the Riemann–Lebesgue lemma) is well known as his, and the text matches the published version.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(sin(n*(x-a)), (x, a, a+pi/n)) - 2/n) == 0  # with n positive integer symbol",
+    "asserts": "The positive half-period of sin n(x−a) has integral 2/n."
+   },
+   {
+    "sympy": "simplify(integrate(sin(n*(x-a)), (x, a+pi/n, a+2*pi/n)) + 2/n) == 0",
+    "asserts": "The negative half-period has integral −2/n, giving the extreme values ±(2/n)(M−m)."
+   },
+   {
+    "sympy": "simplify(M*2/n + m*(-2/n) - 2*(M-m)/n) == 0",
+    "asserts": "The upper bound obtained by replacing f with M on the first half and m on the second is (2/n)(M−m)."
+   },
+   {
+    "sympy": "simplify(Sum(2*D(s)/n, (s,0,n-1)) - (1/pi)*Sum((2*pi/n)*D(s), (s,0,n-1)))",
+    "asserts": "The total bound equals (1/π) times the oscillation sum with mesh 2π/n."
+   },
+   {
+    "sympy": "limit(integrate(Heaviside(x)*sin(n*x), (x, -pi, pi)), n, oo)  # = limit((1-cos(pi*n))/n) = 0",
+    "asserts": "Sanity example: the coefficients of a bounded integrable step function tend to 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'{+ein+}' is the word 'ein' underlined for emphasis ('einen Fall'); it is not an insertion.",
+   "'n. V.' abbreviates 'nach Voraussetzung' (by hypothesis).",
+   "The page number at top is '36.', with the bundle folio marking '22'.",
+   "The faint mirrored text in the left margin is bleed-through from the previous page (Art. 9 formulas), not part of this page."
+  ]
+ }
+}

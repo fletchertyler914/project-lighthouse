@@ -1,0 +1,62 @@
+{
+ "bundle": "R.Luftwellen",
+ "page": "c049",
+ "label": "38v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205096:00000050/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the opening of the derivation in Riemann's draft of 'Über die Fortpflanzung ebener Luftwellen von endlicher Schwingungsweite' (1860). The previous page is a draft introduction to that paper, and the next page is an outline of its sections.\n\nSetup. Rectangular coordinates x, y, z are introduced, with the x-axis along the direction of the motion. The motion is plane: all quantities depend only on x and t. Notation:\n- rho(x,t) is the density;\n- u(x,t) is the velocity along x (implicit on this page);\n- omega is an element of area of a plane perpendicular to x;\n- a is the constant in the Boyle–Mariotte law p = a^2 rho (isothermal gas).\n\nMass balance.\n- The volume ('Inhalt') of the cylinder of height dx standing on omega is omega dx. The mass it contains is rho omega dx.\n- During dt this mass changes by dx omega (∂rho/∂t) dt.\n- This change must equal the net mass flowing in through the two end faces, -∂(rho u)/∂x omega dx dt. Riemann's own inflow expression is crossed out and largely illegible; the minus-sign form is my completion.\n- Hence, in modern form: ∂rho/∂t + ∂(rho u)/∂x = 0.\n\nMomentum balance.\n- The acceleration of a fluid particle is the material derivative ∂u/∂t + u ∂u/∂x.\n- The net pressure force on the cylinder in the +x direction is -(∂p/∂x) omega dx = -a^2 (∂rho/∂x) omega dx.\n- Newton's law (mass rho omega dx times acceleration) gives rho(∂u/∂t + u ∂u/∂x) = -a^2 ∂rho/∂x.\n\nRewritten form, labelled (1).\n- Dividing the continuity equation by rho gives ∂log rho/∂t + u ∂log rho/∂x = -∂u/∂x.\n- The momentum equation, divided by rho, becomes ∂u/∂t + u ∂u/∂x = -a^2 ∂log rho/∂x. This form is implicit here (my step).\n- This symmetric pair in (log rho, u) is the starting point for Riemann's characteristic combinations a·log rho ± u, the Riemann invariants of the isothermal case. Those come on later pages, not here.\n\nThe previous page has the same momentum equation, ρ(u_t + u u_x) = -a^2 ρ_x, in an earlier attempt. A crossed-out fragment at the bottom ('... beiden Wellen ...') hints at the two-wave decomposition to come.\n\nThe published paper treats a general pressure law p = φ(ρ); this draft uses the isothermal law p = a^2 ρ.",
+  "errors": [
+   "A crossed-out intermediate, '∂rho/∂t dt = ∂(rho u)/∂x', has the wrong sign (it should be -∂(rho u)/∂x) and inconsistent differentials. Riemann deleted it, and the retained derivation is correct.",
+   "The momentum equation is derived in nonconservative (material) form directly. This is valid for smooth flow only, which is fine at this stage. Riemann later confronts discontinuities (Verdichtungsstöße) separately.",
+   "Equation (1) as written records only the continuity equation in log form. The companion momentum equation in log form is left implicit."
+  ],
+  "results": [
+   {
+    "what": "1D continuity equation for plane gas flow, in conservative form and in the form ∂log ρ/∂t + u ∂log ρ/∂x = -∂u/∂x",
+    "modern_name": "Mass conservation / continuity equation (1D compressible Euler)",
+    "usually_credited_to": "Euler (1755–57)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Momentum equation ρ(u_t + u u_x) = -a^2 ρ_x for isothermal gas with p = a^2 ρ",
+    "modern_name": "1D isothermal Euler equations (nonlinear acoustics)",
+    "usually_credited_to": "Euler (equations); Poisson (1808), Stokes (1848), Earnshaw (1858–60) for finite-amplitude plane waves",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Formulation as the first step of the finite-amplitude plane-wave problem, leading to the characteristic/Riemann-invariant method",
+    "modern_name": "Setup for Riemann invariants / method of characteristics for hyperbolic systems",
+    "usually_credited_to": "Riemann (1860)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine draft derivation of the 1D isothermal Euler equations. It is the published starting point of Riemann's well-known 1860 shock-wave paper. Nothing here goes beyond the published text.",
+  "checkable": [
+   {
+    "sympy": "x,t=symbols('x t'); r=Function('rho')(x,t); u=Function('u')(x,t); simplify((diff(r,t)+diff(r*u,x))/r - (diff(log(r),t)+u*diff(log(r),x)+diff(u,x)))",
+    "asserts": "The conservative continuity equation divided by rho equals the log form (1); the result is 0."
+   },
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); r=Function('rho')(x,t); u=Function('u')(x,t); simplify((r*(diff(u,t)+u*diff(u,x))+a**2*diff(r,x))/r - (diff(u,t)+u*diff(u,x)+a**2*diff(log(r),x)))",
+    "asserts": "The momentum equation with p=a^2 rho, divided by rho, equals u_t + u u_x + a^2 (log rho)_x; the result is 0."
+   },
+   {
+    "sympy": "x,t,a=symbols('x t a',positive=True); r=Function('rho')(x,t); u=Function('u')(x,t); L=log(r); c=-(diff(L,t)+u*diff(L,x)+diff(u,x)); m=-(diff(u,t)+u*diff(u,x)+a**2*diff(L,x)); w=a*L+u; simplify(diff(w,t)+(u+a)*diff(w,x) - (a*c+m))",
+    "asserts": "Combining the two equations shows that a·log rho + u is transported along dx/dt = u + a whenever both equations hold. This is the Riemann invariant implicit in this setup; the expression simplifies to 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'Die Fläche[?] ... Cylinders' should read 'Der Inhalt des auf dem Element ω stehenden Cylinders', i.e. its volume ω dx.",
+   "The opening is likely 'Man denke sich rechtwinklige Coordinaten x, y, z eingeführt, die x Axe in die Richtung der ursprünglichen Bewegung ...'.",
+   "Before the log-form equation, 'oder[?]' is more likely 'd. i.'.",
+   "The marginal '(2) und' at the right edge belongs to the adjacent sheet, not to this text.",
+   "The crossed-out continuity fragment reads approximately '∂ρ/∂t dt ... ∂(ρu)/∂x dx dt'. The retained expression for the mass change is dx ω (∂ρ/∂t) dt.",
+   "The log-form line uses ∂log ρ, written with an abbreviated 'log'; the transcription has this correctly."
+  ]
+ }
+}

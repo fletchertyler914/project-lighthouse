@@ -1,0 +1,80 @@
+{
+ "bundle": "Math.32",
+ "page": "c008",
+ "label": "5r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382184:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: the previous leaf reads 'aus Kästner Geometrische Abhandlungen 1791', so this leaf is most likely Gauss's study notes or excerpt on the basic relations of the spherical triangle and their differential forms. These are the 'differential variations' of a spherical triangle used for error estimation in astronomy and geodesy. Notation: sides a, b, c; opposite angles A, B, C.\n\nLOWER BLOCK (finite relations; the left margin numbers 1-4 mark the main formulas, and dashes mark auxiliary formulas):\n(1) Cosine law for sides: cos a = cos b cos c + sin b sin c cos A.\n(-) Five-part (analogue) formula: sin a cos B = cos b sin c - sin b cos c cos A. It is needed to simplify the coefficients when (1) is differentiated. Its cyclic variant sin a cos C = cos c sin b - sin c cos b cos A is the one actually used.\n(2) Sine law: sin a sin B = sin b sin A.\n(-) Polar five-part formula, with the roles of (A,a) and (B,b) exchanged: cos a sin B = cos A sin C + sin A cos C cos b. It is needed for differential formula 4.\n(3) Polar cosine law: cos B = -cos A cos C + sin A sin C cos b.\n(4) Cotangent (four-part) formula for the consecutive parts b, A, c, B: cos A cos c = cot b sin c - cot B sin A. The small numerals 1, 2, 3, 4 under the factors label the parts b = 1, A = 2, c = 3, B = 4, i.e. the four consecutive elements in order.\n\nUPPER BLOCK (differentials):\n1. da = cos B dc + cos C db + sin b sin C dA.\n   Derivation (my fill-in): differentiate (1):\n   -sin a da = -(sin b cos c - cos b sin c cos A) db - (sin c cos b - cos c sin b cos A) dc - sin b sin c sin A dA.\n   By the five-part formulas the bracketed terms are sin a cos C and sin a cos B. Then sin c sin A / sin a = sin C by the sine law.\n2. dA = -cos b dC - cos c dB + sin b sin C da.\n   This is the polar dual of 1 (substitute a -> pi - A, A -> pi - a). Duality gives the coefficient sin B sin c. Gauss writes sin b sin C, which is equal by the sine law. Equivalently it follows from differentiating the polar cosine law.\n3. cot a da - cot b db = cot A dA - cot B dB.\n   This is the logarithmic differential of the sine law, log sin a - log sin b = log sin A - log sin B.\n4. 0 = sin C db - cos C sin b dA - cos a sin B dc - sin a dB.\n   Derivation (my fill-in): differentiate F = sin c cot b - sin A cot B - cos c cos A = 0, giving\n   dF = -(sin c / sin^2 b) db + (cos c cot b + sin c cos A) dc + (cos c sin A - cos A cot B) dA + (sin A / sin^2 B) dB.\n   Multiply by -sin C sin^2 b / sin c, and use the sine law, the cosine law and the polar cosine law cos C = -cos A cos B + sin A sin B cos c. The coefficients become:\n   - db: sin C\n   - dc: -sin B cos a\n   - dA: -sin b cos C\n   - dB: -sin a\n\nPurpose: a table of the four fundamental spherical-triangle relations, each paired with its differential form. This lets one find how small errors in some parts propagate to the others.",
+  "errors": [
+   "No mathematical errors found. All four differential formulas and all six finite formulas check out.",
+   "The coefficient in formula 2 is written sin b sin C, whereas direct polar duality gives sin B sin c. These are equal by the sine law, so this is not an error.",
+   "The margin numbering of the finite formulas (1 cosine, 2 sine, 3 polar cosine, 4 cotangent) does not match the differential formulas, where 2 is the polar cosine differential and 3 the sine differential. This is a labelling inconsistency only."
+  ],
+  "results": [
+   {
+    "what": "Cosine law for sides, sine law, polar cosine law and five-part (analogue) formulas of spherical trigonometry",
+    "modern_name": "Spherical law of cosines, law of sines, polar (angle) cosine law, five-part formula",
+    "usually_credited_to": "Medieval Islamic astronomers (sine law: Abu Nasr Mansur / al-Biruni, 10th-11th c.); Regiomontanus (cosine law for sides, 15th c.); Viète (polar relations, 16th c.); Euler and Lagrange (systematic 18th-c. form)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "cos c cos A = sin c cot b - sin A cot B for four consecutive parts",
+    "modern_name": "Cotangent four-part formula",
+    "usually_credited_to": "Classical; in standard 18th-century treatments (Euler, Kästner, etc.); often loosely associated with Napier/Viète-era trigonometry",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Differential relations between the parts of a spherical triangle (da, dA, sine-law log differential, four-part differential)",
+    "modern_name": "Differential formulas of spherical trigonometry (error propagation in spherical triangles)",
+    "usually_credited_to": "Roger Cotes, 'Aestimatio errorum in mixta mathesi' (1722); later Euler, Lagrange, Kästner",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Standard textbook material of 18th-century spherical trigonometry, apparently noted alongside an excerpt from Kästner's Geometrische Abhandlungen (1791). Nothing non-standard is present; Gauss's familiarity with these formulas is self-evident from his astronomical and geodetic work.",
+  "checkable": [
+   {
+    "sympy": "b,c,A=0.7,1.1,0.9; a=acos(cos(b)*cos(c)+sin(b)*sin(c)*cos(A)); B=asin(sin(b)*sin(A)/sin(a)); C=asin(sin(c)*sin(A)/sin(a)); N(sin(a)*cos(B)-(cos(b)*sin(c)-sin(b)*cos(c)*cos(A)))",
+    "asserts": "Five-part formula sin a cos B = cos b sin c - sin b cos c cos A (should be ~0; the chosen values give acute B and C, so asin is valid)"
+   },
+   {
+    "sympy": "same setup; N(cos(a)*sin(B)-(cos(A)*sin(C)+sin(A)*cos(C)*cos(b)))",
+    "asserts": "Polar five-part formula cos a sin B = cos A sin C + sin A cos C cos b (~0)"
+   },
+   {
+    "sympy": "same setup; N(cos(B)-(-cos(A)*cos(C)+sin(A)*sin(C)*cos(b)))",
+    "asserts": "Polar cosine law (~0)"
+   },
+   {
+    "sympy": "same setup; N(cos(A)*cos(c)-(cot(b)*sin(c)-cot(B)*sin(A)))",
+    "asserts": "Cotangent four-part formula (~0)"
+   },
+   {
+    "sympy": "b,c,A=symbols('b c A'); a=acos(cos(b)*cos(c)+sin(b)*sin(c)*cos(A)); B=asin(sin(b)*sin(A)/sin(a)); C=asin(sin(c)*sin(A)/sin(a)); [N((diff(a,x)-(cos(C)*(x==b)+cos(B)*(x==c)+sin(b)*sin(C)*(x==A))).subs({b:0.7,c:1.1,A:0.9})) for x in (b,c,A)]",
+    "asserts": "Formula 1: partial derivatives da/db = cos C, da/dc = cos B, da/dA = sin b sin C (all ~0)"
+   },
+   {
+    "sympy": "with a,B,C as functions of (b,c,A): N((sin(b)*sin(C)-sin(B)*sin(c)).subs({b:0.7,c:1.1,A:0.9}))",
+    "asserts": "The coefficient in formula 2 equals the polar-dual coefficient sin B sin c (~0)"
+   },
+   {
+    "sympy": "with a,B,C as functions of (b,c,A): [N((cot(a)*diff(a,x)-cot(b)*diff(b,x)-cot(A)*diff(A,x)+cot(B)*diff(B,x)).subs({b:0.7,c:1.1,A:0.9})) for x in (b,c,A)]",
+    "asserts": "Formula 3: log-differential of the sine law (~0)"
+   },
+   {
+    "sympy": "with a,B,C as functions of (b,c,A): [N((sin(C)*diff(b,x)-cos(C)*sin(b)*diff(A,x)-cos(a)*sin(B)*diff(c,x)-sin(a)*diff(B,x)).subs({b:0.7,c:1.1,A:0.9})) for x in (b,c,A)]",
+    "asserts": "Formula 4: 0 = sin C db - cos C sin b dA - cos a sin B dc - sin a dB (~0)"
+   }
+  ],
+  "transcription_corrections": [
+   "No substantive corrections; the machine transcription matches the image.",
+   "Gauss mixes 'd' and '∂' for the same ordinary differentials; both should be read as d.",
+   "In formula 2, 'dC' is written with a capital C resembling a 'C/E' form; it is dC.",
+   "The marginal '48 [-5-] 5' and '(5)' are archival foliation marks, not mathematics. The underset numerals 2, 3, 1, 3, 4, 2 in the cotangent formula label the consecutive parts b = 1, A = 2, c = 3, B = 4."
+  ]
+ }
+}

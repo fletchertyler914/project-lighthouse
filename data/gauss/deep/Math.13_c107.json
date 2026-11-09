@@ -1,0 +1,78 @@
+{
+ "bundle": "Math.13",
+ "page": "c107",
+ "label": "53r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376633:00000108/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a set of tables of biquadratic (quartic) residue classes for the primes p ≡ 1 (mod 4) from 101 to 149. The next page continues the series (157, 173, 181, 193) and then tabulates the class of +3 and -3. Each block has the same structure.\n\nHeader 'p, g, f, a+bi':\n- p is the prime.\n- g is a primitive root mod p.\n- f is the square root of -1 mod p given by f ≡ g^((p-1)/4).\n- a+bi is the Gaussian prime factor of p with a²+b² = p, normalized so that a ≡ 1 (mod 4), b is even, and a + b f ≡ 0 (mod p); equivalently a f ≡ b. Under this normalization, i ↦ f in Z[i]/(a+bi) ≅ F_p.\n\nThe five header cases:\n- p=101, g=2: f = 2^25 = 10 (mod 101), 10² = 100 ≡ -1; 101 = 1²+10²; 1 + 10·10 = 101 ≡ 0.\n- p=109, g=6: f = 6^27 = 33; 33² = 1089 ≡ -1; 109 = 3²+10²; -3 + 330 = 327 = 3·109.\n- p=113, g=3: f = 3^28 = 98; 98² ≡ -1; 113 = 7²+8²; -7 - 784 = -7·113.\n- p=137, g=3: f = 3^34 = 100; 100² ≡ -1; 137 = 11²+4²; -11 - 400 = -3·137.\n- p=149, g=2: f = 2^37 = 105; 105² ≡ -1; 149 = 7²+10²; -7 + 1050 = 7·149.\n\nRows A, B, C, D: the residues 1..p-1 are partitioned by ind_g(x) mod 4. Equivalently, the classes are defined by x^((p-1)/4) ≡ 1, f, -1, -f. This is exactly the A/B/C/D classification of Gauss's Theoria residuorum biquadraticorum I (1828). A is the set of biquadratic residues. Each class has (p-1)/4 members; the counts on the page are 25, 27, 28, 34 and 37, all correct.\n\nSpot checks (mine):\n- p=149: the powers 2^(4k) mod 149 are 16, 107, 73, 125, 63, 114, 36, 129, 127, ..., all listed in A.\n- p=137: 4, 16, 64, 81 and 3^8 = 122 are in A. 2, 8, 9, 32, 128 and 44 (= 3^6) are in C. 27 and 3^7 = 132 are in D. 3^5 = 106 is in B.\n- -1 = p-1 lies in C when (p-1)/4 is odd (101, 109, 149) and in A when it is even (113, 137), as listed.\n\nThese tables serve as the empirical basis for the biquadratic character of small numbers, from which Gauss induced biquadratic reciprocity.\n- Class of 2: 2 lies in B, B, A, C, B for b/2 = 5, 5, -4, -2, 5, i.e. classes A, B, C, D correspond to b/2 ≡ 0, 1, 2, 3 (mod 4). This is Gauss's 1828 theorem on the quartic character of 2.\n- Class of 3: 3 lies in B (101), A (109), B (113), B (137), D (149). These entries feed the '+3 | -3' tally on the next page, and they match it.",
+  "errors": [
+   "No errors found in the header data (f, g, a+bi) or in the spot-checked class memberships.",
+   "Class sizes all equal (p-1)/4."
+  ],
+  "results": [
+   {
+    "what": "Complete tables of quartic residue classes (index mod 4 relative to f = g^((p-1)/4)) for p = 101, 109, 113, 137, 149",
+    "modern_name": "Quartic residue character / biquadratic residue symbol tables",
+    "usually_credited_to": "Gauss, Theoria residuorum biquadraticorum I (1828) for the class concept",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Normalization of the Gaussian prime a+bi | p with a ≡ 1 mod 4, b even, a f ≡ b (mod p), linking i to f",
+    "modern_name": "Choice of Gaussian prime factor compatible with the reduction map Z[i] -> F_p (near-primary normalization)",
+    "usually_credited_to": "Gauss (1828/1832)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Data consistent with the class of 2 being determined by b/2 mod 4",
+    "modern_name": "Supplementary law for 2 in quartic reciprocity",
+    "usually_credited_to": "Gauss 1828",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are computational tables of exactly the kind Gauss used for biquadratic residues in 1828-1832. The classification, the normalization and the use of the data (characters of 2 and of ±3) are well known as his. This is a neat confirmation of his working method, not a new result.",
+  "checkable": [
+   {
+    "sympy": "[pow(2,25,101), pow(6,27,109), pow(3,28,113), pow(3,34,137), pow(2,37,149)] == [10,33,98,100,105]",
+    "asserts": "f = g^((p-1)/4) mod p for each header"
+   },
+   {
+    "sympy": "all((f**2+1) % p == 0 for p,f in [(101,10),(109,33),(113,98),(137,100),(149,105)])",
+    "asserts": "f is a square root of -1 mod p"
+   },
+   {
+    "sympy": "all(a**2+b**2==p and (a+b*f)%p==0 and a%4==1 for p,f,a,b in [(101,10,1,10),(109,33,-3,10),(113,98,-7,-8),(137,100,-11,-4),(149,105,-7,10)])",
+    "asserts": "Header Gaussian factors: norm p, a ≡ 1 mod 4, a + b f ≡ 0 mod p"
+   },
+   {
+    "sympy": "all(sympy.is_primitive_root(g,p) for p,g in [(101,2),(109,6),(113,3),(137,3),(149,2)])",
+    "asserts": "the listed g are primitive roots"
+   },
+   {
+    "sympy": "sorted(x for x in range(1,149) if sympy.discrete_log(149,x,2)%4==0) == [1,5,6,16,17,19,25,28,29,30,31,33,36,37,39,46,49,63,67,73,80,81,85,88,95,96,102,104,107,114,123,125,127,129,140,142,145]",
+    "asserts": "class A for p=149 is exactly as written"
+   },
+   {
+    "sympy": "[sympy.discrete_log(p,2,g)%4 for p,g in [(101,2),(109,6),(113,3),(137,3),(149,2)]] == [1,1,0,2,1]",
+    "asserts": "class of 2 (B,B,A,C,B) matches b/2 mod 4 = 5,5,-4,-2,5"
+   },
+   {
+    "sympy": "[sympy.discrete_log(p,3,g)%4 for p,g in [(101,2),(109,6),(113,3),(137,3),(149,2)]] == [1,0,1,1,3]",
+    "asserts": "class of 3 is B,A,B,B,D, matching the +3 tally on the next page"
+   },
+   {
+    "sympy": "sympy.discrete_log(137,44,3)%4 == 2",
+    "asserts": "44 belongs to class C for p=137 (the transcription's [?] entry is correct)"
+   }
+  ],
+  "transcription_corrections": [
+   "p=137, class C: the entry read as '44[?]' is clearly 44, which is correct (44 = 3^6 mod 137, index ≡ 2).",
+   "p=149, class B: the struck-out sequence at the start of the fourth line is a deleted false start; the valid continuation is 109.126.131.134.135.141.146.",
+   "The header '-43d/24-' is a struck-out older shelf/folio mark."
+  ]
+ }
+}

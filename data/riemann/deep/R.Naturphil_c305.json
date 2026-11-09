@@ -1,0 +1,70 @@
+{
+ "bundle": "R.Naturphil",
+ "page": "c305",
+ "label": "154v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000306/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Riemann's lecture notes on the mechanics of solid bodies, leading to elasticity and the stability of equilibrium. The previous page states Gauss's principle of least constraint for a system of mass points with given forces, and introduces central pair forces m m' f(r) with F'(r) = -f(r). This page specialises Gauss's principle to the case where the forces come from such a potential.\n\n(1) Setup. Masses m_i, m_j attract each other with force m_i m_j f_ij(r_ij). Define F_ij with F_ij'(r) = -f_ij(r). The force function (potential with the sign convention 'force = +grad') is\n P = sum_{i,j} m_i m_j F_ij(r_ij), where r_ij^2 = (x_i-x_j)^2 + (y_i-y_j)^2 + (z_i-z_j)^2.\nThe force components are X_i = dP/dx_i, and likewise Y_i, Z_i. [Mine:] dP/dx_i = -sum_j m_i m_j f_ij(r_ij)(x_i-x_j)/r_ij. For f > 0 this points toward m_j, so f is the attraction.\n\n(2) Gauss's principle (from the previous page). Positions and velocities at time t are given. The actual accelerations minimise\n G = sum m |a|^2 - 2 sum (X a_x + Y a_y + Z a_z).\nThis equals sum m |a - F/m|^2 minus a constant. Insert X_i = dP/dx_i:\n G = sum m |a|^2 - 2 sum_i (P_{x_i} xdd_i + P_{y_i} ydd_i + P_{z_i} zdd_i).\n\n(3) Riemann writes the last sum as d^2P/dt^2 (he writes a partial, but means the total time derivative). [Mine:] in fact\n d^2P/dt^2 = sum_i grad_i P . a_i + sum_{i,k} (velocity-quadratic terms in the second derivatives of P).\nThe second part depends only on positions and velocities, which are held fixed in Gauss's variation. So the replacement changes G only by a constant, and\n sum m |a|^2 - 2 d^2P/dt^2 = Min\nis legitimate.\n\n(4) Taylor expansion: P_{t+dt} = P + P' dt + P'' dt^2/2 + ... Multiply G by dt^2 and use a dt = d(dx/dt), the velocity increment. Since P and P' = sum grad P . v are fixed:\n 2 P'' dt^2 = 4 (P_{t+dt} - P - P' dt) + O(dt^3).\nThis gives\n sum m [ (d dx/dt)^2 + (d dy/dt)^2 + (d dz/dt)^2 ] - 4 P_{t+dt} = Min.\nVerbal reading: in each instant the velocity changes are as small as possible while 4P (the force function at the next instant) is as large as possible. The marginal note probably says that this is 'gleichbedeutend/gleichgültig' to P being a maximum. P is the force function, i.e. minus the potential energy.\n\n(5) The definition P = sum sum m m' F(r) is repeated, now with the remark that only very small changes in time (positions) are considered. The final formula splits the forces into internal molecular forces, with potential P, and additional external forces X, Y, Z:\n sum m |d v|^2 - 4 P_{t+dt} - 2 sum (X xdd + Y ydd + Z zdd) dt^2 = Min.\nThe next page uses this together with energy conservation (1/2 sum m v^2 - P = const) and the maximum U of P at equilibrium. That is the Lagrange-Dirichlet stability argument, from which Riemann concludes that molecular distances in a solid change only infinitesimally (elasticity).",
+  "errors": [
+   "Riemann writes the partial derivative of P twice with respect to t where the total derivative d^2P/dt^2 is meant. Moreover, sum grad P . a is only the acceleration-dependent part of d^2P/dt^2. The velocity-quadratic remainder is constant under Gauss's variation, so the equivalence holds but is left unstated.",
+   "The double sum P = sum_i sum_j m_i m_j F_ij over ordered pairs counts each pair twice, which would make dP/dx_i twice the force. One must either sum over i<j or include a factor 1/2. Riemann does not specify.",
+   "Passing from 2P'' dt^2 to 4P_{t+dt} silently drops the constant terms P and P' dt (constant under the variation) and terms of order O(dt^3). This is correct to leading order but unstated.",
+   "In the formula for r^2 the square on the (y_i - y_j) term appears to be missing or misplaced. This is a trivial slip."
+  ],
+  "results": [
+   {
+    "what": "Force function of central pair forces: P = sum m_i m_j F_ij(r_ij) with F' = -f, and X_i = dP/dx_i",
+    "modern_name": "Potential energy (force function) of central two-body interactions",
+    "usually_credited_to": "Lagrange, Laplace, Poisson (force function); Gauss and Green for the term 'potential'",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Gauss's principle with conservative forces: sum m a^2 - 2 d^2P/dt^2 = Min",
+    "modern_name": "Gauss's principle of least constraint (Zwang) for potential forces",
+    "usually_credited_to": "C. F. Gauss (1829)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Time-discretised form: sum m (dv)^2 - 4 P(t+dt) = Min, i.e. the smallest velocity change together with the largest force function at the next instant; also stated with additional external forces",
+    "modern_name": "Incremental (finite-dt) reformulation of Gauss's principle; loosely akin to a one-step variational/proximal formulation of dynamics",
+    "usually_credited_to": "Not a standard named result; a lecture-level reformulation of Gauss 1829",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is lecture-note material: Gauss's principle of least constraint specialised to a molecular pair potential, with a minor Taylor-expansion rewriting. It is used as a step toward the standard Lagrange-Dirichlet stability argument for elastic solids. The '4P_{t+dt}' form is a mildly idiosyncratic presentation, but not a new result.",
+  "checkable": [
+   {
+    "sympy": "m,X,a=symbols('m X a',positive=True); solve(diff(m*a**2-2*X*a,a),a) == [X/m]",
+    "asserts": "Gauss's function for one coordinate is minimised by Newton's law a = X/m."
+   },
+   {
+    "sympy": "m,X,a=symbols('m X a',positive=True); simplify(m*a**2-2*X*a - (m*(a-X/m)**2 - X**2/m)) == 0",
+    "asserts": "Gauss's function equals the constraint sum m(a-X/m)^2 up to a constant independent of a."
+   },
+   {
+    "sympy": "t=symbols('t'); x1,x2=Function('x1')(t),Function('x2')(t); m1,m2=symbols('m1 m2',positive=True); F=Function('F'); P=m1*m2*F(x1-x2); d2=diff(P,t,2); acc=diff(P,x1.diff(t,2)) if False else m1*m2*Derivative(F(x1-x2),x1)*0; simplify(d2 - (m1*m2*Subs(Derivative(F(Symbol('u')),Symbol('u')),Symbol('u'),x1-x2).doit()*(x1.diff(t,2)-x2.diff(t,2)) + m1*m2*Subs(Derivative(F(Symbol('u')),Symbol('u'),2),Symbol('u'),x1-x2).doit()*(x1.diff(t)-x2.diff(t))**2))",
+    "asserts": "In 1D, d^2P/dt^2 = grad P . acceleration + (velocity-quadratic term). Only the first part depends on the accelerations. Should simplify to 0."
+   },
+   {
+    "sympy": "t,h=symbols('t h'); P=Function('P'); series(4*(P(t+h)-P(t)-diff(P(t),t)*h) - 2*diff(P(t),t,2)*h**2, h, 0, 3).removeO().doit().simplify() == 0",
+    "asserts": "2 P'' dt^2 = 4(P(t+dt) - P(t) - P'(t)dt) + O(dt^3), justifying the replacement of -2P'' by -4P_{t+dt}."
+   },
+   {
+    "sympy": "x1,y1,z1,x2,y2,z2,m1,m2=symbols('x1 y1 z1 x2 y2 z2 m1 m2'); f=Function('f'); r=sqrt((x1-x2)**2+(y1-y2)**2+(z1-z2)**2); u=Symbol('u'); F=Lambda(u, Integral(-f(Symbol('s')),(Symbol('s'),1,u))); simplify(diff(m1*m2*F(r),x1) + m1*m2*f(r)*(x1-x2)/r) == 0",
+    "asserts": "With F' = -f, dP/dx_1 = -m1 m2 f(r)(x1-x2)/r, an attraction of magnitude m1 m2 f(r) directed toward m2."
+   }
+  ],
+  "transcription_corrections": [
+   "The 'd^2P/dt^2' written with partial-derivative symbols should be read as the total derivative d^2P/dt^2.",
+   "In r^2 the (y_i - y_j) term lacks a visible square in the manuscript. The transcription reproduces this, but it should be (y_i - y_j)^2.",
+   "The marginal phrase read 'gleichgültig[?]' may be 'gleichbedeutend'. The sense is that the minimum condition is equivalent to 4P being a maximum (combined with minimal velocity change).",
+   "The phrase 'bei sehr kleiner Änderung in der Zeit[?]': the manuscript seems to read 'bei sehr kleinen Änderung in der Zeit'. The sense, small changes over the time step, is unchanged.",
+   "In the first line the double sum Sigma Sigma with an initial struck-out f (corrected to F) is correctly noted; the deleted letter in the definition of P is a crossed-out f overwritten by F."
+  ]
+ }
+}

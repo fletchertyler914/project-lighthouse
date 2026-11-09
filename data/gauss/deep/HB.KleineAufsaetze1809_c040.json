@@ -1,0 +1,54 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c040",
+ "label": "31",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000041/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a five-place table of Gaussian addition logarithms (Gauss's 'A, B, C' table). There is no derivation, only tabulation. It continues p. 30 (A = 1.680–1.760) and runs on to p. 32 (A from 1.840).\n\nColumn structure (headers left blank, ruled boxes in blocks of five rows):\n- Col 1: argument A = log10(a), from 1.760 to 1.840 in steps of 0.001. The left half covers 1.760–1.800 and the right half 1.800–1.840.\n- Col 2: B(A) = log10(1 + 10^(-A)) = log10(1 + 1/a), to 5 decimals.\n- Col 3, written between rows: first differences -ΔB in units of 10^-5 (values 1 or 2).\n- Col 4: C(A) = A + B(A) = log10(1 + 10^A) = log10(1 + a).\n- Col 5, between rows: first differences ΔC in units of 10^-5 (98 or 99).\n\nBecause ΔA = 0.001 = 100 units, ΔC = 100 - |ΔB| identically, i.e. 1↔99 and 2↔98. This serves as a running check, and it holds in every row.\n\nVerified samples (my computations):\n- A = 1.760: 10^-1.76 = 0.017378, log10(1.017378) = 0.007483 → 0.00748, C = 1.76748.\n- A = 1.800: 10^-1.8 = 0.015849 → B = 0.006829 → 0.00683.\n- A = 1.825: B = 0.0064499 → 0.00645, a near-tie that is correctly rounded.\n- A = 1.840: B = 0.006233 → 0.00623.\n- Spot checks at 1.761, 1.762, 1.763, 1.764, 1.765, 1.769, 1.775, 1.786, 1.789, 1.790, 1.796, 1.799, 1.809, 1.810, 1.811, 1.817, 1.833, 1.837 and 1.838 all agree to the last place.\n\nPurpose: to compute log(a+b) or log(a-b) from log a and log b without returning to numbers. With A = log a - log b one has log(a+b) = log b + C(A) = log a + B(A). This is exactly the scheme of the table Gauss published in 1812 (Monatliche Correspondenz 26). The bundle date 1809 fits the preparation of that table. The neat ruled fair-copy layout suggests a printer's or fair copy; whether it is in Gauss's own hand is not determinable here.",
+  "errors": [
+   "No numerical errors found in the checked entries; B values agree with log10(1+10^-A) rounded to 5 places, and C = A + B and the difference columns are internally consistent throughout.",
+   "The visible ink corrections are corrections, not errors: the overwritten digit in 1.78026 and in 1.78321, the corrected final 6 in 0.00666 (A=1.811), and the blotted 0.00657 / 1.82357 (A=1.817). The final readings are correct."
+  ],
+  "results": [
+   {
+    "what": "Table of B(A)=log10(1+10^-A) and C(A)=A+B=log10(1+10^A) for A=1.760..1.840, step 0.001, five decimals, with first differences",
+    "modern_name": "Gaussian (addition/subtraction) logarithms; Zech-type logarithm table",
+    "usually_credited_to": "Idea due to Z. Leonelli (1802/03); Gauss published the standard A-B-C table in 1812 (Monatliche Correspondenz), hence 'Gaussian logarithms'",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a page of Gauss's well-known table of addition logarithms, published 1812 and named after him. It is routine computation consistent with the published work; nothing new is present.",
+  "checkable": [
+   {
+    "sympy": "[round(float(log(1+10**(-Rational(1760+k,1000)),10)),5) for k in range(0,81)]",
+    "asserts": "Reproduces column B (e.g. 0.00748 at A=1.760, 0.00683 at 1.800, 0.00645 at 1.825, 0.00623 at 1.840)"
+   },
+   {
+    "sympy": "simplify(Rational(1,1)*x + log(1+10**(-x),10) - log(1+10**x,10))",
+    "asserts": "C = A + B equals log10(1+10^A) (expression simplifies to 0)"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(1825,1000)),10),12)",
+    "asserts": "B(1.825)=0.006449930..., which rounds to 0.00645 as tabulated (near-tie case)"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(1817,1000)),10),8)",
+    "asserts": "B(1.817)≈0.0065691 → 0.00657, confirming the blotted entry"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(1781,1000)),10),8)",
+    "asserts": "B(1.781)≈0.0071322 → 0.00713"
+   }
+  ],
+  "transcription_corrections": [
+   "Headers are blank in the image; the column meanings (A, B, ΔB, C, ΔC) are inferred.",
+   "At A=1.811 the B entry 0,00666 has its final digit overwritten in the manuscript; the reading 0,00666 is correct.",
+   "At A=1.817 the entries 0,00657 and 1,82357 are partly obscured by an ink blot; the readings 0,00657 / 1,82357 are confirmed by computation.",
+   "At A=1.776 the C entry 1,78321 has an overwritten 3; the reading is correct.",
+   "At A=1.773 the C entry 1,78026 has a corrected final 6; the reading is correct."
+  ]
+ }
+}

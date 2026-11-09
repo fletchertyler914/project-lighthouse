@@ -1,0 +1,76 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c090",
+ "label": "44r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000091/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the draft of §3 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published by Dedekind 1867). It is the historical part, at the point where Dirichlet's 1829 work is discussed.\n\n(1) Two classes of series. A real series Σu_k falls into one of two classes:\n- Class I: Σ|u_k| converges (modern: absolutely convergent).\n- Class II: Σu_k converges but Σ|u_k| diverges (modern: conditionally convergent).\nIn class I the terms may be rearranged freely. In class II the sum depends on the order of the terms.\n\n(2) Proof of the rearrangement claim. Let a_1, a_2, ... be the positive terms of a class II series and -b_1, -b_2, ... its negative terms.\n- Both Σa and Σb must be infinite. If both were finite, Σ|u| = Σa + Σb would converge. If exactly one were infinite, Σu would diverge.\n- Since Σu converges, u_k → 0, so a_i → 0 and b_j → 0. This step is implicit; Riemann simply states it.\n- Construction: given any C, take positive terms in order until the partial sum first exceeds C, then negative terms until it first drops below C, and alternate. Every term is used, because each block is finite: the remaining tails of Σa and Σb are still infinite.\n- After the first crossing, |S_N - C| is at most the absolute value of the term just before the last sign change.\n- These terms tend to 0, so S_N → C.\nThis is the Riemann rearrangement (series) theorem.\n\n(3) Remarks.\n- Only class I series obey the laws of finite sums; only they can truly be regarded as the aggregate of their terms.\n- Eighteenth-century mathematicians overlooked the distinction, mainly because power series are absolutely convergent apart from isolated values of the variable (inside the circle of convergence).\n- The Fourier series need not belong to class I. Hence its convergence cannot be derived from the rate at which its terms decrease, as Cauchy (1826) had vainly attempted. Margin: Dirichlet, Crelle's Journal Bd. IV, p. 158, quoting Dirichlet's critique of Cauchy: 'Quoiqu'il en soit de cette première objection, ... à mesure que n croît'.\n\n(4) What must be shown instead. The n-th partial sum is\nS_n(x) = (1/2π)∫_{-π}^{π} f(α)dα + Σ_{k=1}^n (1/π)[∫ f(α)cos kα dα · cos kx + ∫ f(α)sin kα dα · sin kx].\nOne must show S_n(x) → f(x) as n → ∞. Equivalently, S_n(x) = (1/2π)∫_{-π}^{π} f(α) · sin((2n+1)(x-α)/2) / sin((x-α)/2) dα must tend to f(x).\nThe equivalence (filled in by me) uses cos kα cos kx + sin kα sin kx = cos k(x-α) and 1 + 2Σ_{k=1}^n cos kt = sin((2n+1)t/2)/sin(t/2), the Dirichlet kernel.\n\nThe next page continues with Dirichlet's two lemmas on ∫ φ(β) sin((2n+1)β)/sin β dβ for monotone φ.",
+  "errors": [
+   "No mathematical errors. The draft corrections (kleiner for grösser, inserting 'nie') fix what would otherwise be a wrong statement, and the corrected text is correct.",
+   "Implicit step: a_n, b_n → 0 follows from convergence of the original series. It is used but not stated.",
+   "Minor imprecision: the bound on the deviation from C holds only after the partial sums have first crossed C. Before that the deviation is bounded but need not be small.",
+   "The integrand is written in a way that reads as 'fx'. It must be f(α), the integration variable; Riemann's α and x look alike, so this may be a transcription issue."
+  ],
+  "results": [
+   {
+    "what": "Classification of convergent series by whether Σ|u_k| converges; unconditional rearrangeability of absolutely convergent series",
+    "modern_name": "absolute vs. conditional convergence; Dirichlet's rearrangement theorem for absolutely convergent series",
+    "usually_credited_to": "Dirichlet (1837) for absolute convergence and rearrangement invariance; Cauchy earlier for related observations",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "A conditionally convergent real series can be rearranged to converge to any prescribed C, by the greedy alternating construction",
+    "modern_name": "Riemann rearrangement theorem (Riemann series theorem)",
+    "usually_credited_to": "Riemann (Habilitationsschrift 1854, publ. 1867)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Fourier partial sum expressed as integral against the Dirichlet kernel sin((2n+1)t/2)/sin(t/2)",
+    "modern_name": "Dirichlet kernel representation of Fourier partial sums",
+    "usually_credited_to": "Dirichlet (1829)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Historical remark that Cauchy's convergence argument fails because Fourier series need not converge absolutely",
+    "modern_name": "critique of Cauchy's 1826 proof (following Dirichlet)",
+    "usually_credited_to": "Dirichlet (1829)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the published Habilitationsschrift (§3). The rearrangement theorem on this page is already famous and attributed to Riemann from exactly this text. The only novelty is draft-level wording and corrections.",
+  "checkable": [
+   {
+    "sympy": "simplify(1 + 2*Sum(cos(k*t),(k,1,n)).subs(n,5).doit() - sin(11*t/2)/sin(t/2))",
+    "asserts": "Dirichlet kernel identity for n=5 (should simplify to 0)"
+   },
+   {
+    "sympy": "simplify(expand_trig(cos(k*a)*cos(k*x)+sin(k*a)*sin(k*x) - cos(k*(x-a))))",
+    "asserts": "Combining cosine and sine coefficient terms into cos k(x-α)"
+   },
+   {
+    "sympy": "Sum((-1)**(k+1)/k,(k,1,oo)).doit() - log(2)",
+    "asserts": "Alternating harmonic series (class II) sums to log 2 in natural order"
+   },
+   {
+    "sympy": "limit(Sum(1/(4*k-3)+1/(4*k-1)-1/(2*k),(k,1,N)).doit(),N,oo) - Rational(3,2)*log(2)",
+    "asserts": "Rearranging the alternating harmonic series (two positives, one negative) changes the sum to (3/2)log 2"
+   },
+   {
+    "sympy": "Sum(1/k,(k,1,oo)).is_convergent()",
+    "asserts": "Absolute values of the alternating harmonic series diverge, so it is class II (returns False)"
+   }
+  ],
+  "transcription_corrections": [
+   "In the integrals, 'fx' should be read as 'fα' (f(α), the integration variable).",
+   "The first line of the partial sum (sine terms) and the second (cosine terms with leading 1/(2π)∫fα dα) are one sum written across two lines. The struck-through text 'Summe der' and 'dasselbe ist das Integral' are deleted words, not part of the formula.",
+   "Margin note reads: 'Dirichlet in Crelle's Journal Bd. IV pag 158' (Dirichlet 1829, 'Sur la convergence des séries trigonométriques...', J. reine angew. Math. 4, 157–169).",
+   "'je nachdem sie, wenn man sämmtliche Glieder positiv macht' is correct; 'sowohl' is written 'so wohl' in the manuscript."
+  ]
+ }
+}

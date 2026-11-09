@@ -1,0 +1,76 @@
+{
+ "bundle": "HB.Leiste",
+ "page": "c187",
+ "label": "40v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3351306:00000188/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Folio 40v holds three separate items.\n\n(A) Top, abandoned. The heading reads 'Wenn x = t + eξ so ist φx = φx + ...'. It continues the previous page, which derived the Lagrange–Bürmann expansion ('die gewöhnliche Form des Lehrsatzes'). Gauss starts to write φ(x) for x = t + eξ, presumably with ξ a function of x as in Lagrange's equation. He writes a term containing φ'(t+eξ) and a quotient that looks like (1 + eφ'(t+eξ))/(1 − eφ'(t+eξ)), with ξ' written above and below. The whole expression is heavily struck through and no result is drawn from it.\n\n(B) Boxed table. Row n lists the coefficients of the polynomial (x+1)(x+2)...(x+n), i.e. the unsigned Stirling numbers of the first kind c(n+1,k):\n- n=1: 1, 1\n- n=2: 1, 3, 2\n- n=3: 1, 6, 11, 6\n- n=4: 1, 10, 35, 50, 24\n- n=5: 1, 15, 85, 225, 274, 120\n- n=6: 1, 21, 175, 735, 1624, 1764, 720\n- n=7: 1, 28, 322, 1960, 6769, 13132, 13068, 5040\n- n=8 (unfinished): 1, 36, 546, 4536, 22449. The full row would continue 67284, 118124, 109584, 40320.\nEquivalently, with alternating signs these are the coefficients of (t−1)(t−2)...(t−n). Such products are exactly what the Lagrange basis polynomials of equally spaced interpolation need.\n\n(C) 'Bestimmung der Coefficienten für 7 Glieder α ... η, p. 13. Coefficient von α u. η.' This is the closed Newton–Cotes (Cotes) rule with 7 equally spaced ordinates α, ..., η at nodes t = 0, 1, ..., 6 (step h = 1). The reference p. 13 is presumably to his own 'Methodus nova integralium valores per approximationem inveniendi' (1814), where Cotes' coefficients are treated. That identification is my inference.\n\nThe Lagrange basis polynomial for node 0 is L_0(t) = (t−1)(t−2)...(t−6)/((−1)(−2)...(−6)) = (t^6 − 21t^5 + 175t^4 − 735t^3 + 1624t^2 − 1764t + 720)/720, using row n=6 of the table. Integrating over [0,6] gives\nW_α = [6^7/7 − 21·6^6/6 + 175·6^5/5 − 735·6^4/4 + 1624·6^3/3 − 1764·6^2/2 + 720·6] : 720.\nBy symmetry W_η = W_α.\n\nGauss factors out 36. The bracketed terms divided by 36 are:\n- 1110 6/7 (that is 7776/7)\n- 4536\n- 7560\n- 6615\n- 3248\n- 882\n- 120\n\nA first grouping (1110 6/7 + 6615 + 882 = 8607 6/7, next to 4536, 3248, 120) mixes positive and negative terms and is struck out. He then sums correctly:\n- Positive terms: 1110 6/7 + 7560 + 3248 + 120 = 12038 6/7.\n- Negative terms: 4536 + 6615 + 882 = 12033.\n- Difference: 5 6/7 = 41/7.\n\nHence the coefficient ('also d. C.') is 36·41/(720·7) = 41/140, in units of the step h. Relative to the whole interval 6h this is 41/840, which matches the standard 7-point Newton–Cotes weights (h/140)(41, 216, 27, 272, 27, 216, 41).",
+  "errors": [
+   "The first grouping in (C) (1110 6/7 + 6615 + 882 = 8607 6/7) combines terms of opposite sign. The addition itself is correct, but the grouping is wrong; Gauss struck it out and redid the sum correctly.",
+   "The top formula for φ(x) with x = t + eξ is incomplete and entirely struck out. No claim can be checked, and the reading of its terms is uncertain.",
+   "The final results (table entries checked, 41/7, 41/140) are all correct."
+  ],
+  "results": [
+   {
+    "what": "Table of coefficients of (x+1)(x+2)...(x+n) for n = 1..7, with n = 8 begun.",
+    "modern_name": "Unsigned Stirling numbers of the first kind",
+    "usually_credited_to": "James Stirling (Methodus differentialis, 1730); such factorial-coefficient tables are older (Newton, Cotes, de Moivre).",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Endpoint weight 41/140 (times h) of the 7-point closed equally spaced quadrature rule, obtained by integrating the Lagrange basis polynomial over [0,6].",
+    "modern_name": "Newton–Cotes (Cotes) coefficients, 7-point closed rule (n = 6)",
+    "usually_credited_to": "Newton (1676/1711) and Roger Cotes (Harmonia mensurarum, 1722); Gauss revisited them in Methodus nova (1814).",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Abandoned start of an expansion of φ(x) for x = t + eξ (Lagrange-series setting).",
+    "modern_name": "Lagrange inversion / Lagrange–Bürmann series",
+    "usually_credited_to": "Lagrange (1770), Bürmann (1796)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is working arithmetic for the Cotes coefficients that Gauss is known to have recomputed for his 1814 quadrature paper, plus a standard Stirling-number table. Nothing here is new or unattributed.",
+  "checkable": [
+   {
+    "sympy": "Poly(expand(prod([x+i for i in range(1,8)])), x).all_coeffs() == [1,28,322,1960,6769,13132,13068,5040]",
+    "asserts": "Row 7 of the table equals the coefficients of (x+1)...(x+7)."
+   },
+   {
+    "sympy": "Poly(expand(prod([x+i for i in range(1,9)])), x).all_coeffs()[:5] == [1,36,546,4536,22449]",
+    "asserts": "The unfinished row 8 is correct as far as it goes."
+   },
+   {
+    "sympy": "integrate(prod([t-i for i in range(1,7)]), (t,0,6))/720 == Rational(41,140)",
+    "asserts": "The endpoint weight of the 7-point Newton–Cotes rule (h = 1) is 41/140."
+   },
+   {
+    "sympy": "Rational(279936,7) - 163296 + 272160 - 238140 + 116928 - 31752 + 4320 == Rational(1476,7)",
+    "asserts": "The bracketed sum equals 1476/7 = 36·41/7."
+   },
+   {
+    "sympy": "Rational(7776,7) + 7560 + 3248 + 120 - (4536 + 6615 + 882) == Rational(41,7)",
+    "asserts": "Gauss's reduced sums (each term divided by 36) give 41/7."
+   },
+   {
+    "sympy": "Rational(36*41, 720*7) == Rational(41,140)",
+    "asserts": "The final simplification is correct."
+   },
+   {
+    "sympy": "[integrate(prod([t-j for j in range(7) if j!=k])/prod([k-j for j in range(7) if j!=k]), (t,0,6)) for k in range(7)] == [Rational(41,140),Rational(54,35),Rational(27,140),Rational(68,35),Rational(27,140),Rational(54,35),Rational(41,140)]",
+    "asserts": "The full 7-point Newton–Cotes weights are consistent with Gauss's endpoint value."
+   }
+  ],
+  "transcription_corrections": [
+   "Heading reads 'Bestimmung der Coefficienten für 7 Glieder α ... η p. 13', and 'd. C.' means 'der Coefficient'.",
+   "Top line: the struck-out expression appears to involve φ'(t+eξ) with a fraction (1+eφ'(t+eξ))/(1−eφ'(t+eξ)) and ξ' annotations. It is illegible in detail and fully cancelled, so the machine transcription's '+ t φ'' is doubtful.",
+   "Row 8 entry '4536' is written over an earlier digit, but the final reading 4536 is correct.",
+   "The struck-out partial sum 8607 6/7 belongs to the abandoned first grouping, not to the final computation."
+  ]
+ }
+}

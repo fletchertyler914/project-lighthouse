@@ -1,0 +1,75 @@
+{
+ "bundle": "R.LinDGL",
+ "page": "c035",
+ "label": "17v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204960:00000036/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context. This page belongs to Riemann's Nachlass treatment of linear ODEs with algebraic coefficients. Here y = (y_1,...,y_n) is a system of n functions branching at a, b, ..., g. A positive loop around a sends y to (A)y, where (A) is a constant n x n matrix (a 'Substitution'). The page works out the local structure at one branch point a.\n\n(1) Diagonalisation of the monodromy.\n- Following the 'Jacobi' theorem cited on the previous page, write A = alpha * D * alpha^{-1}, with D = diag(lambda_1, ..., lambda_n).\n- The lambda_i are the n roots of an equation of degree n fully determined by A. In modern terms this is the characteristic equation det(A - lambda I) = 0, so the lambda_i are the eigenvalues of A. The columns of alpha are corresponding eigenvectors.\n- If the equation has repeated roots, the middle factor must take 'a somewhat modified form' (modern: Jordan normal form). Riemann explicitly excludes this case for now, for all of A, B, ..., G.\n\n(2) Non-uniqueness of alpha.\n- alpha may be replaced by alpha*L, with L = diag(l_1, ..., l_n) arbitrary and invertible, because (alpha L) D (alpha L)^{-1} = alpha (L D L^{-1}) alpha^{-1} = alpha D alpha^{-1}.\n- Riemann asserts that the form alpha*L contains all possible values of alpha. This holds when the eigenvalues are distinct, since each eigenvector is then determined up to a scalar. [My remark: this assumes the ordering of the lambda_i is fixed; otherwise permutation matrices also enter.]\n\n(3) Local diagonal basis.\n- Let p be the values of y at some point; after the loop they become A p.\n- Define z = alpha^{-1} y. The values of z go from alpha^{-1} p to alpha^{-1} A p = D alpha^{-1} p.\n- Hence each z_i is multiplied by lambda_i: z_i -> lambda_i z_i. These are local 'multiplicative' solutions.\n\n(4) Local exponent.\n- Suppose z acquires the constant factor lambda under a positive loop around a.\n- The function (x-a)^mu acquires the factor e^{2 pi i mu}.\n- Choose mu = log(lambda)/(2 pi i), so that e^{2 pi i mu} = lambda. Then z (x-a)^{-mu} acquires the factor lambda e^{-2 pi i mu} = 1, i.e. it is single-valued near a.\n- It therefore has an expansion in integer powers of (x-a), a Laurent series in the punctured neighbourhood.\n- Consequently z = (x-a)^mu * sum_m c_m (x-a)^m is expanded in powers mu + m, m an integer. Since log is multivalued, mu is determined only mod integers.\n- The next page imposes finite order of growth, so these series terminate on the side of negative powers. That yields the local exponents mu_1, ..., mu_n and the P-symbol.",
+  "errors": [
+   "No mathematical errors.",
+   "Minor imprecision: the claim that alpha*diag(l) gives all diagonalising matrices ignores reordering of the eigenvalues (permutation matrices). This is harmless once the order of the lambda_i is fixed.",
+   "'Nach ganzen Potenzen entwickeln' tacitly means a Laurent series, possibly with infinitely many negative powers. Finiteness of the negative part is only imposed on the next page.",
+   "mu = log(lambda)/(2 pi i) is defined only up to an integer; this is consistent with Riemann's statement that the exponents are determined mod integers."
+  ],
+  "results": [
+   {
+    "what": "Monodromy matrix A diagonalised as alpha*diag(lambda)*alpha^{-1}; lambda_i are roots of the characteristic equation; the repeated-root case needs a modified (non-diagonal) middle factor.",
+    "modern_name": "Eigenvalue decomposition of the local monodromy; Jordan normal form for the degenerate case.",
+    "usually_credited_to": "Diagonalisation: Cauchy/Jacobi (Riemann cites Jacobi). Normal form for repeated roots: Weierstrass 1868, Jordan 1870.",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Freedom alpha -> alpha*L with L diagonal, and these are all diagonalising matrices for distinct eigenvalues.",
+    "modern_name": "Eigenvectors unique up to scaling; centraliser of a regular diagonal matrix is the diagonal torus.",
+    "usually_credited_to": "standard linear algebra",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Basis z = alpha^{-1} y of local solutions that are multiplied by lambda_i under the loop around a.",
+    "modern_name": "Local basis of monodromy eigenfunctions (Floquet-type / multiplicative solutions).",
+    "usually_credited_to": "Riemann (Nachlass 1857, published 1876); Fuchs 1866 for ODEs.",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "z(x-a)^{-mu} with mu = log(lambda)/(2 pi i) is single-valued, so z has an expansion in powers mu + integer.",
+    "modern_name": "Local exponents at a regular singular point; exp(2 pi i mu) = eigenvalue of local monodromy.",
+    "usually_credited_to": "Riemann (1857 P-function paper and this Nachlass memoir); Fuchs 1866 in the ODE setting.",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is part of Riemann's well-known posthumous memoir 'Zwei allgemeine Sätze über lineare Differentialgleichungen mit algebraischen Coefficienten', printed in the Gesammelte Werke (1876). The local analysis via diagonalised monodromy and exponents log(lambda)/(2 pi i) is already credited to him, and is standard today.",
+  "checkable": [
+   {
+    "sympy": "a1,a2,a3,a4,l1,l2=symbols('a1 a2 a3 a4 l1 l2'); al=Matrix([[a1,a2],[a3,a4]]); D=diag(l1,l2); A=al*D*al.inv(); simplify((A-eye(2)*l1).det())==0",
+    "asserts": "The diagonal entries lambda_i of alpha*D*alpha^{-1} are roots of the characteristic equation of A."
+   },
+   {
+    "sympy": "c1,c2=symbols('c1 c2'); L=diag(c1,c2); simplify((al*L)*D*(al*L).inv() - A)==zeros(2,2)",
+    "asserts": "Replacing alpha by alpha*diag(l) leaves A unchanged."
+   },
+   {
+    "sympy": "p1,p2=symbols('p1 p2'); p=Matrix([p1,p2]); simplify(al.inv()*A*p - D*al.inv()*p)==zeros(2,1)",
+    "asserts": "alpha^{-1}(A)(p) = diag(lambda) alpha^{-1} p, i.e. z_i -> lambda_i z_i."
+   },
+   {
+    "sympy": "lam=symbols('lam',nonzero=True); mu=log(lam)/(2*pi*I); simplify(exp(2*pi*I*mu)-lam)==0",
+    "asserts": "mu = log(lambda)/(2 pi i) satisfies e^{2 pi i mu} = lambda."
+   },
+   {
+    "sympy": "m=symbols('m',integer=True); simplify(exp(2*pi*I*(mu+m))-lam)==0",
+    "asserts": "Exponents differing from mu by integers give the same multiplier lambda."
+   }
+  ],
+  "transcription_corrections": [
+   "Transcription is essentially faithful to the image.",
+   "In the displayed relation, Riemann writes '(alpha)^{-1}(A)(p) = diag(...) alpha^{-1}p'. The factor alpha^{-1}p is written as a superscript-like annotation to the right of the diagonal matrix, followed by 'über oder (z_1,...,z_n) in (lambda_1 z_1, ..., lambda_n z_n)'.",
+   "The struck-through words 'Factor erhält' after 'den' are correctly marked as deleted."
+  ]
+ }
+}

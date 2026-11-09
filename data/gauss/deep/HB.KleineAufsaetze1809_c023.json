@@ -1,0 +1,57 @@
+{
+ "bundle": "HB.KleineAufsaetze1809",
+ "page": "c023",
+ "label": "14",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3352584:00000024/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a pure numerical table with no derivation. It continues the table of pp. 13 and 15. It has two blocks: A = 0.400…0.440 on the left and A = 0.440…0.480 on the right, in steps of 0.001.\n\nEach block has five columns:\n(1) the argument A;\n(2) B(A) to 5 decimals;\n(3) the first difference of B, in units of 1e-5, written between rows;\n(4) C(A) to 5 decimals;\n(5) the first difference of C, in units of 1e-5.\n\nIdentification (mine, verified numerically):\n- B(A) = log10(1 + 10^(-A)). Examples: A = 0.4 gives 10^-0.4 = 0.398107 and log10(1.398107) = 0.145540. A = 0.44 gives 0.13452. A = 0.48 gives 0.12422. The previous and next pages also fit: A = 0.5 gives 0.11933 and A = 0.32 gives 0.16986.\n- Column 4 is C = A + B = log10(1 + 10^A). For example, 0.400 + 0.14554 = 0.54554.\n- Since A advances by 0.001 (100 units of 1e-5), the differences satisfy ΔC = 100 − ΔB. On every row, columns 3 and 5 sum to 100 (28+72, 29+71, 27+73, 26+74, 25+75).\n\nPurpose: this is a table of addition (Gaussian) logarithms. Given log a and log b with a ≥ b, set A = log a − log b. Then log(a+b) = log a + B(A) = log b + C(A). Logarithms of sums (and, by inverse entry, differences) can thus be found without returning to the numbers themselves. The values were presumably obtained by computing B at coarse nodes and filling in by differences or interpolation. That is my inference; no working is shown.",
+  "errors": [
+   "None found. The entries I spot-checked (A = 0.400, 0.425, 0.437, 0.440, 0.460, 0.470, 0.480) agree with round(1e5*log10(1+10^-A)). Every difference entry is consistent with consecutive tabular values. Column 4 equals column 1 plus column 2 exactly in all rows checked."
+  ],
+  "results": [
+   {
+    "what": "Five-place table of B(A) = log10(1+10^-A) and C(A) = A + B = log10(1+10^A) for A = 0.400 to 0.480, with first differences",
+    "modern_name": "Gaussian (addition/subtraction) logarithms, sum logarithm table",
+    "usually_credited_to": "Z. Leonelli (idea, 1802/1803); C. F. Gauss, published 5-place table 1812 (Monatliche Correspondenz, 'Tafel zur bequemern Berechnung des Logarithmen der Summe oder Differenz zweier Grössen')",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a manuscript working copy of the Gaussian logarithm table that Gauss is well known to have computed and published in 1812. Its only interest is documentary: it shows the table under construction around 1809. It contains no new mathematics.",
+  "checkable": [
+   {
+    "sympy": "N(log(1+10**(-Rational(400,1000)),10),8)",
+    "asserts": "≈ 0.14554 (B at A = 0.400)"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(437,1000)),10),8)",
+    "asserts": "≈ 0.13532 (B at A = 0.437)"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(440,1000)),10),8)",
+    "asserts": "≈ 0.13452 (B at A = 0.440)"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(465,1000)),10),8)",
+    "asserts": "≈ 0.12800 (B at A = 0.465)"
+   },
+   {
+    "sympy": "N(log(1+10**(-Rational(480,1000)),10),8)",
+    "asserts": "≈ 0.12422 (B at A = 0.480)"
+   },
+   {
+    "sympy": "N(log(1+10**Rational(450,1000),10),8)",
+    "asserts": "≈ 0.58188 (C = log10(1+10^A) at A = 0.450, equal to A + B)"
+   },
+   {
+    "sympy": "max([abs(round(N(log(1+10**(-Rational(k,1000)),10),12)*10**5) - round(N(log(1+10**(-Rational(k,1000)),10),12)*10**5)) for k in range(400,481)])",
+    "asserts": "Template only; it trivially returns 0. Replace the second term with the tabulated column-2 values to verify all 81 entries at once."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription matches the image. Minor point: the entry for 0,406 is written '0.14384' with a period, a stylistic variant of the comma. The difference columns are written between rows in the original."
+  ]
+ }
+}

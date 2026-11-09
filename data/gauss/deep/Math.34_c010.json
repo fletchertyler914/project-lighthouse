@@ -1,0 +1,62 @@
+{
+ "bundle": "Math.34",
+ "page": "c010",
+ "label": "4r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382187:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the opening of Gauss's notes 'Parallellinien' in Math. 34. A version of it was printed in Werke VIII (1900) among the Nachlass pieces on the foundations of geometry. It belongs to the notes Gauss began writing up around 1831, as he told Schumacher. The setting is absolute (neutral) plane geometry: no parallel postulate is assumed. Rays are written AM..., meaning the ray from A through M, continued without end.\n\n§1 (Definition). Let AM... and BN... be rays in one plane; coplanarity is implicit. Ray AM is called parallel to ray BN if two things hold. (i) AM does not meet BN. (ii) Every ray from A lying strictly inside the angle MAB meets BN. In modern terms, AM is the limiting ('asymptotic') parallel to BN through A, in the sense of Lobachevsky and Bolyai.\n\n§2 (Existence). Rotate a ray about A, starting at AB. It turns towards the side of line AB on which BN lies, and ends at AC, the ray opposite to AB.\n- At the start the ray meets BN, at B itself.\n- At the end it does not: line AB meets line BN only at B, which is not on ray AC (my justification).\n- So the rotated positions split into 'cutting' and 'non-cutting' ones. The cutting rays come first, since a ray inside a cutting angle also cuts (my addition; this is a Crossbar/Pasch fact).\n- By continuity there is a boundary position.\n- There is no last cutting ray. If AX meets BN at X, take X' beyond X on BN; then AX' also cuts and lies further rotated (Gauss's 'offenbar'; my justification).\n- Hence the boundary is the first non-cutting ray. By §1 it is the parallel AM.\nIn modern terms, this is the existence of the limiting parallel via a Dedekind cut of the pencil of rays at A.\n\n§3 (Independence of the starting points). Parallelism depends only on the lines and their sense of direction, not on A and B.\n\n(a) Replacing B by any B' on line BN, whether forward or on the backward extension, is stated to be self-evident. The proof is only sketched.\n\n(b) Replacing A by A' on ray AM itself (forward). Let A'P be any ray inside the angle M A' B, and take Q between A' and P.\n- Ray AQ lies inside the angle MAB, so by the definition it meets BN, say at R.\n- Gauss then says it is 'self-evident' that ray QP, and hence ray A'P, also meets BN.\n- A'M does not meet BN, since it is part of AM.\n- So A'M is parallel to BN.\n\n(c) The page ends as he begins the case where A' lies on the backward extension of AM. The next page completes it: extend A'P backwards to a point Q, note that QA meets BN at R, and argue with the closed figure A'ARB.",
+  "errors": [
+   "No outright mathematical errors. Several steps rest on unstated order and plane-separation properties of the Pasch/Crossbar kind, which Gauss calls 'offenbar' or 'von selbst klar'.",
+   "§2 uses a continuity principle (a Dedekind-type cut in the pencil of rays at A) without stating it. It also assumes without comment that the cutting rays form an initial segment of the rotation.",
+   "§3(b): the step from 'AQ meets BN at R' to 'QP meets BN' is not proved. One needs Q to lie between A and R, and a Pasch-type argument showing that the ray from Q continuing A'Q leaves the region bounded by A, R and BN through BN.",
+   "The shift of B to B' (§3a) is declared self-evident. Moving B backwards along the line needs a short argument of the same kind.",
+   "Coplanarity of AM and BN is not stated in the definition (the Werke text adds 'coplanarischen')."
+  ],
+  "results": [
+   {
+    "what": "Definition of the (limiting) parallel ray AM to BN: AM does not meet BN, but every ray from A inside the angle MAB does",
+    "modern_name": "Asymptotic / limiting parallel in absolute (neutral) geometry",
+    "usually_credited_to": "Lobachevsky (1829/1840) and J. Bolyai (1832); Gauss's equivalent notes are known from his Nachlass",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Existence of the parallel as the first non-cutting ray in the rotation from AB to the opposite ray, there being no last cutting ray",
+    "modern_name": "Existence of limiting parallels via continuity (Dedekind cut of a pencil of rays)",
+    "usually_credited_to": "Lobachevsky, Bolyai; made rigorous later by Hilbert-style axiomatics",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Parallelism is independent of the initial points A, B on the rays (shown here for B arbitrary and A moved forward; backward case begun)",
+    "modern_name": "Transitivity of parallelism along a line / independence of the point of the ray",
+    "usually_credited_to": "Lobachevsky (Geometrische Untersuchungen 1840, §16), Bolyai (Appendix §§1-3)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are Gauss's well-known 1831 notes on parallels, printed in Werke VIII. The content (definition, existence and point-independence of limiting parallels) matches the standard opening of Bolyai's and Lobachevsky's treatments and is already credited to Gauss as parallel independent work.",
+  "checkable": [
+   {
+    "sympy": "simplify(cos(2*atan(exp(-d))) - tanh(d))",
+    "asserts": "Context only, not on this page: the hyperbolic angle of parallelism P(d)=2*atan(exp(-d)) satisfies cos(P(d))=tanh(d). The limiting parallel defined in §1 makes exactly this angle with the perpendicular AB of length d (curvature -1). Expected result: 0."
+   },
+   {
+    "sympy": "limit(atan(1/x), x, oo)",
+    "asserts": "Euclidean sanity check with A=(0,1), B=(0,0), BN the positive x-axis. The ray from A to (x,0) makes angle atan(1/x) with the horizontal. Its limit 0 shows the boundary of the cutting rays is the horizontal ray, which is itself non-cutting, matching 'erste nichtschneidende, keine letzte schneidende'. Expected result: 0."
+   },
+   {
+    "sympy": "solve(Eq(1 - t*x, 0), x)",
+    "asserts": "Euclidean check: the ray y = 1 - t*x from A=(0,1) meets the positive x-axis (at x = 1/t) iff t > 0. So the cutting rays form an open set with no last element, and the boundary t = 0 is non-cutting."
+   }
+  ],
+  "transcription_corrections": [
+   "Item 2: the struck-out words after 'und zwar wird diess' are uncertain in the image. They look like 'dann diese' and, at the start of the next line, a short word such as 'ist'. The intended reading is in any case 'und zwar wird diess die erste nichtschneidende sein'.",
+   "Item 3: 'In [-dieser-] {+unserer+} Definition [-ist-] sind ...' — the image shows 'dieser' struck with 'unserer' written above, and 'ist' struck before 'sind'. This is consistent.",
+   "The boxed marginal note beside item 3 reads roughly 'gewiß sein und eine...' (not fully legible). It appears to belong with the sentence about the sense of direction, not with the A' paragraph.",
+   "'durch [-Q-] einen Punkt Q' — the struck letter before 'einen' appears to be a 'Q' (or a false start), as transcribed."
+  ]
+ }
+}

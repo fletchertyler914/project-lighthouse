@@ -1,0 +1,72 @@
+{
+ "bundle": "Math.5",
+ "page": "c010",
+ "label": "6r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3376170:00000011/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a table of squares of four-digit numbers. Nothing is derived on it; it is a computed table.\n\nLayout: the columns are headed k = 1,…,9 (the thousands digit). The rows are labelled n = 150,…,199 (the last three digits). The cell in row n and column k holds floor(N^2/1000), where N = 1000k + n. Often only the last two or three digits are written when the leading digits are unchanged from the row above. The unlabelled right-hand column holds n^2 mod 1000, which equals N^2 mod 1000 because (1000k+n)^2 ≡ n^2 (mod 1000). So the full square is N^2 = 1000·(cell) + (right-hand entry).\n\nWorked example: 9151^2 = 83740801. The table gives 83740 in column 9, row 151 (written '40'), and 801 on the right.\n\nThe previous page (rows 100–149, the same layout) continues seamlessly into this one. Together they cover N = k100 to k199.\n\nHow the table was built (my inference, but certain from the internal structure). Since (1000k+n)^2/1000 = 1000k^2 + 2kn + n^2/1000, the cell value C(k,n) = 1000k^2 + 2kn + n^2/1000 can be produced by differences:\n- Down a column: C(k,n+1) − C(k,n) = 2k + (2n+1)/1000.\n- Across a row, the second differences in k are constant at 2000. For example, row 150 reads 1322, 4622, 9922, 17222, … with differences 3300, 5300, 7300, ….\n- Row n = 175 is a built-in check: n^2/1000 = 30.625, so every entry ends …30 or …80 (1380, 4730, 10080, 17430, 26780, 38130, 51480).\n\nThe values are truncated (floor), not rounded. For example, 1151^2 = 1324801 is entered as 1324.\n\nCompleteness: columns 8 and 9 stop early, at 8169 and 9166 respectively. The rest of the sheet is blank, so the table is unfinished.\n\nMany entries in columns 4–7 of the lower half are re-inked or overwritten (corrections or re-checking).\n\nPurpose (context): the next page contains a least-squares elimination in the unknowns θ, ζ, α, η, φ. A table of squares like this is the standard aid for forming sums of squares and products (e.g. via ab = ((a+b)^2 − (a−b)^2)/4) in such computations.\n\nCheck: I recomputed all 50×7 entries of columns 1–7, all entries of columns 8–9, and the residue column. Everything agrees with floor((1000k+n)^2/1000) and n^2 mod 1000, with at most two exceptions listed under errors.",
+  "errors": [
+   "Row 181, residue column: it reads '751' (both transcription and image), but 181^2 = 32761, so it should be 761. The digit may simply be ill-formed, but as read it is a slip.",
+   "Row 184, column 4: it appears as 17506 with an overwritten last digit. 4184^2 = 17505856, so the truncated value consistent with the rest of the table is 17505. Either the final reading is 5 (a correction) or 6 is a rounding slip. The image is ambiguous.",
+   "No other discrepancies. All other entries checked equal floor((1000k+n)^2/1000), and the residue column equals n^2 mod 1000."
+  ],
+  "results": [
+   {
+    "what": "Table of squares of four-digit numbers N = 1000k+n (k=1..9, n=150..199): floor(N^2/1000) plus the last three digits n^2 mod 1000, built by finite differences.",
+    "modern_name": "Table of squares (auxiliary computing table, e.g. for least-squares sums of squares / quarter-squares multiplication)",
+    "usually_credited_to": "Traditional; printed square tables go back to the 17th–18th centuries (e.g. Ludolf, Tetragonometria tabularia, 1690), with later large tables by Kulik and others.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is a routine hand-computed auxiliary table of squares, almost certainly made for least-squares numerical work like that on the next page. It has no mathematical novelty. Its only interest is as evidence of Gauss's computing practice, including difference construction and truncation.",
+  "checkable": [
+   {
+    "sympy": "all(((1000*k+n)**2)//1000 == 1000*k**2 + 2*k*n + (n**2)//1000 for k in range(1,10) for n in range(150,200))",
+    "asserts": "The structural formula used to build the table: floor(N^2/1000) = 1000k^2 + 2kn + floor(n^2/1000)."
+   },
+   {
+    "sympy": "[((1000*k+150)**2)//1000 for k in range(1,10)] == [1322,4622,9922,17222,26522,37822,51122,66422,83722]",
+    "asserts": "Row 150 of the table is correct."
+   },
+   {
+    "sympy": "[((1000*k+199)**2)//1000 for k in range(1,8)] == [1437,4835,10233,17631,27029,38427,51825]",
+    "asserts": "Row 199 (last row) of columns 1–7 is correct."
+   },
+   {
+    "sympy": "[((1000*k+175)**2)//1000 for k in range(1,8)] == [1380,4730,10080,17430,26780,38130,51480]",
+    "asserts": "Check row 175: all entries end in 30 or 80."
+   },
+   {
+    "sympy": "(181**2) % 1000 == 761",
+    "asserts": "Correct residue for row 181 is 761, not 751 as written."
+   },
+   {
+    "sympy": "(4184**2)//1000 == 17505",
+    "asserts": "Correct truncated value for row 184, column 4 is 17505, not 17506."
+   },
+   {
+    "sympy": "[((8000+n)**2)//1000 for n in (167,168,169)] == [66699,66716,66732]",
+    "asserts": "Last entries of column 8 are correct."
+   },
+   {
+    "sympy": "9166**2 == 84015556",
+    "asserts": "Last entry of column 9 (84015) together with residue 556 gives the full square."
+   },
+   {
+    "sympy": "all(((1000*k+n+1)**2 - (1000*k+n)**2) == 2000*k + 2*n + 1 for k in range(1,10) for n in range(150,199))",
+    "asserts": "The first difference down a column is 2k + (2n+1)/1000 in table units, the basis of the additive construction."
+   }
+  ],
+  "transcription_corrections": [
+   "Header: the columns are headed simply 1–9 (thousands digit). The scribbles near the top are archival annotations ('Math. 5' and a number like '4246'), not table headings. On the previous page the headings '11, 21, …, 91' are likely misreadings of '1, 2, …, 9' preceded by marks.",
+   "Row 151, column 2: '26' is correct (4626); the digit is overwritten but is not '36'.",
+   "Row 181, residue column: the manuscript reads 751; the correct value is 761 (a possible slip or ill-formed 6).",
+   "Row 184, column 4: the last digit of '17506' is overwritten; the correct truncated value is 17505.",
+   "Row 183, column 4: '17497' has an overwritten last digit; the correct value is 17497.",
+   "The rows labelled 1–9 and 5–8 within each block denote n = 1x1…1x9 (e.g. row '6' under 165 is 166). The transcription's row structure is otherwise correct."
+  ]
+ }
+}

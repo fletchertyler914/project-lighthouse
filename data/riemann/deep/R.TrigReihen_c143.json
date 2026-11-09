@@ -1,0 +1,64 @@
+{
+ "bundle": "R.TrigReihen",
+ "page": "c143",
+ "label": "70v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3204968:00000144/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the draft of §4–5 of Riemann's Habilitationsschrift 'Über die Darstellbarkeit einer Function durch eine trigonometrische Reihe' (1854, published by Dedekind in 1867). The previous page defined the integral as the limit of S = Σ δ_i f(x_{i-1}+ε_iδ_i) as the mesh goes to 0. This page sets up what the study of trigonometric series needs: (i) an improper integral, (ii) a necessary and sufficient criterion for integrability.\n\n(1) Improper integral at an interior singular point. Suppose f becomes unbounded near a single point c in (a,b). The page then defines\n∫_a^b f dx := lim_{α1,α2→0+} [∫_a^{c-α1} f dx + ∫_{c+α2}^b f dx],\nprovided the limit exists with α1 and α2 tending to 0 independently. Riemann notes that Cauchy's other conventions (implicitly the principal value, α1=α2) may suit particular classes of problems. He says they are not generally adopted and, because they are so arbitrary, not suitable for general use.\n\n(2) The question becomes: for which f does the integral in the narrow sense, ∫_a^b f, exist? Riemann assumes f is bounded ('n. V.', nach Voraussetzung).\n\nNecessity.\n- Let D_i = sup f − inf f on [x_{i-1}, x_i], the oscillation on the i-th subinterval.\n- If S converges for every choice of the ε_i, then R(P) = Σ δ_i D_i → 0 as the mesh goes to 0. (Implicit step, mine: S can be pushed to the upper and lower Darboux sums by choosing the ε_i, and R(P) is their difference.)\n- Define Δ(d) = sup{R(P) : all δ_i < d}. Then Δ is monotone in d and Δ(d) → 0 as d → 0.\n- Choose greedily: D'_1 is the largest oscillation of f on an interval of length d; D'_2 is the largest on an interval of length d disjoint from the first; and so on. Then D'_1 ≥ D'_2 ≥ …\n- These intervals can be completed to a partition of mesh ≤ d, so d(D'_1 + D'_2 + …) ≤ Δ.\n- If D'_m > β, then m d β < d Σ_{i≤m} D'_i ≤ Δ, hence m d < Δ/β.\n- So the total length s of the region where, within an interval < d, oscillations > β can occur is < Δ/β. For every fixed β this tends to 0 as d → 0.\n\nSufficiency (converse).\n- Take a partition of mesh < d. The intervals with oscillation > β have total length s. They contribute at most s · D to Σ δ_i D_i, where D = sup f − inf f on [a,b] is finite.\n- The remaining intervals contribute < β(b−a).\n- Choose β small, then d so small that s is small. Then Σ δ_i D_i is arbitrarily small.\n- Every S lies between the lower and upper Darboux sums, which differ by Σ δ_i D_i. So S is confined to arbitrarily narrow bounds, i.e. S converges (Cauchy criterion; implicit, mine).\n\nConclusion stated by Riemann: for bounded f, integrability in the narrow sense holds iff for every β > 0 the total length of subintervals (of mesh < d) on which the oscillation exceeds β tends to 0 as d → 0. The page ends as he begins the extended (improper) sense.",
+  "errors": [
+   "Minor: d(D'_1+D'_2+...) ≤ Δ needs intervals of length exactly d inside a partition with all δ < d. Since Δ is defined with strict inequality, one needs Δ(d') for d' slightly larger than d, or a non-strict definition. This is immaterial.",
+   "The necessity step 'so muß Σ δ_i D_i mit δ unendlich klein werden' is asserted without proof. It needs the observation that the ε_i can be chosen to bring S arbitrarily near the upper or lower Darboux sum. The step is correct but implicit.",
+   "Boundedness of f is used ('welche n. V. endlich ist'), which is legitimate under the narrow-sense assumption. The greedy construction of the D'_i (existence of maximal oscillations) is informal; sup and approximation would suffice.",
+   "No substantive mathematical error."
+  ],
+  "results": [
+   {
+    "what": "Definition of the improper integral at an interior singularity as a two-sided limit with α1, α2 → 0 independently; Cauchy's principal-value-type conventions rejected as arbitrary.",
+    "modern_name": "Improper Riemann integral (vs. Cauchy principal value)",
+    "usually_credited_to": "Cauchy (1823 Résumé) for improper integrals and principal values; this formulation is Riemann's 1854 Habilitationsschrift",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Necessary and sufficient condition for integrability of a bounded function: Σ δ_i D_i → 0, equivalently, for every β > 0, the total length of intervals with oscillation > β tends to 0 with the mesh.",
+    "modern_name": "Riemann's integrability criterion (oscillation criterion; precursor of Darboux's criterion and Lebesgue's 'continuous almost everywhere' criterion)",
+    "usually_credited_to": "Riemann (1854, published 1867)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the draft of the well-known §§4–5 of Riemann's Habilitationsschrift, published posthumously in 1867. It matches the printed text almost verbatim (Riemann integral, improper integral, integrability criterion), so it is entirely known as his.",
+  "checkable": [
+   {
+    "sympy": "limit(integrate(x**Rational(-1,2),(x,a,1)),a,0,'+') == 2",
+    "asserts": "Improper integral of an unbounded integrand defined as a limit of proper integrals (singularity at the endpoint 0)."
+   },
+   {
+    "sympy": "limit(integrate(1/x,(x,-1,-a1)) + integrate(1/x,(x,a2,1)), a1, 0, '+').subs(a2, a1) ",
+    "asserts": "Illustrates why the independent limit matters: with a1 ≠ a2 the sum is log(a1/a2), which has no limit, while the principal value (a1=a2) gives 0. Cauchy's convention, rejected here as arbitrary."
+   },
+   {
+    "sympy": "simplify(integrate(1/x,(x,-1,-a1)) + integrate(1/x,(x,a2,1)) - log(a1/a2)) == 0",
+    "asserts": "For a1, a2 > 0 the truncated integrals of 1/x on [-1,1] equal log(a1/a2), so the two-sided independent limit does not exist."
+   },
+   {
+    "sympy": "n=symbols('n',positive=True,integer=True); limit(summation((1/n)*(2*k-1)/n**2*... ,(k,1,n)),n,oo)",
+    "asserts": "Placeholder idea: for f(x)=x**2 on [0,1], the upper minus lower Darboux sum is sum_k (1/n)*((k/n)**2-((k-1)/n)**2) = 1/n, which tends to 0 (oscillation-sum criterion)."
+   },
+   {
+    "sympy": "k,n=symbols('k n',positive=True,integer=True); limit(summation((1/n)*((k/n)**2-((k-1)/n)**2),(k,1,n)),n,oo) == 0",
+    "asserts": "For f=x^2 on [0,1] with a uniform partition, Σ δ_i D_i = 1/n → 0, so the integrability criterion holds."
+   }
+  ],
+  "transcription_corrections": [
+   "'wo dessen Grundbegriff nach ein solches nicht giebt' should read approximately 'wo es dem Grundbegriffe nach ein solches nicht giebt' (cf. the printed text).",
+   "The struck/inserted passage likely reads 'sie sind indeß nicht allgemein eingeführt'. The insertion '{+gebräuchlich[?]+}' is doubtful; the printed version has 'nicht allgemein eingeführt und dazu, schon wegen ihrer großen Willkürlichkeit, wohl kaum geeignet'.",
+   "'vorkommt[?] ist ec' should read 'vorkommt, u.s.w.' (in the image, 'nach Ausschluß dieses ersten Intervalls ... vorkommt, ec').",
+   "'das Gebiet D_1[?]' and 'das Gebiet σ[?]' both refer to the total size of the region (written as a single letter, s in the printed version), not to the oscillation D_1.",
+   "'Wenn also ein Integral ∫_a^b fx dx giebt' should read 'Wenn es also ein Integral ∫_a^b fx dx giebt'.",
+   "'Δ > m d β' is consistent with the image."
+  ]
+ }
+}

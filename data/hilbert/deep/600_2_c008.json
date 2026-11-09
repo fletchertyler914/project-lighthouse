@@ -1,0 +1,73 @@
+{
+ "bundle": "600_2",
+ "page": "c008",
+ "label": "3",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3763752:00000009/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds three research notes.\n\n(a) Lines 1–2 finish the previous page's note. That note concerns writing a definite ternary form as a quotient of sums of squares, F = (phi^2+psi^2+chi^2)/(...). The method is to vary the coefficients continuously. The critical case is when the curves phi=0, psi=0, chi=0 pass through a common point, where the functional determinant d(phi,psi,chi)/d(x,y,z) vanishes. Hilbert notes that this circumstance 'only appears for forms of degree higher than quadratic'. The context is Hilbert's 1888/1893 work on ternary definite forms. There is no derivation here.\n\n(b) Minkowski's theorem and a proposed generalisation.\n\nMinkowski's theorem (1887): let A be in GL_n(Z) with A of finite order and A ≡ I (mod p), p an odd prime. Then A = I.\n\nHilbert proposes replacing Z by the integers O of a number field and the congruence mod p by a congruence mod a prime ideal P. His proof sketch, in modern form:\n1. The substitution is x = A y with A^m = I.\n2. Let e be an eigenvalue of A. It is an m-th root of unity. Take a left eigenvector l, so l A = e l. Set L(x) = l·x. 'By combination' of the equations x_i = sum_j a_ij y_j one gets L(x) = e L(y).\n3. Since A ≡ I (mod P), L(x) = l A y ≡ l y = L(y) (mod P).\n4. Hence (e−1) L(y) ≡ 0 (mod P) identically in y. So either all coefficients of L are ≡ 0 (mod P), or e ≡ 1 (mod P).\n\nImplicit completion (mine):\n5. Normalise l so that not all its coefficients lie in P (or in a prime above P in O[e]); this is possible after localisation. Then e ≡ 1 (mod P).\n6. Conclude e = 1. This needs the fact that distinct roots of unity are incongruent mod P.\n7. A has finite order, so it is diagonalisable over C. If all eigenvalues equal 1, then A = I.\n\nHilbert writes 'Was bewiesen werden sollte' after step 4, so steps 5–7, and especially step 6, are left unstated.\n\n(c) Start of a new note: Gauss chose the n abscissae for mechanical quadrature that are optimal, i.e. exact for polynomials of degree 2n−1. The next page continues by asking for the analogue for trigonometric polynomials of order up to 2n−1, via interpolation through 2n+1 nodes. There is no derivation on this page.",
+  "errors": [
+   "The generalisation as sketched is false without an extra hypothesis. The step e ≡ 1 (mod P) ⇒ e = 1 fails when P is ramified enough over p. Counterexample: O = Z[i], P = (1+i), A = diag(i,1). Then A^4 = I and A ≡ I (mod P), since i−1 = i(1+i), but A ≠ I.",
+   "Another counterexample: in Z[zeta_3] with P = (1−zeta_3), the 1x1 substitution zeta_3 is ≡ 1 (mod P) and has order 3.",
+   "The correct statement requires that the ramification index e(P|p) be less than p−1. Then v_P(zeta−1) = e(P|p)/(p^(k−1)(p−1)) < 1 for every nontrivial p-power root of unity. Roots of unity of order prime to p are always distinct mod P.",
+   "Even Minkowski's integer case needs p odd: A = −I ≡ I (mod 2). The sketch never says where p > 2, or the ramification condition, enters.",
+   "Unjustified steps: (i) L may have coefficients in the larger field K(e), so the congruence must be taken mod a prime above P. (ii) The normalisation 'L not ≡ 0 mod P' is not automatic in a non-principal ring. (iii) Passing from 'all eigenvalues are 1' to A = I (diagonalisability of finite-order matrices) is not mentioned."
+  ],
+  "results": [
+   {
+    "what": "Remark that, in representing definite ternary forms as quotients of sums of squares, the common point of phi=psi=chi=0 (vanishing Jacobian) is a critical case new for degree above 2",
+    "modern_name": "Hilbert's ternary forms / precursor of Hilbert's 17th problem",
+    "usually_credited_to": "Hilbert (1888, 1893)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Extension of Minkowski's theorem (a finite-order integral substitution ≡ identity mod p is the identity) to matrices over rings of algebraic integers mod a prime ideal, via eigen-linear-forms L(x) = e L(y)",
+    "modern_name": "Torsion-freeness of principal congruence subgroups over number rings (Minkowski's lemma; Serre's lemma); valid when the ramification index e(P|p) < p−1",
+    "usually_credited_to": "Minkowski (1887) for Z; the general number-ring version is folklore / Serre (1960s, Lie algebras and Lie groups; rigidity lemma)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Gaussian quadrature: n optimal nodes, exact for degree 2n−1 (setup for a trigonometric analogue on the next page)",
+    "modern_name": "Gauss(-Legendre) quadrature; trigonometric Gaussian quadrature",
+    "usually_credited_to": "Gauss (1814)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The eigenvector proof of Minkowski's congruence theorem and its transfer to prime ideals is natural and was implicit in later folklore. Hilbert's sketch is incomplete and, as stated, wrong for ramified primes. It is an interesting unpublished research note but not a significant priority claim.",
+  "checkable": [
+   {
+    "sympy": "simplify((I - 1)/(1 + I))",
+    "asserts": "Equals I, an algebraic integer, so i ≡ 1 mod (1+i) in Z[i]: a counterexample to the unqualified generalisation."
+   },
+   {
+    "sympy": "Matrix([[I,0],[0,1]])**4 == eye(2)",
+    "asserts": "diag(i,1) has finite order 4 although it is ≡ I mod (1+i)."
+   },
+   {
+    "sympy": "cyclotomic_poly(5, 1)",
+    "asserts": "Equals 5 = Norm(1−zeta_5), so v_p(zeta_p − 1) = 1/(p−1) < 1 for p odd: the integer (Minkowski) case of e ≡ 1 mod p ⇒ e = 1."
+   },
+   {
+    "sympy": "(-eye(2) - eye(2)).applyfunc(lambda t: t % 2) == zeros(2)",
+    "asserts": "−I ≡ I mod 2: Minkowski's theorem needs p > 2."
+   },
+   {
+    "sympy": "integrate(x**3 + x**2, (x,-1,1)) - sum(r**3 + r**2 for r in [-1/sqrt(3), 1/sqrt(3)])",
+    "asserts": "Equals 0: 2-point Gauss–Legendre quadrature is exact for degree 3 = 2n−1."
+   },
+   {
+    "sympy": "simplify(sum(cos(3*2*pi*k/5) for k in range(5)))",
+    "asserts": "Equals 0 = integral of cos(3x) over [0,2pi]: N equally spaced nodes are exact for trigonometric terms of order < N (relevant to the trigonometric quadrature problem begun here)."
+   }
+  ],
+  "transcription_corrections": [
+   "'Su[?] die Substitutionsgleichungen' should read 'Du die Substitutionsgleichungen' ('führe den Beweis so: dass Du ... bringst').",
+   "'Statt ≡ der identischen Substitution (p)' is a congruence 'mod p' to the identity, following Minkowski. 'setze ≡ nach einem Primideal (P)' means congruence modulo a prime ideal; the subscript of L is the Fraktur prime ideal P.",
+   "The last condition reads 'L_P ≡ 0 oder e ≡ 1 (P)'."
+  ]
+ }
+}

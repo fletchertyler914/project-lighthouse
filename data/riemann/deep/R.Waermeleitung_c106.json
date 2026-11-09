@@ -1,0 +1,65 @@
+{
+ "bundle": "R.Waermeleitung",
+ "page": "c106",
+ "label": "55r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3205052:00000107/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the opening page of Pars secunda of Riemann's Paris Prize essay on heat conduction (the 'Commentatio mathematica', dated 1861). Pars prima (previous page) reduced the problem to deciding when the quadratic differential form sum beta ds ds can be brought to a given form sum a dx dx.\n\nPage content.\n\n(a) Setting the problem. The Academy restricted the question to homogeneous bodies with constant conductivities. So Riemann first seeks conditions under which sum_{i,i'} b_{ii'}(s) ds_i ds_{i'} becomes a form sum a_{ii'} dx_i dx_{i'} with constant coefficients a, when the s are taken as functions of the x. The general target form is to be treated briefly afterwards.\n\n(b) Reduction to the Euclidean form. A constant positive definite form sum a dx dx can always be brought to sum dx_i^2 by a real linear change of variables. Hence transformability into sum a dx dx is equivalent to transformability into sum dx_i^2. So the question becomes: when is b = J^T J, with J = (dx/ds) the Jacobian of some coordinate map?\n\n(c) Algebraic preliminaries. Let B = det(b) and let beta_{ii'} be the cofactors ('determinantes partiales'). Then sum_i beta_{ii'} b_{ii'} = B, and sum_i beta_{ii'} b_{ii''} = 0 for i' != i'' (Riemann writes this as 'i' ≷ i'''). In matrix form, b·adj(b) = B·I, so (b^{-1})_{ii'} = beta_{ii'}/B, using the symmetry of b.\n\n(d) Polarization. Suppose sum b_{ii'} ds_i ds_{i'} = sum dx_i^2 identically in the differentials. Replace d by d+delta and compare the mixed terms. This gives the bilinear identity sum b_{ii'} ds_i delta s_{i'} = sum dx_i delta x_i for arbitrary dx and delta x.\n\n(e) Derivation of (1). [Filled-in step, mine:]\n- Write ds_i = sum_{nu'} (ds_i/dx_{nu'}) dx_{nu'}.\n- Write delta x_{nu'} = sum_nu (dx_{nu'}/ds_nu) delta s_nu.\n- Then the left side is sum_{nu',nu} [sum_i b_{i nu} ds_i/dx_{nu'}] dx_{nu'} delta s_nu.\n- The right side is sum_{nu',nu} (dx_{nu'}/ds_nu) dx_{nu'} delta s_nu.\n- Comparing coefficients and using symmetry of b gives (1): dx_{nu'}/ds_nu = sum_i b_{nu,i} ds_i/dx_{nu'}.\n- In matrix form, with J_{nu' nu} = dx_{nu'}/ds_nu: J^T = b J^{-1}, i.e. b = J^T J.\n\n(f) Derivation of (2). Multiply (1) by b^{-1} = beta/B: ds_i/dx_{nu'} = sum_nu (beta_{nu i}/B) dx_{nu'}/ds_nu. In matrix form, J^{-1} = b^{-1} J^T.\n\n(g) Last line. Riemann begins to use the inverse-Jacobian relations sum_nu (ds_i/dx_nu)(dx_nu/ds_i) = 1 and = 0 for unequal indices (continued on p.14). These lead to (3) sum (dx/ds_i)(dx/ds_{i'}) = b_{ii'} and (4) sum (ds_i/dx)(ds_{i'}/dx) = beta_{ii'}/B. Those in turn lead to the Christoffel-symbol and curvature-condition computation on the next page.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "Minor unstated assumption: (1) uses the symmetry b_{nu i} = b_{i nu}, and (2) uses the symmetry of the cofactor matrix. Both are implicit, since b is a symmetric form.",
+   "'i' ≷ i''' is Riemann's notation for i' != i''; it is not an inequality condition.",
+   "Reducibility of the constant form to sum dx^2 needs positive definiteness. Riemann explicitly assumes this ('id quod supponimus')."
+  ],
+  "results": [
+   {
+    "what": "Reduction of transformability into a constant positive definite form to transformability into sum dx^2 (Euclidean flatness question).",
+    "modern_name": "Sylvester's law of inertia / Gram–Schmidt diagonalization; local flatness problem for a Riemannian metric",
+    "usually_credited_to": "Lagrange/Gauss/Jacobi/Sylvester for the reduction; the flatness question to Riemann (1854, 1861)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Cofactor identities sum_i beta_{ii'} b_{ii''} = B delta_{i'i''}, i.e. inverse metric g^{ij} = beta_ij/B",
+    "modern_name": "Adjugate formula for the matrix inverse (inverse metric tensor)",
+    "usually_credited_to": "Cauchy/Jacobi (determinant theory)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Polarization of the quadratic form and the Jacobian relations (1),(2): b = J^T J, J^{-1} = b^{-1} J^T",
+    "modern_name": "Polarization identity; metric as pullback of Euclidean metric, g = J^T J",
+    "usually_credited_to": "standard (Gauss, Lamé); in this context Riemann's Commentatio (1861, publ. 1876)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the beginning of Pars secunda of Riemann's 1861 Paris prize essay ('Commentatio mathematica'), published in his Werke (1876). The page contains only routine preliminaries (polarization, cofactors, Jacobian inversion) before the well-known curvature-condition derivation on the next page. All of this is long attributed to Riemann.",
+  "checkable": [
+   {
+    "sympy": "a,b_,c,d=symbols('a b c d'); J=Matrix([[a,b_],[c,d]]); g=J.T*J; simplify(J.T - g*J.inv()) == zeros(2,2)",
+    "asserts": "Equation (1): dx/ds transposed equals b times (dx/ds)^{-1} when b = J^T J"
+   },
+   {
+    "sympy": "a,b_,c,d=symbols('a b c d'); J=Matrix([[a,b_],[c,d]]); g=J.T*J; simplify(J.inv() - (g.adjugate()/g.det())*J.T) == zeros(2,2)",
+    "asserts": "Equation (2): ds/dx = (beta/B) * (dx/ds)^T with beta the cofactor (adjugate) matrix"
+   },
+   {
+    "sympy": "p,q,r=symbols('p q r'); g=Matrix([[p,q],[q,r]]); simplify(g*g.adjugate() - g.det()*eye(2)) == zeros(2,2)",
+    "asserts": "Cofactor identities sum_i beta_{ii'} b_{ii''} = B*delta_{i'i''}"
+   },
+   {
+    "sympy": "p,q,r,u1,u2,v1,v2=symbols('p q r u1 u2 v1 v2'); g=Matrix([[p,q],[q,r]]); u=Matrix([u1,u2]); v=Matrix([v1,v2]); Q=lambda w:(w.T*g*w)[0]; expand(Q(u+v)-Q(u)-Q(v)-2*(u.T*g*v)[0])==0",
+    "asserts": "Polarization: substituting d+delta for d yields the bilinear form identity"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 'Unde si Σ b ds ds in formam Σ a_{ιι'} ds_ι ds_ι' transformari potest': the intended target is the form in the x-variables, Σ a_{ιι'} dx_ι dx_ι'. The manuscript's subscripts are hard to read here.",
+   "Title: the sum is written Σ_ι^n Σ_ι'^n b_{ιι'} ds_ι ds_ι' (correct as transcribed); 'Ill.ma' is 'Ill.^ma' (Illustrissima) Academia.",
+   "In (2) the denominator ∂s_ν was corrected in the manuscript from another letter; reading ∂x_ν'/∂s_ν is right.",
+   "'si ι' ≷ ι''' is correctly transcribed (Riemann's notation for 'unequal')."
+  ]
+ }
+}

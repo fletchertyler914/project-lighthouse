@@ -1,0 +1,64 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c089",
+ "label": "44v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000090/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two unrelated layers. A third layer, the faint mirror-image formulas in the background (for example '(μ+5/2)', 'ϑ'', '(μ+1)...'), is ink showing through from the other side of the leaf. It belongs to the computations on the previous page and is not content of this page.\n\n(A) Lecture announcement draft, in pencil. This is a draft, in Latin and then in German, of a Göttingen course announcement. A reading of the Latin, with corrections: '(Funct. compl. quant.) [deleted: Theoriam complexae variabilis] ... tractabit De functionibus complexae quantitatis variabilis, imprimis [deleted false start] ellipticas et Abelianas, ternis per hebdomadem horis.' In English: 'He will treat the functions of a complex variable quantity, especially the elliptic and Abelian ones, three hours a week.'\n\nThe German version below it reads roughly: 'Über die [Functionen] einer veränderlichen complexen Größe, und besonders über die elliptischen und Abel'schen Functionen [privatim / wöchentlich ...].' This matches Riemann's course of Winter Semester 1855/56 on the theory of functions of a complex variable, especially elliptic and Abelian functions (the course attended by Dedekind and others). The next leaf is dated 14 June 1855, consistent with drafting the announcement in summer 1855.\n\n(B) Theta-function notes, in ink. Riemann writes the Jacobi elliptic functions as theta quotients, with any normalising constants absorbed (or tacitly normalised):\n- sn u = ϑ1/ϑ\n- dn u = Δam u = ϑ3/ϑ\n- implicitly cn u = ϑ2/ϑ\n\nHe then differentiates the first quotient. The quotient rule gives (ϑ dϑ1 − ϑ1 dϑ)/ϑ² = d sn u. Using d sn u = cn u · dn u · du = (ϑ2/ϑ)(ϑ3/ϑ) du and multiplying by ϑ² gives the written result:\n\nϑ dϑ1 − ϑ1 dϑ = ϑ2 ϑ3 du.\n\nThe struck-out 'ϑ²' under the left side is the denominator he cancelled; this reading of the step is mine but certain from the layout. The isolated 'd ϑ/ϑ' (possibly d log ϑ, or d(ϑ_i/ϑ)) is a started but unfinished second differentiation. In Jacobi's notation (H, Θ, H1, Θ1) the same identity reads Θ H' − H Θ' = C·H1·Θ1 with an explicit constant. Riemann's form simply assumes normalisation.",
+  "errors": [
+   "The identity ϑ dϑ1 − ϑ1 dϑ = ϑ2 ϑ3 du holds only if ϑ1/ϑ, ϑ2/ϑ, ϑ3/ϑ equal sn, cn, dn exactly, i.e. with constants absorbed. For standard Jacobi theta functions a constant factor appears, e.g. via u = π θ3(0)² v, sn = (θ3(0)/θ2(0))·θ1(v)/θ4(v). This is a convention, not an error.",
+   "The note 'd ϑ/ϑ' is incomplete and no result is stated for it."
+  ],
+  "results": [
+   {
+    "what": "Draft announcement of a lecture course 'De functionibus complexae quantitatis variabilis, imprimis ellipticis et Abelianis', three hours weekly (Winter Semester 1855/56)",
+    "modern_name": "Riemann's 1855/56 lectures on complex function theory and elliptic/Abelian functions",
+    "usually_credited_to": "Riemann (well documented course, Göttingen WS 1855/56)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Representation of sn, (cn), dn as quotients of theta functions",
+    "modern_name": "Theta-quotient representation of Jacobi elliptic functions",
+    "usually_credited_to": "Jacobi (Fundamenta Nova 1829; lectures 1835/36)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "ϑ dϑ1 − ϑ1 dϑ = ϑ2 ϑ3 du (Wronskian-type derivative of theta quotient, equivalent to sn' = cn·dn)",
+    "modern_name": "Jacobi theta derivative identity θ4θ1' − θ1θ4' = C θ2θ3",
+    "usually_credited_to": "Jacobi",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The announcement draft documents a well-known Riemann course of 1855/56. The theta formulas are standard Jacobi material, restated in normalised form as working notes.",
+  "checkable": [
+   {
+    "sympy": "f,g=Function('f')(u),Function('g')(u); simplify(diff(f/g,u)*g**2 - (g*diff(f,u)-f*diff(g,u)))",
+    "asserts": "Quotient rule step: ϑ²·d(ϑ1/ϑ) = ϑ dϑ1 − ϑ1 dϑ (result 0)."
+   },
+   {
+    "sympy": "import mpmath; m=mpmath.mpf('0.3'); u0=mpmath.mpf('0.7'); mpmath.diff(lambda t: mpmath.ellipfun('sn',t,m),u0) - mpmath.ellipfun('cn',u0,m)*mpmath.ellipfun('dn',u0,m)",
+    "asserts": "d sn/du = cn·dn numerically (≈0), which is the content of ϑ dϑ1 − ϑ1 dϑ = ϑ2ϑ3 du under normalisation."
+   },
+   {
+    "sympy": "import mpmath; q=mpmath.mpf('0.1'); m=(mpmath.jtheta(2,0,q)/mpmath.jtheta(3,0,q))**4; v=mpmath.mpf('0.4'); u=v*mpmath.jtheta(3,0,q)**2; mpmath.ellipfun('sn',u,m) - mpmath.jtheta(3,0,q)/mpmath.jtheta(2,0,q)*mpmath.jtheta(1,v,q)/mpmath.jtheta(4,v,q)",
+    "asserts": "sn u is a theta quotient θ1/θ4 up to a constant (≈0)."
+   },
+   {
+    "sympy": "import mpmath; q=mpmath.mpf('0.1'); v=mpmath.mpf('0.4'); t=lambda n,x: mpmath.jtheta(n,x,q); (t(4,v)*mpmath.diff(lambda x:t(1,x),v)-t(1,v)*mpmath.diff(lambda x:t(4,x),v))/(t(2,v)*t(3,v)) - t(2,0)*t(3,0)*t(4,0)/1*0 - mpmath.diff(lambda x:t(1,x),0)/(t(2,0)*t(3,0))*t(4,0)",
+    "asserts": "θ4θ1' − θ1θ4' is a constant multiple of θ2θ3, the constant being θ1'(0)θ4(0)/(θ2(0)θ3(0)) (≈0)."
+   }
+  ],
+  "transcription_corrections": [
+   "'{+empiricis[?]+}' should read 'imprimis', i.e. 'imprimis [de functionibus] ellipticas et Abelianas'.",
+   "'ternis per hebdomas horis' should read 'ternis per hebdomadem horis' (three hours per week).",
+   "The German line most likely reads 'Über die Functionen einer veränderlichen complexen Größe, und besonders über die elliptischen und Abel'schen Functionen' followed by a word like 'privatim/wöchentlich'; the word 'Functionen' after 'die' appears omitted.",
+   "'d ϑ/ϑ' is an unfinished differential, possibly d log ϑ or d(ϑ_i/ϑ).",
+   "The faint background formulas are mirror-image ink from the other side of the leaf (matching the previous page's computations) and should not be transcribed as content of this page."
+  ]
+ }
+}

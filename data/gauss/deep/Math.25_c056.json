@@ -1,0 +1,81 @@
+{
+ "bundle": "Math.25",
+ "page": "c056",
+ "label": "28r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3381838:00000057/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The mathematics on this page is a short trigonometric scratch computation. The rest of the page is pen trials: French address lines \"Pour l'Academie Imperiale et pour Mrs. Euler, Fuss et Schubert\" (the St Petersburg Academy, i.e. J. A. Euler, N. Fuss, F. T. Schubert), German verse fragments, monograms, digit trials and the heading \"Parallaxenrechnungen\". These fit Gauss's St Petersburg contacts of about 1801-02.\n\n(1) Setup. Three quantities A sin a, B sin b, C sin c with b = a+120°, c = b+120° = a+240°. That is, three sinusoid values at phases spaced 120° apart.\n\nImplicit reduction (mine, certain from what follows):\n- sin(a+120°) = sin(60°-a)\n- sin(a+240°) = -sin(60°+a)\n\nGauss therefore relabels the angles a, 60-a, 60+a with values m, n, p. My reading is m = R sin a, n = R sin(60-a), p = R sin(60+a), with R a common amplitude (R = 1 below).\n\n(2) n = p - m. This is the identity sin(60+a) - sin a = 2 cos(30+a) sin 30 = cos(30+a) = sin(60-a). Equivalently, sin a + sin(60-a) = sin(60+a).\n\n(3) Three bracketed combinations, each a weighted pair of two of m, n, p:\n- E1 = √3[n sin(30-a) + p sin(30+a)]\n- E2 = √3[-m sin(30-a) + p cos a] (the image shows 'p cos/sin a' overwritten; cos a is the reading that makes it work)\n- E3 = √3[m sin(30+a) + n cos a]\n\nWith m, n, p as above (my verification), each equals 3/2, independent of a. Using product-to-sum:\n- sin(60-a)sin(30-a) + sin(60+a)sin(30+a) = √3/2\n- -sin a sin(30-a) + sin(60+a)cos a = √3/2\n- sin a sin(30+a) + sin(60-a)cos a = √3/2\n\nSo each Ei = (3/2)R. In other words, these linear forms recover the amplitude from any two of the three 120°-spaced values.\n\n(4) Combination E1 + E2. Written first with '+p' left incomplete, then completed:\n√3[(n-m) sin(30-a) + p(sin(30+a) + cos a)].\n\nGauss expands sin(30+a) + cos a = sin a·cos30 + (3/2) cos a ('sa.c30 + 3/2 ca'). Multiplying by √3 gives √9·(½ sin a + cos30 cos a) = 3 sin(60+a). The '9' is preceded by a radical sign, so it reads √9 = 3.\n\nResult: E1 + E2 = √3(n-m) sin(30-a) + 3p sin(60+a). With n - m = √3 R sin(30-a) and p = R sin(60+a), this is 3R[sin²(30-a) + cos²(30-a)] = 3R, consistent with 2·(3/2)R.\n\nPurpose: most likely recovering the amplitude (and implicitly the phase) of a sinusoidal term from three values at phases 120° apart. This is a three-point trigonometric interpolation / harmonic-analysis device, plausibly connected with the parallax or ephemeris computations named on the page. Other items:\n- 'Eul sin ∫' is a pen trial.\n- '3,18527' is an isolated (probably logarithmic) number of unknown use.\n- The digit rows are writing trials.",
+  "errors": [
+   "No genuine mathematical error. The second bracket is written ambiguously ('p cos/sin a', overwritten); only p cos a gives the constant value 3/2, so 'sin' there was a slip that was corrected.",
+   "Several brackets are left incomplete ('+ p' with no factor). These are scratch abbreviations completed in the final line, not errors.",
+   "'9(sa.½ + c.30.ca' is to be read as √9(...) = 3 sin(60+a); taken literally as 9 it would be off by a factor 3."
+  ],
+  "results": [
+   {
+    "what": "Reduction sin(a+120°)=sin(60°-a), sin(a+240°)=-sin(60°+a), and the relation sin a + sin(60°-a) = sin(60°+a) (n = p - m)",
+    "modern_name": "Elementary angle-addition / sum-to-product identities (three-phase relation)",
+    "usually_credited_to": "Classical (Ptolemy-era chord relations; standard 18th-century trigonometry)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Linear combinations √3[n sin(30-a)+p sin(30+a)], √3[-m sin(30-a)+p cos a], √3[m sin(30+a)+n cos a] each equal (3/2)R, recovering the amplitude from two of three 120°-spaced sinusoid values",
+    "modern_name": "Three-point trigonometric interpolation / amplitude recovery from 120°-spaced samples (discrete Fourier analysis with N=3)",
+    "usually_credited_to": "Routine; general trigonometric interpolation by Lagrange/Clairaut (1750s-60s), Gauss's own unpublished Theoria interpolationis (c. 1805)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Sum E1+E2 = √3(n-m)sin(30-a) + 3p sin(60+a) = 3R, via sin(30+a)+cos a = sin a cos30 + (3/2)cos a = √3 sin(60+a)",
+    "modern_name": "Pythagorean identity check of the amplitude formula",
+    "usually_credited_to": "Routine",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Elementary trigonometric identities on a page dominated by pen trials. They may be a fragment of three-point harmonic analysis, but nothing here goes beyond standard 18th-century trigonometry. The only historical interest is the dating context: the addresses to the St Petersburg Academy (Euler, Fuss, Schubert) and 'Parallaxenrechnungen' point to about 1801-02.",
+  "checkable": [
+   {
+    "sympy": "simplify(sin(a+2*pi/3) - sin(pi/3-a))",
+    "asserts": "sin(a+120°) = sin(60°-a); expect 0"
+   },
+   {
+    "sympy": "simplify(sin(a+4*pi/3) + sin(pi/3+a))",
+    "asserts": "sin(a+240°) = -sin(60°+a); expect 0"
+   },
+   {
+    "sympy": "simplify(sin(pi/3+a) - sin(a) - sin(pi/3-a))",
+    "asserts": "n = p - m for m=sin a, n=sin(60-a), p=sin(60+a); expect 0"
+   },
+   {
+    "sympy": "simplify(sqrt(3)*(sin(pi/3-a)*sin(pi/6-a) + sin(pi/3+a)*sin(pi/6+a)))",
+    "asserts": "E1 = 3/2 identically"
+   },
+   {
+    "sympy": "simplify(sqrt(3)*(-sin(a)*sin(pi/6-a) + sin(pi/3+a)*cos(a)))",
+    "asserts": "E2 (with p cos a) = 3/2 identically"
+   },
+   {
+    "sympy": "simplify(sqrt(3)*(sin(a)*sin(pi/6+a) + sin(pi/3-a)*cos(a)))",
+    "asserts": "E3 = 3/2 identically"
+   },
+   {
+    "sympy": "simplify(sin(a)*cos(pi/6) + Rational(3,2)*cos(a) - sqrt(3)*sin(pi/3+a))",
+    "asserts": "sin(30+a)+cos a = sa*c30 + 3/2*ca = sqrt(3)*sin(60+a); expect 0"
+   },
+   {
+    "sympy": "simplify(sqrt(3)*(sin(pi/3-a)-sin(a))*sin(pi/6-a) + 3*sin(pi/3+a)**2)",
+    "asserts": "√3(n-m)sin(30-a) + 3p sin(60+a) = 3 identically"
+   }
+  ],
+  "transcription_corrections": [
+   "'+ p cos[?] sin a' should read '+ p cos a' (sin overwritten/cancelled); only this reading makes the expression constant.",
+   "'9 (sa . ½ + c . 30 . ca' is preceded by a radical sign: read √9(sin a·½ + cos30·cos a), i.e. 3 sin(60+a).",
+   "'√3(n - m) sin 30 - a' means √3(n-m) sin(30-a); '+ 3p sin(60+a)' is correct.",
+   "'Euler am AM' and 'AM', 'AMtrm', the 'LFG' and similar monograms, 'Eul sin ∫', the digit rows, '974' and '7923' are pen trials, not mathematics.",
+   "The German lines read approximately 'Von jenen Höhen her uns ein neuer Morgen...' and 'Mein Volk auf der ganzen Erde'; these are literary pen trials."
+  ]
+ }
+}

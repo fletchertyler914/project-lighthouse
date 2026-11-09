@@ -1,0 +1,62 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c366",
+ "label": "184r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000367/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Leaving aside the archival/pencil jottings at the top (a list with page numbers 20/21: 'Luft, Brod, Lichter, Lüften, Pinsel', apparently a non-mathematical list, and the folio count '184 -> 191 = 8 Bl.'), the page holds a short numerical calculation with seven-place common logarithms. It is headed 'Traité de Mécanique No. 323, pag. 638'. This is most likely a check of a numerical example in a French mechanics textbook, probably Poisson's Traité de mécanique (2nd ed. 1833), though the exact passage is unverified.\n\nStep 0 (setup). Riemann writes the proportion x + a : x + b with the two constants written as digit strings: a = 8,5706200 and b = 1170649200. The alignment of the later subtraction shows these are the same quantity scale, with a = 0.0085706200 and b = 0.1170649200 (equivalently, in units of 10^-10: 85706200 and 1170649200).\n\nStep 1 (difference). He subtracts b - a = 0.1170649200 - 0.0085706200 = 0.1084943000. This is written '...1084943000...'.\n\nStep 2 (logarithm of the difference by table interpolation).\n- From the table, log 1.0849 = 0.0353897.\n- The remaining digits '43' are handled by proportional parts: 160 for the 4 and 12 for the 3, i.e. a correction of 0.0000172 (tabular difference about 40 per unit of the 5th significant digit).\n- 'The 4069' written above is the corrected ending.\n- Hence log(0.1084943) = 9.0354069 - 10 (written 9,0353897 + 160 + 12).\n\nStep 3 (add a logarithm). He adds the logarithm 9.55800 - 10, the log of K ≈ 0.36141.\n- 9.0354069 + 9.5580000 = 18.5934069, and dropping 10 gives 8.5934069 (i.e. -10 convention).\n- So this is an addition of logs (multiplication by K), not a subtraction. The stroke before 9,55800 is not a minus sign.\n\nStep 4 (antilogarithm). The number with log 8.5934069 - 10 is 0.0392109. Its mantissa digits are written '392,109000', i.e. in units of 10^-4: 392.109.\n\nStep 5 (final subtraction). 392.109000 - 85.706200 = 306.402800, i.e. 0.0392109 - 0.0085706 = 0.0306403.\n\nInterpretation (mine). The computation amounts to x = K(b - a) - a ≈ 0.03064, i.e. x + a = K(b - a). This is what one gets from a relation (x+a)/(x+b) = q with K = q/(1-q) (q ≈ 0.2655), or from (x+a):(b-a) = K. Which relation the book gives cannot be determined from this page. The physical meaning of a, b and K is unknown without the source (Poisson No. 323, p. 638 unverified).",
+  "errors": [
+   "No arithmetic errors found. All steps check:\n- b - a = 0.1084943.\n- log10(1.0849) = 0.0353897.\n- The proportional parts 160 + 12 = 172 are correct, giving log(0.1084943) = 9.0354069 - 10.\n- 9.0354069 + 9.558 - 10 = 8.5934069.\n- antilog = 0.0392109.\n- 392.109 - 85.7062 = 306.4028.",
+   "The '-' before 9,55800 should not be read as subtraction: arithmetically the line is an addition of logarithms in the -10 convention. Subtracting would give 9.4774069, not 8.5934069."
+  ],
+  "results": [
+   {
+    "what": "Numerical evaluation with seven-place logarithms and linear interpolation (proportional parts) of a quantity x from a proportion x+a : x+b, apparently checking a worked example in a French Traité de Mécanique (No. 323, p. 638).",
+    "modern_name": "Logarithmic computation / table interpolation; solving a linear proportion",
+    "usually_credited_to": "Standard 19th-century computing practice (Briggs/Vlacq tables)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "A routine numerical check using log tables, with no new mathematics. The only interest is biographical: it shows Riemann working through a French mechanics treatise (likely Poisson) around 1853.",
+  "checkable": [
+   {
+    "sympy": "Eq(1170649200 - 85706200, 1084943000)",
+    "asserts": "b - a difference as written"
+   },
+   {
+    "sympy": "abs(log(Rational(10849,10000),10) - Rational(353897,10**7)) < 10**-7",
+    "asserts": "table value log10(1.0849) = 0.0353897"
+   },
+   {
+    "sympy": "abs(log(Rational(1084943,10**7),10) - (Rational(90354069,10**7) - 10)) < 10**-7",
+    "asserts": "log10(0.1084943) = 9.0354069 - 10 (interpolated value correct)"
+   },
+   {
+    "sympy": "Eq(Rational(90354069,10**7) + Rational(9558,1000) - 10, Rational(85934069,10**7))",
+    "asserts": "addition of logarithms in -10 convention gives 8.5934069"
+   },
+   {
+    "sympy": "abs(10**(Rational(85934069,10**7) - 10) - Rational(392109,10**7)) < 10**-7",
+    "asserts": "antilog of 8.5934069-10 is 0.0392109"
+   },
+   {
+    "sympy": "Eq(Rational(392109,1000) - Rational(857062,10000), Rational(3064028,10000))",
+    "asserts": "final subtraction 392.109 - 85.7062 = 306.4028"
+   },
+   {
+    "sympy": "abs(10**(Rational(9558,1000)-10)*(Rational(1170649200,10**10)-Rational(85706200,10**10)) - Rational(85706200,10**10) - Rational(306403,10**7)) < 10**-6",
+    "asserts": "overall result x = K(b-a) - a ≈ 0.0306403 with log K = 9.558-10"
+   }
+  ],
+  "transcription_corrections": [
+   "The stroke before '9,55800' is not a minus sign; the operation is addition of logarithms (9.0354069 + 9.558 - 10 = 8.5934069).",
+   "'4069' written above 9,0353897 is the corrected ending of the logarithm (9,0354069); '160' and '12' are interpolation proportional parts placed under the last digits.",
+   "The second line of the first subtraction is 85706200, aligned under the last eight digits of 1170649200 (i.e. 0.0085706200 vs 0.1170649200).",
+   "The top-left list (Luft, Brod, Lichter, Lüften, Pinsel with 'Pag. 20/21') is non-mathematical; the readings are uncertain but plausible.",
+   "'184 -> 191 = 8 Bl.' is an archival folio count, not part of the mathematics."
+  ]
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "bundle": "PH.Varia",
+ "page": "c002",
+ "label": "2r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3382762:00000003/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Problem (stated on the next page as 'Arc. cos p+iq bestimmen = f - ig'): given a complex number w = p + iq, find real f, g with cos(f - ig) = p + iq. That is, compute the complex arccosine.\n\nModern restatement:\n(0) cos(f - ig) = cos f cosh g + i sin f sinh g. So p = cos f cosh g and q = sin f sinh g.\n\n(i) Write 1+w and 1-conj(w) in polar form:\n- 1 + p + iq = a e^{iA}, i.e. 1+p = a cos A and q = a sin A. So a = |1+w|.\n- 1 - p + iq = b e^{iB}, i.e. 1-p = b cos B and q = b sin B. So b = |1-w|.\n\n(ii) Gauss states (a-b)/2 = cos f and (a+b)/2 = cos ig = cosh g. Implicit verification (mine): |1+w|^2 = (1 + cos f cosh g)^2 + sin^2 f sinh^2 g = (cosh g + cos f)^2. So a = cosh g + cos f and likewise b = cosh g - cos f. Geometrically, w lies on the confocal ellipse/hyperbola with foci ±1: the sum of focal distances is 2cosh g and the difference is 2cos f. Hence cosh g = (a+b)/2 and cos f = (a-b)/2 already solve the problem. The rest of the page derives sin f and sinh g directly, which avoids loss of precision.\n\n(iii) Half-angle formulas:\n1. 1 + cos(f-ig) = 2cos^2(½(f-ig)) = a e^{iA}, so cos ½(f-ig) = sqrt(a/2)(cos ½A + i sin ½A).\n2. This is the complex conjugate of 1: cos ½(f+ig) = sqrt(a/2)(cos ½A - i sin ½A).\n3. 1 - cos(f-ig) = 2 sin^2(½(f-ig)) = 1-p-iq = b e^{-iB}, so sin ½(f-ig) = sqrt(b/2)(cos ½B - i sin ½B).\n4. This is the conjugate of 3: sin ½(f+ig) = sqrt(b/2)(cos ½B + i sin ½B).\n\nThe square-root branches are chosen so that the formulas hold, e.g. for 0 ≤ f ≤ π, g real, with A and B taken in (-π, π).\n\n(iv) Products:\n- 1·4: cos ½(f-ig) sin ½(f+ig) = ½(sin f + sin ig) = ½ sqrt(ab) e^{i(A+B)/2}.\n- 2·3: cos ½(f+ig) sin ½(f-ig) = ½(sin f - sin ig) = ½ sqrt(ab) e^{-i(A+B)/2}.\n\nAdding (1·4 + 2·3) gives sin f = sqrt(ab) cos ½(A+B). Subtracting gives sin ig = i sqrt(ab) sin ½(A+B), i.e. sinh g = sqrt(ab) sin ½(A+B).\n\nGauss first wrote a wrong right-hand side ('= cos'), struck it, and then wrote the two final lines correctly.\n\nThe result is a complete, numerically convenient algorithm for arccos of a complex number:\n- cos f = (a-b)/2 and sin f = sqrt(ab) cos ½(A+B);\n- cosh g = (a+b)/2 and sinh g = sqrt(ab) sin ½(A+B).\n\nThe next page (cos ix, sin ix, tang ix in terms of the Gudermannian h, x = log tg(45°+½h)) and the list of π-calculators suggest this is lecture or teaching material on complex trigonometric functions.",
+  "errors": [
+   "The line '1.4 = sqrt(ab) cos ½(A+B) = sin f' is loose as written. The product 1·4 equals ½ sqrt(ab) e^{i(A+B)/2} = ½(sin f + sin ig). Only the combination 1·4 + 2·3 gives sin f = sqrt(ab) cos ½(A+B). Gauss evidently means this, as the marginal '2.3' and the final lines show.",
+   "The struck-out line (right-hand side initially '= cos') is a slip that Gauss himself corrected to '= sin ig'.",
+   "Branch and sign conventions for the square roots and for the half-angles ½A and ½B are left implicit. Signs are correct for 0 ≤ f ≤ π, g real, A, B in (-π, π)."
+  ],
+  "results": [
+   {
+    "what": "Complex arccosine: for cos(f-ig) = p+iq, cosh g = (|1+w|+|1-w|)/2 and cos f = (|1+w|-|1-w|)/2.",
+    "modern_name": "Inverse cosine of a complex argument via focal distances (elliptic coordinates); cf. Abramowitz-Stegun 4.4.37-4.4.39",
+    "usually_credited_to": "Standard 18th/19th-century material (Euler-era complex trigonometry); no single attributed discoverer",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Half-angle factorisation giving sin f = sqrt(ab) cos ½(A+B) and sinh g = sqrt(ab) sin ½(A+B), where a e^{iA} = 1+w and b e^{iB} = 1-conj(w).",
+    "modern_name": "Numerically stable (cancellation-free) evaluation of complex arccos/arcsin, akin to Kahan-style formulas using sqrt(1+z) and sqrt(1-z)",
+    "usually_credited_to": "Implicit in classical texts; stable formulations emphasised by W. Kahan (1987)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "Complex arccos via |1±w| is classical, and Gauss's facility with complex trigonometry is well known. The mildly interesting detail is the half-angle route to sin f and sinh g, which avoids cancellation, similar in spirit to modern stable algorithms. Even so, this is a routine computational device, likely teaching material.",
+  "checkable": [
+   {
+    "sympy": "f,g=symbols('f g',real=True); w=cos(f-I*g); simplify(expand_complex(w) - (cos(f)*cosh(g) + I*sin(f)*sinh(g)))",
+    "asserts": "cos(f-ig) = cos f cosh g + i sin f sinh g"
+   },
+   {
+    "sympy": "f,g=symbols('f g',real=True); p=cos(f)*cosh(g); q=sin(f)*sinh(g); simplify((1+p)**2+q**2-(cosh(g)+cos(f))**2)",
+    "asserts": "a^2 = |1+w|^2 = (cosh g + cos f)^2, so (a+b)/2 = cosh g and (a-b)/2 = cos f"
+   },
+   {
+    "sympy": "f,g=symbols('f g',real=True); p=cos(f)*cosh(g); q=sin(f)*sinh(g); simplify((1-p)**2+q**2-(cosh(g)-cos(f))**2)",
+    "asserts": "b^2 = |1-w|^2 = (cosh g - cos f)^2"
+   },
+   {
+    "sympy": "f,g=symbols('f g'); simplify(expand_trig(1+cos(f-I*g) - 2*cos((f-I*g)/2)**2))",
+    "asserts": "1 + cos(f-ig) = 2cos^2(½(f-ig)), the basis of equation 1"
+   },
+   {
+    "sympy": "f,g=symbols('f g'); simplify(cos((f-I*g)/2)*sin((f+I*g)/2) + cos((f+I*g)/2)*sin((f-I*g)/2) - sin(f))",
+    "asserts": "1·4 + 2·3 = sin f"
+   },
+   {
+    "sympy": "f,g=symbols('f g'); simplify(cos((f-I*g)/2)*sin((f+I*g)/2) - cos((f+I*g)/2)*sin((f-I*g)/2) - sin(I*g))",
+    "asserts": "1·4 - 2·3 = sin ig = i sinh g"
+   },
+   {
+    "sympy": "f,g=0.7,0.4; import cmath,math; w=cmath.cos(f-1j*g); a=abs(1+w); A=cmath.phase(1+w); b=abs(1-w.conjugate()); B=cmath.phase(1-w.conjugate()); (math.sqrt(a*b)*math.cos((A+B)/2)-math.sin(f), math.sqrt(a*b)*math.sin((A+B)/2)-math.sinh(g))",
+    "asserts": "Numerical check that sin f = sqrt(ab) cos ½(A+B) and sinh g = sqrt(ab) sin ½(A+B); both differences ≈ 0"
+   }
+  ],
+  "transcription_corrections": [
+   "Line '1 sqrt(a/2) cos½A + i sin½A' should carry parentheses: sqrt(a/2)(cos ½A + i sin ½A) = cos ½(f-ig).",
+   "The marginal '½ 2.3' is probably '+ 2.3' (or '± 2.3'), i.e. the combination of products 1·4 and 2·3, not a factor ½.",
+   "The struck line reads 'i sqrt(ab) sin ½(A+B) = cos:' (wrong right-hand side abandoned). The final line has 'cos' struck and replaced by 'sin', giving i sqrt(ab) sin ½(A+B) = sin ig."
+  ]
+ }
+}

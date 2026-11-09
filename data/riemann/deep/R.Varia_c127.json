@@ -1,0 +1,55 @@
+{
+ "bundle": "R.Varia",
+ "page": "c127",
+ "label": "64v",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3173054:00000128/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a draft lecture announcement, in Latin and then German, with one differential equation written underneath.\n\n(a) Announcement. Latin: 'Bernhardus Riemann, Dr. Functiones complexae quantitatis variabilis tractabit, imprimis evolutiones in series hypergeometricas affinesque [MS reading uncertain] earum transcendentes, quaternis scholis h. X–XI.' German: 'Über Functionen einer veränderlichen complexen Größe, insbesondere über hypergeometrische Reihen und verwandte Transcendenten, viermal wöchentlich, 10–11 Uhr.'\n- The previous folio is a salary receipt for the semester Ostern–Michaelis 1858.\n- The announcement therefore very probably belongs to the Winter Semester 1858/59. That is the semester of Riemann's known Göttingen course on the hypergeometric series, whose notes were later printed in the Nachträge (1902).\n\n(b) The equation. Write θ = d/d log x = x d/dx. The page has\n  (1−x) θ²y − (α+α' + (β+β')x) θy + (αα' − ββ' x) y = 0.\n\nExpansion (my step). This is exactly\n  [(θ−α)(θ−α') − x(θ+β)(θ+β')] y = 0.\nExpanding gives θ² − (α+α')θ + αα' − x[θ² + (β+β')θ + ββ'], which is the page's left-hand side.\n\nExponents (my step).\n- At x=0 the indicial equation is (ρ−α)(ρ−α')=0, so the exponents are α and α'.\n- At x=∞, y ~ x^{−ρ} with (ρ−β)(ρ−β')=0, so the exponents are β and β' in Riemann's convention.\n- At x=1 the exponents are 0 and γ' = 1−α−α'−β−β'.\n- So the equation is the differential equation of Riemann's P-function P{α, β, 0; α', β', γ'; x} with α+α'+β+β'+γ+γ'=1 and γ=0. This is the normalization of his 1857 'Beiträge zur Theorie der durch die Gauss'sche Reihe F(α,β,γ,x) darstellbaren Functionen'.\n\nSolutions (my step). Put y = x^α u. Then θ → θ+α and\n  θ(θ+α−α') u = x(θ+α+β)(θ+α+β') u,\nso u = F(α+β, α+β'; 1+α−α'; x). The second solution is the same with α and α' interchanged. With α=0, α'=1−c, β=a, β'=b the equation reduces to Gauss's equation θ(θ+c−1)y = x(θ+a)(θ+b)y.\n\nPurpose: the equation is presumably a note on the central object of the announced course, namely the hypergeometric equation written symmetrically in the local exponents.",
+  "errors": [
+   "No mathematical error. The equation is a correct theta-operator form of the hypergeometric equation with exponents α, α' at 0, β, β' at ∞ and 0, 1−α−α'−β−β' at 1.",
+   "Notational shorthand only: d²y/d log x² means (x d/dx)² y. The '(1−x)' factor appears to be written over or corrected in the manuscript."
+  ],
+  "results": [
+   {
+    "what": "Announcement of a four-hour weekly lecture course on functions of a complex variable, especially hypergeometric series and related transcendents (probably WS 1858/59)",
+    "modern_name": "Riemann's lecture course on the hypergeometric series / complex function theory",
+    "usually_credited_to": "Riemann (lectures of WS 1858/59, notes printed in the Nachträge, 1902)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Hypergeometric differential equation in θ-operator form, (θ−α)(θ−α')y = x(θ+β)(θ+β')y, written symmetrically in the local exponents at 0 and ∞",
+    "modern_name": "Riemann P-equation (Riemann's differential equation) normalized with γ=0; theta-form of the Gauss hypergeometric equation",
+    "usually_credited_to": "Gauss (1812) / Kummer (1836) for the equation; Riemann (1857) for the exponent (P-function) viewpoint",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is an administrative lecture announcement plus the standard exponent-symmetric form of the hypergeometric equation from Riemann's own 1857 P-function paper. It matches his known 1858/59 lecture course, so nothing here is new or misattributed.",
+  "checkable": [
+   {
+    "sympy": "x,al,alp,be,bep=symbols('x alpha alphap beta betap'); th=lambda f: x*diff(f,x); y=Function('y')(x); simplify(expand((1-x)*th(th(y)) - (al+alp+(be+bep)*x)*th(y) + (al*alp-be*bep*x)*y - ((th(th(y))-(al+alp)*th(y)+al*alp*y) - x*(th(th(y))+(be+bep)*th(y)+be*bep*y))))",
+    "asserts": "The page's equation equals (θ−α)(θ−α')y − x(θ+β)(θ+β')y; the expression should simplify to 0"
+   },
+   {
+    "sympy": "a,b,c=symbols('a b c'); th=lambda f: x*diff(f,x); F=hyper([a,b],[c],x); simplify(series((1-x)*th(th(F)) - (0+(1-c)+(a+b)*x)*th(F) + (0 - a*b*x)*F, x, 0, 6).removeO())",
+    "asserts": "With α=0, α'=1−c, β=a, β'=b the equation is satisfied by Gauss's 2F1(a,b;c;x); the series should be 0 to order 6"
+   },
+   {
+    "sympy": "th=lambda f: x*diff(f,x); Y=x**al*hyper([al+be,al+bep],[1+al-alp],x); simplify(series(expand(((1-x)*th(th(Y)) - (al+alp+(be+bep)*x)*th(Y) + (al*alp-be*bep*x)*Y)/x**al), x, 0, 5).removeO())",
+    "asserts": "y = x^α F(α+β, α+β'; 1+α−α'; x) solves the equation; the series should be 0 to order 5"
+   },
+   {
+    "sympy": "r=symbols('r'); solve((r-al)*(r-alp),r)",
+    "asserts": "The exponents at x=0 are α and α'"
+   }
+  ],
+  "transcription_corrections": [
+   "'aliasque earum transcendentes' should probably read 'affinesque earum transcendentes': the script looks like 'aff…esque', and the German has 'verwandte'. The reading is still uncertain.",
+   "The German line begins with struck-out words (apparently 'Dr Riemann wird'). The opening 'Über' and 'veränderlichen complexen Größe' are confirmed; one further struck word after 'Größe' is illegible.",
+   "The equation's derivative notation d²y/d log x² and dy/d log x is correctly transcribed. The leading '(1−x)' appears overwritten in the manuscript."
+  ]
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "bundle": "R.MathNotizen1853",
+ "page": "c190",
+ "label": "96r",
+ "image": "https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000191/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the theory of the instrumental errors of a meridian transit instrument, as used in practical astronomy, for example at the Göttingen observatory. It has nothing to do with the hypergeometric and Legendre material on the neighbouring page.\n\nFigure: a spherical triangle drawn inside a circle, presumably the sphere or horizon.\n- One side is marked δ (declination) and another 90°+c.\n- The angles are marked a and α (a second small mark at the lower vertex is hard to read).\n- My interpretation: the vertices are the pole, the end of the instrument's rotation axis and the star. The star lies at 90°+c from the axis end, where c is the collimation error. The axis end is displaced from its ideal position by the inclination i and the azimuth error a.\n\nLine 1: c/cosδ + i(cosφ cosδ + sinφ sinδ) + a(sinφ cosδ − cosφ sinδ).\n- Here φ is the geographic latitude.\n- Read with an implicit overall factor 1/cosδ on the last two terms (my supplement), this is Tobias Mayer's formula for the correction to the observed transit time: τ = [c + i cos(φ−δ) + a sin(φ−δ)]/cosδ.\n- The bracket after i is cos(φ−δ); the bracket after a is sin(φ−δ).\n\nLine 2: i cosφ + a sinφ. This is Bessel's constant m.\n\nLine 3: dividing out by cosδ gives\nc/cosδ + i cosφ + a sinφ + (i sinφ − a cosφ) tgδ.\n- This is Bessel's form τ = m + n tanδ + c secδ, with m = i cosφ + a sinφ and n = i sinφ − a cosφ.\n- Explicitly: i cos(φ−δ)/cosδ = i cosφ + i sinφ tanδ, and a sin(φ−δ)/cosδ = a sinφ − a cosφ tanδ.\n\nLine 4: a struck-out start (\"c + i …\") and an isolated \"sinδ\" with an overbar, apparently a denominator.\n\nLines 5–8: the polar distance p = 90°−δ is introduced, so secδ = 1/sin p and tanδ = cot p.\n- The c and n part of the correction becomes c/sin p + n cos p/sin p.\n- Substitute cos p = cos²(p/2) − sin²(p/2) and 1 = cos²(p/2) + sin²(p/2) (both written on the page).\n- Use sin p = 2 sin(p/2) cos(p/2) (my supplement).\n- Result: (c + n cos p)/sin p = ((c+n)/2) cot(p/2) + ((c−n)/2) tan(p/2).\n- Purpose: for stars near the pole (small p) the correction is dominated by (c+n)/2 · cot(p/2). Observing such stars therefore separates the combinations c+n and c−n, which is useful for determining collimation and azimuth from circumpolar stars, e.g. upper and lower culminations.",
+  "errors": [
+   "Line 1 omits the overall division by cosδ of the i- and a-terms, and parentheses around the a-bracket. This is notational shorthand; line 3 shows the intended quantity was divided by cosδ.",
+   "No mathematical errors: the expansion into Bessel's m, n, c form and the half-angle rewriting are both correct."
+  ],
+  "results": [
+   {
+    "what": "Correction of transit time for collimation c, inclination i and azimuth a: [c + i cos(φ−δ) + a sin(φ−δ)]/cosδ",
+    "modern_name": "Mayer's transit-instrument formula",
+    "usually_credited_to": "Tobias Mayer (18th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Rewriting as m + n tanδ + c secδ with m = i cosφ + a sinφ, n = i sinφ − a cosφ",
+    "modern_name": "Bessel's formula for the transit instrument",
+    "usually_credited_to": "F. W. Bessel (early 19th c.)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "(c + n cos p)/sin p = (c+n)/2 cot(p/2) + (c−n)/2 tan(p/2) in terms of polar distance p",
+    "modern_name": "half-angle decomposition of the collimation/azimuth terms (textbook practical astronomy)",
+    "usually_credited_to": "standard astronomical practice (Bessel/Gauss school)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Standard textbook reduction of transit-instrument errors (Mayer and Bessel forms) with an elementary half-angle identity. It is routine for a Göttingen student exposed to observatory practice and has no mathematical novelty.",
+  "checkable": [
+   {
+    "sympy": "simplify((c + i*cos(phi-delta) + a*sin(phi-delta))/cos(delta) - (c/cos(delta) + i*cos(phi) + a*sin(phi) + (i*sin(phi) - a*cos(phi))*tan(delta)))",
+    "asserts": "Mayer form equals Bessel form m + n tanδ + c secδ (result 0)"
+   },
+   {
+    "sympy": "simplify(cos(phi)*cos(delta)+sin(phi)*sin(delta) - cos(phi-delta))",
+    "asserts": "the i-bracket is cos(φ−δ) (result 0)"
+   },
+   {
+    "sympy": "simplify(sin(phi)*cos(delta)-cos(phi)*sin(delta) - sin(phi-delta))",
+    "asserts": "the a-bracket is sin(φ−δ) (result 0)"
+   },
+   {
+    "sympy": "simplify(c/sin(p) + n*cos(p)/sin(p) - ((c+n)/2*cot(p/2) + (c-n)/2*tan(p/2)))",
+    "asserts": "half-angle decomposition of the c and n terms (result 0)"
+   },
+   {
+    "sympy": "simplify(c/cos(pi/2-p) + n*tan(pi/2-p) - (c/sin(p) + n*cos(p)/sin(p)))",
+    "asserts": "substitution δ = 90°−p (result 0)"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 2 'ȯ cosφ + a sinφ' should read 'i cosφ + a sinφ' (Bessel's m).",
+   "Line 1: the a-term is a(sinφ cosδ − cosφ sinδ), with the bracket closing after sinδ. The closing parenthesis visible after 'sinδ)' belongs to the i-term.",
+   "Line 3: the blotted operator in '(i sinφ • a cosφ)' must be a minus sign: (i sinφ − a cosφ) tgδ.",
+   "Figure: the side labels are δ and 90°+c; the angle labels are α near the upper right vertex and a at the lower vertex (with an additional unclear mark, possibly i)."
+  ]
+ }
+}
