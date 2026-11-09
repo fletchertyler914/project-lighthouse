@@ -1,0 +1,43 @@
+{
+ "number": "342",
+ "field": "geometry",
+ "subfield": "envelopes / kinematic geometry; Ceva–Menelaus type relations",
+ "modern_restatement_en": "Let $A(\\tau)\\in bc$, $B(\\tau)\\in ca$, $C(\\tau)\\in ab$ move smoothly. Let $\\gamma,\\beta,\\alpha$ be the contact points of the lines $AB$, $AC$, $BC$ with their envelopes. Show that $\\frac{A\\gamma\\cdot B\\alpha\\cdot C\\beta}{A\\beta\\cdot B\\gamma\\cdot C\\alpha}=\\frac{aC\\cdot bA\\cdot cB}{aB\\cdot bC\\cdot cA}$ at every instant. Proof sketch: if $n$ is normal to $AB$, then $A\\gamma/B\\gamma=(n\\cdot\\dot A)/(n\\cdot\\dot B)=(|\\dot A|/|\\dot B|)\\,(cB/cA)$ by the sine law in triangle $ABc$. Multiplying the three such relations cyclically cancels the speeds. Möbius asks for a proof via statics (equilibrium of forces along the sides).",
+ "kind": "prove",
+ "well_posed": true,
+ "well_posed_note": "Implicit hypothesis: the triangle ABC moves in a one-parameter family and the three curves are the envelopes of its sides. Otherwise, three given curves admit only finitely many inscribed tangent triangles, and 'for every position' is meaningless. Lengths are to be read as unsigned (or consistently signed) distances. The demand for a 'statics' proof is a methodological requirement, not part of the truth of the statement.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "1. Fix a triangle abc and give A, B, C explicit smooth motions along bc, ca, ab. 2. Compute each envelope contact point as P+lam(Q-P), with lam=-(n.P')/(n.(Q'-P')) and n normal to Q-P. 3. Compare both sides of the identity at many parameter values. PASS if the relative error is below 1e-9 everywhere.",
+  "code": "import math\na=(0.0,0.0); b=(5.0,0.3); c=(1.2,4.0)\ndef add(P,Q,k=1.0): return (P[0]+k*Q[0],P[1]+k*Q[1])\ndef sub(P,Q): return (P[0]-Q[0],P[1]-Q[1])\ndef dot(P,Q): return P[0]*Q[0]+P[1]*Q[1]\ndef dist(P,Q): return math.hypot(P[0]-Q[0],P[1]-Q[1])\ndef pos(P0,P1,f,fd,tau):\n    d=sub(P1,P0); return add(P0,d,f(tau)),(fd(tau)*d[0],fd(tau)*d[1])\nfA=lambda x:0.4+0.2*math.sin(x); fAd=lambda x:0.2*math.cos(x)\nfB=lambda x:0.3+0.15*math.cos(1.3*x)+0.05*x; fBd=lambda x:-0.195*math.sin(1.3*x)+0.05\nfC=lambda x:0.5+0.25*math.sin(0.7*x+1); fCd=lambda x:0.175*math.cos(0.7*x+1)\ndef contact(P,Pd,Q,Qd):\n    d=sub(Q,P); n=(-d[1],d[0])\n    lam=-dot(n,Pd)/dot(n,sub(Qd,Pd))\n    return add(P,d,lam)\nok=True\nfor k in range(50):\n    tau=0.1+0.07*k\n    A,Ad=pos(b,c,fA,fAd,tau); B,Bd=pos(a,c,fB,fBd,tau); C,Cd=pos(a,b,fC,fCd,tau)\n    g=contact(A,Ad,B,Bd); be=contact(A,Ad,C,Cd); al=contact(B,Bd,C,Cd)\n    lhs=dist(A,g)*dist(B,al)*dist(C,be)/(dist(A,be)*dist(B,g)*dist(C,al))\n    rhs=dist(a,C)*dist(b,A)*dist(c,B)/(dist(a,B)*dist(b,C)*dist(c,A))\n    if abs(lhs-rhs)>1e-9*abs(rhs): ok=False; print('FAIL at',tau,lhs,rhs)\nprint('PASS' if ok else 'FAIL')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "Moebius statics envelope triangle inscribed ratio contact points",
+   "envelope of moving segment contact point velocity ratio"
+  ],
+  "stackexchange": [
+   "envelope of sides of triangle inscribed in triangle ratio of tangency points"
+  ],
+  "wikipedia": [
+   "Envelope (mathematics)",
+   "Enveloppe (géométrie)"
+  ],
+  "oeis": "",
+  "names": [
+   "Möbius",
+   "Lehrbuch der Statik (1837)",
+   "Menelaus theorem",
+   "Ceva theorem",
+   "instantaneous centre of rotation",
+   "Chasles"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "The identity follows in a few lines from the classical description of the contact point of an envelope via velocities (instantaneous centre), as sketched above; the numeric test confirms it. A specifically 'statical' proof in Möbius's manner is plausible, but I know no published one.",
+  "possible_sources": [
+   "A. F. Möbius, Lehrbuch der Statik (1837)"
+  ]
+ }
+}

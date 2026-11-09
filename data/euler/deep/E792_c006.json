@@ -1,0 +1,61 @@
+{
+ "bundle": "E792",
+ "page": "c006",
+ "label": "9",
+ "image": "https://iiif.archive.org/image/iiif/2/operapostumamath01euleuoft%2Foperapostumamath01euleuoft_jp2.zip%2Foperapostumamath01euleuoft_jp2%2Foperapostumamath01euleuoft_0027.jp2/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Chapter 2 ('De divisoribus numerorum') of Euler's Tractatus de numerorum doctrina (E792, published posthumously in Opera Postuma I, 1862). Euler sorts integers into 'classes' by the total number of prime factors counted with multiplicity, i.e. Omega(n). Each class is split into 'species' according to the pattern of repeated factors. Mathematically, a species is a partition of Omega(n) into exponents. This page lists all divisors for each species up to class 5.\n\n§64. In class 2 (n = pq), if p = q the divisor list 1, p, q, pq collapses. A divisor may not be counted twice, so n = p^2 has only the 3 divisors 1, p, p^2.\n\n§65. Class 2 therefore splits into two species:\n- p^2, with d = 3;\n- pq with p ≠ q, with d = 4 (divisors 1, p, q, pq).\n\n§66. Class 3 splits into three species, p^3, p^2q and pqr. These correspond to the partitions 3, 2+1 and 1+1+1: all three factors equal, exactly two equal, or all distinct.\n\n§67. Divisors of each class-3 species:\n- p^3: 4 divisors (1, p, p^2, p^3);\n- p^2q: 6 divisors (1, p, q, p^2, pq, p^2q);\n- pqr: 8 divisors (all products of subsets of {p, q, r}).\nEuler adds that no other divisors are possible.\n\n§68. Class 4 has five species, matching the partitions of 4: p^4, p^3q, p^2q^2, p^2qr, pqrs.\n\n§69. Explicit divisor lists for class 4, with counts:\n- p^4: 5;\n- p^3q: 8;\n- p^2q^2: 9;\n- p^2qr: 12;\n- pqrs: 16.\n\n§70. Class 5 has seven species, matching the partitions of 5: p^5, p^4q, p^3q^2, p^3qr, p^2q^2r, p^2qrs, pqrst.\n\n§71. Explicit divisor lists for class 5, with counts:\n- p^5: 6;\n- p^4q: 10;\n- p^3q^2: 12;\n- p^3qr: 16;\n- p^2q^2r: 18;\n- p^2qrs: 24;\n- pqrst: 32, continued on the next page.\n\nImplicit rule (made explicit by me, and stated by Euler himself in §§73–77 on the next page): every divisor of p^a q^b ... is p^i q^j ... with 0 ≤ i ≤ a, 0 ≤ j ≤ b, .... Hence the number of divisors is d(n) = (a+1)(b+1)....\n\nThe purpose of this page is to build the empirical tables that motivate that multiplicative divisor-count formula (§§73–79). The formula is then used to find all numbers with a prescribed number of divisors.",
+  "errors": [
+   "No mathematical errors. I checked every divisor list exponent-tuple by exponent-tuple. Each list is complete and free of duplicates, and each stated count (4, 6, 8; 5, 8, 9, 12, 16; 6, 10, 12, 16, 18, 24) is correct.",
+   "Minor verbal imprecision in §68: the phrase 'prout horum factorum bini, vel tres, vel omnes quatuor fuerint aequales' does not explicitly mention the 'two pairs equal' case (p^2q^2) or the 'none equal' case (pqrs). The actual list of five species is nevertheless complete and correct."
+  ],
+  "results": [
+   {
+    "what": "Classification of integers by Omega(n) (class) and by the exponent pattern of the prime factorization (species). The species in class k correspond to the partitions of k: 2, 3, 5 and 7 species for k = 2, 3, 4, 5.",
+    "modern_name": "Prime signature / partition of Omega(n); number of signatures with Omega = k equals the partition number p(k)",
+    "usually_credited_to": "Folklore; the notion of prime signature is modern terminology",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Complete divisor lists for every prime signature up to Omega = 5, with counts 3, 4; 4, 6, 8; 5, 8, 9, 12, 16; 6, 10, 12, 16, 18, 24, 32.",
+    "modern_name": "Divisor function d(n) = tau(n) = product of (a_i + 1)",
+    "usually_credited_to": "Divisor-count rule known in the 17th century (e.g. van Schooten, Wallis, Prestet)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is elementary textbook material from Euler's published (1862) Tractatus. It consists of divisor enumeration by prime signature, leading to the well-known formula d(n) = ∏(a_i + 1), which predates Euler.",
+  "checkable": [
+   {
+    "sympy": "divisor_count(2**2)==3 and divisor_count(2*3)==4",
+    "asserts": "Class 2 species counts"
+   },
+   {
+    "sympy": "[divisor_count(n) for n in [2**3, 2**2*3, 2*3*5]]==[4,6,8]",
+    "asserts": "Class 3 counts (§67)"
+   },
+   {
+    "sympy": "[divisor_count(n) for n in [2**4, 2**3*3, 2**2*3**2, 2**2*3*5, 2*3*5*7]]==[5,8,9,12,16]",
+    "asserts": "Class 4 counts (§69)"
+   },
+   {
+    "sympy": "[divisor_count(n) for n in [2**5, 2**4*3, 2**3*3**2, 2**3*3*5, 2**2*3**2*5, 2**2*3*5*7, 2*3*5*7*11]]==[6,10,12,16,18,24,32]",
+    "asserts": "Class 5 counts (§71 plus next page)"
+   },
+   {
+    "sympy": "[npartitions(k) for k in [2,3,4,5]]==[2,3,5,7]",
+    "asserts": "Number of species per class equals the partition number"
+   },
+   {
+    "sympy": "sorted(divisors(2**2*3**2*5))==sorted([1,2,3,5,4,6,10,9,15,12,20,18,30,45,36,60,90,180])",
+    "asserts": "Euler's explicit list for p^2q^2r (p=2, q=3, r=5) is exactly the divisor set"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription matches the image. No substantive corrections needed (only a minor typographical variation, 'p, p^2' with a stray comma or point in the p^5 line of §71)."
+  ]
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c048",
+ "label": "038",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F049_Add.Ms.a.9.18_038.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context (§57, continued from the previous page). Let d_r(N) be the coefficient of N^{-s} in zeta(s)^{1+r}. For N = prod p_nu^{a_nu}, d_r(N) = prod_nu prod_{lambda=1}^{a_nu} (1 + r/lambda), which equals prod_nu binom(a_nu + r, a_nu). For r > 0 Ramanujan looks for the N at which d_r(N) has its maximum order. These are the analogues of superior highly composite numbers, i.e. the maximisers of d_r(N)/N^eps.\n\nImplicit step (mine, certain). Raising the exponent of a prime p from lambda-1 to lambda multiplies d_r by (1 + r/lambda) and N by p. This pays off exactly when 1 + r/lambda >= p^eps. Put x = 1/eps. Then p^lambda divides N if and only if p <= (1 + r/lambda)^x.\n\nTherefore N = prod_lambda prod_{p <= (1+r/lambda)^x} p, which gives\n(297) N = exp( sum_{lambda>=1} theta((1 + r/lambda)^x) ).\nCounting primes in each layer gives\n(298) d_r(N) = prod_{lambda>=1} (1 + r/lambda)^{pi((1 + r/lambda)^x)}.\nRamanujan's 'theta(1+r)^x' and 'pi(1+r)^x' mean theta((1+r)^x) and pi((1+r)^x). For fixed x the products are finite, because (1 + r/lambda)^x < 2 once lambda is large. From (297) and (298) he says the maximum order follows 'as in §43', i.e. as for d(N). The modern result is: max log d_r(N) ~ log(1+r) log N / log log N.\n\nRemark. Write (1 + r/lambda)^x = exp(x log(1 + r/lambda)). Reparametrise x -> (log x)/r; this change of variable is implicit and is mine. Then (1 + r/lambda)^{(log x)/r} = x^{log(1 + r/lambda)/r}, so (297) becomes\nN = exp( sum_lambda theta( x^{(1/r) log(1 + r/lambda)} ) ).\nAs r -> 0, log(1 + r/lambda)/r -> 1/lambda. Hence N -> exp( sum_lambda theta(x^{1/lambda}) ) = exp(psi(x)) = lcm(1, 2, ..., floor(x)).\n\nSo the extremal numbers for d_r interpolate towards the lcm of the natural numbers as r -> 0+. At r = 1 they are Ramanujan's superior highly composite numbers.",
+  "errors": [
+   "The rewritten form silently changes the parameter: the x in the second expression is not the x of (297); one needs x_old = (log x_new)/r. The claim is correct with this reparametrisation, but it is not stated.",
+   "Notation 'theta(1+r)^x' and 'pi(1+r)^x' is ambiguous; it means theta((1+r)^x) and pi((1+r)^x).",
+   "Limit r->0 is pointwise in the parameter. It is exact except when x^{1/lambda} lands on a prime, where theta jumps and one-sided limits matter. This is a minor rigour gap.",
+   "Previous page (context): (296) d_r(N) <= 1+r for -1<=r<=0 fails at N=1, where d_r(1)=1 > 1+r for r<0. It should be restricted to N>1.",
+   "Cross-references ('§46' on the previous page, '§43' here) cannot be checked from these pages."
+  ],
+  "results": [
+   {
+    "what": "Extremal ('superior highly composite'-type) numbers for the generalized divisor function d_r(N) (coefficient of zeta^{1+r}) are N = exp(sum_lambda theta((1+r/lambda)^x)), with d_r(N) = prod_lambda (1+r/lambda)^{pi((1+r/lambda)^x)}",
+    "modern_name": "Superior highly composite numbers for d_k with real k (generalized divisor function); maximal order of d_k(n)",
+    "usually_credited_to": "Ramanujan (unpublished part of 'Highly composite numbers', published 1997 by Nicolas & Robin); maximal order of d_k: Wigert/Ramanujan tradition, later Nicolas and others",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "As r->0 these extremal numbers tend (after reparametrising x) to exp(theta(x)+theta(x^{1/2})+...) = exp(psi(x)) = lcm(1..x)",
+    "modern_name": "Chebyshev psi function / lcm(1,...,n) = e^{psi(n)}",
+    "usually_credited_to": "Ramanujan (remark in the 1997 annotated publication)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Maximum order of d_r(N) obtainable as for d(N)",
+    "modern_name": "max log d_k(n) ~ log k * log n / log log n (here k = 1+r)",
+    "usually_credited_to": "Wigert (1907) for d(n); Ramanujan for generalisations",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is part of the suppressed second half of Ramanujan's 'Highly composite numbers', which Nicolas and Robin published with annotations in 1997 (Ramanujan Journal). The content is a natural generalisation of his superior highly composite numbers, and the lcm limit is a pleasant but elementary remark.",
+  "checkable": [
+   {
+    "sympy": "limit(log(1+r/l)/r, r, 0) - 1/l",
+    "asserts": "Exponent log(1+r/lambda)/r tends to 1/lambda, giving theta(x^{1/lambda}) in the limit (should equal 0)"
+   },
+   {
+    "sympy": "simplify(expand_log(log((1+r/l)**(log(x)/r)) - log(x**(log(1+r/l)/r)), force=True))",
+    "asserts": "(1+r/lambda)^{(log x)/r} = x^{log(1+r/lambda)/r}, the reparametrisation used (should equal 0)"
+   },
+   {
+    "sympy": "simplify(gamma(a+r+1)/(gamma(r+1)*gamma(a+1)) - Product(1+r/l,(l,1,a)).doit()).subs({a:4})",
+    "asserts": "d_r(p^a) = prod_{lambda<=a}(1+r/lambda) = binomial(a+r,a), checked at a=4"
+   },
+   {
+    "sympy": "ilcm(*range(1,31)) == prod([p**int(floor(log(30)/log(p))) for p in primerange(2,31)])",
+    "asserts": "lcm(1..x) = exp(sum_lambda theta(x^{1/lambda})) = prod_p p^{floor(log x/log p)} at x=30"
+   }
+  ],
+  "transcription_corrections": [
+   "In (298) and on the previous page, 'pi(1+r)^x' and 'theta(1+r)^x' should be read as pi((1+r)^x) and theta((1+r)^x).",
+   "Limit form in the image: e^{theta(x)+theta(sqrt x)+theta(x^{1/3})+...}; the transcription is correct.",
+   "Otherwise the transcription matches the image."
+  ]
+ }
+}

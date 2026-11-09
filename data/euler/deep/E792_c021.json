@@ -1,0 +1,71 @@
+{
+ "bundle": "E792",
+ "page": "c021",
+ "label": "24",
+ "image": "https://iiif.archive.org/image/iiif/2/operapostumamath01euleuoft%2Foperapostumamath01euleuoft_jp2.zip%2Foperapostumamath01euleuoft_jp2%2Foperapostumamath01euleuoft_0042.jp2/full/1540,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Tractatus de numerorum doctrina, Chapter VII, 'On residues from dividing the terms of a geometric progression'. The page opens by finishing §192, which was begun on the previous page.\n\n§192 (end). The progression is a, ab, ab^2, ... . The residue of a*b^k mod d is a times the residue of b^k mod d, reduced again mod d. So it suffices to study the powers 1, b, b^2, ... .\n\n§193. The problem therefore reduces to finding b^n mod d. Two cases are distinguished: gcd(b,d)=1 and gcd(b,d)>1.\n\n§194 (non-coprime case). Put b = p*phi and d = q*phi.\n- Then b^n = phi * (p^n phi^(n-1)).\n- If p^n phi^(n-1) = k*q + r with 0 <= r < q, then b^n = k*(q*phi) + r*phi with 0 <= r*phi < d.\n- Hence b^n mod d = phi * ((p^n phi^(n-1)) mod q).\n- Euler then asserts that this reduces the problem to dividing a power of a number coprime to the divisor.\n\n§195. Take gcd(b,d)=1. Denote the residues of 1, b, b^2, ... by 1, alpha, beta, gamma, ... . Each is coprime to d, because gcd(b^k, d) = 1.\n\n§196. Infinitely many powers give residues below d, so they cannot all be distinct. Let mu be the number of integers below d and coprime to d (modern phi(d), Euler's totient). Then at most mu distinct residues occur.\n\n§197. Suppose b^m ≡ b^(m+n) (mod d).\n- Then d divides b^(m+n) - b^m = b^m (b^n - 1).\n- Since gcd(b^m, d) = 1, d divides b^n - 1, i.e. b^n ≡ 1. This is a cancellation argument.\n\n§198. The powers b^0, ..., b^mu are mu+1 terms with at most mu distinct residues. By the pigeonhole principle two coincide with m < m+n <= mu. By §197, some n <= mu has b^n ≡ 1.\n\n§199–200. Let n be the least positive exponent with b^n ≡ 1 (the multiplicative order of b mod d).\n- Then b^(n+k) ≡ b^k for every k.\n- So the residues are periodic with period n, and b^(jn+m) ≡ b^m for all j.\n\n§201. With n minimal (and n <= mu), the residues of 1, b, ..., b^(n-1) are pairwise distinct.\n- My explicit step: if b^i ≡ b^j with 0 <= i < j < n, then by §197 b^(j-i) ≡ 1 with 0 < j-i < n, contradicting minimality.\n- These n residues then recur in the same order.\n\n§202. If every one of the mu reduced residues appears, then n = mu and d | b^mu - 1. This is Euler's theorem in the case where b is a primitive root mod d. Otherwise n < mu. Euler announces he will prove that n is an aliquot part (divisor) of mu. On the next page (§§203–211) this is done by partitioning reduced residues into the classes x*<b>, i.e. a coset argument (Lagrange's theorem for the cyclic subgroup <b> of (Z/dZ)*), giving Euler's theorem b^phi(d) ≡ 1 (mod d).",
+  "errors": [
+   "§194: the identity b^n mod qphi = phi*((p^n phi^(n-1)) mod q) is correct. However, the claim that this reduces the problem to a power of a number coprime to the divisor is not justified. p^n phi^(n-1) is not a pure power of a single base, and it need not be coprime to q (e.g. phi and q may share factors, as for b=2, d=8: phi=2, q=4). The reduction would require iteration or a CRT-style splitting; it is a sketch rather than a complete argument.",
+   "§198: 'n non superet mu' is correct, but mu = 1 for d = 1, 2 is a degenerate case left unmentioned. This is harmless."
+  ],
+  "results": [
+   {
+    "what": "Residues of a geometric progression reduce to residues of powers b^n mod d; reduction of the non-coprime case via common factor phi",
+    "modern_name": "Reduction of b^n mod d; partial handling of gcd(b,d)>1",
+    "usually_credited_to": "Folklore / Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Powers of b coprime to d have residues coprime to d; at most phi(d) distinct residues; cancellation b^m(b^n-1) ≡ 0 implies b^n ≡ 1",
+    "modern_name": "Pigeonhole existence of the multiplicative order; cancellation in (Z/dZ)*",
+    "usually_credited_to": "Euler (E262, E271, c. 1758–1763)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Least n with b^n ≡ 1 exists with n <= phi(d); powers are periodic mod n; 1, b, ..., b^(n-1) are pairwise incongruent",
+    "modern_name": "Multiplicative order ord_d(b) and periodicity of powers",
+    "usually_credited_to": "Euler (exponent concept); later named by Gauss (Disquisitiones, 1801)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "If all reduced residues occur then n = phi(d) and d | b^phi(d) - 1; announcement that n always divides phi(d)",
+    "modern_name": "Primitive roots; Euler's theorem b^phi(d) ≡ 1 (mod d); Lagrange's theorem for cyclic subgroups",
+    "usually_credited_to": "Euler (Theoremata arithmetica nova methodo demonstrata, E271, 1763)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is Euler's own well-known treatment from the Tractatus de numerorum doctrina (published 1849 in Opera postuma). It parallels his published papers E262/E271 proving Euler's theorem via the order and coset argument. Nothing here is unknown or anachronistic.",
+  "checkable": [
+   {
+    "sympy": "all((b**n) % (p*f) == f*((p**n * f**(n-1)) % (p and q_ for q_ in [1])[0] if False else f*((p**n*f**(n-1)) % q)) for b,p,q,f in [(12,2,3,6),(10,5,2,2),(15,5,7,3)] for n in range(1,10)) if False else all((p*f)**n % (q*f) == f*((p**n*f**(n-1)) % q) for p,q,f in [(2,3,6),(5,2,2),(5,7,3),(7,4,5)] for n in range(1,12))",
+    "asserts": "§194: b^n mod (q*phi) = phi * ((p^n phi^(n-1)) mod q) for b = p*phi"
+   },
+   {
+    "sympy": "all(n_order(b,d) <= totient(d) for d in range(2,200) for b in range(1,d) if gcd(b,d)==1)",
+    "asserts": "§198: the order n of b mod d does not exceed mu = phi(d)"
+   },
+   {
+    "sympy": "all(len(set(pow(b,k,d) for k in range(n_order(b,d))))==n_order(b,d) for d in range(2,150) for b in range(1,d) if gcd(b,d)==1)",
+    "asserts": "§201: 1, b, ..., b^(n-1) give pairwise distinct residues"
+   },
+   {
+    "sympy": "all(pow(b,k+n_order(b,d),d)==pow(b,k,d) for d in range(2,100) for b in range(1,d) if gcd(b,d)==1 for k in range(0,20))",
+    "asserts": "§199-200: residues of powers are periodic with period n"
+   },
+   {
+    "sympy": "all(totient(d) % n_order(b,d)==0 and pow(b,totient(d),d)==1%d for d in range(2,300) for b in range(1,d) if gcd(b,d)==1)",
+    "asserts": "§202 announced claim: n divides mu = phi(d), hence Euler's theorem"
+   }
+  ],
+  "transcription_corrections": [
+   "No substantive errors found; the transcription matches the image (e.g. §194 'p^n φ^{n-1}', §200 'b^0, b^n, b^{2n}...', §201 'b^{n-1}')."
+  ]
+ }
+}

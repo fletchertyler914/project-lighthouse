@@ -1,0 +1,62 @@
+{
+ "bundle": "E792",
+ "page": "c034",
+ "label": "37",
+ "image": "https://iiif.archive.org/image/iiif/2/operapostumamath01euleuoft%2Foperapostumamath01euleuoft_jp2.zip%2Foperapostumamath01euleuoft_jp2%2Foperapostumamath01euleuoft_0055.jp2/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (from the preceding pages): q = 2p+1 is prime. The quadratic residues are the least positive remainders of 1^2, 2^2, ..., p^2 mod q. There are p of them: 1, alpha, beta, gamma, .... The other p numbers below q are the non-residues A, B, C, ... (Fraktur in the manuscript). This page builds the multiplicative structure of the two classes.\n\n(End of section 298) Section 297 showed that the powers 1, m, m^2, ... of a residue m stay among the residues. Section 298 concludes that some power m^j with j <= p must be congruent to 1. [Mine: by pigeonhole, the p+1 powers m^0, ..., m^p fall into only p residue classes, so m^i ≡ m^j for some i<j, hence m^(j-i) ≡ 1.] Euler adds that m^p ≡ 1 directly: if m = a^2 - k q, then m^p ≡ a^(2p) = a^(q-1) ≡ 1 mod q. This is Fermat's little theorem, proved earlier in the treatise. It is the necessity half of Euler's criterion.\n\nSection 299 (quotient of residues is a residue). Suppose m ≡ a^2 and mn ≡ b^2 (mod q), with gcd(a,q) = gcd(b,q) = 1. Then n a^2 ≡ mn ≡ b^2, so q divides b^2 - n a^2.\n\nSection 300. Since q | b^2 - n a^2, also q | (b + kq)^2 - n a^2 for every integer k. Because gcd(a,q) = 1, one can choose k with b + kq = a c, that is, kq ≡ -b (mod a). Then q | a^2 c^2 - n a^2 = a^2 (c^2 - n). Since q is prime and does not divide a [mine], q | c^2 - n. So n ≡ c^2 is a residue. This is division mod q done without explicit inverses (c ≡ b a^(-1)).\n\nSection 301. If alpha is a residue and A a non-residue, then alpha·A is a non-residue. Otherwise, by 299 applied to alpha and alpha·A, A would be a residue.\n\nSection 302. If mn is a residue and m is a non-residue, then n is a non-residue. Otherwise, by 299, m would be a residue.\n\nSection 303. Claim: the product of two non-residues is a residue. Squares A^2, B^2 are obviously residues; the general product AB needs proof.\n\nSection 304. Fix one non-residue A. The numbers A, alpha·A, beta·A, ... (reduced mod q) are p numbers. They are pairwise distinct [mine: alpha A ≡ beta A implies q | (alpha - beta) A, hence alpha ≡ beta]. By 301 they are all non-residues. Since there are exactly p non-residues, these are all of them: the non-residues form the coset A·R of the residue group R.\n\nSections 305-306. Any two non-residues can be written D = delta·A and E = epsilon·A with delta, epsilon residues. Then DE = (delta·epsilon)·A^2. Here delta·epsilon is a residue (by 293), and A^2 is a square, hence a residue. So DE is a residue.\n\nSection 307. Summary:\n- R·R = R\n- R·N = N\n- N·N = R\n\nIn modern terms, the Legendre symbol is multiplicative, and the residues form an index-2 subgroup of (Z/qZ)^*.",
+  "errors": [
+   "Section 300: Euler says k should be chosen so that k(2p+1) divided by a 'leaves b'. For b + k(2p+1) = ac one needs k(2p+1) ≡ -b (mod a), i.e. remainder a - b (or 'falls short of a multiple of a by b'). This is a minor sign/wording slip; the existence claim is correct because gcd(a, 2p+1) = 1.",
+   "Section 300: the cancellation of a^2 from q | a^2(c^2 - n) uses that the prime q does not divide a. This is stated earlier ('existentibus a et b ad 2p+1 primis') but not invoked explicitly at this step. Not an error.",
+   "Section 304: the distinctness of alpha·A, beta·A, ... is asserted without proof. It is true because q is prime and A is coprime to q.",
+   "Section 298: 'manifesto' relies on Fermat's little theorem a^(2p) ≡ 1, established earlier in the treatise. Not an error."
+  ],
+  "results": [
+   {
+    "what": "If m is a quadratic residue mod prime 2p+1 then m^p ≡ 1 (mod 2p+1)",
+    "modern_name": "Euler's criterion (necessity direction)",
+    "usually_credited_to": "Euler (1750s, e.g. E262/E242 and this Tractatus)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "If m and mn are residues then n is a residue (proof via choosing c with ac ≡ b)",
+    "modern_name": "Quadratic residues form a subgroup of (Z/pZ)^* (closure under quotients)",
+    "usually_credited_to": "Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Residue × non-residue = non-residue; non-residues form the coset A·R; non-residue × non-residue = residue",
+    "modern_name": "Multiplicativity of the Legendre symbol / index-2 subgroup of squares",
+    "usually_credited_to": "Euler (Tractatus de numerorum doctrina, c.1750; also Theoremata circa residua E262), later formalized by Legendre and Gauss",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the standard, well-known content of Euler's Tractatus de numerorum doctrina, Ch. 10 (published 1849). The multiplicative rules for residues and non-residues and the half of Euler's criterion are classically attributed to Euler. The coset argument in 304-306 is elegant but known.",
+  "checkable": [
+   {
+    "sympy": "all(pow(m, (q-1)//2, q) == 1 for q in [3,5,7,11,13,17,19,23,29] for m in set(x**2 % q for x in range(1, q)))",
+    "asserts": "Section 298: every quadratic residue m mod prime q=2p+1 satisfies m^p ≡ 1"
+   },
+   {
+    "sympy": "all(legendre_symbol(a*b % q, q) == legendre_symbol(a, q)*legendre_symbol(b, q) for q in [3,5,7,11,13,17,19,23,29] for a in range(1, q) for b in range(1, q))",
+    "asserts": "Section 307: RR=R, RN=N, NN=R (multiplicativity of the Legendre symbol)"
+   },
+   {
+    "sympy": "(lambda q, A: sorted(set((r*A) % q for r in set(x**2 % q for x in range(1, q)))) == sorted(set(range(1, q)) - set(x**2 % q for x in range(1, q))))(23, 5)",
+    "asserts": "Section 304: for q=23 and non-residue A=5, {alpha*A mod q : alpha a residue} is exactly the set of non-residues"
+   },
+   {
+    "sympy": "(lambda q, a, b, n: [(b + k*q) // a for k in range(a) if (b + k*q) % a == 0][0]**2 % q == n)(11, 2, 1, 3)",
+    "asserts": "Section 300: with q=11, m=a^2=4, n=3 (mn=12≡1=b^2, b=1), choosing k with b+kq=ac gives c=6 and c^2 ≡ n (mod 11)"
+   }
+  ],
+  "transcription_corrections": [
+   "No substantive errors found. The machine transcription matches the image (Fraktur letters A, B, C, D, E rendered as mathfrak; '(b+k(2p+1))^2 - naa' is correct)."
+  ]
+ }
+}

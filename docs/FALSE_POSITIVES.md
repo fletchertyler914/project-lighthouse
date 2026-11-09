@@ -83,5 +83,5 @@ needs ingredients the page does not have, say which.
 - [ ] Someone or something unanchored has looked at it, or the label is still `self-checked`
 
 ---
-*Examples of each mode in this repo's ledger:* 1 → L-023, L-024; 2 → several Dropped entries; 3 → L-020, L-031;
+*Examples of each mode in this repo's ledger:* 1 → L-023, L-024; 2 → several Dropped entries; 3 → L-020, L-031, L-034;
 4 → L-008, L-016; 5 → L-004, L-027; 8 → L-019; 10 → Montpellier batch 2, Göttingen gap-fill 2026-11.

@@ -5,7 +5,8 @@ backslash escapes such as "\\mathbb" inside JSON strings). Re-parses the stored 
 succeeds the record is rewritten as parsed. Unrepairable DEEP files are deleted so the next run redoes them.
 Pure data processing; run with python3 -I.
 
-    python3 -I src/repair_json.py [base_dir]   (default: data/grothendieck-montpellier)
+    python3 -I src/repair_json.py [base_dir] [--delete]   (default base: data/grothendieck-montpellier;
+    --delete removes unrepairable DEEP files so the next deep run redoes them; without it they are only listed)
 """
 import json
 import pathlib
@@ -19,8 +20,10 @@ BASE = pathlib.Path(__file__).resolve().parent.parent / "data" / "grothendieck-m
 
 def main():
     global BASE
-    if len(sys.argv) > 1:
-        BASE = pathlib.Path(sys.argv[1])
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    delete = "--delete" in sys.argv
+    if args:
+        BASE = pathlib.Path(args[0])
     fixed = unfixed = 0
     for f in sorted(BASE.glob("transcripts/*/*.json")):
         rec = json.loads(f.read_text(encoding="utf-8"))
@@ -42,8 +45,11 @@ def main():
             continue
         data = lenient_json(rec["deep"]["raw"])
         if data is None:
-            print("DELETE unrepairable deep", f)
-            f.unlink()
+            if delete:
+                print("DELETE unrepairable deep", f)
+                f.unlink()
+            else:
+                print("UNREPAIRABLE deep (kept; use --delete to remove)", f)
             unfixed += 1
             continue
         rec["deep"] = data

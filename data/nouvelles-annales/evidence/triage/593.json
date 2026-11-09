@@ -1,0 +1,43 @@
+{
+ "number": "593",
+ "field": "geometry",
+ "subfield": "surfaces of revolution, circumscribed cylinders, helices and cycloids",
+ "modern_restatement_en": "Let $S$ be the surface obtained by rotating the sinusoid $\\rho=a\\sin(x/b)$ about its axis $Ox$, so $S: y^2+z^2=a^2\\sin^2(x/b)$. Take the cylinder circumscribed to $S$ whose horizontal generators have direction $d=(b,a,0)$. Show that the contact curve is a circular helix, here $(x,\\tfrac a2\\sin\\tfrac{2x}{b},\\, a\\sin^2\\tfrac xb)$ with radius $a/2$ and axis parallel to $Ox$. Show that its projection on the meridian plane $z=0$ is the sinusoid $y=\\tfrac a2\\sin(2x/b)$, similar to the meridian with ratio $1/2$, and that the section of the cylinder by the plane $x=0$ is a cycloid. A further claim, that the analogous contact curve on a ruled (skew) surface built 'as in the preceding question' is a congruent helix, cannot be stated without Question 592.",
+ "kind": "prove",
+ "well_posed": false,
+ "well_posed_note": "The direction of the cylinder is not stated. For a general horizontal direction $(p,q,0)$ the projected contact curve is $y=\\frac{a^2p}{2bq}\\sin(2x/b)$, which is a sinusoid of half period. Similarity ratio exactly $1/2$, the helix and the cycloid section all hold only for the direction with $p/q=b/a$. The last sentence depends on the unreprinted Question 592 (the 'skew surface').",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Use sympy to derive the contact condition $\\nabla F\\cdot d=0$ for a general horizontal direction, then specialise to $d=(b,a,0)$. Check numerically, at random parameters, that: (i) the curve lies on the surface and satisfies the contact condition; (ii) it lies on a circle of radius $a/2$ about the line $y=0,\\ z=a/2$, so it is a helix; (iii) its projection along $d$ onto $x=0$ is the cycloid $(-\\tfrac a2(s-\\sin s),\\ \\tfrac a2(1-\\cos s))$. PASS means residuals below 1e-9. The skew-surface part is reported as UNTESTED.",
+  "code": "import sympy as sp, random\nx,a,b,p,q,y,z=sp.symbols('x a b p q y z',real=True)\ng=a*sp.sin(x/b)\nF=y**2+z**2-g**2\ncond=sp.diff(F,x)*p+sp.diff(F,y)*q\nysol=sp.solve(cond,y)[0]\nprint('general direction (p,q,0): contact projection y =',sp.simplify(ysol))\nys=a/2*sp.sin(2*x/b); zs=a*sp.sin(x/b)**2\nY=ys-a*x/b; S=2*x/b\ntests=[cond.subs({p:b,q:a,y:ys}), ys**2+zs**2-g**2, ys**2+(zs-a/2)**2-a**2/4, Y+a/2*(S-sp.sin(S)), zs-a/2*(1-sp.cos(S))]\nnames=['contact condition for d=(b,a,0)','curve on surface','helix: circle radius a/2 about y=0,z=a/2','cycloid coordinate Y','cycloid coordinate Z']\nrandom.seed(1)\nfor nm,ex in zip(names,tests):\n    f=sp.lambdify((x,a,b),ex)\n    err=max(abs(f(random.uniform(-5,5),random.uniform(0.5,3),random.uniform(0.5,3))) for _ in range(50))\n    print('PASS' if err<1e-9 else 'FAIL',nm,err)\nprint('UNTESTED: skew-surface claim (depends on question 592)')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "surface of revolution sinusoid circumscribed cylinder helix",
+   "cylinder section cycloid helix projection"
+  ],
+  "stackexchange": [
+   "surface of revolution of a sine curve circumscribed cylinder contact curve helix"
+  ],
+  "wikipedia": [
+   "Helix",
+   "Cycloïde"
+  ],
+  "oeis": [
+   ""
+  ],
+  "names": [
+   "Dunesme",
+   "sinusoïde",
+   "hélice",
+   "cycloïde",
+   "cylindre circonscrit",
+   "surface gauche"
+  ]
+ },
+ "belief": {
+  "status": "unclear",
+  "note": "Direct computation confirms the helix, ratio-1/2 and cycloid claims for the cylinder direction $(b,a,0)$, so that part is a routine exercise. The final claim about the skew surface cannot be assessed without Question 592.",
+  "possible_sources": []
+ }
+}

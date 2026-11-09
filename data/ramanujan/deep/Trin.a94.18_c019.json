@@ -1,0 +1,54 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c019",
+ "label": "016-1",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F020_Add.Ms.a.9.18_016-1.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This slip is not a Ramanujan derivation. It is a referee's or editor's cover note, probably in the hand of G. N. Watson or G. H. Hardy, attached to the manuscript catalogued as Add. Ms. a94^18 (16). The next page states that manuscript's theorems on the Diophantine approximation of e^{2/a}. For integer a, Ramanujan claims liminf (and the matching lower bound) of the distance of N e^{2/a} from the integer below or above it is ~ log log N / (|a| N log N), with constant 1/(4|a|) in case III (odd a, distance to the next integer).\n\nStep 1, the critique. The annotator finds the manuscript 'apparently very incomplete'. A struck-out remark reads '(Does (6) follow from text ...)'. In pencil, the annotator asks whether (10) is justified, 'what diff does |a| (transcribed |c|) make?', and questions (13) and (14). These presumably refer to the numbered steps of Ramanujan's proof, which are not on this page.\n\nStep 2, the parity check. Write v_n for the sequence used in the proof. This is presumably the numerators or denominators of the continued-fraction convergents of e^{2/a}, satisfying v_{n+1} = c_{n+1} v_n + v_{n-1}. That identification is my reconstruction, not stated on the page. On this reading v_{n+1} - v_{n-1} = c_{n+1} v_n, so the parity of v_{n+1} follows from those of v_{n-1} and of c_{n+1} v_n. The annotator works three cases:\n- v_3 - v_1 even and v_1 odd, so v_3 is odd.\n- v_4 - v_2 odd and v_2 even, so v_4 is odd.\n- v_5 - v_3 odd and v_3 odd, so v_5 is even, with a query mark.\n\nThe parity of the convergent denominators matters because it decides on which side of an integer N e^{2/a} falls. That is exactly what separates the 'fractional part small' cases (I) from the 'distance to next integer small' cases (II, III). It also explains why odd a gives the extra factor 1/4.\n\nFor odd a = k, Euler's expansion is e^{2/k} = [1; (k-1)/2, 6k, (5k-1)/2, 1, 1, (7k-1)/2, 18k, (11k-1)/2, 1, 1, ...]. For even a the partial quotients include non-integers, so the expansion must be rescaled. This is plausibly the source of the '|a|' and parity questions.",
+  "errors": [
+   "The parity arithmetic on the page is internally correct: even+odd=odd, odd+even=odd, odd+odd=even. The query on 'v_5 even?' signals doubt about whether the premises (the parities of v_5 - v_3) hold, not an arithmetic slip.",
+   "The steps (6), (10), (13), (14) being criticised are not on this page, so their correctness cannot be judged here.",
+   "The previous page's v_n (numerical values approaching 1/(6*sqrt(3))) appear to belong to a different investigation and are not the v_n of this note."
+  ],
+  "results": [
+   {
+    "what": "Referee's parity analysis of a recurrence v_{n+1}-v_{n-1}=c_{n+1}v_n, used to decide on which side of an integer N e^{2/a} lies",
+    "modern_name": "Parity of continued-fraction convergent denominators; one-sided Diophantine approximation",
+    "usually_credited_to": "Standard continued-fraction technique (Euler/Lagrange); used by C. S. Davis (1978) for e",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Context (next page): Ramanujan's claimed asymptotic for min over N of ||N e^{2/a}|| ~ log log N/(|a| N log N), with constant 1/(4|a|) in one case for odd a",
+    "modern_name": "Rational approximation of e^{2/a}; liminf of q*||q e^{2/a}||*log q/log log q",
+    "usually_credited_to": "C. S. Davis (1978) for e; extended to e^{2/a} later (e.g. Tasoev; Berndt-Kim-Zaharescu, who discuss Ramanujan's manuscript)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is an editorial or referee annotation, not Ramanujan's own mathematics. The underlying manuscript on approximating e^{2/a} is already known and discussed in the literature (Berndt-Kim-Zaharescu). The parity check is elementary.",
+  "checkable": [
+   {
+    "sympy": "from sympy import continued_fraction_iterator, exp, Rational; from itertools import islice; list(islice(continued_fraction_iterator(exp(Rational(2,3))), 9)) == [1,1,18,7,1,1,10,54,16]",
+    "asserts": "Euler's continued fraction for e^{2/k} with k=3: [1;(k-1)/2,6k,(5k-1)/2,1,1,(7k-1)/2,18k,(11k-1)/2,...]"
+   },
+   {
+    "sympy": "all(((a+b) % 2) == r for a,b,r in [(0,1,1),(1,0,1),(1,1,0)])",
+    "asserts": "Parity steps: v3=(v3-v1)+v1 with even+odd is odd; v4=(v4-v2)+v2 with odd+even is odd; v5=(v5-v3)+v3 with odd+odd is even"
+   },
+   {
+    "sympy": "from sympy import continued_fraction_iterator, exp, Rational; from itertools import islice; list(islice(continued_fraction_iterator(exp(Rational(2,5))), 9)) == [1,2,30,12,1,1,17,90,27]",
+    "asserts": "Euler pattern for k=5"
+   }
+  ],
+  "transcription_corrections": [
+   "'with Add Ms a 94^18 (16)': the first word is the abbreviation 'wth' (with), written with an underlined superscript.",
+   "'what diff does |c| make?' should most likely read '|a|', matching the |a| in the theorems on the next page.",
+   "The struck-out parenthesis reads roughly '(Does (6) follow from text ...)'; the last word is illegible and 'test zz' is doubtful.",
+   "The lines '(10)? & what diff does |a| make?' and '(13) & (14) ?' are in faint pencil. The rest of the note, including the v-parity table, is in ink.",
+   "The handwriting is not Ramanujan's; it is likely an editor's or referee's (Watson or Hardy)."
+  ]
+ }
+}

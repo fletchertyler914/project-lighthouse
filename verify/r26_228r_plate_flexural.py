@@ -19,6 +19,16 @@ assert sp.simplify(lam.diff(x,2)+lam.diff(y,2)+rho*lam) == 0
 div = sp.simplify(u.diff(x) + v.diff(y) + w.diff(z))
 print("div u (should be dilatational part only, i.e. independent of a):", sp.simplify(div))
 assert sp.simplify(div.diff(a)) == 0
+# Navier check: the dilatational part solves a Helmholtz equation with k_L^2 = sigma^2 + rho, the shear part
+# (the terms carrying a) with k_T^2 = tau^2 + rho; so the ansatz is an exact time-harmonic solution of
+# mu*Lap(U) + (lam_L+mu)*grad(div U) + dens*omega^2*U = 0 when k_T^2/k_L^2 = (lam_L+2mu)/mu = 2(1+theta).
+lap = lambda f: f.diff(x, 2) + f.diff(y, 2) + f.diff(z, 2)
+U = [u, v, w]
+Ud = [c_.subs(a, 0) for c_ in U]                       # dilatational part
+Us = [sp.expand(c_ - c0) for c_, c0 in zip(U, Ud)]     # shear part
+print("dilatational part: Lap + (sigma^2+rho) = 0:", all(sp.simplify(lap(c_) + (sg**2 + rho)*c_) == 0 for c_ in Ud))
+print("shear part: Lap + (tau^2+rho) = 0 and div = 0:", all(sp.simplify(lap(c_) + (ta**2 + rho)*c_) == 0 for c_ in Us),
+      sp.simplify(Us[0].diff(x) + Us[1].diff(y) + Us[2].diff(z)) == 0)
 # Lame constants: lambda_L = 2 mu theta.  sigma_zz = lambda_L div + 2 mu w_z ; sigma_xz = mu (u_z + w_x)
 szz = (2*mu*th*div + 2*mu*w.diff(z)).subs(z, c)
 sxz = (mu*(u.diff(z) + w.diff(x))).subs(z, c)

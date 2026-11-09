@@ -1,0 +1,72 @@
+{
+ "bundle": "E792",
+ "page": "c014",
+ "label": "17",
+ "image": "https://iiif.archive.org/image/iiif/2/operapostumamath01euleuoft%2Foperapostumamath01euleuoft_jp2.zip%2Foperapostumamath01euleuoft_jp2%2Foperapostumamath01euleuoft_0035.jp2/full/1540,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Chapter 4 of Euler's 'Tractatus de numerorum doctrina' (E792). The chapter counts the integers in [1,a] that are coprime to a, i.e. the modern totient phi(a). On the previous page Euler handled a = p, p^2, p^3, p^n, pq, 5p, p^2 q and pqr by direct counting, using inclusion-exclusion for pqr.\n\n(§127, table) Euler extrapolates the pattern by induction to a list of values:\n- phi(p) = p-1\n- phi(p^2) = p(p-1)\n- phi(pq) = (p-1)(q-1)\n- phi(p^3) = p^2(p-1)\n- phi(p^2 q) = p(p-1)(q-1)\n- phi(pqr) = (p-1)(q-1)(r-1)\n- phi(p^4) = p^3(p-1)\n- phi(p^3 q) = p^2(p-1)(q-1)\n- phi(p^2 q^2) = p(p-1) q(q-1)\n- phi(p^2 q r) = p(p-1)(q-1)(r-1)\n- phi(pqrs) = (p-1)(q-1)(r-1)(s-1)\n\n(§128) To avoid relying on induction alone, he takes a = Mp with p prime and p not dividing M. He sets mu = phi(M), the count of k in [1,M] with gcd(k,M)=1. So M - mu integers in [1,M] share a factor with M.\n\n(§129) Proof that phi(Mp) = (p-1) phi(M).\n- Coprimality to M depends only on k mod M. So [1,Mp] contains p(M-mu) integers not coprime to M, and all of them are not coprime to Mp.\n- The integers sharing the factor p with Mp are p, 2p, ..., Mp, which is M numbers.\n- From these one removes the ones already counted, i.e. those kp with gcd(kp,M)>1. Since p does not divide M, this is equivalent to gcd(k,M)>1, which happens M - mu times. [Justification mine; Euler states it without argument.]\n- So mu new non-coprime numbers remain. The total of non-coprime numbers is p(M-mu)+mu.\n- Hence phi(Mp) = Mp - p(M-mu) - mu = mu(p-1).\n\n(§130-131) Generalisation: phi(M p^n) = p^(n-1) mu (p-1) for p not dividing M.\n- [1,Mp^n] contains p^n (M-mu) integers not coprime to M.\n- It contains M p^(n-1) multiples of p, namely p, 2p, ..., (M p^(n-1)) p.\n- Of these, p^(n-1)(M-mu) are already counted, namely kp with gcd(k,M)>1 and k ranging over [1, M p^(n-1)].\n- That leaves p^(n-1) mu new ones. The total of non-coprime numbers is p^n (M-mu) + p^(n-1) mu.\n- Hence phi = M p^n - p^n (M-mu) - p^(n-1) mu = p^(n-1) mu (p-1).\n\n(§132) Conclusion. Start from phi(p^n) = p^(n-1)(p-1) (§124). Apply §131 repeatedly, adjoining one prime power at a time; this induction step is implicit. For N = p^lambda q^mu r^nu s^xi ... this gives\nphi(N) = p^(lambda-1)(p-1) * q^(mu-1)(q-1) * r^(nu-1)(r-1) * s^(xi-1)(s-1) ...\nThis is the product formula for Euler's totient. Its corollary, multiplicativity phi(MN) = phi(M)phi(N) for gcd(M,N)=1, follows on the next page (§133).",
+  "errors": [
+   "Minor wording slip in §128: 'ad 1 ab M' should read 'ab 1 ad M' (from 1 to M). It appears this way in the printed text.",
+   "Notation clash: mu denotes phi(M) in §§128-131 but is reused as the exponent of q in §132. This is harmless but confusing.",
+   "§129 and §131 assert without justification that exactly M - mu (resp. p^(n-1)(M-mu)) of the multiples of p are non-coprime to M. This is true because p does not divide M, so gcd(kp,M) = gcd(k,M), but the step is implicit.",
+   "The final step of §132 (iterating §131 over all prime factors) is stated, not carried out. It is a straightforward induction and is correct.",
+   "No mathematical errors: all table entries and all algebraic simplifications are correct."
+  ],
+  "results": [
+   {
+    "what": "Table of phi(a) for a = p, p^2, pq, p^3, p^2 q, pqr, p^4, p^3 q, p^2 q^2, p^2 q r, pqrs",
+    "modern_name": "Euler's totient function values",
+    "usually_credited_to": "Euler (E271, 1763; notation phi by Gauss 1801)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "phi(M p^n) = p^(n-1)(p-1) phi(M) for prime p not dividing M, proved by counting non-coprime residues",
+    "modern_name": "Recursive/multiplicative property of the totient",
+    "usually_credited_to": "Euler (E271, 1763)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "phi(prod p_i^k_i) = prod p_i^(k_i-1)(p_i-1)",
+    "modern_name": "Euler product formula for the totient function",
+    "usually_credited_to": "Euler (E271 'Theoremata arithmetica nova methodo demonstrata', 1763); the Tractatus (c. 1750, publ. 1849) is known to contain it",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The totient product formula and its multiplicativity are classically Euler's (E271). The Tractatus de numerorum doctrina is a well-known, published (1849) text whose totient chapter is routinely cited. The page is a clean but standard exposition.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import totient; p,q,r,s=3,5,7,11; [totient(p)==p-1, totient(p**2)==p*(p-1), totient(p*q)==(p-1)*(q-1), totient(p**3)==p**2*(p-1), totient(p**2*q)==p*(p-1)*(q-1), totient(p*q*r)==(p-1)*(q-1)*(r-1), totient(p**4)==p**3*(p-1), totient(p**3*q)==p**2*(p-1)*(q-1), totient(p**2*q**2)==p*(p-1)*q*(q-1), totient(p**2*q*r)==p*(p-1)*(q-1)*(r-1), totient(p*q*r*s)==(p-1)*(q-1)*(r-1)*(s-1)]",
+    "asserts": "All table entries on the page for sample primes"
+   },
+   {
+    "sympy": "from sympy import symbols, simplify; M,mu,p=symbols('M mu p'); simplify(M*p - p*(M-mu) - mu - mu*(p-1)) == 0",
+    "asserts": "Algebra of §129: Mp - p(M-mu) - mu = mu(p-1)"
+   },
+   {
+    "sympy": "from sympy import symbols, simplify; M,mu,p,n=symbols('M mu p n', positive=True); simplify(M*p**(n-1) - p**(n-1)*(M-mu) - p**(n-1)*mu)==0 and simplify(M*p**n - p**n*(M-mu) - p**(n-1)*mu - p**(n-1)*mu*(p-1))==0",
+    "asserts": "Algebra of §131"
+   },
+   {
+    "sympy": "from sympy.ntheory import totient; from sympy import gcd; all(totient(M*p**n)==p**(n-1)*(p-1)*totient(M) for M in range(1,60) for p in [2,3,5,7] for n in [1,2,3] if gcd(M,p)==1)",
+    "asserts": "Theorem of §130: phi(M p^n) = p^(n-1)(p-1) phi(M) when p does not divide M"
+   },
+   {
+    "sympy": "from sympy.ntheory import totient; from sympy import gcd; all(sum(1 for k in range(1,M*p+1) if k%p==0 and gcd(k,M)>1)==M-totient(M) for M in range(1,50) for p in [2,3,5,7] if gcd(M,p)==1)",
+    "asserts": "Implicit step of §129: among multiples of p up to Mp, exactly M - phi(M) are non-coprime to M"
+   },
+   {
+    "sympy": "from sympy.ntheory import totient; from sympy import factorint, prod; all(totient(N)==prod(p**(k-1)*(p-1) for p,k in factorint(N).items()) for N in range(2,2000))",
+    "asserts": "General product formula of §132"
+   }
+  ],
+  "transcription_corrections": [
+   "Transcription faithfully reproduces 'ad 1 ab M' in §128, which matches the image; the intended sense is 'ab 1 ad M'.",
+   "No substantive transcription errors found; formulas match the image."
+  ]
+ }
+}

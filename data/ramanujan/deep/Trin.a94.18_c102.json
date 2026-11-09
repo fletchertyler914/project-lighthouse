@@ -1,0 +1,63 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c102",
+ "label": "085verso",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F103_Add.Ms.a.9.18_085verso.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a set of terse notes, not a derivation. Read top to bottom:\n\n(1) a_n/n → ∞. This is a gap (lacunarity) condition on an increasing sequence of positive integers a_1 < a_2 < ...\n\n(2) Σ x^{a_n}. This is the gap power series f(x) = Σ_{n≥1} x^{a_n}, which has radius of convergence 1.\n\n(3) a_1, a_2, ... introduces the exponent sequence.\n\n(4) a_{n+1} − a_n → ∞. This is a second, weaker-looking gap condition. A crossed-out scribble sits to its left in the margin.\n\n(5) a_n = n^2 together with φ(n) = √n is the test example. With exponents the squares, f is the theta-type series Σ x^{n^2}. The function φ(n) = √n seems to be the conjectured or known bound for the exponential (Weyl) sums attached to the exponents.\n\n(6) cos 1^2 x + cos 2^2 x + ... + cos n^2 x = O(√n). This is the real part of the quadratic Weyl sum S_n(x) = Σ_{k≤n} e^{i k^2 x}, the partial sums of the series in (2) on the unit circle at e^{ix}.\n\nMy interpretation (not on the page): the notes record the question of how the partial sums Σ_{k≤n} e^{i a_k θ} of a gap series grow on the unit circle. The question may also concern the boundary behaviour of Σ x^{a_n} as |x| → 1. In the model case a_n = n^2 the answer would be 'O(φ(n)) with φ(n) = √n'.\n\nThis is exactly the topic of Hardy–Littlewood, 'Some problems of Diophantine approximation II' (Acta Math. 37, 1914). They showed via the theta transformation that Σ_{k≤n} e^{πi k^2 θ} = O(√n) when θ has bounded partial quotients, and O(n^{1/2+ε}) for almost all θ. By Abel summation, O(√n) for the partial sums gives Σ r^{k^2} e^{ik^2 x} = O((1−r)^{−1/4}).\n\nThe condition a_n/n → ∞ is Fabry's gap condition (unit circle is a natural boundary). The condition a_{n+1} − a_n → ∞ is the gap condition in results on lacunary series (e.g. Fejér/Pólya, and later Ingham 1936). The page is plausibly notes from a discussion with Hardy around 1914–1919. No derivation is carried out.",
+  "errors": [
+   "The statement cos 1^2 x + ... + cos n^2 x = O(√n) is not true for all x and no condition on x is written. At x = 0 the sum equals n. At x = π/2, cos(k^2 π/2) = 1 for even k and 0 for odd k, so the sum is about n/2. In general it fails at every rational multiple of π for which the Gauss sum does not vanish.",
+   "As written, O(√n) holds only for x/π (or x/2π) of bounded type, i.e. with bounded partial quotients (Hardy–Littlewood 1914). For almost all x one only gets O(n^{1/2+ε}), or Hardy–Littlewood's sharper O(√n log n)-type bounds. Presumably the restriction was understood but left unwritten.",
+   "The relation between the two gap conditions and the series Σ x^{a_n} is not stated, so no claim on the page can be checked beyond the cosine-sum example."
+  ],
+  "results": [
+   {
+    "what": "Gap power series Σ x^{a_n} with a_n/n → ∞",
+    "modern_name": "Fabry gap theorem (lacunary series; unit circle is a natural boundary)",
+    "usually_credited_to": "E. Fabry 1896 (Hadamard 1892 for a_{n+1}/a_n ≥ q > 1)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Gap condition a_{n+1} − a_n → ∞ for exponent sequences",
+    "modern_name": "Lacunary / nonharmonic Fourier series gap conditions",
+    "usually_credited_to": "Fejér, Pólya; later Ingham (1936)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Σ_{k≤n} cos(k^2 x) = O(√n) (for suitable x)",
+    "modern_name": "Quadratic Weyl sum / theta-sum bound via approximate functional equation",
+    "usually_credited_to": "Hardy & Littlewood 1914 (Acta Math. 37); also Weyl 1916 for equidistribution",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "These are fragmentary notes on well-known Hardy–Littlewood material (theta-type Weyl sums, gap series) contemporary with Ramanujan's stay in Cambridge. They carry no proof and no new claim, and the stated bound needs an unstated hypothesis on x.",
+  "checkable": [
+   {
+    "sympy": "Sum(cos(k**2*0), (k, 1, n)).doit() - n",
+    "asserts": "At x = 0 the sum equals n, so O(sqrt(n)) cannot hold for all x (result 0)."
+   },
+   {
+    "sympy": "[sum(cos(k**2*pi/2) for k in range(1, N+1)) for N in (10, 100)]",
+    "asserts": "At x = pi/2 the sum is about N/2 (5 and 50), a counterexample to an unrestricted O(sqrt(n))."
+   },
+   {
+    "sympy": "max(abs(sum(cos(k**2*pi*(sqrt(5)-1)).evalf() for k in range(1, N+1)))/sqrt(N) for N in range(1, 2001, 100))",
+    "asserts": "For x = π·(√5−1) (so x/π has bounded partial quotients), the ratio |S_N|/√N stays bounded, consistent with Hardy–Littlewood."
+   },
+   {
+    "sympy": "Sum(cos(k**2*pi), (k, 1, 2*m)).subs(m, 50).doit()",
+    "asserts": "At x = π, cos(k^2 π) = (−1)^k, so the partial sums are bounded (0 at even N)."
+   }
+  ],
+  "transcription_corrections": [
+   "There is a crossed-out scribble in the left margin beside 'a_{n+1} − a_n → ∞'; the transcription omits it.",
+   "The last line reads 'cos 1^2 x + ... + cos n^2 x = O√n'; it should be rendered as O(√n), with x the variable rather than 't'.",
+   "There is a trailing period after Σ x^{a_n} and a semicolon after ∞ in the first line; these are punctuation only."
+  ]
+ }
+}

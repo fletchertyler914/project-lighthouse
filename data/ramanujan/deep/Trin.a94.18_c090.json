@@ -1,0 +1,56 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c090",
+ "label": "074verso",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F091_Add.Ms.a.9.18_074verso.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two unrelated fragments: two lines in ink at the top, and a pencil block in the lower half written upside down.\n\n(A) Ink, top. Ramanujan defines his standard theta function\n  phi(q) = 1 + 2q + 2q^4 + 2q^9 + ... = sum_{n in Z} q^{n^2}  (Jacobi's theta_3 with nome q).\nHe states\n  phi^2(q) + phi^2(-q) = 2 phi^2(q^2).\nNo proof is written. A one-line proof (mine):\n- phi^2(q) = sum r_2(n) q^n, where r_2(n) counts representations n = a^2 + b^2 over integers.\n- Adding phi^2(-q) cancels the odd powers, so the left side is 2 sum_n r_2(2n) q^{2n}.\n- The map (a,b) -> ((a+b)/2, (a-b)/2) is a bijection from representations of 2n to representations of n, so r_2(2n) = r_2(n).\n- Hence the left side equals 2 sum r_2(n) q^{2n} = 2 phi^2(q^2).\nIn Jacobi's notation this is theta_3(q)^2 + theta_4(q)^2 = 2 theta_3(q^2)^2, a Landen-type (degree-2) duplication identity. The facing page (folio 74 recto) concerns sums like sum 1/(e^{n^2 alpha} - 1), whose generating functions involve theta series and r_2-type coefficients. That may be why theta identities are jotted here, but the link is my conjecture.\n\n(B) Pencil, lower half, upside down. The exponents are barely legible, so this reading is reconstructed from structure. Turned the right way up, the block reads approximately:\n  (1+x)(1+x^2)(1+x^3)(1+x^4) ...  [=]  1 / ((1-x)(1-x^3)(1-x^5)(1-x^7) ...).\nBelow it is a struck-out row of four fractions with denominators (1-x), (1-x^2), (1-x^3), (1-x^4). I read the row as\n  (1-x^2)/(1-x), (1-x^4)/(1-x^2), (1-x^6)/(1-x^3), (1-x^8)/(1-x^4).\nThis is the standard proof of Euler's identity:\n- Write 1 + x^n = (1 - x^{2n})/(1 - x^n).\n- In the product over n, every numerator factor (1 - x^{2n}) cancels the denominator factor with even index.\n- Only the odd-index denominator factors (1 - x^{2n-1}) remain.\nSo the result is prod_{n>=1}(1 + x^n) = prod_{n>=1} 1/(1 - x^{2n-1}): the number of partitions into distinct parts equals the number into odd parts.\nTaken together with (A), the jottings fit phi(-q) = prod (1-q^n)/(1+q^n), which the same telescoping gives as prod (1-q^n)(1-q^{2n-1}), i.e. Gauss's product for phi(-q). That combined reading is my conjecture; the page itself only shows the Euler product step.",
+  "errors": [
+   "No mathematical errors are visible. The identity in (A) is correct.",
+   "The pencil block is fragmentary and partly struck out. The exponents in the pencil block are my reconstruction, not a secure reading."
+  ],
+  "results": [
+   {
+    "what": "phi(q)^2 + phi(-q)^2 = 2 phi(q^2)^2 for phi(q) = sum q^{n^2}",
+    "modern_name": "theta_3^2(q) + theta_4^2(q) = 2 theta_3^2(q^2) (Landen/duplication formula for theta functions; equivalent to r_2(2n) = r_2(n))",
+    "usually_credited_to": "Jacobi (Fundamenta Nova, 1829); implicit in Gauss and Landen",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "prod (1+x^n) = 1/prod (1-x^{2n-1}), via 1+x^n = (1-x^{2n})/(1-x^n)",
+    "modern_name": "Euler's distinct-parts / odd-parts partition identity",
+    "usually_credited_to": "Euler (1748)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "Both items are classical: a standard 18th-19th century theta identity that Ramanujan uses throughout the Notebooks, and Euler's partition identity with its textbook telescoping proof. These are scratch notes only.",
+  "checkable": [
+   {
+    "sympy": "q=symbols('q'); N=60; phi=lambda t: 1+2*sum(t**(n**2) for n in range(1,9)); expand(series(phi(q)**2+phi(-q)**2-2*phi(q**2)**2, q, 0, N).removeO())==0",
+    "asserts": "phi(q)^2 + phi(-q)^2 = 2 phi(q^2)^2 up to q^59"
+   },
+   {
+    "sympy": "x=symbols('x'); N=30; lhs=prod([1+x**n for n in range(1,N)]); rhs=1/prod([1-x**(2*n-1) for n in range(1,N)]); expand(series(lhs-rhs, x, 0, N).removeO())==0",
+    "asserts": "Euler: prod(1+x^n) = 1/prod(1-x^(2n-1)) up to x^29"
+   },
+   {
+    "sympy": "x,n=symbols('x n'); simplify((1-x**(2*n))/(1-x**n) - (1+x**n))==0",
+    "asserts": "The telescoping step 1+x^n = (1-x^{2n})/(1-x^n)"
+   },
+   {
+    "sympy": "q=symbols('q'); N=40; phim=1+2*sum((-1)**n*q**(n**2) for n in range(1,7)); P=prod([(1-q**n)/(1+q**n) for n in range(1,N)]); expand(series(phim-P, q, 0, N).removeO())==0",
+    "asserts": "Gauss: phi(-q) = prod (1-q^n)/(1+q^n) up to q^39"
+   }
+  ],
+  "transcription_corrections": [
+   "Top line: in the image the series ends '+2q^9 + ...'; the transcription is correct.",
+   "The pencil block is upside down. Turned upright, it most likely reads (1+x)(1+x^2)(1+x^3)(1+x^4)... = 1/((1-x)(1-x^3)(1-x^5)(1-x^7)...). The machine order of the lines and its exponent guesses are unreliable: the factors (1+x^k) take k = 1,2,3,4, while the denominator factors take the odd exponents 1,3,5,7.",
+   "I read the struck-out row as (1-x^2)/(1-x), (1-x^4)/(1-x^2), (1-x^6)/(1-x^3), (1-x^8)/(1-x^4), not as fractions with identical numerator and denominator.",
+   "The large pencil loop at the lower right (with a small 'z'/'2' above it) is a doodle or the numeral 2, not mathematical content."
+  ]
+ }
+}

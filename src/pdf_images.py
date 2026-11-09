@@ -155,11 +155,16 @@ def main():
             w, h = num(d, b"Width", 0), num(d, b"Height", 0)
             if w < a.min_width and h < a.min_width:
                 continue
-            # DecodeParms may be a dict or an array parallel to the filter array; take the dict that has /K or /Columns
+            # DecodeParms may be a dict, an array parallel to the filter array, or an indirect reference
+            # (NUMDAM: "/DecodeParms 6 0 R"); take the dict that has /K or /Columns
             pd = b""
             for cand in re.findall(rb"<<([^<>]*)>>", d):
                 if b"/K" in cand or b"/Columns" in cand:
                     pd = cand
+            if not pd:
+                dref = re.search(rb"/DecodeParms\s+(\d+)\s+0\s+R", d)
+                if dref and int(dref.group(1)) in objs:
+                    pd = obj_body(int(dref.group(1)))
 
             k = num(pd, b"K", 0)
             black_is_1 = b"/BlackIs1 true" in pd

@@ -1,0 +1,44 @@
+{
+ "number": "617",
+ "field": "analysis",
+ "subfield": "complex analysis (Cauchy integral theorem)",
+ "modern_restatement_en": "Let $w=u+iv$ be holomorphic on a neighbourhood of the closed region bounded by a closed curve $\\Gamma$. Consider the space curves $U=\\{(x,y,u(x,y))\\}$ and $V=\\{(x,y,v(x,y))\\}$ over $\\Gamma$, and their projections on the planes $y=0$ and $x=0$. The signed areas satisfy $\\oint_\\Gamma u\\,dx=\\oint_\\Gamma v\\,dy$ and $\\oint_\\Gamma v\\,dx=-\\oint_\\Gamma u\\,dy$. These are the real and imaginary parts of $\\oint_\\Gamma w\\,dz=0$, so the projection areas are equal in absolute value.",
+ "kind": "prove",
+ "well_posed": true,
+ "well_posed_note": "'Area' must be read as signed (algebraic) area, since projected curves may self-intersect. The hypothesis 'w neither zero nor infinite' is half superfluous: absence of poles is needed, absence of zeros is not. With a pole inside (e.g. $w=1/z$) one identity can fail.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Integrate numerically with the trapezoidal rule (spectrally accurate for periodic integrands) around an ellipse, for $w=e^z+z^2+1/(z-5)$, which is holomorphic inside. PASS if both identities hold to 1e-8. As an INFO line, show that for $w=1/z$ with $0$ inside, the second identity fails by $2\\pi$.",
+  "code": "import cmath, math\ndef loop(w,cx=0.3,cy=-0.2,A=1.5,B=0.8,M=4000):\n    Iux=Ivy=Ivx=Iuy=0.0\n    for k in range(M):\n        t=2*math.pi*k/M\n        z=complex(cx+A*math.cos(t),cy+B*math.sin(t))\n        dz=complex(-A*math.sin(t),B*math.cos(t))*2*math.pi/M\n        W=w(z)\n        Iux+=W.real*dz.real; Ivy+=W.imag*dz.imag; Ivx+=W.imag*dz.real; Iuy+=W.real*dz.imag\n    return Iux,Ivy,Ivx,Iuy\nIux,Ivy,Ivx,Iuy=loop(lambda z: cmath.exp(z)+z**2+1/(z-5))\nprint('PASS' if abs(Iux-Ivy)<1e-8 else 'FAIL','proj(U on P) = proj(V on P\\'):',Iux,Ivy)\nprint('PASS' if abs(Ivx+Iuy)<1e-8 else 'FAIL','proj(V on P) = proj(U on P\\') up to sign:',Ivx,-Iuy)\nIux,Ivy,Ivx,Iuy=loop(lambda z: 1/z)\nprint('INFO pole inside (w=1/z): first pair',Iux,Ivy,' second pair',Ivx,-Iuy,'(differ by 2pi)')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "Cauchy integral theorem real and imaginary parts line integrals areas",
+   "geometric interpretation Cauchy theorem projection areas"
+  ],
+  "stackexchange": [
+   "geometric interpretation of Cauchy's integral theorem as equality of areas"
+  ],
+  "wikipedia": [
+   "Cauchy's integral theorem",
+   "Théorème intégral de Cauchy"
+  ],
+  "oeis": [
+   ""
+  ],
+  "names": [
+   "Dewulf",
+   "fonction monodrome monogène",
+   "Cauchy",
+   "Briot et Bouquet",
+   "Cauchy–Riemann equations"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "This is an immediate corollary of Cauchy's integral theorem (1825) in the Briot–Bouquet terminology of 1859. The non-vanishing hypothesis is unnecessary.",
+  "possible_sources": [
+   "Briot & Bouquet, Théorie des fonctions doublement périodiques (1859)"
+  ]
+ }
+}

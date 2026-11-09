@@ -1,0 +1,53 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c038",
+ "label": "030",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F039_Add.Ms.a.9.18_030.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has no derivation. It is a four-column table of 188 integers, from 2 to 1074427200, in increasing order. Some entries carry an asterisk. The previous page reads 'Continuation of \"Highly Composite Numbers\" ... p. 78', so the sheet belongs to the unpublished second part of Ramanujan's 1915 memoir 'Highly composite numbers'. The next page (§52-53 of that manuscript) turns to Q_2(N), the number of representations as a sum of two squares divided by 4. The table is therefore a separate inserted table, not part of that argument.\n\nThe listed numbers fit one definition (my identification, checked against the entries): n is listed if d(m) <= d(n) for every m < n, where d is the number-of-divisors function. Ramanujan called these 'largely composite' numbers; they are OEIS A067128. The list starts at 2 (1 is trivially omitted): 2, 3, 4, 6, 8, 10, 12, 18, 20, 24, 30, 36, 48, 60, 72, 84, 90, 96, 108, 120, 168, ...\n\nThe asterisks mark exactly the highly composite numbers, those with d(m) < d(n) for all m < n. The starred entries are 2, 4, 6, 12, 24, 36, 48, 60, 120, 180, 240, 360, 720, 840, 1260, 1680, 2520, 5040, 7560, 10080, ..., 551350800, 698377680, 735134400. This is precisely the start of Ramanujan's published HCN list.\n\nThe unstarred entries are numbers that tie the running maximum of d. Spot checks:\n- d(8) = 4 = d(6), so 8 is listed but not starred.\n- 1074427200 = 2^6*3^3*5^2*7*11*17*19 has 7*4*3*2^4 = 1344 divisors. This equals d(735134400), where 735134400 = 2^6*3^3*5^2*7*11*13*17, so the last entry ties the last starred HCN.\n- 9240 = 2^3*3*5*7*11 has 32 divisors. This equals d(7560) = d(2^3*3^3*5*7) = 32.\n\nThe page thus serves the HCN memoir's discussion of numbers whose divisor count is at least that of every smaller number. It tabulates them up to about 1.07*10^9, with the strict (highly composite) ones flagged.",
+  "errors": [
+   "No errors found in spot checks: 8, 9240, 49008960, 1074427200 and the full starred list all agree with the highly composite numbers and with the largely composite numbers (A067128). Not every one of the 188 entries was verified by hand; the CAS checks below cover them."
+  ],
+  "results": [
+   {
+    "what": "Table of all n from 2 to 1074427200 with d(m) <= d(n) for all m < n (largely composite numbers), with highly composite numbers marked by asterisks",
+    "modern_name": "Largely composite numbers (OEIS A067128), with highly composite numbers (A002182) flagged",
+    "usually_credited_to": "Ramanujan, in the unpublished part of 'Highly composite numbers', edited and annotated by J.-L. Nicolas and G. Robin, Ramanujan J. 1 (1997)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the manuscript table of largely composite numbers from the suppressed part of the 1915 HCN memoir. That part was published in 1997 by Nicolas and Robin, and these numbers are already attributed to Ramanujan, for example in OEIS A067128. The table is a computational record, not a new result.",
+  "checkable": [
+   {
+    "sympy": "from sympy import divisor_count\nL=[];mx=0\nfor n in range(1,5041):\n    d=divisor_count(n)\n    if d>=mx: L.append(n); mx=max(mx,d)\nL[1:]",
+    "asserts": "The first column (2,3,4,6,8,...,4680,5040) is exactly the list of largely composite numbers up to 5040, i.e. n with d(n) >= d(m) for all m<n"
+   },
+   {
+    "sympy": "from sympy import divisor_count\nH=[];mx=0\nfor n in range(1,5041):\n    d=divisor_count(n)\n    if d>mx: H.append(n); mx=d\nH[1:]",
+    "asserts": "The starred entries of column 1 (2,4,6,12,24,36,48,60,120,180,240,360,720,840,1260,1680,2520,5040) are the highly composite numbers up to 5040"
+   },
+   {
+    "sympy": "divisor_count(1074427200)==divisor_count(735134400)==1344",
+    "asserts": "The last (unstarred) entry ties the divisor count of the highly composite number 735134400"
+   },
+   {
+    "sympy": "divisor_count(9240)==divisor_count(7560)==32",
+    "asserts": "9240 is largely but not highly composite"
+   },
+   {
+    "sympy": "factorint(1074427200)=={2:6,3:3,5:2,7:1,11:1,17:1,19:1}",
+    "asserts": "Factorization used in the tie check"
+   },
+   {
+    "sympy": "divisor_count(698377680) > max(divisor_count(m) for m in [551350800, 616215600])",
+    "asserts": "698377680 (starred) has more divisors than the preceding entries; it is highly composite"
+   }
+  ],
+  "transcription_corrections": [
+   "The machine transcription agrees with the image entry for entry, including the asterisk placement. Column 1 starts at 2, not 1. '3' in column 1 is correctly unstarred."
+  ]
+ }
+}

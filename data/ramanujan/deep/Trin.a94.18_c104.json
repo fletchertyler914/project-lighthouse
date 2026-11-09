@@ -1,0 +1,50 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c104",
+ "label": "087",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F105_Add.Ms.a.9.18_087.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two Fourier-type expansions of the inverse Gudermannian of the Jacobi amplitude, gd^{-1}(phi) = log tan(pi/4 + phi/2). There is no derivation on the page; the steps below are my reconstruction. Throughout, K = K(k), K' = K(k') and q = exp(-pi K'/K) is the nome belonging to k. Ramanujan does not state these definitions.\n\n(1) Let u = F(phi,k) = 2K theta/pi, so phi = am(u,k) and theta = pi u/(2K). The page asserts\n  log tan(pi/4 + theta/2) + 4 * sum_{n>=0} (-1)^n q^{2n+1} sin((2n+1)theta) / ((2n+1)(1 - q^{2n+1})) = log tan(pi/4 + phi/2).\n[My derivation] d/du gd^{-1}(am u) = sec(phi) * dphi/du = dn u / cn u = dc u. The classical Fourier series is\n  dc u = (pi/2K) sec(theta) + (2pi/K) * sum (-1)^n q^{2n+1} cos((2n+1)theta) / (1 - q^{2n+1}).\nIntegrate from 0 to u, using du = (2K/pi) dtheta:\n- the sec term gives integral of sec(theta) dtheta = log tan(pi/4 + theta/2);\n- the n-th cosine term gives 4(-1)^n q^{2n+1} sin((2n+1)theta) / ((2n+1)(1 - q^{2n+1})).\nThis is exactly the stated identity.\n\n(2) Now let u = F(phi,k') = 2K theta'/pi, where K and q still belong to k. The page asserts\n  theta' + 2 * sum_{n>=1} (1/n) q^n sinh(2n theta') / (1 + q^{2n}) = log tan(pi/4 + phi/2).\n[My derivation] d/du gd^{-1}(am(u,k')) = dc(u,k'). By Jacobi's imaginary transformation, dc(u,k') = dn(iu,k). Put z = iu in the series dn(z,k) = pi/(2K) + (2pi/K) * sum q^n cos(n pi z/K)/(1 + q^{2n}). This gives\n  dc(u,k') = pi/(2K) + (2pi/K) * sum q^n cosh(2n theta')/(1 + q^{2n}),  with theta' = pi u/(2K).\nIntegrating in theta' gives theta' + 2 * sum q^n sinh(2n theta')/(n(1 + q^{2n})), as stated.\n\nThe second series converges for |theta'| < pi K'/(2K), i.e. |u| < K'. This corresponds exactly to |phi| < pi/2, where the right-hand side is finite.\n\nThis is a self-contained note of two expansions of the type found in the elliptic-function chapters of Ramanujan's notebooks. It is unrelated to the previous page (binary products) and the next page (Rogers–Ramanujan / icosahedral material).",
+  "errors": [
+   "No mathematical errors. Both identities check out under the implicit conventions: q = exp(-pi K'/K) with K, K' for modulus k, and K, q unchanged in the second formula even though the integral uses modulus k'.",
+   "These conventions, and the range of validity (|phi| < pi/2; in (2) equivalently |theta'| < pi K'/(2K)), are not stated on the page."
+  ],
+  "results": [
+   {
+    "what": "log tan(pi/4+phi/2) = log tan(pi/4+theta/2) + 4 sum (-1)^n q^{2n+1} sin((2n+1)theta)/((2n+1)(1-q^{2n+1})), with theta = pi F(phi,k)/(2K)",
+    "modern_name": "Fourier series of gd^{-1}(am u) = log(nc u + sc u), the integrated Fourier series of dc u",
+    "usually_credited_to": "Jacobi (Fundamenta Nova, 1829); standard in Whittaker–Watson / DLMF 22.11 (dc expansion)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "log tan(pi/4+phi/2) = theta' + 2 sum q^n sinh(2n theta')/(n(1+q^{2n})), with theta' = pi F(phi,k')/(2K)",
+    "modern_name": "Imaginary (Jacobi) transformation of the Fourier series of dn, integrated; expansion of gd^{-1}(am(u,k')) in the complementary nome",
+    "usually_credited_to": "Jacobi (1829); classical consequence of the dn Fourier series and the imaginary transformation",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Both are classical Jacobi-era Fourier expansions, obtained by integrating the series for dc u and for dn under the imaginary transformation. Similar entries appear in Ramanujan's notebooks; nothing here is new or ahead of its time.",
+  "checkable": [
+   {
+    "sympy": "from mpmath import *; mp.dps=30; k=mpf('0.6'); K=ellipk(k**2); Kp=ellipk(1-k**2); q=exp(-pi*Kp/K); phi=mpf('0.9'); th=pi*ellipf(phi,k**2)/(2*K); lhs=log(tan(pi/4+th/2))+4*nsum(lambda n:(-1)**n*q**(2*n+1)*sin((2*n+1)*th)/((2*n+1)*(1-q**(2*n+1))),[0,inf]); rhs=log(tan(pi/4+phi/2)); print(lhs-rhs)",
+    "asserts": "First identity: difference is ~0 for k=0.6, phi=0.9."
+   },
+   {
+    "sympy": "from mpmath import *; mp.dps=30; k=mpf('0.6'); kp=sqrt(1-k**2); K=ellipk(k**2); Kp=ellipk(1-k**2); q=exp(-pi*Kp/K); phi=mpf('0.9'); thp=pi*ellipf(phi,kp**2)/(2*K); lhs=thp+2*nsum(lambda n:q**n*sinh(2*n*thp)/(n*(1+q**(2*n))),[1,inf]); rhs=log(tan(pi/4+phi/2)); print(lhs-rhs)",
+    "asserts": "Second identity (modulus k' in the integral, K and q for k): difference is ~0."
+   },
+   {
+    "sympy": "from mpmath import *; mp.dps=30; m=mpf('0.36'); u=mpf('0.7'); K=ellipk(m); q=exp(-pi*ellipk(1-m)/K); z=pi*u/(2*K); print(ellipfun('dn',u,m)/ellipfun('cn',u,m) - (pi/(2*K)/cos(z)+2*pi/K*nsum(lambda n:(-1)**n*q**(2*n+1)*cos((2*n+1)*z)/(1-q**(2*n+1)),[0,inf])))",
+    "asserts": "Fourier series of dc u, whose integral gives the first identity."
+   }
+  ],
+  "transcription_corrections": [
+   "No substantive corrections needed. The second series is correctly read as sinh 2θ', sinh 4θ', sinh 6θ' with denominators 1+q^2, 1+q^4, 1+q^6.",
+   "Shelfmark at top reads 'Add.Ms a 94 18(87)'; the page number (87) is circled."
+  ]
+ }
+}

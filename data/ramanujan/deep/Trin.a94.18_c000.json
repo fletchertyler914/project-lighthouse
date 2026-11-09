@@ -1,0 +1,58 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c000",
+ "label": "001",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F001_Add.Ms.a.9.18_001.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is not a Ramanujan manuscript. It is folio 1 of a covering letter from G. H. Hardy to G. N. Watson, postmarked 1930. It documents the provenance of part of the Ramanujan material in Trinity Add. MS a 94.\n\nContent of the letter:\n(i) Miss (Gertrude) Stanley, Hardy's research student, brought him a large bundle of Ramanujan manuscripts. Hardy describes them as mostly fragmentary but clear and neat.\n(ii) Some notes are old and refer mainly to things in the published Papers or the notebooks, but not all of them do.\n(iii) One rougher set concerns the formula below, which Hardy calls 'a sort of alias of Mellin'. The same set also concerns Fourier's double-integral theorem, 'all mixed up in a fine old stew'. Hardy gave this set back to Stanley as possible research material.\n(iv) A 'substantial chunk' is to be sent to Watson at once. The next page shows this includes the suppressed part of 'Highly Composite Numbers'.\n\nThe formula, in modern form (limits 0 to infinity are implicit in the letter):\n  int_0^oo w^(s-1) * sum_{k>=0} (-1)^k a_k w^k dw = pi/sin(pi s) * a_{-s},\nwhere a_k is extended to non-integer arguments (k -> -s) by a suitable interpolating function a(k). This is Ramanujan's Master Theorem.\n\nHeuristic justification (mine):\n- The Mellin transform of the function f(w) = sum_k (-1)^k a(k) w^k has poles from the factor Gamma(s)Gamma(1-s) = pi/sin(pi s).\n- Equivalently, the Mellin-Barnes integral (1/2 pi i) int pi/sin(pi s) a(-s) w^(-s) ds recovers the series by residues at s = -k.\n- Mellin inversion then gives the formula.\n\nRigorous form: 0 < Re s < 1, with a(k) holomorphic and of growth less than e^{pi|Im k|} in a right half-plane. Carlson's theorem then guarantees uniqueness of the interpolation. This is exactly why Hardy points to his paper on theorems of Carlson and Wigert (Acta Math. 42, 1920).\n\nNo derivation by Ramanujan appears on this page; Hardy only cites the result.",
+  "errors": [
+   "No mathematical errors. The formula is stated without integration limits (0 to infinity) and without conditions: it needs 0<Re s<1 and Carlson-type growth conditions on the interpolating function a(k). Hardy's shorthand is standard and correct under those conditions."
+  ],
+  "results": [
+   {
+    "what": "int_0^oo w^(s-1)(a_0 - a_1 w + a_2 w^2 - ...) dw = pi/sin(pi s) * a_{-s}",
+    "modern_name": "Ramanujan's Master Theorem (interpolation via Mellin transform)",
+    "usually_credited_to": "Ramanujan (Quarterly Reports, c.1913); rigorously treated by Hardy (Acta Math. 42, 1920; 'Ramanujan', 1940, Ch. XI)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Reference to Fourier's double integral theorem among Ramanujan's rough notes",
+    "modern_name": "Fourier integral theorem",
+    "usually_credited_to": "Fourier (1822)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Provenance: Gertrude Stanley delivered Ramanujan MSS to Hardy in 1930, part of which went to Watson, including the suppressed part of 'Highly Composite Numbers'",
+    "modern_name": "Historical provenance of Ramanujan manuscripts (Trinity Add. MS a 94)",
+    "usually_credited_to": "Known from Andrews-Berndt 'Lost Notebook' volumes and Rankin's historical work",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a Hardy cover letter, not Ramanujan mathematics. The Master Theorem is famously Ramanujan's, and the manuscript provenance via Stanley, Hardy and Watson is documented in the literature (Rankin; Andrews-Berndt). Minor historical interest only.",
+  "checkable": [
+   {
+    "sympy": "simplify(integrate(w**(s-1)/(1+w),(w,0,oo),conds='none') - pi/sin(pi*s))",
+    "asserts": "Master theorem with a_k=1 (f=1/(1+w)): integral equals pi/sin(pi s) for 0<Re s<1"
+   },
+   {
+    "sympy": "simplify(gamma(s) - pi/(sin(pi*s)*gamma(1-s)))",
+    "asserts": "Master theorem with a_k=1/k! (f=exp(-w)): Gamma(s) = pi/sin(pi s) * 1/Gamma(1-s)"
+   },
+   {
+    "sympy": "simplify(integrate(w**(s-1)*(1+w)**(-n),(w,0,oo),conds='none').subs(n,3).subs(s,Rational(1,2)) - (pi/sin(pi*Rational(1,2)))*gamma(3-Rational(1,2))/(gamma(3)*gamma(1-Rational(1,2))))",
+    "asserts": "Master theorem with a_k=Gamma(n+k)/(Gamma(n) k!) (f=(1+w)^-n), checked at n=3, s=1/2"
+   }
+  ],
+  "transcription_corrections": [
+   "Integral limits 0 to infinity are implicit; the letter writes only 'int'.",
+   "Last line 'which I think I sh' continues on the next page as 'should be wise to send to you at once'.",
+   "'Carlson-Wigert' paper refers to Hardy, 'On two theorems of F. Carlson and S. Wigert', Acta Math. 42 (1920).",
+   "Hardy writes the right-hand side subscript as 'a_{-t}'-like; it should be read as a_{-s}, consistent with w^{s-1}."
+  ]
+ }
+}

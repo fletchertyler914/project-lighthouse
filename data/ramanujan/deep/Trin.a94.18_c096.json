@@ -1,0 +1,70 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c096",
+ "label": "080",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F097_Add.Ms.a.9.18_080.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page states Ramanujan's sextic-root refinement of Stirling's formula, tabulates the correcting function, and gives two-sided bounds.\n\n(1) Claim. For x >= 0,\n  Gamma(1+x) = sqrt(pi) (x/e)^x (8x^3 + 4x^2 + x + theta_x/30)^(1/6),\nwith 0 < theta_x < 1. This defines theta_x implicitly:\n  theta_x = 30[ (Gamma(1+x)/(sqrt(pi)(x/e)^x))^6 - 8x^3 - 4x^2 - x ].\nWhere it comes from (my gloss): Stirling gives Gamma(1+x) ~ sqrt(2 pi x)(x/e)^x (1 + 1/(12x) + 1/(288x^2) - 139/(51840x^3) + ...). Raising the correction factor to the 6th power gives\n  pi^3 (x/e)^(6x) [8x^3 + 4x^2 + x + 1/30 - 11/(240x) + ...],\nso theta_x -> 1 as x -> oo. Ramanujan writes this as theta_oo = 1.\n\n(2) theta_0. At x = 0, with 0^0 = 1, Gamma(1) = 1 = sqrt(pi)(theta_0/30)^(1/6). Hence theta_0 = 30/pi^3 = 0.96753...\n\n(3) Table of theta_{k/12}, k = 1..12. The values fall from 0.9675 at x = 0 to a minimum of about 0.301 near x = 2/3. They then rise again: 0.3359 at x = 1, tending to 1. Recomputed checks:\n- x = 1: theta_1 = 30(e^6/pi^3 - 13) = 0.33591. Correct.\n- x = 1/2: theta_{1/2} = 30(e^3/8 - 5/2) = 0.32076. Ramanujan writes .3207, which is truncation rather than rounding.\n- x = 1/12: about 0.8076 by my series evaluation, versus Ramanujan's .8071. Agreement is within my hand-computation accuracy, and this should be machine-checked.\n\n(4) Bounds. From the table, theta_x lies between about 0.30 and 1. Ramanujan writes\n  sqrt(pi)(x/e)^x (8x^3+4x^2+x+1/100)^(1/6) < Gamma(1+x) < sqrt(pi)(x/e)^x (8x^3+4x^2+x+1/30)^(1/6).\nSince 1/100 = (3/10)/30, this is exactly the statement 3/10 < theta_x < 1.\n\n(5) A small unexplained table: 0 -- 31, 1/2 -- 94, 1 -- 89, 1 1/2 -- (blank). Its meaning is unclear and probably belongs to some auxiliary numerical check. I do not reconstruct it.\n\n(6) Pencil note 'See GNW . Szego(?)' at the bottom is probably a later annotation (G. N. Watson?), not Ramanujan's.",
+  "errors": [
+   "theta_{1/2}: the exact value 30(e^3/8 - 5/2) = 0.320763 rounds to .3208. Ramanujan's .3207 is a truncation, not an error of substance.",
+   "theta_{1/12} = .8071 may differ slightly in the 4th decimal from the true value (my estimate is about 0.8076). This needs high-precision verification.",
+   "No proof is given that 0 < theta_x < 1 (or 3/10 < theta_x < 1) for all x >= 0. The bound is supported only by the numerical table and the asymptotics; it was proved much later."
+  ],
+  "results": [
+   {
+    "what": "Gamma(1+x) = sqrt(pi)(x/e)^x (8x^3+4x^2+x+theta_x/30)^(1/6) with theta_x -> 1 as x -> oo",
+    "modern_name": "Ramanujan's (sextic) approximation / double inequality for the gamma function",
+    "usually_credited_to": "Ramanujan (Lost Notebook, p. 339); studied by Andrews–Berndt, Alzer, Karatsuba, Mortici and others",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Table of theta_x at x = k/12, theta_0 = 30/pi^3, theta_oo = 1, with a minimum of about 0.301 near x = 2/3",
+    "modern_name": "Numerical behaviour of Ramanujan's theta function for the gamma approximation",
+    "usually_credited_to": "Ramanujan (same Lost Notebook entry); examined by Karatsuba (2001)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "Double inequality 3/10 < theta_x < 1 for x >= 0 (written with 1/100 and 1/30)",
+    "modern_name": "Ramanujan's gamma-function inequality (Ramanujan's conjecture on theta_x)",
+    "usually_credited_to": "Stated by Ramanujan; proved by E. A. Karatsuba (2001), with partial results by Alzer (1997)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the well-known Lost Notebook entry on Ramanujan's gamma approximation. The same formula, table and bounds are already published and attributed to him (Andrews–Berndt; Karatsuba's proof). The page is a copy or draft of known material.",
+  "checkable": [
+   {
+    "sympy": "N(30/pi**3, 10)",
+    "asserts": "theta_0 = 30/pi^3 ≈ 0.9675"
+   },
+   {
+    "sympy": "N(30*(exp(6)/pi**3 - 13), 10)",
+    "asserts": "theta_1 ≈ 0.3359"
+   },
+   {
+    "sympy": "N(30*(exp(3)/8 - Rational(5,2)), 10)",
+    "asserts": "theta_{1/2} ≈ 0.3208 (Ramanujan: .3207)"
+   },
+   {
+    "sympy": "[N(30*((gamma(1+Rational(k,12))/(sqrt(pi)*(Rational(k,12)/E)**Rational(k,12)))**6 - 8*Rational(k,12)**3 - 4*Rational(k,12)**2 - Rational(k,12)), 8) for k in range(1,13)]",
+    "asserts": "Reproduces the table .8071, .6160, .4867, .4029, .3509, .3207, .3058, .3014, .3041, .3118, .3227, .3359"
+   },
+   {
+    "sympy": "limit(30*((gamma(1+x)/(sqrt(pi)*(x/E)**x))**6 - 8*x**3 - 4*x**2 - x), x, oo)",
+    "asserts": "theta_oo = 1"
+   },
+   {
+    "sympy": "series(30*((sqrt(2*pi*x)*(1+1/(12*x)+1/(288*x**2)-Rational(139,51840)/x**3-Rational(571,2488320)/x**4)/sqrt(pi))**6 - 8*x**3 - 4*x**2 - x), x, oo, 2)",
+    "asserts": "theta_x = 1 - 11/(8x) + O(1/x^2), so theta approaches 1 from below"
+   }
+  ],
+  "transcription_corrections": [
+   "The bottom pencil note is faint; it reads roughly 'See GNW . Szegö' and is likely a later archival or editor's annotation, not Ramanujan's.",
+   "The lower bound constant 1/100 is correctly read and corresponds to theta_x > 3/10."
+  ]
+ }
+}

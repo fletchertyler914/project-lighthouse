@@ -1,0 +1,66 @@
+{
+ "bundle": "E792",
+ "page": "c033",
+ "label": "36",
+ "image": "https://iiif.archive.org/image/iiif/2/operapostumamath01euleuoft%2Foperapostumamath01euleuoft_jp2.zip%2Foperapostumamath01euleuoft_jp2%2Foperapostumamath01euleuoft_0054.jp2/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Setting (from §287): d = 2p+1 is an odd prime. In §288 Euler showed that the residues of 1^2, 2^2, ..., p^2 mod d are pairwise distinct. The reason is that a^2 ≡ b^2 forces d | (a-b)(a+b), and 0 < a+b < d.\n\n§289. Euler tabulates the roots 1..p, the squares 1..p^2, and their least residues 1, α, β, γ, δ, ε, ..., π. There are exactly p distinct residues. In modern terms, the map a ↦ a^2 mod d on {1..p} is injective. Its image is the set QR of nonzero quadratic residues, so |QR| = p = (d-1)/2.\n\n§290. The integers 1..2p are all coprime to d, so there are φ(d) = 2p of them. Exactly half are excluded from the residue list; Euler calls these non-residues and denotes them by German letters 𝔄, 𝔅, ℭ, 𝔇. Hence |QNR| = p.\n\n§291. For any non-residue 𝔄, no square x^2 satisfies d | x^2 − 𝔄. So for each prime d there are exactly p 'indivisible' forms x^2 − 𝔄.\n\n§292. The units mod d split into two equal classes, residues and non-residues.\n\n§293. Closure of residues under multiplication. If m ≡ a^2 and n ≡ b^2, then mn ≡ (ab)^2, so mn (reduced mod d) is a residue.\n\n§294. Corollary: if m and n are residues, then every power m^k and every product m^μ n^ν is a residue.\n\n§§295–296. The residue set is a finite set of exactly p elements, yet it is closed under multiplication mod d. In modern terms, QR is a subgroup of index 2 in (Z/dZ)^*. Euler remarks that this is noteworthy.\n\n§297. Take a residue m. All terms of the geometric progression 1, m, m^2, m^3, ... reduce mod d to quadratic residues; this is justified by §294.\n\n§298 (finished on the next page). The powers of m can produce at most p distinct residues, since all of them lie in QR. Therefore m^p, or some lower power, is ≡ 1 mod d.\n\nPigeonhole step (my filling-in): among the p+1 powers m^0, ..., m^p, two coincide, say m^i ≡ m^j with i < j ≤ p. Since gcd(m, d) = 1, cancelling m^i gives m^{j−i} ≡ 1 with 1 ≤ j−i ≤ p.\n\nThe next page then confirms the stronger statement m^p ≡ 1 directly. From m = a^2 − k(2p+1) we get m^p ≡ a^{2p} ≡ 1 by Fermat. This is the residue half of Euler's criterion.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "§297 wording is loose. 'inter residua quoque omnia producta ex binis contineri' refers back to §§293–294 (closure under products), applied here to powers of m. The intended meaning — all powers of a residue are residues — is correct.",
+   "§298 as stated on this page only gives that some power m^k with k ≤ p is ≡ 1, not that m^p ≡ 1 itself. That needs either the divisibility of p by the order of m (not argued here) or the Fermat argument supplied on the next page. Euler's phrasing 'vel potestatem m^p, vel adhuc inferiorem' is accurate to what the pigeonhole argument gives."
+  ],
+  "results": [
+   {
+    "what": "Exactly (d−1)/2 nonzero quadratic residues mod an odd prime d, given by 1^2..p^2; the remaining (d−1)/2 units are non-residues.",
+    "modern_name": "Count of quadratic residues modulo an odd prime",
+    "usually_credited_to": "Euler (and earlier implicitly Fermat); standard since Euler's 1750s papers (E134, E242), later Legendre/Gauss",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "The product of two quadratic residues is a quadratic residue; the residues form a set of p elements closed under multiplication.",
+    "modern_name": "QR is a subgroup of index 2 in (Z/pZ)^*",
+    "usually_credited_to": "Euler (Theoremata circa residua ex divisione quadratorum, E242, c.1760)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Powers of a residue m all lie in the residue class, hence by pigeonhole some m^k with k ≤ p is ≡ 1; in fact m^p ≡ 1 mod 2p+1.",
+    "modern_name": "Euler's criterion (residue direction) / order of an element divides group order",
+    "usually_credited_to": "Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is the standard elementary theory of quadratic residues that Euler developed and published in the 1750s–1770s (E134, E242, E449). The Tractatus de numerorum doctrina (E792) is a well-known posthumous textbook presentation of the same material. Nothing here goes beyond what is already attributed to him.",
+  "checkable": [
+   {
+    "sympy": "all(len(set(pow(a,2,q) for a in range(1,(q-1)//2+1)))==(q-1)//2 for q in primerange(3,200))",
+    "asserts": "Squares of 1..p give p distinct residues mod prime q=2p+1 (§§288–289)."
+   },
+   {
+    "sympy": "all(set(pow(a,2,q) for a in range(1,(q-1)//2+1))==set(pow(a,2,q) for a in range(1,q)) for q in primerange(3,200))",
+    "asserts": "Squares of 1..p already give all quadratic residues mod q (§§285–289)."
+   },
+   {
+    "sympy": "all(all((m*n)%q in R for m in R for n in R) for q in primerange(3,100) for R in [set(pow(a,2,q) for a in range(1,q))])",
+    "asserts": "The quadratic residues mod q are closed under multiplication (§§293–296)."
+   },
+   {
+    "sympy": "all(all(pow(m,(q-1)//2,q)==1 for m in set(pow(a,2,q) for a in range(1,q))) for q in primerange(3,200))",
+    "asserts": "For every residue m, m^p ≡ 1 mod 2p+1 (§298 and next page)."
+   },
+   {
+    "sympy": "all(len([x for x in range(1,q) if legendre_symbol(x,q)==-1])==(q-1)//2 for q in primerange(3,200))",
+    "asserts": "There are exactly p non-residues (§290)."
+   }
+  ],
+  "transcription_corrections": [
+   "§297: the image shows 'jnter' (printing artifact) for 'inter'; the transcription already correctly reads 'inter'.",
+   "§289 table: the printed last residue is π (Greek pi), as transcribed; the transcription is otherwise faithful to the image."
+  ]
+ }
+}

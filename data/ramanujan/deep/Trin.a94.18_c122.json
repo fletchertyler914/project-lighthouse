@@ -1,0 +1,47 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c122",
+ "label": "103recto",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F123_Add.Ms.a.9.18_103recto.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Writing q for Ramanujan's x and (z;q)_n = (1-z)(1-zq)...(1-zq^{n-1}), the page states a single identity with no derivation:\n\n(aq;q)_inf * Sum_{n>=0} b^n q^{n^2} / ((q;q)_n (aq;q)_n) = Sum_{m>=0} (-1)^m q^{m(m+1)/2} (a-b)(a-bq)...(a-bq^{m-1}) / (q;q)_m.\n\nSince (a-b)(a-bq)...(a-bq^{m-1}) = a^m (b/a;q)_m, the right side equals Sum_m (b/a;q)_m (-a)^m q^{m(m+1)/2} / (q;q)_m. The terms written out are\n- left: 1 + bq/((1-q)(1-aq)) + b^2 q^4/(...) + b^3 q^9/(...);\n- right: 1 - q(a-b)/(1-q) + q^3 (a-b)(a-bq)/((1-q)(1-q^2)) - q^6 (...).\nBoth sides agree with the stated identity.\n\nA proof (my reconstruction, not on the page):\n1. Multiply each left-hand term by (aq;q)_inf. This gives (aq;q)_inf/(aq;q)_n = (aq^{n+1};q)_inf.\n2. Expand that product by Euler's formula: (aq^{n+1};q)_inf = Sum_k (-a)^k q^{k(k+1)/2 + nk} / (q;q)_k.\n3. The left side becomes a double sum Sum_{n,k} b^n (-a)^k q^{n^2 + nk + k(k+1)/2} / ((q)_n (q)_k).\n4. Put m = n + k. The exponent splits as n^2 + nk + k(k+1)/2 = m(m+1)/2 + n(n-1)/2.\n5. The left side is then Sum_m (-a)^m q^{m(m+1)/2}/(q)_m times Sum_n [m choose n]_q q^{n(n-1)/2} (-b/a)^n.\n6. By the finite q-binomial theorem (Rothe), the inner sum is (b/a;q)_m. This is exactly the right side.\n\nChecks of special cases:\n- b=0 gives Euler's (aq;q)_inf = Sum (-a)^m q^{m(m+1)/2}/(q)_m.\n- b=a gives Cauchy's Durfee-square identity Sum a^n q^{n^2}/((q)_n(aq)_n) = 1/(aq;q)_inf.\n- a=0 gives Sum b^n q^{n^2}/(q)_n = Sum b^m q^{m^2}/(q)_m, a tautology.\n\nIt is a limiting case of Heine's transformation, equivalently of the Rogers–Fine identity. The page serves as a generating identity of the kind used for Rogers–Ramanujan-type series and the theory of partitions with Durfee squares. The previous page holds only an expansion of q/(1-q). The next page is unrelated (integrals, 'Runge').",
+  "errors": [
+   "No mathematical errors. All written terms are consistent with the general term on each side (checked by the proof above and by series expansion).",
+   "Only a minor stylistic point: the left product (1-ax)(1-ax^2)... is infinite and is written with trailing dots, which is correct."
+  ],
+  "results": [
+   {
+    "what": "(aq;q)_inf * Sum_n b^n q^{n^2}/((q;q)_n (aq;q)_n) = Sum_m (b/a;q)_m (-a)^m q^{m(m+1)/2}/(q;q)_m",
+    "modern_name": "Limiting case of Heine's 2phi1 transformation / Rogers–Fine identity. It generalises Cauchy's Durfee-square identity (b=a) and Euler's product formula (b=0).",
+    "usually_credited_to": "Heine (1847) and Cauchy (1843) for the underlying transformations; the identity in this form is standard (e.g. Gasper–Rahman, Andrews).",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a standard consequence of Euler's expansion plus the q-binomial theorem, or a limit of Heine's transformation. Identities of exactly this shape are abundant in Ramanujan's lost notebook, and Andrews–Berndt record many such entries. It is correct, but not novel.",
+  "checkable": [
+   {
+    "sympy": "q,a,b=symbols('q a b'); P=lambda z,n: prod([(1-z*q**j) for j in range(n)]); N=8; lhs=P(a*q,N+2)*sum(b**n*q**(n**2)/(P(q,n)*P(a*q,n)) for n in range(N)); rhs=sum((-1)**m*q**(m*(m+1)//2)*prod([(a-b*q**j) for j in range(m)])/P(q,m) for m in range(N)); simplify(series(lhs-rhs,q,0,8).removeO())==0",
+    "asserts": "The page's identity holds as a power series in q up to order q^7, with the infinite product truncated far enough."
+   },
+   {
+    "sympy": "series(P(a*q,12)*sum(a**n*q**(n**2)/(P(q,n)*P(a*q,n)) for n in range(5)),q,0,8)",
+    "asserts": "The case b=a: the product times the sum equals 1 up to O(q^8) (Cauchy's identity)."
+   },
+   {
+    "sympy": "series(P(a*q,12)-sum((-a)**m*q**(m*(m+1)//2)/P(q,m) for m in range(6)),q,0,10)",
+    "asserts": "The case b=0: Euler's identity, difference is 0 to O(q^10)."
+   },
+   {
+    "sympy": "expand(prod([(a-b*q**j) for j in range(4)]) - a**4*prod([(1-(b/a)*q**j) for j in range(4)]))==0",
+    "asserts": "(a-b)(a-bq)...(a-bq^{m-1}) = a^m (b/a;q)_m."
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription matches the image. The header 'Add. MS a 94^{18 (103)}' is an archival shelfmark (Add. MS a.94.18, folio 103), not mathematics.",
+   "In the second left-hand term the power is b^2 x^4; the handwritten '4' could be misread but is confirmed by the pattern b^n x^{n^2}."
+  ]
+ }
+}

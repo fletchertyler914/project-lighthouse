@@ -1,0 +1,41 @@
+{
+ "number": "604",
+ "field": "geometry",
+ "subfield": "analytic geometry in oblique coordinates",
+ "modern_restatement_en": "Write $n_k=(A_k,B_k,C_k)$ and $L_k(X)=n_k\\cdot X+D_k u$ for $k=1,2,3$, with $\\det N\\neq0$ where $N$ has rows $n_k$. The axes are oblique with Gram matrix $G$ built from the cosines of the angles between axes. Let $P=(\\alpha,\\beta,\\gamma)/\\delta$. The parallelepiped has the planes $L_k=0$ and their parallels through $P$ as faces. Its edge vectors at $P$ are $e_k=-L_k(P)\\,N^{-1}E_k$, i.e. $e_k=-L_k(P)\\,(n_i\\times n_j)/\\det N$ with $(i,j,k)$ cyclic. The edge lengths are $\\ell_k=|L_k(P)|\\sqrt{(n_i\\times n_j)^TG(n_i\\times n_j)}/|\\det N|$.",
+ "kind": "compute",
+ "well_posed": true,
+ "well_posed_note": "The notation is odd: dividing by $u$ is equivalent to replacing $D$ by $Du$, a homogenising device, and $\\delta$ is just a scaling of $P$. The parallelepiped is understood to be bounded by the given planes and their parallels through $P$. The edges also depend on the coefficients and on the axis angles, which the statement does not list.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Use random rational planes, point and $u$, plus an oblique Gram matrix. Verify that $P+\\sum e_k$ equals the intersection $Q$ of the three planes, and that each $e_k$ is parallel to the other two planes. Then compare the closed-form length with the direct length $\\sqrt{e_k^TGe_k}$. PASS if all agree to 1e-9.",
+  "code": "import sympy as sp, random, math\nrandom.seed(2)\nR=lambda: sp.Rational(random.randint(-9,9),random.randint(1,5))\nN=sp.Matrix(3,3,lambda i,j:R())\nwhile N.det()==0: N=sp.Matrix(3,3,lambda i,j:R())\nD=sp.Matrix([R() for _ in range(3)])\nu=sp.Rational(7,3)\nal,be,ga=R(),R(),R(); de=sp.Rational(3,2)\nP=sp.Matrix([al/de,be/de,ga/de])\nth=[1.1,1.3,1.4]\nG=sp.Matrix([[1,math.cos(th[2]),math.cos(th[1])],[math.cos(th[2]),1,math.cos(th[0])],[math.cos(th[1]),math.cos(th[0]),1]])\nL=N*P+D*u\nNinv=N.inv()\nedges=[-L[k]*Ninv[:,k] for k in range(3)]\nQ=-Ninv*D*u\nok1=sp.simplify(P+edges[0]+edges[1]+edges[2]-Q)==sp.zeros(3,1)\nprint('PASS' if ok1 else 'FAIL','P + e1+e2+e3 = intersection of the three planes')\nok2=all(sp.simplify((N[i,:]*edges[k])[0])==0 for k in range(3) for i in range(3) if i!=k)\nprint('PASS' if ok2 else 'FAIL','each edge parallel to the two other planes')\nn=[N[i,:].T for i in range(3)]\ndet=N.det()\nfor k in range(3):\n    i,j=(k+1)%3,(k+2)%3\n    c=n[i].cross(n[j])\n    lf=abs(float(L[k]))*math.sqrt(float((c.T*G*c)[0]))/abs(float(det))\n    ld=math.sqrt(float((edges[k].T*G*edges[k])[0]))\n    print('PASS' if abs(lf-ld)<1e-9 else 'FAIL','edge',k,lf,ld)\n"
+ },
+ "searches": {
+  "zbmath": [
+   "parallelepiped faces parallel to three planes edges oblique coordinates",
+   "analytic geometry oblique axes parallelepiped edges"
+  ],
+  "stackexchange": [
+   "edge lengths of parallelepiped bounded by three planes and parallels through a point"
+  ],
+  "wikipedia": [
+   "Parallelepiped",
+   "Coordonnées obliques"
+  ],
+  "oeis": [
+   ""
+  ],
+  "names": [
+   "coordonnées obliques",
+   "parallélépipède",
+   "Cramer",
+   "coordonnées homogènes"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "This is a routine linear-algebra computation (Cramer's rule plus the oblique metric). It probably went unanswered because it is trivial or oddly worded, not because it is hard.",
+  "possible_sources": []
+ }
+}

@@ -1,0 +1,77 @@
+{
+ "bundle": "E792",
+ "page": "c007",
+ "label": "10",
+ "image": "https://iiif.archive.org/image/iiif/2/operapostumamath01euleuoft%2Foperapostumamath01euleuoft_jp2.zip%2Foperapostumamath01euleuoft_jp2%2Foperapostumamath01euleuoft_0028.jp2/full/1540,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Page 10 of Euler's 'Tractatus de numerorum doctrina' (E792), Ch. 2, on counting divisors. Numbers are sorted into 'classes' by the total number of prime factors counted with multiplicity, Omega(n). Each class is split into 'species' by exponent pattern.\n\n(VII, end of §71) The last species of class 5 is pqrst, with p, q, r, s, t distinct primes. Its 32 divisors are listed as all products of subsets of {p, q, r, s, t}. By subset size the list contains 1, then 5 single primes, 10 pairs, 10 triples, 5 quadruples and pqrst itself: 1+5+10+10+5+1 = 2^5 = 32.\n\n§72. The other classes are handled the same way. Each divisor in turn belongs to a definite class and species.\n\n§73. Let N have divisors D(N) = {1, α, β, ..., N}, and let p be a prime not dividing N. Then D(Np) is D(N) together with p·D(N). The two sets are disjoint because p does not divide any element of D(N); Euler leaves this implicit. Hence d(Np) = 2 d(N).\n\n§74. Similarly D(Np^2) = D(N) ∪ p D(N) ∪ p^2 D(N), so d(Np^2) = 3 d(N).\n\n§75. Likewise d(Np^3) = 4 d(N).\n\n§76. In general, if d(N) = m and p does not divide N (assumed from §73–75), then d(N p^λ) = (λ+1) m. Also d(p^λ) = λ+1.\n\n§77. Applying this repeatedly gives the rule d(p^λ q^μ r^ν s^ξ) = (λ+1)(μ+1)(ν+1)(ξ+1). The class of this number is λ+μ+ν+ξ, i.e. Omega(n).\n\n§78. Inverse problem: find the numbers with a prescribed divisor count. If the count a is prime, those numbers are exactly the n = p^(a-1); there are infinitely many.\n\n§79. Let a, b, c be primes (not necessarily distinct) and p, q, r distinct primes.\n- d(n) = ab holds exactly for n = p^(ab-1) or p^(a-1) q^(b-1).\n- d(n) = abc holds exactly for n = p^(abc-1), p^(ab-1) q^(c-1), p^(ac-1) q^(b-1), p^(bc-1) q^(a-1), or p^(a-1) q^(b-1) r^(c-1).\nThis is the enumeration of unordered factorizations of the target count into factors greater than 1. Each factor e+1 gives an exponent e on a distinct prime.\n\n§80 (begins). d(n) = 2 holds exactly for the primes p. The table for 3 to 12 continues on the next page.",
+  "errors": [
+   "No mathematical errors on this page.",
+   "§76 does not restate that p must not divide N; the hypothesis is carried over from §73–75. Without it, (λ+1)m is false (e.g. N = p).",
+   "The disjointness of D(N) and p·D(N) is used but not stated.",
+   "§79: when the letters a, b, c are equal, some listed forms coincide (e.g. p^(ac-1) q^(b-1) and p^(bc-1) q^(a-1) when a = b). The list then has duplicates, but it remains complete and correct."
+  ],
+  "results": [
+   {
+    "what": "Explicit enumeration of the 32 divisors of a product of 5 distinct primes",
+    "modern_name": "d(squarefree n with k prime factors) = 2^k; divisors correspond to subsets",
+    "usually_credited_to": "folklore; 17th-century combinatorics of divisors (e.g. van Schooten, Wallis)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "d(N p^λ) = (λ+1) d(N) for a prime p not dividing N, hence d(∏ p_i^e_i) = ∏ (e_i+1)",
+    "modern_name": "multiplicativity of the divisor-counting function tau(n)",
+    "usually_credited_to": "known in the 17th century (Descartes/Mersenne circle, van Schooten 1657, Wallis); standard by Euler's time",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Class of n equals the sum of exponents",
+    "modern_name": "Omega(n), the number of prime factors counted with multiplicity",
+    "usually_credited_to": "folklore; notation is modern",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Numbers with a prescribed divisor count, via factorizations of the count into prime factors",
+    "modern_name": "inverse problem for tau; unordered multiplicative partitions of the count",
+    "usually_credited_to": "folklore (cf. the later 'smallest number with n divisors' problem)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is elementary, well-known material from Euler's Tractatus de numerorum doctrina, published in the Opera postuma (1849) and long available. The divisor-count formula predates Euler.",
+  "checkable": [
+   {
+    "sympy": "len(divisors(2*3*5*7*11)) == 32",
+    "asserts": "A product of 5 distinct primes has 32 divisors."
+   },
+   {
+    "sympy": "all(divisor_count(N*p**l) == (l+1)*divisor_count(N) for N in range(1,200) for p in [2,3,5,7] for l in range(1,5) if N % p != 0)",
+    "asserts": "d(N p^λ) = (λ+1) d(N) when p does not divide N (§73–76)."
+   },
+   {
+    "sympy": "divisor_count(2**3*3**2*5*7**4) == (3+1)*(2+1)*(1+1)*(4+1)",
+    "asserts": "d(p^λ q^μ r^ν s^ξ) = (λ+1)(μ+1)(ν+1)(ξ+1) (§77)."
+   },
+   {
+    "sympy": "sorted([n for n in range(1,5000) if divisor_count(n)==6]) == sorted([n for n in range(1,5000) if (len(factorint(n))==1 and list(factorint(n).values())==[5]) or sorted(factorint(n).values())==[1,2]])",
+    "asserts": "d(n) = 6 (6 = 2·3) exactly for n = p^5 or p^2 q (§79 with a=2, b=3)."
+   },
+   {
+    "sympy": "sorted([n for n in range(1,3000) if divisor_count(n)==8]) == sorted([n for n in range(1,3000) if sorted(factorint(n).values()) in ([7],[1,3],[1,1,1])])",
+    "asserts": "d(n) = 8 = 2·2·2 exactly for n = p^7, p^3 q, or pqr (§79 with a=b=c=2; duplicate forms collapse)."
+   },
+   {
+    "sympy": "all(isprime(n) == (divisor_count(n)==2) for n in range(2,2000))",
+    "asserts": "d(n) = 2 exactly for primes (§80)."
+   }
+  ],
+  "transcription_corrections": [
+   "None significant; the machine transcription matches the image. The original prints '+' as '-+-' (e.g. 'λ -+- 1'), rendered correctly as '+'."
+  ]
+ }
+}

@@ -1,0 +1,62 @@
+{
+ "bundle": "E792",
+ "page": "c024",
+ "label": "27",
+ "image": "https://iiif.archive.org/image/iiif/2/operapostumamath01euleuoft%2Foperapostumamath01euleuoft_jp2.zip%2Foperapostumamath01euleuoft_jp2%2Foperapostumamath01euleuoft_0045.jp2/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Chapter 7 of Euler's Tractatus de numerorum doctrina (E792, written c. 1750, published posthumously). Fix d. Let mu = phi(d), the number of integers below d that are prime to d. For b prime to d, let n be the least positive exponent with b^n ≡ 1 (mod d), i.e. the multiplicative order of b. The previous page showed that n divides mu (Euler's theorem). Euler now asks which b give n equal to a proper divisor of mu.\n\n§222. Take b = e^2 with gcd(e,d)=1. Then b^(mu/2) = e^mu ≡ 1 (mod d), by Euler's theorem applied to e. The same holds for b ≡ e^2 (mod d), i.e. b = e^2 ± λd. So the admissible b below d are the residues of squares prime to d. (Implicit, mine: mu must be even, which §221 noted holds for every d > 2.)\n\n§223. Similarly, if b ≡ e^3 then b^(mu/3) = e^mu ≡ 1. The admissible b are the cubic residues prime to d. This requires 3 | mu.\n\n§224. If 4 | mu and b ≡ e^4, then b^(mu/4) ≡ 1. The admissible b are the biquadratic residues prime to d.\n\n§225. In general, if ν | mu and b ≡ e^ν (mod d) with gcd(e,d)=1, then b^(mu/ν) = e^mu ≡ 1 (mod d). So ν-th power residues are among the b with b^(mu/ν) ≡ 1.\n\n§226. It suffices to take 0 < b < d with gcd(b,d)=1. For b = 1 every power leaves remainder 1, so n = 1 = mu/mu. For d = 2 this is the only case, since mu = 1.\n\n§227. d = 3, mu = 2. Besides b = 1 (n = 1), b = 2 gives powers mod 3: 1,2,1,2,1,... So n = 2 = mu.\n\n§228. d = 4, mu = 2. b = 1 gives n = 1 = mu/2. b = 3 gives 1,3,1,3,1,... so n = 2 = mu.\n\n§229. d = 5, mu = 4. The powers mod 5 are:\n- b = 1: 1,1, so n = 1.\n- b = 2: 1,2,4,3,1, so n = 4.\n- b = 3: 1,3,4,2,1, so n = 4.\n- b = 4: 1,4,1, so n = 2.\nTwo cases have n = 4, one has n = 2, one has n = 1.\n\n§230. d = 6, mu = 2. b = 1 gives n = 1. b = 5 gives 1,5,1, so n = 2.\n\nPurpose: build tables of multiplicative orders to study how the order n depends on b. The tables continue on the next page for d = 7 to 11.",
+  "errors": [
+   "No computational errors: every residue list and order on the page is correct.",
+   "Logical caveat (not an error as stated): §§222-225 give only a sufficient condition. Being a ν-th power residue implies b^(mu/ν) ≡ 1, but the converse fails for non-cyclic moduli. On the next page, for d = 8, all of 3, 5, 7 satisfy b^2 ≡ 1, yet none is a square mod 8. The phrase 'minores ergo numeri pro b sumendi sunt residua' could be misread as a characterization. The converse (Euler's criterion) holds when d is prime, or more generally when (Z/d)* is cyclic.",
+   "§223: 'cannot happen unless 3 | mu' is meant only in the sense that mu/3 must be an integer exponent. As a mathematical claim it is loose, but harmless."
+  ],
+  "results": [
+   {
+    "what": "If b ≡ e^ν (mod d) with gcd(e,d)=1 and ν | phi(d), then b^(phi(d)/ν) ≡ 1 (mod d); in particular, quadratic residues satisfy b^(phi(d)/2) ≡ 1.",
+    "modern_name": "Easy (necessity) direction of Euler's criterion and its generalization to ν-th power residues",
+    "usually_credited_to": "Euler (Theoremata circa residua ex divisione potestatum relicta, E262, c.1758-61; Euler's criterion for quadratic residues)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Tables of powers b^k mod d and of multiplicative orders for d = 3, 4, 5, 6, showing that the order divides phi(d) and varies with b.",
+    "modern_name": "Multiplicative order / tables of orders (precursor of primitive-root tables)",
+    "usually_credited_to": "Euler (E262; also this Tractatus); systematized later by Gauss (Disquisitiones, 1801)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is elementary material on orders and power residues that Euler published himself (E262, E449). The Tractatus de numerorum doctrina has been in print since 1849 and is well known.",
+  "checkable": [
+   {
+    "sympy": "from sympy.ntheory import n_order; [n_order(b,5) for b in [1,2,3,4]] == [1,4,4,2]",
+    "asserts": "Orders mod 5 match §229"
+   },
+   {
+    "sympy": "from sympy.ntheory import n_order; (n_order(2,3), n_order(3,4), n_order(5,6)) == (2,2,2)",
+    "asserts": "Orders in §§227, 228, 230"
+   },
+   {
+    "sympy": "[pow(2,k,5) for k in range(5)] == [1,2,4,3,1] and [pow(3,k,5) for k in range(5)] == [1,3,4,2,1]",
+    "asserts": "Residue sequences for b = 2 and b = 3 mod 5"
+   },
+   {
+    "sympy": "from sympy import totient; all(pow(pow(e,nu,d), totient(d)//nu, d) == 1 for d in range(3,60) for nu in range(1,13) if totient(d) % nu == 0 for e in range(1,d) if __import__('math').gcd(e,d) == 1)",
+    "asserts": "§225: b = e^nu gives b^(mu/nu) ≡ 1 mod d whenever nu | mu"
+   },
+   {
+    "sympy": "[b for b in [3,5,7] if pow(b,2,8)==1] == [3,5,7] and all(pow(e,2,8)==1 for e in [1,3,5,7])",
+    "asserts": "The converse of §222 fails for d = 8: 3, 5, 7 satisfy b^(mu/2) ≡ 1 but are not squares of units mod 8"
+   },
+   {
+    "sympy": "from sympy import totient; [totient(d) for d in [2,3,4,5,6]] == [1,2,2,4,2]",
+    "asserts": "Values of mu used on the page"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription matches the image essentially exactly. In §229 the b=1 column 'Progr. geom. 1, 1' means 1, 1^1, as printed. The footnote marker '*' at the bottom is present in the image."
+  ]
+ }
+}

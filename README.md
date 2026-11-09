@@ -17,9 +17,9 @@ Riemann's published 1860 paper on air waves is famous for getting the energy par
 wrong (Rankine 1870 and Hugoniot 1887 fixed it). Two sets of unpublished sheets in his Nachlass at
 SUB Göttingen (Cod. Ms. B. Riemann 26 fol. 70–71; Cod. Ms. B. Riemann 19 fol. 3v) contain, in his own
 1856–60 notation, the energy-conserving shock relations, Prandtl's relation (1906), the Prandtl–Meyer
-function with a sketch (1908), oblique-shock relations with a wedge sketch, the Mach-line characteristics
-(1929) and a vorticity–entropy relation (Crocco 1937). Date bracket: 1856 – July 1866. The algebra is verified
-by computer (`verify/`); a blind AI handwriting comparison with Riemann/Weber/Weierstraß controls assigns the
+function with a sketch (1908), oblique-shock relations with a wedge sketch, the characteristics method for
+steady supersonic flow (1929) and a vorticity–entropy relation (Crocco 1937). Date bracket: 1856 – July 1866.
+The algebra is verified by computer (`verify/`); a blind AI handwriting comparison with Riemann/Weber/Weierstraß controls assigns the
 pages to Riemann. **Not yet confirmed by a human palaeographer.** Full record: `ledger/LEADS.md`, entry L-019;
 the request to experts: `docs/L019_expert_request_draft.md`.
 

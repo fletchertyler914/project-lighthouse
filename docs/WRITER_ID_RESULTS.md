@@ -158,6 +158,33 @@ Controls: **T5 comes out Riemann and T6 comes out Weierstrass in both variants**
 For T1–T5 all of the five nearest training pages are Riemann pages in variant A, except that the 5th
 neighbour of T3 is Gauss Opuscula [228] (a page the CV also confused with Riemann).
 
+## Leave-one-volume-out check (added 2026-11-09)
+
+Script: `src/writer_id_crossvolume.py` (reuses the descriptor cache; same seed, same two encodings).
+Question: is a target called "Riemann" only because Riemann training pages share its volume?
+Run A trains the Riemann class on Cod. Ms. 19 pages only and holds out every Riemann page of Cod. Ms. 26.
+Run B swaps the volumes. The other writers' pages are unchanged.
+
+| | Run A, histogram | Run A, VLAD | Run B, histogram | Run B, VLAD |
+|---|---|---|---|---|
+| Riemann pages in training | 39 (B.19) | 39 (B.19) | 20 (B.26) | 20 (B.26) |
+| Known Riemann pages of the other volume called Riemann | 13/20 | 12/20 | 38/39 | 36/39 |
+| T1 B.26 70v, P(Riemann) | 0.966 | 1.000 | 0.913 | 0.943 |
+| T2 B.26 71r | 0.969 | 1.000 | 0.765 | 0.977 |
+| T3 B.26 228r | 0.957 (Gauss 0.04) | 0.888 (Gauss 0.11) | 0.993 | 0.876 (Gauss 0.12) |
+| T4 B.19 3v | 0.961 | 0.996 | 0.598 (Dedekind 0.29) | 0.849 |
+| T5 control B.19 97r | 1.000 | 1.000 | 0.993 | 0.980 |
+| T6 control B.19 101r, P(Weierstrass) | 0.985 | 1.000 | 0.946 | 1.000 |
+
+The rows that matter are T1–T3 in run A and T4 in run B: there the target's own volume contributes no Riemann
+training page. All four stay Riemann. T4 is the weakest (0.60 in one encoding, with a 20-page Riemann class).
+
+The second row is a warning about the method. Trained on Cod. Ms. 19 alone, it recognises only 12–13 of the 20
+known Riemann pages of Cod. Ms. 26. The misses are the fair-copy prose leaves 22r, 27v, 30v, 35r (called Hilbert
+or Weber), the table page 6r, and 24v, 42v, 45r, 52v. So the 97–98 % cross-validation figure above depends on
+having pages of the same volume and style in training; across volumes and styles the method is much weaker.
+Either those prose leaves are a style the maths pages do not teach, or their catalogue attribution is wrong.
+
 ## What this does and does not show
 
 - Under this method, the handwriting on T1, T2, T3 and T4 is classified as Riemann's with
@@ -173,11 +200,13 @@ neighbour of T3 is Gauss Opuscula [228] (a page the CV also confused with Rieman
 
 ## Limitations
 
-- **Six hands only.** Not a verification system; no open-set rejection. See above.
+- **Six hands only.** Not a verification system; no open-set rejection. See above. A specific missing hand:
+  Alfred Clebsch (elasticity; worked on the Nachlass until 1872; a fair copy by him is in Cod. Ms. B. Riemann 3,
+  fol. 16–18). He matters most for the elasticity sheet T3.
 - **Same-volume confound.** Riemann training pages, Weierstrass, Weber and all six targets come from
   the same two volumes. Paper texture, ruling, show-through and scanning conditions are shared. The
-  ink mask and local SIFT descriptors reduce but do not remove this; the Weierstrass/Weber result is
-  the only direct check, and it rests on 15 pages (4 for Weierstrass).
+  ink mask and local SIFT descriptors reduce but do not remove this; the Weierstrass/Weber result
+  and the leave-one-volume-out check above are the direct checks; the first rests on 15 pages (4 for Weierstrass).
 - **Weierstrass class has 4 training pages**, two leaves, one sitting. T6 being recognised shows the
   method works on that hand, but the class is thin.
 - **Training labels are catalogue attributions**, not independently verified page by page. Twelve

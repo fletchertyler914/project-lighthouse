@@ -1,0 +1,72 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c030",
+ "label": "024",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F031_Add.Ms.a.9.18_024.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page sets up the digamma function and proves two integral identities. The second one, (6), is an integral against the lacunary series sum_nu x^(a b^nu). It generalizes Catalan's integral for Euler's constant. The page ends at 'For example', and the next page is only an archival note ('All statements made are proved. Stops abruptly.'). So the example itself is not here.\n\n**Setup.** For t>0 define\n  psi(t) = Gamma'(t)/Gamma(t) = int_0^1 (1 - x^(t-1))/(1-x) dx - gamma.\nThis is Gauss's integral representation of the digamma function. The stated consequences are standard:\n- (1) psi(t+1) = psi(t) + 1/t;\n- (2) psi(1) = -gamma;\n- (3) psi(t) - log t -> 0 as t -> infinity.\n\n**Formula (4).** For p, q, r > 0:\n  I(p,q,r) = int_0^1 [ x^(p-1)/(1-x) - r x^(q-1)/(1-x^r) ] dx.\nThe two pieces diverge separately at x=1, but the combination converges, because 1-x^r ~ r(1-x) near x=1. Ramanujan regularizes each piece by replacing the power -1 of (1-x) and (1-x^r) with s-1, and the factor r with r^(1-s). The regularized integrand differs from the original by O((1-x)^s) near x=1, so the limit s -> 0 may be taken under the integral sign (that justification is my addition).\n\nThe two pieces are Beta integrals. With y = x^r (my step):\n  int_0^1 x^(q-1) (1-x^r)^(s-1) dx = (1/r) B(q/r, s).\nHence\n  I = lim_{s->0} [ B(p,s) - r^(-s) B(q/r,s) ].\nExpanding (my step), B(u,s) = 1/s - gamma - psi(u) + O(s) and r^(-s) = 1 - s log r + O(s^2). This gives\n  I = psi(q/r) - psi(p) + log r.\n\nThe log r term is genuine. A naive substitution y = x^r in the second piece alone would lose it. That substitution maps the cutoff x = 1-eps to y ≈ 1 - r*eps, and the strip between the two cutoffs contributes exactly log r.\n\n**Formula (5).** Put g(x) = x^(c-1)/(1-x) - b x^(bc-1)/(1-x^b). Then g(x) x^(ab^nu) is the integrand of (4) with\n  p = ab^nu + c,  q = ab^nu + bc,  r = b,  so q/r = ab^(nu-1) + c.\nTherefore\n  int_0^1 g(x) x^(ab^nu) dx = psi(ab^(nu-1) + c) - psi(ab^nu + c) + log b.\nSumming over nu = 0..n telescopes:\n  int_0^1 g(x) sum_{nu=0}^n x^(ab^nu) dx = psi(a/b + c) - psi(ab^n + c) + (n+1) log b.\nThe stated hypotheses are a+c > 0, a+bc > 0, b > 0.\n\n**Formula (6).** Let b > 1 and n -> infinity. By (3), psi(ab^n + c) = log a + n log b + o(1), provided a > 0. Hence\n  int_0^1 g(x) sum_{nu>=0} x^(ab^nu) dx = psi(a/b + c) - log(a/b).\nPassing to the limit under the integral sign is legitimate (my justification): g is bounded near x=1, and the lacunary sum only grows like log(1/(1-x))/log b there.\n\n**Worked instances (mine, not on the page).**\n- a=1, b=2, c=0: here g = -1/(x(1+x)), and (6) gives int_0^1 sum_{nu>=0} x^(2^nu - 1)/(1+x) dx = gamma + log 2. Removing the nu=0 term, which integrates to log 2, gives Catalan's 1875 formula gamma = int_0^1 (1/(1+x)) sum_{n>=1} x^(2^n - 1) dx. This is presumably the kind of example the page breaks off before giving.\n- a=1, b=2, c=1: here g = 1/(1+x), and int_0^1 sum_nu x^(2^nu)/(1+x) dx = psi(3/2) + log 2 = 2 - gamma - log 2 ≈ 0.7297. A crude partial-sum check is consistent with this.",
+  "errors": [
+   "(6) silently needs a > 0. It is needed for log(a/b) to make sense, for the asymptotics psi(ab^n + c) ~ log(ab^n), and for convergence of the series near x=0. The stated hypotheses (b>1, a+c>0, a+bc>0) do not exclude a <= 0; for a<0 and b>1 the integrand diverges at x=0.",
+   "(5) for finite n needs ab^nu + c > 0 and ab^(nu-1) + c > 0 for every nu = 0..n. The listed conditions (a+c>0, a+bc>0, b>0) ensure this when a >= 0, or when 0<b<=1. They do not when a<0 and b>1.",
+   "Interchanging lim_{s->0} with the integral in (4), and n->infinity with the integral in (6), is done without comment. Both are valid (uniform integrability / dominated convergence), but they are not justified on the page.",
+   "No computational slips: (4), (5) and (6) are all correct under the conditions above."
+  ],
+  "results": [
+   {
+    "what": "psi(t) = int_0^1 (1-x^(t-1))/(1-x) dx - gamma, with recurrence, psi(1) = -gamma, and psi(t) - log t -> 0",
+    "modern_name": "Gauss's integral representation of the digamma function and its basic properties",
+    "usually_credited_to": "Gauss (1812); Euler, Legendre",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "int_0^1 [x^(p-1)/(1-x) - r x^(q-1)/(1-x^r)] dx = psi(q/r) - psi(p) + log r, proved by Beta-function regularization",
+    "modern_name": "Digamma difference integral (Frullani/Gauss-type); appears in standard tables such as Gradshteyn-Ryzhik 3.244-type entries",
+    "usually_credited_to": "Classical (Gauss/Legendre era; standard in 19th-century treatises)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Telescoping identity (5) and its limit (6): int_0^1 [x^(c-1)/(1-x) - b x^(bc-1)/(1-x^b)] sum_{nu>=0} x^(ab^nu) dx = psi(a/b + c) - log(a/b)",
+    "modern_name": "Lacunary-series integral for the digamma function; a generalization of Catalan's integral for Euler's constant",
+    "usually_credited_to": "Special case (a=1, b=2, c=0) is Catalan (1875); the general (a,b,c) form is close to later digamma/lacunary integral identities (e.g. work by Sondow and others)",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "The ingredients are classical: the digamma integral, Beta regularization and telescoping. The lacunary-series formula (6) is a neat three-parameter generalization of Catalan's 1875 integral for gamma, but it follows easily and resembles known later results. It is a notable unpublished detail rather than a major anticipation.",
+  "checkable": [
+   {
+    "sympy": "p,q,r=Rational(3,2),Rational(5,2),3; N(Integral(x**(p-1)/(1-x) - r*x**(q-1)/(1-x**r),(x,0,1))) - N(digamma(q/r)-digamma(p)+log(r))",
+    "asserts": "Formula (4) for sample p,q,r; the difference should be ~0"
+   },
+   {
+    "sympy": "s=symbols('s'); limit(beta(Rational(3,2),s) - 3**(-s)*beta(Rational(5,6),s), s, 0) - (digamma(Rational(5,6)) - digamma(Rational(3,2)) + log(3))",
+    "asserts": "Beta-function regularization step in (4) gives psi(q/r) - psi(p) + log r; should simplify to 0"
+   },
+   {
+    "sympy": "a,b,c,n=1,2,1,3; N(Integral((x**(c-1)/(1-x) - b*x**(b*c-1)/(1-x**b))*sum(x**(a*b**k) for k in range(n+1)),(x,0,1))) - N(digamma(Rational(a,b)+c)-digamma(a*b**n+c)+(n+1)*log(b))",
+    "asserts": "Finite telescoped identity (5); should be ~0"
+   },
+   {
+    "sympy": "N(Integral(sum(x**(2**k)/(1+x) for k in range(40)),(x,0,1))) - N(digamma(Rational(3,2))+log(2))",
+    "asserts": "(6) with a=1, b=2, c=1: int_0^1 sum x^(2^k)/(1+x) dx = psi(3/2) + log 2 = 2 - gamma - log 2; should be ~0"
+   },
+   {
+    "sympy": "N(Integral(sum(x**(2**k-1)/(1+x) for k in range(1,40)),(x,0,1))) - EulerGamma",
+    "asserts": "Catalan's integral gamma = int_0^1 sum_{n>=1} x^(2^n-1)/(1+x) dx, the case a=1, b=2, c=0 of (6); should be ~0"
+   },
+   {
+    "sympy": "simplify(1/(1-x) - 2*x/(1-x**2) - 1/(1+x))",
+    "asserts": "For b=2, c=1 the kernel g(x) reduces to 1/(1+x); should be 0"
+   }
+  ],
+  "transcription_corrections": [
+   "The upper limit of the sum in (5) is n (the manuscript shows n written over/beside an original 1, with a marginal 'n/'). It should read sum_{nu=0}^{n}, not the garbled '[-nu=1-]{+n+}'.",
+   "Shelfmark at top reads 'Add Ms a 94^{18(24)}' with the folio number (24) circled; this is consistent with the transcription.",
+   "The circled insertion after 'Supposing that b>1' reads 'and making n -> infinity in (5)'; the transcription renders it correctly as an insertion."
+  ]
+ }
+}

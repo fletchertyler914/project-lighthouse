@@ -1,0 +1,49 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c132",
+ "label": "110verso",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F133_Add.Ms.a.9.18_110verso.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page holds no derivation. It is a single prose memorandum, and its handwriting looks more like G. H. Hardy's (or another editor's) than Ramanujan's. It reads: 'Idea. You can replace the Bessel fns of the V. identity by circular functions, at the price of complicating the \"sum\". Interesting idea, but prob[abl]y of no value for the study of the divisor problem.'\n\nInterpretation (mine). 'V. identity' is almost certainly Voronoi's identity (Voronoi 1904) for the Dirichlet divisor problem. In modern notation, with D(x) = sum'_{n<=x} d(n) (the last term halved if x is an integer):\n\nD(x) = x log x + (2*gamma - 1) x + 1/4 - sqrt(x) * sum_{n>=1} d(n)/sqrt(n) * [ Y_1(4 pi sqrt(n x)) + (2/pi) K_1(4 pi sqrt(n x)) ].\n\nThe remark says one can trade the Bessel kernels Y_1 and K_1 for trigonometric kernels, at the cost of a more complicated arithmetic sum. Two standard ways of doing this exist.\n\n(a) Go back to Dirichlet's hyperbola method. This gives D(x) = 2 sum_{n<=sqrt x} floor(x/n) - floor(sqrt x)^2. Writing floor(t) = t - 1/2 - psi(t) and expanding psi(t) = -sum_{m>=1} sin(2 pi m t)/(pi m) yields Delta(x) = -2 sum_{n<=sqrt x} psi(x/n) + O(1). This is a finite double sum of sines of 2 pi m x/n: circular functions, but a 'complicated sum'.\n\n(b) Use the asymptotic form of the kernels: Y_1(z) ~ sqrt(2/(pi z)) sin(z - 3 pi/4), while K_1 is exponentially small. This gives Hardy's truncated form Delta(x) ≈ x^{1/4}/(pi sqrt 2) * sum_{n<=N} d(n) n^{-3/4} cos(4 pi sqrt(n x) - pi/4) + error.\n\nThe writer judges such reformulations unlikely to help with the order of Delta(x). This is consistent with Hardy's own work on the divisor problem from 1915–1916.\n\nThere is no evident link to the preceding page (U_n, V_n as polynomials in P, Q, R) or the following page (pi series, q-products). The folio appears to be a stray editorial or Hardy note filed among Ramanujan's papers. The previous page carries the annotation 'dont know just what this belongs to'.",
+  "errors": [
+   "No mathematical steps are given, so there is nothing to check for slips.",
+   "The claim that one 'can replace' the Bessel functions by circular functions is stated without any formula. Its exact form (an exact identity versus an asymptotic or truncated one) cannot be determined from the page."
+  ],
+  "results": [
+   {
+    "what": "Remark that the Bessel-function kernels in Voronoi's formula for the divisor problem can be replaced by trigonometric functions at the cost of a more complicated arithmetic sum; judged probably useless for the divisor problem.",
+    "modern_name": "Voronoi summation formula for d(n); hyperbola-method / Fourier (sawtooth) expansion of Delta(x); Hardy's truncated Voronoi series",
+    "usually_credited_to": "G. Voronoi (1904) for the Bessel identity; Dirichlet (1849) for the hyperbola method; G. H. Hardy (1915–16) and Hardy–Landau for trigonometric and truncated forms",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "The page is a one-line qualitative remark, probably in Hardy's hand rather than Ramanujan's, about well-known material (Voronoi's identity and its trigonometric variants). It contains no formula and no new result.",
+  "checkable": [
+   {
+    "sympy": "D=lambda x: sum(divisor_count(n) for n in range(1,x+1)); all(D(x)==2*sum(floor(Rational(x,n)) for n in range(1,isqrt(x)+1))-isqrt(x)**2 for x in range(1,500))",
+    "asserts": "Dirichlet hyperbola identity: sum_{n<=x} d(n) = 2*sum_{n<=sqrt x} floor(x/n) - floor(sqrt x)^2 (exact, for integers x)."
+   },
+   {
+    "sympy": "x=Rational(1001,10); N=4000; lhs=sum(divisor_count(n) for n in range(1,101)); rhs=x*log(x)+(2*EulerGamma-1)*x+Rational(1,4)-sqrt(x)*sum(divisor_count(n)/sqrt(n)*(bessely(1,4*pi*sqrt(n*x))+2/pi*besselk(1,4*pi*sqrt(n*x))) for n in range(1,N+1)); N(lhs-rhs)",
+    "asserts": "Voronoi's identity numerically. The difference should be small: the series converges slowly and conditionally, so truncation leaves an oscillatory error."
+   },
+   {
+    "sympy": "limit(bessely(1,z)/(sqrt(2/(pi*z))*sin(z-3*pi/4)),z,oo)",
+    "asserts": "Asymptotic Y_1(z) ~ sqrt(2/(pi z)) sin(z - 3pi/4), which turns the Bessel kernel into a circular one (the limit is to be read along z avoiding zeros of the sine; check the ratio numerically at large z)."
+   },
+   {
+    "sympy": "t=Rational(37,10); M=20000; N(floor(t)-t+Rational(1,2) - sum(sin(2*pi*m*t)/(pi*m) for m in range(1,M+1)))",
+    "asserts": "Fourier expansion of the sawtooth: psi(t)=t-floor(t)-1/2 = -sum sin(2 pi m t)/(pi m). The difference should be near 0."
+   }
+  ],
+  "transcription_corrections": [
+   "'Bessel f^{ns}[?]' should read 'Bessel fns' (Bessel functions).",
+   "'V. identity' is best read as 'Voronoi identity' (abbreviation V.).",
+   "'prob^y' = 'probably'; 'sum' appears in quotation marks in the original.",
+   "The hand appears to be that of an editor (probably Hardy), not Ramanujan; the transcription otherwise matches the image."
+  ]
+ }
+}

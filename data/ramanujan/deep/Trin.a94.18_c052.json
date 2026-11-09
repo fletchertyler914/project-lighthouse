@@ -1,0 +1,59 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c052",
+ "label": "042",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F053_Add.Ms.a.9.18_042.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is the unpublished continuation of Ramanujan's 'Highly composite numbers' (1915). Here he treats generalized highly composite numbers for sigma_{-s}(N) = sum_{d|N} d^{-s}.\n\nSetting from the previous page. Fix s>0 and a parameter eps>0. For each r>=1, x_r = x_r(eps) is defined by (319):\n x_r^eps = (1 - x_r^{-s(r+1)})/(1 - x_r^{-sr}).\nPut phi_r(x) = log[(1-x^{-s(r+1)})/(1-x^{-sr})], so (319) says phi_r(x_r) = eps*log x_r. Also\n Pi_r(x) = prod_{p<=x} (1-p^{-s(r+1)})/(1-p^{-sr}),\nso log Pi_r(x) = sum_{p<=x} phi_r(p).\n(318) states sigma_{-s}(N) <= N^eps * prod_r Pi_r(x_r) e^{-eps*theta(x_r)} for every N. Equality holds when N = e^{theta(x_1)+theta(x_2)+...}, i.e. N is a 'generalized superior highly composite number' for parameter eps.\n\n§62, transforming the product. Formula (16) is (my inference) the prime-sum partial summation\n sum_{p<=x} phi(p) = pi(x)phi(x) - int pi(t) phi'(t) dt.\nWith phi = phi_r this gives\n log Pi_r(x_r) = pi(x_r)phi_r(x_r) - int pi d phi_r.\nRamanujan then parametrizes the integration variable along the curve x = x_r(eps). There phi_r = eps*log x, so\n d(phi_r) = log x d eps + eps dx/x.\nHence\n log Pi_r(x_r) = eps*pi(x_r)log x_r - int pi log x d eps - int eps*pi/x dx.\n\n(320). Use theta(x) = pi(x)log x - int^x pi(t)/t dt, i.e. pi log x - theta = int pi/x dx. Then\n log Pi_r(x_r) - eps*theta(x_r) = eps*int pi/x dx - int eps*pi/x dx - int pi log x d eps.\nIntegration by parts, d(eps*F) = F d eps + eps dF with F = int pi/x dx, turns the first two terms into int F d eps. So the whole equals\n int {F - pi log x} d eps = -int theta(x_r) d eps.\nWith limits made explicit (mine): as eps -> infinity, x_r -> 1+, so both sides vanish there. Thus\n log Pi_r(x_r(eps)) - eps*theta(x_r(eps)) = int_eps^inf theta(x_r(eta)) d eta.\nA direct Stieltjes check (mine): d log Pi_r(x_r) = phi_r(x_r) d pi(x_r) = eps d theta(x_r), so d[LHS] = -theta(x_r) d eps.\n\n(321). Substituting into (318):\n sigma_{-s}(N) <= N^eps exp(-int sum_r theta(x_r) d eps) for all N (and all eps).\n\n(322). The d/d eps of the log of the right side is log N - sum_r theta(x_r(eps)). This is nondecreasing in eps, since each x_r decreases as eps increases. So the bound is minimized when\n log N = theta(x_1)+theta(x_2)+...\nThis is in the step-function sense, the analogue of §38 for d(N).\n\n(323). Define Sigma_{-s}(N) = Pi_1(x_1)Pi_2(x_2)... with eps tied to N by (322). At that eps the right side of (321) equals Sigma_{-s}(N). The aim is the maximal-order bound sigma_{-s}(N) <= Sigma_{-s}(N), with equality at generalized superior highly composite N. The next page then estimates x_r ~ (r^{1/s}x_1)^{1/r} and Pi_r through zeta(sr)/zeta(s(r+1)).",
+  "errors": [
+   "Integrals are written as indefinite throughout. Limits and constants of integration are suppressed; correctly the identity is log Pi_r(x_r) - eps*theta(x_r) = int_eps^infinity theta(x_r(eta)) d eta. The suppressed boundary terms vanish because x_r -> 1 as eps -> infinity and pi = theta = 0 below 2, so the result is right.",
+   "theta and pi are step functions, so (322) cannot generally hold as an exact equation. It must be read as choosing eps where sum theta(x_r(eps)) crosses log N, as in §38. This is not a real error but is unstated.",
+   "Formula (16) is invoked without restatement; it is presumably partial summation over primes. The change of integration variable from x to eps along the curve (319) is used tacitly; it is valid because x_r is monotone in eps."
+  ],
+  "results": [
+   {
+    "what": "Identity log Pi_r(x_r) - eps*theta(x_r) = -int theta(x_r) d eps, obtained by partial summation and reparametrizing by eps",
+    "modern_name": "Abel/Stieltjes partial summation; Legendre-transform-type identity in Ramanujan's superior highly composite method",
+    "usually_credited_to": "Ramanujan (unpublished part of 'Highly composite numbers', published 1997 with notes by J.-L. Nicolas and G. Robin)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Upper bound sigma_{-s}(N) <= N^eps exp(-int sum theta(x_r) d eps), minimized at log N = sum theta(x_r), defining Sigma_{-s}(N) = prod Pi_r(x_r)",
+    "modern_name": "Maximal order of sigma_{-s}(N) via generalized superior highly composite numbers (Lagrange-multiplier / convex duality bound)",
+    "usually_credited_to": "Ramanujan (1915 manuscript, published 1997, Ramanujan J. 1); related work by Alaoglu–Erdős (1944) and Nicolas, Robin",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This page is part of Ramanujan's known unpublished continuation of 'Highly composite numbers', fully published and annotated by Nicolas and Robin in 1997. The manipulations are careful partial summation; nothing here goes beyond what is already attributed to him.",
+  "checkable": [
+   {
+    "sympy": "x,eps,s,r=symbols('x eps s r',positive=True); phi=log((1-x**(-s*(r+1)))/(1-x**(-s*r))); # on curve phi(x(eps))==eps*log(x(eps)): diff(eps*log(Function('X')(eps)),eps) - (log(Function('X')(eps)) + eps*diff(Function('X')(eps),eps)/Function('X')(eps))",
+    "asserts": "d(eps*log x) = log x d eps + eps dx/x (simplifies to 0)"
+   },
+   {
+    "sympy": "from sympy import primepi, primerange, log, Integral; X=50.5; theta=sum(log(p) for p in primerange(2,51)); val=primepi(50)*log(X) - sum(primepi(k)*log((k+1)/k) for k in range(2,50)) - primepi(50)*log(X/50); abs(theta-val)<1e-9",
+    "asserts": "theta(x) = pi(x)log x - int_2^x pi(t)/t dt (Abel summation), checked at x=50.5"
+   },
+   {
+    "sympy": "x,s=symbols('x s',positive=True); simplify((1-x**(-2*s))/(1-x**(-s)) - (1+x**(-s)))",
+    "asserts": "For r=1, (319) reduces to x_1^eps = 1+x_1^{-s}, i.e. eps = log(1+x_1^{-s})/log x_1 (as used on the next page)"
+   },
+   {
+    "sympy": "x,s=symbols('x s',positive=True); r=3; limit((1-x**(-s*(r+1)))/(1-x**(-s*r)),x,1)",
+    "asserts": "The right side of (319) tends to (r+1)/r as x->1+, so eps -> infinity as x_r -> 1, justifying vanishing boundary terms"
+   },
+   {
+    "sympy": "eps,s=symbols('eps s',positive=True); x=symbols('x',positive=True); f=log(1+x**(-s))/log(x); simplify(diff(f,x).subs({s:1,x:3}))<0",
+    "asserts": "eps is decreasing in x_1 (r=1), so x_r(eps) decreases in eps and the minimization in (322) is a genuine minimum"
+   }
+  ],
+  "transcription_corrections": [
+   "Header reads 'Add Ms a 94 18 (42)' with a circled 42 and page number (78); the transcription is essentially correct.",
+   "The final term of the first line of (320) wraps onto the next line in the image ('d x_r' written below); the transcription correctly reassembles it as int eps*pi(x_r)/x_r dx_r."
+  ]
+ }
+}

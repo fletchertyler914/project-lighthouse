@@ -1,0 +1,74 @@
+{
+ "bundle": "E792",
+ "page": "c016",
+ "label": "19",
+ "image": "https://iiif.archive.org/image/iiif/2/operapostumamath01euleuoft%2Foperapostumamath01euleuoft_jp2.zip%2Foperapostumamath01euleuoft_jp2%2Foperapostumamath01euleuoft_0037.jp2/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Euler's 'Tractatus de numerorum doctrina' (E792, c. 1750, first printed in Opera postuma 1849), Chapter V 'De residuis ex divisione natis'. Section 140 (previous page) defined the residue: if a = m b + r, with m b the largest multiple of b not exceeding a, then r is the residue of a on division by b.\n\n§141. Claim: 0 <= r < b.\n- If r = b, then a = m b + b = (m+1) b, so a is an exact multiple and the residue is 0.\n- If r > b, increasing m lowers r below b.\nIn modern terms this is the uniqueness half of the division algorithm. The implicit step: one replaces m by m+k with k = floor(r/b), giving r - k b in [0, b).\n\n§142. For a fixed b the possible residues are 0, 1, ..., b-1. That is b-1 nonzero residues, or b if zero is counted.\n\n§143. The integers therefore split into b classes: the multiples m b, then those leaving residue 1, 2, ..., b-1. These are the residue classes mod b.\n\n§144–147. Examples:\n- b = 2: 2m (pares), 2m+1 (impares).\n- b = 3: 3m, 3m+1, 3m+2.\n- b = 4: 4m (called 'pariter pares', evenly even), 4m+1, 4m+2 ('impariter pares', oddly even), 4m+3. The odd numbers thus split into two classes, 4m+1 and 4m+3.\n- b = 5: 5m + r for r = 0, ..., 4.\n- b = 6: 6m + r for r = 0, ..., 5.\n\n§148. Every number belongs to a definite class for each divisor. Since divisors are unlimited, a number has infinitely many such representations.\n\n§149. If a < b, then a = 0·b + a, so a is its own residue. Example: 3 lies in the class 5m+3.\n\n§150. Each class {m b + r : m = 0, 1, 2, ...} is an arithmetic progression r, b+r, 2b+r, ... with common difference b. Its general term is m b + r.\n\n§151. The identity m b + r = (m+1) b - b + r = (m+1) b - (b - r) shows that the positive residue r is equivalent to the negative residue -(b - r). The notion of residue therefore extends to negative numbers. This prepares §152–156 on the next page: least absolute residues, e.g. 3m-1, and 6m+16 ~ 6m+4 ~ 6m-2.",
+  "errors": [
+   "No mathematical errors.",
+   "§141 is slightly informal: the case r = b gives residue 0 rather than a number 'below b' in the same sense. The reduction 'augendo indicem m' is asserted without saying by how much (k = floor(r/b)). This is unproblematic.",
+   "Terminology note, not an error: Euler's use of 'pariter pares' = 4m and 'impariter pares' = 4m+2 follows the later (Euclid VII Def. 8–9 style) convention. It does not follow the Nicomachean convention, where 'evenly even' means powers of 2. In the Euclidean definitions the classes overlap; Euler's mod-4 assignment cleanly identifies 'oddly even' with 4m+2."
+  ],
+  "results": [
+   {
+    "what": "For divisor b, a = m b + r with 0 <= r < b, the residue being unique",
+    "modern_name": "Division algorithm (Euclidean division)",
+    "usually_credited_to": "Ancient (Euclid, Elements VII)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Partition of the integers into b classes m b + r, r = 0..b-1, each an arithmetic progression with difference b",
+    "modern_name": "Residue classes modulo b (Z/bZ)",
+    "usually_credited_to": "Implicit since antiquity; formalized by Gauss, Disquisitiones Arithmeticae (1801), as congruences",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Positive residue r equivalent to negative residue -(b-r); extension of residues to negatives (leading to least absolute residues)",
+    "modern_name": "Negative / least absolute residues; congruence r ≡ r - b (mod b)",
+    "usually_credited_to": "Gauss 1801 for systematic use; Euler used residues of both signs in published work (e.g. E262, E449)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is elementary textbook material on remainders and residue classes from Euler's known Tractatus (published 1849, well studied). Euler's use of residues, including negative ones, is well documented.",
+  "checkable": [
+   {
+    "sympy": "simplify((m+1)*b - b + r - (m*b + r)) == 0",
+    "asserts": "Identity of §151: m b + r = (m+1) b - b + r"
+   },
+   {
+    "sympy": "simplify((m+1)*b - (b - r) - (m*b + r)) == 0",
+    "asserts": "Residue r is equivalent to the negative residue -(b-r)"
+   },
+   {
+    "sympy": "Mod(3, 5) == 3",
+    "asserts": "§149: 3 belongs to the class 5m+3"
+   },
+   {
+    "sympy": "all(0 <= Mod(a, b) < b for a in range(0, 200) for b in range(1, 20))",
+    "asserts": "§141–142: residue always lies in 0..b-1"
+   },
+   {
+    "sympy": "len(set(Mod(a, 6) for a in range(0, 600))) == 6",
+    "asserts": "§143/147: divisor 6 gives exactly 6 classes"
+   },
+   {
+    "sympy": "Mod(16, 6) == 4 and Mod(-2, 6) == 4",
+    "asserts": "Next-page §156 example: 6m+16, 6m+4, 6m-2 are the same class"
+   },
+   {
+    "sympy": "all(Mod(k*b + r, b) == r for k in range(0, 50) for b in range(2, 10) for r in range(0, b))",
+    "asserts": "§150: every term of the progression r, b+r, 2b+r, ... has residue r"
+   }
+  ],
+  "transcription_corrections": [
+   "The transcription matches the image. The print uses a distinctive '-+-' glyph for '+', correctly rendered as '+'.",
+   "Running head reads 'Tractatus de numerorum doctrina Cap. 5.' (the 'T' is faint in the scan)."
+  ]
+ }
+}

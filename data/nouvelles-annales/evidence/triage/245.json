@@ -1,0 +1,40 @@
+{
+ "number": "245",
+ "field": "algebra",
+ "subfield": "additive combinatorics / sumsets of linear forms",
+ "modern_restatement_en": "Let $z=\\sum_{i=1}^n a_i x_i$, where $x_i$ ranges over a finite set $X_i$ with $|X_i|=m_i$. Then $|\\{z\\}|\\le \\prod m_i$. Characterise when strict inequality holds. Equivalently, when is there a nonzero vector $(d_1,\\dots,d_n)$ with $d_i\\in X_i-X_i$ and $\\sum a_i d_i=0$?",
+ "kind": "find/characterise",
+ "well_posed": false,
+ "well_posed_note": "The question is too vague to admit an answer beyond the tautological criterion: a collision occurs iff $\\sum a_i d_i=0$ has a nontrivial solution with $d_i$ in the difference sets $X_i-X_i$. Natural special cases have clean answers. One example: $X_i$ an arithmetic progression, where mixed-radix conditions such as $a_{i+1}\\ge m_i a_i$ suffice for distinctness. Another: $a_i$ linearly independent over $\\mathbb{Q}$, for real or rational values, which gives no collisions. No hypotheses on the $a_i$ or the values are given.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "On random small instances, brute-force the number of distinct values of $z$. Compare 'fewer than the product' with the existence of a nonzero difference vector in $\\prod (X_i-X_i)$ that is annihilated by $a$. PASS if they agree on every trial.",
+  "code": "import itertools,random\nrandom.seed(1)\nok=True\nfor trial in range(400):\n    n=random.randint(1,3)\n    a=[random.randint(-3,3) for _ in range(n)]\n    X=[random.sample(range(-4,5),random.randint(1,3)) for _ in range(n)]\n    vals=set(sum(ai*xi for ai,xi in zip(a,t)) for t in itertools.product(*X))\n    prod=1\n    for S in X: prod*=len(S)\n    D=[sorted(set(u-v for u in S for v in S)) for S in X]\n    coll=any(any(d) and sum(ai*di for ai,di in zip(a,d))==0 for d in itertools.product(*D))\n    if (len(vals)<prod)!=coll: ok=False\nprint('PASS criterion' if ok else 'FAIL criterion')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "number of distinct values of linear form on product set",
+   "sumset size equality product of cardinalities linear combination"
+  ],
+  "stackexchange": [
+   "when does a linear combination of variables taking finitely many values attain fewer than the product number of values"
+  ],
+  "wikipedia": [
+   "Sumset",
+   "Somme de Minkowski"
+  ],
+  "oeis": "",
+  "names": [
+   "sumset",
+   "dissociated set",
+   "Sidon set",
+   "mixed radix",
+   "Cauchy–Davenport"
+  ]
+ },
+ "belief": {
+  "status": "ill-posed/false",
+  "note": "Only a tautological characterisation exists in this generality. Any meaningful answer depends on extra hypotheses that were never specified.",
+  "possible_sources": []
+ }
+}

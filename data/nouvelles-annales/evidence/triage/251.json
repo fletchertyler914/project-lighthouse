@@ -1,0 +1,47 @@
+{
+ "number": "251",
+ "field": "other",
+ "subfield": "combinatorics / eight queens problem",
+ "modern_restatement_en": "Count the permutations $\\sigma$ of $\\{1,\\dots,8\\}$ such that $|\\sigma(i)-\\sigma(j)|\\ne |i-j|$ for all $i\\ne j$. These are exactly the placements of 8 non-attacking queens on an $8\\times8$ board. The answer is 92, falling into 12 classes under the symmetries of the square.",
+ "kind": "compute",
+ "well_posed": true,
+ "well_posed_note": "The difference condition must be read in absolute value, and 'arrangement' means a permutation. Under that reading the problem is exactly the eight queens problem.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Backtrack over all placements. Check that the given arrangement 1 7 5 8 2 4 6 3 is valid. PASS if the count is 92 and there are 12 orbits under the dihedral group.",
+  "code": "n=8\nsols=[]\ndef bt(perm):\n    r=len(perm)\n    if r==n:\n        sols.append(tuple(perm));return\n    for c in range(n):\n        if all(c!=perm[i] and abs(c-perm[i])!=r-i for i in range(r)):\n            bt(perm+[c])\nbt([])\np=[1,7,5,8,2,4,6,3]\nvalid=all(abs(p[i]-p[j])!=j-i for i in range(8) for j in range(i+1,8))\nprint('PASS example valid' if valid else 'FAIL example')\nprint('PASS count 92' if len(sols)==92 else 'FAIL count %d'%len(sols))\ndef rot(p):\n    q=[0]*n\n    for i,v in enumerate(p): q[v]=n-1-i\n    return tuple(q)\ndef refl(p): return tuple(reversed(p))\ndef orbit(p):\n    out=set();q=p\n    for _ in range(4):\n        out.add(q);out.add(refl(q));q=rot(q)\n    return min(out)\nprint('PASS 12 fundamental' if len(set(orbit(s) for s in sols))==12 else 'FAIL fundamental')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "eight queens problem number of solutions history",
+   "n-queens problem enumeration"
+  ],
+  "stackexchange": [
+   "history of the eight queens problem 92 solutions Gauss Nauck"
+  ],
+  "wikipedia": [
+   "Eight queens puzzle",
+   "Problème des huit dames"
+  ],
+  "oeis": "1, 0, 0, 2, 10, 4, 40, 92, 352, 724",
+  "names": [
+   "Bezzel",
+   "Nauck",
+   "Gauss",
+   "Günther",
+   "Glaisher",
+   "Lionnet",
+   "huit reines",
+   "Lucas Récréations mathématiques"
+  ]
+ },
+ "belief": {
+  "status": "known to be solved later",
+  "note": "The answer of 92 was given by Nauck (1850) and discussed by Gauss. Günther and Glaisher (1874) gave determinant-style proofs, and Lucas's Récréations treat it. Its listing as 'unsolved' only reflects that no solution was printed in the journal.",
+  "possible_sources": [
+   "É. Lucas, Récréations mathématiques, vol. 1 (1882)",
+   "J. W. L. Glaisher, Phil. Mag. (1874), on the eight queens problem",
+   "S. Günther (1874), on the eight queens problem"
+  ]
+ }
+}

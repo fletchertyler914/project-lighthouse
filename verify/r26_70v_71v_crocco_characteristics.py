@@ -57,7 +57,8 @@ vel = sp.Matrix([uu, vv])
 cos_angle = sp.simplify(tangent.dot(vel) / (sp.sqrt(tangent.dot(tangent)) * sp.sqrt(vel.dot(vel))))
 sin_angle = sp.simplify(sp.sqrt(1 - cos_angle**2))
 print("angle between r = const line and velocity: sin =", sin_angle, " (Mach angle needs 1/M =", sp.simplify(1 / M), ")")
-print("Mach-line check:", sp.simplify(sin_angle - 1 / M) == 0)
+# compare squares: sympy does not reduce the difference of the two square roots to 0 by itself
+print("Mach-line check (sin^2 mu == 1/M^2):", sp.simplify(sin_angle**2 - 1 / M**2) == 0)
 # Also: w^2/phi'(rho) - 1 = -dlog(rho w)/dlog w along the Bernoulli relation phi'(rho) dlog rho = -w dw
 rr, ww = sp.symbols("rr ww", positive=True)
 phi1 = sp.Function("phi1")(rr)  # phi'(rho) = c^2

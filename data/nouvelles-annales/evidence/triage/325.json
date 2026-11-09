@@ -1,0 +1,43 @@
+{
+ "number": "325",
+ "field": "analysis",
+ "subfield": "numerical root approximation (linear interpolation / regula falsi)",
+ "modern_restatement_en": "Let $\\varphi\\in\\mathbb Z_{\\ge0}[x]$ have positive leading coefficient and degree $\\ge 2$, let $q\\in\\mathbb Z_{>0}$, and let $t\\in\\mathbb Z_{>0}$ satisfy $\\varphi(t)<q<\\varphi(t+1)$. Put $h=\\frac{q-\\varphi(t)}{\\varphi(t+1)-\\varphi(t)}$ (Cardano's one-step linear interpolation). Analyse the error of $t+h$. Since $\\varphi$ is convex on $[0,\\infty)$, the chord lies above the graph. Hence $\\varphi(t+h)\\le q$, so the root $x$ satisfies $t+h\\le x<t+1$: the method always underestimates. The error can be bounded, e.g. by $(x-t)(t+1-x)\\max\\varphi''/(2\\min\\varphi')$, and the method can be iterated (regula falsi).",
+ "kind": "find/characterise",
+ "well_posed": true,
+ "well_posed_note": "'Discuss' is open-ended. The precise content is the sign and size of the error. For degree 1 the method is exact. Positivity of coefficients is exactly what gives convexity, and hence a one-sided error.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "1. Generate random polynomials of degree 2–7 with nonnegative integer coefficients. 2. Choose q at random and find the integer t with phi(t)<q<phi(t+1). 3. Compute t+h exactly with Fractions. 4. Check that phi(t+h)<=q, i.e. that t+h underestimates the root. PASS if this never fails.",
+  "code": "from fractions import Fraction\nimport random\nrandom.seed(0)\ndef phi(c,x): return sum(ci*x**i for i,ci in enumerate(c))\nbad=0;tot=0;worst=Fraction(0)\nfor _ in range(3000):\n    deg=random.randint(2,7)\n    c=[random.randint(0,9) for _ in range(deg)]+[random.randint(1,9)]\n    q=random.randint(phi(c,1)+1,phi(c,1)+10**5)\n    t=0\n    while phi(c,t+1)<=q: t+=1\n    if t<1 or phi(c,t)==q: continue\n    h=Fraction(q-phi(c,t),phi(c,t+1)-phi(c,t))\n    v=phi(c,t+h)\n    tot+=1\n    if v>q: bad+=1\n    worst=max(worst,Fraction(q)-v)\nprint('cases',tot,'overestimates',bad)\nprint('PASS: t+h always <= root (convexity)' if bad==0 else 'FAIL')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "Cardano regula falsi linear interpolation polynomial root",
+   "history false position method Cardano Ars Magna"
+  ],
+  "stackexchange": [
+   "Linear interpolation root approximation convex polynomial error underestimate"
+  ],
+  "wikipedia": [
+   "Regula falsi",
+   "Méthode de la fausse position"
+  ],
+  "oeis": "",
+  "names": [
+   "Cardano",
+   "Ars Magna",
+   "regula falsi",
+   "méthode de fausse position",
+   "Lagrange résolution des équations numériques"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "The behaviour of false position for convex functions (one-sided convergence, error bounds) is textbook material, treated e.g. by Fourier and Lagrange. The question is a discussion exercise whose answer is standard.",
+  "possible_sources": [
+   "J.-L. Lagrange, Traité de la résolution des équations numériques",
+   "J. Fourier, Analyse des équations déterminées (1831)"
+  ]
+ }
+}

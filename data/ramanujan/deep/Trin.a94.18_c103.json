@@ -1,0 +1,51 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c103",
+ "label": "086",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F104_Add.Ms.a.9.18_086.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has no derivation. It is a systematic enumeration, and the reading of its purpose below is mine.\n\nThe first line is 2^32. Below it are 32 expressions of the form 2^31 * prod_{k in S} (1 + 2^{-2^k}), where S runs over every subset of {0,1,2,3,4}. The factors are (1+1/2), (1+1/2^2), (1+1/2^4), (1+1/2^8) and (1+1/2^16).\n\nThe subsets are listed in strict binary (lexicographic) order: full set first, empty set last. There are 28 entries in the left column and 4 in the right column, so 16 entries contain (1+1/2), 8 more start with (1+1/2^2), and so on. The last entry is bare 2^31.\n\nWhat each entry equals (my step). Let F_k = 2^{2^k} + 1 be the Fermat numbers: F_0..F_4 = 3, 5, 17, 257, 65537, the five known Fermat primes. Let s(S) = sum_{k in S} 2^k. Then\n2^31 * prod_{k in S}(1 + 2^{-2^k}) = 2^{31 - s(S)} * prod_{k in S} F_k.\nThe exponent s(S) is at most 1+2+4+8+16 = 31, so every entry is an integer.\n\nFor the full set the entry is 3*5*17*257*65537 = 2^32 - 1 = 4294967295. This uses the telescoping identity prod_{k=0}^{n-1}(1 + x^{2^k}) = (1 - x^{2^n})/(1 - x).\n\nRange of the entries (my step). Each product of factors (1 + 2^{-2^k}) lies between 1 and (2^32 - 1)/2^31 < 2. So all 32 entries lie in [2^31, 2^32), and the heading 2^32 is the next number of the same type.\n\nInterpretation (mine). The page lists every integer in [2^31, 2^32] of the form 2^a times a product of distinct known Fermat primes, i.e. 33 numbers in total. Equivalently, these are the n in that range with phi(n) a power of 2 (assuming no Fermat prime beyond F_4 is relevant; F_5 = 2^32+1 is composite and lies outside the range anyway). By Gauss–Wantzel, these are also the n for which the regular n-gon is constructible.\n\nThe parametrisation shows that every dyadic interval [2^m, 2^{m+1}) with m >= 31 contains exactly 32 such numbers, one for each subset of Fermat primes. The previous page studies sparse (lacunary) sequences a_n with a_n/n -> infinity and sums like Sum x^{a_n}. So this enumeration plausibly examines the density of the sequence {n : phi(n) a power of 2} as an example of such a sequence. That link is conjectural.",
+  "errors": [
+   "No mathematical errors. The enumeration of all 32 subsets is complete and in consistent binary order.",
+   "Minor slip: the first right-column entry's exponent looks like '2^{01}' instead of '2^{31}'."
+  ],
+  "results": [
+   {
+    "what": "Enumeration of the 32 numbers 2^{31-s}·prod F_k, one per subset of the Fermat primes 3, 5, 17, 257, 65537, filling [2^31, 2^32); the largest odd one is 2^32 - 1",
+    "modern_name": "Numbers with phi(n) a power of 2 (Gauss–Wantzel constructible polygon numbers); factorisation 2^32 - 1 = F0·F1·F2·F3·F4",
+    "usually_credited_to": "Gauss (1801) / Wantzel (1837); the product identity for Fermat numbers is classical",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a routine combinatorial enumeration built on the classical identity prod(1 + 2^{-2^k}) = (2^32 - 1)/2^31. It is mildly interesting only as possible scratch work on the density of the sequence {n : phi(n) a power of 2}, but nothing here is non-standard.",
+  "checkable": [
+   {
+    "sympy": "2**31*Rational(3,2)*Rational(5,4)*Rational(17,16)*Rational(257,256)*Rational(65537,65536) == 2**32-1",
+    "asserts": "The full product entry equals 2^32 - 1 = 3·5·17·257·65537."
+   },
+   {
+    "sympy": "all(2**31 <= 2**31*prod([1+Rational(1,2**(2**k)) for k in S]) < 2**32 for S in [ [k for k in range(5) if m>>k & 1] for m in range(32)])",
+    "asserts": "All 32 listed entries lie in [2^31, 2^32)."
+   },
+   {
+    "sympy": "all((2**31*prod([1+Rational(1,2**(2**k)) for k in S])).is_integer for S in [[k for k in range(5) if m>>k & 1] for m in range(32)])",
+    "asserts": "Every entry is an integer."
+   },
+   {
+    "sympy": "len(set(2**31*prod([1+Rational(1,2**(2**k)) for k in [j for j in range(5) if m>>j & 1]]) for m in range(32))) == 32",
+    "asserts": "The 32 entries are distinct."
+   },
+   {
+    "sympy": "factorint(2**32-1) == {3:1,5:1,17:1,257:1,65537:1}",
+    "asserts": "2^32 - 1 is the product of the five known Fermat primes."
+   }
+  ],
+  "transcription_corrections": [
+   "The first right-column entry is written with exponent resembling '01' in the manuscript; it is clearly intended as 2^{31}.",
+   "The header reads 'Add Ms a 94 18 (86)' with the circled folio number 86."
+  ]
+ }
+}

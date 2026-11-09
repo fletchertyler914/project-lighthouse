@@ -1,0 +1,67 @@
+{
+ "bundle": "E792",
+ "page": "c003",
+ "label": "6",
+ "image": "https://iiif.archive.org/image/iiif/2/operapostumamath01euleuoft%2Foperapostumamath01euleuoft_jp2.zip%2Foperapostumamath01euleuoft_jp2%2Foperapostumamath01euleuoft_0024.jp2/full/1540,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is Chapter I of Euler's 'Tractatus de numerorum doctrina' (E792). The previous page introduced multiples, primes via sieving (§31-32), and the claim that every composite number reduces to a product of primes (§34-35). This page sorts integers by how many prime factors they have.\n\n§39-40. After composites with two prime factors (pq), Euler considers those with three prime factors, pqr, then four, pqrs, then five, six, seven and so on. Here p, q, r, s are arbitrary primes. The examples below show they need not be distinct.\n\n§41. All numbers are distributed into classes. Class k contains the products of exactly k primes. In modern terms, class k = {n : Omega(n) = k}, where Omega(n) is the number of prime factors counted with multiplicity. Class I is the primes. Euler counts 1 with the primes (see §42 and the count alpha = 26 on the next page).\n\n§42. Class I up to 100: the 25 primes 2, 3, 5, ..., 97. These are listed completely and correctly.\n\n§43. Class II below 100, arranged by smallest factor p and then q ≥ p with pq < 100:\n- p = 2: q = 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47 (15 numbers).\n- p = 3: q = 3, 5, 7, 11, 13, 17, 19, 23, 29, 31 (10 numbers).\n- p = 5: q = 5, 7, 11, 13, 17, 19 (6 numbers).\n- p = 7: q = 7, 11, 13 (3 numbers).\n- Total: 34.\n- [My step] Completeness: for p ≥ 11, p·q ≥ 121 > 100. For each p the list stops at the largest prime q ≤ 99/p (47, 31, 19, 13 respectively). So the list is exhaustive.\n\n§44. Class III below 100, by the pair of smallest factors with p ≤ q ≤ r:\n- 2·2·r for r = 2, ..., 23 (9 numbers).\n- 2·3·r for r = 3, 5, 7, 11, 13 (5 numbers).\n- 2·5·r for r = 5, 7 (2 numbers).\n- 2·7·7 (1 number).\n- 3·3·r for r = 3, 5, 7, 11 (4 numbers).\n- 3·5·5 (1 number).\n- Total: 22.\n- [My step] Completeness: 2·2·29 = 116, 2·3·17 = 102, 2·5·11 = 110, 2·7·11 = 154, 3·3·13 = 117, 3·5·7 = 105, 5·5·5 = 125 all exceed 100.\n\nPurpose: these tables feed §50 on the next page, where the class counts up to n must sum to n (26 + 34 + 22 + 12 + 4 + 2 = 100). They also feed the table for n = 2^k, an early empirical look at the distribution of integers by Omega.",
+  "errors": [
+   "No mathematical errors on this page. All 25 primes, all 34 class-II numbers and all 22 class-III numbers below 100 are correct and complete.",
+   "Minor conventions: Euler counts 1 among the primes (stated on the previous and next pages). He writes 'non majores' for primes and 'minores'/'inferiores' for the other classes; this is harmless since 100 lies in class IV.",
+   "The unstated assumption that each number lies in exactly one class (asserted in §48) relies on uniqueness of prime factorization. Euler does not prove uniqueness here; §34-35 only establish existence."
+  ],
+  "results": [
+   {
+    "what": "Classification of integers by the total number of prime factors counted with multiplicity (classes pq, pqr, pqrs, ...)",
+    "modern_name": "Big Omega function Omega(n); k-almost primes",
+    "usually_credited_to": "Notation Omega(n) is usually attributed to Landau (early 20th c.); the 'almost prime' terminology is 20th-century (sieve theory). The idea itself is classical.",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Complete lists of primes ≤100, semiprimes <100 (34) and 3-almost primes <100 (22)",
+    "modern_name": "Tables of k-almost primes (OEIS A000040, A001358, A014612)",
+    "usually_credited_to": "Routine tabulation, no specific credit",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Elementary textbook material from Euler's Tractatus de numerorum doctrina, published in 1849 in the Opera postuma and well known. The classification by Omega(n) and the tables are routine. The only mildly notable point is the explicit framing of integers into Omega-classes, which leads to the counting tables on the following page.",
+  "checkable": [
+   {
+    "sympy": "len(list(primerange(2,101))) == 25",
+    "asserts": "There are 25 primes not exceeding 100, as listed in §42"
+   },
+   {
+    "sympy": "list(primerange(2,101)) == [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]",
+    "asserts": "Euler's prime list in §42 is exact"
+   },
+   {
+    "sympy": "sorted([n for n in range(2,100) if primeomega(n)==2]) == sorted([4,6,10,14,22,26,34,38,46,58,62,74,82,86,94,9,15,21,33,39,51,57,69,87,93,25,35,55,65,85,95,49,77,91])",
+    "asserts": "The class-II list in §43 is exactly the set of semiprimes below 100"
+   },
+   {
+    "sympy": "len([n for n in range(2,100) if primeomega(n)==2]) == 34",
+    "asserts": "34 semiprimes below 100 (matches beta = 34 on the next page)"
+   },
+   {
+    "sympy": "sorted([n for n in range(2,100) if primeomega(n)==3]) == sorted([8,12,20,28,44,52,68,76,92,18,30,42,66,78,50,70,98,27,45,63,99,75])",
+    "asserts": "The class-III list in §44 is exactly the set of numbers below 100 with three prime factors counted with multiplicity"
+   },
+   {
+    "sympy": "len([n for n in range(2,100) if primeomega(n)==3]) == 22",
+    "asserts": "22 three-factor numbers below 100 (matches gamma = 22 on the next page)"
+   },
+   {
+    "sympy": "1 + sum(1 for n in range(2,101) if primeomega(n)==1) + sum(1 for n in range(2,101) if primeomega(n)==2) + sum(1 for n in range(2,101) if primeomega(n)==3) + sum(1 for n in range(2,101) if primeomega(n)==4) + sum(1 for n in range(2,101) if primeomega(n)==5) + sum(1 for n in range(2,101) if primeomega(n)==6) == 100",
+    "asserts": "Classes partition 1..100 (with 1 counted among the primes), consistent with §50"
+   }
+  ],
+  "transcription_corrections": [
+   "Section 44 layout: in the image there are three columns. Left: 2.2.r. Middle: 2.3.r, then 2.5.5 = 50, 2.5.7 = 70, 2.7.7 = 98. Right: 3.3.r, then 3.5.5 = 75. The machine transcription merges rows so that 3.5.5 = 75 appears beside 2.2.13 and 2.5.5 beside 2.2.17; the values themselves are correct.",
+   "Not on this page but relevant: the next-page transcription '2.2.3.3 = 63' should read 36 (the factorization 2·2·3·3 = 36), most likely an OCR slip."
+  ]
+ }
+}

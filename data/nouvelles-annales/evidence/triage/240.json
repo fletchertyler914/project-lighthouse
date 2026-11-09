@@ -1,0 +1,43 @@
+{
+ "number": "240",
+ "field": "mechanics",
+ "subfield": "hydrostatics, stability of floating bodies",
+ "modern_restatement_en": "A rigid homogeneous or heterogeneous body of fixed weight floats in a liquid, so the displaced volume is fixed. Let $G$ be its centre of gravity and $B(\\theta)$ the centre of buoyancy as a function of orientation. Show that the equilibrium orientations, in which $GB$ is vertical, are exactly the critical points of $|GB(\\theta)|$. Equivalently, they correspond to the normals from $G$ to the surface of buoyancy (Dupin). Clausen states this as 'maximum or minimum' and also claims an equivalent condition: the common centre of gravity of body and displaced fluid is at its highest or lowest position.",
+ "kind": "prove",
+ "well_posed": false,
+ "well_posed_note": "'Maximum or minimum' should read 'stationary': in 3D, saddle-type critical points of $|GB|$ also give equilibria. The second criterion is ambiguous. The potential energy is proportional to $z_G - z_B$, the height of $G$ above $B$, not the height of the midpoint of $G$ and $B$, unless the displaced fluid is treated as a negative mass or the reference level is specified. As literally stated, the second claim is doubtful.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Take a 2D test case: a homogeneous rectangle (G at the origin) of relative density 0.3, rotated through 720 angles. At each angle, find the waterline by bisection so that the submerged area equals $s\\cdot$area, and compute $B$. Equilibrium means $B_x = 0$. Compare the sign of $B_x$ with the sign of $d|GB|/d\\theta$, obtained by finite differences. PASS if the two signs are either always equal or always opposite away from the zeros, which means the zero sets coincide.",
+  "code": "import math\ndef clip(P,h):\n    out=[];n=len(P)\n    for i in range(n):\n        p=P[i];q=P[(i+1)%n];pi=p[1]<=h;qi=q[1]<=h\n        if pi: out.append(p)\n        if pi!=qi:\n            t=(h-p[1])/(q[1]-p[1]);out.append((p[0]+t*(q[0]-p[0]),h))\n    return out\ndef ac(P):\n    A=cx=cy=0.0;n=len(P)\n    for i in range(n):\n        x0,y0=P[i];x1,y1=P[(i+1)%n];c=x0*y1-x1*y0\n        A+=c;cx+=(x0+x1)*c;cy+=(y0+y1)*c\n    A/=2\n    if abs(A)<1e-300: return 0.0,0.0,0.0\n    return A,cx/(6*A),cy/(6*A)\na,b,s=1.0,0.6,0.3\nR=[(-a/2,-b/2),(a/2,-b/2),(a/2,b/2),(-a/2,b/2)]\ndef B(t):\n    c,sn=math.cos(t),math.sin(t)\n    P=[(x*c-y*sn,x*sn+y*c) for x,y in R]\n    lo=min(p[1] for p in P);hi=max(p[1] for p in P)\n    for _ in range(80):\n        h=(lo+hi)/2;Q=clip(P,h)\n        A=ac(Q)[0] if len(Q)>=3 else 0.0\n        if A<s*a*b: lo=h\n        else: hi=h\n    _,bx,by=ac(clip(P,(lo+hi)/2))\n    return bx,by\nagree=dis=0\nfor i in range(720):\n    t=2*math.pi*i/720+0.001\n    bx,by=B(t);e=1e-5\n    Dp=(math.hypot(*B(t+e))-math.hypot(*B(t-e)))/(2*e)\n    if abs(bx)>1e-4 and abs(Dp)>1e-5:\n        if (bx>0)==(Dp>0): agree+=1\n        else: dis+=1\nprint('sign agree',agree,'disagree',dis)\nprint('PASS equilibria = critical points of |GB|' if min(agree,dis)==0 and max(agree,dis)>100 else 'FAIL')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "floating body equilibrium centre of buoyancy distance stationary",
+   "Dupin surface of buoyancy equilibrium normals"
+  ],
+  "stackexchange": [
+   "floating body equilibrium positions critical points of distance between centre of gravity and centre of buoyancy"
+  ],
+  "wikipedia": [
+   "Metacentric height",
+   "Centre de carène"
+  ],
+  "oeis": "",
+  "names": [
+   "Clausen",
+   "Dupin",
+   "surface de carène",
+   "centre de carène",
+   "Bouguer métacentre",
+   "Euler floating bodies"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "Dupin's theory of the surface of buoyancy, also in Bouguer's and Euler's earlier work, gives the first part once 'max/min' is corrected to 'stationary'. The common-centre formulation needs reinterpretation and appears not to be correct literally.",
+  "possible_sources": [
+   "Ch. Dupin, Applications de géométrie et de mécanique (1822)"
+  ]
+ }
+}

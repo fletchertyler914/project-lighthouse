@@ -25,16 +25,17 @@ def check_page(f):
         rec = json.loads(f.read_text(encoding="utf-8"))
     except Exception as e:  # noqa: BLE001
         return f"{f}: not valid JSON ({e})"
-    missing = [k for k in REQUIRED if k not in rec]
+    pdf_style = "cote" in rec and "page" in rec  # read_source.py pages: scan PDF + page number, no image URL
+    missing = [] if pdf_style else [k for k in REQUIRED if k not in rec]
     if not rec.get("parsed") or rec.get("parsed") == "False":
         return "UNPARSED"  # model output never parsed: run src/repair_json.py, else re-transcribe
     if not isinstance(rec.get("result"), dict) or "transcription" not in rec["result"]:
         missing.append("result.transcription")
-    if "source" not in rec and "model" not in rec:
+    if "source" not in rec and "model" not in rec and not pdf_style:
         missing.append("source (or model)")
     if missing:
         return f"{f}: missing {', '.join(missing)}"
-    if not str(rec["image"]).startswith(("http://", "https://")):
+    if not pdf_style and not str(rec["image"]).startswith(("http://", "https://")):
         return f"{f}: image must be a URL, not a local file"
     return None
 

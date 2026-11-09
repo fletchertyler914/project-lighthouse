@@ -1,0 +1,44 @@
+{
+ "number": "383",
+ "field": "geometry",
+ "subfield": "algebraic plane curves; collineations and envelopes",
+ "modern_restatement_en": "The map $T:M\\mapsto(P/R,\\,Q/R)$ is a projective collineation of the plane, since $P,Q,R$ are affine-linear in $(x,y)$. Let $C$ be a curve of degree $n$ not passing through the three fixed points of $T$. Prove:\n(1) $T(C)$ has degree $n$;\n(2) the lines $M\\,T(M)$, $M\\in C$, envelope a curve of class $2n$. Equivalently, its tangential equation has degree $2n$: through a general point $O$ pass $2n$ such lines, because $\\det(O,M,TM)=0$ is a conic meeting $C$ in $2n$ points.",
+ "kind": "prove",
+ "well_posed": true,
+ "well_posed_note": "Part 2 is correct only if 'degree of the equation of the envelope' means its tangential (line-coordinate) equation, i.e. its class. Its point-equation degree is generally different: for $n=2$ the envelope has class 4 but order 6. A genericity hypothesis is also needed: $C$ must avoid the fixed points of $T$ and $T$ must not be degenerate. The perpendiculars must be taken as signed distances so that $P,Q,R$ are linear.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "1. For n=1,2,3, choose a random integer curve f of degree n and random affine forms P,Q,R. 2. Check (1): invert T symbolically and take the total degree of the numerator of f∘T^{-1}, which should be n. 3. Check (2): count the distinct intersections of f=0 with the conic det(O,M,TM)=0 for a random O, via a resultant in y; this should give 2n. PASS if both hold for every n.",
+  "code": "import sympy as sp, random\nx,y,X,Y=sp.symbols('x y X Y')\nrandom.seed(3)\ndef r(): return sp.Integer(random.choice([-7,-5,-4,-3,-2,-1,1,2,3,4,5,6,7]))\nfor n in (1,2,3):\n    f=sum(r()*x**i*y**j for i in range(n+1) for j in range(n+1-i))\n    P=r()*x+r()*y+r(); Q=r()*x+r()*y+r(); R=r()*x+r()*y+r()\n    sol=sp.solve([P-X*R,Q-Y*R],[x,y],dict=True)[0]\n    g=sp.numer(sp.together(f.subs(sol)))\n    dimg=sp.Poly(sp.expand(g),X,Y).total_degree()\n    O=(r(),r())\n    D=sp.expand(sp.Matrix([[O[0],O[1],1],[x,y,1],[P,Q,R]]).det())\n    res=sp.expand(sp.resultant(sp.expand(f),D,y))\n    nl=sp.Poly(sp.sqf_part(res),x).degree() if res!=0 else -1\n    print('n=',n,'image degree',dimg,'lines through O',nl,'PASS' if (dimg==n and nl==2*n) else 'FAIL')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "envelope of lines joining corresponding points of a curve under a collineation class",
+   "homography curve envelope joining homologous points degree 2n"
+  ],
+  "stackexchange": [
+   "envelope of lines joining a point of a curve to its image under a projective transformation"
+  ],
+  "wikipedia": [
+   "Collineation",
+   "Homographie (géométrie)"
+  ],
+  "oeis": "",
+  "names": [
+   "trilinear coordinates",
+   "homographie",
+   "Chasles",
+   "Plücker",
+   "class of a curve",
+   "équation tangentielle"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "The map is a collineation, so (1) is immediate. (2) holds as a class statement by the conic-intersection argument, giving class $2n$ for curves avoiding the fixed points. As a point-equation degree, (2) is false in general for $n\\ge2$.",
+  "possible_sources": [
+   "G. Salmon, A Treatise on the Higher Plane Curves",
+   "M. Chasles, Traité de géométrie supérieure (1852)"
+  ]
+ }
+}

@@ -1,0 +1,63 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c094",
+ "label": "078",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F095_Add.Ms.a.9.18_078.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page has two independent items on counting integers up to x by their prime factorisation. The pencil heading 'See GHH-SR paper in Q.J' refers to Hardy & Ramanujan, 'The normal number of prime factors of a number n', Quart. J. Math. 48 (1917).\n\nPART A (numbers with few prime factors).\n- Definition: phi(x) = #{n <= x : n has at most k prime divisors}.\n- Claim: phi(x) ~ (x/log x) * sum_{j=0}^{[k]} (log log x)^j / j!.\n- Remark: 'This is true when k is infinite.' Then the sum is exp(log log x) = log x, so the right side is x, which is trivially correct since every n <= x is counted.\n- Question: 'Is this true when k is a function of x?' This asks whether Landau's fixed-k asymptotic holds uniformly in k.\n- My reconstruction of the intended basis: Landau's theorem pi_j(x) ~ x (log log x)^{j-1} / ((j-1)! log x) for integers with exactly j prime factors, summed over j.\n\nPART B (smooth numbers; the Dickman function).\n- Definition: phi(x) = Psi(x, x^eps), the number of n <= x all of whose prime factors p satisfy p <= x^eps.\n- Method (inclusion-exclusion over the 'large' primes p > x^eps; the explanation is mine):\n  - Psi = x - sum_{p} x/p + sum_{p1<p2} x/(p1 p2) - ...\n  - All primes in these sums exceed x^eps, and their products are at most x.\n  - Write p = x^lambda. By Mertens, sum_{x^a < p <= x^b} 1/p ~ log(b/a) = int_a^b dlambda/lambda.\n  - So each r-fold prime sum becomes x times an r-fold integral of prod dlambda_i/lambda_i over the ordered simplex: eps <= lambda_{r-1} < ... < lambda_0, with sum of lambda_i <= 1.\n  - Order the variables so that lambda_{r-1} is the smallest.\n- Range 1/2 <= eps <= 1: phi ~ x(1 - int_eps^1 dl/l) = x(1 + log eps), i.e. rho(u) = 1 - log u with u = 1/eps.\n- Range 1/3 <= eps <= 1/2: the second term is int_eps^{1/2} (dl1/l1) int_{l1}^{1-l1} dl0/l0.\n  - The region l1 <= l0, l1 + l0 <= 1 is correct.\n  - Substituting t = 1/l gives the classical rho(u) = 1 - log u + int_2^u log(t-1)/t dt.\n- Range 1/4 <= eps <= 1/3: Ramanujan adds -int_eps^{1/3} (dl2/l2) int_{l2}^{(1-l2)/2} (dl1/l1) int_{l1}^{1-l1} dl0/l0.\n- Range 1/5 <= eps <= 1/4: he adds a fourfold term with limits l3 in [eps, 1/4], l2 in [l3, (1-l3)/3], l1 in [l2, (1-l2)/2], l0 in [l1, 1-l1].\n- He closes with 'and so on'.\n- The intended general result is Psi(x, x^eps) ~ rho(1/eps) x, with rho given by the alternating series of ordered simplex integrals. This is exactly the Dickman function in its iterated-integral (inclusion-exclusion) form.\n- The correct limits for the r-fold term (my correction) are:\n  - l_{r-1} in [eps, 1/r];\n  - each next variable l_{j-1} runs from l_j to (1 - l_{r-1} - ... - l_{j+1} - l_j)/j... more precisely, so that l_{j-1} <= (1 - (sum of the larger-index variables) - l_{j-1}...) i.e. l_{j-1} in [l_j, (1 - l_{r-1} - ... - l_j)/j];\n  - the innermost runs l0 in [l1, 1 - l1 - l2 - ... - l_{r-1}].",
+  "errors": [
+   "Part A, off by one: an integer with at most k prime factors has 0, 1, ..., k of them. By Landau, the count with exactly j prime factors is ~ x(log log x)^{j-1}/((j-1)! log x). Summing gives (x/log x) * sum_{j=0}^{k-1} (log log x)^j/j!, so the sum should stop at (log log x)^{k-1}/(k-1)!, not at [k]. For fixed k the last term dominates, so as written the asymptotic is wrong by a factor of about log log x / k. The k-infinite remark is unaffected.",
+   "Part A, the question about k as a function of x: the formula is not uniformly true. Sathe (1953-54) and Selberg (1954) showed that a correcting factor G(k/log log x) appears when k grows like log log x (although G(1)=1).",
+   "Part B, third-order term: the innermost upper limit 1-l1 should be 1-l1-l2, because the three large primes must have product <= x, i.e. l2+l1+l0 <= 1. The middle limit (1-l2)/2 is correct. As written, at eps=1/4 the bracket evaluates to about -0.026, but rho(4) = 0.00491 > 0 (rough Simpson-rule estimate). With the corrected limit it gives about 0.0049.",
+   "Part B, fourth-order term: same slip. The l1 upper limit should be (1-l3-l2)/2, and the l0 upper limit should be 1-l1-l2-l3.",
+   "The terms for 1/2 <= eps <= 1 and 1/3 <= eps <= 1/2 are fully correct and agree with Dickman's rho on [1,3]."
+  ],
+  "results": [
+   {
+    "what": "Number of n <= x with at most k prime factors ~ (x/log x) * sum (log log x)^j/j! (with an off-by-one in the upper index), plus the question whether this holds uniformly when k depends on x",
+    "modern_name": "Landau's asymptotic for pi_k(x); uniformity question answered by the Sathe-Selberg theorem",
+    "usually_credited_to": "E. Landau (1900/1909) for fixed k; L.G. Sathe (1953-54) and A. Selberg (1954) for uniform k; Hardy-Ramanujan (1917) for uniform upper bounds",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Psi(x, x^eps) ~ x * rho(1/eps), with rho written as an alternating series of iterated integrals over ordered simplices of dlambda/lambda (explicit for eps >= 1/5, 'and so on')",
+    "modern_name": "Dickman-de Bruijn function rho(u) for smooth-number counts; the inclusion-exclusion (iterated-integral) representation",
+    "usually_credited_to": "K. Dickman (1930); further work by Chowla-Vijayaraghavan (1947) and de Bruijn (1951)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 3,
+  "surprise_reason": "This page is the known source of Ramanujan's anticipation of Dickman's function. It appears in Andrews-Berndt, Ramanujan's Lost Notebook Part IV, and is discussed by P. Moree, 'Integers without large prime factors: from Ramanujan to de Bruijn' (2014), so the priority is already recorded. The Landau part is standard and slightly mis-indexed. The slip in the integration limits from order 3 onward is a minor extra detail.",
+  "checkable": [
+   {
+    "sympy": "N(1 - log(3) + Integral(log(t-1)/t, (t, 2, 3)))",
+    "asserts": "Ramanujan's 1/3<=eps<=1/2 formula at eps=1/3 gives rho(3) ~ 0.0486083 (correct)"
+   },
+   {
+    "sympy": "simplify((1 - Integral(1/l, (l, e, 1))).doit() - (1 + log(e)))",
+    "asserts": "First range: bracket equals 1 + log(eps) = 1 - log(u) (result 0)"
+   },
+   {
+    "sympy": "N(1 - log(4) + Integral(log((1-l)/l)/l, (l, Rational(1,4), Rational(1,2))) - Integral(Integral(log((1-a-b)/a)/a, (a, b, (1-b)/2))/b, (b, Rational(1,4), Rational(1,3))))",
+    "asserts": "With the corrected inner limit 1-l1-l2, the eps=1/4 bracket equals rho(4) ~ 0.004910"
+   },
+   {
+    "sympy": "N(1 - log(4) + Integral(log((1-l)/l)/l, (l, Rational(1,4), Rational(1,2))) - Integral(Integral(log((1-a)/a)/a, (a, b, (1-b)/2))/b, (b, Rational(1,4), Rational(1,3))))",
+    "asserts": "Ramanujan's limits as written give a negative value at eps=1/4 (about -0.026), so they are erroneous"
+   },
+   {
+    "sympy": "limit(exp(log(log(x)))*x/log(x)/x, x, oo)",
+    "asserts": "For k infinite the series gives x/log x * exp(log log x) = x (ratio 1)"
+   }
+  ],
+  "transcription_corrections": [
+   "'(not exceeding x)' is a caret insertion after 'no. of nos'; read 'phi(x) is the no. of nos (not exceeding x) whose no. of prime divisors does not exceed k'.",
+   "The heading 'See GHH-SR paper in Q.J' refers to the Hardy-Ramanujan Quarterly Journal paper (1917).",
+   "In the second definition the struck-out word is 'the', and the bases 2, 3, 5, ..., p are primes with p <= x^eps.",
+   "The transcribed integration limits match the image, including the erroneous inner limits 1-l1 and (1-l2)/2 in the third- and fourth-order terms; those errors are Ramanujan's, not the transcriber's."
+  ]
+ }
+}

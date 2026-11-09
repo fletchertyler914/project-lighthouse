@@ -1,0 +1,67 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c120",
+ "label": "102recto",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F121_Add.Ms.a.9.18_102recto.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is a power-series check of the first Rogers–Ramanujan identity G(x) = Σ_{n≥0} x^{n²}/((1-x)…(1-x^n)) = 1/∏_{n≥0}(1-x^{5n+1})(1-x^{5n+4}). The previous and next pages hold the expansions of the individual terms (e.g. x/(1-x) = x + x² + …) that were added up.\n\nStep 1 (numerical). Ramanujan computes (x;x)_∞·G(x) through x^36 as a product of two truncated series F(x)·S(x).\n- S(x) = 1 - x^8 - x^9 - … - x^16 + x^19 + x^20 + 2x^21 + … - x^35 - 3x^36. I checked its coefficients directly: this is exactly ∏_{n≥8}(1-x^n) to order 36 (e.g. the x^36 coefficient is -1 + 10 - 12 = -3).\n- F(x) = 1 - x² - x³ + x^8 + 2x^9 - … + x^36. My inference, not stated on the page: F = (1-x)(1-x²)…(1-x^7)·G(x), truncated at x^36. This is consistent with every coefficient I checked by hand.\n- The page claims F·S = 1 - x² - x³ + x^9 + x^11 - x^21 - x^24 through x^36. I verified the coefficients up to x^12 by hand. Equation (1) is: (x;x)_∞·G(x) = 1 - x² - x³ + x^9 + x^11 - x^21 - x^24 + ….\n\nStep 2 (product form of the series in (1)). The page states:\n1 - x² - x³ + x^9 + x^11 - … = ∏_{n≥1}(1-x^{5n-3})(1-x^{5n-2})(1-x^{5n}).\nWritten out, these are the three rows (1-x²)(1-x^7)…, (1-x³)(1-x^8)…, (1-x^5)(1-x^10)….\n\nStep 3 (the conclusion). Dividing by (x;x)_∞ gives\nG(x) = 1/[(1-x)(1-x^6)(1-x^11)… · (1-x^4)(1-x^9)(1-x^14)…],\nwhich is the first Rogers–Ramanujan identity.\n\nStep 4 ('(1) proof'). Set p = x^{5/2} and q = x^{1/2}.\n- Then p^{n²}q^{±n} = x^{(5n²±n)/2}, so the series becomes 1 + Σ_{n≥1}(-1)^n p^{n²}(q^n + q^{-n}).\n- By the Jacobi triple product this equals ∏_{n≥1}(1-p^{2n-1}q)(1-p^{2n-1}/q)(1-p^{2n}).\n- These factors are (1-x^{5n-2}), (1-x^{5n-3}) and (1-x^{5n}), which gives Step 2.\n\nOnly the series↔product equivalence in (1) is proved. The identity (x;x)_∞·G = Σ(-1)^n x^{n(5n+1)/2} itself rests here only on the check through x^36.",
+  "errors": [
+   "No arithmetic errors found in what was checked. The truncated product S matches ∏_{n≥8}(1-x^n) through x^36, and the low-order coefficients of F·S match the target.",
+   "Logical gap, not a slip: 'Hence … = 1 - x² - x³ + x^9 + x^11 - x^21 - x^24' (equation (1)) is verified only through x^36. The 'Therefore' (the Rogers–Ramanujan identity) is therefore an empirically supported conjecture. Only the triple-product step converting the series to the product is actually proved."
+  ],
+  "results": [
+   {
+    "what": "Σ x^{n²}/(x;x)_n = 1/((x;x^5)_∞(x^4;x^5)_∞), checked by expanding (x;x)_∞·Σ x^{n²}/(x;x)_n through x^36",
+    "modern_name": "First Rogers–Ramanujan identity",
+    "usually_credited_to": "L. J. Rogers (1894), independently rediscovered by Ramanujan (c. 1913). Joint proofs were published in 1919; Schur (1917) also proved it independently.",
+    "already_credited_to_author": "yes",
+    "routine": false
+   },
+   {
+    "what": "1 - x² - x³ + x^9 + x^11 - … = Σ(-1)^n x^{n(5n+1)/2} = ∏(1-x^{5n-2})(1-x^{5n-3})(1-x^{5n}), via p = x^{5/2}, q = x^{1/2}",
+    "modern_name": "Jacobi triple product identity (quintuple-modulus specialization)",
+    "usually_credited_to": "C. G. J. Jacobi (1829)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Numerical verification method: factoring (x;x)_∞ as (x;x)_7 · ∏_{n≥8}(1-x^n) and multiplying truncated series",
+    "modern_name": "Truncated power-series verification of a q-series identity",
+    "usually_credited_to": "Routine; MacMahon similarly verified the identities numerically for Combinatory Analysis (1916)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "Ramanujan's independent rediscovery of the Rogers–Ramanujan identities, and his reduction of the product side via the Jacobi triple product, are well known. This page documents his numerical check up to x^36 and the triple-product step. It is historically nice detail, but contains nothing new.",
+  "checkable": [
+   {
+    "sympy": "series(prod([1-x**k for k in range(1,41)])*sum([x**(n**2)/prod([1-x**k for k in range(1,n+1)]) for n in range(0,7)]), x, 0, 37).removeO() - (1-x**2-x**3+x**9+x**11-x**21-x**24)",
+    "asserts": "(x;x)_∞·G(x) agrees with 1-x^2-x^3+x^9+x^11-x^21-x^24 through x^36 (expected 0)."
+   },
+   {
+    "sympy": "expand(series(prod([1-x**k for k in range(8,41)]), x, 0, 37).removeO() - (1-x**8-x**9-x**10-x**11-x**12-x**13-x**14-x**15-x**16+x**19+x**20+2*x**21+2*x**22+3*x**23+3*x**24+4*x**25+4*x**26+4*x**27+4*x**28+4*x**29+3*x**30+3*x**31+2*x**32+x**33-x**35-3*x**36))",
+    "asserts": "The second factor on the page is ∏_{n≥8}(1-x^n) truncated at x^36 (expected 0)."
+   },
+   {
+    "sympy": "expand(series(prod([1-x**k for k in range(1,8)])*sum([x**(n**2)/prod([1-x**k for k in range(1,n+1)]) for n in range(0,7)]), x, 0, 37).removeO() - (1-x**2-x**3+x**8+2*x**9-x**12-x**13-x**14-x**15+x**17+x**18+x**19+x**20-x**21-x**23-x**24+x**27+x**28-x**32-x**34+x**36))",
+    "asserts": "Conjectural identification: the first factor is (x;x)_7·G(x) truncated at x^36 (expected 0 if the inference is right)."
+   },
+   {
+    "sympy": "expand(series(prod([(1-x**(5*n-3))*(1-x**(5*n-2))*(1-x**(5*n)) for n in range(1,10)]), x, 0, 45).removeO() - sum([(-1)**n*x**(n*(5*n+1)//2) for n in range(-5,6)]).series(x,0,45).removeO())",
+    "asserts": "Jacobi triple product case: ∏(1-x^{5n-3})(1-x^{5n-2})(1-x^{5n}) = Σ(-1)^n x^{n(5n+1)/2} (expected 0)."
+   },
+   {
+    "sympy": "series(sum([x**(n**2)/prod([1-x**k for k in range(1,n+1)]) for n in range(0,7)]) - 1/prod([(1-x**(5*n+1))*(1-x**(5*n+4)) for n in range(0,8)]), x, 0, 37)",
+    "asserts": "First Rogers–Ramanujan identity holds through x^36 (expected O(x^37))."
+   }
+  ],
+  "transcription_corrections": [
+   "'Add. Ms a 94 18(102)' is the archival shelfmark/folio stamp, not part of the mathematics; the circled '102' is the folio number.",
+   "In the first product row the factors are (1-x^2)(1-x^7)(1-x^12)(1-x^17)(1-x^22)(1-x^27)(1-x^32)…. The image shows overwritten digits at x^22 and x^27, but the intended exponents are 22 and 27.",
+   "The second product row (1-x^3)…(1-x^33) has no trailing dots on the page, but the infinite product is intended.",
+   "In the '(1) proof' the terms read p(q + 1/q), p^4(q^2 + 1/q^2), p^9(q^3 + 1/q^3); the transcription renders these correctly."
+  ]
+ }
+}

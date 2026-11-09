@@ -1,0 +1,42 @@
+{
+ "number": "554",
+ "field": "other",
+ "subfield": "calorimetry (physics exercise)",
+ "modern_restatement_en": "Steam of mass $p$ at temperature $d$ and pressure $c$ condenses in water of unknown mass $x$, raising the temperature of water and vessel (mass $k$, specific heat $m$) from $t$ to $t'$. With Regnault's total heat of saturated steam $\\lambda(d)=606.5+0.305\\,d$ (cal/g, measured from 0°C), the heat balance $p(\\lambda(d)-t')=(x+km)(t'-t)$ gives $x=\\dfrac{p(606.5+0.305d-t')}{t'-t}-km$.",
+ "kind": "compute",
+ "well_posed": true,
+ "well_posed_note": "The answer depends on empirical constants (Regnault 1847), which must be supplied. Temperature and pressure are not independent for saturated steam. If $c$ differs from the saturation pressure at $d$, the steam is superheated and one must add its specific heat (about 0.48) times the excess of temperature, so $c$ is either redundant or signals superheating. Units: $p$, $x$ and $k$ in the same weight unit.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Solve the heat balance symbolically and verify it with sample numbers (energy conservation). PASS if the residual is 0.",
+  "code": "import sympy as sp\np,x,d,t,tp,k,m=sp.symbols('p x d t tp k m',positive=True)\nlam=sp.Rational(6065,10)+sp.Rational(305,1000)*d\nsol=sp.solve(sp.Eq(p*(lam-tp),(x+k*m)*(tp-t)),x)[0]\nprint('x =',sp.simplify(sol))\nvals={p:1,d:100,t:10,tp:40,k:sp.Rational(1,2),m:sp.Rational(11,100)}\nxv=sol.subs(vals)\nres=(vals[p]*(lam.subs(vals)-vals[tp])-(xv+vals[k]*vals[m])*(vals[tp]-vals[t]))\nprint('PASS' if sp.simplify(res)==0 else 'FAIL','energy balance, x =',sp.N(xv))\n"
+ },
+ "searches": {
+  "zbmath": [
+   "latent heat of steam calorimetry Regnault",
+   "mixture method steam condensation water calorimeter"
+  ],
+  "stackexchange": [
+   "mass of water heated by condensing steam calorimeter vessel specific heat"
+  ],
+  "wikipedia": [
+   "Latent heat Regnault steam",
+   "Chaleur latente vaporisation eau Regnault"
+  ],
+  "oeis": "",
+  "names": [
+   "Regnault",
+   "chaleur totale de la vapeur",
+   "méthode des mélanges",
+   "valeur en eau du calorimètre"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "This is a standard textbook calorimetry exercise (method of mixtures with the water equivalent $km$ of the vessel). Presumably it was never answered because it is a routine physics problem.",
+  "possible_sources": [
+   "Regnault, Relation des expériences ... (1847)",
+   "Ganot, Traité élémentaire de physique"
+  ]
+ }
+}

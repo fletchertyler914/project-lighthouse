@@ -1,0 +1,78 @@
+{
+ "bundle": "E792",
+ "page": "c013",
+ "label": "16",
+ "image": "https://iiif.archive.org/image/iiif/2/operapostumamath01euleuoft%2Foperapostumamath01euleuoft_jp2.zip%2Foperapostumamath01euleuoft_jp2%2Foperapostumamath01euleuoft_0034.jp2/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Chapter IV of the 'Tractatus de numerorum doctrina' (E792) counts, for a given a, how many integers 1..a are coprime to a, i.e. Euler's φ(a). §§117-119 on the previous page handled a=p, 2p and 3p. This page continues with the same counting-and-subtracting method.\n\n§120. a=5p, with p prime and (implicitly) p≠5.\n- Integers in [1,a] sharing a factor with a are either multiples of 5 or multiples of p.\n- There are p multiples of 5.\n- The multiples of p are p, 2p, 3p, 4p; 5p is already counted.\n- So there are p+4 non-coprime integers, and φ(5p) = 5p-(p+4) = 4p-4 = 4(p-1).\n\n§121. a=pq, with p and q distinct primes.\n- Multiples of q: q, 2q, ..., pq, which is p numbers.\n- Multiples of p: p, ..., qp, which is q numbers; the last one, qp, was already counted.\n- Non-coprime count: p+q-1.\n- φ(pq) = pq-p-q+1 = (p-1)(q-1).\n\n§122. The primes in §121 were distinct. For a=p², only multiples of p fail, and there are p of them, so φ(p²) = p²-p = p(p-1).\n\n§123. a=p³. The multiples of p are p, 2p, ..., p²·p, which is p² numbers, so φ(p³) = p³-p² = p²(p-1).\n\n§124. Generalization stated, by evident induction rather than proof: φ(pⁿ) = p^(n-1)(p-1).\n\n§125. a=p²q, with p and q distinct primes. This is two-set inclusion-exclusion.\n- Multiples of p: p, ..., pq·p, which is pq numbers.\n- Multiples of q: q, ..., p²·q, which is p² numbers.\n- Multiples of pq, counted twice: pq, ..., p·pq, which is p numbers.\n- Non-coprime count: pq+p²-p.\n- φ = p²q-pq-p²+p = p(p-1)(q-1). (Factoring step mine: p(pq-q-p+1).)\n\n§126. a=pqr, with p, q, r distinct primes. This is a full three-set inclusion-exclusion.\n- Multiples of p, q, r: qr, pr, pq numbers respectively.\n- Subtract the doubly counted multiples of pq, pr, qr: r, q, p numbers.\n- This removes pqr itself entirely (counted 3 times, removed 3 times), so add 1 back.\n- Non-coprime count: qr+pr+pq-r-q-p+1.\n- φ(pqr) = pqr-qr-pr-pq+p+q+r-1 = (p-1)(q-1)(r-1).\n\n§127 begins a table, continued on the next page. §§128-132 there give the general proof via a=Mp^n with p not dividing M, establishing φ = ∏ p^(λ-1)(p-1).",
+  "errors": [
+   "§120 (like §§118-119) tacitly assumes p≠5. For a=25 the count gives 16 instead of the true 20. The coprimality assumption is made explicit only from §121 onward ('numeros primos diversos', §122).",
+   "§124 is asserted 'in genere' from the cases n=1,2,3. The counting argument (p^(n-1) multiples of p) is immediate, so this is a valid but unstated generalization.",
+   "No arithmetic errors: all expansions and factorizations on the page check out."
+  ],
+  "results": [
+   {
+    "what": "φ(5p)=4(p-1), φ(pq)=(p-1)(q-1), φ(p^2)=p(p-1), φ(p^3)=p^2(p-1)",
+    "modern_name": "Euler's totient function for small factorization types",
+    "usually_credited_to": "Euler (E271, 1763; Tractatus c. 1750, publ. 1849)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "φ(p^n)=p^(n-1)(p-1)",
+    "modern_name": "Totient of a prime power",
+    "usually_credited_to": "Euler",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Counting non-coprime integers for p^2 q and pqr by adding multiples of each prime, subtracting pairwise multiples, adding back the triple",
+    "modern_name": "Inclusion-exclusion principle applied to φ(n)=n∏(1-1/p)",
+    "usually_credited_to": "Inclusion-exclusion usually attributed to de Moivre (1718), da Silva (1854), Sylvester (1883); its application to φ to Euler/Legendre",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is Euler's well-known Tractatus de numerorum doctrina, published in Opera Posthuma (1862). The totient and its product formula are classically Euler's. The explicit three-set inclusion-exclusion is a pleasant detail but is known and elementary.",
+  "checkable": [
+   {
+    "sympy": "all(totient(5*p)==4*(p-1) for p in primerange(7,200))",
+    "asserts": "§120 formula for a=5p, p a prime other than 5"
+   },
+   {
+    "sympy": "totient(25)==4*(5-1)",
+    "asserts": "False: §120 formula fails when p=5 (true value 20)"
+   },
+   {
+    "sympy": "all(totient(p*q)==(p-1)*(q-1) for p in primerange(2,50) for q in primerange(2,50) if p!=q)",
+    "asserts": "§121 φ(pq)"
+   },
+   {
+    "sympy": "all(totient(p**n)==p**(n-1)*(p-1) for p in primerange(2,30) for n in range(1,6))",
+    "asserts": "§§122-124 φ(p^n)"
+   },
+   {
+    "sympy": "expand(p**2*q-p*q-p**2+p - p*(p-1)*(q-1))==0",
+    "asserts": "§125 algebraic factorization"
+   },
+   {
+    "sympy": "all(totient(p**2*q)==p*(p-1)*(q-1) for p in primerange(2,30) for q in primerange(2,30) if p!=q)",
+    "asserts": "§125 φ(p^2 q)"
+   },
+   {
+    "sympy": "expand(p*q*r-q*r-p*r-p*q+r+q+p-1-(p-1)*(q-1)*(r-1))==0",
+    "asserts": "§126 algebraic factorization"
+   },
+   {
+    "sympy": "totient(2*3*5)==1*2*4 and totient(3*5*7)==2*4*6",
+    "asserts": "§126 φ(pqr) instances"
+   }
+  ],
+  "transcription_corrections": [
+   "§126 final formula: the printed image shows a stray accent ('r'') on the +r term; it should read pqr-qr-pr-pq+r+q+p-1.",
+   "'occurunt' in §125 is as printed (for 'occurrunt'); not a transcription error."
+  ]
+ }
+}

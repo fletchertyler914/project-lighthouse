@@ -1,0 +1,45 @@
+{
+ "number": "598",
+ "field": "other",
+ "subfield": "spherical astronomy (meridian transit duration of the Sun)",
+ "modern_restatement_en": "The time for the Sun's disc to cross the meridian is approximately $T(\\lambda)=\\dfrac{2s(\\lambda)}{\\cos\\delta\\,(\\omega_*-\\dot\\alpha)}$. Here $s$ is the apparent semidiameter, $\\sin\\delta=\\sin\\varepsilon\\sin\\lambda$, $\\omega_*$ is the sidereal rotation rate and $\\dot\\alpha=\\dot\\lambda\\cos\\varepsilon/\\cos^2\\delta$. Find the ecliptic longitudes $\\lambda$ at which $T$ has a maximum or a minimum.",
+ "kind": "find/characterise",
+ "well_posed": true,
+ "well_posed_note": "The answer depends on the model. If the orbit is taken as circular and the Sun's motion in right ascension is ignored, the extremes are exactly at the solstices (maxima) and equinoxes (minima). Including eccentricity (semidiameter and $\\dot\\lambda$ varying, perigee near $\\lambda\\approx 280^\\circ$ in 1861) shifts the extremes by a few degrees. Whether time is measured in sidereal or mean solar units is also unstated.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Evaluate $T(\\lambda)$ numerically with $e=0.0168$, $\\varepsilon=23.45^\\circ$, perigee longitude $280.2^\\circ$, and mean semidiameter $16'$, on a $0.01^\\circ$ grid. Locate the local extrema. PASS if there are exactly two maxima near $90^\\circ$ and $270^\\circ$ and two minima near $0^\\circ$ and $180^\\circ$ (within $15^\\circ$). The printed offsets show the effect of eccentricity.",
+  "code": "import math\neps=math.radians(23.45); e=0.0168; varpi=math.radians(280.2)\nws=360.9856; n=0.985647\ns0=16.0/60\ndef dur(lam):\n    d=math.asin(math.sin(eps)*math.sin(lam))\n    f=1+e*math.cos(lam-varpi)\n    s=s0*f\n    lamdot=n*f**2/(1-e*e)**1.5\n    adot=lamdot*math.cos(eps)/math.cos(d)**2\n    return 2*s/(math.cos(d)*(ws-adot))*86400\nN=36000\nvals=[dur(math.radians(i*0.01)) for i in range(N)]\next=[]\nfor i in range(N):\n    v0,v1,v2=vals[i-1],vals[i],vals[(i+1)%N]\n    if v1>v0 and v1>v2: ext.append(('max',i*0.01,v1))\n    if v1<v0 and v1<v2: ext.append(('min',i*0.01,v1))\nfor t in ext: print(t[0],'at lambda=%.2f deg, duration=%.2f s'%(t[1],t[2]))\ndef near(t,c): return min(abs(t-c),360-abs(t-c))<15\nmx=[t[1] for t in ext if t[0]=='max']; mn=[t[1] for t in ext if t[0]=='min']\nok=len(mx)==2 and len(mn)==2 and all(any(near(t,c) for t in mx) for c in (90,270)) and all(any(near(t,c) for t in mn) for c in (0,180))\nprint('PASS' if ok else 'FAIL','extrema near solstices (max) and equinoxes (min)')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "duration of the Sun's meridian transit maximum minimum",
+   "semidiameter Sun transit time declination"
+  ],
+  "stackexchange": [
+   "How long does the Sun's disk take to cross the meridian as a function of declination"
+  ],
+  "wikipedia": [
+   "Transit (astronomy)",
+   "Passage au méridien"
+  ],
+  "oeis": [
+   ""
+  ],
+  "names": [
+   "durée du passage du Soleil au méridien",
+   "demi-diamètre",
+   "Delambre",
+   "Biot astronomie physique",
+   "Chauvenet spherical astronomy"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "This is a standard spherical-astronomy exercise. To first order the duration is $\\propto 1/\\cos\\delta$, giving minima at the equinoxes (about 2 min 8 s) and maxima at the solstices, with the December maximum the larger because of perigee. Eccentricity shifts these slightly.",
+  "possible_sources": [
+   "Chauvenet, A Manual of Spherical and Practical Astronomy (1863)",
+   "Biot, Traité élémentaire d'astronomie physique"
+  ]
+ }
+}

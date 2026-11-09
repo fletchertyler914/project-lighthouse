@@ -1,0 +1,67 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c039",
+ "label": "031",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F040_Add.Ms.a.9.18_031.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is folio 67 of Ramanujan's manuscript continuation of 'Highly composite numbers' (Proc. LMS 1915), the part not printed at the time. The previous page is his table of highly composite numbers. Section 52 introduces Q_2(N), which equals r_2(N)/4, where r_2(N) counts representations N = x^2 + y^2 with order and signs distinguished. The page then begins Section 53, which studies the N where Q_2(N) is 'highly composite', that is, records of Q_2.\n\n(268) Jacobi's two-square identity: theta_3(q)^2 = (sum_{n in Z} q^{n^2})^2 = 1 + 4 sum_{m>=0} (-1)^m q^{2m+1}/(1-q^{2m+1}). Expanding each Lambert term as a geometric series gives 1 + 4 sum_{N>=1} Q_2(N) q^N, with Q_2(N) = sum_{d|N} chi_4(d) = d_1(N) - d_3(N). Here chi_4 is the non-principal character mod 4, and d_i(N) counts divisors of N congruent to i mod 4.\n\n(269) Q_2 is the Dirichlet convolution 1 * chi_4. Hence sum Q_2(N) N^{-s} = zeta(s) L(s, chi_4), where zeta_1(s) = 1^{-s} - 3^{-s} + 5^{-s} - ... = L(s, chi_4).\n\n(270) Since sum q^n/(1-q^n) = sum d(N) q^N, comparing coefficients gives Q_2(N) = d_1 - d_3 <= d_1 + d_3 <= d(N). (This step is mine; Ramanujan says 'it follows from (268)'.)\n\n(271), (272) Write N = 2^{a_2} prod p^{a_p}. Q_2 is multiplicative, so it suffices to evaluate it on prime powers:\n- Q_2(2^a) = 1.\n- Q_2(p^a) = a + 1 for p ≡ 1 (mod 4).\n- Q_2(p^a) = (1 + (-1)^a)/2 for p ≡ 3 (mod 4).\nSo Q_2(N) = 0 if some a_p with p ≡ 3 (mod 4) is odd. Otherwise Q_2(N) = prod_{p ≡ 1 (4)} (1 + a_p).\n\nFinally, since d(N) = prod (1 + a_p) over all p, (270) follows from (271)–(272). Section 53 then begins: from (272) one sees what shape N must have for Q_2(N) to be a record.",
+  "errors": [
+   "No mathematical errors. The step to (270) from (268) is stated without detail; it is immediate from Q_2 = d_1 - d_3 <= d_1 + d_3 <= d. The definition of Q_2 lies on the previous section's page; the fragment 'them is zero' refers to it, so the normalisation r_2/4 is inferred."
+  ],
+  "results": [
+   {
+    "what": "theta(q)^2 = 1 + 4 sum (-1)^m q^{2m+1}/(1-q^{2m+1}), i.e. r_2(N) = 4(d_1(N) - d_3(N))",
+    "modern_name": "Jacobi's two-square theorem (Lambert series form)",
+    "usually_credited_to": "Jacobi (1829, Fundamenta Nova); arithmetic form Gauss/Legendre",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "sum r_2(N)/4 N^{-s} = zeta(s) L(s, chi_4)",
+    "modern_name": "Dedekind zeta function of Q(i)",
+    "usually_credited_to": "Dirichlet/Dedekind (19th century)",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Q_2(N) <= d(N), and the explicit multiplicative formula for r_2(N)/4",
+    "modern_name": "Classical formula for the number of representations as a sum of two squares",
+    "usually_credited_to": "Gauss/Jacobi",
+    "already_credited_to_author": "no",
+    "routine": true
+   },
+   {
+    "what": "Use of Q_2 to define 'highly composite' numbers relative to sums of two squares (Sections 52–53)",
+    "modern_name": "Highly composite numbers for r_2 (records of r_2)",
+    "usually_credited_to": "Ramanujan; unpublished part of 'Highly composite numbers', published annotated by J.-L. Nicolas and G. Robin, Ramanujan J. 1 (1997)",
+    "already_credited_to_author": "yes",
+    "routine": false
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "All formulas on the page are classical (Jacobi, Dirichlet). The surrounding investigation is Ramanujan's known unpublished continuation of 'Highly composite numbers', already published with annotations by Nicolas and Robin (1997).",
+  "checkable": [
+   {
+    "sympy": "all(sum(1 for x in range(-15,16) for y in range(-15,16) if x**2+y**2==N) == 4*sum((1 if d%4==1 else (-1 if d%4==3 else 0)) for d in divisors(N)) for N in range(1,200))",
+    "asserts": "Jacobi: r_2(N) = 4*sum_{d|N} chi_4(d), equivalent to (268)"
+   },
+   {
+    "sympy": "series((sum(q**(n**2) for n in range(-6,7)))**2 - 1 - 4*sum((-1)**m*q**(2*m+1)/(1-q**(2*m+1)) for m in range(0,20)), q, 0, 30)",
+    "asserts": "(268) as a power-series identity: the series should be O(q**30)"
+   },
+   {
+    "sympy": "all(sum((1 if d%4==1 else (-1 if d%4==3 else 0)) for d in divisors(N)) <= divisor_count(N) for N in range(1,2000))",
+    "asserts": "(270): Q_2(N) <= d(N)"
+   },
+   {
+    "sympy": "all(sum((1 if d%4==1 else (-1 if d%4==3 else 0)) for d in divisors(N)) == (0 if any(p%4==3 and e%2==1 for p,e in factorint(N).items()) else prod([e+1 for p,e in factorint(N).items() if p%4==1])) for N in range(1,2000))",
+    "asserts": "(271)/(272): explicit multiplicative formula for Q_2(N)"
+   }
+  ],
+  "transcription_corrections": [
+   "Header reads 'Add Ms a 94^{18(31)}' with circled 31 and page number (67); the transcription is essentially correct.",
+   "In (272) the factors are (1+a_5)(1+a_13)(1+a_17)...; the transcription is correct."
+  ]
+ }
+}

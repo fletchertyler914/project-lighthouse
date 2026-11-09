@@ -1,0 +1,39 @@
+{
+ "number": "193",
+ "field": "geometry",
+ "subfield": "analytic geometry of surfaces / loci",
+ "modern_restatement_en": "Let the trirectangular trihedron be the coordinate planes $x=0$, $y=0$, $z=0$. Find and describe the locus $\\{(x,y,z): |x|+|y|+|z| = k\\}$, where $k>0$ is constant. Inside the trihedral angle ($x,y,z\\ge 0$) this is the triangle $x+y+z=k$. In all of space it is the regular octahedron with vertices $(\\pm k,0,0)$, $(0,\\pm k,0)$, $(0,0,\\pm k)$.",
+ "kind": "find/characterise",
+ "well_posed": true,
+ "well_posed_note": "The only ambiguity is whether 'points' means points inside the solid angle, giving a plane triangle, or all of space with unsigned distances, giving the surface of an octahedron. With signed distances the locus is the whole plane $x+y+z=k$. The exercise is elementary, which may be why no solution was ever printed.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Symbolically check that $x+y+z=k$ holds in the first octant. Then sample random points on the octahedron $|x|+|y|+|z|=k$ and confirm that the sum of the distances to the three coordinate planes equals $k$. Report PASS if all checks hold.",
+  "code": "import sympy as sp, random\nx,y,k=sp.symbols('x y k',positive=True)\nz=k-x-y\nprint('PASS first octant plane' if sp.simplify(x+y+z-k)==0 else 'FAIL')\nok=True\nfor _ in range(2000):\n    kk=random.uniform(0.1,5)\n    u=[random.random() for _ in range(3)]\n    s=sum(u)\n    p=[kk*t/s*random.choice([-1,1]) for t in u]\n    d=abs(p[0])+abs(p[1])+abs(p[2])\n    if abs(d-kk)>1e-9: ok=False\nprint('PASS octahedron' if ok else 'FAIL octahedron')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "locus constant sum of distances to coordinate planes",
+   "octahedron sum of distances to planes"
+  ],
+  "stackexchange": [
+   "locus of points with constant sum of distances to three perpendicular planes"
+  ],
+  "wikipedia": [
+   "Octahedron",
+   "Octaèdre"
+  ],
+  "oeis": "",
+  "names": [
+   "trièdre trirectangle",
+   "taxicab sphere",
+   "L1 norm unit sphere",
+   "octaèdre régulier"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "This is an elementary exercise. The answer is a plane triangle inside the trihedron and a regular octahedron if the whole of space is considered.",
+  "possible_sources": []
+ }
+}

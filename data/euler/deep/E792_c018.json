@@ -1,0 +1,77 @@
+{
+ "bundle": "E792",
+ "page": "c018",
+ "label": "21",
+ "image": "https://iiif.archive.org/image/iiif/2/operapostumamath01euleuoft%2Foperapostumamath01euleuoft_jp2.zip%2Foperapostumamath01euleuoft_jp2%2Foperapostumamath01euleuoft_0039.jp2/full/1540,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: Euler's Tractatus de numerorum doctrina (E792), cap. 5 (end) on residues, then the opening of cap. 6 on residues of arithmetic progressions. The page is elementary modular arithmetic written without congruence notation.\n\n§163 (proof of §162, the product rule). Write A = m d + α and B = n d + β. Then AB = m n d^2 + (m β + n α) d + α β. The first two parts are multiples of d, so αβ serves as the residue of AB. In modern terms, A ≡ α and B ≡ β (mod d) give AB ≡ αβ (mod d).\n\n§164. Applying §163 repeatedly with B = A gives A^2 ≡ α^2 and A^3 ≡ α^3. In general A^n ≡ α^n (mod d), with α^n then reduced to its least form. (Induction on n is implicit in Euler's text; the remark is mine.)\n\n§165. Two special cases follow.\n- If α = 1, then A^n ≡ 1 for all n.\n- If α = −1, which is equivalent to d − 1, then A^n ≡ (−1)^n. Even powers leave +1 and odd powers leave −1.\n\n§166. If A leaves α, then d | A − α. Hence, since A^n leaves α^n, d | A^n − α^n. (Equivalently, A − α divides A^n − α^n.)\n\nCap. VI, 'On residues arising from dividing the terms of an arithmetic progression.'\n\n§167. The naturals 1, 2, 3, … mod d give residues 1, 2, …, d−1, 0. After that the same residues repeat with period d.\n\n§168. Take the progression a + k b for k = 0, 1, 2, … and divide each term by d. The first residue (Euler loosely calls it 'a'; on the next page it is called α) first recurs at the term a + n b with d | n b. From there the residues repeat in the same order.\n\nThe marginal note says these residues are just the residues of 0, b, 2b, 3b, … shifted by a. So it suffices to study the progression k b mod d.\n\n§169. At most d distinct residues can occur, since there are only d residue classes. So once d distinct ones have appeared, the earlier ones must come back. In every case the term a + d b (index d+1) has the same residue as a, since d | d b.\n\n§170. Suppose b and d share a factor φ, with b = Bφ and d = Dφ. Then the first residue returns earlier, at a + D b (index D+1). This is because D b = B D φ = B d is divisible by d. In modern terms, the period divides d/gcd(b, d).\n\n§171. Two cases are to be treated: gcd(d, b) = 1 and gcd(d, b) > 1. The coprime case is carried out on the next page, which shows that the d terms form a complete residue system.",
+  "errors": [
+   "§171: Euler writes 'differentia progressionis a' but the difference is b (a is the first term). This is a slip of letter; the next page correctly uses b.",
+   "§168: 'ex primo oritur residuum a' tacitly assumes a < d (otherwise the residue is a reduced mod d). The next page names it α, so this is a notational looseness, not a mathematical error.",
+   "§170: the residue returns at index D+1, but this is not necessarily the first return. The true period is d/gcd(b, d), which may be smaller than D if φ is not the full gcd. Euler only claims that the residue returns there, so the statement is correct as made."
+  ],
+  "results": [
+   {
+    "what": "If A ≡ α and B ≡ β (mod d), then AB ≡ αβ, proved by expanding (md+α)(nd+β).",
+    "modern_name": "Multiplicativity of congruences / ring structure of Z/dZ",
+    "usually_credited_to": "Folklore; systematized by Gauss, Disquisitiones Arithmeticae (1801), art. 7",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "A ≡ α implies A^n ≡ α^n (mod d), and hence d | A^n − α^n.",
+    "modern_name": "Compatibility of congruences with powers",
+    "usually_credited_to": "Folklore (Euler, Gauss)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Powers of a number ≡ −1 (mod d) alternate between +1 and −1.",
+    "modern_name": "(−1)^n mod d",
+    "usually_credited_to": "Folklore",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Residues of the progression a + kb mod d are periodic. The period divides d, and if gcd(b, d) = φ the residue returns after d/φ steps.",
+    "modern_name": "Order of b in the additive group Z/dZ is d/gcd(b, d)",
+    "usually_credited_to": "Euler (Tractatus, c. 1750) / Gauss (1801)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "This is the well-known Tractatus de numerorum doctrina (published in Opera Postuma 1849 and Commentationes Arithmeticae). The content is elementary residue arithmetic of the kind Euler routinely presented, and it is long attributed to him.",
+  "checkable": [
+   {
+    "sympy": "expand((m*d+alpha)*(n*d+beta)) - (m*n*d**2 + (m*beta+n*alpha)*d + alpha*beta)",
+    "asserts": "The product expansion in §163 is correct (result 0)."
+   },
+   {
+    "sympy": "all(pow(A,k,d)==pow(A%d,k,d) for A in range(1,60) for d in range(2,20) for k in range(1,8))",
+    "asserts": "A^n ≡ α^n mod d, as in §164."
+   },
+   {
+    "sympy": "all(pow(d-1,k,d)==(1 if k%2==0 else d-1) for d in range(3,40) for k in range(1,10))",
+    "asserts": "Powers of d−1 alternate between 1 and −1 mod d (§165)."
+   },
+   {
+    "sympy": "all(simplify(cancel((A**k-a**k)/(A-a))).is_polynomial(A,a) for k in range(1,8))",
+    "asserts": "A−α divides A^n−α^n, so d | A^n−α^n (§166)."
+   },
+   {
+    "sympy": "all(min(k for k in range(1,d+1) if (k*b)%d==0)==d//gcd(b,d) for b in range(1,30) for d in range(2,30))",
+    "asserts": "The first return of the residue of a in a+kb mod d occurs at k = d/gcd(b,d) (§§168–170)."
+   },
+   {
+    "sympy": "all(((a+d*b)-a)%d==0 for a in range(10) for b in range(10) for d in range(1,10))",
+    "asserts": "Term a+db always has the same residue as a (§169)."
+   }
+  ],
+  "transcription_corrections": [
+   "Footnote: the image reads '0, b', 2b, …' with a stray prime/comma after the first b; it is to be read '0, b, 2b, 3b, 4b, etc.'",
+   "§171: the image indeed reads 'differentia progressionis a', so the transcription is faithful, but the source itself has a slip for b."
+  ]
+ }
+}

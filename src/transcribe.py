@@ -9,7 +9,7 @@ every stated problem / question / conjecture / plan, verbatim.
 - Hard budget cap: stops when estimated spend reaches --budget USD.
 - Model outputs are stored as data (JSON) and never executed.
 
-    python3 -E -P src/transcribe.py <manifest.json> <out_dir> [--only 6,27] [--workers 4] [--budget 20]
+    python3 -E -P src/transcribe.py <manifest.json> <out_dir> [--only 6,27] [--workers 4] [--budget 20] [--width 1300]
 """
 import argparse
 import json
@@ -115,6 +115,7 @@ def work(client, out, i, label, svc, budget, source=DEFAULT_SOURCE):
 
 
 def main():
+    global WIDTH
     ap = argparse.ArgumentParser()
     ap.add_argument("manifest")
     ap.add_argument("out_dir")
@@ -123,7 +124,10 @@ def main():
     ap.add_argument("--budget", type=float, default=20.0)
     ap.add_argument("--source", default=DEFAULT_SOURCE,
                     help="one-line description of the manuscript (author, archive, dates, languages)")
+    ap.add_argument("--width", type=int, default=WIDTH,
+                    help="IIIF image width in px (default 1300; use a size the server lists in info.json if it times out)")
     a = ap.parse_args()
+    WIDTH = a.width
 
     key = pathlib.Path.home().joinpath(".config/hunt/anthropic_key").read_text().strip()
     client = anthropic.Anthropic(api_key=key, max_retries=4, timeout=600)

@@ -27,5 +27,17 @@ Cotes: 1, 4–9, 13–16, 18, 26, 48, 60, 64, 67, 80, 93, 104–108, 113–118, 
 156-1…156-9, 159. Candidates: L-012, L-022–L-030 → 0 at ≥ 7 (best 6/10: 1953 functional-analysis folder; 1981
 Grothendieck–Teichmüller relations). Remaining ~8,000 pp (EGA/SGA drafts, later cotes) are in `queue/`.
 
+## Euler — Opera postuma vol. 1 (1862), archive.org `operapostumamath01euleuoft` (IIIF) — 183 pp, deep-read
+E806 *Fragmenta arithmetica ex Adversariis mathematicis* (pp. 157–266, 110 pp; pp. 184–185 are missing from that
+scan — the 186–187 leaf is duplicated — and were taken from the Google copy `leonhardieuleri00petrgoog`) and
+E792 *Tractatus de numerorum doctrina* (pp. 3–75, 73 pp; 1862 reprint of Comm. arith. coll. II, 1849).
+Baseline: Fueter/Speiser, Opera omnia I.5 (1944) preface; Dickson, *History*, which cites ~45 E806 pages.
+Earlier Euler bundles (23 works from the MAA mirror, `p*.json`) are listed in `data/euler/inventory.tsv`.
+
+## Ramanujan — Trinity College Cambridge, Add.MS a/94/18 (IIIF, CC BY-NC 4.0) — 134 images, 134 transcripts, 130+ deep reads
+The 1930 "Stanley bundle" of loose manuscripts (= Narosa 1988 facsimile pp. ~253-370). Every block maps to a
+published treatment (Nicolas–Robin 1997; Andrews–Berndt I-V; Location Guides). Candidate: L-034 → dead/known.
+Notebooks 1-3 and the Lost Notebook proper: not run (fully edited; see data/ramanujan/README.md).
+
 ## Cost so far
 ≈ 12,000 pages × ≈ $0.25 ≈ $3,000 of API calls.

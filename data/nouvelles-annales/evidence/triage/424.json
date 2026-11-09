@@ -1,0 +1,42 @@
+{
+ "number": "424",
+ "field": "geometry",
+ "subfield": "spherical trigonometry / error propagation",
+ "modern_restatement_en": "On the unit sphere, for a triangle with sides $a,b,c$ (in radians) and angles $A,B,C$, find to first order $dA,dB,dC$ in terms of side errors $\\alpha,\\beta,\\gamma$. Answer: $dA=\\dfrac{\\sin a\\,(\\alpha-\\beta\\cos C-\\gamma\\cos B)}{\\sin b\\sin c\\sin A}=\\dfrac{\\alpha-\\beta\\cos C-\\gamma\\cos B}{\\sin b\\sin C}$. The formulas for $B$ and $C$ follow cyclically.",
+ "kind": "compute",
+ "well_posed": true,
+ "well_posed_note": "Sides are to be taken as arcs measured in angular units. The answer is again a first-order estimate. Unlike the plane case, $dA+dB+dC\\neq 0$ in general, since the spherical excess varies.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "For random valid spherical triangles (triangle inequalities and $a+b+c<2\\pi$), compare finite differences of $A=\\arccos\\frac{\\cos a-\\cos b\\cos c}{\\sin b\\sin c}$ with the formula. PASS if the relative error is below $10^{-5}$.",
+  "code": "import math,random\nrandom.seed(0)\ndef ang(a,b,c): return math.acos((math.cos(a)-math.cos(b)*math.cos(c))/(math.sin(b)*math.sin(c)))\nworst=0;n=0\nwhile n<300:\n    a,b,c=[random.uniform(0.3,2.5) for _ in range(3)]\n    if not(a<b+c-0.2 and b<a+c-0.2 and c<a+b-0.2 and a+b+c<2*math.pi-0.3): continue\n    n+=1\n    A=ang(a,b,c);B=ang(b,c,a);C=ang(c,a,b);den=math.sin(b)*math.sin(c)*math.sin(A)\n    form=[math.sin(a)/den,-math.sin(a)*math.cos(C)/den,-math.sin(a)*math.cos(B)/den]\n    h=1e-6\n    for i in range(3):\n        s=[a,b,c];s1=s[:];s2=s[:];s1[i]-=h;s2[i]+=h\n        num=(ang(*s2)-ang(*s1))/(2*h)\n        worst=max(worst,abs(num-form[i])/(1+abs(form[i])))\nprint('PASS' if worst<1e-5 else 'FAIL','spherical dA formula',worst)\n"
+ },
+ "searches": {
+  "zbmath": [
+   "differential formulas spherical triangle",
+   "error propagation spherical trigonometry"
+  ],
+  "stackexchange": [
+   "derivative of spherical triangle angle with respect to sides"
+  ],
+  "wikipedia": [
+   "Spherical trigonometry",
+   "Trigonométrie sphérique"
+  ],
+  "oeis": "",
+  "names": [
+   "Cagnoli differential formulas",
+   "Delambre",
+   "Legendre theorem spherical triangles",
+   "geodesy error analysis"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "These are the standard differential relations of spherical trigonometry (Cagnoli/Delambre era). They follow by differentiating the side cosine law.",
+  "possible_sources": [
+   "Cagnoli, Traité de trigonométrie rectiligne et sphérique",
+   "Serret, Traité de trigonométrie"
+  ]
+ }
+}

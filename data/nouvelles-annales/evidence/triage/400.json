@@ -1,0 +1,45 @@
+{
+ "number": "400",
+ "field": "algebra",
+ "subfield": "invariant theory / seminvariants of binary forms (Roberts)",
+ "modern_restatement_en": "Let $u\\in\\mathbb{C}[x_1,\\dots,x_m]$ have degree $n$. Fix $h=(h_1,\\dots,h_m)$ and set $D=\\sum h_i\\partial_{x_i}$ and $d^k u=D^k u$. Consider $P(t)=\\sum_{k=0}^n \\frac{n!}{k!}\\,t^k\\,d^k u$, which equals $n!\\,u(x+th)$. If $F$ is any polynomial symmetric function of the differences $t_i-t_j$ of the roots of $P$, expressed through the coefficients of $P$, then $D F\\equiv 0$.",
+ "kind": "prove",
+ "well_posed": true,
+ "well_posed_note": "The printed second term '$u\\,t^{n-1}d^{n-1}u$' is evidently a misprint for '$n\\,t^{n-1}d^{n-1}u$'; the general coefficient is $n!/k!$. Turning a symmetric function of differences into a polynomial in the coefficients needs a power of the leading coefficient $d^n u$, which is constant because $D^{n+1}u=0$. With these readings the statement is correct. The proof: $P(t)=n!\\,u(x+th)$, so moving $x$ to $x+sh$ shifts every root by $-s$, and the differences of the roots are unchanged.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Take a random integer polynomial $u(x,y)$ of degree 3 and a symbolic direction $(a,b)$. Build $P(t)$ and check that it equals $3!\\,u(x+ta,y+tb)$. Then check that the discriminant and the scaled sum $c_n^2\\sum(t_i-t_j)^2$ are annihilated by $D=a\\partial_x+b\\partial_y$. PASS means all three identities hold. The literal misprinted version is tested only for information.",
+  "code": "import sympy as sp, random\nx,y,a,b,t=sp.symbols('x y a b t')\nrandom.seed(1)\nn=3\nu=x**3+sum(random.randint(-3,3)*x**i*y**j for i in range(n+1) for j in range(n+1-i))\nD=lambda f: sp.expand(a*sp.diff(f,x)+b*sp.diff(f,y))\nd=[sp.expand(u)]\nfor k in range(n): d.append(D(d[-1]))\nP=sp.expand(sum(sp.factorial(n)/sp.factorial(k)*t**k*d[k] for k in range(n+1)))\nok1=sp.expand(P-sp.factorial(n)*u.subs({x:x+t*a,y:y+t*b},simultaneous=True))==0\nprint('PASS' if ok1 else 'FAIL','P = n! u(x+t dx)')\ndisc=sp.discriminant(P,t)\nprint('PASS' if sp.expand(D(disc))==0 else 'FAIL','D(discriminant)=0')\nc=sp.Poly(P,t).all_coeffs()\nF=(n-1)*c[1]**2-2*n*c[0]*c[2]\nprint('PASS' if sp.expand(D(F))==0 else 'FAIL','D(c_n^2 sum (ti-tj)^2)=0')\nPbad=P-sp.factorial(n)*t**(n-1)*d[n-1]+u*t**(n-1)*d[n-1]\nprint('INFO literal misprinted version invariant:',sp.expand(D(sp.discriminant(sp.expand(Pbad),t)))==0)\n"
+ },
+ "searches": {
+  "zbmath": [
+   "seminvariants translation invariance differences of roots",
+   "Michael Roberts symmetric functions differences of roots"
+  ],
+  "stackexchange": [
+   "symmetric function of differences of roots invariant under translation derivative zero"
+  ],
+  "wikipedia": [
+   "Invariant theory binary forms seminvariant",
+   "Invariant (théorie des invariants) forme binaire"
+  ],
+  "oeis": "",
+  "names": [
+   "Michael Roberts",
+   "Cayley",
+   "Sylvester",
+   "seminvariant",
+   "Aronhold operator",
+   "polar",
+   "Joachimsthal"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "This is the translation invariance of functions of root differences (seminvariants), applied to the restriction of $u$ to the line $x+th$. It is immediate once one notes $P(t)=n!\\,u(x+th)$.",
+  "possible_sources": [
+   "Salmon, Lessons Introductory to the Modern Higher Algebra",
+   "Faà di Bruno, Théorie des formes binaires"
+  ]
+ }
+}

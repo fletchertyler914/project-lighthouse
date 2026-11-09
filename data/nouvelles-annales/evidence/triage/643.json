@@ -1,0 +1,48 @@
+{
+ "number": "643",
+ "field": "geometry",
+ "subfield": "enumerative algebraic geometry (pencils of surfaces, tangency counts)",
+ "modern_restatement_en": "Let $S\\subset\\mathbb P^3$ be a general smooth surface of degree $m$ and $\\{F+tG=0\\}$ a general pencil of degree-$n$ surfaces. The number of members tangent to $S$ is $m[(m+2n-3)^2-(n-1)(n+2m-3)]=m(m^2+2mn+3n^2-4m-8n+6)$. This equals the number of singular fibres of the induced pencil of curves on $S$, namely $e(S)+mn^2-2e(C)$ with $e(S)=m(m^2-4m+6)$ and $e(C)=-mn(m+n-4)$. A synthetic ('pure geometry') proof is requested.",
+ "kind": "prove",
+ "well_posed": true,
+ "well_posed_note": "'In general' means a general pencil and a general surface, each tangency counted with multiplicity. The formula is correct. It reduces to $3(n-1)^2$ for $m=1$ and to the class $m(m-1)^2$ for $n=1$. What remained open was only a purely geometric (Chasles-style) proof.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Verify symbolically that de Jonquières' polynomial equals the topological count $e(S)+mn^2-2e(C)$, a Lefschetz pencil on $S$ blown up at the $mn^2$ base points. Check the specialisations $m=1$ and $n=1$. Numerically, for $m=1,n=2$, check that a random pencil of conics has exactly 3 singular members: the determinant is a squarefree cubic in $t$.",
+  "code": "import sympy as sp, random\nm,n,t=sp.symbols('m n t')\nJ=m*((m+2*n-3)**2-(n-1)*(n+2*m-3))\neS=m*(m**2-4*m+6)\nchiC=-m*n*(m+n-4)\nT=eS+m*n**2-2*chiC\nprint('PASS' if sp.expand(J-T)==0 else 'FAIL','formula = e(S)+mn^2-2e(C):',sp.expand(J))\nprint('PASS' if sp.expand(J.subs(m,1)-3*(n-1)**2)==0 else 'FAIL','m=1 gives 3(n-1)^2')\nprint('PASS' if sp.expand(J.subs(n,1)-m*(m-1)**2)==0 else 'FAIL','n=1 gives class m(m-1)^2 of the surface')\nrandom.seed(3)\ndef sym():\n    M=sp.Matrix(3,3,lambda i,j:random.randint(-9,9)); return M+M.T\nA,B=sym(),sym()\np=sp.Poly((A+t*B).det(),t)\nok=p.degree()==3 and sp.discriminant(p.as_expr(),t)!=0\nprint('PASS' if ok else 'FAIL','random pencil of conics in a plane: 3 singular members')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "number of surfaces of a pencil tangent to a given surface",
+   "de Jonquières pencil surfaces tangent characteristic"
+  ],
+  "stackexchange": [
+   "number of singular members of a pencil of curves on a surface in P^3 Euler characteristic"
+  ],
+  "wikipedia": [
+   "Lefschetz pencil",
+   "Faisceau (géométrie algébrique)"
+  ],
+  "oeis": [
+   ""
+  ],
+  "names": [
+   "de Jonquières",
+   "Chasles",
+   "méthode des caractéristiques",
+   "Salmon",
+   "Cremona",
+   "class of a surface",
+   "Lefschetz pencil"
+  ]
+ },
+ "belief": {
+  "status": "known to be solved later",
+  "note": "The formula is correct, as the modern Lefschetz-pencil/Euler-characteristic count confirms. It follows from Salmon's and Cremona's 19th-century theory of surfaces. A strictly 'pure geometry' proof as requested may never have been published in the Nouvelles Annales.",
+  "possible_sources": [
+   "Salmon, A Treatise on the Analytic Geometry of Three Dimensions",
+   "Cremona, Preliminari di una teoria geometrica delle superficie (1866)",
+   "Schubert, Kalkül der abzählenden Geometrie (1879)"
+  ]
+ }
+}

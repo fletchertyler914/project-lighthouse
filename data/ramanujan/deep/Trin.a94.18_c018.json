@@ -1,0 +1,62 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c018",
+ "label": "015",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F019_Add.Ms.a.9.18_015.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is a numerical table of v_m for m = 1..50, together with the limit v_inf = 1/(6*sqrt(3)) = .0962250.\n\nIdentifying v_m (my reconstruction, checked against every entry). Let\n f(x) = x(1-x)(1-2x) on 0 <= x <= 1/2.\nThen f'(x) = 1 - 6x + 6x^2 = 0 gives x* = (3 - sqrt3)/6 = 1/2 - 1/sqrt12. At this point 1 - 2x* = 1/sqrt3 and x*(1 - x*) = 1/6, so\n max f = 1/(6 sqrt3) = v_inf.\nThe discrete analogue is\n v_m = max over integers 0 <= k <= m/2 of k(m-k)(m-2k)/m^3.\nEquivalently, this is the largest value of x(1-x)(1-2x) on the grid x = k/m. It is also the maximal volume of a box cut from a 2m x m sheet with integer cut k, after normalisation.\n\nThe previous page fits this reading:\n- The optimal k is defined by comparing ((m+1)/2 - sqrt((m^2-1)/12))/m with x*.\n- The special m with 3m^2+6 a perfect square are 5, 19, 71, 265, 989. For example 1713^2 - 3*989^2 = 6.\n- The equalities v_m = v_{2m} = v_{3m} = ... hold up to the point where some m' = jm admits a k/m' closer to x*.\n\nEntries computed on this page (maximising k in brackets; [m]-level equalities hold because the fractions coincide):\n- v1 = 0 and v2 = 0 (k = 0 or 1).\n- v3 = 2/27 [k=1]; v4 = 6/64 [k=1]; v5 = 12/125 [k=1]; v6 = 20/216 [k=1].\n- v7 = 30/343 [k = 1 or 2]; v8 = 48/512 [k=2]; v9 = 70/729 [k=2]; v10 = 96/1000.\n- v11 = 126/1331; v12 = 162/1728; v13 = 210/2197; v14 = 264/2744; v15 = 324/3375.\n- v16 = 390/4096 [k=3]; v17 = 468/4913 [k=4]; v18 = 560/5832; v19 = 660/6859.\n- v21 = 884/9261 [k=4]; v22 = 1020/10648; v23 = 1170/12167; v24 = 1330/13824; v25 = 1500/15625.\n- v29 = 2346/24389; v31 = 2856/29791 [k=7]; v32 = 3150/32768; v33 = 3458/35937 [k=7].\n- v34 = 3780/39304; v37 = 4872/50653; v39 = 5704/59319; v41 = 6624/68921 [k=9].\n- v43 = 7650/79507; v44 = 8190/85184; v47 = 9990/103823; v49 = 11310/117649.\n- v50 = 12012/125000 [k=11].\n\nThe repeated values match the chains stated on the previous page:\n- v5 = v10 = ... = v40 = .096, but v45 and v50 are larger.\n- v9 = v18 = v27 = v36 = v45.\n- v14 = v28 = v42.\n- v19 = v38.\n- v13 = v26, v23 = v46, v24 = v48.\n\nThe ticks at v5 and v7 look like a checker's marks. The table illustrates the 'irregularity' of v_m discussed on the previous page: the sequence is not monotone, and v_m approaches 1/(6 sqrt3) only along special m.",
+  "errors": [
+   "v_23 = 1170/12167 = 0.096161749..., which rounds to .0961617, not .0961618 as written. The same last-digit slip is repeated for v_46 (= v_23).",
+   "v_33 = 3458/35937 = 0.09622395 and v_19 = v_38 = 660/6859 = 0.09622394. These are distinct values that agree to the 7 decimals given, so the table does not distinguish them. This is not an error, merely a limitation of the precision.",
+   "All other 48 entries check correctly to 7 decimals."
+  ],
+  "results": [
+   {
+    "what": "max of x(1-x)(1-2x) on [0,1/2] is 1/(6*sqrt(3)), attained at x = (3 - sqrt3)/6",
+    "modern_name": "elementary calculus maximisation (open-box type problem)",
+    "usually_credited_to": "folklore / textbook",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "Table of v_m = max_k k(m-k)(m-2k)/m^3 for m <= 50, exhibiting the irregular approach to 1/(6 sqrt3) and the equalities v_m = v_{jm}",
+    "modern_name": "discrete (integer-lattice) optimisation of a cubic; quality of rational approximations to (3 - sqrt3)/6, linked to the Pell-type equation y^2 - 3m^2 = 6",
+    "usually_credited_to": "no standard attribution (puzzle-type problem)",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "A correct numerical table illustrating an elementary discrete-maximisation problem. The only mildly interesting feature is the link, on the previous page, to the Pell-type equation 3m^2+6 = square. Nothing here would be unexpected for Ramanujan.",
+  "checkable": [
+   {
+    "sympy": "v = lambda m: max(Rational(k*(m-k)*(m-2*k), m**3) for k in range(0, m//2+1)); [N(v(m), 7) for m in range(1, 51)]",
+    "asserts": "Reproduces the whole table (all entries except v23 and v46 match to 7 decimals)."
+   },
+   {
+    "sympy": "maximum(x*(1-x)*(1-2*x), x, Interval(0, Rational(1,2))) - 1/(6*sqrt(3))",
+    "asserts": "The answer is 0, i.e. v_inf = 1/(6 sqrt3)."
+   },
+   {
+    "sympy": "N(Rational(1170, 12167), 10)",
+    "asserts": "Gives 0.09616174930, so v_23 rounds to .0961617, not .0961618."
+   },
+   {
+    "sympy": "[Rational(k*(9-k)*(9-2*k), 729) for k in range(5)]",
+    "asserts": "The maximum is 70/729 at k = 2, so v_9 = .0960219."
+   },
+   {
+    "sympy": "Rational(12012, 125000) > Rational(12000, 125000)",
+    "asserts": "True: k = 11 beats k = 10 for m = 50, giving v_50 = .096096 > v_5 = .096."
+   },
+   {
+    "sympy": "[(m, sqrt(3*m**2+6)) for m in [5, 19, 71, 265, 989]]",
+    "asserts": "All give integers (9, 33, 123, 459, 1713), matching the special m listed on the previous page."
+   }
+  ],
+  "transcription_corrections": [
+   "Transcription matches the image. Minor point: the ticks after v_5 and v_7 appear to be a checker's marks, not part of the values."
+  ]
+ }
+}

@@ -1,0 +1,64 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c024",
+ "label": "019",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F025_Add.Ms.a.9.18_019.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Notation (standard for Ramanujan): Pi(t,x) = prod_{k>=0}(1+t x^k). So Pi(-t,x) = (t;x)_inf in modern q-Pochhammer notation. Write q = x and (t)_n = (t;q)_n.\n\nTop line, end of step (3). This finishes a computation from the previous page. The coefficient of a^n in the right-hand side series of (4) is evaluated using 'result (2)'. Result (2) is presumably the q-binomial theorem expansion of (a q^m)_inf/(ab)_inf in powers of a. The evaluation gives\n c^n (b-1)(b-q)...(b-q^{n-1}) / ((q)_n).\n[My reconstruction] This amounts to the finite identity\n sum_{m=0}^n [prod_{k<m}(q^k-b)(q^k-c)/(q)_m] * [b^{n-m} (q^m/b)_{n-m}/(q)_{n-m}] = c^n prod_{k<n}(b-q^k)/(q)_n.\nThis is a q-Chu-Vandermonde-type sum.\n\nStep (4). By the q-binomial theorem, (bz)_inf/(z)_inf = sum_n (b)_n z^n/(q)_n. Apply it with z = abc and parameter 1/b. Then\n (ac)_inf/(abc)_inf = sum_n (1/b)_n (abc)^n/(q)_n.\nSince b^n (1/b)_n = prod_{k<n}(b-q^k), the coefficient of a^n is c^n prod_{k<n}(b-q^k)/(q)_n. This matches the coefficient found in (3).\n\nThe two expansions in a therefore agree coefficient by coefficient. Hence\n (ac)_inf/(abc)_inf = sum_{n>=0} a^n [prod_{k<n}(q^k-b)(q^k-c)/(q)_n] (a q^n)_inf/(ab)_inf.\n\nStep (5). Use (a q^n)_inf = (a)_inf/(a)_n and multiply both sides by (ab)_inf/(a)_inf. This gives\n (ab)_inf (ac)_inf / ((a)_inf (abc)_inf) = sum_{n>=0} a^n prod_{k<n}(q^k-b)(q^k-c) / ((q)_n (a)_n).\nNext, note prod_{k<n}(q^k-b) = (-b)^n (1/b)_n. Then the right side becomes\n sum_n (1/b)_n (1/c)_n (abc)^n / ((q)_n (a)_n) = 2phi1(1/b, 1/c; a; q, abc).\nThe left side is (a b)_inf (a c)_inf / ((a)_inf (abc)_inf). Put B = 1/b, C = 1/c, D = a; then the argument abc equals D/(BC). So this is exactly the q-Gauss summation\n 2phi1(B,C;D;q,D/(BC)) = (D/B)_inf (D/C)_inf / ((D)_inf (D/(BC))_inf).\n\nPurpose. The page proves the q-Gauss (Heine) sum by comparing coefficients of a^n in two expansions, each obtained from the q-binomial theorem. This is presumably a lemma for the 'final formula' mentioned on the previous page.",
+  "errors": [
+   "In the statement of (4) the minus signs are omitted: 'Pi(ac,x)/Pi(abc,x)' should be Pi(-ac,x)/Pi(-abc,x), as in the displayed equation that follows. This is a notational slip only.",
+   "The key step (3), the finite q-Chu-Vandermonde-type coefficient identity, depends on 'result (2)' from an earlier page and is not shown here. It is nonetheless true.",
+   "Convergence (|q|<1, |a|, |abc| small) is not stated. This is standard for formal or analytic use.",
+   "No mathematical errors found; the final formula (5) is correct."
+  ],
+  "results": [
+   {
+    "what": "Coefficient of a^n in (ac;q)_inf/(abc;q)_inf equals c^n prod_{k<n}(b-q^k)/(q;q)_n.",
+    "modern_name": "q-binomial theorem (Cauchy/Heine)",
+    "usually_credited_to": "Cauchy (1843), Heine (1847); earlier Gauss/Rothe",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Expansion of (ac)_inf/(abc)_inf as sum_n a^n prod(q^k-b)(q^k-c)/(q)_n * (aq^n)_inf/(ab)_inf, proved by equating coefficients via a q-Vandermonde sum.",
+    "modern_name": "q-Chu-Vandermonde identity used as a lemma",
+    "usually_credited_to": "Heine (1847); Jackson",
+    "already_credited_to_author": "unsure",
+    "routine": true
+   },
+   {
+    "what": "(ab)_inf(ac)_inf/((a)_inf(abc)_inf) = sum_n (1/b)_n(1/c)_n (abc)^n/((q)_n(a)_n).",
+    "modern_name": "q-Gauss summation (Heine's q-analogue of Gauss's 2F1(1) sum)",
+    "usually_credited_to": "E. Heine (1847)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a rederivation of Heine's q-Gauss sum by comparing coefficients of q-binomial expansions. Ramanujan is known to have rediscovered Heine-type results; they appear in his notebooks, Chapter 16. The method is elementary and the result classical.",
+  "checkable": [
+   {
+    "sympy": "q,a,b,c=symbols('q a b c'); qp=lambda t,n: prod([1-t*q**k for k in range(n)]); n=3; expand(sum(prod([(q**k-b)*(q**k-c) for k in range(m)])/qp(q,m)*b**(n-m)*qp(q**m/b,n-m)/qp(q,n-m) for m in range(n+1)) - c**n*prod([b-q**k for k in range(n)])/qp(q,n))",
+    "asserts": "Step (3): the coefficient of a^n on the RHS of (4) equals c^n prod(b-q^k)/(q)_n (here n=3). Expected result: 0 after simplify."
+   },
+   {
+    "sympy": "q,b=symbols('q b'); qp=lambda t,n: prod([1-t*q**k for k in range(n)]); [simplify(b**n*qp(1/b,n)-prod([b-q**k for k in range(n)])) for n in range(5)]",
+    "asserts": "b^n (1/b;q)_n = prod_{k<n}(b-q^k), the rewriting used in (4). Expected result: all zeros."
+   },
+   {
+    "sympy": "qv,av,bv,cv=0.3,0.2,0.7,0.5; P=lambda t: prod([1-t*qv**k for k in range(200)]); qp=lambda t,n: prod([1-t*qv**k for k in range(n)]); lhs=P(av*bv)*P(av*cv)/(P(av)*P(av*bv*cv)); rhs=sum(av**n*prod([(qv**k-bv)*(qv**k-cv) for k in range(n)])/(qp(qv,n)*qp(av,n)) for n in range(80)); lhs-rhs",
+    "asserts": "Formula (5), the q-Gauss sum, checked numerically. Expected result: approximately 0."
+   },
+   {
+    "sympy": "qv,av,bv,cv=0.3,0.2,0.7,0.5; P=lambda t: prod([1-t*qv**k for k in range(200)]); qp=lambda t,n: prod([1-t*qv**k for k in range(n)]); P(av*cv)/P(av*bv*cv) - sum(av**n*prod([(qv**k-bv)*(qv**k-cv) for k in range(n)])/qp(qv,n)*P(av*qv**n)/P(av*bv) for n in range(80))",
+    "asserts": "The displayed expansion in (4) checked numerically. Expected result: approximately 0."
+   }
+  ],
+  "transcription_corrections": [
+   "In the text of (4) the image shows 'Pi(ac,x)/Pi(abc,x)' without minus signs. The transcription reproduces this faithfully, but the intended expression is Pi(-ac,x)/Pi(-abc,x).",
+   "In the first term after '+ a.' the image's 'Pi(ax,x)' has a faint or absent minus sign; the intended expression is Pi(-ax,x).",
+   "The transcription is otherwise accurate."
+  ]
+ }
+}

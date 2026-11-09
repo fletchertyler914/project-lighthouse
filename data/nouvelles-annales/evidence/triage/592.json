@@ -1,0 +1,41 @@
+{
+ "number": "592",
+ "field": "geometry",
+ "subfield": "surfaces of revolution, apparent contours, evolutes",
+ "modern_restatement_en": "Let $S$ be a surface of revolution about the $z$-axis and $v$ a direction oblique to the axis. Let $\\Gamma\\subset S$ be the contact curve of the cylinder with generators parallel to $v$ circumscribed about $S$. The horizontal segments joining points of $\\Gamma$ to the axis form a conoid $R$; let $Z$ be the cylinder with generators parallel to $v$ circumscribed about $R$. Then in a plane perpendicular to the axis, the section of $Z$ is the evolute of the section of the first cylinder.",
+ "kind": "prove",
+ "well_posed": true,
+ "well_posed_note": "The cutting plane is unspecified. The statement holds for planes perpendicular to the axis, but fails in general. For a sphere cut by a plane perpendicular to $v$, the first section is a circle, whose evolute is a point, while the second contour is the evolute of an ellipse. Degenerate when $v$ is parallel or perpendicular to the axis.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Project along $v=(\\sin\\varphi,0,\\cos\\varphi)$ onto $z=0$. For meridian $r=f(z)$, contact points satisfy $\\cos\\theta=f'(z)\\cot\\varphi$. The projected rulings join $\\pi(P)$ to $\\pi(Q)$, $Q=(0,0,z)$, and the second contour is their envelope. It equals the evolute iff these lines are normal to the projected curve, i.e. the tangent dot product is 0 (analytically it is $f\\,(f'-\\tan\\varphi\\cos\\theta)=0$). PASS if the maximum normalized dot product is below $10^{-6}$.",
+  "code": "import math\nphi=0.7\nf=lambda z:2+0.3*math.cos(z)+0.1*z\nfp=lambda z:-0.3*math.sin(z)+0.1\ndef Pp(z):\n    th=math.acos(fp(z)/math.tan(phi))\n    return (f(z)*math.cos(th)-z*math.tan(phi),f(z)*math.sin(th))\ndef Qp(z): return (-z*math.tan(phi),0.0)\nworst=0\nfor i in range(1,100):\n    z=-2+4*i/100;h=1e-6\n    p1,p2=Pp(z-h),Pp(z+h);T=((p2[0]-p1[0])/(2*h),(p2[1]-p1[1])/(2*h))\n    P,Q=Pp(z),Qp(z);N=(P[0]-Q[0],P[1]-Q[1])\n    c=abs(T[0]*N[0]+T[1]*N[1])/(math.hypot(*T)*math.hypot(*N));worst=max(worst,c)\nprint('PASS' if worst<1e-6 else 'FAIL','projected rulings are normals of section (plane perpendicular to axis)',worst)\n"
+ },
+ "searches": {
+  "zbmath": [
+   "circumscribed cylinder surface of revolution evolute conoid",
+   "apparent contour surface of revolution evolute"
+  ],
+  "stackexchange": [
+   "cylinder circumscribed surface of revolution section evolute"
+  ],
+  "wikipedia": [
+   "Evolute",
+   "Développée"
+  ],
+  "oeis": "",
+  "names": [
+   "Dunesme",
+   "contour apparent",
+   "conoïde",
+   "développée",
+   "surface de révolution",
+   "Monge"
+  ]
+ },
+ "belief": {
+  "status": "unclear",
+  "note": "No published solution is known to me. It is true for sections perpendicular to the axis, by a two-line computation: the projected rulings are the normals of the first section, so their envelope is its evolute. It is false for other cutting planes.",
+  "possible_sources": []
+ }
+}

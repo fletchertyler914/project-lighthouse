@@ -1,0 +1,57 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c001",
+ "label": "002",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F002_Add.Ms.a.9.18_002.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "This page is not a Ramanujan derivation. It is page 2 of G. H. Hardy's letter to G. N. Watson (postmark 1930, Add. MS a94/18), and its first line continues the previous page.\n\nLetter text:\n- '[a substantial chunk which I think I should] be wise to send to you at once — by now you can probably \"place\" most of them. Of course, I have a good many more which need sorting out.'\n- Contents: '3 connected blocks (the most important being the suppressed part of \"H.C.N.\")'. This refers to the portion of Ramanujan's 1915 paper on Highly Composite Numbers that was cut for reasons of length. An archivist's margin note points to the Collected Papers, p. 78, where the published H.C.N. paper begins. 'These Miss S[tanley] has attached slips to.'\n- 'block of misc. [stuff?]: I have noted in pencil the sort of field of his work they hang on to.'\n- 'You may expect some more after my further interview with her.'\n- Signed G. H. Hardy.\n\nThe N.B. is the only mathematics on the page: 'I have a pupil working (inter alia) at Σ c_n x^n = 1/((1-ax)(1-ax^2)…), c_n ~ √(1-a) (kn)^{1/4}/(2n√π) e^{2√(kn)} — so don't queer his pitch!' Hardy does not define k.\n\nReconstruction of the asymptotic. Everything from here on is mine; it assumes 0<a<1 and fixed.\n1. Let F(x) = Π_{m≥1} (1-a x^m)^{-1}. Then c_n is the number of partitions of n weighted by a^(number of parts).\n2. Take logs: log F(x) = Σ_{m≥1} (a^m/m) · x^m/(1-x^m).\n3. Put x = e^{-t}. As t→0+, x^m/(1-x^m) = 1/(mt) - 1/2 + O(mt).\n4. Hence log F = Li_2(a)/t + (1/2) log(1-a) + O(t). So F(e^{-t}) ~ √(1-a) exp(k/t), with k = Li_2(a) = Σ a^m/m^2.\n5. Apply the saddle-point method to c_n = (1/2πi) ∮ F(e^{-t}) e^{nt} dt.\n   - The phase φ(t) = k/t + nt is stationary at t0 = √(k/n), where φ(t0) = 2√(kn).\n   - There φ''(t0) = 2k/t0^3 = 2 n^{3/2} k^{-1/2}.\n6. The Gaussian factor is 1/√(2π φ''(t0)) = k^{1/4}/(2√π n^{3/4}).\n7. Therefore c_n ~ √(1-a) k^{1/4} n^{-3/4} e^{2√(kn)}/(2√π) = √(1-a) (kn)^{1/4}/(2n√π) · e^{2√(kn)}. This is exactly Hardy's formula.\n\nThe problem being served is the asymptotics of 'a-weighted' partition numbers. It is the one-parameter generalization of the Hardy–Ramanujan p(n) asymptotic: at a=1, k=π²/6, but the factor √(1-a) degenerates and the formula changes. A matching asymptotic claim appears among Ramanujan's lost-notebook entries. Hardy's remark suggests he regarded a related Ramanujan fragment as overlapping his pupil's work and asked Watson not to publish it first.",
+  "errors": [
+   "k is not defined on the page. The formula is correct when k = Li_2(a) = Σ_{m≥1} a^m/m^2.",
+   "The range of a is unstated. The derivation as given needs 0<a<1 real and fixed. At a=1 the factor √(1-a) vanishes and the Hardy–Ramanujan p(n) asymptotic applies instead. For a>1 the product has poles inside the unit disc and the dominant behaviour changes.",
+   "No proof is given; it is a statement in a letter. A rigorous proof needs control of the minor arcs (other roots of unity), which is standard for fixed 0<a<1."
+  ],
+  "results": [
+   {
+    "what": "Asymptotic for the coefficients of 1/Π_{m≥1}(1-a x^m): c_n ~ √(1-a) (kn)^{1/4} e^{2√(kn)}/(2n√π), with k = Li_2(a)",
+    "modern_name": "Asymptotics of weighted partitions (partitions counted by a^{number of parts}); a Meinardus-type saddle-point asymptotic involving the dilogarithm",
+    "usually_credited_to": "Stated by Ramanujan (lost notebook material); worked on by a Hardy pupil around 1930 (possibly E. M. Wright, unsure); general method Meinardus (1954); revisited by Berndt, Dixit, Roy, Zaharescu (2017) in connection with Ramanujan's claims",
+    "already_credited_to_author": "unsure",
+    "routine": false
+   },
+   {
+    "what": "Report that the 'suppressed part' of Ramanujan's Highly Composite Numbers paper was among the MSS Miss Stanley brought to Hardy in 1930",
+    "modern_name": "Unpublished second part of 'Highly Composite Numbers' (superior HCN, products of σ_s etc.)",
+    "usually_credited_to": "Ramanujan; published with annotations by J.-L. Nicolas and G. Robin (Ramanujan J. 1997)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 2,
+  "surprise_reason": "This is an editorial letter from Hardy to Watson. Its historical value is that it documents the 1930 provenance of the MSS, including the suppressed part of H.C.N., and shows Hardy's awareness of the a-weighted partition asymptotic and his pupil's work on it. The formula itself is correct and is a standard saddle-point result. It is already associated with Ramanujan's lost notebook and with later general theorems such as Meinardus, so it is a notable archival detail rather than a new result.",
+  "checkable": [
+   {
+    "sympy": "a,t=symbols('a t',positive=True); k=polylog(2,a); expr=Sum(a**m/m*(exp(-m*t)/(1-exp(-m*t))),(m,1,oo)); # compare numerically with k/t + log(1-a)/2 for a=0.5, t=0.01",
+    "asserts": "log Π(1-a e^{-mt})^{-1} = Li_2(a)/t + (1/2)log(1-a) + O(t) as t→0+"
+   },
+   {
+    "sympy": "a=Rational(1,2); N=400; x=symbols('x'); F=prod([1/(1-a*x**m) for m in range(1,N+1)]); c=series(F,x,0,N+1).coeff(x,N); k=polylog(2,a).evalf(); approx=sqrt(1-a)*(k*N)**Rational(1,4)/(2*N*sqrt(pi))*exp(2*sqrt(k*N)); (c/approx).evalf()",
+    "asserts": "The ratio c_n / [√(1-a)(kn)^{1/4} e^{2√(kn)}/(2n√π)] tends to 1 (ratio near 1 for n=400, a=1/2, with k=Li_2(1/2)=π²/12-log(2)²/2)"
+   },
+   {
+    "sympy": "n,k=symbols('n k',positive=True); t0=sqrt(k/n); phi=k/symbols('t')+n*symbols('t'); simplify(phi.subs(symbols('t'),t0)-2*sqrt(k*n)), simplify(diff(phi,symbols('t'),2).subs(symbols('t'),t0)-2*n**Rational(3,2)/sqrt(k))",
+    "asserts": "Saddle point of k/t+nt is t0=√(k/n), with value 2√(kn) and second derivative 2n^{3/2}k^{-1/2}"
+   },
+   {
+    "sympy": "simplify(1/sqrt(2*pi*2*n**Rational(3,2)/sqrt(k)) - (k*n)**Rational(1,4)/(2*n*sqrt(pi)))",
+    "asserts": "The Gaussian prefactor equals (kn)^{1/4}/(2n√π), matching Hardy's formula"
+   }
+  ],
+  "transcription_corrections": [
+   "Line 1 continues the previous page: '[I should] be wise to send to you at once'.",
+   "'block of misc. stuff[?]' — the word after 'misc.' is unclear in the image ('stuff' or 'slips'); the reading is uncertain.",
+   "In the N.B. formula, 'k' is written as in the transcription, inside (kn)^{1/4} and e^{2√(kn)}. It is undefined on the page and should be k = Li_2(a) = Σ a^m/m^2.",
+   "The margin note 'Highly Composite Numbers, Collected Papers, p. 78' is in a later (archivist's) pencil hand, not Hardy's."
+  ]
+ }
+}

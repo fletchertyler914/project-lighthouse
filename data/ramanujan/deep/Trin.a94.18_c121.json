@@ -1,0 +1,37 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c121",
+ "label": "102verso",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F122_Add.Ms.a.9.18_102verso.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "The page is written sideways (rotated 90 degrees) and holds a single line: x/(1-x) = x + x^2 + x^3 + ... + x^16. This is the geometric series for x/(1-x), cut off after x^16.\n\nContext from the neighbouring pages:\n- Folio 102 recto computes (1-x)(1-x^2)(1-x^3)... times {1 + x/(1-x) + x^4/((1-x)(1-x^2)) + ...} as a power series up to x^36.\n- It obtains 1 - x^2 - x^3 + x^9 + x^11 - x^21 - x^24 + ...\n- It identifies this, via the Jacobi triple product with p = x^(5/2), q = x^(1/2), as the product of (1-x^(5n+2)), (1-x^(5n+3)) and (1-x^(5n+5)) over n >= 0.\n- Dividing out gives the first Rogers–Ramanujan identity: 1 + sum_{n>=1} x^(n^2)/((1-x)...(1-x^n)) = 1/prod_{n>=0} (1-x^(5n+1))(1-x^(5n+4)).\n\nThis verso is almost certainly scratch work for that numerical check. It expands the second term x/(1-x) of the Rogers–Ramanujan series as a truncated power series, so it can be added to the expansions of x^4/((1-x)(1-x^2)), x^9/..., and so on, and then multiplied by the truncated Euler product. The specific purpose of the cut-off at x^16 is not stated on the page; in my reading it is just a working truncation for the term-by-term expansion. There is no derivation beyond the series identity itself.",
+  "errors": [
+   "No errors. The expansion is correct as a truncation; the tail x^17 + x^18 + ... is omitted and no ellipsis or O(x^17) is written, which is normal for scratch work."
+  ],
+  "results": [
+   {
+    "what": "x/(1-x) = x + x^2 + ... + x^16 (truncated geometric series), as scratch work for the power-series verification of the Rogers–Ramanujan identity on the adjacent folio",
+    "modern_name": "Geometric series expansion",
+    "usually_credited_to": "Classical (antiquity / Euler-era formal power series)",
+    "already_credited_to_author": "no",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The page contains only a truncated geometric series. It is elementary scratch work supporting the Rogers–Ramanujan computation on the neighbouring pages, which is itself well known as Ramanujan's (rediscovering Rogers 1894).",
+  "checkable": [
+   {
+    "sympy": "sympy.series(x/(1-x), x, 0, 17).removeO() - sum(x**k for k in range(1,17)) == 0",
+    "asserts": "The truncated expansion of x/(1-x) through x^16 equals x + x^2 + ... + x^16."
+   },
+   {
+    "sympy": "sympy.expand(sympy.series(sum(x**(n**2)/sympy.prod([1-x**k for k in range(1,n+1)]) for n in range(0,7)) * sympy.prod([(1-x**(5*m+1))*(1-x**(5*m+4)) for m in range(0,8)]), x, 0, 37).removeO()) == 1",
+    "asserts": "Context check: first Rogers–Ramanujan identity holds through x^36, the series this expansion feeds into."
+   }
+  ],
+  "transcription_corrections": [
+   "The page is written rotated 90 degrees. The left side is x/(1-x); the handwritten exponents (e.g. x^5 written with a trailing stroke) are correctly read as x^2, x^3, ..., x^16. The machine transcription is otherwise accurate."
+  ]
+ }
+}

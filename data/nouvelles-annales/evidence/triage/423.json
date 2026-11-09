@@ -1,0 +1,43 @@
+{
+ "number": "423",
+ "field": "geometry",
+ "subfield": "plane trigonometry / error propagation",
+ "modern_restatement_en": "In a plane triangle with sides $a,b,c$ and angles $A,B,C$, express to first order the changes $dA,dB,dC$ caused by errors $da=\\alpha$, $db=\\beta$, $dc=\\gamma$, and bound them. Answer: $dA=\\dfrac{a(\\alpha-\\beta\\cos C-\\gamma\\cos B)}{2\\Delta}=\\dfrac{\\alpha-\\beta\\cos C-\\gamma\\cos B}{h_a}$, with $|dA|\\le(|\\alpha|+|\\beta\\cos C|+|\\gamma\\cos B|)/h_a$. The formulas for $B$ and $C$ follow cyclically, and $dA+dB+dC=0$.",
+ "kind": "compute",
+ "well_posed": true,
+ "well_posed_note": "'Influence' is naturally read as a first-order (differential) estimate or a worst-case bound. The exact finite-error answer is just a recomputation by the law of cosines.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "For random valid triangles, compare central finite differences of $A(a,b,c)=\\arccos\\frac{b^2+c^2-a^2}{2bc}$ with the closed-form partial derivatives. Also check that the partial derivatives of $A+B+C$ vanish. PASS if the maximum relative error is below $10^{-5}$.",
+  "code": "import math,random\nrandom.seed(0)\ndef angs(a,b,c):\n    A=math.acos((b*b+c*c-a*a)/(2*b*c));B=math.acos((a*a+c*c-b*b)/(2*a*c));return A,B,math.pi-A-B\nworst=0;worst2=0\nfor _ in range(300):\n    a=random.uniform(1,2);b=random.uniform(1,2);c=random.uniform(abs(a-b)+0.2,a+b-0.2)\n    A,B,C=angs(a,b,c);S=0.5*b*c*math.sin(A);h=1e-6\n    form=[a/(2*S),-a*math.cos(C)/(2*S),-a*math.cos(B)/(2*S)]\n    for i in range(3):\n        s=[a,b,c];s1=s[:];s2=s[:];s1[i]-=h;s2[i]+=h\n        num=(angs(*s2)[0]-angs(*s1)[0])/(2*h)\n        worst=max(worst,abs(num-form[i])/(1+abs(form[i])))\n        tot=sum(angs(*s2))-sum(angs(*s1));worst2=max(worst2,abs(tot)/(2*h))\nprint('PASS' if worst<1e-5 else 'FAIL','dA formula',worst)\nprint('PASS' if worst2<1e-6 else 'FAIL','dA+dB+dC=0',worst2)\n"
+ },
+ "searches": {
+  "zbmath": [
+   "error propagation triangle sides angles",
+   "differential formulas plane triangle"
+  ],
+  "stackexchange": [
+   "error in angle of triangle from errors in measured sides law of cosines"
+  ],
+  "wikipedia": [
+   "Propagation of uncertainty",
+   "Propagation des incertitudes"
+  ],
+  "oeis": "",
+  "names": [
+   "differential relations of triangles",
+   "Cagnoli",
+   "Delambre",
+   "Gauss least squares",
+   "Caillet"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "This is a routine differentiation of the law of cosines, found in 19th-century trigonometry and geodesy treatises. It went unsolved in the journal presumably because it is an exercise.",
+  "possible_sources": [
+   "Serret, Traité de trigonométrie",
+   "Cagnoli, Traité de trigonométrie"
+  ]
+ }
+}

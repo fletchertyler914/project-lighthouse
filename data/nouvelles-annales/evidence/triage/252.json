@@ -1,0 +1,44 @@
+{
+ "number": "252",
+ "field": "other",
+ "subfield": "combinatorics / Eulerian circuits (dominoes)",
+ "modern_restatement_en": "The 21 non-double dominoes with pips $0..6$ are the edges of $K_7$. A legal line of all 21 pieces is an Eulerian trail of $K_7$. Since all degrees equal 6, every such trail is closed. Count these trails. If $U$ is the number of Eulerian circuits of $K_7$, unrooted and unoriented, then the number of lines is $21U$ if a line and its reverse are identified, and $42U$ otherwise. The classical value is $U=129\\,976\\,320$, giving $2\\,729\\,502\\,720$ or $5\\,459\\,005\\,440$; the attached code verifies this.",
+ "kind": "compute",
+ "well_posed": true,
+ "well_posed_note": "The answer depends on whether a line and its reversal (reading right to left) count as distinct. It also depends on whether the orientation of each piece within the line is considered, but that orientation is forced by the matching rule. Otherwise the problem is well-defined.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "Run dynamic programming over (current vertex, used-edge bitmask) to count oriented Eulerian trails from vertex 0 in $K_n$. For $K_7$ only about $7\\cdot 2^{15}$ states are reachable. Convert with $U = n\\,T_0/(2|E|)$. Calibrate on $K_5$ against 264, then check $K_7$ against 129976320. Print the line counts under both conventions.",
+  "code": "from functools import lru_cache\nimport sys\nsys.setrecursionlimit(10000)\ndef T0(n):\n    E=[(i,j) for i in range(n) for j in range(i+1,n)]\n    adj=[[] for _ in range(n)]\n    for k,(i,j) in enumerate(E):\n        adj[i].append((j,k));adj[j].append((i,k))\n    full=(1<<len(E))-1\n    @lru_cache(maxsize=None)\n    def f(v,used):\n        if used==full: return 1\n        t=0\n        for w,k in adj[v]:\n            if not (used>>k)&1: t+=f(w,used|(1<<k))\n        return t\n    return f(0,0),len(E)\nfor n,ref in [(5,264),(7,129976320)]:\n    t,m=T0(n)\n    oriented_lines=n*t\n    U=oriented_lines//(2*m)\n    print('K%d: trails from 0 =%d, oriented lines=%d, lines up to reversal=%d, unoriented circuits=%d'%(n,t,oriented_lines,oriented_lines//2,U))\n    print('PASS' if U==ref else 'FAIL (U=%d vs %d)'%(U,ref))\n"
+ },
+ "searches": {
+  "zbmath": [
+   "number of Eulerian circuits complete graph K7 dominoes",
+   "Reiss domino arrangements count"
+  ],
+  "stackexchange": [
+   "number of ways to arrange dominoes in a line Eulerian circuits K7"
+  ],
+  "wikipedia": [
+   "Eulerian path",
+   "Graphe eulérien"
+  ],
+  "oeis": "1, 264, 129976320",
+  "names": [
+   "Reiss",
+   "Tarry",
+   "Lucas Récréations mathématiques",
+   "jeu de dominos",
+   "Euler circuits",
+   "BEST theorem"
+  ]
+ },
+ "belief": {
+  "status": "known to be solved later",
+  "note": "M. Reiss (c. 1871) counted lines of the full 28-domino set as 7,959,229,931,520 = 28·3^7·129,976,320. This implicitly gives $U=129\\,976\\,320$ Eulerian circuits for the doubles-free set. Tarry's method appears in Lucas's Récréations; the 21-piece answer follows directly.",
+  "possible_sources": [
+   "M. Reiss, Annali di Matematica pura ed applicata (c. 1871), on the 28 dominoes",
+   "É. Lucas, Récréations mathématiques, vol. 2"
+  ]
+ }
+}

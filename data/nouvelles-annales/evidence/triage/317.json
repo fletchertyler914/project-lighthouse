@@ -1,0 +1,43 @@
+{
+ "number": "317",
+ "field": "geometry",
+ "subfield": "projective geometry of conics; pencils of conics and involutions",
+ "modern_restatement_en": "Let $S$ be a nondegenerate conic, $a\\in S$, and let $b,c,d,P$ be general points. Show that, in general, exactly two lines $\\ell$ through $P$ have the following property: the two points $\\{\\varepsilon,\\varphi\\}=\\ell\\cap S$ (real or complex) lie on a conic through $a,b,c,d$. Equivalently, on $S\\cong\\mathbb P^1$ the conics through $a,b,c,d$ cut residual triples forming a $g^1_3$. The lines through $P$ cut an involution $g^1_2$. Exactly two pairs of the involution are contained in triples of the $g^1_3$.",
+ "kind": "prove",
+ "well_posed": true,
+ "well_posed_note": "The intended genericity is: $b,c,d,P$ are not on $S$, the conics through $a,b,c,d$ form a pencil, and no degenerate coincidences occur. Under these assumptions there is a short proof. In $\\mathrm{Sym}^2\\mathbb P^1\\cong\\mathbb P^2$, the pairs of the involution form a line. The pairs contained in a triple of the $g^1_3$ are cut out by $(F(s)G(u)-F(u)G(s))/(s-u)=0$, which is a conic. A line meets a conic in 2 points, so there are 2 solutions.",
+ "elementary_check": {
+  "possible": true,
+  "plan": "1. Take S to be the unit circle with the rational parametrisation t -> ((1-t^2)/(1+t^2), 2t/(1+t^2)), and put a=(1,0), which is t=0. 2. Choose random rational points b,c,d,P. 3. Compute two conics spanning the pencil through a,b,c,d. Restrict each to S and divide by t to get cubics F and G. 4. Form the pair condition H(s,u)=(F(s)G(u)-F(u)G(s))/(s-u). 5. Form the collinearity condition L(s,u)=det(P, X(s), X(u))/(s-u). 6. Compute Res_u(H,L), which has degree at most 4 in s. PASS if it has exactly 4 distinct roots, i.e. 2 lines, each counted by its two endpoints. FAIL otherwise.",
+  "code": "import sympy as sp, random\ns,u,t,x,y=sp.symbols('s u t x y')\nrandom.seed(1)\ndef R(): return sp.Rational(random.randint(-20,20),random.randint(1,9))\nmons=[x**2,x*y,y**2,x,y,1]\nfor trial in range(3):\n    pts=[(sp.Integer(1),sp.Integer(0))]+[(R(),R()) for _ in range(3)]\n    P=(R(),R())\n    M=sp.Matrix([[m.subs({x:p[0],y:p[1]}) for m in mons] for p in pts])\n    ns=M.nullspace()\n    if len(ns)!=2:\n        print('trial',trial,'degenerate, skipped'); continue\n    cub=[]\n    for v in ns:\n        Q=sum(cc*m for cc,m in zip(v,mons))\n        q=sp.cancel(Q.subs({x:(1-t**2)/(1+t**2),y:2*t/(1+t**2)})*(1+t**2)**2)\n        cub.append(sp.expand(sp.cancel(q/t)))\n    F,G=cub\n    H=sp.expand(sp.cancel((F.subs(t,s)*G.subs(t,u)-F.subs(t,u)*G.subs(t,s))/(s-u)))\n    L=sp.Matrix([[P[0],P[1],1],[1-s**2,2*s,1+s**2],[1-u**2,2*u,1+u**2]]).det()\n    L=sp.expand(sp.cancel(L/(s-u)))\n    Rs=sp.resultant(H,L,u)\n    if Rs==0:\n        print('trial',trial,'resultant vanished, FAIL'); continue\n    d=sp.Poly(sp.sqf_part(sp.expand(Rs)),s).degree()\n    print('trial',trial,'distinct endpoint parameters',d,'lines',sp.Rational(d,2),'PASS' if d==4 else 'FAIL')\n"
+ },
+ "searches": {
+  "zbmath": [
+   "pencil of conics involution conic transversal through point",
+   "De Jonquieres involution conics two solutions"
+  ],
+  "stackexchange": [
+   "line through a point meeting a conic in two points concyclic-conic with four given points"
+  ],
+  "wikipedia": [
+   "Pencil of conics",
+   "Faisceau de coniques"
+  ],
+  "oeis": "",
+  "names": [
+   "De Jonquières",
+   "Desargues involution theorem",
+   "Chasles",
+   "involution on a conic",
+   "faisceau de coniques"
+  ]
+ },
+ "belief": {
+  "status": "known classical theorem",
+  "note": "The result is a direct consequence of the theory of involutions on a conic (Desargues–Sturm, Chasles, De Jonquières): the count is the intersection of a line and a conic in the space of point-pairs. No later dedicated solution is known to me, but the statement is routine by 19th-century standards.",
+  "possible_sources": [
+   "M. Chasles, Traité des sections coniques (1865)",
+   "E. de Jonquières, papers on involutions in Nouvelles Annales / Liouville's Journal (1850s)"
+  ]
+ }
+}

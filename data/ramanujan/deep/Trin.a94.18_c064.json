@@ -1,0 +1,66 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c064",
+ "label": "054",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F065_Add.Ms.a.9.18_054.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context: this is part of Ramanujan's work on highly composite numbers (HCN). Previous pages derived log p_r / log(1+1/r) = log p_1/log 2 + O(r). This page sets up a comparison argument between two indices r and s.\n\n(A) Representation. Write theta(x) = sum_{p<=x} log p and pi(x) = #{p<=x}. Let N = exp(theta(alpha)+theta(beta)+theta(gamma)+...), i.e. N = prod_i prod_{p<=alpha_i} p. A prime p then has exponent a_p = #{i : p <= alpha_i}. Hence d(N) = prod_p (a_p+1).\n\nThe formal product 2^{pi(alpha)} (3/2)^{pi(beta)} (4/3)^{pi(gamma)} ... equals prod_p prod_{i: p<=alpha_i} (1+1/i). The step from here is mine. For each p, the a_p indices i satisfy: the j-th smallest index is >= j. Since 1+1/i decreases in i, the inner product is <= prod_{j=1}^{a_p} (1+1/j) = a_p+1. This gives Ramanujan's d(N) >= 2^{pi(alpha)} (3/2)^{pi(beta)} ...\n\nEquality holds exactly when, for every p, {i : p <= alpha_i} is an initial segment {1,...,a_p}. This is equivalent to pi(alpha_1) >= pi(alpha_2) >= ..., i.e. alpha >= beta >= gamma >= ... up to primes. In that case the product telescopes to a_p+1.\n\n(B) Any N = prod p^{a_p} with nonincreasing exponents, in particular any HCN, can be written this way. Take p_r = the largest prime with exponent >= r, so p_1 >= p_2 >= .... Then N = exp(sum theta(p_i)) and d(N) = 2^{pi(p_1)} (3/2)^{pi(p_2)} (4/3)^{pi(p_3)} ....\n\n(C) Perturbation. Replace p_r by a prime q_r and p_s by a prime q_s: N' = N exp(theta(q_r)+theta(q_s)-theta(p_r)-theta(p_s)). By (A), d(N') >= the formal product for N', which is d(N)(1+1/r)^{pi(q_r)-pi(p_r)} (1+1/s)^{pi(q_s)-pi(p_s)}.\n\nChoose q_r > p_r and q_s < p_s with pi(q_r) = pi(p_r)+n and pi(q_s) = pi(p_s) - floor(n log(1+1/r)/log(1+1/s)). Then the log of the multiplier is n log(1+1/r) - floor(n log(1+1/r)/log(1+1/s)) log(1+1/s) >= 0. So d(N') >= d(N).\n\nSince N is highly composite, every M < N has d(M) < d(N). Hence N' >= N, i.e. theta(q_r)+theta(q_s) >= theta(p_r)+theta(p_s).\n\n(D) Elementary bound: for alpha > beta, theta(alpha)-theta(beta) is a sum of pi(alpha)-pi(beta) terms log p with beta < p <= alpha. So {pi(alpha)-pi(beta)} log beta <= theta(alpha)-theta(beta) <= {pi(alpha)-pi(beta)} log alpha.\n\n'Hence' (continued on the next page): n log q_r >= floor(n log(1+1/r)/log(1+1/s)) log q_s. This is to be turned into a relation between p_r and p_s, generalising the r vs 1 relation of the previous page.",
+  "errors": [
+   "No genuine errors. 'then only d(N) = ...' should be read as 'equality holds (only) when the alpha's are ordered'; strictly this is ordering of pi-values, not of the reals alpha.",
+   "Implicit assumptions not stated: the alpha_i, p_i, q_r, q_s are primes (or reals); pi(p_s) - floor(...) >= 0 so that q_s exists (with pi(q_s) = 0 meaning that factor is dropped); and the floor is >= 1 if q_s < p_s is to be strict. All are harmless.",
+   "The inequality d(N') >= formal product needs part (A), since after the replacement the q's need not be in nonincreasing order. Ramanujan correctly writes >= here."
+  ],
+  "results": [
+   {
+    "what": "Representation N = exp(sum_i theta(p_i)) with p_i = largest prime of exponent >= i, and d(N) = 2^{pi(p_1)} (3/2)^{pi(p_2)} (4/3)^{pi(p_3)} ...; for an unordered sequence d(N) >= that product",
+    "modern_name": "Ramanujan's theta/pi parametrisation of numbers with nonincreasing exponents (highly composite numbers)",
+    "usually_credited_to": "Ramanujan, 'Highly composite numbers' (Proc. LMS 1915) and the suppressed part published by Nicolas & Robin (Ramanujan J. 1997)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "Exchange argument: perturb p_r up by n primes and p_s down by floor(n log(1+1/r)/log(1+1/s)) primes, keeping d(N') >= d(N), hence N' >= N, giving inequalities between p_r and p_s",
+    "modern_name": "Ramanujan's comparison method for estimating the largest prime with a given exponent in an HCN (log p_r / log(1+1/r) ~ log p_1 / log 2)",
+    "usually_credited_to": "Ramanujan 1915 (HCN paper, sections on the exponents of large primes)",
+    "already_credited_to_author": "yes",
+    "routine": true
+   },
+   {
+    "what": "{pi(a)-pi(b)} log b <= theta(a)-theta(b) <= {pi(a)-pi(b)} log a",
+    "modern_name": "Trivial Chebyshev-function comparison",
+    "usually_credited_to": "folklore/Chebyshev",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 1,
+  "surprise_reason": "This is a draft of the argument in Ramanujan's known HCN work (published 1915, with the suppressed portion published in 1997). The method and notation are known to be his; the page adds only drafting detail.",
+  "checkable": [
+   {
+    "sympy": "from sympy import divisor_count, Rational; divisor_count(2**3*3**2*5*7) == 2**4*Rational(3,2)**2*Rational(4,3)**1",
+    "asserts": "For p1=7, p2=3, p3=2: N = 2520 and d(N) = 48 equals 2^{pi(7)} (3/2)^{pi(3)} (4/3)^{pi(2)}."
+   },
+   {
+    "sympy": "from sympy import divisor_count, Rational; divisor_count(2**2*3**2*5*7) >= 2**2*Rational(3,2)**4",
+    "asserts": "Unordered case alpha=3, beta=7: N = 1260, d = 36 >= 2^{pi(3)} (3/2)^{pi(7)} = 81/4."
+   },
+   {
+    "sympy": "from sympy import symbols, product, simplify; i,k=symbols('i k',integer=True,positive=True); simplify(product(1+1/i,(i,1,k)) - (k+1))",
+    "asserts": "Telescoping: prod_{i=1}^k (1+1/i) = k+1, the basis of the d(N) formula (should give 0)."
+   },
+   {
+    "sympy": "from sympy import log, floor, N as nv; r,s,n=1,3,5; nv(n*log(1+1/r) - floor(n*log(1+1/r)/log(1+1/s))*log(1+1/s)) >= 0",
+    "asserts": "Choice (1) makes the exponent of the multiplier nonnegative, so d(N') >= d(N)."
+   },
+   {
+    "sympy": "from sympy import primerange, log, primepi, N as nv; a,b=50,20; t=lambda x: sum(log(p) for p in primerange(2,x+1)); nv((primepi(a)-primepi(b))*log(b)) <= nv(t(a)-t(b)) <= nv((primepi(a)-primepi(b))*log(a))",
+    "asserts": "The theta-pi sandwich inequality for alpha=50, beta=20."
+   }
+  ],
+  "transcription_corrections": [
+   "Header should read 'Add. MS a 94 18 (54)' (the transcription's 'Add ms a 94' is a minor variant); the circled folio number is 54.",
+   "Otherwise the transcription matches the image."
+  ]
+ }
+}

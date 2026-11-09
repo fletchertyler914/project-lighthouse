@@ -1,0 +1,46 @@
+{
+ "bundle": "Trin.a94.18",
+ "page": "c023",
+ "label": "018-1",
+ "image": "https://trin-digital-library.trin.cam.ac.uk/iiif/2/Add.Ms.a.94.18%2F024_Add.Ms.a.9.18_018-1.jpg/full/1300,/0/default.jpg",
+ "stop_reason": "end_turn",
+ "deep": {
+  "reconstruction": "Context and notation (inferred from the previous page, not stated on this slip). Pi(a,x) = prod_{k>=0} (1 + a x^k), i.e. (-a;x)_inf in modern notation. The previous page assumes Pi(b,x)/Pi(-a,x) = sum_n (a+b)(a+bx)...(a+bx^{n-1})/((1-x)...(1-x^n)). This is the q-binomial theorem (b;x)... more precisely (-b;x)_inf/(a;x)_inf = sum_n (-b/a;x)_n a^n/(x;x)_n.\n\nThe 'final formula' is (5) on the next page: Pi(-ab,x)Pi(-ac,x)/(Pi(-a,x)Pi(-abc,x)) = sum_n a^n (1-b)(x-b)...(x^{n-1}-b)(1-c)...(x^{n-1}-c)/((x;x)_n (a;x)_n). Since prod_{k<n}(x^k-b) = b^n (1/b;x)_n, this is (ab;x)_inf(ac;x)_inf/((a;x)_inf(abc;x)_inf) = 2phi1(1/b,1/c;a;x,abc). That is Heine's q-Gauss summation with A=1/b, B=1/c, C=a.\n\nThe proof on the surrounding pages runs as follows:\n- (1) A finite q-binomial expansion of (c-1)(c-x)...(c-x^{n-1}).\n- (2) Its inverse: c^n = sum_r (c;x)_r [n choose r]_x.\n- (3) Extract the coefficient of a^n in sum_k a^k (b)_k-type factors times Pi(-ax^k)/Pi(-ab). The assumed q-binomial theorem expands each quotient; summing with (2) gives c^n b^n(1/b;x)_n/(x;x)_n.\n- (4) The same coefficient arises from Pi(-ac)/Pi(-abc), again by the q-binomial theorem.\n- (5) Divide by Pi(-a)/Pi(-ab), using Pi(-ax^k)/Pi(-a) = 1/(a;x)_k.\n\nThis slip. It states: 'Proof of final formula completed if it is true that [Pi(-b,x)/Pi(a,x)] / [Pi(-c,x)/Pi(-a,x)] = Pi(-b,x)/Pi(-c,x).' Taken literally, the left side simplifies to Pi(-b)Pi(-a)/(Pi(a)Pi(-c)). It therefore equals the right side iff Pi(-a,x) = Pi(a,x), i.e. prod(1-ax^k) = prod(1+ax^k). That holds only for a = 0.\n\nThe identity that is presumably meant has the same denominator in both quotients: [Pi(-b)/Pi(a)]/[Pi(-c)/Pi(a)] = Pi(-b)/Pi(-c). That version is a trivial cancellation. It would let a quotient Pi(-b)/Pi(-c) be handled through two applications of the assumed q-binomial expansion with a common denominator. Alternatively, the writer had in mind the ratio-of-ratios division used to pass from (4) to (5).\n\nEither way, the slip records a remark about a remaining gap or check in the proof, not a derivation. The gap is either trivially closed (corrected reading) or false (literal reading). The slip contains no new mathematics, and the hand may be that of a later reader rather than Ramanujan.",
+  "errors": [
+   "As written, the identity is false. LHS = Pi(-b,x)Pi(-a,x)/(Pi(a,x)Pi(-c,x)), which differs from Pi(-b,x)/Pi(-c,x) by the factor Pi(-a,x)/Pi(a,x) = prod (1-ax^k)/(1+ax^k), not 1 for a != 0. Most likely a slip of sign in one of the 'a' arguments (both denominators should agree), in which case the statement is a trivial cancellation.",
+   "The slip does not say which step of the proof needs this. The q-binomial applications in steps (3)-(4) follow directly from the stated assumption with substitutions (b -> -ax^k, a -> ab; b -> -ac, a -> abc), so no such identity is actually required. The perceived gap seems illusory."
+  ],
+  "results": [
+   {
+    "what": "Remark that the proof of (ab;x)(ac;x)/((a;x)(abc;x)) = sum a^n (1-b)..(x^{n-1}-b)(1-c)..(x^{n-1}-c)/((x)_n(a)_n) is complete given a ratio identity among infinite products",
+    "modern_name": "q-Gauss (Heine) summation, proved via the q-binomial theorem and q-binomial inversion; here only a remark on cancellation of infinite products",
+    "usually_credited_to": "Heine (1847) for q-Gauss; Cauchy/Heine/Gauss for the q-binomial theorem",
+    "already_credited_to_author": "yes",
+    "routine": true
+   }
+  ],
+  "surprise": 0,
+  "surprise_reason": "The slip is a one-line note about closing the proof, and its formula is either trivial (corrected) or false (literal). The underlying q-Gauss summation is Heine's and is already known to appear in Ramanujan's notebooks.",
+  "checkable": [
+   {
+    "sympy": "x,a,b,c=symbols('x a b c'); N=12; P=lambda t: prod([1+t*x**k for k in range(N)]); series((P(-b)/P(a))/(P(-c)/P(-a)) - P(-b)/P(-c), a, 0, 2).removeO().subs({x:Rational(1,3),b:Rational(1,5),c:Rational(1,7)}) != 0",
+    "asserts": "The literal identity on the slip fails: the difference has a nonzero linear term in a."
+   },
+   {
+    "sympy": "simplify(((P(-b)/P(a))/(P(-c)/P(a))) - P(-b)/P(-c)) == 0",
+    "asserts": "The corrected version with a common denominator Pi(a,x) is an identity (trivial cancellation)."
+   },
+   {
+    "sympy": "n=4; expand(prod([c-x**k for k in range(n)]) - sum([(-1)**r*c**(n-r)*x**(r*(r-1)//2)*prod([(1-x**(n-j))/(1-x**(j+1)) for j in range(r)]) for r in range(n+1)])) == 0",
+    "asserts": "Result (1) of the previous page (finite q-binomial theorem) for n=4."
+   },
+   {
+    "sympy": "N=40; P=lambda t: prod([1+t*x**k for k in range(N)]); qp=lambda t,n: prod([1-t*x**k for k in range(n)]); vals={x:Rational(1,4),a:Rational(1,3),b:Rational(1,2),c:Rational(2,5)}; abs((P(-a*b)*P(-a*c)/(P(-a)*P(-a*b*c))).subs(vals) - sum([a**n*prod([(x**k-b)*(x**k-c) for k in range(n)])/(qp(x,n)*qp(a,n)) for n in range(30)]).subs(vals)) < 1e-12",
+    "asserts": "The 'final formula' (5), the q-Gauss sum, holds numerically."
+   }
+  ],
+  "transcription_corrections": [
+   "Transcription matches the image. The last fraction's numerator is written 'Pi(-b,x)' with the comma resembling a cedilla ('-b̧x'), which is just the comma. Pencil library mark at top right: 'Add Ms a 94^18 (18)'."
+  ]
+ }
+}

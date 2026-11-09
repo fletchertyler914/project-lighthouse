@@ -26,15 +26,15 @@ the adiabatic exponent, 2r = f + u) and contain, as far as I can read them:
    compressible flow with the entropy term.
    Scan: …:00000142/…
 3. fol. 71r: steady two-dimensional supersonic flow with the invariant 2r = σ + λ·arctan(y/λ) − arctan(y),
-   y = √(M² − 1), λ² = (k+1)/(k−1) — the Prandtl–Meyer function — a centred simple wave, and a sketch of rays
-   fanning from the corner of a channel; fol. 71v: the Mach-line directions (u ∓ v√(M²−1), v ± u√(M²−1)) and a
+   y = √(M² − 1), λ² = (k+1)/(k−1) — the Prandtl–Meyer function — a centred simple wave, and a sketch of the end of a
+   channel with two lines from its corners crossing at a point in front of it (angles marked ψ and π/2); fol. 71v: the Mach-line directions (u ∓ v√(M²−1), v ± u√(M²−1)) and a
    characteristic-coordinate form of the equations.
    Scans: …:00000143/… and …:00000144/…
 4. Cod. Ms. B. Riemann 19 ("Abel'sche Functionen und Theta", 1850–1865; GDZ DE-611-HS-3206670), fol. 3v: oblique
    shocks with the energy-conserving relation a² − b²sin²φ = λ²·b cosφ·c cosψ, a shock-polar-type parametrisation
    and the hypersonic maximum deflection (sin α_max = 1/k in modern terms), with a wedge sketch. The recto, fol. 3r,
    carries theta-function calculations belonging to the April-1858 work of fol. 1r, and also a marginal note in
-   Italian ("Ma se ha finito, deve pagare per tutto il tempo. Ciò andrebbe regolarizzato"), so the leaf was in use
+   Italian ("Ma, se ha fissato, deve pagare per tutto il tempo. Può andare, se gli piace"), so the leaf was in use
    both in 1858 and during Riemann's Italian years (1862–66).
    Scan: https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000008/full/1600,/0/default.jpg
 
@@ -50,7 +50,9 @@ person:
 - whether fol. 3v is the same hand and ink campaign as fol. 3r (certainly Riemann's, April 1858);
 - whether three specific lines read as above on the originals: the "(1 + 1/k)" line on fol. 70r/v, the
   cross-streamline term ∂p/∂σ on fol. 70v, and the v₁v₂ parametrisation on fol. 3v;
-- whether the paper of fol. 70–71 matches the 1850s–60s stock of the dated sheets in Riemann 21.
+- whether the paper of fol. 70–71 matches the 1850s–60s stock of the dated sheets in Riemann 21;
+- whether the 1895 inventory of the Nachlass (Cod. Ms. B. Riemann 50) already lists these leaves in their present
+  place, which would exclude any hand later than 1895.
 
 If the hand and date (before July 1866) are confirmed, the sheets would contain energy-conserving shock relations
 twelve years before Rankine, together with results usually dated to 1906–1937.
@@ -62,24 +64,27 @@ With best regards,
 ---
 **Addendum (2026-11-09): a second sheet in the same bundle.** Cod. Ms. B. Riemann 26, fol. 228r (canvas 447 in the GDZ viewer, https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206190:00000447/full/1300,/0/default.jpg), pencil: an exact three-dimensional treatment of the flexural vibrations of a free elastic plate — the displacement ansatz, both traction-free conditions at z = ±c, and the resulting transcendental frequency equation (the antisymmetric "Rayleigh–Lamb equation", first published by Rayleigh in 1889). It uses Kirchhoff's constant θ (1850). The same questions apply: is the hand Riemann's, and can the leaf (fol. 212–233, undated loose calculations) be placed before 1866 — e.g. near his elasticity courses of 1856 and 1859/60?
 
+**Addendum (2026-11-09, second): two leaves on prime numbers.** Cod. Ms. B. Riemann 19, fol. 16v (canvas 34, https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206670:00000034/full/1300,/0/default.jpg): a letter draft signed "B. Riemann" to the Society's secretary proposing the twin-prime problem as the prize question, in the Latin wording printed in the Nachrichten 1861, p. 337. Cod. Ms. B. Riemann 18, fol. 29r (canvas 57, https://images.sub.uni-goettingen.de/iiif/image/gdz:DE-611-HS-3206649:00000057/full/1300,/0/default.jpg), unsigned, in the catalogue section "Notizen und Exzerpte von R. Dedekind und B. Riemann": a count φ(g, x) of the primes below x whose next prime is g larger, with the law φ = (2 Li(x)²/x)·e^{−g Li(x)/x}. Question: is fol. 29r in Riemann's hand or in Dedekind's, and is the leaf 28–29 one sheet with the zeta-function calculations on 28v? Record: `candidates/L-035.md`.
+
 ---
 ## Short version to send (2026-11-09)
 
 **To:** hsd@sub.uni-goettingen.de (Schriftliche Auskunft für Handschriften und Seltene Drucke, SUB Göttingen)
 **Cc:** Wolfgang Gabcke, Göttingen (transcriber of Riemann's letters and of the 1859 manuscript; address printed in arXiv:1602.08264)
-**Subject:** Cod. Ms. B. Riemann 26, Bl. 70–71 und 228; Cod. Ms. B. Riemann 19, Bl. 3 — Hand und Datierung
+**Subject:** Cod. Ms. B. Riemann 26, Bl. 70–71 und 228; Cod. Ms. B. Riemann 19, Bl. 3; Cod. Ms. B. Riemann 18, Bl. 29: Hand und Datierung
 
 Sehr geehrte Damen und Herren,
 
-ich arbeite an einer systematischen Lektüre digitalisierter Nachlässe (u. a. des Riemann-Nachlasses in den GDZ-Digitalisaten) und bitte um eine Auskunft zu drei Blättern:
+ich arbeite an einer systematischen Lektüre digitalisierter Nachlässe (u. a. des Riemann-Nachlasses in den GDZ-Digitalisaten) und bitte um eine Auskunft zu folgenden Blättern:
 
 1. Cod. Ms. B. Riemann 26, Bl. 70r–71v (GDZ-Canvas 141–144): Rechnungen zu Luftwellen mit Sprungbedingungen, die die Energieerhaltung einschließen.
 2. Cod. Ms. B. Riemann 19, Bl. 3v (Canvas 8): schräger Verdichtungsstoß an einem Keil, Skizze.
 3. Cod. Ms. B. Riemann 26, Bl. 228r (Canvas 447), Bleistift: exakte dreidimensionale Behandlung der Biegeschwingungen einer freien elastischen Platte.
+4. Cod. Ms. B. Riemann 18, Bl. 29r (Canvas 57), Tinte, im Abschnitt „Notizen und Exzerpte von R. Dedekind und B. Riemann“: Rechnung zur Häufigkeit der Abstände aufeinanderfolgender Primzahlen. Zum Vergleich: Cod. Ms. B. Riemann 19, Bl. 16v (Canvas 34), der von Riemann unterzeichnete Entwurf seines Vorschlags der Preisfrage über Primzahlzwillinge (gedruckt Nachrichten 1861, S. 337).
 
-Meine Fragen: (a) Stammen die Blätter nach Ihrer Kenntnis von Riemanns Hand (nicht von Weber, Weierstraß oder einem Abschreiber)? (b) Gibt es Anhaltspunkte für die Datierung (Papier, Tinte, Nachbarblätter, Konvolut), insbesondere ob sie vor 1866 liegen? (c) Ist Bl. 3 der Handschrift 19 ein eigenständiges Blatt oder gehört es zu den Blättern 1–2?
+Meine Fragen: (a) Stammen die Blätter nach Ihrer Kenntnis von Riemanns Hand (nicht von Weber, Weierstraß, Clebsch oder einem Abschreiber)? (b) Gibt es Anhaltspunkte für die Datierung (Papier, Tinte, Nachbarblätter, Konvolut), insbesondere ob sie vor 1866 liegen? (c) Ist Bl. 3 der Handschrift 19 ein eigenständiges Blatt oder gehört es zu den Blättern 1–2? (d) Sind diese Blätter schon im Verzeichnis von 1895 (Cod. Ms. B. Riemann 50) an ihrer heutigen Stelle aufgeführt? (e) Ist Bl. 29r der Handschrift 18 von Riemanns oder von Dedekinds Hand?
 
-Hintergrund: Die Inhalte entsprechen Ergebnissen, die in der Literatur Rankine (1870), Hugoniot (1887), Prandtl/Meyer (1906/08) bzw. Rayleigh (1889) zugeschrieben werden. Eine Zuschreibung an Riemann möchte ich nicht ohne eine fachkundige Einschätzung der Hand und der Datierung vertreten. Die Transkriptionen, die Rechnungen und die Links zu den Scans sind öffentlich: https://github.com/professorsolderin/project-lighthouse (Ledger-Einträge L-019 und L-032).
+Hintergrund: Die Inhalte entsprechen Ergebnissen, die in der Literatur Rankine (1870), Hugoniot (1887), Prandtl/Meyer (1906/08), Rayleigh (1889) bzw. Cramér (1936) zugeschrieben werden. Eine Zuschreibung an Riemann möchte ich nicht ohne eine fachkundige Einschätzung der Hand und der Datierung vertreten. Die Transkriptionen, die Rechnungen und die Links zu den Scans sind öffentlich: https://github.com/professorsolderin/project-lighthouse (Ledger-Einträge L-019, L-032 und L-035).
 
 Mit freundlichen Grüßen
 [Name]
