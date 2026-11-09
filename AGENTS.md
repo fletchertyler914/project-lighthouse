@@ -1,4 +1,4 @@
-# AGENTS.md — instructions for AI agents working in this repo
+# AGENTS.md — instructions for AI agents working in this repo (Unread History)
 
 You are helping read digitized manuscripts of past scientists and find what the record missed. Read this
 whole file before touching anything. Humans read `README.md` and `CONTRIBUTING.md`; this file is the same
@@ -6,7 +6,7 @@ rules in operational form.
 
 ## Which file your tool reads
 Codex reads this file natively. Claude Code → `CLAUDE.md`, Copilot → `.github/copilot-instructions.md`,
-Gemini CLI → `GEMINI.md`, Cursor → `.cursor/rules/archive-hunt.mdc`, Windsurf → `.windsurfrules`,
+Gemini CLI → `GEMINI.md`, Cursor → `.cursor/rules/unread-history.mdc`, Windsurf → `.windsurfrules`,
 Cline/Roo → `.clinerules`. They all point here; edit only this file.
 
 ## Layout
