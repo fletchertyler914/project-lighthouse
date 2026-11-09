@@ -1,4 +1,4 @@
-# Unread History — reading the unread notebooks of great scientists with AI
+# Project Lighthouse — shining AI on the pages history never read
 
 Famous scientists left behind huge piles of handwritten pages that are digitized but essentially unread.
 This is an open, shared effort to read them at scale with AI, look for anything the record missed —
