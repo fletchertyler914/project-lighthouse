@@ -12,8 +12,9 @@ reads, candidates and dead ends. A candidate becomes a "find" only when its labe
 - Scans: IIIF images → `src/transcribe.py <manifest.json> <out_dir> --source "<author, archive, dates, language>"`;
   scan PDFs → `src/read_source.py` (downloads to a scratch dir, extracts page JPEGs with `src/pdf_images.py`,
   transcribes, deep-reads). Both are resumable; both need `~/.config/hunt/anthropic_key`.
-- Run `src/repair_json.py` afterwards and re-run until no page lacks a deep read (a LaTeX-backslash parsing
-  failure can silently drop pages while the log says "done"; audit counts).
+- Run `src/repair_json.py` afterwards, then check `src/validate.py` for failed deep reads. If the repair
+  script reports unrepairable deep reads, re-run it with `--delete` to clear those outputs before retrying
+  the deep-read stage. The pipeline skips existing output files, including failed ones.
 - Commit `data/<author>/transcripts/...` and `data/<author>/deep/...` and run
   `python3 -I src/validate.py data/<author> --status`. Never commit scans, keys, or anything from a source
   whose terms forbid republication.

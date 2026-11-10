@@ -2,7 +2,7 @@
 """
 validate.py - check a contribution before opening a PR, and show what is left to do.
 
-    python3 -I src/validate.py data/<author>            # validates transcripts/, reports deep-read gaps
+    python3 -I src/validate.py data/<author>            # validates transcripts/, reports failed deep reads
     python3 -I src/validate.py data/<author> --status    # also rewrites data/<author>/STATUS.tsv
 
 A transcript page JSON only needs these fields to be usable by everyone else's deep readers:
@@ -40,6 +40,19 @@ def check_page(f):
     return None
 
 
+def check_deep(f):
+    try:
+        rec = json.loads(f.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        return f"could not read JSON ({e})"
+    deep = rec.get("deep") if isinstance(rec, dict) else None
+    if isinstance(deep, dict) and "raw" in deep:
+        return "unparsed model output (run src/repair_json.py for this author)"
+    if not isinstance(deep, dict) or not isinstance(deep.get("reconstruction"), str):
+        return "missing deep.reconstruction text"
+    return None
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
@@ -49,7 +62,13 @@ def main():
     if not tdir.is_dir():
         print(f"no {tdir}")
         sys.exit(1)
-    deep = {f.stem for f in ddir.glob("*.json")} if ddir.is_dir() else set()
+    deep = set()
+    for f in sorted(ddir.glob("*.json")):
+        msg = check_deep(f)
+        if msg:
+            print(f"WARN {f}: {msg}")
+        else:
+            deep.add(f.stem)
     trdir = root / "translations"
     rows, bad = [], 0
     for b in sorted(p for p in tdir.iterdir() if p.is_dir()):
